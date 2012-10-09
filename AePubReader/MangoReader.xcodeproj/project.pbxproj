@@ -212,8 +212,6 @@
 		AE9280951619ABC0001BCBB6 /* mangoreader-app-icon-144X144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-144X144.png"; sourceTree = "<group>"; };
 		AE9280971619AC82001BCBB6 /* mango.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mango.png; sourceTree = "<group>"; };
 		AE92809A1619AD4B001BCBB6 /* mangoLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mangoLow.png; sourceTree = "<group>"; };
-		AE9280A0161AAB0D001BCBB6 /* Ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogg.framework; path = ../../OggVorbis/Ogg.framework; sourceTree = "<group>"; };
-		AE9280A1161AAB0D001BCBB6 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vorbis.framework; path = ../../OggVorbis/Vorbis.framework; sourceTree = "<group>"; };
 		AEA7687516117357002B9FDC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AEA7687916117CF7002B9FDC /* Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Books.xcdatamodel; sourceTree = "<group>"; };
 		AEA768DE1611DA81002B9FDC /* DataModelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModelControl.h; sourceTree = "<group>"; };
@@ -628,8 +626,6 @@
 				AE525E74161D747B00CDB400 /* CoreLocation.framework */,
 				AE525E76161D748700CDB400 /* MapKit.framework */,
 				AE525E78161D74BF00CDB400 /* MessageUI.framework */,
-				AE9280A0161AAB0D001BCBB6 /* Ogg.framework */,
-				AE9280A1161AAB0D001BCBB6 /* Vorbis.framework */,
 				AE7FEDE61615ADC000C4B51D /* QuartzCore.framework */,
 				AEA7687516117357002B9FDC /* CoreData.framework */,
 				AE43C743161057DA00970739 /* Security.framework */,
@@ -1253,6 +1249,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1278,6 +1275,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
+				PROVISIONING_PROFILE = "90995DE1-97E6-4146-A67A-D8E56826B49B";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "90995DE1-97E6-4146-A67A-D8E56826B49B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 			};
@@ -1287,6 +1285,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1310,6 +1309,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
+				PROVISIONING_PROFILE = "90995DE1-97E6-4146-A67A-D8E56826B49B";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "90995DE1-97E6-4146-A67A-D8E56826B49B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				VALIDATE_PRODUCT = YES;
@@ -1320,16 +1320,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1341,8 +1341,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1350,8 +1350,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;

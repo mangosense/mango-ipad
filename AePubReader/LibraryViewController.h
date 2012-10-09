@@ -21,5 +21,6 @@
 @property(assign,nonatomic)BOOL downloadFailed;
 @property(retain,nonatomic)UIMenuController *menu;
 @property(retain,nonatomic)UIButton *buttonTapped;
+@property(assign,nonatomic)BOOL allowOptions;
 - (void)showBookButton:(UIButton *)sender;
 @end

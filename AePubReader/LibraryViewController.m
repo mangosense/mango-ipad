@@ -26,6 +26,7 @@
         self.tabBarItem.image=[UIImage imageNamed:@"library.png"];
         _addControlEvents=YES;
         _downloadFailed=NO;
+        _allowOptions=YES;
     }
     return self;
 }
@@ -77,7 +78,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(DeleteButton:)]autorelease];
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(DeleteButton:)];
+    barButtonItem.tintColor=[UIColor grayColor];
+   
+    UIBarButtonItem *optionsItem=[[UIBarButtonItem alloc]initWithTitle:@"share" style:UIBarButtonItemStyleBordered target:self action:@selector(allowoptions:)];
+    optionsItem.tintColor=[UIColor grayColor];
+    NSArray *array=[NSArray arrayWithObjects:barButtonItem,optionsItem, nil];
+    self.navigationItem.rightBarButtonItems=array;
+    [barButtonItem release];
+    [optionsItem release];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
     [self reloadData];
@@ -92,6 +101,19 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
    
+}
+-(void)allowoptions:(UIBarButtonItem *)sender{
+    if (_allowOptions) {
+        [sender setTitle:@"Done"];
+    }else{
+        [sender setTitle:@"share"];
+    }
+    
+    _allowOptions=!_allowOptions;
+   
+    
+   // UIActivityViewController *controller=[[UIActivityViewController alloc]init];
+    
 }
 -(void)DeleteButton:(id)sender{
    
@@ -210,6 +232,10 @@
     
 }
 -(void)tap:(UIGestureRecognizer*)gesture{
+    if (_allowOptions) {
+        [self singleTap:gesture];
+        return;
+    }
     UIMenuController *_menuController=[UIMenuController sharedMenuController];
         if (_menuController.menuVisible) {
             [_menuController setMenuVisible:NO animated:YES];
@@ -217,17 +243,17 @@
         }
     _buttonTapped=(UIButton *)gesture.view;
     [gesture.view becomeFirstResponder];
-    UIMenuItem *menuItem=[[UIMenuItem alloc]initWithTitle:@"share" action:@selector(share:)];
-    UIMenuItem *downloadOrShow;
+    UIMenuItem *menuItem=[[UIMenuItem alloc]initWithTitle:@"email" action:@selector(share:)];
+  //  UIMenuItem *downloadOrShow;
     
-    downloadOrShow=[[UIMenuItem alloc]initWithTitle:@"open" action:@selector(ViewBook:)];
+    //downloadOrShow=[[UIMenuItem alloc]initWithTitle:@"open" action:@selector(ViewBook:)];
     
     // _menuController=[UIMenuController sharedMenuController];
     UIMenuItem *message=[[UIMenuItem alloc]initWithTitle:@"message" action:@selector(message:)];
-     [_menuController setMenuItems:@[downloadOrShow,menuItem,message]];
+     [_menuController setMenuItems:@[/*downloadOrShow,*/menuItem,message]];
     [message release];
     [menuItem release];
-    [downloadOrShow release];
+   // [downloadOrShow release];
     CGRect frame=gesture.view.frame;
     frame.origin.x-=10;
     frame.origin.y-=10;
@@ -356,10 +382,10 @@
         }
         
         UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
-//        UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
-//        doubleTap.numberOfTouchesRequired=2;
+        UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+        doubleTap.numberOfTapsRequired=2;
         [button addGestureRecognizer:tap];
-       // [button addGestureRecognizer:doubleTap];
+        [button addGestureRecognizer:doubleTap];
         [self.scrollView addSubview:button];
         //[self.view bringSubviewToFront:button];
         [button release];

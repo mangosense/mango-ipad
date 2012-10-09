@@ -11,7 +11,7 @@
 
 #import "EPubViewController.h"
 #import "LoginViewController.h"
-//#import <Social/Social.h>
+
 #import <Socialize/Socialize.h>
 @implementation AePubReaderAppDelegate
 
