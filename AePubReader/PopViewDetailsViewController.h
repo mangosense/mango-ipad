@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MFMessageComposeViewController.h>
+#import "StoreViewController.h"
+#import "Book.h"
+@interface PopViewDetailsViewController : UIViewController<MFMailComposeViewControllerDelegate>
 
-@interface PopViewDetailsViewController : UIViewController
+@property(retain,nonatomic)NSString *imageLocation;
+@property(retain,nonatomic)Book *bookTapped;
+@property(assign,nonatomic)StoreViewController *store;
+@property (retain, nonatomic) IBOutlet UILabel *titleBook;
 
+@property (retain, nonatomic) IBOutlet UILabel *fileSize;
+@property (retain, nonatomic) IBOutlet UIImageView *imageView;
+@property (retain, nonatomic) IBOutlet UITextView *textView;
+@property(assign,nonatomic)NSInteger iden;
+- (IBAction)downloadBook:(id)sender;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil imageLocation:(NSString *)locationImage indentity:(NSInteger)iden;
 @end

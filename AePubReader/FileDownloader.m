@@ -23,7 +23,7 @@
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [error autorelease];
+    //[error autorelease];
     
     [_handle release];
     [alert show];
@@ -37,7 +37,7 @@
     [delegate.dataModel saveData:_book];
     UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[1];
     StoreViewController *store=(StoreViewController *)[nav topViewController];
-    
+    [[_libViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
     [store BuildButtons];
   _libViewController.downloadFailed=YES;
     
@@ -65,9 +65,11 @@
             NSError *error=[[NSError alloc]initWithDomain:@"Download file corrupt" code:400 userInfo:nil];
             [connection cancel];
             [self connection:connection didFailWithError:error];
+            [error release];
             return;
         }
         if (!_handle) {
+            
             _handle=[NSFileHandle fileHandleForUpdatingAtPath:_loc];
         }
         [_handle writeData:_data];
@@ -105,7 +107,8 @@
     NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
     float sizeLong=diction.fileSize;
     NSLog(@"total %f over %f",_value,sizeLong);
-    
+    NSURL *url=[[NSURL alloc]initFileURLWithPath:_loc];
+    [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
     [_progress setAlpha:0.0];
     [_libViewController.tabBarController setSelectedIndex:0];
@@ -116,7 +119,7 @@
     
     _libViewController.addControlEvents=YES;
 
-   
+     [[_libViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
 
 }
 

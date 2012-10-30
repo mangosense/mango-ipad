@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "StoreViewController.h"
-#import "EPubViewController.h"
+
+
 #import "EpubReaderViewController.h"
-@interface LibraryViewController : UIViewController<StoreControllerDelegate,UIAlertViewDelegate>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MFMessageComposeViewController.h>
+@interface LibraryViewController : UIViewController<StoreControllerDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 @property(nonatomic,retain)NSArray *epubFiles;
 @property(assign,nonatomic)NSInteger ymax;
@@ -22,5 +26,7 @@
 @property(retain,nonatomic)UIMenuController *menu;
 @property(retain,nonatomic)UIButton *buttonTapped;
 @property(assign,nonatomic)BOOL allowOptions;
+-(void)shareButtonClicked:(id)sender;
 - (void)showBookButton:(UIButton *)sender;
+-(void)AddShareButton:(id)sender;
 @end

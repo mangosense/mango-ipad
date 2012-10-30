@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ShareButton : UIButton
-
+@property(nonatomic,assign)NSString *imageLocalLocation;
+@property(nonatomic,retain)NSString *stringLink;
 @end

@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EPubViewController.h"
+
 #import <MessageUI/MessageUI.h>
 
-@interface LoginViewController : UIViewController<NSURLConnectionDelegate,UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>
+@interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate>
 - (IBAction)Check:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *userName;
 @property (retain, nonatomic) IBOutlet UITextField *password;
 
-@property(strong,nonatomic) EPubViewController *detailViewController;
+
 @property(strong,nonatomic) NSURLConnection *connection;
 @property (retain, nonatomic) IBOutlet UIView *videoView;
 - (void)loadURL:(UIButton *)sender;

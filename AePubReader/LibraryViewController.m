@@ -7,9 +7,10 @@
 //
 
 #import "LibraryViewController.h"
-#import "EPubViewController.h"
+
 #import "ShadowButton.h"
 #import "FileDownloader.h"
+#import "ShareButton.h"
 @interface LibraryViewController ()
 
 
@@ -39,7 +40,7 @@
     //CGRectMake(x, y, 140, 180);
     CGRect rect=CGRectMake(82, 195, 126, 40);
     UIProgressView *progress=[[UIProgressView alloc]initWithFrame:rect];
-    
+    [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
     [self.scrollView addSubview:progress];
     FileDownloader *downloader=[[FileDownloader alloc]initWithViewController:self];
     downloader.progress=progress;
@@ -67,12 +68,13 @@
     [downloader.handle retain];
     
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:downloader];
+    [request release];
     [downloader release];
     [connection autorelease];
     CGPoint point;
     point.y=0;
     
-    [self.scrollView setContentOffset:point animated:YES];
+   // [self.scrollView setContentOffset:point animated:YES];
 }
 
 - (void)viewDidLoad
@@ -84,13 +86,16 @@
     UIBarButtonItem *optionsItem=[[UIBarButtonItem alloc]initWithTitle:@"share" style:UIBarButtonItemStyleBordered target:self action:@selector(allowoptions:)];
     optionsItem.tintColor=[UIColor grayColor];
     NSArray *array=[NSArray arrayWithObjects:barButtonItem,optionsItem, nil];
+  [optionsItem release];
+  
     self.navigationItem.rightBarButtonItems=array;
     [barButtonItem release];
-    [optionsItem release];
+    
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
+    
     [self reloadData];
-    // [self DrawShelf];
+
     
     [self BuildButtons];
     _showDeleteButton=NO;
@@ -105,7 +110,26 @@
 -(void)allowoptions:(UIBarButtonItem *)sender{
     if (_allowOptions) {
         [sender setTitle:@"Done"];
+        [sender setTintColor:[UIColor blueColor]];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
+        for (UIView *view in self.scrollView.subviews) {
+            if ([view isKindOfClass:[ShadowButton class]]) {
+                ShareButton *button=(ShareButton *)view;
+                NSLog(@"Button views %d",button.subviews.count);
+                [[button.subviews lastObject] setHidden:NO];
+            }
+            
+        }
     }else{
+        for (UIView *view in self.scrollView.subviews) {
+            if ([view isKindOfClass:[ShadowButton class]]) {
+                ShareButton *button=(ShareButton *)view;
+                [[button.subviews lastObject] setHidden:YES];
+            }
+            
+        }
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+        [sender setTintColor:[UIColor grayColor]];
         [sender setTitle:@"share"];
     }
     
@@ -114,6 +138,42 @@
     
    // UIActivityViewController *controller=[[UIActivityViewController alloc]init];
     
+}
+-(void)shareButtonClicked:(id)sender{
+    NSString *ver= [UIDevice currentDevice].systemVersion;
+  
+    ShareButton *buttonShadow=(ShareButton *)sender;
+    if([ver floatValue]>5.1){
+        NSString *textToShare=[buttonShadow.stringLink stringByAppendingString:@" great bk from MangoReader"];
+        
+        
+        UIImage *image=[UIImage imageWithContentsOfFile:buttonShadow.imageLocalLocation];
+        NSArray *activityItems=@[textToShare,image];
+        
+        UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
+        UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
+        
+        [activity release];
+        [pop presentPopoverFromRect:buttonShadow.frame inView:buttonShadow.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
+        return;
+    }
+    MFMailComposeViewController *mail;
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [mail setMailComposeDelegate:self];
+    NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
+    body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+    [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];
+    [mail release];
+
+
+}
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    [controller dismissModalViewControllerAnimated:YES];
 }
 -(void)DeleteButton:(id)sender{
    
@@ -131,10 +191,14 @@
         }
         return;
     }
-    for (UITabBarItem *item in self.tabBarController.tabBar.items) {
-        item.enabled=NO;
+    if (_epubFiles.count!=0) {
+        for (UITabBarItem *item in self.tabBarController.tabBar.items) {
+            item.enabled=YES;
+        }
     }
+  
     NSLog(@"Total %d",_epubFiles.count);
+    
     [self addDeleteButton];
     [self.navigationItem.rightBarButtonItem setTitle:@"Done"];
       _showDeleteButton=YES;
@@ -146,10 +210,12 @@
     int x=xmin;
     int y=ymin;
     for (int i=1; i<=_epubFiles.count; i++) {
-        UIButton *button=[[UIButton alloc]init];
+       
         if (i==1&&!_addControlEvents) {
+         
             return;
         }
+         UIButton *button=[[UIButton alloc]init];
     [button setImage:[UIImage imageNamed:@"closebutton.png"] forState:UIControlStateNormal];
         button.frame=CGRectMake(x, y, 48, 48);
         //NSLog(@"x =%d",x);
@@ -166,6 +232,9 @@
         [button release];
     }
 
+}
+-(void)AddShareButton:(id)sender{
+    
 }
 -(void)DeleteBook:(UIButton *)book{
     NSString *val=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -188,6 +257,7 @@
         }
         
     }
+    
     [self DeleteButton:nil];
 }
 -(void)DrawShelf{
@@ -232,33 +302,42 @@
     
 }
 -(void)tap:(UIGestureRecognizer*)gesture{
+    UITapGestureRecognizer *gest=(UITapGestureRecognizer *)gesture;
+    NSLog(@" %d",gest.numberOfTapsRequired);
     if (_allowOptions) {
         [self singleTap:gesture];
         return;
     }
-    UIMenuController *_menuController=[UIMenuController sharedMenuController];
-        if (_menuController.menuVisible) {
-            [_menuController setMenuVisible:NO animated:YES];
-            return;
-        }
-    _buttonTapped=(UIButton *)gesture.view;
-    [gesture.view becomeFirstResponder];
-    UIMenuItem *menuItem=[[UIMenuItem alloc]initWithTitle:@"email" action:@selector(share:)];
-  //  UIMenuItem *downloadOrShow;
-    
-    //downloadOrShow=[[UIMenuItem alloc]initWithTitle:@"open" action:@selector(ViewBook:)];
-    
-    // _menuController=[UIMenuController sharedMenuController];
-    UIMenuItem *message=[[UIMenuItem alloc]initWithTitle:@"message" action:@selector(message:)];
-     [_menuController setMenuItems:@[/*downloadOrShow,*/menuItem,message]];
-    [message release];
-    [menuItem release];
-   // [downloadOrShow release];
-    CGRect frame=gesture.view.frame;
-    frame.origin.x-=10;
-    frame.origin.y-=10;
-    [_menuController setTargetRect:frame inView:self.scrollView];
-    [_menuController setMenuVisible:YES animated:YES];
+    NSString *ver= [UIDevice currentDevice].systemVersion;
+     _buttonTapped=(ShadowButton *)gesture.view;
+    ShadowButton *buttonShadow=(ShadowButton *)gesture.view;
+    if([ver floatValue]>5.1){
+        NSString *textToShare=[buttonShadow.stringLink stringByAppendingString:@" great bk from MangoReader"];
+        
+        
+        UIImage *image=[UIImage imageWithContentsOfFile:buttonShadow.imageLocalLocation];
+        NSArray *activityItems=@[textToShare,image];
+        
+        UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
+        UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
+        
+        [activity release];
+        [pop presentPopoverFromRect:_buttonTapped.frame inView:self.scrollView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
+        return;
+    }
+    MFMailComposeViewController *mail;
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [mail setMailComposeDelegate:self];
+    NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
+    body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+    [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];
+    [mail release];
+
 }
 - (NSUInteger)supportedInterfaceOrientations {
     
@@ -279,7 +358,9 @@
 //    NSArray *files=[manager contentsOfDirectoryAtPath:value error:nil];
 //    _epubFiles=[[NSArray alloc]initWithArray:[files filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.epub'"]]];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    _epubFiles=[[NSArray alloc]initWithArray:[delegate.dataModel getDataDownloaded]];
+    [delegate.dataModel displayAllData];
+    NSArray *temp=[delegate.dataModel getDataDownloaded];
+    _epubFiles=[[NSArray alloc]initWithArray:temp];
     if (_epubFiles.count==0) {
         [self.tabBarController setSelectedIndex:1];
     }
@@ -313,9 +394,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self.tabBarController.tabBar setHidden:NO];
      [self.navigationController.navigationBar setHidden:NO];
-  
-//    [self reloadData];
-//    [self BuildButtons];
+ 
 }
 -(void)viewWillDisappear:(BOOL)animated{
  
@@ -352,11 +431,13 @@
         button.frame=rect;
         button.tag=i;
         button.stringLink=book.link;
+        
         //[button setupView];
         //[button addTarget:button action:@selector(showBookButton:) forControlEvents:UIControlEventTouchUpInside];
         if (i==0&&_addControlEvents) {
             button.downloading=YES;
         }
+        
         
         //NSLog(@" x= %d",x);
                
@@ -365,7 +446,19 @@
         
         title=[value stringByAppendingPathComponent:title];
         UIImage *image=[UIImage imageWithContentsOfFile:title];
-        [button setImage:image forState:UIControlStateNormal];
+        button.imageLocalLocation=title;
+        ShareButton *shareButton=[[ShareButton alloc]init];
+        shareButton.imageLocalLocation=title;
+        shareButton.tag=i;
+         [button setImage:image forState:UIControlStateNormal];
+        image=[UIImage imageNamed:@"actions.png"];
+        shareButton.frame=CGRectMake(40, 70, 72, 72);
+        [shareButton setImage:image forState:UIControlStateNormal];
+        [shareButton setHidden:YES];
+        shareButton.stringLink=book.link;
+        [shareButton addTarget:self action:@selector(shareButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [button addSubview:shareButton];
+        [shareButton release];
         image=[UIImage imageNamed:@"bookshadow.png"];
         [button setBackgroundColor:[UIColor colorWithPatternImage:image]];
         
@@ -392,12 +485,13 @@
         //[self.view addSubview:label];
         //[label release];
         [tap release];
-       // [doubleTap release];
+        [doubleTap release];
     }
     
 }
 -(void)singleTap:(UIGestureRecognizer *)singleTap{
     _buttonTapped=(UIButton *)singleTap.view;
+  
     [self showBookButton:_buttonTapped];
 }
 - (void)didReceiveMemoryWarning
@@ -436,13 +530,16 @@
     
     EpubReaderViewController *reader=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
     reader._strFileName=value;
-    
+       ShadowButton *button=(ShadowButton *)_buttonTapped;
+    reader.imageLocation=button.imageLocalLocation;
+    reader.url=button.stringLink;
     self.tabBarController.hidesBottomBarWhenPushed=YES;
     reader.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:reader animated:YES];
     [reader release];
 }
 -(void)dealloc{
+    
     [_epubFiles release];
     [_scrollView release];
     

@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface LoginDirectly : NSObject
-
+#import "StoreViewController.h"
+@interface LoginDirectly : NSObject<NSURLConnectionDataDelegate>
+@property(assign,nonatomic)StoreViewController *storeController;
+@property(retain,nonatomic)NSMutableData *mutableData;
+@property(retain,nonatomic)UIAlertView *alert;
 @end

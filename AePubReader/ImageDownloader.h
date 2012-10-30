@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageDownloader : NSObject
-
+@interface ImageDownloader : NSObject<NSURLConnectionDataDelegate>
+@property(nonatomic,retain)NSMutableData *dataMutable;
+@property(nonatomic,retain)NSString *localImageLocation;
 @end

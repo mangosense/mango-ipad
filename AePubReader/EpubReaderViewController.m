@@ -1,12 +1,33 @@
 
 #import "EpubReaderViewController.h"
-#import "UIWebView+SearchWebView.h"
+
 
 @implementation EpubReaderViewController
 @synthesize _ePubContent;
 @synthesize _rootPath;
 @synthesize _strFileName;
+-(void)removeZoom:(UIView *)view{
+    for (UIView *v in [view subviews])
+    {
+        if (v != view)
+        {
+            [self removeZoom:v];
+        }
+    }
+    for (UIGestureRecognizer *reco in [view gestureRecognizers])
+    {
+        if ([reco isKindOfClass:[UITapGestureRecognizer class]])
+        {
+            if ([(UITapGestureRecognizer *)reco numberOfTapsRequired] == 2)
+            {
+                NSLog(@"Remove zoom");
+                [view removeGestureRecognizer:reco];
+            }
+        }
+    }
 
+
+}
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
@@ -18,17 +39,19 @@
 	_xmlHandler.delegate=self;
 	[_xmlHandler parseXMLFileAt:[self getRootFilePath]];
     //[_webview removeFromSuperview];
-    
+      [self removeZoom:_webview];
     UISwipeGestureRecognizer *left=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftOrRightGesture:)];
     left.direction=UISwipeGestureRecognizerDirectionRight;
     UISwipeGestureRecognizer *right=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftOrRightGesture:)];
     right.direction=UISwipeGestureRecognizerDirectionLeft;
     [_webview.scrollView addGestureRecognizer:left];
     [_webview.scrollView addGestureRecognizer:right];
+  
     UITapGestureRecognizer *top=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DoubleTap:)];
   //  top.direction=UISwipeGestureRecognizerDirectionDown;
     top.numberOfTapsRequired=2;
     top.numberOfTouchesRequired=1;
+    
     [top setDelegate:self];
     [_webview.scrollView addGestureRecognizer:top];
     
@@ -36,7 +59,7 @@
     [right release];
     [left release];
  //   [_Done setTintColor:[UIColor grayColor]];
-    
+    [_shareButton setTintColor:[UIColor lightGrayColor]];
     [self.navigationController.navigationBar addSubview:_textField];
 //    [_hide setTintColor:[UIColor grayColor]];
 //    [_hide setEnabled:NO];
@@ -47,15 +70,23 @@
     //self.wantsFullScreenLayout=YES;
     //[self.view addSubview:_webview];
     NSLog(@"height %f",_webview.frame.size.height);
-    
+    NSString *temp=[_strFileName stringByDeletingPathExtension];
+    if([[NSFileManager defaultManager]fileExistsAtPath:temp]){
+        [[NSURL URLWithString:temp] setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
     NSLog(@"superview ht %f",self.view.frame.size.height);
     _webview.scrollView.bounces=NO;
     _webview.scrollView.alwaysBounceHorizontal=NO;
-    
+    _webview.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [_doneButton setTintColor:[UIColor lightGrayColor]];
   //  _webview.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     //_webview.contentMode=UIViewContentModeScaleToFill;
+//    NSString *ver= [UIDevice currentDevice].systemVersion;
+//    if ([ver floatValue]<5.1) {
+//        [_shareButton setEnabled:NO];
+//        
+//    }
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
@@ -124,6 +155,10 @@ return NO;
 -(void)viewDidDisappear:(BOOL)animated{
    
     [self.tabBarController.tabBar setHidden:NO];
+    NSString *value=[_strFileName stringByDeletingPathExtension];
+    [[NSUserDefaults standardUserDefaults]setValue:value forKey:@"locDirectory"];
+ 
+    
 }
 /*Function Name : setTitlename
  *Return Type   : void
@@ -147,33 +182,10 @@ return NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-
-	[self performSelector:@selector(setBackButton)
-			   withObject:nil
-			   afterDelay:0.1];
-//    if (self.actionBar == nil) {
-//        self.entity = [SZEntity entityWithKey:@"some_entity" name:@"Some Entity"];
-//        self.actionBar = [SZActionBarUtils showActionBarWithViewController:self entity:self.entity options:nil];
-//        [self.actionBar setHidden:YES];
-//        SZShareOptions *shareOptions = [SZShareUtils userShareOptions];
-//        shareOptions.dontShareLocation = YES;
-//        self.actionBar.shareOptions = shareOptions;
-//    }
+   
 }
 
-/*Function Name : setBackButton
- *Return Type   : void
- *Parameters    : nil
- *Purpose       : To set the back navigation button
- */
 
--(void)setBackButton{
-
-	UIBarButtonItem *objBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Library" style:UIBarButtonItemStyleBordered target:self action:@selector(onBack:)];
-	self.navigationItem.leftBarButtonItem= objBarButtonItem;       
-	[objBarButtonItem release];
-	
-}
 
 /*Function Name : unzipAndSaveFile
  *Return Type   : void
@@ -229,9 +241,7 @@ return NO;
 }
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
    // [self removeAllHighlights];
-    [_webview removeAllHighlights];
-    [_webview highlightAllOccurencesOfString:searchBar.text];
-    [searchBar resignFirstResponder];
+      [searchBar resignFirstResponder];
     NSLog(@"search Button Clicked");
 }
 /*Function Name : getRootFilePath
@@ -261,7 +271,7 @@ return NO;
 		
 		//Invalid ePub file
 		UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
-													  message:@"Root File not Valid"
+													  message:@"Delete the book and download it again"
 													 delegate:self
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
@@ -273,6 +283,35 @@ return NO;
 	[filemanager release];
 	filemanager=nil;
 	return @"";
+}
+
+- (IBAction)backButtonOrNextButton:(id)sender {
+    UIButton *btnClicked=(UIButton*)sender;
+	if (btnClicked.tag==0) {
+		
+		if (_pageNumber>0) {
+			
+			_pageNumber--;
+			[self loadPage];
+		}else{
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+            [self.navigationController popViewControllerAnimated:YES];
+            NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
+            [_webview loadRequest:request];
+            NSString *temp=[_strFileName stringByDeletingPathExtension];
+            [[NSFileManager defaultManager]removeItemAtPath:temp error:nil];
+        }
+
+	}
+	else {
+		
+		if ([self._ePubContent._spine count]-1>_pageNumber) {
+			
+			_pageNumber++;
+			[self loadPage];
+		}
+	}
+
 }
 /*
  HighLight occuerances of content in the webview
@@ -336,7 +375,9 @@ return NO;
 	filemanager=nil;
 	
 }
-
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
 
 - (void)finishedParsing:(EpubContent*)ePubContents{
 
@@ -350,11 +391,17 @@ return NO;
     
     if (gesture.direction==UISwipeGestureRecognizerDirectionRight) {
 		NSLog(@"Right swipe");
+        
 		if (_pageNumber>0) {
 			
 			_pageNumber--;
 			[self loadPage];
-		}
+		}else{
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+            	[self.navigationController popViewControllerAnimated:YES];
+            NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
+            [_webview loadRequest:request];
+        }
 	}
 	else {
 		NSLog(@"Left swipe");
@@ -423,6 +470,7 @@ return NO;
 }
 
 - (void)viewDidUnload {
+    [self setShareButton:nil];
     [self setDoneButton:nil];
     [self setTopToolbar:nil];
 //    [self setTopToolbar:nil];
@@ -442,7 +490,8 @@ return NO;
 	
 	[_webview release];
 	_webview=nil;
-	
+	_imageLocation=nil;
+    _url=nil;
 	[_ePubContent release];
 	_ePubContent=nil;
 	
@@ -464,10 +513,44 @@ return NO;
 //    [_topToolbar release];
     [_topToolbar release];
     [_doneButton release];
+    [_shareButton release];
     [super dealloc];
 }
 
 - (IBAction)hideSearch:(id)sender {
-    [_webview removeAllHighlights];
+ 
+}
+- (IBAction)shareTheBook:(id)sender {
+    NSString *ver= [UIDevice currentDevice].systemVersion;
+    if([ver floatValue]>5.1){
+    NSString *textToShare=[_url stringByAppendingString:@" great bk from MangoReader"];
+    
+    
+    UIImage *image=[UIImage imageWithContentsOfFile:_imageLocation];
+    NSArray *activityItems=@[textToShare,image];
+    
+    UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+    activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeSaveToCameraRoll];
+    UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
+    
+    [activity release];
+        [pop presentPopoverFromBarButtonItem:_shareButton permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        return;
+    }
+    MFMailComposeViewController *mail;
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [mail setMailComposeDelegate:self];
+    NSString *body=[NSString stringWithFormat:@"Hi,\n%@",[_url stringByAppendingString:@"great bk from MangoReader"]];
+    body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+    [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];
+    [mail release];
+
+    
+}
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    [controller dismissModalViewControllerAnimated:YES];
 }
 @end

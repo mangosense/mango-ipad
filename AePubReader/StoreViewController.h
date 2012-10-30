@@ -10,11 +10,14 @@
 #import "ASIHTTPRequest.h"
 #import "AePubReaderAppDelegate.h"
 #import "Book.h"
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MFMessageComposeViewController.h>
 @protocol StoreControllerDelegate<NSObject>
 -(void)DownloadComplete:(Book *)book;
 
 @end
-@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate>{
+@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
    
 }
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -33,4 +36,6 @@
 @property(retain,nonatomic)Book *book;
 @property(retain,nonatomic)UIButton *buttonTapped;
 @property(assign,nonatomic)BOOL purchase;
+
+-(void)requestBooksFromServer;
 @end

@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Book.h"
-@interface DataModelControl : NSObject
+#import "ASIHTTPRequest.h"
+@interface DataModelControl : NSObject<ASIHTTPRequestDelegate>
 @property (nonatomic, retain)NSManagedObjectContext* dataModelContext;
 -(id)initWithContext:(NSManagedObjectContext *)context;
 
@@ -17,4 +18,6 @@
 -(Book *)getBookOfId:(NSString *)iden;
 -(NSArray *)getDataDownloaded;
 -(BOOL)insertIfNew:(NSMutableData *)data;
+-(void)displayAllData;
+@property(nonatomic,assign)   NSInteger  downloadedImage;
 @end

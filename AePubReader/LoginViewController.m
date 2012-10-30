@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "LibraryViewController.h"
+
 #import "StoreViewController.h"
 #import <Foundation/Foundation.h>
 #import "AePubReaderAppDelegate.h"
@@ -15,6 +15,7 @@
 #import <QuartzCore/QuartzCore.h>
  #import <MessageUI/MessageUI.h>
 #import <MediaPlayer/MPMoviePlayerController.h>
+#import "LibraryViewController.h"
 @interface LoginViewController ()
 
 @end
@@ -41,7 +42,27 @@
 //    [_signUp addTarget:self action:@selector(loadURL:) forControlEvents:UIControlEventTouchUpInside];
 //    [_ForgotPassword addTarget:self action:@selector(loadURL:) forControlEvents:UIControlEventTouchUpInside];
  
-   
+    NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
+  
+
+    if ([userDefault objectForKey:@"email"]&&[userDefault objectForKey:@"password"]) {
+        UITabBarController *tabBarController=[[[UITabBarController alloc]init]autorelease];
+        LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
+        StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+        store.delegate=library;
+        UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
+        UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:store];
+        [library release];
+        tabBarController.viewControllers=@[navigation ,navigationStore];
+        [navigationStore release];
+        [navigation release];
+        [store release];
+        [self.navigationController pushViewController:tabBarController animated:YES];
+
+       
+    }
+    
+
 
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -81,7 +102,7 @@
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     [_data setLength:0];
-    [_connection release];
+  
 }
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -96,7 +117,7 @@
         NSString *temp=diction[@"auth_token"];
         [userDefault setObject:temp forKey:@"auth_token"];
         [userDefault setObject:_userName.text forKey:@"email"];
-
+        [userDefault setObject:_password.text forKey:@"password"];
             UITabBarController *tabBarController=[[[UITabBarController alloc]init]autorelease];
             LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
             StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
@@ -127,6 +148,7 @@
     NSMutableURLRequest *request=[[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:loginURL]]autorelease];
     [request setHTTPMethod:@"GET"];
     _connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
+    [_connection autorelease];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     _alertView =[[UIAlertView alloc]init];
@@ -168,10 +190,11 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"Index %d",buttonIndex);
-    if (buttonIndex==1) {
-      [self loadURL:nil];
-    }
-    else if(buttonIndex==2){
+//    if (buttonIndex==1) {
+//      [self loadURL:nil];
+//    }
+    
+    if(buttonIndex==1){
         MFMailComposeViewController *mail=[[MFMailComposeViewController alloc]init];
         [mail setMailComposeDelegate:self];
         [mail setSubject:@"Checkout  awesome reader Application"];
@@ -194,7 +217,7 @@
 }
 
 - (void)popUpThenURL:(UIButton *)sender {
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Mango Reader" message:@"MangoReader - we bring books to life by making them engaging and fun using videos, animation, quizzes, maps, graphics and interactivity. Publishers, Authors and Educators can reach new audiences using mobiles, tablets and online reader and generate more revenue. Readers get better books and a great learning experience and can collaborate with friends, take notes and use learning tools such as dictionary, search and quizzes. We are not only redefining books and publishing, but reinventing the way people learn." delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Visit Our Website",@"Share", nil];
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Mango Reader" message:@"MangoReader - we bring books to life by making them engaging and fun using videos, animation, quizzes, maps, graphics and interactivity. Publishers, Authors and Educators can reach new audiences using mobiles, tablets and online reader and generate more revenue. Readers get better books and a great learning experience and can collaborate with friends, take notes and use learning tools such as dictionary, search and quizzes. We are not only redefining books and publishing, but reinventing the way people learn." delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Share", nil];
     CGRect frame=alert.frame;
     frame.size.height=frame.size.height+100;
     frame.size.width=frame.size.width+300;
@@ -234,7 +257,7 @@
     webView =[[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil URL:url];
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:webView animated:YES completion:nil];
-    
+    [webView release];
     
 }
 @end

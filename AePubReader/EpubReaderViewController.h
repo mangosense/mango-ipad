@@ -4,8 +4,10 @@
 #import "ZipArchive.h" 
 #import "XMLHandler.h"
 #import "EpubContentR.h"
-
-@interface EpubReaderViewController : UIViewController<XMLHandlerDelegate,UISearchBarDelegate,UIWebViewDelegate,UIGestureRecognizerDelegate> {
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MFMessageComposeViewController.h>
+@interface EpubReaderViewController : UIViewController<XMLHandlerDelegate,UISearchBarDelegate,UIWebViewDelegate,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate> {
 
 	
 	
@@ -16,9 +18,15 @@
 	NSString *_pagesPath;
 	NSString *_rootPath;
 	NSString *_strFileName;
+
+    
 	int _pageNumber;
    
 }
+- (IBAction)shareTheBook:(id)sender;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *shareButton;
+@property(retain,nonatomic)NSString *imageLocation;
+@property(retain,nonatomic)NSString *url;
 - (IBAction)hideSearch:(id)sender;
 - (IBAction)onBack:(id)sender;
 @property(retain,nonatomic)UIAlertView *alertView;
@@ -36,6 +44,7 @@
 - (NSString *)applicationDocumentsDirectory; 
 - (void)loadPage;
 - (NSString*)getRootFilePath;
+- (IBAction)backButtonOrNextButton:(id)sender;
 - (void)setTitlename:(NSString*)titleText;
 //- (void)setBackButton;
 - (IBAction)onPreviousOrNext:(id)sender;

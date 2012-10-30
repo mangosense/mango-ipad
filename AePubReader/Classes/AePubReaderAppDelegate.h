@@ -26,6 +26,6 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) DataModelControl *dataModel;
-//@property(nonatomic,retain)NSString *Username;
+
 - (NSString *)applicationDocumentsDirectory;
 @end

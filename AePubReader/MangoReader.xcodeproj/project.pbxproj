@@ -13,7 +13,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
-		AE197892161DA7A100C7A9C1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AE197891161DA7A100C7A9C1 /* Book.m */; };
+		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE43C70F1610548900970739 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C70E1610548900970739 /* libxml2.dylib */; };
 		AE43C712161054B900970739 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C711161054B900970739 /* CFNetwork.framework */; };
 		AE43C72A161055E100970739 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C729161055B500970739 /* ASIWebPageRequest.m */; };
@@ -32,7 +33,6 @@
 		AE525E75161D747B00CDB400 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E74161D747B00CDB400 /* CoreLocation.framework */; };
 		AE525E77161D748700CDB400 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E76161D748700CDB400 /* MapKit.framework */; };
 		AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E78161D74BF00CDB400 /* MessageUI.framework */; };
-		AE525E7D161D77B100CDB400 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = AE525E7A161D771000CDB400 /* jquery.js */; };
 		AE525E8B161D8B0200CDB400 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E8A161D8B0200CDB400 /* Accounts.framework */; };
 		AE525E91161D8B4800CDB400 /* FBUserSettingsViewResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE525E90161D8B4800CDB400 /* FBUserSettingsViewResources.bundle */; };
 		AE525E93161D8B5000CDB400 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE525E92161D8B5000CDB400 /* FacebookSDKResources.bundle */; };
@@ -48,7 +48,6 @@
 		AE75374E16103B5900761697 /* StoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75374C16103B5900761697 /* StoreViewController.xib */; };
 		AE75375216103B6900761697 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75375016103B6900761697 /* LibraryViewController.m */; };
 		AE75375316103B6900761697 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75375116103B6900761697 /* LibraryViewController.xib */; };
-		AE7FEDCA1615719B00C4B51D /* mangoreader-app-icon-72X72-7.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEDC91615719B00C4B51D /* mangoreader-app-icon-72X72-7.png */; };
 		AE7FEDD8161580DF00C4B51D /* EpubReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */; };
 		AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDA1615810900C4B51D /* XMLHandler.m */; };
 		AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDC1615813900C4B51D /* EpubContentR.m */; };
@@ -62,7 +61,6 @@
 		AE7FEF1B161EE52800181CE8 /* sign-in-button.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF19161EE52800181CE8 /* sign-in-button.png */; };
 		AE7FEF1C161EE52800181CE8 /* sign-up-button.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF1A161EE52800181CE8 /* sign-up-button.png */; };
 		AE7FEF21161F109C00181CE8 /* youtube.html in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF20161F109C00181CE8 /* youtube.html */; };
-		AE7FEF23161F19B500181CE8 /* f-mangoreader-desktop-login-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF22161F19B500181CE8 /* f-mangoreader-desktop-login-bg.png */; };
 		AE7FEF25161F1A2C00181CE8 /* video image copy.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF24161F1A2B00181CE8 /* video image copy.png */; };
 		AE7FEF28161F1AC400181CE8 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF26161F1AC400181CE8 /* library.png */; };
 		AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF27161F1AC400181CE8 /* library@2x.png */; };
@@ -71,28 +69,32 @@
 		AE7FEF2F161F1BAB00181CE8 /* bookshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF2E161F1BAB00181CE8 /* bookshadow.png */; };
 		AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF30161F1C7800181CE8 /* purchased@2x.png */; };
 		AE92809416197E51001BCBB6 /* ListOfBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = AE92809316197E51001BCBB6 /* ListOfBooks.m */; };
-		AE9280961619ABC0001BCBB6 /* mangoreader-app-icon-144X144.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9280951619ABC0001BCBB6 /* mangoreader-app-icon-144X144.png */; };
+		AE9D4C70162C198700352FF8 /* arrow next.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C6F162C198700352FF8 /* arrow next.png */; };
+		AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C72162C198C00352FF8 /* arrow previous.png */; };
+		AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9D4C79162C20E100352FF8 /* PopViewDetailsViewController.m */; };
+		AE9D4C7C162C20E100352FF8 /* PopViewDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C7A162C20E100352FF8 /* PopViewDetailsViewController.xib */; };
 		AEA7687616117357002B9FDC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA7687516117357002B9FDC /* CoreData.framework */; };
 		AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AEA7687816117CF7002B9FDC /* Books.xcdatamodeld */; };
 		AEA768E01611DA82002B9FDC /* DataModelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA768DF1611DA81002B9FDC /* DataModelControl.m */; };
 		AEA768E61611E5C5002B9FDC /* wood_pattern.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA768E51611E5C5002B9FDC /* wood_pattern.png */; };
 		AED0B6D7161419E800EE1FD7 /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = AED0B6D6161419E800EE1FD7 /* FileDownloader.m */; };
+		AED4AA8316366207004FF656 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AED4AA8216366207004FF656 /* Book.m */; };
+		AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */ = {isa = PBXBuildFile; fileRef = AEEBA8D916354E160023AE51 /* mangoreader-app-icon-72X72-7.png */; };
+		AEEBA8DC16354F800023AE51 /* mangoreader-app-icon-144X144.png in Resources */ = {isa = PBXBuildFile; fileRef = AEEBA8DB16354F800023AE51 /* mangoreader-app-icon-144X144.png */; };
+		AEF8CDE1162E709A00094C62 /* download-button.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF8CDE0162E709A00094C62 /* download-button.png */; };
+		AEF8CDE8162E99BF00094C62 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF8CDE7162E99BE00094C62 /* Default-Landscape~ipad.png */; };
+		AEF8CDEA162E99C800094C62 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF8CDE9162E99C800094C62 /* Default-Landscape@2x~ipad.png */; };
+		AEF8CDEF162EA8F000094C62 /* ShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8CDEE162EA8F000094C62 /* ShareButton.m */; };
+		AEF8CDF1162EAC6E00094C62 /* actions.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF8CDF0162EAC6E00094C62 /* actions.png */; };
+		AEFFF27B1630141F00295F97 /* f-mangoreader-desktop-login-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFFF27A1630141F00295F97 /* f-mangoreader-desktop-login-bg.png */; };
 		CA7E023515E388F3001F520B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7E023415E388F3001F520B /* libz.dylib */; };
-		FA11955A13BA921100025A2B /* UIWebView+SearchWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA11955913BA921100025A2B /* UIWebView+SearchWebView.m */; };
-		FA11956013BA924400025A2B /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA11955E13BA924400025A2B /* GTMNSString+HTML.m */; };
-		FA11956113BA924400025A2B /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA11955F13BA924400025A2B /* NSString+HTML.m */; };
-		FA11956413BA92CD00025A2B /* EPubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA11956313BA92CD00025A2B /* EPubViewController.m */; };
 		FA11956613BA93F100025A2B /* EPubView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA11956513BA93F100025A2B /* EPubView.xib */; };
-		FA307A3C1371E2B000959622 /* ChapterListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA307A3A1371E2B000959622 /* ChapterListViewController.m */; };
 		FA307A3D1371E2B000959622 /* ChapterListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA307A3B1371E2B000959622 /* ChapterListViewController.xib */; };
 		FA3B29B7137440380055A954 /* SearchWebView.js in Resources */ = {isa = PBXBuildFile; fileRef = FA3B29B5137434330055A954 /* SearchWebView.js */; };
-		FA4FBE561372F6A400C4E728 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4FBE551372F6A400C4E728 /* SearchResult.m */; };
 		FA881E4E1372CA9200FBD25F /* orangeslide.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4B1372CA9200FBD25F /* orangeslide.png */; };
 		FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4C1372CA9200FBD25F /* slider_ball.png */; };
 		FA881E501372CA9200FBD25F /* yellowslide.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4D1372CA9200FBD25F /* yellowslide.png */; };
-		FA881E591372E96000FBD25F /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA881E571372E96000FBD25F /* SearchResultsViewController.m */; };
 		FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA881E581372E96000FBD25F /* SearchResultsViewController.xib */; };
-		FAA85387134F422F0035F235 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA85386134F422F0035F235 /* Chapter.m */; };
 		FAF4584C134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */; };
 		FAF4584D134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45833134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m */; };
 		FAF4584E134B18F400D4C0F9 /* CXHTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45835134B18F400D4C0F9 /* CXHTMLDocument.m */; };
@@ -106,7 +108,6 @@
 		FAF45856134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45845134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m */; };
 		FAF45857134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45847134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m */; };
 		FAF45858134B18F400D4C0F9 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4584A134B18F400D4C0F9 /* CTidy.m */; };
-		FAF45879134B1B6C00D4C0F9 /* EPub.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45878134B1B6C00D4C0F9 /* EPub.m */; };
 		FAFA8E86134A0603000291E2 /* vhugo.epub in Resources */ = {isa = PBXBuildFile; fileRef = FAFA8E85134A0603000291E2 /* vhugo.epub */; };
 		FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8E9E134A06D6000291E2 /* ioapi.c */; };
 		FAFA8EA8134A06D6000291E2 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA0134A06D6000291E2 /* mztools.c */; };
@@ -124,9 +125,11 @@
 		28A0AAE50D9B0CCF005BE974 /* MangoReader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoReader_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		AE197890161DA7A100C7A9C1 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		AE197891161DA7A100C7A9C1 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		AE0B8F24162BEA4D00D16A02 /* LoginDirectly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginDirectly.h; sourceTree = "<group>"; };
+		AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginDirectly.m; sourceTree = "<group>"; };
 		AE43C7041610530B00970739 /* MangoReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangoReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE43C70E1610548900970739 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		AE43C711161054B900970739 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -160,7 +163,6 @@
 		AE525E74161D747B00CDB400 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		AE525E76161D748700CDB400 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		AE525E78161D74BF00CDB400 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		AE525E7A161D771000CDB400 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.js; path = ../../../Desktop/jquery.js; sourceTree = "<group>"; };
 		AE525E88161D8AD400CDB400 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdSupport.framework; sourceTree = "<group>"; };
 		AE525E8A161D8B0200CDB400 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AE525E90161D8B4800CDB400 /* FBUserSettingsViewResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBUserSettingsViewResources.bundle; sourceTree = "<group>"; };
@@ -181,7 +183,6 @@
 		AE75374F16103B6900761697 /* LibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		AE75375016103B6900761697 /* LibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		AE75375116103B6900761697 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryViewController.xib; sourceTree = "<group>"; };
-		AE7FEDC91615719B00C4B51D /* mangoreader-app-icon-72X72-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-72X72-7.png"; sourceTree = "<group>"; };
 		AE7FEDD6161580DF00C4B51D /* EpubReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpubReaderViewController.h; sourceTree = "<group>"; };
 		AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpubReaderViewController.m; sourceTree = "<group>"; };
 		AE7FEDD91615810900C4B51D /* XMLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLHandler.h; sourceTree = "<group>"; };
@@ -199,7 +200,6 @@
 		AE7FEF19161EE52800181CE8 /* sign-in-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sign-in-button.png"; sourceTree = "<group>"; };
 		AE7FEF1A161EE52800181CE8 /* sign-up-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sign-up-button.png"; sourceTree = "<group>"; };
 		AE7FEF20161F109C00181CE8 /* youtube.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = youtube.html; sourceTree = "<group>"; };
-		AE7FEF22161F19B500181CE8 /* f-mangoreader-desktop-login-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "f-mangoreader-desktop-login-bg.png"; sourceTree = "<group>"; };
 		AE7FEF24161F1A2B00181CE8 /* video image copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video image copy.png"; sourceTree = "<group>"; };
 		AE7FEF26161F1AC400181CE8 /* library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = library.png; sourceTree = "<group>"; };
 		AE7FEF27161F1AC400181CE8 /* library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "library@2x.png"; sourceTree = "<group>"; };
@@ -209,9 +209,13 @@
 		AE7FEF30161F1C7800181CE8 /* purchased@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchased@2x.png"; sourceTree = "<group>"; };
 		AE92809216197E50001BCBB6 /* ListOfBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfBooks.h; sourceTree = "<group>"; };
 		AE92809316197E51001BCBB6 /* ListOfBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfBooks.m; sourceTree = "<group>"; };
-		AE9280951619ABC0001BCBB6 /* mangoreader-app-icon-144X144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-144X144.png"; sourceTree = "<group>"; };
 		AE9280971619AC82001BCBB6 /* mango.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mango.png; sourceTree = "<group>"; };
 		AE92809A1619AD4B001BCBB6 /* mangoLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mangoLow.png; sourceTree = "<group>"; };
+		AE9D4C6F162C198700352FF8 /* arrow next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow next.png"; sourceTree = "<group>"; };
+		AE9D4C72162C198C00352FF8 /* arrow previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow previous.png"; sourceTree = "<group>"; };
+		AE9D4C78162C20E100352FF8 /* PopViewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopViewDetailsViewController.h; sourceTree = "<group>"; };
+		AE9D4C79162C20E100352FF8 /* PopViewDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopViewDetailsViewController.m; sourceTree = "<group>"; };
+		AE9D4C7A162C20E100352FF8 /* PopViewDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopViewDetailsViewController.xib; sourceTree = "<group>"; };
 		AEA7687516117357002B9FDC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AEA7687916117CF7002B9FDC /* Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Books.xcdatamodel; sourceTree = "<group>"; };
 		AEA768DE1611DA81002B9FDC /* DataModelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModelControl.h; sourceTree = "<group>"; };
@@ -219,6 +223,8 @@
 		AEA768E51611E5C5002B9FDC /* wood_pattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_pattern.png; sourceTree = "<group>"; };
 		AED0B6D5161419E800EE1FD7 /* FileDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		AED0B6D6161419E800EE1FD7 /* FileDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
+		AED4AA8116366207004FF656 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		AED4AA8216366207004FF656 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AEE3D9E1161E42190058956D /* _SZCommentsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = _SZCommentsListViewController.xib; sourceTree = "<group>"; };
 		AEE3D9E2161E42190058956D /* _SZComposeCommentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = _SZComposeCommentViewController.xib; sourceTree = "<group>"; };
 		AEE3D9E3161E42190058956D /* _SZLinkDialogViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = _SZLinkDialogViewController.xib; sourceTree = "<group>"; };
@@ -440,31 +446,25 @@
 		AEE3DABB161E42190058956D /* SZBaseShareViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SZBaseShareViewController.xib; sourceTree = "<group>"; };
 		AEE3DABC161E42190058956D /* SZStatusImageLabelView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SZStatusImageLabelView.xib; sourceTree = "<group>"; };
 		AEE3DABD161E42190058956D /* Socialize.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Socialize.framework; sourceTree = "<group>"; };
+		AEEBA8D1163518A90023AE51 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		AEEBA8D2163518A90023AE51 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		AEEBA8D916354E160023AE51 /* mangoreader-app-icon-72X72-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-72X72-7.png"; sourceTree = "<group>"; };
+		AEEBA8DB16354F800023AE51 /* mangoreader-app-icon-144X144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-144X144.png"; sourceTree = "<group>"; };
+		AEF8CDE0162E709A00094C62 /* download-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button.png"; sourceTree = "<group>"; };
+		AEF8CDE7162E99BE00094C62 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		AEF8CDE9162E99C800094C62 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		AEF8CDED162EA8F000094C62 /* ShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareButton.h; sourceTree = "<group>"; };
+		AEF8CDEE162EA8F000094C62 /* ShareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareButton.m; sourceTree = "<group>"; };
+		AEF8CDF0162EAC6E00094C62 /* actions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = actions.png; sourceTree = "<group>"; };
+		AEFFF27A1630141F00295F97 /* f-mangoreader-desktop-login-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "f-mangoreader-desktop-login-bg.png"; sourceTree = "<group>"; };
 		CA7E023415E388F3001F520B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		FA11955813BA921100025A2B /* UIWebView+SearchWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+SearchWebView.h"; sourceTree = "<group>"; };
-		FA11955913BA921100025A2B /* UIWebView+SearchWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+SearchWebView.m"; sourceTree = "<group>"; };
-		FA11955B13BA924400025A2B /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
-		FA11955C13BA924400025A2B /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
-		FA11955D13BA924400025A2B /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
-		FA11955E13BA924400025A2B /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
-		FA11955F13BA924400025A2B /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
-		FA11956213BA92CD00025A2B /* EPubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPubViewController.h; sourceTree = "<group>"; };
-		FA11956313BA92CD00025A2B /* EPubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPubViewController.m; sourceTree = "<group>"; };
 		FA11956513BA93F100025A2B /* EPubView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EPubView.xib; path = Classes/EPubView.xib; sourceTree = "<group>"; };
-		FA307A391371E2B000959622 /* ChapterListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterListViewController.h; sourceTree = "<group>"; };
-		FA307A3A1371E2B000959622 /* ChapterListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterListViewController.m; sourceTree = "<group>"; };
 		FA307A3B1371E2B000959622 /* ChapterListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChapterListViewController.xib; path = Classes/ChapterListViewController.xib; sourceTree = "<group>"; };
 		FA3B29B5137434330055A954 /* SearchWebView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SearchWebView.js; sourceTree = "<group>"; };
-		FA4FBE541372F6A400C4E728 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
-		FA4FBE551372F6A400C4E728 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; wrapsLines = 0; };
 		FA881E4B1372CA9200FBD25F /* orangeslide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeslide.png; sourceTree = "<group>"; };
 		FA881E4C1372CA9200FBD25F /* slider_ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slider_ball.png; sourceTree = "<group>"; };
 		FA881E4D1372CA9200FBD25F /* yellowslide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowslide.png; sourceTree = "<group>"; };
-		FA881E561372E96000FBD25F /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; wrapsLines = 0; };
-		FA881E571372E96000FBD25F /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
 		FA881E581372E96000FBD25F /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchResultsViewController.xib; path = Classes/SearchResultsViewController.xib; sourceTree = "<group>"; };
-		FAA85385134F422F0035F235 /* Chapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chapter.h; sourceTree = "<group>"; };
-		FAA85386134F422F0035F235 /* Chapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chapter.m; sourceTree = "<group>"; wrapsLines = 0; };
 		FAF45830134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_CreationExtensions.h; sourceTree = "<group>"; };
 		FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_CreationExtensions.m; sourceTree = "<group>"; };
 		FAF45832134B18F400D4C0F9 /* CXMLNode_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_CreationExtensions.h; sourceTree = "<group>"; };
@@ -492,8 +492,6 @@
 		FAF45849134B18F400D4C0F9 /* CTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTidy.h; sourceTree = "<group>"; };
 		FAF4584A134B18F400D4C0F9 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
 		FAF4584B134B18F400D4C0F9 /* TouchXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchXML.h; sourceTree = "<group>"; };
-		FAF45877134B1B6C00D4C0F9 /* EPub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPub.h; sourceTree = "<group>"; };
-		FAF45878134B1B6C00D4C0F9 /* EPub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPub.m; sourceTree = "<group>"; wrapsLines = 0; };
 		FAFA8E85134A0603000291E2 /* vhugo.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = vhugo.epub; sourceTree = "<group>"; };
 		FAFA8E9B134A06D6000291E2 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		FAFA8E9D134A06D6000291E2 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
@@ -541,25 +539,6 @@
 			children = (
 				FAF4582D134B18D600D4C0F9 /* TouchXML */,
 				FAF4585B134B195500D4C0F9 /* ZipArchive */,
-				FA307A391371E2B000959622 /* ChapterListViewController.h */,
-				FA307A3A1371E2B000959622 /* ChapterListViewController.m */,
-				FAF45877134B1B6C00D4C0F9 /* EPub.h */,
-				FAF45878134B1B6C00D4C0F9 /* EPub.m */,
-				FA11956213BA92CD00025A2B /* EPubViewController.h */,
-				FA11956313BA92CD00025A2B /* EPubViewController.m */,
-				FAA85385134F422F0035F235 /* Chapter.h */,
-				FAA85386134F422F0035F235 /* Chapter.m */,
-				FA881E561372E96000FBD25F /* SearchResultsViewController.h */,
-				FA881E571372E96000FBD25F /* SearchResultsViewController.m */,
-				FA4FBE541372F6A400C4E728 /* SearchResult.h */,
-				FA4FBE551372F6A400C4E728 /* SearchResult.m */,
-				FA11955813BA921100025A2B /* UIWebView+SearchWebView.h */,
-				FA11955913BA921100025A2B /* UIWebView+SearchWebView.m */,
-				FA11955B13BA924400025A2B /* GTMDefines.h */,
-				FA11955C13BA924400025A2B /* GTMNSString+HTML.h */,
-				FA11955D13BA924400025A2B /* NSString+HTML.h */,
-				FA11955E13BA924400025A2B /* GTMNSString+HTML.m */,
-				FA11955F13BA924400025A2B /* NSString+HTML.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -567,19 +546,19 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				AEEBA8DB16354F800023AE51 /* mangoreader-app-icon-144X144.png */,
+				AEEBA8D916354E160023AE51 /* mangoreader-app-icon-72X72-7.png */,
+				AEF8CDE9162E99C800094C62 /* Default-Landscape@2x~ipad.png */,
+				AEF8CDE7162E99BE00094C62 /* Default-Landscape~ipad.png */,
 				AE1373721622D9D0006C2CA6 /* flurry */,
-				AE56BE71162003FE000834BC /* Twitter.framework */,
-				AE7FEF10161EDFB900181CE8 /* MediaPlayer.framework */,
 				AEE3D9DF161E42190058956D /* Socialize.embeddedframework */,
 				AE525E8A161D8B0200CDB400 /* Accounts.framework */,
 				1D3623240D0F684500981E51 /* AePubReaderAppDelegate.h */,
 				1D3623250D0F684500981E51 /* AePubReaderAppDelegate.m */,
 				AE92809A1619AD4B001BCBB6 /* mangoLow.png */,
 				AE9280971619AC82001BCBB6 /* mango.png */,
-				AE9280951619ABC0001BCBB6 /* mangoreader-app-icon-144X144.png */,
 				AE7FEDEB1615BA1B00C4B51D /* CustomViews */,
 				AE7FEDD4161580AD00C4B51D /* epubReaderIphone */,
-				AE7FEDC91615719B00C4B51D /* mangoreader-app-icon-72X72-7.png */,
 				AE43C7131610551500970739 /* asirequest */,
 				AE75374916103A8300761697 /* MangoReader */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -603,6 +582,26 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEFFF27A1630141F00295F97 /* f-mangoreader-desktop-login-bg.png */,
+				AEF8CDF0162EAC6E00094C62 /* actions.png */,
+				AEF8CDE0162E709A00094C62 /* download-button.png */,
+				AE7FEF30161F1C7800181CE8 /* purchased@2x.png */,
+				AE7FEF2E161F1BAB00181CE8 /* bookshadow.png */,
+				AE7FEF2C161F1B4C00181CE8 /* logo1.png */,
+				AE7FEF2A161F1B1700181CE8 /* purchased.png */,
+				AE7FEF20161F109C00181CE8 /* youtube.html */,
+				AE7FEF19161EE52800181CE8 /* sign-in-button.png */,
+				AE7FEF26161F1AC400181CE8 /* library.png */,
+				AE7FEF27161F1AC400181CE8 /* library@2x.png */,
+				AE7FEF1A161EE52800181CE8 /* sign-up-button.png */,
+				AE7FEF17161EE4FF00181CE8 /* about-mango-icon.png */,
+				AE57605F161B0E1E00C6EEC6 /* closebutton.png */,
+				AE576056161AF3F500C6EEC6 /* playvideo.js */,
+				AE7FEF24161F1A2B00181CE8 /* video image copy.png */,
+				AE7FEE051615CF6F00C4B51D /* logo.png */,
+				AE7FEDE11615A16100C4B51D /* book-shelf.png */,
+				AEA768E51611E5C5002B9FDC /* wood_pattern.png */,
+				AE75373F16103A7B00761697 /* Book.png */,
 				FA3B29B5137434330055A954 /* SearchWebView.js */,
 				FA881E4B1372CA9200FBD25F /* orangeslide.png */,
 				FA881E4C1372CA9200FBD25F /* slider_ball.png */,
@@ -698,25 +697,8 @@
 		AE75374916103A8300761697 /* MangoReader */ = {
 			isa = PBXGroup;
 			children = (
-				AE7FEF30161F1C7800181CE8 /* purchased@2x.png */,
-				AE7FEF2E161F1BAB00181CE8 /* bookshadow.png */,
-				AE7FEF2C161F1B4C00181CE8 /* logo1.png */,
-				AE7FEF2A161F1B1700181CE8 /* purchased.png */,
-				AE7FEF22161F19B500181CE8 /* f-mangoreader-desktop-login-bg.png */,
-				AE7FEF20161F109C00181CE8 /* youtube.html */,
-				AE7FEF19161EE52800181CE8 /* sign-in-button.png */,
-				AE7FEF26161F1AC400181CE8 /* library.png */,
-				AE7FEF27161F1AC400181CE8 /* library@2x.png */,
-				AE7FEF1A161EE52800181CE8 /* sign-up-button.png */,
-				AE7FEF17161EE4FF00181CE8 /* about-mango-icon.png */,
-				AE525E7A161D771000CDB400 /* jquery.js */,
-				AE57605F161B0E1E00C6EEC6 /* closebutton.png */,
-				AE576056161AF3F500C6EEC6 /* playvideo.js */,
-				AE7FEF24161F1A2B00181CE8 /* video image copy.png */,
-				AE7FEE051615CF6F00C4B51D /* logo.png */,
-				AE7FEDE11615A16100C4B51D /* book-shelf.png */,
-				AEA768E51611E5C5002B9FDC /* wood_pattern.png */,
-				AE75373F16103A7B00761697 /* Book.png */,
+				AED4AA8116366207004FF656 /* Book.h */,
+				AED4AA8216366207004FF656 /* Book.m */,
 				AE75372D1610340D00761697 /* LoginViewController.h */,
 				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE75372F1610340E00761697 /* LoginViewController.xib */,
@@ -736,8 +718,13 @@
 				AE525E94161D8CD200CDB400 /* WebViewController.h */,
 				AE525E95161D8CD200CDB400 /* WebViewController.m */,
 				AE525E96161D8CD200CDB400 /* WebViewController.xib */,
-				AE197890161DA7A100C7A9C1 /* Book.h */,
-				AE197891161DA7A100C7A9C1 /* Book.m */,
+				AE0B8F24162BEA4D00D16A02 /* LoginDirectly.h */,
+				AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */,
+				AE9D4C78162C20E100352FF8 /* PopViewDetailsViewController.h */,
+				AE9D4C79162C20E100352FF8 /* PopViewDetailsViewController.m */,
+				AE9D4C7A162C20E100352FF8 /* PopViewDetailsViewController.xib */,
+				314B5071162D80DA00A1348E /* ImageDownloader.h */,
+				314B5072162D80DA00A1348E /* ImageDownloader.m */,
 			);
 			name = MangoReader;
 			sourceTree = "<group>";
@@ -745,6 +732,8 @@
 		AE7FEDD4161580AD00C4B51D /* epubReaderIphone */ = {
 			isa = PBXGroup;
 			children = (
+				AE9D4C6F162C198700352FF8 /* arrow next.png */,
+				AE9D4C72162C198C00352FF8 /* arrow previous.png */,
 				AE7FEDDC1615813900C4B51D /* EpubContentR.m */,
 				AE7FEDDD1615813900C4B51D /* EpubContentR.h */,
 				AE7FEDD91615810900C4B51D /* XMLHandler.h */,
@@ -761,6 +750,10 @@
 			children = (
 				AE7FEDE31615A6EE00C4B51D /* ShadowButton.h */,
 				AE7FEDE41615A6EF00C4B51D /* ShadowButton.m */,
+				AEF8CDED162EA8F000094C62 /* ShareButton.h */,
+				AEF8CDEE162EA8F000094C62 /* ShareButton.m */,
+				AEEBA8D1163518A90023AE51 /* Reachability.h */,
+				AEEBA8D2163518A90023AE51 /* Reachability.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -768,6 +761,8 @@
 		AEE3D9DF161E42190058956D /* Socialize.embeddedframework */ = {
 			isa = PBXGroup;
 			children = (
+				AE56BE71162003FE000834BC /* Twitter.framework */,
+				AE7FEF10161EDFB900181CE8 /* MediaPlayer.framework */,
 				AEE3D9E0161E42190058956D /* Resources */,
 				AEE3DABD161E42190058956D /* Socialize.framework */,
 			);
@@ -1141,7 +1136,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE576059161AF46D00C6EEC6 /* playvideo.js in Resources */,
-				AE525E7D161D77B100CDB400 /* jquery.js in Resources */,
 				FA3B29B7137440380055A954 /* SearchWebView.js in Resources */,
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				FAFA8E86134A0603000291E2 /* vhugo.epub in Resources */,
@@ -1156,11 +1150,9 @@
 				AE75374E16103B5900761697 /* StoreViewController.xib in Resources */,
 				AE75375316103B6900761697 /* LibraryViewController.xib in Resources */,
 				AEA768E61611E5C5002B9FDC /* wood_pattern.png in Resources */,
-				AE7FEDCA1615719B00C4B51D /* mangoreader-app-icon-72X72-7.png in Resources */,
 				AE7FEDE0161581EC00C4B51D /* View.xib in Resources */,
 				AE7FEDE21615A16100C4B51D /* book-shelf.png in Resources */,
 				AE7FEE061615CF7000C4B51D /* logo.png in Resources */,
-				AE9280961619ABC0001BCBB6 /* mangoreader-app-icon-144X144.png in Resources */,
 				AE576060161B0E1E00C6EEC6 /* closebutton.png in Resources */,
 				AE525E91161D8B4800CDB400 /* FBUserSettingsViewResources.bundle in Resources */,
 				AE525E93161D8B5000CDB400 /* FacebookSDKResources.bundle in Resources */,
@@ -1169,7 +1161,6 @@
 				AE7FEF1B161EE52800181CE8 /* sign-in-button.png in Resources */,
 				AE7FEF1C161EE52800181CE8 /* sign-up-button.png in Resources */,
 				AE7FEF21161F109C00181CE8 /* youtube.html in Resources */,
-				AE7FEF23161F19B500181CE8 /* f-mangoreader-desktop-login-bg.png in Resources */,
 				AE7FEF25161F1A2C00181CE8 /* video image copy.png in Resources */,
 				AE7FEF28161F1AC400181CE8 /* library.png in Resources */,
 				AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */,
@@ -1177,6 +1168,16 @@
 				AE7FEF2D161F1B4C00181CE8 /* logo1.png in Resources */,
 				AE7FEF2F161F1BAB00181CE8 /* bookshadow.png in Resources */,
 				AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */,
+				AE9D4C70162C198700352FF8 /* arrow next.png in Resources */,
+				AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */,
+				AE9D4C7C162C20E100352FF8 /* PopViewDetailsViewController.xib in Resources */,
+				AEF8CDE1162E709A00094C62 /* download-button.png in Resources */,
+				AEF8CDE8162E99BF00094C62 /* Default-Landscape~ipad.png in Resources */,
+				AEF8CDEA162E99C800094C62 /* Default-Landscape@2x~ipad.png in Resources */,
+				AEF8CDF1162EAC6E00094C62 /* actions.png in Resources */,
+				AEFFF27B1630141F00295F97 /* f-mangoreader-desktop-login-bg.png in Resources */,
+				AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */,
+				AEEBA8DC16354F800023AE51 /* mangoreader-app-icon-144X144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1218,15 +1219,6 @@
 				FAF45856134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m in Sources */,
 				FAF45857134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m in Sources */,
 				FAF45858134B18F400D4C0F9 /* CTidy.m in Sources */,
-				FAF45879134B1B6C00D4C0F9 /* EPub.m in Sources */,
-				FAA85387134F422F0035F235 /* Chapter.m in Sources */,
-				FA307A3C1371E2B000959622 /* ChapterListViewController.m in Sources */,
-				FA881E591372E96000FBD25F /* SearchResultsViewController.m in Sources */,
-				FA4FBE561372F6A400C4E728 /* SearchResult.m in Sources */,
-				FA11955A13BA921100025A2B /* UIWebView+SearchWebView.m in Sources */,
-				FA11956013BA924400025A2B /* GTMNSString+HTML.m in Sources */,
-				FA11956113BA924400025A2B /* NSString+HTML.m in Sources */,
-				FA11956413BA92CD00025A2B /* EPubViewController.m in Sources */,
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
 				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
@@ -1238,7 +1230,11 @@
 				AE7FEDE51615A6EF00C4B51D /* ShadowButton.m in Sources */,
 				AE92809416197E51001BCBB6 /* ListOfBooks.m in Sources */,
 				AE525E97161D8CD200CDB400 /* WebViewController.m in Sources */,
-				AE197892161DA7A100C7A9C1 /* Book.m in Sources */,
+				AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */,
+				AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */,
+				314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */,
+				AEF8CDEF162EA8F000094C62 /* ShareButton.m in Sources */,
+				AED4AA8316366207004FF656 /* Book.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1252,22 +1248,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../OggVorbis\"",
-					"\"$(SRCROOT)/Socialize.embeddedframework\"",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -1275,8 +1261,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "90995DE1-97E6-4146-A67A-D8E56826B49B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "90995DE1-97E6-4146-A67A-D8E56826B49B";
+				PROVISIONING_PROFILE = "12E3869E-93AF-42E5-9DDF-C6D13E81EC0F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12E3869E-93AF-42E5-9DDF-C6D13E81EC0F";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 			};
 			name = Debug;
@@ -1285,23 +1271,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../OggVorbis\"",
-					"\"$(SRCROOT)/Socialize.embeddedframework\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -1309,8 +1285,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "90995DE1-97E6-4146-A67A-D8E56826B49B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "90995DE1-97E6-4146-A67A-D8E56826B49B";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1320,16 +1296,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
+				PROVISIONING_PROFILE = "12E3869E-93AF-42E5-9DDF-C6D13E81EC0F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12E3869E-93AF-42E5-9DDF-C6D13E81EC0F";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1341,8 +1317,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1350,8 +1326,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8FCD22F9-6EBC-4564-BCB8-C535B1F39366";
+				PROVISIONING_PROFILE = "12E3869E-93AF-42E5-9DDF-C6D13E81EC0F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12E3869E-93AF-42E5-9DDF-C6D13E81EC0F";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;

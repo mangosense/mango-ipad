@@ -17,6 +17,7 @@
 #import "FileDownloader.h"
 #import "ShadowButton.h"
 #import "ListOfBooks.h"
+#import "PopViewDetailsViewController.h"
 
 @interface StoreViewController ()
 
@@ -68,11 +69,10 @@
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    NSString *string=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-//    NSLog(@"string %@",string);
-//    [string release];
+  
+  //  [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
     ListOfBooks *books=[[ListOfBooks alloc]initWithViewController:self];
     _connection=[[NSURLConnection alloc]initWithRequest:request delegate:books];
     [request release];
@@ -114,10 +114,12 @@
     
     
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     if (!_purchase) {
         [self requestBooksFromServer];
     }
+    
 //    if (_alert) {
 //        [_alert show];
 //    }
@@ -125,7 +127,7 @@
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
-    
+
 }
 -(void)DrawShelf{
     UIImage *image=[UIImage imageNamed:@"book-shelf.png"];
@@ -146,10 +148,7 @@
     
 }
 
-- (BOOL)shouldAutorotate {
-    
-    return YES;
-}
+
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
@@ -204,6 +203,7 @@
        // [button setupView];
 
         UIImage *image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
+        button.imageLocalLocation=book.localPathImageFile;
         [button setImage:image forState:UIControlStateNormal];
         //[button addTarget:button action:@selector(DownloadBook:) forControlEvents:UIControlEventTouchUpInside];
         [button setAlpha:0.7];
@@ -212,6 +212,10 @@
 //        [button addGestureRecognizer:tap];
 //        
 //        [tap release];
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localPathImageFile];
+        NSError *error=nil;
+        [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+        [url release];
         UITapGestureRecognizer *Singletap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
         [button addGestureRecognizer:Singletap];
         [Singletap release];
@@ -230,7 +234,10 @@
         [self.scrollView addSubview:button];
         [button release];
     }
-   [ _alert dismissWithClickedButtonIndex:0 animated:YES];
+    if (_alert) {
+          [ _alert dismissWithClickedButtonIndex:0 animated:YES];
+    }
+ 
     _alert=nil;
     
 }
@@ -244,22 +251,40 @@
         [_menuController setMenuVisible:NO animated:YES];
         return;
     }
+  
+
     _buttonTapped=(UIButton *)gesture.view;
-    [gesture.view becomeFirstResponder];
-    UIMenuItem *menuItem=[[UIMenuItem alloc]initWithTitle:@"share" action:@selector(share:)];
-   UIMenuItem *downloadOrShow=[[UIMenuItem alloc]initWithTitle:@"download" action:@selector(DownloadBook:)];
-   UIMenuItem *message=[[UIMenuItem alloc]initWithTitle:@"message" action:@selector(message:)];
-   // _menuController=[UIMenuController sharedMenuController];
-     
-    [_menuController setMenuItems:@[downloadOrShow,menuItem,message]];
-    [message release];
-    [menuItem release];
-    [downloadOrShow release];
-    CGRect frame=gesture.view.frame;
-    frame.origin.x-=10;
-    frame.origin.y-=10;
-    [_menuController setTargetRect:frame inView:self.scrollView];
-    [_menuController setMenuVisible:YES animated:YES];
+    ShadowButton *shadow=(ShadowButton *)gesture.view;
+    PopViewDetailsViewController *controller=[[PopViewDetailsViewController alloc]initWithNibName:@"PopViewDetailsViewController" bundle:nil imageLocation:shadow.imageLocalLocation indentity:shadow.tag];
+    controller.view.frame=CGRectMake(50, 60, 300, 300);
+    controller.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
+    controller.modalPresentationStyle=UIModalPresentationFormSheet;
+
+    //controller.imageLocation=shadow.imageLocalLocation;
+    controller.store=self;
+    
+    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:controller];
+    nav.modalPresentationStyle=UIModalPresentationFormSheet;
+    nav.modalTransitionStyle=UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:nav animated:YES];
+    [controller release];
+    
+    
+    
+    //    [gesture.view becomeFirstResponder];
+//    UIMenuItem *menuItem=[[UIMenuItem alloc]initWithTitle:@"share" action:@selector(share:)];
+//   UIMenuItem *downloadOrShow=[[UIMenuItem alloc]initWithTitle:@"download" action:@selector(DownloadBook:)];
+//
+//   // _menuController=[UIMenuController sharedMenuController];
+//     
+//    [_menuController setMenuItems:@[downloadOrShow,menuItem]];
+//    [menuItem release];
+//    [downloadOrShow release];
+//    CGRect frame=gesture.view.frame;
+//    frame.origin.x-=10;
+//    frame.origin.y-=10;
+//    [_menuController setTargetRect:frame inView:self.scrollView];
+//    [_menuController setMenuVisible:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -291,31 +316,17 @@
     }
     
     self.book.downloaded=@YES;
+    self.book.downloadedDate=[NSDate date];
       [delegate.dataModel saveData:self.book];
+    _purchase=NO;
     [_delegate DownloadComplete:self.book];
     [self BuildButtons];
    
 }
-//-(void)requestFinished:(ASIHTTPRequest *)request{
-//   //  [_spinner stopAnimating];
-//    _book.downloaded=[NSNumber numberWithBool:YES];
-//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-//    [delegate.dataModel saveData:_book];
-//    [_delegate DownloadComplete];
-//}
-//- (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders{
-//   // [self requestBooksFromServer];
-//}
-//-(void)requestFailed:(ASIHTTPRequest *)request{
-////    [_spinner stopAnimating];
-//    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: [[request error] description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-//    [alert show];
-//    [alert release];
-//}
+
 
 - (void)dealloc {
-  //  [_spinner release];
-  //  [_mainSpinner release];
+
     
     [_scrollView release];
     [super dealloc];
@@ -323,14 +334,13 @@
     _connection=nil;
 }
 - (void)viewDidUnload {
-  //  [self setSpinner:nil];
-//[self setMainSpinner:nil];
+
    
     [self setScrollView:nil];
     [super viewDidUnload];
 }
 - (void)refreshButton:(id)sender {
-    // query the purchased books
+
     [self requestBooksFromServer];
     [self BuildButtons];
 }
@@ -348,4 +358,12 @@
 -(void)defunct:(id)sender{
     
 }
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1) {
+        [self.tabBarController setSelectedIndex:0];
+        return;
+    }
+    [self requestBooksFromServer];
+}
+
 @end

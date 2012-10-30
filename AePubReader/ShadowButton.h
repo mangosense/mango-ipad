@@ -14,7 +14,7 @@
 #import <MessageUI/MFMessageComposeViewController.h>
 @interface ShadowButton : UIButton<MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 @property(nonatomic,retain)NSString *stringLink;
-
+@property(nonatomic,assign)NSString *imageLocalLocation;
 @property(nonatomic,assign)StoreViewController *storeViewController;
 @property(nonatomic,assign)LibraryViewController *libraryViewController;
 -(void)share:(id)sender;

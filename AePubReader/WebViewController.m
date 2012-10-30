@@ -82,5 +82,6 @@
     
     [_webView loadRequest:request];
     [self dismissModalViewControllerAnimated:YES];
+    [request release];
 }
 @end

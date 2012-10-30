@@ -9,10 +9,10 @@
 #import "AePubReaderAppDelegate.h"
 
 
-#import "EPubViewController.h"
+
 #import "LoginViewController.h"
 
-#import <Socialize/Socialize.h>
+
 @implementation AePubReaderAppDelegate
 
 @synthesize window;
@@ -23,7 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
-    // Override point for customization after app launch.
+   _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
     _loginViewController=[[LoginViewController alloc]init];
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_loginViewController];
     [_loginViewController release];
@@ -38,12 +38,16 @@
          [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
    
-    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
+    
    
     return YES;
 }
 
+-(void)applicationDidEnterBackground:(UIApplication *)application{
 
+//UINavigationController *nav=(UINavigationController *)self.window.rootViewController;
+//UITabBarController *tabe=(UITabBarController *)[nav topViewController];
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -63,6 +67,10 @@
     /*
      Called when the application is about to terminate.
      */
+   NSString *loc=  [[NSUserDefaults standardUserDefaults]valueForKey:@"locDirectory"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:loc]) {
+        [[NSFileManager defaultManager] removeItemAtPath:loc error:nil];
+    }
 }
 
 
