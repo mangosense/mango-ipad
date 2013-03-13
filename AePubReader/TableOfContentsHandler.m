@@ -16,7 +16,7 @@
     _toc.playOrder=-1;
 }
 -(void)parseFileAt:(NSString *)path{
-    _parser=[[NSXMLParser alloc]initWithContentsOfURL:[NSURL fileURLWithPath:path]];
+    _parser=[[NSXMLParser alloc]   initWithContentsOfURL:[NSURL fileURLWithPath:path]];
     _parser.delegate=self;
     [_parser parse];
 
