@@ -81,18 +81,18 @@
     _fileSize.text=[NSString stringWithFormat:@"File Size :%@ MB",[NSNumber numberWithLongLong:size] ];
     _titleBook.text=_bookTapped.title;
     
-    NSAttributedString *attr=[[NSAttributedString alloc]initWithString:_bookTapped.desc];
-     NSString *ver= [UIDevice currentDevice].systemVersion;
-    if ([ver floatValue]>5.1) {
-       _textView.attributedText=attr; 
-    }else{
-        _textView.text=_bookTapped.desc;
-    }
+//    NSAttributedString *attr=[[NSAttributedString alloc]initWithString:_bookTapped.desc];
+//     NSString *ver= [UIDevice currentDevice].systemVersion;
+//    if ([ver floatValue]>5.1) {
+//       _textView.attributedText=attr; 
+//    }else{
+//        _textView.text=_bookTapped.desc;
+//    }
+//    
     
-    
-    [attr release];
-    NSLog(@"text %@",_textView.text);
-    
+//    [attr release];
+    //NSLog(@"text %@",_textView.text);
+    [_detailsWebView loadHTMLString:_bookTapped.desc baseURL:nil];
     [image release];
     [done release];
     self.navigationItem.rightBarButtonItem=share;
@@ -116,7 +116,7 @@
         
         [activity release];
         [pop presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        
+     //   [pop release];
         return;
     }
     
@@ -141,7 +141,7 @@
 }
 - (NSUInteger)supportedInterfaceOrientations {
     
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskAll;
     
 }
 
@@ -149,7 +149,7 @@
     [controller dismissModalViewControllerAnimated:YES];
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+    return YES;
 }
 
 - (void)dealloc {
@@ -158,16 +158,20 @@
     [_imageView release];
     [_bookTapped release];
     _imageLocation=nil;
-    [_textView release];
+   
     [_fileSize release];
+    [_detailsWebView release];
+ 
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setTitleBook:nil];
    
     [self setImageView:nil];
-    [self setTextView:nil];
+  
     [self setFileSize:nil];
+    [self setDetailsWebView:nil];
+
     [super viewDidUnload];
 }
 @end

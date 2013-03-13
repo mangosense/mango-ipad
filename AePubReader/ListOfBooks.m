@@ -14,6 +14,7 @@
     if (self) {
         _store=store;
         _dataMutable=[[NSMutableData alloc]init];
+        _shouldBuild=YES;
     }
     return self;
 }
@@ -55,11 +56,16 @@ id jsonObject=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSO
         
         directly.storeController=_store;
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:directly];
+        [directly release];
+        [request release];
         [connection autorelease];
         return;
     }
     [delegate.dataModel insertIfNew:_dataMutable];
-        [_store BuildButtons];
+    
+   
+     [_store BuildButtons];   
+            
     
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{

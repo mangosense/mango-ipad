@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "DataModelControl.h"
 #import <CoreData/CoreData.h>
+#import <StoreKit/StoreKit.h>
+
+
 @class EPubViewController;
 @class LoginViewController;
 @interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate> {
@@ -26,6 +29,13 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) DataModelControl *dataModel;
+@property(nonatomic,assign)BOOL LandscapeOrientation;
+@property(nonatomic,assign)BOOL PortraitOrientation;
+@property(nonatomic,assign)BOOL wasFirstInPortrait;
+@property(assign,nonatomic)UIAlertView *alertView;
 
+@property(assign,nonatomic)BOOL popPurchase;
+@property(assign,nonatomic)BOOL dismissAlertViewFlag;
+@property(assign,nonatomic)UIAlertView *dismissAlertView;
 - (NSString *)applicationDocumentsDirectory;
 @end

@@ -18,7 +18,7 @@
 #import "ShadowButton.h"
 #import "ListOfBooks.h"
 #import "PopViewDetailsViewController.h"
-
+#import "SyncIpadConnection.h"
 @interface StoreViewController ()
 
 @end
@@ -33,23 +33,104 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.tabBarItem.title=@"Purchased";
+        self.tabBarItem.title=@"Downloads";
         self.tabBarItem.image=[UIImage imageNamed:@"purchased.png"];
-        //[self requestBooksFromServer];
-       //   _delegateApp=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        _purchase=NO;
+
+        _purchase=YES;
         
+     
     }
     return self;
 }
--(void)requestBooksFromServer{
-    
+-(void)requestBooksFromServerinit{
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+
+        
+        return;
+    }
     _alert =[[UIAlertView alloc]init];
-    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+//    [indicator startAnimating];
+//    [_alert addSubview:indicator];
+//    [indicator release];
+//    [_alert setTitle:@"Loading...."];
+    UIImage *image=[UIImage imageNamed:@"loading.png"];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    imageView.layer.cornerRadius = 5.0;
+    imageView.layer.masksToBounds = YES;
+    
+    imageView.image=image;
+    [_alert addSubview:imageView];
+    [imageView release];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
+    indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alert addSubview:indicator];
     [indicator release];
-    [_alert setTitle:@"Loading...."];
+
+    [_alert show];
+    [_alert release];
+
+   
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    NSString *temp;
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    temp=[userDefaults stringForKey:@"email"];
+    [dictionary setValue:temp forKey:@"email"];
+    temp=[userDefaults stringForKey:@"auth_token"];
+    [dictionary setValue:temp forKey:@"auth_token"];
+    NSLog(@"auth_token %@",temp);
+    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+    [dictionary release];
+    NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
+    connectionString=[connectionString stringByAppendingFormat:@"book_purchase"];
+    connectionString=[connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"Connection String %@",connectionString);
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:jsonData];
+    
+    //  [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    ListOfBooks *books=[[ListOfBooks alloc]initWithViewController:self];
+    books.shouldBuild=YES;
+    _connection=[[NSURLConnection alloc]initWithRequest:request delegate:books];
+    [request release];
+    [books release];
+    _purchase=YES;
+    
+    
+}
+-(void)requestBooksFromServer{
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+        [self BuildButtons];
+        return;
+    }
+    _alert =[[UIAlertView alloc]init];
+//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+//    [indicator startAnimating];
+//    [_alert addSubview:indicator];
+//    [indicator release];
+//    [_alert setTitle:@"Loading...."];
+    UIImage *image=[UIImage imageNamed:@"loading.png"];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    imageView.layer.cornerRadius = 5.0;
+    imageView.layer.masksToBounds = YES;
+    
+    imageView.image=image;
+    [_alert addSubview:imageView];
+    [imageView release];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
+    indicator.color=[UIColor blackColor];
+    [indicator startAnimating];
+    [_alert addSubview:indicator];
+
+    [indicator release];
+
+    
     [_alert show];
     [_alert release];
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
@@ -61,8 +142,10 @@
     [dictionary setValue:temp forKey:@"auth_token"];
      NSLog(@"auth_token %@",temp);
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-    [dictionary release];
+    NSString *jsonInput=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",jsonInput);
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
+    [jsonInput autorelease];
    connectionString=[connectionString stringByAppendingFormat:@"book_purchase"];
     connectionString=[connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"Connection String %@",connectionString);
@@ -78,6 +161,7 @@
     [request release];
     [books release];
     _purchase=YES;
+      [dictionary release];
  
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
@@ -101,25 +185,192 @@
     _ymax=768+80;
     self.scrollView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     //CGSize size=self.scrollView.contentSize;
-    
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Sign Out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)]autorelease];
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+        self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)]autorelease];
+    }else{
+        self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Sign Out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)]autorelease];
+    }
+
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
-    self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)]autorelease];
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
+    UIBarButtonItem *barButtonRefresh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
+    UIBarButtonItem *restore=[[UIBarButtonItem alloc]initWithTitle:@"Restore" style:UIBarButtonItemStyleBordered target:self action:@selector(restore:)];
+    UIBarButtonItem *sync=[[UIBarButtonItem alloc]initWithTitle:@"Sync" style:UIBarButtonItemStyleBordered target:self action:@selector(sync:)];
+    barButtonRefresh.tintColor=[UIColor grayColor];
+    restore.tintColor=[UIColor grayColor];
+    sync.tintColor=[UIColor grayColor];
+    NSArray *array=[NSArray arrayWithObjects:barButtonRefresh,restore,sync, nil];
+    self.navigationItem.leftBarButtonItems=array;
+    [restore release];
+    [barButtonRefresh release];
+    [sync release];
+ 
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
     [imageView release];
     //[self DrawShelf];
-    
+  
+    [self BuildButtons];
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    if (!_purchase) {
-        [self requestBooksFromServer];
+-(void)restore:(id)sender{
+    _alert =nil;
+    _alert =[[UIAlertView alloc]init];
+//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+//    [indicator startAnimating];
+//    [_alert addSubview:indicator];
+//    [indicator release];
+//    [_alert setTitle:@"Loading...."];
+    UIImage *image=[UIImage imageNamed:@"loading.png"];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    imageView.layer.cornerRadius = 5.0;
+    imageView.layer.masksToBounds = YES;
+    
+    imageView.image=image;
+    [_alert addSubview:imageView];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
+
+    indicator.color=[UIColor blackColor];
+    [indicator startAnimating];
+    [_alert addSubview:indicator];
+    [indicator release];
+
+    [_alert show];
+    [_alert release];
+    [imageView release];
+  
+     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+   
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+    
+}
+-(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
+    UIAlertView *alertFailed;
+    NSNumber *number;
+    StoreBooks *books;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    for (SKPaymentTransaction *transaction in transactions) {
+        switch (transaction.transactionState) {
+            case SKPaymentTransactionStateFailed:
+                alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertFailed show];
+                [alertFailed release];
+                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+                break;
+            case SKPaymentTransactionStatePurchased:
+                
+                
+                break;
+            case SKPaymentTransactionStateRestored:
+                number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
+                books= [delegate.dataModel getBookById:number];
+                [delegate.dataModel insertBookWithNo:books];
+                [number release];
+                
+                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+                //restored=YES;
+                [_alert dismissWithClickedButtonIndex:0 animated:YES];
+                _alert=nil;
+                break;
+        }
+    }///end for
+    [self BuildButtons];
+
+}
+
+
+- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
+    [_alert dismissWithClickedButtonIndex:0 animated:YES];
+   
+    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message: @"Cannot connect to iTunes store" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alertView show];
+    [alertView release];
+    _alert=nil;
+}
+- (void)signOut:(id)sender {
+    NSString *signout=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
+    signout =[signout stringByAppendingPathComponent:@"users/sign_out"];
+    signout =[signout stringByAppendingFormat:@"?user[email]=%@&auth_token=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"email"],[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"]];
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:signout]];
+    [request setHTTPMethod:@"GET"];
+    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
+    [request release];
+    [connection autorelease];
+    
+    [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+}
+-(void)sync:(id)sender{
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Login" message:@"Do you wish to sign in or sign up to sync your books" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        alertView.tag=50;
+        [alertView show];
+        [alertView release];
+    }else{
+        NSMutableURLRequest *request=[[NSMutableURLRequest alloc]init];
+         NSString *url=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
+        url =[url stringByAppendingString:@"apple_register_users_books.json"];
+      //  url=@"http://192.168.2.29:3000/api/v1/apple_register_users_books.json";
+        [request setURL:[NSURL URLWithString:url ]];
+        SyncIpadConnection *syncIpad=[[SyncIpadConnection alloc]init];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        NSArray *stor=[[NSArray alloc]initWithArray:[delegate.dataModel getStoreBooksPurchased]];
+        NSMutableDictionary *diction=[[NSMutableDictionary alloc]init];
+        NSMutableArray *arryMutable=[[NSMutableArray alloc]init];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        NSNumber *number=[defaults objectForKey:@"id"];
+       // number=[NSNumber numberWithInteger:297];
+        [diction setValue:number forKey:@"user_id"];
+       
+        NSString *auth_token=[defaults objectForKey:@"auth_token"];
+        [diction setValue:auth_token forKey:@"auth_token"];
+        
+        for (StoreBooks *books in stor) {
+            NSNumber *bookId=books.productIdentity;
+            NSNumber *amount=books.amount;
+            NSArray *array=[[NSArray alloc ]initWithObjects:bookId,amount, nil];
+            [arryMutable addObject:array];
+            [array release];
+            
+        }
+//        [arryMutable removeAllObjects];
+//        number=[NSNumber numberWithInteger:229];
+//        
+//        NSArray *array=[NSArray arrayWithObjects:number,[NSNumber numberWithInteger:0], nil];
+//        number=[NSNumber numberWithInteger:212];
+//        NSArray *arrayaother=[NSArray arrayWithObjects:number,[NSNumber numberWithInteger:0], nil];
+//        [arryMutable addObject:array];
+//        [arryMutable addObject:arrayaother];
+        [diction setValue:arryMutable forKey:@"books"];
+        NSData *json=[NSJSONSerialization dataWithJSONObject:diction options:NSJSONWritingPrettyPrinted error:nil];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:json];
+        NSString *string=[[NSString alloc]initWithData:json encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",string);
+         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:syncIpad];
+        [syncIpad release];
+        [request release];
+        [string release];
+        [connection autorelease];
+        [arryMutable release];
+        [diction release];
+        [stor release];
     }
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
+    
+        return;
+    }
+    if (!_purchase) {
+        [self BuildButtons];
+    }
+   
 //    if (_alert) {
 //        [_alert show];
 //    }
@@ -127,32 +378,42 @@
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
-
+    [super viewDidDisappear:YES];
+     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
+
 -(void)DrawShelf{
     UIImage *image=[UIImage imageNamed:@"book-shelf.png"];
     
-    int xmin=38.5,ymin=50+175;
+    int xmin=27,ymin=50+175;
+    float width=974;
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        xmin=10;
+        ymin=30+175;
+        width=748;
+    }
     while (ymin<_ymax) {
         UIImageView *imageView =[[UIImageView alloc]initWithImage:image];
-        CGRect frame=CGRectMake(xmin, ymin, imageView.frame.size.width, imageView.frame.size.height);
+        CGRect frame=CGRectMake(xmin, ymin, width, imageView.frame.size.height);
         ymin+=210+40;
         imageView.frame=frame;
         [self.scrollView addSubview:imageView];
         [imageView release];
     }
 }
-- (NSUInteger)supportedInterfaceOrientations {
-    
-    return UIInterfaceOrientationMaskLandscape;
-    
-}
-
-
+//- (NSUInteger)supportedInterfaceOrientations {
+//    
+//    return UIInterfaceOrientationMaskAll;
+//    
+//}
+//
+//
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+    return YES;
 }
-
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self BuildButtons];
+}
 -(void)BuildButtons{
     for (UIView *view in self.scrollView.subviews) {
         
@@ -161,15 +422,34 @@
       
     }// remove alll views if any
     // add all views if any
-    int xmin=75,ymin=50;
+    int xmin=65,ymin=50;
     int x,y;
+    int xinc;
     x=xmin;
     y=ymin;
- 
+    xinc=190;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
    _listOfBooks= [delegate.dataModel getDataNotDownloaded];
-    
-    
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        _ymax=1024+80;
+        if (_listOfBooks.count>16) {
+            NSInteger extra=_listOfBooks.count-16;
+            if (extra%4!=0) {
+                extra=extra/4;
+                extra++;
+            }else{
+                extra=extra/4;
+            }
+            _ymax+=(260*extra);
+        }
+        xmin-=25;
+        x=xmin;
+        y-=20;
+        xinc=180;
+    }
+    else
+    {
+        _ymax=768+80;
     if (_listOfBooks.count>15) {
         NSInteger extra=_listOfBooks.count-15;
         
@@ -179,9 +459,10 @@
             }else{
             extra=extra/5;
             }
-        _ymax=768+80;
+        
         _ymax=_ymax+(260*extra);
        
+        }
     }
     CGSize size=self.scrollView.contentSize;
     size.height=_ymax;
@@ -200,8 +481,9 @@
         
         button.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"bookshadow.png"]];
         button.tag=[book.id integerValue];
+        
        // [button setupView];
-
+        NSLog(@"localPath %@",book.localPathImageFile);
         UIImage *image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
         button.imageLocalLocation=book.localPathImageFile;
         [button setImage:image forState:UIControlStateNormal];
@@ -220,11 +502,15 @@
         [button addGestureRecognizer:Singletap];
         [Singletap release];
         //NSLog(@" x= %d",x);
-               x=x+190;
+               x=x+xinc;
         
-        if (x+140>1024) {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)&&x+140>1024) {
             x=xmin;
             y=y+210+40;
+        }else if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)&&x+140>780){
+            x=xmin;
+            y+=+250;
+            
         }
 //        UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(LongPress:)];
 //        [button addGestureRecognizer:longPress];
@@ -268,7 +554,7 @@
     nav.modalTransitionStyle=UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:nav animated:YES];
     [controller release];
-    
+    [nav release];
     
     
     //    [gesture.view becomeFirstResponder];
@@ -342,23 +628,39 @@
 - (void)refreshButton:(id)sender {
 
     [self requestBooksFromServer];
-    [self BuildButtons];
+  //  [self BuildButtons];
 }
-- (void)signOut:(id)sender {
-    
-    NSString *signout=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
-    signout =[signout stringByAppendingPathComponent:@"users/sign_out"];
-    signout =[signout stringByAppendingFormat:@"?user[email]=%@&auth_token=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"email"],[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"]];
-    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:signout]];
-    [request setHTTPMethod:@"GET"];
-    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-    [request release];
-    [connection autorelease];
-}
+//- (void)signOut:(id)sender {
+//    
+//    NSString *signout=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
+//    signout =[signout stringByAppendingPathComponent:@"users/sign_out"];
+//    signout =[signout stringByAppendingFormat:@"?user[email]=%@&auth_token=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"email"],[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"]];
+//    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:signout]];
+//    [request setHTTPMethod:@"GET"];
+//    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+//    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
+//    [request release];
+//    [connection autorelease];
+//}
 -(void)defunct:(id)sender{
     
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag==50) {
+        if (buttonIndex==1) {//yes
+            [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];
+            
+        }else{
+            
+            [self.tabBarController setSelectedIndex:0];
+        }
+        return;
+    }
+    if (buttonIndex==1) {
+        [self.tabBarController setSelectedIndex:0];
+        return;
+    }
+
     if (buttonIndex==1) {
         [self.tabBarController setSelectedIndex:0];
         return;

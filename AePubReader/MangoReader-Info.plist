@@ -2,6 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ACFacebookClientAccessInfo</key>
+	<dict>
+		<key>ACFacebookAppIDKey</key>
+		<string>199743376733034</string>
+		<key>ACFacebookAppVersionKey</key>
+		<string>1.0</string>
+		<key>ACFacebookPermissionGroupKey</key>
+		<string>read</string>
+		<key>ACFacebookPermissionsKey</key>
+		<dict>
+			<key>Item 0</key>
+			<string>email</string>
+		</dict>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
@@ -14,6 +28,8 @@
 	<array>
 		<string>mangoreader-app-icon-72X72-7.png</string>
 		<string>mangoreader-app-icon-144X144.png</string>
+		<string>mangoreader-app-icon-114X114.png</string>
+		<string>mangoreader-app-icon-57X57.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -23,6 +39,8 @@
 			<array>
 				<string>mangoreader-app-icon-72X72-7.png</string>
 				<string>mangoreader-app-icon-144X144.png</string>
+				<string>mangoreader-app-icon-114X114.png</string>
+				<string>mangoreader-app-icon-57X57.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -37,7 +55,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -54,7 +72,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
@@ -65,15 +83,17 @@
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>

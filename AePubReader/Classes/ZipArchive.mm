@@ -56,6 +56,10 @@
 
 -(BOOL) addFileToZip:(NSString*) file newname:(NSString*) newname;
 {
+  //  NSURL *Url=[NSURL URLWithString:file];
+    if([[NSFileManager defaultManager] fileExistsAtPath:file]){
+        NSLog(@"file %@",file);
+    }
 	if( !_zipFile )
 		return NO;
 //	tm_zip filetime;
@@ -136,6 +140,7 @@
 	ret = zipCloseFileInZip( _zipFile );
 	if( ret!=Z_OK )
 		return NO;
+    
 	return YES;
 }
 

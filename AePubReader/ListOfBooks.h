@@ -12,5 +12,5 @@
 -(id)initWithViewController:(StoreViewController *)store;
 @property(assign,nonatomic)StoreViewController *store;
 @property(retain,nonatomic)NSMutableData *dataMutable;
-
+@property(assign,nonatomic)BOOL shouldBuild;
 @end

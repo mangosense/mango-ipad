@@ -48,6 +48,8 @@
         NSLog(@"auth_token after invalid %@",temp);
         [[NSUserDefaults standardUserDefaults] setObject:temp forKey:@"auth_token"];
         //login is successful
+        diction=diction[@"user"];
+        [[NSUserDefaults standardUserDefaults]setObject:diction[@"id"] forKey:@"id"];
         [_storeController requestBooksFromServer];
       
          //  [_storeController.alert dismissWithClickedButtonIndex:0 animated:YES];

@@ -2,7 +2,7 @@
 //  Book.m
 //  MangoReader
 //
-//  Created by Nikhil Dhavale on 23/10/12.
+//  Created by Nikhil Dhavale on 26/12/12.
 //
 //
 
@@ -14,6 +14,7 @@
 @dynamic date;
 @dynamic desc;
 @dynamic downloaded;
+@dynamic downloadedDate;
 @dynamic id;
 @dynamic imageUrl;
 @dynamic link;
@@ -22,6 +23,6 @@
 @dynamic size;
 @dynamic sourceFileUrl;
 @dynamic title;
-@dynamic downloadedDate;
+@dynamic textBook;
 
 @end

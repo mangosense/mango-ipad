@@ -13,11 +13,12 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MFMessageComposeViewController.h>
+#import <StoreKit/StoreKit.h>
 @protocol StoreControllerDelegate<NSObject>
 -(void)DownloadComplete:(Book *)book;
 
 @end
-@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
+@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,SKPaymentTransactionObserver>{
    
 }
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -29,6 +30,7 @@
 @property(assign,nonatomic)NSInteger ymax;
 @property(retain,nonatomic) UIAlertView *alert;
 @property(retain,nonatomic)NSURLConnection *connection;
+-(void)requestBooksFromServerinit;
 //@property(retain,nonatomic)NSMutableData *mutableData;
 //@property(assign,nonatomic) AePubReaderAppDelegate *delegateApp;
 @property(retain,nonatomic)NSArray *listOfBooks;

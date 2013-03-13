@@ -21,6 +21,21 @@
     }
     return self;
 }
+-(void)dealloc{
+    /*
+     @property(nonatomic,retain) NSMutableData *data;
+     @property(nonatomic,retain)NSString *loc;
+     @property(nonatomic,retain)NSFileHandle *handle;
+     @property(nonatomic,retain)UIProgressView *progress;
+     @property(nonatomic,retain)Book *book;
+     */
+    _data=nil;
+    _loc=nil;
+    _handle=nil;
+    _progress=nil;
+    _book=nil;
+    [super dealloc];
+}
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     //[error autorelease];
@@ -61,13 +76,13 @@
     if (_data.length>BYTE) {
         somethinRemains=NO;
               
-        if(_sizeLenght>_value){
-            NSError *error=[[NSError alloc]initWithDomain:@"Download file corrupt" code:400 userInfo:nil];
-            [connection cancel];
-            [self connection:connection didFailWithError:error];
-            [error release];
-            return;
-        }
+//        if(_sizeLenght>_value){
+//            NSError *error=[[NSError alloc]initWithDomain:@"Download file corrupt" code:400 userInfo:nil];
+//            [connection cancel];
+//            [self connection:connection didFailWithError:error];
+//            [error release];
+//            return;
+//        }
         if (!_handle) {
             
             _handle=[NSFileHandle fileHandleForUpdatingAtPath:_loc];
@@ -111,8 +126,9 @@
     [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
     [_progress setAlpha:0.0];
+    _libViewController.showDeleteButton=NO;
     [_libViewController.tabBarController setSelectedIndex:0];
-
+    [url release];
     
 [_progress removeFromSuperview];
     [_loc release];

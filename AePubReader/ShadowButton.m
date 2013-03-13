@@ -44,7 +44,8 @@
        
         [activity release];
         [pop presentPopoverFromRect:self.frame inView:self.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-     
+       // [pop release];
+        // you dont release pop
         return;
     }
 

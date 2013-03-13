@@ -17,9 +17,10 @@
 @property(nonatomic,retain) NSMutableData *data;
 @property(nonatomic,retain)NSString *loc;
 @property(nonatomic,retain)NSFileHandle *handle;
-@property(nonatomic,assign)float value;
 @property(nonatomic,retain)UIProgressView *progress;
 @property(nonatomic,retain)Book *book;
+@property(nonatomic,assign)float value;
+
 @property(nonatomic,assign)long sizeLenght;
 -(void)defunct:(id)sender;
 @end
