@@ -22,7 +22,7 @@
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+  //  [alertView release];
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -35,24 +35,31 @@
     NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_mutableData options:NSJSONReadingAllowFragments error:nil];
     NSString *value=[[NSString alloc]initWithData:_mutableData encoding:NSUTF8StringEncoding];
     NSLog(@"data mutable %@",value );
-    [value autorelease];
+ //   [value autorelease];
     value= [dictionary objectForKey:@"message"];
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
     if ([value isEqualToString:@"purchase successful!"]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         // [alertViewDelegate autorelease];
         [alertView show];
-        [alertView release];
-
+     //   [alertView release];
         
-    }else{
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        
+    }else if([value isEqualToString:@"Already Purchased"]){
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already Purchased" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+        // [alertViewDelegate autorelease];
         [alertView show];
-        [alertView release];
+    }
+    
+        else
+    {
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Could not register to user id" message:@"Do you want to download it now?" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+ //       [alertView release];
     }
 }
--(void)dealloc{
+/*-(void)dealloc{
     _mutableData=nil;
     [super dealloc];
-}
+}*/
 @end

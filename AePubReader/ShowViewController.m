@@ -52,7 +52,7 @@
     }
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        [cell autorelease];
+       // [cell autorelease];
     }
     cell.textLabel.text=[_array objectAtIndex:indexPath.row];
     cell.textLabel.textAlignment=NSTextAlignmentCenter;
@@ -77,7 +77,7 @@
     record=[record stringByAppendingPathComponent:[_array objectAtIndex:indexPath.row]];
     DetailsViewController *details=[[DetailsViewController alloc]initWithNibName:@"DetailsViewController" bundle:nil title:[_array objectAtIndex:indexPath.row] value:record];
     [self.navigationController pushViewController:details animated:YES];
-    [details release];
+  //  [details release];
 }
 
 -(void)PlayOrPause:(id)sender{
@@ -97,12 +97,12 @@
         if (_player) {
             
             [_player stop];
-            _player =nil;
+            //_player =nil;
             if (_button) {
                 UIImage *image=[UIImage imageNamed:@"play-control.png"];
                 [_button setImage:image forState:UIControlStateNormal];
                 _button=button;
-                [_button retain];
+                //[_button retain];
             }
         }
         _player=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:record] error:nil];
@@ -113,7 +113,7 @@
         UIImage *image=[UIImage imageNamed:@"play-control.png"];
         [button setImage:image forState:UIControlStateNormal];
         [_player stop];
-        _player=nil;
+       // _player=nil;
       button.titleLabel.text=@"p";
     }
 }
@@ -121,9 +121,9 @@
     if (flag) {
           UIImage *image=[UIImage imageNamed:@"play-control.png"];
         [_button setImage:image forState:UIControlStateNormal];
-        [_player release];
-        [_button release];
-        _player=nil;
+      //  [_player release];
+      //  [_button release];
+      //  _player=nil;
     }
     
 }
@@ -162,11 +162,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
       [_array release];
     [_tableView release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setTableView:nil];
     [super viewDidUnload];

@@ -21,7 +21,7 @@
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alert addSubview:indicator];
-    [indicator release];
+    //[indicator release];
     [_alert setTitle:@"Loading...."];
     [_alert show];
     [_mutableData setLength:0];
@@ -32,7 +32,7 @@
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [_storeController.parentViewController.tabBarController setSelectedIndex:0];
     [alertView show];
-    [alertView release];
+  //  [alertView release];
 
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -59,14 +59,14 @@
     [_storeController.alert dismissWithClickedButtonIndex:0 animated:YES];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+   // [alertView release];
  [_storeController.parentViewController.navigationController popToRootViewControllerAnimated:YES];
     
     
 }
--(void)dealloc{
+/*-(void)dealloc{
     [_alert release];
     [super dealloc];
-}
+}*/
 
 @end

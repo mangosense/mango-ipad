@@ -38,16 +38,16 @@
 		AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3F981A16D637C70052C85C /* CoreFoundation.framework */; };
 		AE43C70F1610548900970739 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C70E1610548900970739 /* libxml2.dylib */; };
 		AE43C712161054B900970739 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C711161054B900970739 /* CFNetwork.framework */; };
-		AE43C72A161055E100970739 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C729161055B500970739 /* ASIWebPageRequest.m */; };
-		AE43C72B161055E100970739 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C715161055A500970739 /* ASIAuthenticationDialog.m */; };
-		AE43C72C161055E100970739 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C718161055A500970739 /* ASIDataCompressor.m */; };
-		AE43C72D161055E100970739 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C71A161055A500970739 /* ASIDataDecompressor.m */; };
-		AE43C72E161055E100970739 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C71C161055A500970739 /* ASIDownloadCache.m */; };
-		AE43C72F161055E100970739 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C71E161055A500970739 /* ASIFormDataRequest.m */; };
-		AE43C730161055E100970739 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C720161055A500970739 /* ASIHTTPRequest.m */; };
-		AE43C731161055E100970739 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C724161055A500970739 /* ASIInputStream.m */; };
-		AE43C732161055E100970739 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C726161055A500970739 /* ASINetworkQueue.m */; };
-		AE43C738161056DD00970739 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C737161056DD00970739 /* Reachability.m */; };
+		AE43C72A161055E100970739 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C729161055B500970739 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C72B161055E100970739 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C715161055A500970739 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C72C161055E100970739 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C718161055A500970739 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C72D161055E100970739 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C71A161055A500970739 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C72E161055E100970739 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C71C161055A500970739 /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C72F161055E100970739 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C71E161055A500970739 /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C730161055E100970739 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C720161055A500970739 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C731161055E100970739 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C724161055A500970739 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C732161055E100970739 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C726161055A500970739 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AE43C738161056DD00970739 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AE43C737161056DD00970739 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AE43C73A1610578900970739 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C7391610578900970739 /* SystemConfiguration.framework */; };
 		AE43C742161057CB00970739 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C741161057CB00970739 /* MobileCoreServices.framework */; };
 		AE43C744161057DA00970739 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE43C743161057DA00970739 /* Security.framework */; };
@@ -101,7 +101,7 @@
 		AE75375216103B6900761697 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75375016103B6900761697 /* LibraryViewController.m */; };
 		AE75375316103B6900761697 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75375116103B6900761697 /* LibraryViewController.xib */; };
 		AE7FEDD8161580DF00C4B51D /* EpubReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */; };
-		AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDA1615810900C4B51D /* XMLHandler.m */; };
+		AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDA1615810900C4B51D /* XMLHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDC1615813900C4B51D /* EpubContentR.m */; };
 		AE7FEDE0161581EC00C4B51D /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEDDF161581EB00C4B51D /* View.xib */; };
 		AE7FEDE21615A16100C4B51D /* book-shelf.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEDE11615A16100C4B51D /* book-shelf.png */; };
@@ -210,11 +210,11 @@
 		AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */ = {isa = PBXBuildFile; fileRef = AEEBA8D916354E160023AE51 /* mangoreader-app-icon-72X72-7.png */; };
 		AEEBA8DC16354F800023AE51 /* mangoreader-app-icon-144X144.png in Resources */ = {isa = PBXBuildFile; fileRef = AEEBA8DB16354F800023AE51 /* mangoreader-app-icon-144X144.png */; };
 		AEEC650C16A548D5008530D7 /* UIWebView+SearchWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC650B16A548D5008530D7 /* UIWebView+SearchWebView.m */; };
-		AEEC651316A55050008530D7 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651016A55050008530D7 /* GTMNSString+HTML.m */; };
-		AEEC651416A55050008530D7 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651216A55050008530D7 /* NSString+HTML.m */; };
+		AEEC651316A55050008530D7 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651016A55050008530D7 /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AEEC651416A55050008530D7 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651216A55050008530D7 /* NSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AEEC651816A554AD008530D7 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651716A554AD008530D7 /* Chapter.m */; };
 		AEEC651B16A55A4F008530D7 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651A16A55A4F008530D7 /* SearchResult.m */; };
-		AEEC651E16A56E56008530D7 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651D16A56E56008530D7 /* SearchResultsViewController.m */; };
+		AEEC651E16A56E56008530D7 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEC651D16A56E56008530D7 /* SearchResultsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AEEF8472166C90FB0098BAA2 /* LoginViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEF8470166C90FB0098BAA2 /* LoginViewControllerIphone.m */; };
 		AEEF8473166C90FB0098BAA2 /* LoginViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AEEF8471166C90FB0098BAA2 /* LoginViewControllerIphone.xib */; };
 		AEF6A154169596CE00ECAE7E /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6A152169596CE00ECAE7E /* WebPageViewController.m */; };
@@ -241,24 +241,24 @@
 		FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4C1372CA9200FBD25F /* slider_ball.png */; };
 		FA881E501372CA9200FBD25F /* yellowslide.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4D1372CA9200FBD25F /* yellowslide.png */; };
 		FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA881E581372E96000FBD25F /* SearchResultsViewController.xib */; };
-		FAF4584C134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */; };
-		FAF4584D134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45833134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m */; };
-		FAF4584E134B18F400D4C0F9 /* CXHTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45835134B18F400D4C0F9 /* CXHTMLDocument.m */; };
-		FAF4584F134B18F400D4C0F9 /* CXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45837134B18F400D4C0F9 /* CXMLDocument.m */; };
+		FAF4584C134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAF4584D134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45833134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAF4584E134B18F400D4C0F9 /* CXHTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45835134B18F400D4C0F9 /* CXHTMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAF4584F134B18F400D4C0F9 /* CXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45837134B18F400D4C0F9 /* CXMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FAF45850134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45839134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m */; };
-		FAF45851134B18F400D4C0F9 /* CXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583B134B18F400D4C0F9 /* CXMLElement.m */; };
-		FAF45852134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583D134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m */; };
+		FAF45851134B18F400D4C0F9 /* CXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583B134B18F400D4C0F9 /* CXMLElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAF45852134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583D134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FAF45853134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583F134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m */; };
-		FAF45854134B18F400D4C0F9 /* CXMLNamespaceNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45841134B18F400D4C0F9 /* CXMLNamespaceNode.m */; };
-		FAF45855134B18F400D4C0F9 /* CXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45843134B18F400D4C0F9 /* CXMLNode.m */; };
-		FAF45856134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45845134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m */; };
+		FAF45854134B18F400D4C0F9 /* CXMLNamespaceNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45841134B18F400D4C0F9 /* CXMLNamespaceNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAF45855134B18F400D4C0F9 /* CXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45843134B18F400D4C0F9 /* CXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAF45856134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45845134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FAF45857134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45847134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m */; };
 		FAF45858134B18F400D4C0F9 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4584A134B18F400D4C0F9 /* CTidy.m */; };
 		FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8E9E134A06D6000291E2 /* ioapi.c */; };
 		FAFA8EA8134A06D6000291E2 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA0134A06D6000291E2 /* mztools.c */; };
 		FAFA8EA9134A06D6000291E2 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA2134A06D6000291E2 /* unzip.c */; };
 		FAFA8EAA134A06D6000291E2 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA4134A06D6000291E2 /* zip.c */; };
-		FAFA8EAB134A06D6000291E2 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA6134A06D6000291E2 /* ZipArchive.mm */; };
+		FAFA8EAB134A06D6000291E2 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA6134A06D6000291E2 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -972,8 +972,8 @@
 				AE7FEDDD1615813900C4B51D /* EpubContentR.h */,
 				AE7FEDD91615810900C4B51D /* XMLHandler.h */,
 				AE7FEDDA1615810900C4B51D /* XMLHandler.m */,
-				AE7FEDD6161580DF00C4B51D /* EpubReaderViewController.h */,
 				AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */,
+				AE7FEDD6161580DF00C4B51D /* EpubReaderViewController.h */,
 				AE7FEDDF161581EB00C4B51D /* View.xib */,
 				AEF6A151169596CE00ECAE7E /* WebPageViewController.h */,
 				AEF6A152169596CE00ECAE7E /* WebPageViewController.m */,
@@ -1722,6 +1722,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -1743,6 +1744,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				GCC_C_LANGUAGE_STANDARD = c99;

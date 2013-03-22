@@ -42,7 +42,7 @@
       [self.tabBarController setSelectedIndex:0];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSArray *temp=[delegate.dataModel getDataDownloaded];
-    [_array release];
+   // [_array release];
     _array=[[NSMutableArray alloc]initWithArray:temp];
     [self.tableView reloadData];
     BookDownloaderIphone *bookDownload=[[BookDownloaderIphone alloc]initWithViewController:self];
@@ -50,7 +50,7 @@
     NSString *string=[[NSString alloc]initWithFormat:@"%d",index ];
     Book *book=[delegate.dataModel getBookOfId:string];
     bookDownload.book=book;
-    [string release];
+   // [string release];
      string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *lastComp=[NSString stringWithFormat:@"%@.epub",book.id];
     string=[string stringByAppendingPathComponent:lastComp];
@@ -65,7 +65,7 @@
     NSURL *urlFile=[NSURL fileURLWithPath:string];
     [urlFile setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
     bookDownload.handle=[NSFileHandle fileHandleForUpdatingAtPath:string];
-    [bookDownload.handle retain];
+  //  [bookDownload.handle retain];
     bookDownload.progress=_progress;
     bookDownload.value=[book.size floatValue];
     NSString *stirngValue=book.sourceFileUrl;
@@ -73,9 +73,10 @@
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
     
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:bookDownload];
-    [request release];
+    [connection start];
+ /*   [request release];
     [bookDownload release];
-    [connection autorelease];
+    [connection autorelease];*/
     
 }
 - (void)viewDidLoad
@@ -85,7 +86,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
     self.navigationItem.titleView=imageView;
-    [imageView release];
+  //  [imageView release];
 //[self.navigationController.navigationBar setHidden:YES];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -98,15 +99,19 @@
     if (_bookOpen) {
        _bookOpen=NO;  
     
-   
+        
+        AePubReaderAppDelegate  *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+
     [self.tabBarController.tabBar setHidden:NO];
     [self.navigationController.navigationBar setHidden:NO];
     UIViewController *c=[[UIViewController alloc]init];
 
     [self presentViewController:c animated:NO completion:^(void){
-        [self dismissViewControllerAnimated:NO completion:nil];
+        [self dismissViewControllerAnimated:NO completion:^(void){
+            delegate.LandscapeOrientation=YES;
+            delegate.PortraitOrientation=YES;}];
     }];
-        [c release];
+     //   [c release];
        
         }
 }
@@ -149,7 +154,7 @@
    
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        [cell autorelease];
+       // [cell autorelease];
     }
     if (indexPath.row==0&&_downloadBook) {
       
@@ -158,7 +163,7 @@
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     Book *book=[_array objectAtIndex:indexPath.row];
-    cell.imageView.image=[[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile]autorelease];
+    cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile];
     cell.textLabel.text=book.title;
 //    float size=[book.size floatValue];
    
@@ -193,7 +198,7 @@
         if (_downloadBook) {
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"This book is being downloaded. It can be deleted only after downloading is complete." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-            [alertView release];
+         //   [alertView release];
             return;
         }
            Book *book=[_array objectAtIndex:indexPath.row];
@@ -201,7 +206,7 @@
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Delete Book" message:alertViewMessage delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         alertView.tag=300;
         [alertView show];
-        [alertView release];
+        //[alertView release];
         
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -243,7 +248,7 @@
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-    [indicator release];
+   //[indicator release];
     [_alertView setTitle:@"Loading...."];
     [_alertView setDelegate:self];
 //    UIImage *image=[UIImage imageNamed:@"loading.png"];
@@ -303,14 +308,15 @@
          self.tabBarController.hidesBottomBarWhenPushed=YES;
          reader.hidesBottomBarWhenPushed=YES;
          [self.navigationController pushViewController:reader animated:YES];
-         [reader release];
+       //  [reader release];
          _bookOpen=YES;
      }
+    EpubReaderViewController *reader;
     switch (bk.textBook.integerValue) {
         case 1://storyBooks
             delegate.LandscapeOrientation=YES;
             delegate.PortraitOrientation=NO;
-            EpubReaderViewController *reader=[[EpubReaderViewController alloc]initWithNibName:@"EpubReaderViewController" bundle:nil];
+            reader=[[EpubReaderViewController alloc]initWithNibName:@"EpubReaderViewController" bundle:nil];
             reader._strFileName=value;
             reader.url=bk.link;
             reader.imageLocation=bk.localPathImageFile;
@@ -319,7 +325,7 @@
             reader.hidesBottomBarWhenPushed=YES;
             _bookOpen=YES;
             [self.navigationController pushViewController:reader animated:YES];
-            [reader release];
+        //    [reader release];
             break;
         case 2://textbooks
             delegate.LandscapeOrientation=NO;
@@ -331,7 +337,7 @@
             NSLog(@"Path value: %@",value);
             viewController=[[ViewController alloc]initWithNibName:@"ViewControllerIphone" bundle:nil WithString:value];
             [self.navigationController pushViewController:viewController animated:YES];
-            [viewController release];
+        //    [viewController release];
 
             break;
     }
@@ -358,8 +364,8 @@
         
     }
 }
--(void)dealloc{
+/*-(void)dealloc{
     _progress=nil;
     [super dealloc];
-}
+}*/
 @end

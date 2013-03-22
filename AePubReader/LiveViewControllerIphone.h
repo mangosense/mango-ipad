@@ -16,8 +16,10 @@
 @property(nonatomic,retain)NSMutableData *data;
 @property(nonatomic,retain)NSMutableArray *array;
 @property(nonatomic,retain)UIAlertView *alertView;
--(void)requestBooksFromServer:(NSInteger )pageNumber;
+-(void)requestBooksFromServer;
 @property(retain,nonatomic)NSDecimalNumber *price;
 @property(assign,nonatomic)NSInteger identity;
 @property(assign,nonatomic)MyBooksViewController *myBooks;
+@property(assign,nonatomic)NSInteger pageNumber;
+@property(strong,nonatomic)NSError *error;
 @end

@@ -36,9 +36,9 @@
     [NSFileHandle fileHandleForWritingAtPath:_localImageLocation];
     
 }
--(void)dealloc{
+/*-(void)dealloc{
     _dataMutable=nil;
     _localImageLocation=nil;
     [super dealloc];
-}
+}*/
 @end

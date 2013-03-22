@@ -32,8 +32,6 @@
         
          [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
-   // [userDefaults setObject:@"http://staging.mangoreader.com/api/v1/" forKey:@"baseurl"];
-  //     NSNumber *vayuTheWind=[[NSNumber alloc]initWithInt:445];
     NSFileManager *fileManager=[NSFileManager defaultManager];
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *destPath;/*=@"780.jpg";*/
@@ -45,19 +43,6 @@
     NSString *recording=[string stringByAppendingPathComponent:@"recording"];
     [userDefaults setObject:recording forKey:@"recordingDirectory"];
     
-//if (![fileManager fileExistsAtPath:recording]) {
-//[fileManager createDirectoryAtPath:recording withIntermediateDirectories:YES attributes:nil error:nil];
-//}
-//    if (![fileManager fileExistsAtPath:destPath]) {
-//        [fileManager copyItemAtPath:srcPath toPath:destPath error:&error];
-//        if (error) {
-//            NSLog(@"error %@",[error description]);
-//        }else{
-//            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-//            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-//            [url release];
-//        }
-//    }
     NSNumber *moonCapId;
 
 
@@ -73,7 +58,7 @@
         }else{
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
             [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-            [url release];
+           // [url release];
         }
     }
     moonCapId=[[NSNumber alloc]initWithInt:49];
@@ -98,7 +83,7 @@
         }
         
     }
-    [moonCapId release];
+   // [moonCapId release];
     destPath=@"49.epub";
     insPath = @"49.epub";
     srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
@@ -151,7 +136,7 @@
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
             //NSURLIsExcludedFromBackupKey
             [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-            [url release];
+           // [url release];
         }
     }
       NSNumber *vayuTheWind=[[NSNumber alloc]initWithInt:445];
@@ -177,22 +162,22 @@
         
     }
     
-    [vayuTheWind release];
+   // [vayuTheWind release];
 
     
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
         LoginViewControllerIphone *loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:loginViewControllerIphone];
-        [loginViewControllerIphone release];
+      
         self.window.rootViewController = nav;
-        [nav release];
+        //[nav release];
         [self.window makeKeyAndVisible];
     }else{
         _loginViewController=[[LoginViewController alloc]init];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
-        [_loginViewController release];
+   
         self.window.rootViewController = nav;
-        [nav release];
+ 
         [self.window makeKeyAndVisible];
     }
     [self addSkipBackupAttribute];
@@ -228,7 +213,7 @@
             case SKPaymentTransactionStateFailed:
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
-                [alertFailed release];
+              //  [alertFailed release];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStatePurchased:
@@ -239,7 +224,7 @@
                 number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
                 books= [_dataModel getBookById:number];
                 [_dataModel insertBookWithNo:books];
-                [number release];
+               // [number release];
                 
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
            //     restored=YES;
@@ -372,7 +357,7 @@
     }
     
     // Delete the reference to non-existing store
-    [persistentStoreCoordinator release];
+   // [persistentStoreCoordinator release];
     persistentStoreCoordinator = nil;
     
     NSPersistentStoreCoordinator *r = [self persistentStoreCoordinator];
@@ -383,14 +368,14 @@
 - (NSString *)applicationDocumentsDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
-- (void)dealloc {
+/*- (void)dealloc {
   //  _loginViewController=nil;
 
     
     [window release];
     
     [super dealloc];
-}
+}*/
 
 
 @end

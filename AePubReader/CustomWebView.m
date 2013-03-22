@@ -44,8 +44,8 @@
     UIMenuItem *itemNotes=[[UIMenuItem alloc]initWithTitle:@"Notes" action:@selector(notes:)];
     NSArray *array=@[itemHightlight,itemNotes];
     menuController.menuItems=array;
-    [itemHightlight release];
-    [itemNotes release];
+   // [itemHightlight release];
+   // [itemNotes release];
     [menuController setMenuVisible:YES];
 }
 -(void)highlight:(id)sender{

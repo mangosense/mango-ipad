@@ -31,45 +31,58 @@
       NSArray *array=  [delegate.dataModel getForPage:1];
 
             _array=[[NSMutableArray alloc]initWithArray:array];
-   
+        _pageNumber=1;
     }
     return self;
 }
--(void)requestBooksFromServer:(NSInteger )pageNumber{
+-(void)requestBooksFromServer{
     [_downloadViewController refreshButton:nil];
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
-    NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],pageNumber];
+    NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_pageNumber];
     NSLog(@"URL %@",stringUrl);
     //stringUrl=@"http://192.168.2.29:3000/api/v1/page/1/books.json";
     NSURL *url=[[NSURL alloc]initWithString:stringUrl];
-    [stringUrl release];
+  //  [stringUrl release];
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-    [connection autorelease];
-    _data=[[NSMutableData alloc]init];
-    _alertView =[[UIAlertView alloc]init];
-    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-    [indicator startAnimating];
-    [_alertView addSubview:indicator];
-    [indicator release];
-    [_alertView setTitle:@"Loading...."];
-    [_alertView setDelegate:self];
-    [_alertView show];
-    [url release];
-    [request release];
+   // NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
+   // [connection autorelease];
+    NSURLResponse *response;
+    NSError *error;
+    [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
+   NSData *data= [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 
+    if (error) {
+        _error=error;
+    }else{
+        _data=[[NSMutableData alloc]initWithData:data];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        [delegate.dataModel insertStoreBooks:_data withPageNumber:1];
+        NSArray *array=  [delegate.dataModel getForPage:1];
+        _array=[[NSMutableArray alloc]initWithArray:array];
+        [self.tableView reloadData];
+    }
+    [self performSelectorOnMainThread:@selector(hideActivityIndicator) withObject:nil waitUntilDone:NO];
+}
+-(void)showActivityIndicator{
+    UIApplication *app=[UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible=YES;
     
 }
-
+-(void)hideActivityIndicator{
+    UIApplication *app=[UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible=NO;
+    if (_error) {
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
+}
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    
-    [alert show];
-    [alert release];
+
+
+ //   [alert release];
 
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -81,13 +94,13 @@
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",lengthTotal);
-    [lengthTotal release];
+ //   [lengthTotal release];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
    [delegate.dataModel insertStoreBooks:_data withPageNumber:1];
     NSArray *array=  [delegate.dataModel getForPage:1];
 
         _array=[[NSMutableArray alloc]initWithArray:array];
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+
     [self.tableView reloadData];
     
 //       _pages=_totalNumberOfBooks/20;
@@ -118,7 +131,7 @@
             case SKPaymentTransactionStateFailed:
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
-                [alertFailed release];
+            //    [alertFailed release];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
                 break;
@@ -139,7 +152,7 @@
                     
                     valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
                     NSLog(@"value json request %@",valueJson);
-                    [valueJson release];
+                   // [valueJson release];
                     [request setHTTPMethod:@"POST"];
                     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                     [request setHTTPBody:jsonData];
@@ -152,10 +165,11 @@
                     [request setURL:[NSURL URLWithString:urlString]];
                     recieptValidation.signIn=YES;
                     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
-                    [recieptValidation release];
-                    [connection autorelease];
-                    [request release];
-                    [dictionary release];
+                  //  [recieptValidation release];
+                    [connection start];
+                    //  [connection autorelease];
+                  //  [request release];
+                  //  [dictionary release];
                 }else{
                     request=[[NSMutableURLRequest alloc]init];
                     dictionary=[[NSMutableDictionary alloc]init];
@@ -168,7 +182,7 @@
                     
                     valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
                     NSLog(@"value json request %@",valueJson);
-                    [valueJson release];
+                   // [valueJson release];
                     [request setHTTPMethod:@"POST"];
                     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                     [request setHTTPBody:jsonData];
@@ -181,10 +195,11 @@
                     [request setURL:[NSURL URLWithString:urlString]];
                     recieptValidation.signIn=NO;
                     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
-                    [recieptValidation release];
-                    [connection autorelease];
-                    [request release];
-                    [dictionary release];
+                   // [recieptValidation release];
+                  //  [connection autorelease];
+                  //  [request release];
+                  //  [dictionary release];
+                    [connection start];
                 }
 
                 //after book is purchased
@@ -204,19 +219,15 @@
     UIBarButtonItem *rightRefresh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     rightRefresh.tintColor=[UIColor grayColor];
     self.navigationItem.rightBarButtonItem=rightRefresh;
-    [rightRefresh release];
+ //   [rightRefresh release];
         self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
     self.navigationItem.titleView=imageView;
-    [imageView release];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 -(void)refreshButton:(id)sender{
-    [self requestBooksFromServer:1];
+    [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
+
 }
 - (void)didReceiveMemoryWarning
 {
@@ -257,13 +268,13 @@
     }
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        [cell autorelease];
+     //   [cell autorelease];
     }
     
     // Configure the cell...
     StoreBooks *storeBooks=[_array objectAtIndex:indexPath.row];
-    [storeBooks retain];
-    cell.imageView.image=[[[UIImage alloc]initWithContentsOfFile:storeBooks.localImage]autorelease];
+  //  [storeBooks retain];
+    cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:storeBooks.localImage];
 //    cell.textLabel.numberOfLines=3;
 //    float size=[storeBooks.size floatValue];
 //    
@@ -275,7 +286,7 @@
 //    NSString *sizeString=[NSString stringWithFormat:@"File Size : %0.2f MB",size];
 //    NSString *text=[NSString stringWithFormat:@"%@\n%@",storeBooks.title,sizeString];
     cell.textLabel.text=storeBooks.title;
-    [storeBooks release];
+ //   [storeBooks release];
     return cell;
 }
 
@@ -331,7 +342,7 @@
     if ([delegate.dataModel checkIfIdExists:iden]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Book purchased" message:@"You have already purchased the book" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+      //  [alertView release];
         return;
     }
       delegate.PortraitOrientation=NO;
@@ -341,7 +352,7 @@
    // detailStore.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:detailStore animated:YES completion:nil];
    // [self.navigationController pushViewController:detailStore animated:YES];
-    [detailStore release];
+  //  [detailStore release];
     //[self.tabBarController.tabBar setHidden:YES];
 
     /*
@@ -372,7 +383,7 @@
         if (_myBooks.downloadBook) {
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
-            [down release];
+        //    [down release];
             [delegate.dataModel insertBookWithNo:books ];
         }else{
             [delegate.dataModel insertBookWithYes:books];
@@ -384,16 +395,14 @@
             UINavigationController *nav=self.tabBarController.viewControllers[1];
         DownloadViewController *download=(DownloadViewController *)nav.topViewController;
         [delegate.dataModel insertBookWithNo:books ];
-        [download getPurchasedDataFromDataBase];
-        
-        
+        [download getPurchasedDataFromDataBase];     
     }
-    [identity release];
+  //  [identity release];
 }
--(void)dealloc{
+/*-(void)dealloc{
     _array=nil;
     _data=nil;
     _price=nil;
     [super dealloc];
-}
+}*/
 @end

@@ -60,7 +60,7 @@
         [self presentViewController:c animated:YES completion:^(){
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-        [c release];
+     //   [c release];
     }
     
 }
@@ -71,7 +71,7 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
 
-    UITabBarController *tabBarController=[[[UITabBarController alloc]init]autorelease];
+    UITabBarController *tabBarController=[[UITabBarController alloc]init];
     LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
     StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
     store.delegate=library;
@@ -81,13 +81,13 @@
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
     liveViewController.storeViewController=store;
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:liveViewController];
-    [liveViewController release];
-    [library release];
+ //   [liveViewController release];
+ //   [library release];
     tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
-    [navigationPurchase release];
-    [navigation release];
-    [store release];
-    [navigationStore release];
+ //   [navigationPurchase release];
+ //   [navigation release];
+ //   [store release];
+ //   [navigationStore release];
     [self.navigationController pushViewController:tabBarController animated:YES];
 }
 - (void)viewDidLoad
@@ -96,26 +96,13 @@
   
     
     [self.navigationController.navigationBar setHidden:YES];
-    // Do any additional setup after loading the view from its nib.
     _password.secureTextEntry=YES;
-//    [_signUp addTarget:self action:@selector(loadURL:) forControlEvents:UIControlEventTouchUpInside];
-//    [_ForgotPassword addTarget:self action:@selector(loadURL:) forControlEvents:UIControlEventTouchUpInside];
- 
-
    NSString *ver= [UIDevice currentDevice].systemVersion;
     if ([ver floatValue]<6.0) {
         [_facebookButton removeFromSuperview];
         [_orImage removeFromSuperview];
     }
-
- //   if ([userDefault objectForKey:@"email"]&&[userDefault objectForKey:@"password"]) {
-       
-
-       
-  //  }
     [self goToNext];
-
-
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -150,7 +137,7 @@
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+ //   [alertView release];
 
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -166,7 +153,7 @@
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
-    [str release];
+   // [str release];
     if (temp) {
         NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
         NSString *temp=diction[@"auth_token"];
@@ -177,27 +164,27 @@
         [userDefault setObject:temp forKey:@"auth_token"];
         [userDefault setObject:_userName.text forKey:@"email"];
         [userDefault setObject:_password.text forKey:@"password"];
-            UITabBarController *tabBarController=[[[UITabBarController alloc]init]autorelease];
+            UITabBarController *tabBarController=[[UITabBarController alloc]init];
             LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
             StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
             store.delegate=library;
             UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
         UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
          LiveViewController *liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-            [library release];
+        //    [library release];
         UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:liveViewController];
-        [liveViewController release];
+        //[liveViewController release];
             tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
-        [navigationStore release];
-        [navigationPurchase release];
-            [navigation release];
-            [store release];
+       // [navigationStore release];
+       // [navigationPurchase release];
+       //     [navigation release];
+       //     [store release];
             [self.navigationController pushViewController:tabBarController animated:YES];
            // [tabBarController release];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+       // [alertView release];
     }
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -209,10 +196,10 @@
    // loginURL=@"http://192.168.2.29:3000/api/v1/";
     loginURL=[loginURL stringByAppendingFormat:@"users/sign_in?user[email]=%@&user[password]=%@",_userName.text,_password.text];
     NSLog(@"login url %@",loginURL);
-    NSMutableURLRequest *request=[[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:loginURL]]autorelease];
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:loginURL]];
     [request setHTTPMethod:@"GET"];
     _connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-    [_connection autorelease];
+   // [_connection autorelease];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     _alertView =[[UIAlertView alloc]init];
@@ -230,17 +217,17 @@
     
     imageView.image=image;
     [_alertView addSubview:imageView];
-    [imageView release];
+  //  [imageView release];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-    [indicator release];
+  //  [indicator release];
     [_alertView show];
-    [_alertView release];
+   // [_alertView release];
 
 }
-- (void)dealloc {
+/*- (void)dealloc {
     [_userName release];
     [_password release];
     [_ForgotPassword release];
@@ -251,7 +238,7 @@
     [_facebookButton release];
     [_orImage release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setUserName:nil];
     [self setPassword:nil];
@@ -284,7 +271,7 @@
         [mail setMessageBody:@"http://www.mangoreader.com" isHTML:NO];
         mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
         [self presentModalViewController:mail animated:YES];
-        [mail release];
+       // [mail release];
     }
         
 }
@@ -312,7 +299,7 @@
 //    
   //  [imageView release];
     [alert show];
-    [alert release];
+  //  [alert release];
 }
 - (IBAction)forgotPassword:(id)sender {
     NSURL *url=nil;
@@ -321,7 +308,7 @@
     webView=[[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil URL:url];
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:webView animated:YES completion:nil ];
-    [webView release];
+   // [webView release];
 }
 
 - (IBAction)signUp:(id)sender {
@@ -336,7 +323,7 @@
     SignUpViewController *signUp=[[SignUpViewController alloc]initWithNibName:@"SignUpViewController" bundle:nil with:self];
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:signUp animated:YES completion:nil];
-    [signUp release];
+  //  [signUp release];
 }
 - (IBAction)showVideo:(id)sender {
      WebViewController *webView;
@@ -344,7 +331,7 @@
     webView =[[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil URL:url];
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:webView animated:YES completion:nil];
-    [webView release];
+   // [webView release];
     
 }
 -(void)facebookRequest{
@@ -357,7 +344,7 @@
     [dictionary setObject:[userDefaults objectForKey:@"FullName"] forKey:@"name"];
     
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *jsonValue=[[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]autorelease];
+    NSString *jsonValue=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"json String %@",jsonValue);
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
     connectionString =[connectionString stringByAppendingString:@"facebookapplogin.json"];
@@ -371,11 +358,11 @@
     
     FacebookLogin *facebook=[[FacebookLogin alloc]initWithloginViewController:self];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
-    [facebook release];
+ //   [facebook release];
     [connection start];
-    [request release];
-    [connection autorelease];
-    [dictionary release];
+   // [request release];
+   // [connection autorelease];
+   // [dictionary release];
 }
 - (IBAction)facebookLogin:(id)sender {
                 _alertView =[[UIAlertView alloc]init];
@@ -392,14 +379,14 @@
     
     imageView.image=image;
     [_alertView addSubview:imageView];
-    [imageView release];
+ //   [imageView release];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-    [indicator release];
+  //  [indicator release];
     [_alertView show];
-    [_alertView release];
+  //  [_alertView release];
     ACAccountStore *accountStore=[[ACAccountStore alloc]init];
     
     ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
@@ -436,7 +423,7 @@
 -(void)facebookError{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    [alert release];
+  //  [alert release];
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 - (IBAction)skipLogin:(id)sender {

@@ -24,7 +24,7 @@
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Problem with connection. Sync failed try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+  //  [alertView release];
     
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -45,17 +45,17 @@
       //  [_store requestBooksFromServer];
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Sync successful" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+      //  [alertView release];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Sync failed try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+      //  [alertView release];
         
     }
-    [valu release];
+    //[valu release];
 }
--(void)dealloc{
+/*-(void)dealloc{
     [_data release];
     [super dealloc];
-}
+}*/
 @end

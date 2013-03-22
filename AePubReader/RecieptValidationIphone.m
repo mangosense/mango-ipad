@@ -16,14 +16,14 @@
         _dataMutable=[[NSMutableData alloc]init];
         _live=live;
         _detail=detail;
-        [_transaction retain];
+      //  [_transaction retain];
     }
     return self;
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+    //[alertView release];
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -36,7 +36,7 @@
     NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSONReadingAllowFragments error:nil];
     NSString *value=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
     NSLog(@"data mutable %@",value );
-    [value autorelease];
+   // [value autorelease];
    
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
     if (!_signIn) {
@@ -46,7 +46,7 @@
             
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
             [alertView show];
-            [alertView release];
+          //  [alertView release];
             
             [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
             
@@ -55,7 +55,7 @@
             
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-            [alertView release];
+        //    [alertView release];
             [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
         }
 
@@ -67,13 +67,13 @@
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         // [alertViewDelegate autorelease];
         [alertView show];
-        [alertView release];
+     //   [alertView release];
         
         
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+    //    [alertView release];
         if (_detail.alertView) {
              [_detail.alertView dismissWithClickedButtonIndex:0 animated:YES];
            
@@ -87,8 +87,8 @@
     
 
 }
--(void)dealloc{
+/*-(void)dealloc{
     [_transaction release];
     [super dealloc];
-}
+}*/
 @end

@@ -31,6 +31,8 @@
 @property(retain,nonatomic)XMLHandler *xmlhandler;
 @property(retain,nonatomic) NSString *rootPath;
 @property(assign,nonatomic)UIInterfaceOrientation interfaceOrientation;
+@property(strong,nonatomic)UIPopoverController *popOverShare;
+@property(strong,nonatomic)UIPopoverController *popRecording;
 -(void)shareButtonClicked:(id)sender;
 - (void)showBookButton:(UIButton *)sender;
 -(void)AddShareButton:(id)sender;

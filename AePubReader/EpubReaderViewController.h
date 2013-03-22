@@ -18,7 +18,7 @@
 	
     IBOutlet UIWebView *_webview;
 	
-	XMLHandler *_xmlHandler;
+	
 	EpubContent *_ePubContent;
 	NSString *_pagesPath;
 	NSString *_rootPath;
@@ -28,7 +28,8 @@
 	int _pageNumber;
    
 }
-
+@property(strong,nonatomic) XMLHandler *xmlHandler;
+@property(strong,nonatomic)XMLHandler *anotherHandlerOPF;
 @property (retain, nonatomic) IBOutlet UIButton *recordAudioButton;
 -(void)playingEnded;
 - (IBAction)startRecording:(id)sender;

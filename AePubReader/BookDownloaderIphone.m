@@ -19,25 +19,25 @@
     return self;
 }
 -(void)setBook:(Book *)book{
-    _book=nil;
+    
     _book=book;
-    [_book retain];
+    //[_book retain];
 }
--(void)dealloc{
+/*-(void)dealloc{
     _data=nil;
     _loc=nil;
     _progress=nil;
     _book=nil;
     [_handle release];
     [super dealloc];
-}
+}*/
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     //[error autorelease];
     
-    [_handle release];
+ //   [_handle release];
     [alert show];
-    [alert release];
+  //  [alert release];
     [_progress removeFromSuperview];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     _book.downloaded=@NO;
@@ -103,7 +103,7 @@
     if (somethinRemains) {
         [_handle writeData:_data];
     }
-    [_handle release];
+   // [_handle release];
     NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
     float sizeLong=diction.fileSize;
     NSLog(@"total %f over %f",_value,sizeLong);
@@ -113,9 +113,9 @@
     _progress.progress=1.0;
     [_progress setAlpha:0.0];
     [_myBookViewController.tabBarController setSelectedIndex:0];
-    [url release];
+  //  [url release];
     [_progress removeFromSuperview];
-    [_loc release];
+  //  [_loc release];
     _myBookViewController.downloadBook=NO;
     [_myBookViewController.tableView reloadData];
 }

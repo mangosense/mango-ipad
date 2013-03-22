@@ -15,13 +15,14 @@
 
 - (id) initWithPath:(NSString*)theSpinePath chapterIndex:(int)theIndex andWith:(int)pageIndex{
     if((self=[super init])){
-        spinePath = [theSpinePath retain];
+        
+        spinePath = [[NSString alloc]initWithString:theSpinePath];
        // title = [theTitle retain];
         chapterIndex = theIndex;
         pageIndex=pageIndex;
 		NSString* html = [[NSString alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL fileURLWithPath:theSpinePath]] encoding:NSUTF8StringEncoding];
-		text = [[html stringByConvertingHTMLToPlainText] retain];
-		[html release];
+		text = [html stringByConvertingHTMLToPlainText];
+		//[html release];
     }
     return self;
 }
@@ -38,7 +39,7 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
 //    NSLog(@"%@", error);
-	[webView dealloc];
+	//webView=nil;
 }
 
 - (void) webViewDidFinishLoad:(UIWebView*)webView{
@@ -72,20 +73,20 @@
     
 	int totalWidth = [[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.scrollWidth"] intValue];
 	pageCount = (int)((float)totalWidth/webView.bounds.size.width);
-	
+//	webView=nil;
 //    NSLog(@"Chapter %d: %@ -> %d pages", chapterIndex, title, pageCount);
     
-    [webView dealloc];
+//    [webView dealloc];
   //  [delegate chapterDidFinishLoad:self];
     
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     //[title release];
 	[spinePath release];
 	[text release];
     [super dealloc];
-}
+}*/
 
 
 @end

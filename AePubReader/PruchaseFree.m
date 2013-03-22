@@ -26,24 +26,24 @@
     
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+  //  [alertView release];
     [_liveViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
     [_popPurchase dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [_mutableData appendData:data];
 }
--(void)dealloc{
+/*-(void)dealloc{
     _mutableData=nil;
     _downLoadLink=nil;
     [super dealloc];
    
-}
+}*/
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_mutableData options:NSJSONReadingAllowFragments error:nil];
     NSString *value=[[NSString alloc]initWithData:_mutableData encoding:NSUTF8StringEncoding];
     NSLog(@"data mutable %@",value );
-    [value autorelease];
+  //  [value autorelease];
     value= [dictionary objectForKey:@"message"];
     [_liveViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
     if ([value isEqualToString:@"purchase successful!"]) {
@@ -52,11 +52,15 @@
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
        // [alertViewDelegate autorelease];
         [alertView show];
-        [alertView release];
-    }else{
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+   
+    }else if([value isEqualToString:@"Already Purchased"]){
+
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already purchased" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+        // [alertViewDelegate autorelease];
         [alertView show];
-        [alertView release];
+    }else{
+  UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Warning" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+          [alertView show];
     }
     
     /*
@@ -92,12 +96,12 @@
         LibraryViewController *library=(LibraryViewController *)nav.topViewController;
         NSString *valu=[[NSString alloc]initWithFormat:@"%@.epub",identity ];
         Book *bookToDownload=[delegate.dataModel getBookOfId:valu];
-        [valu release];
+      //  [valu release];
         if (!library.addControlEvents) {
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
-            [down release];
-            [identity release];
+        //    [down release];
+        //    [identity release];
             return;
         }
 
@@ -108,7 +112,7 @@
  [storeViewController refreshButton:nil];
         
     }
-    [identity release];
+    //[identity release];
 //    if (buttonIndex==1) {
 //        
 //    }

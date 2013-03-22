@@ -29,7 +29,7 @@
         _url=[[NSURL alloc]initWithString:encodedString];
         _val=[[NSString alloc]initWithString:encodedString];
         _chapter=chapter;
-        [_chapter retain];
+     //   [_chapter retain];
         _query=nil;
     }
     return self;
@@ -90,14 +90,14 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         [_webView stringByEvaluatingJavaScriptFromString:format];
        
     }
-    [jsString autorelease];
+   // [jsString autorelease];
 //HighlightedStringOld
     filePath  = [[NSBundle mainBundle] pathForResource:@"HighlightedStringOld" ofType:@"js" inDirectory:@""];
     fileData    = [NSData dataWithContentsOfFile:filePath];
     jsString  = [[NSMutableString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
     //   NSLog(@"Val %@",jsString);
     //    //
-    [jsString autorelease];
+//    [jsString autorelease];
     [_webView stringByEvaluatingJavaScriptFromString:jsString];
 
 //    jsCode=@"function touchEnd(event){window.location = 'touchEnded'}";
@@ -257,7 +257,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     _simpleView.webview=_webView;
     [_webView loadRequest:request];
     _webView.scrollView.bounces=NO;
-    [request release];
+   // [request release];
         _webView.scrollView.scrollEnabled=NO;
     
     _hide=YES;
@@ -272,7 +272,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector( show: ) ];
   //  gr.delegate=self;
     [self.webView.scrollView addGestureRecognizer: gr];
-    [gr release];
+   // [gr release];
 //    UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(show:)];
 //    [self.webView addGestureRecognizer:pan];
 //    [pan release];
@@ -325,8 +325,8 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     
             NSArray *array=@[itemHightlight,itemNotes];
             menuController.menuItems=array;
-            [itemHightlight release];
-            [itemNotes release];
+           // [itemHightlight release];
+           // [itemNotes release];
         //    [removeHighlight release];
     //   [self becomeFirstResponder];
      }
@@ -389,8 +389,8 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     
     NSArray *array=@[itemHightlight,itemNotes];
     menuController.menuItems=array;
-    [itemHightlight release];
-    [itemNotes release];
+ //   [itemHightlight release];
+  //  [itemNotes release];
   //      [removeHighlight release];
         [menuController setTargetRect:  gest.accessibilityFrame inView:self.webView];
     [menuController setMenuVisible:YES];
@@ -413,7 +413,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     _url=nil;
     _val=nil;
     
@@ -432,7 +432,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     [_tocButton release];
     [_searchBar release];
     [super dealloc];
-}
+}*/
 -(BOOL)canBecomeFirstResponder{
     
     return YES;
@@ -507,12 +507,12 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         if (i==array.count) {
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Cannot" message:@"Cannot highlight more than one paragraph" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
-            [alert release];
-            [array release];
+          //  [alert release];
+          //  [array release];
             return;
             
         }
-        [array release];
+        //[array release];
     }
 
      
@@ -553,7 +553,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 }
                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                [array release];
+            //    [array release];
                 return;
             }
             //oldstart<-->currentstart------oldend-----currentend
@@ -575,16 +575,16 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 }
                 [self removeAllHighlight:nil];
                   [self selection:nil];
-                [array release];
+            //    [array release];
                 return;
             }
             //oldstart---currentstart---currentend---oldend
             else if(indexStart>currentstartOffset.intValue&&currentendIndex<indexEnd){
-                [array release];
+             //   [array release];
                 return;
             }
             else if(currentstartOffset.intValue==indexStart&&currentendIndex==indexEnd){
-                [array release];
+            //    [array release];
                 return;
             }//currentstart---oldstart-----oldend--currentend
             else if(currentstartOffset.intValue<indexStart&&currentendIndex>indexEnd){
@@ -598,19 +598,19 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 }
                 [self removeAllHighlight:nil];
                   [self selection:nil];
-                [array release];
+             //   [array release];
                 return;
             }
         }
         
         
     }
-    [array release];
+   // [array release];
     NSRange range=[surroundingText rangeOfString:selectedText];
     if (range.location==NSNotFound) {
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Cannot" message:@"Cannot highlight more than one paragraph" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        [alert release];
+     //   [alert release];
         return;
     }
 //    NSString *newSurroundingText=[[NSString alloc]initWithFormat:@"%@<span xmlns=\"http://www.w3.org/1999/xhtml\" class=\"uiWebviewHighlight\" style=\"background-color: yellow; color: black; \">%@</span>%@",before,selectedText,after ];
@@ -639,7 +639,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
       [self selection:nil];
 }
 -(void)sendNotes:(NSString *)string{
-    [string retain];
+   // [string retain];
 
 
     NSString *newSurrounding,*newCurrentOffset;
@@ -664,9 +664,9 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 
                 val=val|(newCurrentOffset.integerValue>endOldOffset);
                 if (!val) {
-                    [_currentstartOffsetNote release];
+                //    [_currentstartOffsetNote release];
                     _currentstartOffsetNote =[[NSString alloc ]initWithString:newCurrentOffset];
-                    [_surroundingTextNote release];
+                  //  [_surroundingTextNote release];
                     _surroundingTextNote=[[NSString alloc]initWithString:newSurrounding];
                     break;
                 }
@@ -678,18 +678,18 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         if (i==array.count) {
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Cannot" message:@"Cannot highlight more than one paragraph" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
-            [alert release];
-            [array release];
-            [_selectedStringNote release];
-            [_startContainerNote release];
-            [_endContainerNote release];
-            [_surroundingTextNote release];
-            [_currentstartOffsetNote release];
-            [string release];
+//            [alert release];
+//            [array release];
+//            [_selectedStringNote release];
+//            [_startContainerNote release];
+//            [_endContainerNote release];
+//            [_surroundingTextNote release];
+//            [_currentstartOffsetNote release];
+//            [string release];
             return;
             
         }
-        [array release];
+     //   [array release];
     }
     NSUInteger currentendIndex=_currentstartOffsetNote.integerValue+_selectedStringNote.length;
     
@@ -734,13 +734,13 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 }
                                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                [array release];
-                [_selectedStringNote release];
-                [_startContainerNote release];
-                [_endContainerNote release];
-                [_surroundingTextNote release];
-                [_currentstartOffsetNote release];
-                [string release];
+//                [array release];
+//                [_selectedStringNote release];
+//                [_startContainerNote release];
+//                [_endContainerNote release];
+//                [_surroundingTextNote release];
+//                [_currentstartOffsetNote release];
+//                [string release];
                 return;
             }
              //oldstart<-->currentstart------oldend-----currentend
@@ -772,13 +772,13 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 
                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                [array release];
-                [_selectedStringNote release];
-                [_startContainerNote release];
-                [_endContainerNote release];
-                [_surroundingTextNote release];
-                [_currentstartOffsetNote release];
-                [string release];
+//                [array release];
+//                [_selectedStringNote release];
+//                [_startContainerNote release];
+//                [_endContainerNote release];
+//                [_surroundingTextNote release];
+//                [_currentstartOffsetNote release];
+//                [string release];
                 return;
             }
             //oldstart---currentstart---currentend---oldend
@@ -798,13 +798,13 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                     }
                 }
 
-                [_selectedStringNote release];
-                [_startContainerNote release];
-                [_endContainerNote release];
-                [_surroundingTextNote release];
-                [_currentstartOffsetNote release];
-                [string release];
-                [array release];
+//                [_selectedStringNote release];
+//                [_startContainerNote release];
+//                [_endContainerNote release];
+//                [_surroundingTextNote release];
+//                [_currentstartOffsetNote release];
+//                [string release];
+//                [array release];
                 return;
             }
             else if(_currentstartOffsetNote.intValue==indexStart&&currentendIndex==indexEnd){
@@ -823,13 +823,13 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                     }
                 }
 
-                [_selectedStringNote release];
-                [_startContainerNote release];
-                [_endContainerNote release];
-                [_surroundingTextNote release];
-                [_currentstartOffsetNote release];
-                [string release];
-                [array release];
+//                [_selectedStringNote release];
+//                [_startContainerNote release];
+//                [_endContainerNote release];
+//                [_surroundingTextNote release];
+//                [_currentstartOffsetNote release];
+//                [string release];
+//                [array release];
                 return;
             }//currentstart---oldstart-----oldend--currentend
             else if(_currentstartOffsetNote.intValue<indexStart&&currentendIndex>indexEnd){
@@ -851,13 +851,13 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 }
                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                [_selectedStringNote release];
-                [_startContainerNote release];
-                [_endContainerNote release];
-                [_surroundingTextNote release];
-                [_currentstartOffsetNote release];
-                [string release];
-                [array release];
+//                [_selectedStringNote release];
+//                [_startContainerNote release];
+//                [_endContainerNote release];
+//                [_surroundingTextNote release];
+//                [_currentstartOffsetNote release];
+//                [string release];
+//                [array release];
                 return;
             }
         }
@@ -883,16 +883,16 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         NSLog(@"%@",error);
     }
     [self selection:nil];
-    [array release];
-    [_selectedStringNote release];
-    [_startContainerNote release];
-    [_endContainerNote release];
-    [_surroundingTextNote release];
-    [_currentstartOffsetNote release];
-    [string release];
+//    [array release];
+//    [_selectedStringNote release];
+//    [_startContainerNote release];
+//    [_endContainerNote release];
+//    [_surroundingTextNote release];
+//    [_currentstartOffsetNote release];
+//    [string release];
 }
 -(IBAction)notes:(id)sender{
-    UIPopoverController *pop;
+   
     TextViewViewController *textViewController;
     NSString *temp=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().toString()"];
     _selectedStringNote=[[NSString alloc]initWithString:temp];
@@ -909,7 +909,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         NSInteger bookId= [[NSUserDefaults standardUserDefaults]integerForKey:@"bookid"];
         NSArray *array= [delegate.dataModel getNoteOrHighlight:bookId withPageNo:_chapter.chapterIndex];
-        [array retain];
+      //  [array retain];
         int i;
         NoteHighlight *notes=nil;
         for (i=0;i<array.count;i++) {
@@ -920,7 +920,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 break;
             }
         }
-        [array release];
+//        [array release];
         
    
     _frame=CGRectMake(30, 70, 100, 100);
@@ -936,10 +936,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         }
    
      textViewController.delegate=self;
-    UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:textViewController];
-    [textViewController release];
-    [pop setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
-    [pop presentPopoverFromRect:_frame inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+   _pop=[[UIPopoverController alloc]initWithContentViewController:textViewController];
+ //   [textViewController release];
+    [_pop setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
+    [_pop presentPopoverFromRect:_frame inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         return;
     }
     if(!CGRectIsEmpty(_frame))
@@ -950,10 +950,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
        textViewController.delegate=self;
        textViewController.update=NO;
        
-    pop=[[UIPopoverController alloc]initWithContentViewController:textViewController];
-    [textViewController release];
-      [pop setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
-    [pop presentPopoverFromRect:_frame inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    _pop=[[UIPopoverController alloc]initWithContentViewController:textViewController];
+  //  [textViewController release];
+      [_pop setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
+    [_pop presentPopoverFromRect:_frame inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
    }    
     
 }
@@ -965,7 +965,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
         [indicator startAnimating];
         [_alertView addSubview:indicator];
-        [indicator release];
+//        [indicator release];
         [_alertView setTitle:@"Deleting...."];
         [_alertView show];
     }
@@ -1023,7 +1023,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
             NSString *newSurroundingText=[[NSString alloc]initWithFormat:@"%@<span xmlns=\"http://www.w3.org/1999/xhtml\" class=\"uiWebviewHighlight\" style=\"background-color: yellow; color: black; \">%@</span>%@",before,selectedText,after ];
             NSString *jsCode=[NSString stringWithFormat:@"document.body.innerHTML=document.body.innerHTML.replace('%@','%@')",surroundingText,newSurroundingText];
             [_webView stringByEvaluatingJavaScriptFromString:jsCode];
-            [newSurroundingText release];
+ //           [newSurroundingText release];
         }
     else{
         CGRect frame;
@@ -1033,7 +1033,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
             NSString *newSurroundingText=[[NSString alloc]initWithFormat:@"%@<span xmlns=\"http://www.w3.org/1999/xhtml\" class=\"uiWebviewHighlight\" style=\"background-color: red; color: black; \">%@</span>%@",before,selectedText,after ];
             NSString *jsCode=[NSString stringWithFormat:@"document.body.innerHTML=document.body.innerHTML.replace('%@','%@')",surroundingText,newSurroundingText];
             [_webView stringByEvaluatingJavaScriptFromString:jsCode];
-            [newSurroundingText release];
+ //           [newSurroundingText release];
             left=noteHighlight.left.integerValue;
             top=noteHighlight.top.doubleValue;
         }
@@ -1066,7 +1066,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         [button setImage:image forState:UIControlStateNormal];
         [self.view addSubview:button];
         [self.view bringSubviewToFront:button];
-        [button release];
+ //       [button release];
         
     }
     
@@ -1083,11 +1083,11 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     TextViewViewController *textViewController=[[TextViewViewController alloc]initWithNibName:@"TextViewViewController" bundle:nil With:notOrHiglight.note withUpdate:YES withInteger:button.tag];
     textViewController.delegate=self;
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:textViewController];
-    [textViewController release];
-    UIPopoverController *p=[[UIPopoverController alloc]initWithContentViewController:nav];
-    [nav release];
-        [p setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
-    [p presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+ //   [textViewController release];
+    _showNotes=[[UIPopoverController alloc]initWithContentViewController:nav];
+ //   [nav release];
+        [_showNotes setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
+    [_showNotes presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
     
 
@@ -1116,11 +1116,11 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     notesHighlight.delegate=controller;
     notesHighlight.delegateAction=self;
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:notesHighlight];
-    [notesHighlight release];
-    UIPopoverController *p=[[UIPopoverController alloc]initWithContentViewController:nav];
-    [nav release];
-    controller.pop=p;
-    [p presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+ //   [notesHighlight release];
+    _listNotesHighlight=[[UIPopoverController alloc]initWithContentViewController:nav];
+ //   [nav release];
+    controller.pop=_listNotesHighlight;
+    [_listNotesHighlight presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
     
     
@@ -1155,9 +1155,9 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     //    TableOfContentsViewController *contentViewController=[[TableOfContentsViewController alloc]initWithStyle:UITableViewStyleGrouped loca:controller.rootPath];
     ViewController *controller=(ViewController *)self.parentViewController.parentViewController;
     contentViewController.delegate=controller;
-        UIPopoverController *p=[[UIPopoverController alloc]initWithContentViewController:contentViewController];
-        [contentViewController release];
-        [p presentPopoverFromRect:_tocButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+       _tableOfContentsPop=[[UIPopoverController alloc]initWithContentViewController:contentViewController];
+ //       [contentViewController release];
+        [_tableOfContentsPop presentPopoverFromRect:_tocButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
     //    NSLog(@"rootPath %@",controller.rootPath);
 }

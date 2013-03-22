@@ -72,7 +72,7 @@
         cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
     if (cell==nil) {
-        cell=[[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] ;
         
     }
     EachCellOfTOC *toc=[_array objectAtIndex:indexPath.row];
@@ -129,8 +129,8 @@
     [_delegate loadPage:obj.file];
     
 }
--(void)dealloc{
+/*-(void)dealloc{
     [_array release];
     [super dealloc];
-}
+}*/
 @end

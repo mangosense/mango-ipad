@@ -15,7 +15,7 @@
 @property(assign,nonatomic)BOOL purchase;
 @property(nonatomic,retain) NSMutableArray *array;
 @property(assign,nonatomic)MyBooksViewController *myBook;
-
+@property(strong,nonatomic)NSError *error;
 - (void)refreshButton:(id)sender ;
 -(void)getPurchasedDataFromDataBase;
 @end

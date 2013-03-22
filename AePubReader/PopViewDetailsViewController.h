@@ -25,6 +25,7 @@
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;
 
 @property(assign,nonatomic)NSInteger iden;
+@property(strong,nonatomic)UIPopoverController *popDetails;
 - (IBAction)downloadBook:(id)sender;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil imageLocation:(NSString *)locationImage indentity:(NSInteger)iden;
 @end

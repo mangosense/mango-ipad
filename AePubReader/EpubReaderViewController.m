@@ -69,7 +69,7 @@
             //[val release];
         }
         array=[NSArray arrayWithArray:arrayMutable];
-        [arrayMutable release];
+      //  [arrayMutable release];
         //  array=  [array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
       CGSize size=  _scrollViewForThumnails.contentSize;
         CGFloat width=array.count *200;
@@ -139,8 +139,8 @@
             }
             [_scrollViewForThumnails addSubview:button];
             button.tag=index;
-            [button release];
-            [image release];
+           // [button release];
+           // [image release];
             x+=increment;
             
         }
@@ -185,7 +185,7 @@
     UITapGestureRecognizer *top=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DoubleTap:)];
     UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPress:)];
     [_webview.scrollView addGestureRecognizer:longPress];
-    [longPress release];
+   // [longPress release];
   //  top.direction=UISwipeGestureRecognizerDirectionDown;
     top.numberOfTapsRequired=2;
     top.numberOfTouchesRequired=1;
@@ -194,15 +194,15 @@
 // [[UIDevice currentDevice] setOrientation:UIInterfaceOrientationLandscapeLeft];
     [_webview.scrollView addGestureRecognizer:top];
     
-    [top release];
+  /*  [top release];
     [right release];
-    [left release];
+    [left release];*/
  //   [_Done setTintColor:[UIColor grayColor]];
     [_shareButton setTintColor:[UIColor lightGrayColor]];
     [self.navigationController.navigationBar addSubview:_textField];
 //    [_hide setTintColor:[UIColor grayColor]];
 //    [_hide setEnabled:NO];
-    [_textField release];
+    //[_textField release];
     [self.navigationController.navigationBar setHidden:YES];
         [self.tabBarController.tabBar setHidden:YES];
     [_webview setDelegate:self];
@@ -277,7 +277,7 @@
 //        [self.view setTransform:landscapeTransform];
    //     [[UIDevice currentDevice]setOrientation:UIDeviceOrientationLandscapeLeft];
         _wasFirstInPortrait=YES;
-        [c release];
+     //   [c release];
 
     }else{
     
@@ -351,6 +351,15 @@
         
     }
 }
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
+    if (action==@selector(highlight:)) {
+        return NO;
+    }
+    if (action==@selector(notes:)) {
+        return NO;
+    }
+    return  [super canPerformAction:action withSender:sender];
+}
 -(void)longPress:(id)sender{
     [[UIMenuController sharedMenuController] setMenuVisible:YES];
 }
@@ -385,7 +394,7 @@
     // The JS Function
     NSString *startSearch   = [NSString stringWithFormat:@"stylizeHighlightedString()"];
     [_webview stringByEvaluatingJavaScriptFromString:startSearch];
-    [jsString release];
+    //[jsString release];
     if (selectedText.length>2) {
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         [delegate.dataModel insertNoteOFHighLight:YES book:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] page:_pageNumber string:highlightedString];
@@ -411,12 +420,7 @@
     }
 return NO;
 }
--(void)DoubleTap:(UIGestureRecognizer *)top{
-    _topToolbar.hidden=!_topToolbar.hidden;
-   // _scrollViewForThumnails.hidden=!_scrollViewForThumnails.hidden;
-    //_actionBar.hidden=!_actionBar.hidden;
-    NSLog(@"Tap gesture");
-}
+
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
 //    if (_alertView) {
 //        [_alertView dismissWithClickedButtonIndex:0 animated:YES];
@@ -564,7 +568,7 @@ return NO;
 	
 	// this will appear as the title in the navigation bar
 	CGRect frame = CGRectMake(0, 0, 200, 44);
-	UILabel *label = [[[UILabel alloc] initWithFrame:frame] autorelease];
+	UILabel *label = [[UILabel alloc] initWithFrame:frame] ;
 	label.backgroundColor = [UIColor clearColor];
 	label.font = [UIFont boldSystemFontOfSize:17.0];
 	label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
@@ -606,7 +610,7 @@ return NO;
 			NSError *error;
 			[filemanager removeItemAtPath:strPath error:&error];
 		}
-		[filemanager release];
+	//	[filemanager release];
 		filemanager=nil;
 		//start unzip
 		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
@@ -618,12 +622,12 @@ return NO;
 												cancelButtonTitle:@"OK"
 												otherButtonTitles:nil];
 			[alert show];
-			[alert release];
+	//		[alert release];
 			alert=nil;
 		}
 		[za UnzipCloseFile];
 	}
-	[za release];
+	//[za release];
     
 }
 
@@ -662,7 +666,7 @@ return NO;
 		//valid ePub
 		NSLog(@"Parse now");
 		
-		[filemanager release];
+		//[filemanager release];
 		filemanager=nil;
 		
 		return strFilePath;
@@ -676,11 +680,11 @@ return NO;
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
 		[alert show];
-		[alert release];
+	//	[alert release];
 		alert=nil;
 		
 	}
-	[filemanager release];
+	//[filemanager release];
 	filemanager=nil;
 	return @"";
 }
@@ -753,7 +757,9 @@ return NO;
 	if ([filemanager fileExistsAtPath:strOpfFilePath]) {
 		
 		//Now start parse this file
-		[_xmlHandler parseXMLFileAt:strOpfFilePath];
+        _anotherHandlerOPF=[[XMLHandler alloc] init];
+        _anotherHandlerOPF.delegate=self;
+		[_anotherHandlerOPF parseXMLFileAt:strOpfFilePath];
 	}
 	else {
 		
@@ -763,10 +769,10 @@ return NO;
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
 		[alert show];
-		[alert release];
+		//[alert release];
 		alert=nil;
 	}
-	[filemanager release];
+	//[filemanager release];
 	filemanager=nil;
 	
 }
@@ -785,6 +791,7 @@ return NO;
 	_pageNumber=0;
 	[self loadPage];
     [self addThumbnails];
+ 
 }
 
 -(void)leftOrRightGesture:(UISwipeGestureRecognizer *)gesture{
@@ -863,16 +870,16 @@ return NO;
     
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
         [self.navigationController pushViewController:notes animated:YES];
-        [notes release];
+       // [notes release];
         
         
     }else{
         nav=[[UINavigationController alloc]initWithRootViewController:notes];
-        [notes release];
+       // [notes release];
 
        _pop=[[UIPopoverController alloc]initWithContentViewController:nav];
     [_pop presentPopoverFromBarButtonItem:_showPop permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        [nav release];
+        //[nav release];
     }
     
 }
@@ -931,16 +938,16 @@ return NO;
 }
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
    
-    [_anAudioRecorder release];
+   // [_anAudioRecorder release];
  
-    _anAudioRecorder=nil;
+   // _anAudioRecorder=nil;
   [_recordAudioButton setEnabled:YES];
 
 }
 -(void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error{
     NSLog(@"Error %@",error);
-    [_anAudioRecorder release];
-    _anAudioPlayer=nil;
+ //   [_anAudioRecorder release];
+ //   _anAudioPlayer=nil;
     
 }
 /*Function Name : loadPage
@@ -989,24 +996,19 @@ return NO;
     [self setShareButton:nil];
     [self setDoneButton:nil];
     [self setTopToolbar:nil];
-//    [self setTopToolbar:nil];
-//   
-//    _topToolbar = nil;
-//    [self setHide:nil];
-//    [self setSearch:nil];
-//    [self setDone:nil];
+
     [self setView:nil];
-    [_webview release];
+  
     _webview = nil;
 
 }
 
 
-- (void)dealloc {
-    /*if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ]){
+/*- (void)dealloc {
+if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ]){
         [_videoCamera release];
         [_filter release];
-    }*/
+    }
     _gameLink=nil;
 	//_arrayForItems=nil;
 	[_webview release];
@@ -1048,7 +1050,7 @@ return NO;
     [_nextButton release];
     [_showRecordButton release];
     [super dealloc];
-}
+}*/
 
 - (IBAction)hideSearch:(id)sender {
  
@@ -1066,12 +1068,12 @@ return NO;
     activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeSaveToCameraRoll];
             if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
             [self presentModalViewController:activity animated:YES];
-            [activity release];
+          //  [activity release];
             return;
         }
     UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
     
-    [activity release];
+  //  [activity release];
         [pop presentPopoverFromBarButtonItem:_shareButton permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
         // you dont release this
         return;
@@ -1086,7 +1088,7 @@ return NO;
     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
     [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
-    [mail release];
+  //  [mail release];
 
     
 }
@@ -1184,7 +1186,7 @@ return NO;
     }else{
       web  =[[WebViewController alloc]initWithNibName:@"WebViewControllerIphone" bundle:nil URL:url];}
     [self presentModalViewController:web animated:YES];
-    [web release];
+   // [web release];
     
 }
 //-(NSUInteger)supportedInterfaceOrientations{
@@ -1213,7 +1215,7 @@ return NO;
         
         NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
         NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
-        NSString *appenLoc=[[[NSString alloc] initWithFormat:@"%d",iden]autorelease];
+        NSString *appenLoc=[[NSString alloc] initWithFormat:@"%d",iden];
         path=[path stringByAppendingPathComponent:appenLoc];
     //    [appenLoc release];
         NSError *error;
@@ -1223,7 +1225,7 @@ return NO;
                 NSLog(@"error %@",error);
             }
         }
-       appenLoc=[[[NSString alloc]initWithFormat:@"%d.ima4",_pageNumber ]autorelease];
+       appenLoc=[[NSString alloc]initWithFormat:@"%d.ima4",_pageNumber ];
         
         NSString *loc=[path stringByAppendingPathComponent:appenLoc];
        
@@ -1262,8 +1264,8 @@ return NO;
     if (_anAudioRecorder) {
         if ([_anAudioRecorder isRecording]) {
             [_anAudioRecorder stop];
-            [_anAudioRecorder release];
-            _anAudioRecorder=nil;
+           // [_anAudioRecorder release];
+           // _anAudioRecorder=nil;
              // [[_recordAudioButton layer] setBorderWidth:0];
             [_recordAudioButton setEnabled:YES];
         }
@@ -1271,8 +1273,8 @@ return NO;
     if (_anAudioPlayer) {
         if ([_anAudioPlayer isPlaying]) {
             [_anAudioPlayer stop];
-            [_anAudioPlayer release];
-            _anAudioPlayer=nil;
+           // [_anAudioPlayer release];
+          //  _anAudioPlayer=nil;
         }
     }
 }
@@ -1281,7 +1283,7 @@ return NO;
     NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
     NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
     //ima4
-    NSString *appenLoc=[[[NSString alloc]initWithFormat:@"%d/%d.ima4",iden,_pageNumber ]autorelease];
+    NSString *appenLoc=[[NSString alloc]initWithFormat:@"%d/%d.ima4",iden,_pageNumber ];
  NSString *loc=[path stringByAppendingPathComponent:appenLoc];
     if ([[NSFileManager defaultManager]fileExistsAtPath:loc]) {
         if (!_anAudioPlayer) {
@@ -1296,15 +1298,15 @@ return NO;
     }
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-    [_anAudioPlayer release];
-    _anAudioPlayer=nil;
+  //  [_anAudioPlayer release];
+  //  _anAudioPlayer=nil;
   //  [self recordAudio:nil];
     
 }
 -(void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error{
     NSLog(@"Error %@",error);
-    [_anAudioRecorder release];
-    _anAudioPlayer=nil;
+   // [_anAudioRecorder release];
+   // _anAudioPlayer=nil;
 }
 -(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion==UIEventSubtypeMotionShake){

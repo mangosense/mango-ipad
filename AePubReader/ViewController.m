@@ -69,7 +69,7 @@
 		//valid ePub
 		NSLog(@"Parse now");
 		
-		[filemanager release];
+	//	[filemanager release];
 		filemanager=nil;
 		
 		return strFilePath;
@@ -83,11 +83,11 @@
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
 		[alert show];
-		[alert release];
-		alert=nil;
+		//[alert release];
+		//alert=nil;
 		
 	}
-	[filemanager release];
+//	[filemanager release];
 	filemanager=nil;
 	return @"";
 }
@@ -119,7 +119,7 @@
 			NSError *error;
 			[filemanager removeItemAtPath:strPath error:&error];
 		}
-		[filemanager release];
+		//[filemanager release];
 		filemanager=nil;
 		//start unzip
 		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
@@ -131,12 +131,12 @@
 												cancelButtonTitle:@"OK"
 												otherButtonTitles:nil];
 			[alert show];
-			[alert release];
+		//	[alert release];
 			alert=nil;
 		}
 		[za UnzipCloseFile];
 	}
-	[za release];
+	//[za release];
 }
 - (NSUInteger)indexOfViewController:(WebPageViewController *)viewController
 {
@@ -163,7 +163,7 @@
         UIViewController *c=[[UIViewController alloc]init];
         [self presentModalViewController:c animated:NO];
         [self dismissViewControllerAnimated:NO completion:nil];
-        [c release];
+       // [c release];
     }
 
     // do not add views here
@@ -190,7 +190,7 @@
                 NSString *temp=  [NSString stringWithFormat:@"%@/%@",_rootPath,[_ePubContent._manifest valueForKey:key]];
         Chapter *chap=[[Chapter alloc]initWithPath:temp chapterIndex:i andWith:i];
                 [_array addObject:chap];
-        [chap release];
+   //     [chap release];
             }
     self.controller=[[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.controller.delegate=self;
@@ -207,7 +207,7 @@
     
  
     [self.controller didMoveToParentViewController:self];
-    [self.controller release];
+ //   [self.controller release];
 //    for (UIGestureRecognizer *gest in self.controller.gestureRecognizers) {
 //        gest.delegate=self;
 //      
@@ -229,12 +229,13 @@
      page.totalCount=_ePubContent._spine.count;
     NSArray *arrayControllers=@[page];
     [self.controller setViewControllers:arrayControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
-    [page autorelease];
+ //   [page autorelease];
    
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [self.navigationController.navigationBar setHidden:YES];
     [self.tabBarController.tabBar setHidden:YES];
+
 }
 //-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
 //    CGPoint point = [touch locationInView:self.view];
@@ -290,7 +291,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)unzipAndSaveFile:(NSString *)epubLoc{
-	[epubLoc retain];
+//	[epubLoc retain];
 	ZipArchive* za = [[ZipArchive alloc] init];
 	if( [za UnzipOpenFile:epubLoc] ){
         NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
@@ -303,7 +304,7 @@
 			NSError *error;
 			[filemanager removeItemAtPath:strPath error:&error];
 		}
-		[filemanager release];
+	//	[filemanager release];
 		filemanager=nil;
 		//start unzip
 		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
@@ -315,13 +316,13 @@
 												cancelButtonTitle:@"OK"
 												otherButtonTitles:nil];
 			[alert show];
-			[alert release];
+			//[alert release];
 			alert=nil;
 		}
 		[za UnzipCloseFile];
 	}
-    [epubLoc release];
-	[za release];
+   // [epubLoc release];
+	//[za release];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
@@ -339,7 +340,7 @@
     WebPageViewController *page;
     if (_pop) {
         [_pop dismissPopoverAnimated:YES];
-        _pop=nil;
+       
     }
        if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
     
@@ -354,7 +355,7 @@
     }
  page.totalCount=_ePubContent._spine.count;
     NSArray *array=[NSArray arrayWithObject:page];
-    [page release];
+  //  [page release];
     WebPageViewController *current=[_controller.viewControllers lastObject];
     [current.searchResultsPopover dismissPopoverAnimated:YES];
     if (current.chapter.chapterIndex>chapterIndex) {
@@ -391,7 +392,7 @@
         page=[[WebPageViewController alloc]initWithNibName:@"WebPageViewController" bundle:nil url: chap];
     }
     page.totalCount=_ePubContent._spine.count;
-    [page autorelease];
+   // [page autorelease];
     return page;
 
 }
@@ -418,7 +419,7 @@
         page=[[WebPageViewController alloc]initWithNibName:@"WebPageViewController" bundle:nil url: chap];
     }
  page.totalCount=_ePubContent._spine.count;
-    [page autorelease];
+    //[page autorelease];
     return page;
 }
 #pragma mark - UIPageViewController delegate methods
@@ -479,7 +480,7 @@
             //[val release];
         }
         array=[NSArray arrayWithArray:arrayMutable];
-        [arrayMutable release];
+     //   [arrayMutable release];
         //  array=  [array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         CGSize size=  _scrollViewForThumnails.contentSize;
         CGFloat width=array.count *200;
@@ -549,8 +550,8 @@
             }
             [_scrollViewForThumnails addSubview:button];
             button.tag=index;
-            [button release];
-            [image release];
+           // [button release];
+         //   [image release];
             x+=increment;
             
         }
@@ -588,7 +589,9 @@
 	if ([filemanager fileExistsAtPath:strOpfFilePath]) {
 		
 		//Now start parse this file
-		[_xmlhandler parseXMLFileAt:strOpfFilePath];
+        _xmlhandlerOPF=[[XMLHandler alloc] init];
+        _xmlhandlerOPF.delegate=self;
+		[_xmlhandlerOPF parseXMLFileAt:strOpfFilePath];
 	}
 	else {
 		
@@ -598,10 +601,10 @@
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
 		[alert show];
-		[alert release];
+		//[alert release];
 		alert=nil;
 	}
-	[filemanager release];
+	//[filemanager release];
 	filemanager=nil;
 	
 }
@@ -616,12 +619,12 @@
         }
     }
 }
--(void)dealloc{
+/*-(void)dealloc{
     _ePubContent=nil;
     _xmlhandler=nil;
     _pagesPath=nil;
     _pullPush=nil;
     [_strFileName release];
     [super dealloc];
-}
+}*/
 @end

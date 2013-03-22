@@ -55,7 +55,7 @@
         
         NSString *local=[NSString stringWithFormat:@"%d",iden ];
         _bookTapped=[delegate.dataModel getBookOfId:local];
-        [_bookTapped retain];
+     //   [_bookTapped retain];
         
     }
     return self;
@@ -93,10 +93,10 @@
 //    [attr release];
     //NSLog(@"text %@",_textView.text);
     [_detailsWebView loadHTMLString:_bookTapped.desc baseURL:nil];
-    [image release];
-    [done release];
+ //   [image release];
+  //  [done release];
     self.navigationItem.rightBarButtonItem=share;
-    [share release];
+  //  [share release];
     NSLog(@"x=%f y=%f height=%f width=%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.height,self.view.frame.size.width);
     
     
@@ -112,10 +112,10 @@
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeSaveToCameraRoll ];
-        UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
+        _popDetails=[[UIPopoverController alloc]initWithContentViewController:activity];
         
-        [activity release];
-        [pop presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+     //   [activity release];
+        [_popDetails presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
      //   [pop release];
         return;
     }
@@ -129,7 +129,7 @@
     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
     [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
-    [mail release];
+   // [mail release];
 }
 -(void)closeModal:(id)sender{
     [self.parentViewController dismissModalViewControllerAnimated:YES];
@@ -152,7 +152,7 @@
     return YES;
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     [_titleBook release];
   
     [_imageView release];
@@ -163,7 +163,7 @@
     [_detailsWebView release];
  
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setTitleBook:nil];
    

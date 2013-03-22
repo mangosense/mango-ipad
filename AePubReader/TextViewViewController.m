@@ -67,12 +67,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     [_textView release];
     [_webview release];
     [_note release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setTextView:nil];
     [self setWebview:nil];

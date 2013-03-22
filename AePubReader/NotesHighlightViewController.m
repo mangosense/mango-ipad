@@ -46,7 +46,7 @@
                
                 [_array addObject:arrayPerPage];
                 
-                [arrayPerPage release];
+               // [arrayPerPage release];
                 arrayPerPage=[[NSMutableArray alloc]init];
                  [arrayPerPage addObject:high];
                 NSLog(@"new page");
@@ -71,7 +71,7 @@
 //            
 //        }
         [delegate.dataModel showNotesAndHighlight];
-        [arrayPerPage autorelease];
+       // [arrayPerPage autorelease];
         _bookId=bookid;
         _pageNumber=pageNumber;
         _highlight=NO;
@@ -88,7 +88,7 @@
     self.navigationItem.titleView=segmentedControl;
     [segmentedControl addTarget:self action:@selector(notesOrHighLight:) forControlEvents:UIControlEventValueChanged];
     [segmentedControl setSelectedSegmentIndex:0];
-    [segmentedControl release];
+  //  [segmentedControl release];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -101,8 +101,8 @@
     UISegmentedControl *seg=(UISegmentedControl *)sender;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSArray *arrayNotesOrHighlight=nil;
-    [_array release];
-    [_arraySection release];
+   // [_array release];
+   // [_arraySection release];
    
 
     switch (seg.selectedSegmentIndex) {
@@ -141,7 +141,7 @@
             
             [_array addObject:arrayPerPage];
             
-            [arrayPerPage release];
+         //   [arrayPerPage release];
             arrayPerPage=[[NSMutableArray alloc]init];
             [arrayPerPage addObject:high];
        //     NSLog(@"new page");
@@ -159,7 +159,7 @@
         [_array addObject:arrayPerPage];
     
     }
-      [arrayPerPage release];
+  //    [arrayPerPage release];
  [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning
@@ -204,7 +204,7 @@
         cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
     if (cell==nil) {
-            cell=[[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] ;
         
     }
      NSMutableArray *arrayPerPage=[_array objectAtIndex:indexPath.section];
@@ -292,10 +292,10 @@
     [_delegate loadSpine:pagNumber.integerValue  atPageIndex:pagNumber.integerValue highlightSearchResult:nil];
     
 }
--(void)dealloc{
+/*-(void)dealloc{
     
     [_array release];
     [_arraySection release];
     [super dealloc];
-}
+}*/
 @end

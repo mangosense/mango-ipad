@@ -21,28 +21,21 @@
     }
     return self;
 }
--(void)dealloc{
-    /*
-     @property(nonatomic,retain) NSMutableData *data;
-     @property(nonatomic,retain)NSString *loc;
-     @property(nonatomic,retain)NSFileHandle *handle;
-     @property(nonatomic,retain)UIProgressView *progress;
-     @property(nonatomic,retain)Book *book;
-     */
+/*-(void)dealloc{
     _data=nil;
     _loc=nil;
     _handle=nil;
     _progress=nil;
     _book=nil;
     [super dealloc];
-}
+}*/
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     //[error autorelease];
     
-    [_handle release];
+   // [_handle release];
     [alert show];
-    [alert release];
+   // [alert release];
     [_progress removeFromSuperview];
     _libViewController.addControlEvents=YES;
     _progress=nil;
@@ -118,7 +111,7 @@
     if (somethinRemains) {
         [_handle writeData:_data];
     }
-    [_handle release];
+    _handle=nil;
     NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
     float sizeLong=diction.fileSize;
     NSLog(@"total %f over %f",_value,sizeLong);
@@ -128,10 +121,10 @@
     [_progress setAlpha:0.0];
     _libViewController.showDeleteButton=NO;
     [_libViewController.tabBarController setSelectedIndex:0];
-    [url release];
+  //  [url release];
     
 [_progress removeFromSuperview];
-    [_loc release];
+  //  [_loc release];
     
     _libViewController.addControlEvents=YES;
 

@@ -56,4 +56,8 @@
 @property(nonatomic,retain)UIAlertView *alertView;
 @property(assign,nonatomic)double left;
 @property(assign,nonatomic)double top;
+@property(retain,nonatomic) UIPopoverController *pop;
+@property(strong,nonatomic)UIPopoverController *showNotes;
+@property(strong,nonatomic) UIPopoverController *tableOfContentsPop;
+@property(strong,nonatomic)UIPopoverController *listNotesHighlight;
 @end

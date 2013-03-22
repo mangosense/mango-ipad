@@ -21,6 +21,8 @@
 @property(assign,nonatomic)NSInteger pages;
 @property(assign,nonatomic)NSInteger identity;
 @property(assign,nonatomic)NSDecimalNumber *price;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *networkIndicator;
 @property(assign,nonatomic)StoreViewController *storeViewController;
 @property(assign,nonatomic)UIInterfaceOrientation interfaceOrientationChanged;
+@property(strong,nonatomic) NSError *error;
 @end

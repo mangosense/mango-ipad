@@ -23,7 +23,7 @@
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 
     [alert show];
-    [alert release];
+   // [alert release];
       [_loginViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -47,9 +47,9 @@
     [_loginViewController goToNext];
     
 }
--(void)dealloc{
+/*-(void)dealloc{
     NSLog(@"dealloc in facebookLogin");
     [_data release];
     [super dealloc];
-}
+}*/
 @end

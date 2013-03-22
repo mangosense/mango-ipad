@@ -13,9 +13,10 @@
 #import "LiveViewControllerIphone.h"
 #import <StoreKit/StoreKit.h>
 @interface DetailStoreViewController : UIViewController<SKProductsRequestDelegate,UIAlertViewDelegate>
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;
-@property (retain, nonatomic) IBOutlet UITextView *desc;
+
 @property (retain, nonatomic) IBOutlet UILabel *sizeLabel;
 @property (retain, nonatomic) IBOutlet UILabel *priceLabel;
 @property(assign,nonatomic)NSInteger identity;

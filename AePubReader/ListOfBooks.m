@@ -25,7 +25,7 @@
     [_store.navigationItem.rightBarButtonItem setEnabled:YES];
     [_store BuildButtons];
     [alert show];
-    [alert release];
+    //[alert release];
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     [_dataMutable setLength:0];
@@ -35,7 +35,7 @@
 
         NSString *stringJsonData=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
     NSLog(@"String %@",stringJsonData);
-       [stringJsonData release];
+    //   [stringJsonData release];
    [_store.navigationItem.rightBarButtonItem setEnabled:YES];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
@@ -52,13 +52,14 @@ id jsonObject=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSO
         NSLog(@"loginurl %@",loginURL);
         NSURL *url=[[NSURL alloc]initWithString:loginURL];
         NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
-        [url release];
+      //  [url release];
         
         directly.storeController=_store;
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:directly];
-        [directly release];
-        [request release];
-        [connection autorelease];
+        [connection start];
+       // [directly release];
+       // [request release];
+        //[connection autorelease];
         return;
     }
     [delegate.dataModel insertIfNew:_dataMutable];
@@ -71,8 +72,8 @@ id jsonObject=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSO
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [_dataMutable appendData:data];
 }
--(void)dealloc{
+/*-(void)dealloc{
     [_dataMutable release];
     [super dealloc];
-}
+}*/
 @end

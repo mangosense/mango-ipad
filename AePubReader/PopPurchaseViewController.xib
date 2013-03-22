@@ -396,7 +396,6 @@
 						<string key="imageView">UIImageView</string>
 						<string key="purchaseButton">UIButton</string>
 						<string key="purchaseLabel">UILabel</string>
-						<string key="textView">UITextView</string>
 						<string key="titleLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -419,10 +418,6 @@
 						<object class="IBToOneOutletInfo" key="purchaseLabel">
 							<string key="name">purchaseLabel</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textView">
-							<string key="name">textView</string>
-							<string key="candidateClassName">UITextView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleLabel">
 							<string key="name">titleLabel</string>

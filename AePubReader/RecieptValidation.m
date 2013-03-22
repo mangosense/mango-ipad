@@ -27,7 +27,7 @@
 
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+   // [alertView release];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [_mutableData appendData:data];
@@ -47,7 +47,7 @@
      
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
             [alertView show];
-            [alertView release];
+         //   [alertView release];
             
             [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
 
@@ -61,7 +61,7 @@
             
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-            [alertView release];
+           // [alertView release];
             [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
         }
         return;
@@ -73,7 +73,7 @@
 
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         [alertView show];
-        [alertView release];
+      //  [alertView release];
        
         [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
 
@@ -84,7 +84,7 @@
        
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+      //  [alertView release];
          [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
     }
 
@@ -108,12 +108,12 @@
         LibraryViewController *library=(LibraryViewController *)nav.topViewController;
         NSString *valu=[[NSString alloc]initWithFormat:@"%@.epub",identity ];
         Book *bookToDownload=[delegate.dataModel getBookOfId:valu];
-        [valu release];
+      //  [valu release];
         if (!library.addControlEvents) {
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
-            [down release];
-            [identity release];
+        //    [down release];
+         //   [identity release];
             [delegate.dataModel insertBookWithNo:books];
             return;
         }
@@ -127,7 +127,7 @@
         
     }
     [_popPurchase.parentViewController dismissViewControllerAnimated:YES completion:nil];
-    [identity release];
+ //   [identity release];
 
     
     
@@ -135,8 +135,8 @@
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     [_mutableData setLength:0];
 }
--(void)dealloc{
+/*-(void)dealloc{
     [_mutableData release];
     [super dealloc];
-}
+}*/
 @end

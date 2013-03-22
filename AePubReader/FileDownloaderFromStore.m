@@ -20,7 +20,7 @@
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+    //[alertView release];
     [_popPurchaseController dismissViewControllerAnimated:YES completion:nil];
 
 }
@@ -29,7 +29,7 @@
     [_mutableData appendData:data];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    _mutableData=nil;
+   // _mutableData=nil;
     _mutableData=[[NSMutableData alloc]init];
     
 }

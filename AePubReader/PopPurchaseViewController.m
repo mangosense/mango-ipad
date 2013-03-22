@@ -41,12 +41,12 @@
     return self;
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    if(_alertView){
+ 
         
-    if (_alertView.retainCount>1) {
+    if (_alertView) {
          [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     }
-    }
+    
     //[[SKPaymentQueue defaultQueue]removeTransactionObserver:_liveViewController];
 }
 - (void)viewDidLoad
@@ -57,7 +57,7 @@
 //    UIBarButtonItem *action=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.leftBarButtonItem=leftDone;
-    [leftDone release];
+ //   [leftDone release];
 //    self.navigationItem.rightBarButtonItem=action;
 //    [action release];
 //    NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -75,14 +75,14 @@
     [_imageView setImage:image];
 
     float size=[booksStore.size floatValue];
-    [image release];
+  //  [image release];
     NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
     NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
     NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     _fileSizeLabel.text=[NSString stringWithFormat:@"File Size :%@ MB",[NSNumber numberWithLongLong:size] ];
-    [identity release];
+  //  [identity release];
     NSLog(@"The value of the bool is %@\n", ([booksStore.free boolValue] ? @"YES" : @"NO"));
    _isFree= [booksStore.free boolValue];
  _purchaseLabel.text=@"Please wait...";
@@ -96,39 +96,16 @@
             productRequest.delegate=self;
             [productRequest start];
   
-//            _alertView =[[UIAlertView alloc]init];
-//            //UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//            //[indicator startAnimating];
-//            //[_alertView addSubview:indicator];
-//            //[indicator release];
-//            //[_alertView setTitle:@"Loading...."];
-//            UIImage *image=[UIImage imageNamed:@"loading.png"];
-//            
-//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
-//            imageView.layer.cornerRadius = 5.0;
-//            imageView.layer.masksToBounds = YES;
-//            
-//            imageView.image=image;
-//            [_alertView addSubview:imageView];
-//            UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-//            indicator.color=[UIColor blackColor];
-//            [indicator startAnimating];
-//            [_alertView addSubview:indicator];
-//
-//            [_alertView setDelegate:self];
-//            [_alertView show];
-//            [_alertView release];
-//            [imageView release];
-//            [indicator release];
 
+            [_purchaseButton setEnabled:NO];
         }else{
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You are not authorsized to make payments" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-            [alertView release];
+          //  [alertView release];
             [self done:nil];
         }
     }
-    [_purchaseButton setEnabled:NO];
+    
    
 }
 
@@ -141,7 +118,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     [_imageView release];
     [_titleLabel release];
   
@@ -153,7 +130,7 @@
     [_purchaseButton release];
     [_detailsWebView release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
      
     [self setImageView:nil];
@@ -181,7 +158,7 @@
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
             // [alertViewDelegate autorelease];
             [alertView show];
-            [alertView release];
+      //     [alertView release];
             
         }else{
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -246,11 +223,12 @@
         [mutableRequest setHTTPBody:jsonData];
         PruchaseFree *purchase=[[PruchaseFree alloc]initWithPop:self LiveController:_liveViewController fileLink:_identity];
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:mutableRequest delegate:purchase];
-        [connection autorelease];
-        [dictionary release];
-        [mutableRequest release];
-        [purchase release];
-        [valueJson release];
+        [connection start];
+      //  [connection autorelease];
+      //  [dictionary release];
+      //  [mutableRequest release];
+      //  [purchase release];
+     //   [valueJson release];
     }
 }
 
@@ -260,12 +238,12 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *identity=[[NSString alloc]initWithFormat:@"%d",_identity ];
     StoreBooks *booksStore= [delegate.dataModel getStoreBookById:identity];
-    [identity release];
+   // [identity release];
     if (_products) {
      
         booksStore.amount=_products.price;
         [delegate.dataModel saveStoreBookData:booksStore];
-    [_products retain];
+   // [_products retain];
   
     
     NSLocale *priceLocale=_products.priceLocale;
@@ -279,8 +257,8 @@
        // _value=[[NSString alloc]initWithString:[formatter stringFromNumber:_number]];
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_products.price]];
     _liveViewController.price=_products.price;
-    [_liveViewController.price retain];
-    [formatter release];
+//[_liveViewController.price retain];
+  //  [formatter release];
         
          }
     else{

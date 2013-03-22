@@ -39,7 +39,7 @@
     return self;
 }
 -(void)DownloadComplete:(Book *)book{
-    [book retain];
+   // [book retain];
     [self.tabBarController setSelectedIndex:0];
     [self reloadData];
     _addControlEvents=NO;
@@ -60,11 +60,11 @@
     FileDownloader *downloader=[[FileDownloader alloc]initWithViewController:self];
     downloader.progress=progress;
     downloader.book=book;
-    [progress release];
+   // [progress release];
     NSString *url= book.sourceFileUrl;
     NSURLRequest *request=[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:url ]];
    // [self.navigationItem.rightBarButtonItem setEnabled:NO];
-    [progress release];
+  //  [progress release];
      NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *lastComp=[NSString stringWithFormat:@"%@.epub",book.id];
     string=[string stringByAppendingPathComponent:lastComp];
@@ -82,19 +82,20 @@
         NSLog(@"error %@",error);
     }
     downloader.handle=[NSFileHandle fileHandleForUpdatingAtPath:string];
-    [downloader.handle retain];
+   // [downloader.handle retain];
     
     NSLog(@"floatvalue %f id %@",[book.size floatValue],book.id);
     downloader.value=[book.size floatValue];
   
     
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:downloader];
-    [request release];
-    [downloader release];
-    [connection autorelease];
+   // [request release];
+ //   [downloader release];
+ //   [connection autorelease];
+    [connection start];
     CGPoint point;
     point.y=0;
-    [book release];
+ //   [book release];
    // [self.scrollView setContentOffset:point animated:YES];
 }
 
@@ -108,14 +109,14 @@
     optionsItem.tintColor=[UIColor grayColor];
     UIBarButtonItem *recordButton=[[UIBarButtonItem alloc]initWithTitle:@"recording" style:UIBarButtonItemStyleBordered target:self action:@selector(showRecordButton:)];
     recordButton.tintColor=[UIColor grayColor];
-    NSLog(@"options retainCount %d",optionsItem.retainCount);
+   // NSLog(@"options retainCount %d",optionsItem.retainCount);
     _array=[[NSArray alloc]initWithObjects:editBarButtonItem,optionsItem,recordButton, nil];
-     NSLog(@"options retainCount %d",optionsItem.retainCount);
-  [recordButton release];
+   //  NSLog(@"options retainCount %d",optionsItem.retainCount);
+  /*[recordButton release];
     [editBarButtonItem release];
-    [optionsItem release];
+    [optionsItem release];*/
     self.navigationItem.rightBarButtonItems=_array;
-    [_array release];
+    //[_array release];
     
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
@@ -129,7 +130,7 @@
     self.view.autoresizingMask=UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
-    [imageView release];
+  ///  [imageView release];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
 
@@ -177,7 +178,7 @@
     _recordButtonShow=!_recordButtonShow;
 }
 -(void)allowoptions:(UIBarButtonItem *)sender{
-     NSLog(@"options retainCount %d",_array.retainCount);
+  //   NSLog(@"options retainCount %d",_array.retainCount);
     if (_allowOptions) {
         UIBarButtonItem *item=[_array objectAtIndex:1];
         [item setTitle:@"Done"];
@@ -240,10 +241,10 @@
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
-        UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
+        _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
         
-        [activity release];
-        [pop presentPopoverFromRect:buttonShadow.frame inView:buttonShadow.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+      //  [activity release];
+        [_popOverShare presentPopoverFromRect:buttonShadow.frame inView:buttonShadow.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
        
         return;
     }
@@ -257,7 +258,7 @@
     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
     [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
-    [mail release];
+   // [mail release];
 
 
 }
@@ -343,7 +344,7 @@
         [button addTarget:self action:@selector(DeleteBook:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.scrollView addSubview:button];
-        [button release];
+     //   [button release];
     }
 
 }
@@ -360,7 +361,7 @@
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Delete Book" message:alertViewMessage delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     alertView.tag=300;
     [alertView show];
-    [alertView release];
+ //   [alertView release];
     
   }
 -(void)DrawShelf{
@@ -388,7 +389,7 @@
         ymin+=210+40;
         imageView.frame=frame;
         [self.scrollView addSubview:imageView];
-        [imageView release];
+     //   [imageView release];
     }
 }
 -(void)sigOut:(UIBarButtonItem *)button{
@@ -399,8 +400,9 @@
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:signout]];
     [request setHTTPMethod:@"GET"];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-    [request release];
-    [connection autorelease];
+    [connection start];
+//    [request release];
+//    [connection autorelease];
       
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
@@ -440,7 +442,7 @@
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
         UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
         
-        [activity release];
+      //  [activity release];
         [pop presentPopoverFromRect:_buttonTapped.frame inView:self.scrollView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         //[pop release];
         return;
@@ -456,7 +458,7 @@
     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
     [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
-    [mail release];
+   // [mail release];
 
 }
 //- (NSUInteger)supportedInterfaceOrientations {
@@ -477,18 +479,14 @@
 //
 
 -(void)reloadData{
-//    NSFileManager *manager=[NSFileManager defaultManager];
-//    NSString  *value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//    NSArray *files=[manager contentsOfDirectoryAtPath:value error:nil];
-//    _epubFiles=[[NSArray alloc]initWithArray:[files filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.epub'"]]];
+
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     [delegate.dataModel displayAllData];
     NSArray *temp=[delegate.dataModel getDataDownloaded];
-    _epubFiles=nil;
+
     _epubFiles=[[NSArray alloc]initWithArray:temp];
     if (_epubFiles.count==0) {
-    // need to handle one state
-//#warning need to do something
+
         _showDeleteButton=NO;
         [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setTitle:@"Edit"];
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
@@ -560,6 +558,8 @@
     [self.navigationController.navigationBar setHidden:NO];
 
     AePubReaderAppDelegate  *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+
+
     UIViewController *vc=[[UIViewController alloc]init];
     LibraryViewController *lib=self;
     [self presentViewController:vc animated:NO completion:^(void){
@@ -568,28 +568,9 @@
             delegate.PortraitOrientation=YES;
         }];
     }];
-    [vc release];
-  [self BuildButtons];
-  /*  NSFileManager *fileManager=[NSFileManager defaultManager];
-     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSArray *contents=[fileManager contentsOfDirectoryAtPath:string error:nil];
-    NSString *temp;
-    NSError *error=nil;
-    for (temp in contents) {
-        temp=[string stringByAppendingPathComponent:temp];
-        NSLog(@"%@",temp);
-        //CFURLRef url=(CFURLRef)[NSURL fileURLWithPath:temp];
-        error=nil;
-      //  CFURLSetResourcePropertyForKey(url, kCFURLIsExcludedFromBackupKey, YES, nil);
-      //  [url setResourceValue:[NSNumber numberWithBool: YES] forKey:kCFURLIsExcludedFromBackupKey error:&error];
-        if(error){
-            NSLog(@"Error in key issues %@",error);
-        }
-        //[url release];
 
-        
-    
-    }*/
+  [self BuildButtons];
+
  
 
 }
@@ -621,7 +602,7 @@
 -(void)viewDidDisappear:(BOOL)animated{
     if (_alertView) {
         [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-        _alertView=nil;
+        //_alertView=nil;
     }
    
 }
@@ -714,7 +695,7 @@
         shareButton.stringLink=book.link;
         [shareButton addTarget:self action:@selector(shareButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [button addSubview:shareButton];
-        [shareButton release];
+      //  [shareButton release];
         image=[UIImage imageNamed:@"bookshadow.png"];
         [button setBackgroundColor:[UIColor colorWithPatternImage:image]];
         UIButton *showRecording=[[UIButton alloc]initWithFrame:CGRectMake(40, 70, 66, 66)];
@@ -724,7 +705,7 @@
         showRecording.tag=[book.id integerValue];
         [showRecording addTarget:self action:@selector(RecordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [button addSubview:showRecording];
-        [showRecording release];
+        //[showRecording release];
        // NSLog(@"viewcontroller retain count %d",[button.viewController retainCount]);
       //  label.text=[title substringToIndex:3];
           NSLog(@"File name %@",title);
@@ -754,10 +735,10 @@
       
         [self.scrollView addSubview:button];
         //[self.view bringSubviewToFront:button];
-        [button release];
+      //  [button release];
         //[self.view addSubview:label];
         //[label release];
-        [tap release];
+      //  [tap release];
       
     }
     if (prog) {
@@ -771,14 +752,14 @@
    // RecordViewController *recordViewController=[[RecordViewController alloc]initWithStyle:UITableViewStyleGrouped forValue:button.tag];
     ShowViewController *showViewController=[[ShowViewController alloc]initWithNibName:@"ShowViewController" bundle:nil with:button.tag ];
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:showViewController];
-    UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:nav];
-    showViewController.pop=pop;
-    [nav release];
-    [showViewController release];
+   _popRecording=[[UIPopoverController alloc]initWithContentViewController:nav];
+    showViewController.pop=_popRecording;
+   // [nav release];
+   // [showViewController release];
     
    // UIBarButtonItem *item=[_array objectAtIndex:2];
    // [pop presentPopoverFromBarButtonItem:item permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [pop presentPopoverFromRect:button.frame inView:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [_popRecording presentPopoverFromRect:button.frame inView:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 -(void)singleTap:(UIGestureRecognizer *)singleTap{
     _buttonTapped=(UIButton *)singleTap.view;
@@ -815,9 +796,9 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
         [indicator startAnimating];
-    [imageView release];
+  //  [imageView release];
        [_alertView addSubview:indicator];
-       [indicator release];
+   //    [indicator release];
 //   [imageView release];
 
 //    for (UIView *view in _alertView.subviews ) {
@@ -840,7 +821,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 //    [_alertView addSubview:iconImage];
 //    [iconImage release];
     [_alertView show];
-    [_alertView release];
+  //  [_alertView release];
     _alertView.tag=2;
     Book *iden=_epubFiles[_buttonTapped.tag];
    
@@ -867,8 +848,8 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 		//valid ePub
 		NSLog(@"Parse now");
 		
-		[filemanager release];
-		filemanager=nil;
+		//[filemanager release];
+		//filemanager=nil;
 		
 		return strFilePath;
 	}
@@ -881,11 +862,11 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
 		[alert show];
-		[alert release];
-		alert=nil;
+		//[alert release];
+		//alert=nil;
 		
 	}
-	[filemanager release];
+	//[filemanager release];
 	filemanager=nil;
 	return @"";
 }
@@ -918,11 +899,11 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 											cancelButtonTitle:@"OK"
 											otherButtonTitles:nil];
 		[alert show];
-		[alert release];
-		alert=nil;
+	//	[alert release];
+	//	alert=nil;
 	}
-	[filemanager release];
-	filemanager=nil;
+//	[filemanager release];
+//	filemanager=nil;
 	
 }
 - (NSString *)applicationDocumentsDirectory {
@@ -938,7 +919,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
  */
 
 - (void)unzipAndSaveFile:(NSString *)epubLoc{
-	[epubLoc retain];
+	//[epubLoc retain];
 	ZipArchive* za = [[ZipArchive alloc] init];
 	if( [za UnzipOpenFile:epubLoc] ){
         NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
@@ -951,8 +932,8 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 			NSError *error;
 			[filemanager removeItemAtPath:strPath error:&error];
 		}
-		[filemanager release];
-		filemanager=nil;
+	//	[filemanager release];
+	//	filemanager=nil;
 		//start unzip
 		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
 		if( NO==ret ){
@@ -963,13 +944,13 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 												cancelButtonTitle:@"OK"
 												otherButtonTitles:nil];
 			[alert show];
-			[alert release];
-			alert=nil;
+	//		[alert release];
+	//		alert=nil;
 		}
 		[za UnzipCloseFile];
 	}
-    [epubLoc release];
-	[za release];
+   // [epubLoc release];
+//	[za release];
 }
 -(void)didPresentAlertView:(UIAlertView *)alertView{
     if (alertView.tag==300) {
@@ -1002,15 +983,15 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         reader.hidesBottomBarWhenPushed=YES;
         
         [self.navigationController pushViewController:reader animated:YES];
-        [reader release];
+    //    [reader release];
         if ([UIDevice currentDevice].systemVersion.integerValue<6) {
             [alertView dismissWithClickedButtonIndex:0 animated:YES];
-            _alertView=nil;
+         //   _alertView=nil;
         }
 
         return;
     }
-
+    ShadowButton *button;
     switch (bk.textBook.integerValue) {
         case 1://storyBooks
             delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -1025,17 +1006,17 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
                    reader=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
             reader._strFileName=value;
           
-            ShadowButton *button=(ShadowButton *)_buttonTapped;
+            button=(ShadowButton *)_buttonTapped;
             reader.imageLocation=button.imageLocalLocation;
             reader.url=button.stringLink;
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             reader.hidesBottomBarWhenPushed=YES;
             
             [self.navigationController pushViewController:reader animated:YES];
-            [reader release];
+         //   [reader release];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 [alertView dismissWithClickedButtonIndex:0 animated:YES];
-                _alertView=nil;
+            //    _alertView=nil;
             }
 
             break;
@@ -1055,10 +1036,10 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             viewController.hidesBottomBarWhenPushed=YES;
             self.navigationController.navigationBarHidden=YES;
                 [self.navigationController pushViewController:viewController animated:YES];
-            [viewController release];
+           // [viewController release];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 [alertView dismissWithClickedButtonIndex:0 animated:YES];
-                _alertView=nil;
+            //    _alertView=nil;
             }
             
             break;
@@ -1095,14 +1076,14 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     
 
 }
--(void)dealloc{
+/*-(void)dealloc{
     _array=nil;
     
     [_epubFiles release];
     [_scrollView release];
     
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setScrollView:nil];
     [super viewDidUnload];

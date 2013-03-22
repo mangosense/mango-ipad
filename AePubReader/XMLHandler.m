@@ -73,8 +73,9 @@
 		if ([elementName isEqualToString:@"package"]) {
 		
 			if ((delegate!=nil)&&([delegate respondsToSelector:@selector(finishedParsing:)])) {
-				
+				//_parser=nil;
 				[delegate finishedParsing:_epubContent];
+               
 			}
 		}
 
@@ -84,4 +85,5 @@
 	
 
 }
+
 @end

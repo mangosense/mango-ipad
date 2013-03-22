@@ -19,6 +19,7 @@
 @property(retain,nonatomic)UIPageViewController *controller;
 @property(retain,nonatomic)NSString *strFileName;
 @property(retain,nonatomic)XMLHandler *xmlhandler;
+@property(retain,nonatomic)XMLHandler *xmlhandlerOPF;
 @property(retain,nonatomic) NSString *rootPath;
 @property(retain,nonatomic)NSString *pagesPath;
 @property(retain,nonatomic)EpubContent *ePubContent;

@@ -63,7 +63,7 @@
 
 }
 -(void)insertNoteOFHighLight:(BOOL)highLight book:(NSInteger )bookid page:(NSInteger)pageNo string:(NSString *)text{
-    [text retain];
+  //  [text retain];
     NoteHighlight *noteHighLight=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
     noteHighLight.highlight=[NSNumber numberWithBool:highLight];
     noteHighLight.bookid=[NSNumber numberWithInteger:bookid];
@@ -76,7 +76,7 @@
         NSLog(@"%@",error);
     }
 
-    [text release];
+    //[text release];
 }
 -(NSArray *)getHighlight:(NSInteger )bookid withPageNo:(NSInteger)pageNumber{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -87,11 +87,11 @@
     [fetchRequest setPredicate:predicate];
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
+   // [fetchRequest release];
     return array;
 }
 -(NSArray *)getHighlightorNotes:(NSInteger)bookid withPageNo:(NSInteger)pageNumber withSurroundingString:(NSString *)string{
-    [string retain];
+//    [string retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
@@ -100,8 +100,8 @@
     [fetchRequest setPredicate:predicate];
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest autorelease];
-    [string release];
+   // [fetchRequest autorelease];
+   // [string release];
     return array;
 
     
@@ -117,8 +117,8 @@
     NSArray *array=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
     NSSortDescriptor *desc=[[NSSortDescriptor alloc] initWithKey:@"pageNo" ascending:YES];
     array=[array sortedArrayUsingDescriptors:@[desc]];
-    [desc release];
-    [fetchRequest autorelease];
+  //  [desc release];
+  //  [fetchRequest autorelease];
     return array;
 
 }
@@ -133,8 +133,8 @@
     NSError *error;
     NSArray *array=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
     array=[array sortedArrayUsingDescriptors:@[desc]];
-    [desc release];
-    [fetchRequest autorelease];
+ //   [desc release];
+ //   [fetchRequest autorelease];
     return array;
 }
 -(NSArray *)getNoteOrHighlight:(NSInteger )bookid withPageNo:(NSInteger)pageNumber{
@@ -147,7 +147,7 @@
     [fetchRequest setPredicate:predicate];
     NSError *error;
     NSArray *array=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest autorelease];
+  //  [fetchRequest autorelease];
     return array;
 }
 -(NSArray *)getNotes:(NSInteger )bookid withPageNo:(NSInteger)pageNumber{
@@ -160,7 +160,7 @@
     [fetchRequest setPredicate:predicate];
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
+   // [fetchRequest release];
     return array;
 }
 -(void)deleteNoteOrHighlight:(NoteHighlight *)hight{
@@ -181,7 +181,7 @@
         NSLog(@"book %@ %@",bk.id,bk.title);
         NSLog(@"book localimage Loc %@",bk.localPathImageFile);
     }
-    [fetchRequest release];
+  //  [fetchRequest release];
     return array;
     
 }
@@ -193,7 +193,7 @@
 
 
     NSError *error;
-    [fetchRequest autorelease];
+ //   [fetchRequest autorelease];
     return [_dataModelContext countForFetchRequest:fetchRequest error:&error];
 
 }
@@ -207,7 +207,7 @@
     NSError *error;
       NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
  //   NSLog(@"note identity %d count %d",identity,array.count);
-    [fetchRequest release];
+  //  [fetchRequest release];
     return [array lastObject];
 
 }
@@ -223,21 +223,21 @@
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
     NSArray *descp=@[desc];
-    [desc release];
+  //  [desc release];
     array=[array sortedArrayUsingDescriptors:descp];
-    [fetchRequest release];
+   // [fetchRequest release];
  //   NSLog(@"downloaded book count %d",array.count);
-    for (Book *book in array) {
-        NSDateFormatter *format=[[NSDateFormatter alloc]init];
-        
-      //  NSLog(@"%@",[format stringFromDate:book.date]);
-        [format release];
-    }
+//    for (Book *book in array) {
+//     //   NSDateFormatter *format=[[NSDateFormatter alloc]init];
+//        
+//      //  NSLog(@"%@",[format stringFromDate:book.date]);
+//     //   [format release];
+//    }
     return array;
     
 }
 -(Book *)getBookOfId:(NSString *)iden{
-    [iden retain];
+//    [iden retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -246,12 +246,12 @@
     [fetchRequest setPredicate:predicate];
     [fetchRequest setEntity:entity];
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    [iden release];
+  //  [fetchRequest release];
+   // [iden release];
     return [array lastObject];
 }
 -(StoreBooks *)getStoreBookById:(NSString *)productId{
-    [productId retain];
+    //[productId retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -261,13 +261,13 @@
     [fetchRequest setEntity:entity];
     NSError *error=nil;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    [productId release];
+//    [fetchRequest release];
+ //   [productId release];
     return [array lastObject];
 
 }
 -(BOOL)checkIfIdExists:(NSNumber *)iden{
-    [iden retain];
+ //   [iden retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -276,8 +276,8 @@
     [fetchRequest setPredicate:predicate];
     [fetchRequest setEntity:entity];
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [iden release];
-    [fetchRequest release];
+  //  [iden release];
+  //  [fetchRequest release];
     if (array.count==0) {
        return NO;
     }
@@ -303,7 +303,7 @@
 }
 -(BOOL)checkIfStoreId:(NSNumber *)identity{
   
-        [identity retain];
+   //     [identity retain];
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription
                                        entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -312,8 +312,8 @@
         [fetchRequest setPredicate:predicate];
         [fetchRequest setEntity:entity];
         NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-        [identity release];
-    [fetchRequest release];
+     //   [identity release];
+   // [fetchRequest release];
         if (array.count==0) {
             return NO;
         }
@@ -324,9 +324,9 @@
 
 }
 -(void)insertBookWithNo:(StoreBooks *)storeBooks {
-    [storeBooks retain];
+ //   [storeBooks retain];
     if ([self checkIfIdExists:storeBooks.productIdentity]) {
-        [storeBooks release];
+     //   [storeBooks release];
         return;
     }
     Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -353,12 +353,12 @@
     }
     storeBooks.purchased=@YES;
     [self saveStoreBookData:storeBooks];
-    [storeBooks release];
+   // [storeBooks release];
 }
 -(void)insertBookWithYes:(StoreBooks *)storeBooks{
-    [storeBooks retain];
+    //[storeBooks retain];
     if ([self checkIfIdExists:storeBooks.productIdentity]) {
-        [storeBooks release];
+      //  [storeBooks release];
         return;
     }
     Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -385,11 +385,11 @@
     }
     storeBooks.purchased=@YES;
     [self saveStoreBookData:storeBooks];
-    [storeBooks release];
+   // [storeBooks release];
     
 }
 -(StoreBooks *)getBookById:(NSNumber *)identity{
-    [identity retain];
+   // [identity retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -398,8 +398,8 @@
     [fetchRequest setPredicate:predicate];
     NSError *error=nil;
     NSArray *bookArray=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    [identity release];
+    //[fetchRequest release];
+    //[identity release];
     StoreBooks *bks=[bookArray lastObject];
     NSLog(@"Boook id and title %@ %@",identity,bks.title);
     return [bookArray lastObject];
@@ -411,9 +411,16 @@
     
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSArray *bookArray=[diction objectForKey:@"books"];
-    for (NSDictionary *key in bookArray) {
-        key=[key objectForKey:@"book"];
+    
+    for (int i=0;i<bookArray.count;i++) {
+        NSDictionary *fromArray=[bookArray objectAtIndex:i];
+       
+        NSDictionary *key=[fromArray objectForKey:@"book"];
+         NSLog(@"key %@",key);
         NSNumber *numberId=[key objectForKey:@"id"];
+        if(numberId){
+        NSLog(@"number id %@",numberId);
+        }
         if(![self checkIfStoreId:numberId]&&[key objectForKey:@"title"]!=[NSNull null]){
 
             StoreBooks *storeBooks=[NSEntityDescription insertNewObjectForEntityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -488,7 +495,7 @@
     [fetchRequest setPredicate:predicate];
     NSArray *arr=[_dataModelContext executeFetchRequest:fetchRequest error:nil];
     
-    [fetchRequest release];
+   // [fetchRequest release];
     return arr;
 }
 -(NSArray *)getForPage:(NSInteger )pageNumber{
@@ -502,21 +509,23 @@
         NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
  
-    [fetchRequest release];
+  //  [fetchRequest release];
     NSLog(@"per page book count %d",array.count);
        return array;
     
 }
 -(BOOL)insertIfNew:(NSMutableData *)data{
-    NSArray *diction=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    NSArray *array=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     //NSFileManager *manager=[NSFileManager defaultManager];
   //  NSLog(@"diction count %d",diction.count);
     NSInteger count=0;
     _downloadedImage=0;
-       for (NSDictionary *key in diction) {
-           key=[key objectForKey:@"book"];
+    
+    for (int i=0;i<array.count;i++) {
+        NSDictionary *fromDict=[array objectAtIndex:i];
+        NSDictionary *key=[fromDict objectForKey:@"book"];
 
            NSString *temp=[NSString stringWithFormat:@"%@.jpg",[key objectForKey:@"id"]];
            
@@ -574,7 +583,7 @@
                NSNumber *iden=[key objectForKey:@"id"];
                NSString *str=[[NSString alloc ]initWithFormat:@"%@.epub",iden];
                Book *book=[self getBookOfId:str];
-               [str release];
+           //    [str release];
              //  if(num!=[NSNull null]){
                    book.size=[NSNumber numberWithFloat:[num floatValue]];
                book.desc=[key objectForKey:@"description"];

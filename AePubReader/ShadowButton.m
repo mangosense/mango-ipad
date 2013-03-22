@@ -42,7 +42,7 @@
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo];
         UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:activity];
        
-        [activity release];
+     //   [activity release];
         [pop presentPopoverFromRect:self.frame inView:self.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
        // [pop release];
         // you dont release pop
@@ -63,7 +63,7 @@
      
         [_libraryViewController presentModalViewController:mail animated:YES];
     }
-     [mail release];
+     //[mail release];
 }
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
     [controller dismissModalViewControllerAnimated:YES];
@@ -122,8 +122,8 @@
     // Drawing code
 }
 */
--(void)dealloc{
+/*-(void)dealloc{
     [super dealloc];
     _stringLink=nil;
-}
+}*/
 @end

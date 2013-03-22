@@ -36,7 +36,7 @@
     NSString *string=[NSString stringWithFormat:@"%d",_identity ];
   Book *book=  [delegate.dataModel getBookOfId:string];
     _imageView.image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
-    _textView.text=book.desc;
+    [_webView loadHTMLString:book.desc baseURL:nil];
     _titleLabel.text=book.title;
     _topToolbar.tintColor=[UIColor blackColor];
       CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -44,9 +44,9 @@
     CGFloat screenHeight = screenRect.size.height;
     // CGFloat screenWidht=screenRect.size.width;
     if (screenHeight>500.0&& [[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone){
-        CGRect frame=  _textView.frame;
+        CGRect frame=  _webView.frame;
         frame.origin.x=frame.origin.x+60;
-        _textView.frame=frame;
+        _webView.frame=frame;
     }
     float size=[book.size floatValue];
 
@@ -72,7 +72,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/*
 - (void)dealloc {
     [_imageView release];
     [_titleLabel release];
@@ -82,15 +82,16 @@
     [_bckButton release];
     [_fileSizeLabel release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setImageView:nil];
     [self setTitleLabel:nil];
-    [self setTextView:nil];
+
     [self setDownloadButton:nil];
     [self setTopToolbar:nil];
     [self setBckButton:nil];
     [self setFileSizeLabel:nil];
+    [self setWebView:nil];
     [super viewDidUnload];
 }
 -(NSUInteger)supportedInterfaceOrientations{
@@ -103,7 +104,7 @@
     if (_booksMy.downloadBook) {
         UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
         [down show];
-        [down release];
+      //  [down release];
         return;
     }
     [self dismissModalViewControllerAnimated:YES];

@@ -47,7 +47,7 @@
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
-    [str release];
+   // [str release];
     if (temp) {
         NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
         NSString *temp=diction[@"auth_token"];
@@ -64,7 +64,7 @@
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        [alertView release];
+        //[alertView release];
     }
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -88,7 +88,7 @@
         [self presentViewController:c animated:YES completion:^(){
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-        [c release];
+     //   [c release];
     }
 
 }
@@ -97,26 +97,26 @@
 }
 
 -(void)goToNext{
-    UITabBarController *tabBarController=[[[UITabBarController alloc]init]autorelease];
+    UITabBarController *tabBarController=[[UITabBarController alloc]init];
      MyBooksViewController *myBook=[[MyBooksViewController alloc]initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navLib=[[UINavigationController alloc]initWithRootViewController:myBook];
    
     DownloadViewController *downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
     downloadView.myBook=myBook;
-     [myBook release];
+ //    [myBook release];
     
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:downloadView];
-    [downloadView release];
+  //  [downloadView release];
     LiveViewControllerIphone *liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:liveController];
     liveController.myBooks=myBook;
     liveController.downloadViewController=downloadView;
     tabBarController.viewControllers=@[navLib,nav,navigationLive];
     [self.navigationController pushViewController:tabBarController animated:YES];
-    [navigationLive release];
-    [nav release];
-    [navLib release];
-       [liveController release];
+ //   [navigationLive release];
+ //   [nav release];
+ //   [navLib release];
+ //      [liveController release];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
     
@@ -138,7 +138,7 @@
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-    [alertView release];
+//    [alertView release];
 }
 - (void)viewDidLoad
 {
@@ -197,7 +197,7 @@
 
 - (IBAction)email:(id)sender {
 }
-- (void)dealloc {
+/*- (void)dealloc {
     _error=nil;
     [_email release];
     [_password release];
@@ -208,7 +208,7 @@
     [_signIn release];
     [_signUp release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setEmail:nil];
     [self setPassword:nil];
@@ -224,7 +224,7 @@
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     signUp.loginViewControllerIphone=self;
     [self presentViewController:signUp animated:YES completion:nil];
-    [signUp release];
+   // [signUp release];
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
@@ -238,13 +238,14 @@
     [request setURL:url];
     [request setHTTPMethod:@"GET"];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-    [request release];
-    [connection autorelease];
+    [connection start];
+  //  [request release];
+  //  [connection autorelease];
     _alertView =[[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-    [indicator release];
+   // [indicator release];
     [_alertView setTitle:@"Loading...."];
 //    UIImage *image=[UIImage imageNamed:@"loading.png"];
 //    
@@ -289,12 +290,12 @@
    
     FacebookIphoneLogin *facebook=[[FacebookIphoneLogin alloc]initWithloginViewController:self];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
-    [facebook release];
+   // [facebook release];
     [connection start];
-    [request release];
-    [connection autorelease];
-    [dictionary release];
-    [jsonValue autorelease];
+    //[request release];
+    //[connection autorelease];
+    //[dictionary release];
+    //[jsonValue autorelease];
 
 }
 - (IBAction)faceBookLogin:(id)sender {
@@ -306,7 +307,7 @@
                 UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
                 [indicator startAnimating];
                 [_alertView addSubview:indicator];
-                [indicator autorelease];
+            //    [indicator autorelease];
                 [_alertView setTitle:@"Loading...."];
                [_alertView show];
   //  UIImage *image=[UIImage imageNamed:@"loading.png"];
@@ -335,7 +336,7 @@
             }
             else{
                  [self performSelectorOnMainThread:@selector(errorOther) withObject:nil waitUntilDone:NO];
-                 [_error retain];
+               //  [_error retain];
             }
         }
         else if (granted) {
@@ -366,8 +367,8 @@
 -(void)errorOther{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    [alert release];
-    [_error release];
+   // [alert release];
+   // [_error release];
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     
 }
@@ -375,7 +376,7 @@
     
                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
-                [alert release];
+               // [alert release];
    
     
     _error=nil;

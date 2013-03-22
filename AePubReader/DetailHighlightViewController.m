@@ -48,7 +48,7 @@
        UIBarButtonItem *bar=[[UIBarButtonItem alloc]initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(done:)];
         self.navigationController.navigationItem.rightBarButtonItem=bar;
     
-    [bar release];
+   // [bar release];
 }
 -(void)done:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
@@ -59,14 +59,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     [_highlightString release];
     [_notesString release];
     [_highlight release];
     [_notes release];
     [_notesLabel release];
     [super dealloc];
-}
+}*/
 - (void)viewDidUnload {
     [self setHighlight:nil];
     [self setNotes:nil];

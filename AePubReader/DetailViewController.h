@@ -11,7 +11,8 @@
 @interface DetailViewController : UIViewController
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;
-@property (retain, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+
 @property (retain, nonatomic) IBOutlet UIButton *downloadButton;
 @property(assign,nonatomic)NSInteger identity;
 - (IBAction)downloadBook:(id)sender;

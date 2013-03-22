@@ -26,10 +26,10 @@
     // Drawing code
 }
 */
--(void)dealloc{
+/*-(void)dealloc{
     [_surroundingtext release];
     [_note release];
     [_selectedText release];
     [super dealloc];
-}
+}*/
 @end

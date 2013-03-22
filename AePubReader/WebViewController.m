@@ -18,7 +18,7 @@
     if (self) {
         // Custom initialization
         _url=url;
-        [_url retain];
+     //   [_url retain];
     }
     return self;
 }
@@ -36,9 +36,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     NSURLRequest *request=[[NSURLRequest alloc]initWithURL:_url];
-    [_url release];
+  //  [_url release];
     [_webView loadRequest:request];
-    [request release];
+   // [request release];
     _alert =[[UIAlertView alloc]init];
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPad) {
         UIImage *image=[UIImage imageNamed:@"loading.png"];
@@ -48,21 +48,21 @@
         
         imageView.image=image;
         [_alert addSubview:imageView];
-        [imageView release];
+    //    [imageView release];
         UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
         indicator.color=[UIColor blackColor];
         [indicator startAnimating];
         [_alert addSubview:indicator];
-        [indicator release];
+      //  [indicator release];
     }
     else{
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alert addSubview:indicator];
-    [indicator release];
+  //  [indicator release];
         [_alert setTitle:@"Loading...."];}
     [_alert show];
-    [_alert release];
+  //  [_alert release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,18 +76,18 @@
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
-- (void)dealloc {
+/*- (void)dealloc {
     [_webView release];
     [super dealloc];
-}
+}*/
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
-    _alert =nil;
+   // _alert =nil;
     NSLog(@"error %@",error);
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
      [_alert dismissWithClickedButtonIndex:0 animated:YES];
-    _alert=nil;
+   // _alert=nil;
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
  
@@ -102,6 +102,6 @@
     
     [_webView loadRequest:request];
     [self dismissModalViewControllerAnimated:YES];
-    [request release];
+   // [request release];
 }
 @end

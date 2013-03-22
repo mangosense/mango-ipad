@@ -31,7 +31,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
@@ -92,6 +92,8 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSLog(@"%@", error);
 	[webView release];
+    webView=nil;
+    
 }
 
 - (void) webViewDidFinishLoad:(UIWebView*)webView{
@@ -169,7 +171,7 @@
 		[searchRes release];
     }
     
-    [webView dealloc];
+    webView=nil;
     
     [resultsTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     if((currentChapterIndex+1)<[_array count]){
@@ -177,6 +179,7 @@
     } else {
         [epubViewController setSearch:NO];
     }
+      [webView dealloc];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
