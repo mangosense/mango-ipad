@@ -161,20 +161,12 @@
         [cell addSubview:_progress];
         
     }
+   
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     Book *book=[_array objectAtIndex:indexPath.row];
     cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile];
     cell.textLabel.text=book.title;
-//    float size=[book.size floatValue];
-   
-//    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-//    size=size/1024.0f;
-//    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-//    size=size/1024.0f;
-//    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-//
-//    cell.detailTextLabel.text=[NSString stringWithFormat:@"File Size : %f MB",size];
-    // Configure the cell...
+
     
     return cell;
 }

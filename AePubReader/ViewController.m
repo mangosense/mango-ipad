@@ -150,7 +150,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self unzipAndSaveFile:_strFileName];
+  //  [self unzipAndSaveFile:_strFileName];
     _xmlhandler=[[XMLHandler alloc] init];
 	_xmlhandler.delegate=self;
 	[_xmlhandler parseXMLFileAt:[self getRootFilePath]];
@@ -283,11 +283,7 @@
     return _searching;
 }
 -(void)LibraryPressed:(id)sender{
- 
-    NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
-    //NSString *strPath=[NSString stringWithFormat:@"%@/UnzippedEpub",[self applicationDocumentsDirectory]];
-    NSString *strPath=[NSString stringWithFormat:@"%@/%d",[self applicationDocumentsDirectory],iden];
-    [[NSFileManager defaultManager] removeItemAtPath:strPath error:nil];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)unzipAndSaveFile:(NSString *)epubLoc{

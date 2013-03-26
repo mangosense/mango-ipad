@@ -242,31 +242,7 @@
 }
 
 -(void)restore:(id)sender{
-//    _alert =nil;
-//    _alert =[[UIAlertView alloc]init];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//    [indicator startAnimating];
-//    [_alert addSubview:indicator];
-//    [indicator release];
-//    [_alert setTitle:@"Loading...."];
-//    UIImage *image=[UIImage imageNamed:@"loading.png"];
-    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
- //   imageView.layer.cornerRadius = 5.0;
- //   imageView.layer.masksToBounds = YES;
-    
-//    imageView.image=image;
-//    [_alert addSubview:imageView];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
 
-//    indicator.color=[UIColor blackColor];
-//    [indicator startAnimating];
-//    [_alert addSubview:indicator];
-   // [indicator release];
-
-//    [_alert show];
-   // [_alert release];
-   // [imageView release];
   
      [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
    

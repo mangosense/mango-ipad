@@ -129,6 +129,7 @@
 		AE8F44E816C125DF00D396F2 /* 49.epub in Resources */ = {isa = PBXBuildFile; fileRef = AE8F44E716C125DF00D396F2 /* 49.epub */; };
 		AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = AE919DC51657B0D90017802E /* RecieptValidation.m */; };
 		AE92809416197E51001BCBB6 /* ListOfBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = AE92809316197E51001BCBB6 /* ListOfBooks.m */; };
+		AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE94606416FC64F8002B6E0B /* DirectionButton.m */; };
 		AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */; };
 		AE9793F91650B01F00DBB5D1 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */; };
 		AE9A1869165E583600B5E594 /* dropdown.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9A1868165E583600B5E594 /* dropdown.png */; };
@@ -444,6 +445,8 @@
 		AE92809316197E51001BCBB6 /* ListOfBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfBooks.m; sourceTree = "<group>"; };
 		AE9280971619AC82001BCBB6 /* mango.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mango.png; sourceTree = "<group>"; };
 		AE92809A1619AD4B001BCBB6 /* mangoLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mangoLow.png; sourceTree = "<group>"; };
+		AE94606316FC64F8002B6E0B /* DirectionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionButton.h; sourceTree = "<group>"; };
+		AE94606416FC64F8002B6E0B /* DirectionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionButton.m; sourceTree = "<group>"; };
 		AE9793F51650B01F00DBB5D1 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
@@ -964,7 +967,6 @@
 			children = (
 				AE51672E1680781000DF5136 /* NotesHighlightViewController.h */,
 				AE51672F1680781000DF5136 /* NotesHighlightViewController.m */,
-				AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */,
 				AEDA93E7168D7A6E0095BEA9 /* KPWebViewInterceptor.js */,
 				AE9D4C6F162C198700352FF8 /* arrow next.png */,
 				AE9D4C72162C198C00352FF8 /* arrow previous.png */,
@@ -972,8 +974,9 @@
 				AE7FEDDD1615813900C4B51D /* EpubContentR.h */,
 				AE7FEDD91615810900C4B51D /* XMLHandler.h */,
 				AE7FEDDA1615810900C4B51D /* XMLHandler.m */,
-				AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */,
 				AE7FEDD6161580DF00C4B51D /* EpubReaderViewController.h */,
+				AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */,
+				AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */,
 				AE7FEDDF161581EB00C4B51D /* View.xib */,
 				AEF6A151169596CE00ECAE7E /* WebPageViewController.h */,
 				AEF6A152169596CE00ECAE7E /* WebPageViewController.m */,
@@ -1013,6 +1016,8 @@
 				AE2D35BA16B1562D009E99A7 /* NoteButton.m */,
 				AEA7902916B7E8C5009B9C11 /* CustomLeftView.h */,
 				AEA7902A16B7E8C5009B9C11 /* CustomLeftView.m */,
+				AE94606316FC64F8002B6E0B /* DirectionButton.h */,
+				AE94606416FC64F8002B6E0B /* DirectionButton.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -1570,6 +1575,7 @@
 				AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */,
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
+				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

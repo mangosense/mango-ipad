@@ -150,10 +150,12 @@
     
     
 }
+
 -(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
 
     return UIInterfaceOrientationLandscapeLeft;
 }
+
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
@@ -165,15 +167,16 @@
    color=[UIColor colorWithPatternImage:image];
     _recordBackgroundview.backgroundColor=color;
     _hide=YES;
-     // [self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft];
-	//[self setBackButton];
+    
 	[_webview setBackgroundColor:[UIColor clearColor]];
 	//First unzip the epub file to documents directory
-	[self unzipAndSaveFile];
+	//[self unzipAndSaveFile];
 	_xmlHandler=[[XMLHandler alloc] init];
 	_xmlHandler.delegate=self;
 	[_xmlHandler parseXMLFileAt:[self getRootFilePath]];
-    //[_webview removeFromSuperview];
+    [_leftButton setAlpha:0.25f];
+    [_rightButton setAlpha:0.25f];
+   
       [self removeZoom:_webview];
     UISwipeGestureRecognizer *left=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftOrRightGesture:)];
     left.direction=UISwipeGestureRecognizerDirectionRight;
@@ -181,33 +184,14 @@
     right.direction=UISwipeGestureRecognizerDirectionLeft;
     [_webview.scrollView addGestureRecognizer:left];
     [_webview.scrollView addGestureRecognizer:right];
-  
-    UITapGestureRecognizer *top=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DoubleTap:)];
-    UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPress:)];
-    [_webview.scrollView addGestureRecognizer:longPress];
-   // [longPress release];
-  //  top.direction=UISwipeGestureRecognizerDirectionDown;
-    top.numberOfTapsRequired=2;
-    top.numberOfTouchesRequired=1;
-    
-    [top setDelegate:self];
-// [[UIDevice currentDevice] setOrientation:UIInterfaceOrientationLandscapeLeft];
-    [_webview.scrollView addGestureRecognizer:top];
-    
-  /*  [top release];
-    [right release];
-    [left release];*/
- //   [_Done setTintColor:[UIColor grayColor]];
+
     [_shareButton setTintColor:[UIColor lightGrayColor]];
     [self.navigationController.navigationBar addSubview:_textField];
-//    [_hide setTintColor:[UIColor grayColor]];
-//    [_hide setEnabled:NO];
-    //[_textField release];
+
     [self.navigationController.navigationBar setHidden:YES];
         [self.tabBarController.tabBar setHidden:YES];
     [_webview setDelegate:self];
-    //self.wantsFullScreenLayout=YES;
-    //[self.view addSubview:_webview];
+
     NSLog(@"height %f",_webview.frame.size.height);
     NSString *temp=[_strFileName stringByDeletingPathExtension];
     if([[NSFileManager defaultManager]fileExistsAtPath:temp]){
@@ -228,9 +212,6 @@
     _webview.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [_doneButton setTintColor:[UIColor lightGrayColor]];
-   
-
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
         _topToolbar.tintColor=[UIColor blackColor];
     }
@@ -266,65 +247,30 @@
     _wasFirstInPortrait=NO;
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
         NSLog(@"still in portrat");
-     //   AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         UIViewController *c=[[UIViewController alloc]init];
-   //     [self presentModalViewController:c animated:NO ];
+ 
         [self presentViewController:c animated:NO completion:^(void){
             [self dismissModalViewControllerAnimated:YES];
         }];
         
-//        CGAffineTransform landscapeTransform=CGAffineTransformMakeRotation(M_PI/2);
-//        [self.view setTransform:landscapeTransform];
-   //     [[UIDevice currentDevice]setOrientation:UIDeviceOrientationLandscapeLeft];
         _wasFirstInPortrait=YES;
-     //   [c release];
+ 
 
     }else{
     
         NSLog(@"landscape");
     }
-  
-
     _hide=YES;
     _record=NO;
     _topToolbar.hidden=YES;
-   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shakeEvent) name:@"shake" object:nil];
-    // Enabled monitoring of the sensor
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     if ([UIDevice currentDevice].proximityMonitoringEnabled==YES) {
         // Set up an observer for proximity changes
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorStateChange:)
                                                      name:@"UIDeviceProximityStateDidChangeNotification" object:nil];
     }
-   /* if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ])
-    {
-        if(!_videoCamera){
-            _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
-            _filter=[[GPUImageLuminosity alloc]init];
-            [_videoCamera addTarget:_filter];
-            [_filter setLuminosityProcessingFinishedBlock:^(CGFloat luminosity, CMTime frameTime) {
-                // Do something with the luminosity
-                NSLog(@"%f",luminosity);
-                if (luminosity>0.1) {
-                    if (!_DayOrNight) {
-                        
-                    
-                        [self performSelectorOnMainThread:@selector(showNight) withObject:nil waitUntilDone:NO];
-                    }
-                }else{
-                    if (_DayOrNight) {
-                        [self performSelectorOnMainThread:@selector(showDay) withObject:nil waitUntilDone:NO];
-                    }
-                     
-                }
-               
-            }];
-            [_videoCamera startCameraCapture];
-        }
-        
-        //        videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-        
-    }*/
+
+
 
 }
 -(void)showDay{
@@ -360,23 +306,12 @@
     }
     return  [super canPerformAction:action withSender:sender];
 }
--(void)longPress:(id)sender{
-    [[UIMenuController sharedMenuController] setMenuVisible:YES];
-}
+
 -(BOOL)canBecomeFirstResponder{
     return YES;
 }
-
-//-(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
-//    if (@selector(select:)==action) {
-//        return YES;
-//    }
-//    return [super canPerformAction:action withSender:sender];
-//}
-
 -(void)notes:(id)sender{
-    
-    //UIPopoverController *pop=[[UIPopoverController alloc]initWithContentViewController:<#(UIViewController *)#> removeHighlight()
+
 
 }
 -(IBAction)removeHighlight:(id)sender{
@@ -400,26 +335,10 @@
         [delegate.dataModel insertNoteOFHighLight:YES book:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] page:_pageNumber string:highlightedString];
     }
 
-    // The JS File
-      
-    // The JS Function
-//   startSearch   = [NSString stringWithFormat:@"getHighlightedString()"];
-//    [_webview stringByEvaluatingJavaScriptFromString:startSearch];
-    
-//    NSString *selectedText   = [NSString stringWithFormat:@"selectedText"];
-//    NSString * highlightedString = [_webview stringByEvaluatingJavaScriptFromString:selectedText];
-//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication];
-//    [delegate.dataModel insertNoteOFHighLight:YES book:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] page:_pageNumber string:highlightedString];
+
     
 }
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]||
-        [gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]
-        ) {
-        return YES;
-    }
-return NO;
-}
+
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
 //    if (_alertView) {
@@ -480,6 +399,21 @@ return NO;
     }else{
         [_playPauseControl setEnabled:NO];
     }
+//    NSString *path=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
+//    
+//    _audioPath=[_rootPath stringByAppendingPathComponent:path];
+//    if (_timer) {
+//        if ([_timer isValid]) {
+//            [_timer invalidate];
+//        }
+//    }
+//    [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('pause')"];
+//    NSLog(@"Path %@",_audioPath);
+//    if ([[NSFileManager defaultManager] fileExistsAtPath:_audioPath]&&path.length>0) {
+//        _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:_audioPath] error:nil];
+//        [_playerDefault play];
+//        _timer=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+//    }
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
 
@@ -493,6 +427,19 @@ return NO;
         webView.scrollView.delegate=self;
      
     }
+    [UIView animateWithDuration:1.0 animations:^(void) {
+        
+        [_leftButton setAlpha:0.25f];
+        [_rightButton setAlpha:0.25f];
+        
+    }];
+   
+    if ([self._ePubContent._spine count]-1==_pageNumber) {
+        _rightButton.hidden=YES;
+    }else{
+        _rightButton.hidden=NO;
+    }
+    
     _isPlaying=NO;
     jsCode=[_webview stringByEvaluatingJavaScriptFromString:@"localStorage.autoPlay"];
     NSLog(@"autoPlay value %@",jsCode);
@@ -534,10 +481,13 @@ return NO;
         }
         
     }
-   // _pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[self._ePubContent._manifest valueForKey:[self._ePubContent._spine objectAtIndex:_pageNumber]]];
-	//[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pagesPath]]];
-}
+    
 
+
+}
+-(void)update{
+    NSLog(@"seconds %f",_playerDefault.deviceCurrentTime);
+}
 -(void)webViewDidStartLoad:(UIWebView *)webView{
    
 //    _alertView =[[UIAlertView alloc]init];
@@ -556,6 +506,10 @@ return NO;
     if ([_anAudioPlayer isPlaying]) {
         [_anAudioPlayer stop];
     }
+    if ([_timer isValid]) {
+        [_timer invalidate];
+    }
+
     
 }
 /*Function Name : setTitlename
@@ -589,8 +543,7 @@ return NO;
        [self becomeFirstResponder];
 }
 
-
-/*Function Name : unzipAndSaveFile
+   /*Function Name : unzipAndSaveFile
  *Return Type   : void
  *Parameters    : nil
  *Purpose       : To unzip the epub file to documents directory
@@ -644,7 +597,6 @@ return NO;
     return basePath;
 }
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-   // [self removeAllHighlights];
       [searchBar resignFirstResponder];
     NSLog(@"search Button Clicked");
 }
@@ -691,6 +643,7 @@ return NO;
 
 - (IBAction)backButtonOrNextButton:(id)sender {
     UIButton *btnClicked=(UIButton*)sender;
+    [btnClicked setAlpha:1.0f];
 	if (btnClicked.tag==0) {
 		
 		if (_pageNumber>0) {
@@ -712,33 +665,7 @@ return NO;
 	}
 
 }
-/*
- HighLight occuerances of content in the webview
- */
-//- (NSInteger)highlightAllOccurencesOfString:(NSString*)str {
-//    [_hide setEnabled:YES];
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"SearchWebView" ofType:@"js"];
-//    NSString *jsCode = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-//   NSString *fail= [_webview stringByEvaluatingJavaScriptFromString:jsCode];
-//    if (fail==nil) {
-//        NSLog(@"fail");
-//    }
-//    NSString *startSearch = [NSString stringWithFormat:@"MyApp_HighlightAllOccurencesOfString('%@');",str];
-//    fail=[_webview stringByEvaluatingJavaScriptFromString:startSearch];
-//    if (fail==nil) {
-//        NSLog(@"fail");
-//    }
-//    //    NSLog(@"%@", [self stringByEvaluatingJavaScriptFromString:@"console"]);
-//    NSLog(@"occurences %@",[_webview stringByEvaluatingJavaScriptFromString:@"MyApp_SearchResultCount;"]);
-//    return [[_webview stringByEvaluatingJavaScriptFromString:@"MyApp_SearchResultCount;"] intValue];
-//}
-///*
-// remove highlighted occurances if any
-// */
-//- (void)removeAllHighlights {
-//    [_hide setEnabled:NO];
-//    [_webview stringByEvaluatingJavaScriptFromString:@"MyApp_RemoveAllHighlights()"];
-//}
+
 #pragma mark XMLHandler Delegate Methods
 
 - (void)foundRootPath:(NSString*)rootPath{
@@ -843,7 +770,7 @@ return NO;
 }
 
 - (IBAction)onBack:(id)sender{
-   // [self.tabBarController.tabBar setHidden:NO];
+
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBarHidden=NO;
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
@@ -851,16 +778,13 @@ return NO;
 [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	[self.navigationController popViewControllerAnimated:YES];
     NSLog(@"NSString %@",_strFileName);
-    NSString *temp=[_strFileName stringByDeletingPathExtension];
-    [[NSFileManager defaultManager]removeItemAtPath:temp error:nil];
+
     if (_pop) {
         [_pop dismissPopoverAnimated:YES];
     }
     [self stopRecording:nil];
     
-//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-//    delegate.PortraitOrientation=YES;
-//    delegate.LandscapeOrientation=YES;
+
 }
 
 - (IBAction)showPopView:(id)sender {
@@ -974,6 +898,8 @@ return NO;
 }
 
 - (void)viewDidUnload {
+    [self setRightButton:nil];
+    [self setLeftButton:nil];
   //  [_videoCamera stopCameraCapture];
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceProximityStateDidChangeNotification" object:nil];
@@ -1004,53 +930,6 @@ return NO;
 }
 
 
-/*- (void)dealloc {
-if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ]){
-        [_videoCamera release];
-        [_filter release];
-    }
-    _gameLink=nil;
-	//_arrayForItems=nil;
-	[_webview release];
-	_webview=nil;
-	_imageLocation=nil;
-    _url=nil;
-	[_ePubContent release];
-	_ePubContent=nil;
-	
-	_pagesPath=nil;
-	_rootPath=nil;
-	
-	[_strFileName release];
-	_strFileName=nil;
-	
-	//[_backGroundImage release];
-//	_backGroundImage=nil;
-	
-    [_webview release];
-   // [_view release];
-//    [_Done release];
-//    [_search release];
-//    [_hide release];
-//   
-//    [_topToolbar release];
-    [_topToolbar release];
-    [_doneButton release];
-    [_shareButton release];
-   
-    [_scrollViewForThumnails release];
-    [_showPop release];
-    [_imageToptoolbar release];
-    [_toggleToolbar release];
-    [_playPauseControl release];
-    [_recordBackgroundview release];
-    [_recordAudioButton release];
-  
-    [_gameButton release];
-    [_nextButton release];
-    [_showRecordButton release];
-    [super dealloc];
-}*/
 
 - (IBAction)hideSearch:(id)sender {
  
@@ -1128,15 +1007,17 @@ if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCam
           
             _hide=!_hide;// reason in if is due to scheduling, which is a must
         }];
-        
+
         NSLog(@"ribbonButton click scheduled");// only time scheduling is when the topbar is shown.
-            [self performSelector:@selector(ribbonButtonClick:) withObject:nil afterDelay:20];
-    
+            [self performSelector:@selector(ribbonButtonClick:) withObject:nil afterDelay:15];
+        [_leftButton setAlpha:1.0f];
+        [_rightButton setAlpha:1.0f];
     }
 
     else if(!_hide){// simple reason to have else if instead of else is that call to this function is at times schedules with perform selector
+        [_leftButton setAlpha:0.25f];
+        [_rightButton setAlpha:0.25f];
         NSLog(@"hide is not true");
-      
         [UIView animateWithDuration:1.0 animations:^{
             //_imageToptoolbar
             CGRect frame=_imageToptoolbar.frame;
@@ -1144,20 +1025,15 @@ if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCam
             if ([model hasPrefix:@"iPad"]) {
                 frame.origin.y=frame.origin.y+3;
             }
-          
             _imageToptoolbar.frame=frame;
-            
-            
             frame=_toggleToolbar.frame;
             frame.origin.y=-1;
             _toggleToolbar.frame=frame;
-            
-            
-            
             frame=_scrollViewForThumnails.frame;
             frame.origin.y=frame.origin.y+_scrollViewForThumnails.frame.size.height;
             _scrollViewForThumnails.frame=frame;
             _hide=!_hide;// reason in if is due to scheduling, which is a must
+
         }];
       
     }

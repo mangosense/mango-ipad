@@ -224,6 +224,7 @@
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
     self.navigationItem.titleView=imageView;
 
+ 
 }
 -(void)refreshButton:(id)sender{
     [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
@@ -268,25 +269,16 @@
     }
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-     //   [cell autorelease];
+ 
     }
     
     // Configure the cell...
     StoreBooks *storeBooks=[_array objectAtIndex:indexPath.row];
-  //  [storeBooks retain];
+
     cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:storeBooks.localImage];
-//    cell.textLabel.numberOfLines=3;
-//    float size=[storeBooks.size floatValue];
-//    
-//    // NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-//    size=size/1024.0f;
-//    //NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-//    size=size/1024.0f;
-//    //NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-//    NSString *sizeString=[NSString stringWithFormat:@"File Size : %0.2f MB",size];
-//    NSString *text=[NSString stringWithFormat:@"%@\n%@",storeBooks.title,sizeString];
+
     cell.textLabel.text=storeBooks.title;
- //   [storeBooks release];
+
     return cell;
 }
 

@@ -327,41 +327,45 @@
   
     ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
     NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
-    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
-        if (e) {
-            _error=e;
-            if ([e.domain hasPrefix:@"com.apple.account"]) {
-                [self performSelectorOnMainThread:@selector(errorFacebook) withObject:nil waitUntilDone:NO];
-               
-            }
-            else{
-                 [self performSelectorOnMainThread:@selector(errorOther) withObject:nil waitUntilDone:NO];
-               //  [_error retain];
-            }
-        }
-        else if (granted) {
 
-
-            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
-            ACAccount *account=[accounts lastObject];
-            
-            NSLog(@"%@", account.username);
-            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
-            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
-            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
-            request.account=account;
-            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
-                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
+            if (e) {
+                _error=e;
+                if ([e.domain hasPrefix:@"com.apple.account"]) {
+                    [self performSelectorOnMainThread:@selector(errorFacebook) withObject:nil waitUntilDone:NO];
+                    
+                }
+                else{
+                    [self performSelectorOnMainThread:@selector(errorOther) withObject:nil waitUntilDone:NO];
+                    //  [_error retain];
+                }
+            }
+            else if (granted) {
                 
-                 [[NSUserDefaults standardUserDefaults] setObject:[dict objectForKey:@"name"] forKey:@"FullName"];
-                [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
-               
-            }];
-        }else{
-            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-        }
-        
-    }];
+                
+                NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
+                ACAccount *account=[accounts lastObject];
+                
+                NSLog(@"%@", account.username);
+                [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
+                NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
+                SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
+                request.account=account;
+                [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
+                    NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:[dict objectForKey:@"name"] forKey:@"FullName"];
+                    [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
+                    
+                }];
+            }else{
+                [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+            }
+            
+        }];
+
+
+
   
 }
 -(void)errorOther{

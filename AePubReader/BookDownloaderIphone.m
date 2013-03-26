@@ -113,9 +113,12 @@
     _progress.progress=1.0;
     [_progress setAlpha:0.0];
     [_myBookViewController.tabBarController setSelectedIndex:0];
-  //  [url release];
+
     [_progress removeFromSuperview];
-  //  [_loc release];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *value=[[_loc lastPathComponent] stringByDeletingPathExtension];
+    [delegate unzipAndSaveFile:_loc with:value.integerValue];
+    [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
     _myBookViewController.downloadBook=NO;
     [_myBookViewController.tableView reloadData];
 }

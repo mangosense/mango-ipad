@@ -47,11 +47,12 @@
     //int xmin=75,ymin=50;
     //CGRectMake(x, y, 140, 180);
     CGRect rect;
+    NSLog(@"orientation %d",self.interfaceOrientation);
     if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
         rect=CGRectMake(75, 195, 126, 40);
 
     }else{
-        rect=CGRectMake(20, 185, 126, 40);
+        rect=CGRectMake(50, 185, 126, 40);
         
     }
     UIProgressView *progress=[[UIProgressView alloc]initWithFrame:rect];
@@ -571,12 +572,12 @@
 
   [self BuildButtons];
 
- 
 
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
+    
 }
 -(void)delay{
 

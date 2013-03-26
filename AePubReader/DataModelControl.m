@@ -556,14 +556,9 @@
                NSLog(@"%@",book.title);
               
             //   }
-//              url=[NSURL URLWithString:book.imageUrl];
-//               NSURLRequest *nsRequest=[[NSURLRequest alloc]initWithURL:url];
-//               [NSURLConnection sendAsynchronousRequest:nsRequest queue:nil completionHandler:^(NSURLResponse * response, NSData * dataRecieved , NSError *error) {
-//                   [dataRecieved writeToFile:temp atomically:NO];
-//               
-//                   _downloadedImage++;               }];
-//           
-//            
+
+//
+               
                ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
                book.localPathImageFile=temp;
                [request setDownloadDestinationPath:temp];

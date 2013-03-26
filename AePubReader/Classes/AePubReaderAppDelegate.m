@@ -13,6 +13,7 @@
 #import "LoginViewController.h"
 #import "LoginViewControllerIphone.h"
 #include <sys/xattr.h>
+#import "ZipArchive.h"
 @implementation AePubReaderAppDelegate
 
 @synthesize window;
@@ -180,8 +181,57 @@
  
         [self.window makeKeyAndVisible];
     }
+    
     [self addSkipBackupAttribute];
+    [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
     return YES;
+}
+-(void)unzipExisting{
+
+    NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
+    NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.epub'"]];
+    
+    for (NSString *string in epubFles) {
+        //location
+        NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+        NSString *value=[string stringByDeletingPathExtension];
+        
+        [self unzipAndSaveFile:epubLocation with:value.integerValue];
+        [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
+        
+    }
+}
+- (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity {
+	
+	ZipArchive* za = [[ZipArchive alloc] init];
+	if( [za UnzipOpenFile:location] ){
+ 
+		NSString *strPath=[NSString stringWithFormat:@"%@/%d",[self applicationDocumentsDirectory],identity];
+		NSFileManager *filemanager=[[NSFileManager alloc] init];
+		if ([filemanager fileExistsAtPath:strPath]) {
+			
+			NSError *error;
+			[filemanager removeItemAtPath:strPath error:&error];
+		}
+        //	[filemanager release];
+		filemanager=nil;
+		//start unzip
+		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
+		if( NO==ret ){
+			// error handler here
+			UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
+														  message:@"An unknown error occured"
+														 delegate:self
+												cancelButtonTitle:@"OK"
+												otherButtonTitles:nil];
+			[alert show];
+            //		[alert release];
+			alert=nil;
+		}
+		[za UnzipCloseFile];
+	}
+	//[za release];
+    
 }
 - (void)addSkipBackupAttribute
 {

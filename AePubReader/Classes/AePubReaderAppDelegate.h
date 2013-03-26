@@ -38,4 +38,5 @@
 @property(assign,nonatomic)BOOL dismissAlertViewFlag;
 @property(assign,nonatomic)UIAlertView *dismissAlertView;
 - (NSString *)applicationDocumentsDirectory;
+- (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;
 @end

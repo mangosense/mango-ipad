@@ -38,6 +38,7 @@
 @property(assign,nonatomic)BOOL shouldAutoPlay;
 @property(retain,nonatomic)AVAudioRecorder *anAudioRecorder;
 @property(retain,nonatomic)AVAudioPlayer *anAudioPlayer;
+@property(strong,nonatomic)AVAudioPlayer *playerDefault;
 @property (retain, nonatomic) IBOutlet UIButton *playPauseControl;
 @property(nonatomic,assign)BOOL isPlaying;
 @property(assign,nonatomic)float val;
@@ -77,8 +78,10 @@
 @property (nonatomic, retain)NSString *_strFileName;
 @property(nonatomic,retain)UITextField *textField;
 @property(nonatomic,retain)UINavigationBar *nav;
-//@property(nonatomic,retain)GPUImageVideoCamera *videoCamera;
-//@property(nonatomic,retain)GPUImageLuminosity *filter;
+@property (weak, nonatomic) IBOutlet UIButton *leftButton;
+@property (weak, nonatomic) IBOutlet UIButton *rightButton;
+@property(strong,nonatomic)NSTimer *timer;
+@property(strong,nonatomic)NSString *audioPath;
 -(void)leftOrRightGesture:(UISwipeGestureRecognizer *)gesture;
 - (void)unzipAndSaveFile;
 - (NSString *)applicationDocumentsDirectory; 

@@ -38,12 +38,7 @@
     _query=[[NSString alloc]initWithString:query];
 }
 - (IBAction)onBack:(id)sender {
-
-    NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
-    //NSString *strPath=[NSString stringWithFormat:@"%@/UnzippedEpub",[self applicationDocumentsDirectory]];
-    NSString *strPath=[NSString stringWithFormat:@"%@/%d",[self applicationDocumentsDirectory],iden];
-    [[NSFileManager defaultManager] removeItemAtPath:strPath error:nil];
-    self.navigationController.navigationBarHidden=NO;
+      self.navigationController.navigationBarHidden=NO;
     
     [self.navigationController popViewControllerAnimated:YES];
     [self.parentViewController.parentViewController.navigationController popViewControllerAnimated:YES];
@@ -110,7 +105,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
      selection = window.getSelection();
      selection.setPosition(myDiv, 0);
      */
-    
+       _webView.scrollView.scrollEnabled=YES;
     NSString *width=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientWidth"];
     NSString *height=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight"];
     NSLog(@"width %@ height %@",width,height);
@@ -147,7 +142,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         actualWidth=width.floatValue/height.floatValue;
         actualWidth=actualWidth*idealHeight;
         actualHeight=actualHeight;
-        _webView.scrollView.scrollEnabled=YES;
+     
         
         
    
@@ -167,10 +162,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
   
 
     }
-    CGRect frame=_webView.frame;
-    frame.size.height=actualHeight;
-    frame.size.width=actualWidth;
-    _webView.frame=frame;
+//    CGRect frame=_webView.frame;
+//    frame.size.height=actualHeight;
+//    frame.size.width=actualWidth;
+//    _webView.frame=frame;
     }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
     
@@ -257,8 +252,8 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     _simpleView.webview=_webView;
     [_webView loadRequest:request];
     _webView.scrollView.bounces=NO;
-   // [request release];
-        _webView.scrollView.scrollEnabled=NO;
+//   // [request release];
+//        _webView.scrollView.scrollEnabled=NO;
     
     _hide=YES;
     for(UIView *wview in [[[_webView subviews] objectAtIndex:0] subviews]) {
