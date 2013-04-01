@@ -38,7 +38,7 @@
 @property(assign,nonatomic)BOOL shouldAutoPlay;
 @property(retain,nonatomic)AVAudioRecorder *anAudioRecorder;
 @property(retain,nonatomic)AVAudioPlayer *anAudioPlayer;
-@property(strong,nonatomic)AVAudioPlayer *playerDefault;
+//@property(strong,nonatomic)AVAudioPlayer *playerDefault;
 @property (retain, nonatomic) IBOutlet UIButton *playPauseControl;
 @property(nonatomic,assign)BOOL isPlaying;
 @property(assign,nonatomic)float val;
@@ -67,6 +67,7 @@
 @property(assign,nonatomic)BOOL record;
 @property(assign,nonatomic)BOOL wasFirstInPortrait;
 @property(assign,nonatomic)BOOL DayOrNight;
+@property(assign,nonatomic)BOOL pageLoaded;
 @property (retain, nonatomic) IBOutlet UIButton *gameButton;
 @property(retain,nonatomic)NSString *gameLink;
 @property(assign,nonatomic)BOOL page;
@@ -82,6 +83,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *rightButton;
 @property(strong,nonatomic)NSTimer *timer;
 @property(strong,nonatomic)NSString *audioPath;
+@property(assign,nonatomic)BOOL isOld;
 -(void)leftOrRightGesture:(UISwipeGestureRecognizer *)gesture;
 - (void)unzipAndSaveFile;
 - (NSString *)applicationDocumentsDirectory; 

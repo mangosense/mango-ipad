@@ -45,7 +45,7 @@
     
 }
 -(void)addThumbnails{
-    NSLog(@"file location %@",_rootPath);
+  //  NSLog(@"file location %@",_rootPath);
  
 
     NSFileManager *defaultManager=[NSFileManager defaultManager];
@@ -64,7 +64,7 @@
             NSString  *actual=[self._ePubContent._manifest valueForKey:[self._ePubContent._spine objectAtIndex:index]];
             actual =[actual stringByDeletingPathExtension];
             NSString *val=[actual stringByAppendingString:@".png"];
-             NSLog(@"spine at %d %@ %@",index,val,[self._ePubContent._spine objectAtIndex:index]);
+           //  NSLog(@"spine at %d %@ %@",index,val,[self._ePubContent._spine objectAtIndex:index]);
             [arrayMutable addObject:val];
             //[val release];
         }
@@ -399,25 +399,41 @@
     }else{
         [_playPauseControl setEnabled:NO];
     }
-//    NSString *path=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
-//    
-//    _audioPath=[_rootPath stringByAppendingPathComponent:path];
-//    if (_timer) {
-//        if ([_timer isValid]) {
-//            [_timer invalidate];
-//        }
-//    }
-//    [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('pause')"];
-//    NSLog(@"Path %@",_audioPath);
-//    if ([[NSFileManager defaultManager] fileExistsAtPath:_audioPath]&&path.length>0) {
-//        _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:_audioPath] error:nil];
-//        [_playerDefault play];
-//        _timer=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(update) userInfo:nil repeats:YES];
-//    }
+
+}
+-(void)AlternativetoPlayAudio{
+    [self readyState];
+      NSString *value=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
+    if (value.length==0) {
+        [self readyState];
+        _isOld=YES;
+    }else{
+        NSString  *jsCode=[_webview stringByEvaluatingJavaScriptFromString:@"function tryout(){if(document.getElementById('jquery_jplayer')){return true}} tryout()"];
+        
+        NSLog(@" %@",jsCode);
+        if ([jsCode isEqualToString:@"false"]) {
+            [_playPauseControl setEnabled:NO];
+
+        }else{
+             [_playPauseControl setEnabled:YES];
+        }
+       /*      NSString *path=[_rootPath stringByAppendingPathComponent:value ];
+        
+        NSError *error;
+       _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:path] error:&error];
+        _playerDefault.delegate=self;
+        [_playerDefault play];*/
+       _timer= [NSTimer timerWithTimeInterval:1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+        _isOld=NO;
+    }
+
+    
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
-
+    _pageLoaded=NO;
     NSString *jsCode;
+    UIImage *image=[UIImage imageNamed:@"play-control.png"];
+    [_playPauseControl setImage:image forState:UIControlStateNormal];
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
 
         webView.scrollView.bounces=NO;
@@ -445,15 +461,15 @@
     NSLog(@"autoPlay value %@",jsCode);
     if ([jsCode isEqualToString:@"1"]) {
         _shouldAutoPlay=YES;
-        
+#pragma mark audio
+        [self performSelector:@selector(readyState) withObject:nil afterDelay:1];
+     //   [self performSelector:@selector(AlternativetoPlayAudio) withObject:nil afterDelay:1];
     }else if([jsCode isEqualToString:@"0"]){
         _shouldAutoPlay=NO;
     }
-//    jsCode=@"document.onreadystatechange = function () {if (document.readyState == \"complete\") {window.location =\"checkevaluate:check\" ;}}";
-//    NSLog(@"jscode %@",jsCode);
-//    [_webview stringByEvaluatingJavaScriptFromString:jsCode];
     
-    [self performSelector:@selector(readyState) withObject:nil afterDelay:1];
+   
+
     NSLog(@"pageNumber %d",_pageNumber);
     CGSize size=webView.scrollView.contentSize;
     size.width=1024;
@@ -482,11 +498,17 @@
         
     }
     
-
+    if (_pageNumber==0) {
+        _leftButton.hidden=YES;
+        _rightButton.hidden=YES;
+    }else{
+        _leftButton.hidden=NO;
+        _rightButton.hidden=NO;
+    }
 
 }
 -(void)update{
-    NSLog(@"seconds %f",_playerDefault.deviceCurrentTime);
+   // NSLog(@"seconds %f",_playerDefault.deviceCurrentTime);
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
    
@@ -509,7 +531,10 @@
     if ([_timer isValid]) {
         [_timer invalidate];
     }
-
+   /* if ([_playerDefault isPlaying]) {
+        [_playerDefault stop];
+        _playerDefault=nil;
+    }*/
     
 }
 /*Function Name : setTitlename
@@ -535,7 +560,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
- 
+ /*   if (![_playerDefault isPlaying]) {
+        [_playerDefault play];
+    }*/
    
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -649,6 +676,8 @@
 		if (_pageNumber>0) {
 			
 			_pageNumber--;
+          //  [_playerDefault stop];
+          //  _playerDefault=nil;
 			[self loadPage];
 		}else{
       [self onBack:nil];
@@ -660,6 +689,8 @@
 		if ([self._ePubContent._spine count]-1>_pageNumber) {
 			
 			_pageNumber++;
+          //  [_playerDefault stop];
+          //  _playerDefault=nil;
 			[self loadPage];
 		}
 	}
@@ -810,23 +841,68 @@
 
 - (IBAction)playOrPauseAudio:(id)sender {
 
-    // is not playing
-    if (!_isPlaying) {
+    if (_isOld) {
+        
+   
+        if (!_isPlaying) {
         
       
-        [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('play')"];
-        UIImage *image=[UIImage imageNamed:@"pause-control.png"];
-          [_playPauseControl setImage:image forState:UIControlStateNormal];
-        [self ribbonButtonClick:nil];
+            [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('play')"];
+            UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+            [_playPauseControl setImage:image forState:UIControlStateNormal];
+            [self ribbonButtonClick:nil];
         
-    }else{
+        }else{
         
-        [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('pause')"];
-        UIImage *image=[UIImage imageNamed:@"play-control.png"];
-        [_playPauseControl setImage:image forState:UIControlStateNormal];
+            [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('pause')"];
+            UIImage *image=[UIImage imageNamed:@"play-control.png"];
+            [_playPauseControl setImage:image forState:UIControlStateNormal];
 
+        }
+        _isPlaying=!_isPlaying;
+    }else{
+     /*   if (_playerDefault) {
+            if (_pageLoaded) {
+                NSError *error;
+                NSString *value=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
+                NSString *path=[_rootPath stringByAppendingPathComponent:value ];
+                _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:path] error:&error];
+                _playerDefault.delegate=self;
+                [_playerDefault play];
+                UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+                [_playPauseControl setImage:image forState:UIControlStateNormal];
+                [self ribbonButtonClick:nil];
+            }
+            if ([_playerDefault isPlaying]) {
+                [_playerDefault pause];
+                UIImage *image=[UIImage imageNamed:@"play-control.png"];
+                [_playPauseControl setImage:image forState:UIControlStateNormal];
+            }else{
+                [_playerDefault play];
+                UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+                [_playPauseControl setImage:image forState:UIControlStateNormal];
+                [self ribbonButtonClick:nil];
+            }*/
+            
+            
+            
+     //   }
+      //  else{
+      //      NSString *value=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
+       /*     NSString *path=[_rootPath stringByAppendingPathComponent:value ];
+            NSError *error;
+            
+            _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:path] error:&error];
+            _playerDefault.delegate=self;
+            [_playerDefault play];*/
+            UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+            [_playPauseControl setImage:image forState:UIControlStateNormal];
+            [self ribbonButtonClick:nil];
+        //}
+        
+        
+        
     }
-    _isPlaying=!_isPlaying;
     
 }
 -(void)playingEnded{
@@ -974,7 +1050,7 @@
 
 - (IBAction)ribbonButtonClick:(id)sender {
     NSLog(@"ribbonButton Click is called");
-    if (_anAudioRecorder) {// nil assumption based on recording.
+    if ([_anAudioRecorder isRecording]) {// nil assumption based on recording.
         
         NSLog(@"Recording is on");
         return;
@@ -1073,7 +1149,7 @@
 #pragma mark recording
 - (IBAction)startRecording:(id)sender {
   //  [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('stop')"];
-    if (!_anAudioRecorder) {
+    if (![_anAudioRecorder isRecording]) {
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
         
@@ -1118,7 +1194,7 @@
         }
 
         [_anAudioRecorder setDelegate:self];
-        [_anAudioRecorder recordForDuration:10];
+        [_anAudioRecorder recordForDuration:30];
         
         if ([_anAudioRecorder isRecording]) {
 //            [[_recordAudioButton layer] setBorderWidth:3.0f];
@@ -1140,17 +1216,14 @@
     if (_anAudioRecorder) {
         if ([_anAudioRecorder isRecording]) {
             [_anAudioRecorder stop];
-           // [_anAudioRecorder release];
-           // _anAudioRecorder=nil;
-             // [[_recordAudioButton layer] setBorderWidth:0];
+
             [_recordAudioButton setEnabled:YES];
         }
     }
     if (_anAudioPlayer) {
         if ([_anAudioPlayer isPlaying]) {
             [_anAudioPlayer stop];
-           // [_anAudioPlayer release];
-          //  _anAudioPlayer=nil;
+
         }
     }
 }
@@ -1174,10 +1247,16 @@
     }
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-  //  [_anAudioPlayer release];
-  //  _anAudioPlayer=nil;
-  //  [self recordAudio:nil];
-    
+ /*   if ([player isEqual:_playerDefault]) {
+        if (_shouldAutoPlay) {
+            _pageNumber++;
+            [self loadPage];
+        }
+        _playerDefault=nil;
+    UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+    [_playPauseControl setImage:image forState:UIControlStateNormal];
+    }*/
+
 }
 -(void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error{
     NSLog(@"Error %@",error);

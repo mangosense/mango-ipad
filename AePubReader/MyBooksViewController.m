@@ -265,13 +265,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
    
 
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+ 
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return YES;
@@ -344,10 +338,16 @@
         [delegate.dataModel saveData:book];
         NSString  *value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
         
-        NSString *epubString=[NSString stringWithFormat:@"%@.epub",book.id];
+        NSString *epubString=[NSString stringWithFormat:@"%@",book.id];
         value=[value stringByAppendingPathComponent:epubString];
         NSLog(@"Delete value: %@",value);
-        [[NSFileManager defaultManager]removeItemAtPath:value error:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:value]) {
+              [[NSFileManager defaultManager]removeItemAtPath:value error:nil];
+        }
+        value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        epubString=[NSString stringWithFormat:@"%@.epub",book.id];
+        
+      
         [_array removeObjectAtIndex:_index];
         NSIndexPath *path=[NSIndexPath indexPathForRow:_index inSection:0];
         [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationFade];

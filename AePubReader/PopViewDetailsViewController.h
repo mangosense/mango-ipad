@@ -23,9 +23,10 @@
 
 @property (retain, nonatomic) IBOutlet UILabel *fileSize;
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;
-
+@property(assign,nonatomic)float size;
 @property(assign,nonatomic)NSInteger iden;
 @property(strong,nonatomic)UIPopoverController *popDetails;
 - (IBAction)downloadBook:(id)sender;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil imageLocation:(NSString *)locationImage indentity:(NSInteger)iden;
+@property (weak, nonatomic) IBOutlet UILabel *freeSpace;
 @end

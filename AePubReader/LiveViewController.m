@@ -329,7 +329,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
     else{
         _identity=button.tag;
         PopPurchaseViewController *popPurchaseController=[[PopPurchaseViewController alloc]initWithNibName:@"PopPurchaseViewController" bundle:nil Identity:button.tag live:self ];
-        popPurchaseController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+        popPurchaseController.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
         popPurchaseController.modalPresentationStyle=UIModalPresentationFormSheet;
         UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:popPurchaseController];
         nav.modalPresentationStyle=UIModalPresentationFormSheet;
@@ -342,12 +342,50 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
     //[number release];
     
 }
+-(uint64_t)getFreeDiskspace {
+    uint64_t totalSpace = 0;
+    uint64_t totalFreeSpace = 0;
+    NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
+    
+    if (dictionary) {
+        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
+        totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
+        NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
+    } else {
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
+    }
+    
+    return totalFreeSpace;
+}
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
     StoreBooks *books=[delegate.dataModel getBookById:identity];
-
+    float size=[books.size floatValue];
+    //  [image release];
+    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+    size=size/1024.0f;
+    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+    size=size/1024.0f;
+    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     if (buttonIndex==1) {// if yes is the case
+        if (size>[self getFreeDiskspace]) {
+
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+            [delegate.dataModel insertBookWithNo:books];
+            UINavigationController *nav=self.tabBarController.viewControllers[1];
+            StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
+            [delegate.dataModel insertBookWithNo:books];
+            [storeViewController BuildButtons];
+            // [storeViewController refreshButton:nil];
+            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+            return;
+        }
         
         UINavigationController *nav=self.tabBarController.viewControllers[0];
         LibraryViewController *library=(LibraryViewController *)nav.topViewController;

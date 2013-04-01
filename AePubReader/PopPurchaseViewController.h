@@ -26,6 +26,7 @@
 @property(assign,nonatomic)BOOL isFree;
 @property(assign,nonatomic)LiveViewController *liveViewController;
 @property (retain, nonatomic) IBOutlet UIWebView *detailsWebView;
+@property (weak, nonatomic) IBOutlet UILabel *freeSpace;
 
 - (IBAction)purchaseAndDownload:(id)sender;
 - (IBAction)toPurchase:(id)sender;

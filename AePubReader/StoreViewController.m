@@ -369,6 +369,7 @@
     }
     
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
@@ -379,10 +380,7 @@
         [self BuildButtons];
     }
    
-//    if (_alert) {
-//        [_alert show];
-//    }
-   // [self requestBooksFromServer];
+
     
 }
 -(void)viewDidDisappear:(BOOL)animated{

@@ -34,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self becomeFirstResponder];
     // Do any additional setup after loading the view from its nib.
     NSURLRequest *request=[[NSURLRequest alloc]initWithURL:_url];
   //  [_url release];
@@ -64,7 +65,48 @@
     [_alert show];
   //  [_alert release];
 }
-
+-(BOOL)canBecomeFirstResponder{
+    return YES;
+}
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
+    if (action == @selector(copy:))
+    {
+        return NO;
+    }
+    if (action == @selector(cut:))
+    {
+        return NO;
+    }
+    if (action == @selector(paste:))
+    {
+        return NO;
+    }
+    if (action == @selector(select:))
+    {
+        return NO;
+    }
+    if (action == @selector(selectAll:))
+    {
+        return NO;
+    }
+    if (action == @selector(delete:))
+    {
+        return NO;
+    }
+    if (action == @selector(_setRtoLTextDirection:))
+    {
+        return NO;
+    }
+    if (action == @selector(_setLtoRTextDirection:))
+    {
+        return NO;
+    }
+    if (action == @selector(promptForReplace:))
+    {
+        return NO;
+    }
+    return NO;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

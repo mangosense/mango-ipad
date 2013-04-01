@@ -117,8 +117,14 @@
     [editBarButtonItem release];
     [optionsItem release];*/
     self.navigationItem.rightBarButtonItems=_array;
+
     //[_array release];
-    
+     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+         
+         UIBarButtonItem *leftLoginItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+         leftLoginItem.tintColor=[UIColor grayColor];
+         self.navigationItem.leftBarButtonItem=leftLoginItem;
+     }
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
     
@@ -137,6 +143,9 @@
 
    
 }
+-(void)login:(id)sender{
+        [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];
+}
 -(void)showRecordButton:(id)sender{
     NSLog(@"record Button");
     
@@ -153,7 +162,18 @@
         }
     for (UIView *view in self.scrollView.subviews) {
         if([view isKindOfClass:[ShadowButton class]]){
-            [[view.subviews lastObject] setHidden:NO]; 
+            NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
+         
+            NSLog(@"%@",path);
+           Book *book=  _epubFiles[view.tag];
+               path =[path stringByAppendingFormat:@"/%@",book.id];
+            /*
+             Check if recording exists
+             */
+           if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+                [[view.subviews lastObject] setHidden:NO];
+            }
+            
         }
     }
     }else{ // if shown
@@ -172,6 +192,8 @@
         }
         for (UIView *view in self.scrollView.subviews) {
             if([view isKindOfClass:[ShadowButton class]]){
+
+
                 [[view.subviews lastObject ] setHidden:YES];
             }
         }
@@ -567,10 +589,11 @@
         
         [lib dismissViewControllerAnimated:NO completion:^(void){ delegate.LandscapeOrientation=YES;
             delegate.PortraitOrientation=YES;
+              [self BuildButtons];
         }];
     }];
 
-  [self BuildButtons];
+
 
 
 }
@@ -799,28 +822,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         [indicator startAnimating];
   //  [imageView release];
        [_alertView addSubview:indicator];
-   //    [indicator release];
-//   [imageView release];
 
-//    for (UIView *view in _alertView.subviews ) {
-//        view.backgroundColor=[UIColor clearColor];
-//    }
-//    _alertView.backgroundColor=[UIColor clearColor];
-//     image=[UIImage imageNamed:@"icon.png"];
-//    UIImageView *iconImage=[[UIImageView alloc]initWithImage:image];
-//    iconImage.frame=CGRectMake(139.0f-18.0f, 20, 50.0f, 66.0f);
-//    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-//    [animation setFromValue:[NSNumber numberWithFloat:1.0]];
-//    [animation setToValue:[NSNumber numberWithFloat:0.0]];
-//    [animation setDuration:0.5f];
-//    [animation setTimingFunction:[CAMediaTimingFunction
-//                                  functionWithName:kCAMediaTimingFunctionLinear]];
-//    [animation setAutoreverses:YES];
-//    [animation setRepeatCount:20000];
-//    [[iconImage layer] addAnimation:animation forKey:@"opacity"];
-//   // [animation release];
-//    [_alertView addSubview:iconImage];
-//    [iconImage release];
     [_alertView show];
   //  [_alertView release];
     _alertView.tag=2;
@@ -1053,9 +1055,17 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     if (alertView.tag==300&&buttonIndex==1) {
         Book *bk=_epubFiles[_index];
         NSString *val=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *bkl=[NSString stringWithFormat:@"%@.epub",bk.id];
+        NSString *bkl=[NSString stringWithFormat:@"%@",bk.id];
         val =[val stringByAppendingPathComponent:bkl];
-        [[NSFileManager defaultManager]removeItemAtPath:val error:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:val]) {
+             [[NSFileManager defaultManager]removeItemAtPath:val error:nil];
+        }
+        val=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        bkl=[NSString stringWithFormat:@"%@.epub",bk.id];
+        val=[val stringByAppendingPathComponent:bkl];
+        if ([[NSFileManager defaultManager]fileExistsAtPath:val]) {
+             [[NSFileManager defaultManager]removeItemAtPath:val error:nil];
+        }
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         bkl=[NSString stringWithFormat:@"%@",bk.id];
         bk=[delegate.dataModel getBookOfId:bkl ];

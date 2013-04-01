@@ -32,17 +32,14 @@
    // UIAlertView *alert=nil;
    // NetworkStatus status = [reachability currentReachabilityStatus];
    // if (status==ReachableViaWiFi) {
-      [_store DownloadBook:_bookTapped];
-    /*}else if(status==ReachableViaWWAN){
-        alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Use Wifi to download the book" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
+    long freeSpace=[self getFreeDiskspace];
+    if (freeSpace<_size) {
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+        
     }else{
-        alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"The internet connection appears to be offline." delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
-
-    }*/
+      [_store DownloadBook:_bookTapped];
+    }
     
     
 }
@@ -80,7 +77,7 @@
      NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     _fileSize.text=[NSString stringWithFormat:@"File Size :%@ MB",[NSNumber numberWithLongLong:size] ];
     _titleBook.text=_bookTapped.title;
-    
+    _size=size;
 //    NSAttributedString *attr=[[NSAttributedString alloc]initWithString:_bookTapped.desc];
 //     NSString *ver= [UIDevice currentDevice].systemVersion;
 //    if ([ver floatValue]>5.1) {
@@ -98,7 +95,7 @@
     self.navigationItem.rightBarButtonItem=share;
   //  [share release];
     NSLog(@"x=%f y=%f height=%f width=%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.height,self.view.frame.size.width);
-    
+    _freeSpace.text=[NSString stringWithFormat:@"Free Space :%lld MB",[self getFreeDiskspace]];
     
 }
 -(void)shareBook:(id)sender{
@@ -172,6 +169,26 @@
     [self setFileSize:nil];
     [self setDetailsWebView:nil];
 
+    [self setFreeSpace:nil];
     [super viewDidUnload];
+}
+-(uint64_t)getFreeDiskspace {
+    uint64_t totalSpace = 0;
+    uint64_t totalFreeSpace = 0;
+    NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
+    
+    if (dictionary) {
+        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
+        totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
+        NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
+    } else {
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
+    }
+    totalFreeSpace=(totalFreeSpace/1024ll)/1024ll;
+    return totalFreeSpace;
 }
 @end
