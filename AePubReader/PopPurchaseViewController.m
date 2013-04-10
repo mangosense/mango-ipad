@@ -185,18 +185,11 @@
             delegate.dismissAlertViewFlag=YES;
             delegate.dismissAlertView=_alertView;
             NSLog(@"Product %@",_products.localizedTitle);
-              [[SKPaymentQueue defaultQueue]addTransactionObserver:_liveViewController];
+          //    [[SKPaymentQueue defaultQueue]addTransactionObserver:_liveViewController];
             _payment=[SKPayment paymentWithProduct:_products];
             [[SKPaymentQueue defaultQueue] addPayment:_payment];
             _alertView=nil;
-//            _alertView =[[UIAlertView alloc]init];
-//            UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//            [indicator startAnimating];
-//            [_alertView addSubview:indicator];
-//            [indicator release];
-//            [_alertView setTitle:@"Loading...."];
-//           
-//            [_alertView show];
+
         }
         return;
     }//
@@ -205,7 +198,7 @@
     if (!_isFree) {// if not free request payment
      
         NSLog(@"Product %@",_products.localizedTitle);
-           [[SKPaymentQueue defaultQueue]addTransactionObserver:_liveViewController];
+          // [[SKPaymentQueue defaultQueue]addTransactionObserver:_liveViewController];
         _payment=[SKPayment paymentWithProduct:_products];
         [[SKPaymentQueue defaultQueue] addPayment:_payment];
         _alertView=nil;
@@ -270,10 +263,7 @@
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [formatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
     [formatter setLocale:priceLocale];
-    
     _value=nil;
-   
-       // _value=[[NSString alloc]initWithString:[formatter stringFromNumber:_number]];
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_products.price]];
     _liveViewController.price=_products.price;
 //[_liveViewController.price retain];

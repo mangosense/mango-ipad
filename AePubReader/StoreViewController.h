@@ -42,4 +42,6 @@
 @property(retain,nonatomic)NSError *error;
 @property(strong,nonatomic)NSMutableData *data;
 -(void)requestBooksFromServer;
+-(void)transactionRestore;
+-(void)transactionFailed;;
 @end

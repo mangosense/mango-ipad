@@ -38,6 +38,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return  _array.count;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *CellIdentifier = @"Cell";
@@ -54,7 +55,7 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
        // [cell autorelease];
     }
-    cell.textLabel.text=[_array objectAtIndex:indexPath.row];
+    cell.textLabel.text=[NSString stringWithFormat:@"%@    ",[_array objectAtIndex:indexPath.row] ];
     cell.textLabel.textAlignment=NSTextAlignmentCenter;
 //    UIButton *button=[UIButton buttonWithType:UIButtonTypeCustom];
 //    UIImage *image=[UIImage imageNamed:@"play-control.png"];

@@ -113,7 +113,9 @@
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return YES;
 }
-
+-(void)transactionFailed{
+         [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+}
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
 //    UIAlertView *alertFailed;
     NSMutableURLRequest *request;
@@ -121,7 +123,6 @@
     NSNumber *userid;
     NSData *jsonData;
     RecieptValidationIphone *recieptValidation;
-//    RecieptValidation *recieptValidation;
     NSString *valueJson;
     // VerificationController *verification=[[VerificationController alloc]init];
     
@@ -210,6 +211,81 @@
                 
         }
     
+    }
+
+}
+-(void)purchaseValidation:(SKPaymentTransaction *)transaction{
+    
+    NSMutableURLRequest *request;
+    NSMutableDictionary *dictionary;
+    NSNumber *userid;
+    NSData *jsonData;
+    RecieptValidationIphone *recieptValidation;
+    NSString *valueJson;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"email"]) {
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
+        [dictionary setValue:userid forKey:@"user_id"];
+        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
+        [dictionary setValue:_price forKey:@"amount"];
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        // [valueJson release];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:_identity withTrans:transaction];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
+        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
+        NSLog(@"reciept validation %@",urlString);
+        [request setURL:[NSURL URLWithString:urlString]];
+        recieptValidation.signIn=YES;
+        NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
+        //  [recieptValidation release];
+        [connection start];
+        //  [connection autorelease];
+        //  [request release];
+        //  [dictionary release];
+    }else{
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        [dictionary setValue:_price forKey:@"amount"];
+        
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        // [valueJson release];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:_identity withTrans:transaction];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
+        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
+        NSLog(@"reciept validation %@",urlString);
+        [request setURL:[NSURL URLWithString:urlString]];
+        recieptValidation.signIn=NO;
+        NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
+        // [recieptValidation release];
+        //  [connection autorelease];
+        //  [request release];
+        //  [dictionary release];
+        [connection start];
     }
 
 }

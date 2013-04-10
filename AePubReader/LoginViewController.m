@@ -23,7 +23,8 @@
 #import "FacebookLogin.h"
 #import "CustomTabViewController.h"
 @interface LoginViewController ()
-
+@property(strong,nonatomic)StoreViewController *store;
+@property(strong,nonatomic)LiveViewController *liveViewController;
 @end
 
 @implementation LoginViewController
@@ -73,14 +74,14 @@
 
     UITabBarController *tabBarController=[[UITabBarController alloc]init];
     LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-    StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
-    store.delegate=library;
+    _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+    _store.delegate=library;
     
-    LiveViewController *liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
+    _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
-    UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
-    liveViewController.storeViewController=store;
-    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:liveViewController];
+    UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
+    _liveViewController.storeViewController=_store;
+    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
  //   [liveViewController release];
  //   [library release];
     tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
@@ -106,7 +107,21 @@
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
     
 }
-
+-(void)transactionFailed{
+    [_liveViewController transactionFailed];
+    
+}
+-(void)restoreFailed{
+    [_store transactionFailed];
+}
+-(void)transactionRestored{
+    [_store transactionRestore];
+    
+}
+-(void)transactionPurchaseValidation:(SKPaymentTransaction *)transaction{
+    [_liveViewController purchaseValidation:transaction];
+    
+}
 -(void)viewDidDisappear:(BOOL)animated{
    
 }

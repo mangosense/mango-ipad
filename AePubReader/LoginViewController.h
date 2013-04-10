@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import <MessageUI/MessageUI.h>
-
+#import <StoreKit/StoreKit.h>
 @interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate>
 - (IBAction)Check:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *userName;
@@ -35,4 +35,8 @@
 @property(strong,nonatomic)NSMutableData *data;
 @property(strong,nonatomic)UIAlertView *alertView;
 -(void)goToNext;
+-(void)transactionRestored;
+-(void)transactionFailed;
+-(void)transactionPurchaseValidation:(SKPaymentTransaction *)transaction;
+-(void)restoreFailed;
 @end

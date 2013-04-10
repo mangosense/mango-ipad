@@ -20,6 +20,8 @@
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
 		AE18942F166F5F67009F8361 /* DetailStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE18942D166F5F67009F8361 /* DetailStoreViewController.m */; };
 		AE189430166F5F67009F8361 /* DetailStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */; };
+		AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1A9643170C2E15001A1344 /* stop-icon.png */; };
+		AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1A9646170C2E37001A1344 /* CircularProgressView.m */; };
 		AE1C6C1B167210BA0090DFDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C181672105B0090DFDD /* Default.png */; };
 		AE1C6C1D167210CF0090DFDD /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C1C167210CF0090DFDD /* Default@2x.png */; };
 		AE1C6C24167217F20090DFDD /* sign-in-button-iphone4.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C22167217F20090DFDD /* sign-in-button-iphone4.png */; };
@@ -30,6 +32,8 @@
 		AE1C6C2F16721DD00090DFDD /* mangoreader-iphone5-signup.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C2E16721DD00090DFDD /* mangoreader-iphone5-signup.png */; };
 		AE1C6C3216721EBB0090DFDD /* download-button-iphone3.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C3016721EBA0090DFDD /* download-button-iphone3.png */; };
 		AE1C6C3316721EBB0090DFDD /* purchase-button-iphone3.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C3116721EBA0090DFDD /* purchase-button-iphone3.png */; };
+		AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */; };
+		AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */; };
 		AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */; };
 		AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2D35BA16B1562D009E99A7 /* NoteButton.m */; };
 		AE2D35BD16B15902009E99A7 /* not.png in Resources */ = {isa = PBXBuildFile; fileRef = AE2D35BC16B15902009E99A7 /* not.png */; };
@@ -283,6 +287,9 @@
 		AE18942C166F5F67009F8361 /* DetailStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailStoreViewController.h; sourceTree = "<group>"; };
 		AE18942D166F5F67009F8361 /* DetailStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailStoreViewController.m; sourceTree = "<group>"; };
 		AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailStoreViewController.xib; sourceTree = "<group>"; };
+		AE1A9643170C2E15001A1344 /* stop-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-icon.png"; sourceTree = "<group>"; };
+		AE1A9645170C2E37001A1344 /* CircularProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
+		AE1A9646170C2E37001A1344 /* CircularProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
 		AE1C6C181672105B0090DFDD /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AE1C6C1C167210CF0090DFDD /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		AE1C6C22167217F20090DFDD /* sign-in-button-iphone4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sign-in-button-iphone4.png"; sourceTree = "<group>"; };
@@ -293,6 +300,9 @@
 		AE1C6C2E16721DD00090DFDD /* mangoreader-iphone5-signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-iphone5-signup.png"; sourceTree = "<group>"; };
 		AE1C6C3016721EBA0090DFDD /* download-button-iphone3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button-iphone3.png"; sourceTree = "<group>"; };
 		AE1C6C3116721EBA0090DFDD /* purchase-button-iphone3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchase-button-iphone3.png"; sourceTree = "<group>"; };
+		AE21CAE51712A82A00A4877F /* ViewControllerBaseUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerBaseUrl.h; sourceTree = "<group>"; };
+		AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerBaseUrl.m; sourceTree = "<group>"; };
+		AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerBaseUrl.xib; sourceTree = "<group>"; };
 		AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		AE2D35AD16B1348A009E99A7 /* Books 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 5.xcdatamodel"; sourceTree = "<group>"; };
 		AE2D35B516B150DF009E99A7 /* Books 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 6.xcdatamodel"; sourceTree = "<group>"; };
@@ -958,6 +968,9 @@
 				AE801344169AEB8000EE536A /* CustomTabViewController.m */,
 				AEC9B11F16B65202008CD1F5 /* TableOfContentsViewController.h */,
 				AEC9B12016B65202008CD1F5 /* TableOfContentsViewController.m */,
+				AE21CAE51712A82A00A4877F /* ViewControllerBaseUrl.h */,
+				AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */,
+				AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */,
 			);
 			name = "MangoReader iPad";
 			sourceTree = "<group>";
@@ -1150,6 +1163,9 @@
 		AEEF8474166C91020098BAA2 /* Mangoreader iphone */ = {
 			isa = PBXGroup;
 			children = (
+				AE1A9645170C2E37001A1344 /* CircularProgressView.h */,
+				AE1A9646170C2E37001A1344 /* CircularProgressView.m */,
+				AE1A9643170C2E15001A1344 /* stop-icon.png */,
 				AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */,
 				AEFEB755169D9089009B299D /* backimageiphonen.png */,
 				AED05F9A168CBCBA00D27EF3 /* stop-recording-control.png */,
@@ -1460,6 +1476,8 @@
 				AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */,
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
 				AE8F44E816C125DF00D396F2 /* 49.epub in Resources */,
+				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
+				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1488,6 +1506,7 @@
 				AE43C738161056DD00970739 /* Reachability.m in Sources */,
 				AE43C72B161055E100970739 /* ASIAuthenticationDialog.m in Sources */,
 				AE43C72C161055E100970739 /* ASIDataCompressor.m in Sources */,
+				AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */,
 				AE43C72D161055E100970739 /* ASIDataDecompressor.m in Sources */,
 				AE43C72E161055E100970739 /* ASIDownloadCache.m in Sources */,
 				AE43C72F161055E100970739 /* ASIFormDataRequest.m in Sources */,
@@ -1576,6 +1595,7 @@
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
+				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

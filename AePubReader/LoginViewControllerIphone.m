@@ -9,14 +9,16 @@
 #import "LoginViewControllerIphone.h"
 #import "SignUpViewControllerIphone.h"
 #import "MyBooksViewController.h"
-#import "DownloadViewController.h"
 #import "LiveViewControllerIphone.h"
 #import <Accounts/Accounts.h>
 #import <Social/Social.h>
 #import "FacebookIphoneLogin.h"
 #import <QuartzCore/QuartzCore.h>
-@interface LoginViewControllerIphone ()
+#import "DownloadViewController.h"
 
+@interface LoginViewControllerIphone ()
+@property(retain,nonatomic)DownloadViewController *downloadView;
+@property(strong,nonatomic) LiveViewControllerIphone *liveController;
 @end
 
 @implementation LoginViewControllerIphone
@@ -101,22 +103,19 @@
      MyBooksViewController *myBook=[[MyBooksViewController alloc]initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navLib=[[UINavigationController alloc]initWithRootViewController:myBook];
    
-    DownloadViewController *downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    downloadView.myBook=myBook;
+    _downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    _downloadView.myBook=myBook;
  //    [myBook release];
     
-    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:downloadView];
+    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
   //  [downloadView release];
-    LiveViewControllerIphone *liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:liveController];
-    liveController.myBooks=myBook;
-    liveController.downloadViewController=downloadView;
+    _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
+    UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_liveController];
+    _liveController.myBooks=myBook;
+    _liveController.downloadViewController=_downloadView;
     tabBarController.viewControllers=@[navLib,nav,navigationLive];
     [self.navigationController pushViewController:tabBarController animated:YES];
- //   [navigationLive release];
- //   [nav release];
- //   [navLib release];
- //      [liveController release];
+
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
     
@@ -387,7 +386,20 @@
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
 
 }
+-(void)transactionRestored{
+    [_downloadView transactionRestored];
+    
+}
+-(void)restoreFailed{
+    [_downloadView transactionFailed];
+}
+-(void)transactionFailed{
+    [_liveController transactionFailed];
 
+}
+-(void)purchaseValidation:(SKPaymentTransaction *)transaction{
+    [_liveController purchaseValidation:transaction];
+}
 - (IBAction)dismissKeyboard:(id)sender {
     [_email resignFirstResponder];
     [_password resignFirstResponder];

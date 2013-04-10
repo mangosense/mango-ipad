@@ -46,7 +46,6 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
-  //  [imageView release];
 
     UIBarButtonItem *itemReferesh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     itemReferesh.tintColor=[UIColor grayColor];
@@ -473,7 +472,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
           //      [request release];
           //      [dictionary release];
                     [connection start];
-                       [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
+                     //  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
             }else{// no user id
                 
                
@@ -509,7 +508,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
                 [dictionary release];
                 [valueJson release];*/
                 [connection start];
-                  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
+                //  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
                 
             }
         
@@ -524,6 +523,79 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
     }//end for
   
     //   [verification release];
+}
+-(void)transactionFailed{
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+
+}
+-(void)purchaseValidation:(SKPaymentTransaction *)transaction{
+    NSMutableURLRequest *request;
+    NSMutableDictionary *dictionary;
+    NSNumber *userid;
+    NSData *jsonData;
+    RecieptValidation *recieptValidation;
+    NSString *valueJson;
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
+    {
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
+        [dictionary setValue:userid forKey:@"user_id"];
+        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
+        [dictionary setValue:_price forKey:@"amount"];
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        //  [valueJson release];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        recieptValidation=[[RecieptValidation alloc]initWithPop:(PopPurchaseViewController *)self.presentedViewController LiveController:self fileLink:_identity transaction:transaction];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        recieptValidation.signedIn=YES;
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
+        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
+        NSLog(@"reciept validation %@",urlString);
+        [request setURL:[NSURL URLWithString:urlString]];
+        NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
+
+        [connection start];
+    //    [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
+    }else{// no user id
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];        
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        UINavigationController *nav=(UINavigationController *)self.presentedViewController;
+        
+        recieptValidation=[[RecieptValidation alloc]initWithPop:(PopPurchaseViewController *)[nav.viewControllers lastObject] LiveController:self fileLink:_identity transaction:transaction];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
+        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
+        NSLog(@"reciept validation %@",urlString);
+        [request setURL:[NSURL URLWithString:urlString]];
+        recieptValidation.signedIn=NO;
+        NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
+
+        [connection start];
+    
+        
+    }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];

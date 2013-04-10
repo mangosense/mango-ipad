@@ -22,4 +22,6 @@
 @property(assign,nonatomic)MyBooksViewController *myBooks;
 @property(assign,nonatomic)NSInteger pageNumber;
 @property(strong,nonatomic)NSError *error;
+-(void)transactionFailed;
+-(void)purchaseValidation:(SKPaymentTransaction *)transaction;
 @end

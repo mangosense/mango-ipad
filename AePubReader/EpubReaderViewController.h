@@ -9,6 +9,8 @@
 #import <MessageUI/MFMessageComposeViewController.h>
 #import <AVFoundation/AVFoundation.h>
 #import <QuartzCore/QuartzCore.h>
+#import "CircularProgressView.h"
+
 //#import "GPUImageVideoCamera.h"
 //#import "GPUImageLuminosity.h"
 @interface EpubReaderViewController : UIViewController<XMLHandlerDelegate,UISearchBarDelegate,UIWebViewDelegate,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
@@ -51,6 +53,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *toggleToolbar;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property(retain,nonatomic)NSString *imageLocation;
+@property (weak, nonatomic) IBOutlet UIButton *playRecordedButton;
 @property (retain, nonatomic) IBOutlet UIButton *nextButton;
 @property(retain,nonatomic)NSString *url;
 @property(retain,nonatomic)NSArray *thumbnails;
@@ -92,7 +95,10 @@
 - (IBAction)backButtonOrNextButton:(id)sender;
 - (void)setTitlename:(NSString*)titleText;
 //- (void)setBackButton;
+@property (weak, nonatomic) IBOutlet UIButton *stopButton;
 - (IBAction)onPreviousOrNext:(id)sender;
+@property(strong,nonatomic)CircularProgressView *progressView;
+@property(strong,nonatomic)NSTimer *timerProgress;
 //@property (nonatomic, retain) SZActionBar *actionBar;
 //@property (nonatomic, retain) id<SZEntity> entity;
 @end

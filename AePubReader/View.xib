@@ -125,7 +125,6 @@
 						<string key="NSFrame">{{0, 753}, {1024, 134}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -312,7 +311,7 @@
 								<string key="NSFrame">{{9, 29}, {66, 66}}</string>
 								<reference key="NSSuperview" ref="802681824"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="629378570"/>
+								<reference key="NSNextKeyView" ref="749981113"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -334,10 +333,10 @@
 							<object class="IBUIButton" id="629378570">
 								<reference key="NSNextResponder" ref="802681824"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{9, 118}, {66, 66}}</string>
+								<string key="NSFrame">{{9, 206}, {66, 66}}</string>
 								<reference key="NSSuperview" ref="802681824"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="749981113"/>
+								<reference key="NSNextKeyView" ref="1073225950"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -359,10 +358,10 @@
 							<object class="IBUIButton" id="749981113">
 								<reference key="NSNextResponder" ref="802681824"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{9, 210}, {66, 66}}</string>
+								<string key="NSFrame">{{9, 117}, {66, 66}}</string>
 								<reference key="NSSuperview" ref="802681824"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1073225950"/>
+								<reference key="NSNextKeyView" ref="629378570"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -379,10 +378,10 @@
 								<reference key="IBUIFont" ref="664307505"/>
 							</object>
 						</array>
-						<string key="NSFrame">{{1024, 3}, {85, 325}}</string>
+						<string key="NSFrame">{{1024, 94}, {85, 197}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="874828538"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -507,6 +506,22 @@
 					<int key="connectionID">161</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">stopButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="629378570"/>
+					</object>
+					<int key="connectionID">162</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">playRecordedButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="749981113"/>
+					</object>
+					<int key="connectionID">163</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backButtonOrNextButton:</string>
 						<reference key="source" ref="1073225950"/>
@@ -614,8 +629,8 @@
 							<reference ref="957766996"/>
 							<reference ref="634286783"/>
 							<reference ref="465041086"/>
-							<reference ref="802681824"/>
 							<reference ref="889551089"/>
+							<reference ref="802681824"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -698,8 +713,8 @@
 						<reference key="object" ref="802681824"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="874828538"/>
-							<reference ref="749981113"/>
 							<reference ref="629378570"/>
+							<reference ref="749981113"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -748,10 +763,18 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">161</int>
+			<int key="maxID">165</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">CircularProgressView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CircularProgressView.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">DirectionButton</string>
 					<string key="superclassName">UIButton</string>
@@ -766,12 +789,14 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backButtonOrNextButton:">id</string>
 						<string key="hideSearch:">id</string>
+						<string key="highlight:">id</string>
 						<string key="onBack:">id</string>
 						<string key="onPreviousOrNext:">id</string>
 						<string key="openGame:">id</string>
 						<string key="playOrPauseAudio:">id</string>
 						<string key="playRecorded:">id</string>
 						<string key="recordAudio:">id</string>
+						<string key="removeHighlight:">id</string>
 						<string key="ribbonButtonClick:">id</string>
 						<string key="shareTheBook:">id</string>
 						<string key="showPopView:">id</string>
@@ -785,6 +810,10 @@
 						</object>
 						<object class="IBActionInfo" key="hideSearch:">
 							<string key="name">hideSearch:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="highlight:">
+							<string key="name">highlight:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="onBack:">
@@ -809,6 +838,10 @@
 						</object>
 						<object class="IBActionInfo" key="recordAudio:">
 							<string key="name">recordAudio:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeHighlight:">
+							<string key="name">removeHighlight:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="ribbonButtonClick:">
@@ -840,6 +873,8 @@
 						<string key="leftButton">UIButton</string>
 						<string key="nextButton">UIButton</string>
 						<string key="playPauseControl">UIButton</string>
+						<string key="playRecordedButton">UIButton</string>
+						<string key="progressView">CircularProgressView</string>
 						<string key="recordAudioButton">UIButton</string>
 						<string key="recordBackgroundview">UIView</string>
 						<string key="rightButton">UIButton</string>
@@ -847,6 +882,7 @@
 						<string key="shareButton">UIBarButtonItem</string>
 						<string key="showPop">UIBarButtonItem</string>
 						<string key="showRecordButton">UIButton</string>
+						<string key="stopButton">UIButton</string>
 						<string key="toggleToolbar">UIButton</string>
 						<string key="topToolbar">UIToolbar</string>
 					</dictionary>
@@ -879,6 +915,14 @@
 							<string key="name">playPauseControl</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="playRecordedButton">
+							<string key="name">playRecordedButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressView">
+							<string key="name">progressView</string>
+							<string key="candidateClassName">CircularProgressView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="recordAudioButton">
 							<string key="name">recordAudioButton</string>
 							<string key="candidateClassName">UIButton</string>
@@ -905,6 +949,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="showRecordButton">
 							<string key="name">showRecordButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="stopButton">
+							<string key="name">stopButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toggleToolbar">

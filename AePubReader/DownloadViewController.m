@@ -226,6 +226,9 @@
     }
     
 }
+-(void)transactionFailed{
+    [self hideIndicator];
+}
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
     //    UIAlertView *alertFailed;
     StoreBooks *books;
@@ -252,12 +255,17 @@
  
 
     }
-    [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
+  //  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
     [self getPurchasedDataFromDataBase];
     [self hideIndicator];
   //  [_alert dismissWithClickedButtonIndex:0 animated:YES];
    // request from server
     //reload data
+    
+}
+-(void)transactionRestored{
+    [self getPurchasedDataFromDataBase];
+    [self hideIndicator];
     
 }
 - (void)signOut:(id)sender {
@@ -398,15 +406,7 @@
     detail.identity=[book.id integerValue];
     [self.tabBarController.tabBar setHidden:YES];
     [self presentModalViewController:detail animated:YES];
- //   [detail release];
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-}
+ }
 -(uint64_t)getFreeDiskspace {
     uint64_t totalSpace = 0;
     uint64_t totalFreeSpace = 0;

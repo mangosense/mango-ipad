@@ -20,9 +20,11 @@
 @property(assign,nonatomic)NSInteger totalNumberOfBooks;
 @property(assign,nonatomic)NSInteger pages;
 @property(assign,nonatomic)NSInteger identity;
-@property(assign,nonatomic)NSDecimalNumber *price;
+@property(strong,nonatomic)NSDecimalNumber *price;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *networkIndicator;
 @property(assign,nonatomic)StoreViewController *storeViewController;
 @property(assign,nonatomic)UIInterfaceOrientation interfaceOrientationChanged;
 @property(strong,nonatomic) NSError *error;
+-(void)purchaseValidation:(SKPaymentTransaction *)transaction;
+-(void)transactionFailed;
 @end

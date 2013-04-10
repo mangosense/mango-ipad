@@ -118,16 +118,18 @@
     NSURL *url=[[NSURL alloc]initFileURLWithPath:_loc];
     [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
-    [_progress setAlpha:0.0];
+   
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *value=[[_loc lastPathComponent] stringByDeletingPathExtension];
     [delegate unzipAndSaveFile:_loc with:value.integerValue];
+    delegate.location=[_loc stringByDeletingPathExtension];
+    [delegate removeBackDirectory];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
     _libViewController.showDeleteButton=NO;
     
     [_libViewController.tabBarController setSelectedIndex:0];
   //  [url release];
-    
+   [_progress setAlpha:0.0];  
 [_progress removeFromSuperview];
   //  [_loc release];
     

@@ -10,8 +10,7 @@
 
 #import "Book.h"
 #import "CustomNavViewController.h"
-#import "LoginViewController.h"
-#import "LoginViewControllerIphone.h"
+
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 @implementation AePubReaderAppDelegate
@@ -33,6 +32,7 @@
         
          [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
+    [userDefaults setBool:NO forKey:@"changed"];
     NSFileManager *fileManager=[NSFileManager defaultManager];
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *destPath;/*=@"780.jpg";*/
@@ -167,8 +167,8 @@
 
     
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
-        LoginViewControllerIphone *loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
-        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:loginViewControllerIphone];
+       _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
+        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
       
         self.window.rootViewController = nav;
         //[nav release];
@@ -181,10 +181,45 @@
  
         [self.window makeKeyAndVisible];
     }
-    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     [self addSkipBackupAttribute];
     [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
+    // convert all directories out of backup
+    _location=[self applicationDocumentsDirectory];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"bkup"]) {
+        [self performSelectorInBackground:@selector(removeBackDirectory) withObject:nil];
+
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
+
     return YES;
+}
+-(void)addSkipAttribute:(NSString *) string{
+    const char* filePath = [string fileSystemRepresentation];
+    
+    const char* attrName = "com.apple.MobileBackup";
+    u_int8_t attrValue = 1;
+    
+    int result =  setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
+    NSLog(@"Result %d",result);
+}
+-(void)removeBackDirectory{
+      NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_location error:nil];
+    BOOL isDir;
+    for (NSString *fileName in dirFiles) {
+        NSString *loc=[_location stringByAppendingPathComponent:fileName];
+        BOOL file=[[NSFileManager defaultManager] fileExistsAtPath:loc isDirectory:&isDir];
+        NSLog(@"%@",loc);
+        NSError *error;
+        if (!isDir&&[[NSFileManager defaultManager] fileExistsAtPath:loc]) {
+            [[NSURL URLWithString:loc] setResourceValue:[NSNumber numberWithBool: YES]
+        forKey: NSURLIsExcludedFromBackupKey error: &error];
+        }else if(file){
+            _location=loc;
+            [self performSelectorInBackground:@selector(removeBackDirectory) withObject:nil];
+        }
+    
+    }
 }
 -(void)unzipExisting{
 
@@ -197,6 +232,7 @@
         NSString *value=[string stringByDeletingPathExtension];
         
         [self unzipAndSaveFile:epubLocation with:value.integerValue];
+        [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
         
     }
@@ -252,23 +288,30 @@
     UIAlertView *alertFailed;
     StoreBooks *books;
     NSNumber *number;
- //   BOOL restored=NO;
-    if (_dismissAlertViewFlag) {
-        [_dismissAlertView dismissWithClickedButtonIndex:0 animated:YES];
-        _dismissAlertViewFlag=NO;
-    }
-    
+    BOOL restored;
+    restored=NO;
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
             case SKPaymentTransactionStateFailed:
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
               //  [alertFailed release];
-                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+            
+                if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+                    [_loginViewController transactionFailed];
+                }else{
+                    [_loginViewControllerIphone transactionFailed];
+                    
+                }
+                    [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStatePurchased:
+                if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+                    [_loginViewController transactionPurchaseValidation:transaction];
+                }else{
+                    [_loginViewControllerIphone purchaseValidation:transaction];
+                }
                 
-               
                 break;
             case SKPaymentTransactionStateRestored:
                 number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
@@ -277,14 +320,33 @@
                // [number release];
                 
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-           //     restored=YES;
+                restored=YES;
                 break;
+            case SKPaymentTransactionStatePurchasing:
+                NSLog(@"Purchasing");
+                break;
+            default:
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                
         }
-    }///end for
-//    if (restored) {
-//        [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
-//    }
-    
+    }//end for
+    if (restored) {
+        if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+            [_loginViewController transactionRestored];
+
+        }else{
+            [_loginViewControllerIphone transactionRestored];
+
+        }
+    }
+
+}
+-(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        [_loginViewController restoreFailed];
+    }else{
+        [_loginViewControllerIphone restoreFailed];
+    }
 }
 
 -(void)applicationDidEnterBackground:(UIApplication *)application{

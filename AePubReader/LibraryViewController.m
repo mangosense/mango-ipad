@@ -16,7 +16,7 @@
 #import "ViewController.h"
 #import "ZipArchive.h"
 #import "CustomNavViewController.h"
-
+#import "ViewControllerBaseUrl.h"
 @interface LibraryViewController ()
 
 
@@ -117,13 +117,21 @@
     [editBarButtonItem release];
     [optionsItem release];*/
     self.navigationItem.rightBarButtonItems=_array;
-
+    
     //[_array release];
      if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
          
          UIBarButtonItem *leftLoginItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
          leftLoginItem.tintColor=[UIColor grayColor];
-         self.navigationItem.leftBarButtonItem=leftLoginItem;
+         UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
+         settings.tintColor=[UIColor grayColor];
+         NSArray *aray=[NSArray arrayWithObjects:leftLoginItem,settings, nil];
+         self.navigationItem.leftBarButtonItems=aray;
+     }else{
+         UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
+         settings.tintColor=[UIColor grayColor];
+
+self.navigationItem.leftBarButtonItem=settings;
      }
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
@@ -142,6 +150,10 @@
     // Do any additional setup after loading the view from its nib.
 
    
+}
+-(void)settings{
+    ViewControllerBaseUrl *viewController=[[ViewControllerBaseUrl alloc]initWithNibName:@"ViewControllerBaseUrl" bundle:nil];
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 -(void)login:(id)sender{
         [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];

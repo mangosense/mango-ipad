@@ -18,4 +18,6 @@
 @property(strong,nonatomic)NSError *error;
 - (void)refreshButton:(id)sender ;
 -(void)getPurchasedDataFromDataBase;
+-(void)transactionRestored;
+-(void)transactionFailed;
 @end

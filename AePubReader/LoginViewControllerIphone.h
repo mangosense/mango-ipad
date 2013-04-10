@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <StoreKit/StoreKit.h>
 @interface LoginViewControllerIphone : UIViewController<NSURLConnectionDataDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 @property (retain, nonatomic) IBOutlet UITextField *email;
 @property (retain, nonatomic) IBOutlet UITextField *password;
@@ -26,4 +26,8 @@
 @property (retain, nonatomic) IBOutlet UIButton *signUp;
 -(void)goToNext;
 @property(retain,nonatomic)NSError *error;
+-(void)transactionRestored;
+-(void)transactionFailed;
+-(void)purchaseValidation:(SKPaymentTransaction *)transaction;
+-(void)restoreFailed;
 @end

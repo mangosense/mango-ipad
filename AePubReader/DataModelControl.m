@@ -479,7 +479,7 @@
             
                     books.textBook=numbr;
                NSLog(@"update id %@",[key objectForKey:@"id"]);
-        
+            
             [self saveStoreBookData:books];
         }
     }
@@ -538,24 +538,35 @@
                count++;
                Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
                book.id=[key objectForKey:@"id"];
-               book.desc=[key objectForKey:@"description"];
+               if ([NSNull null] !=[key objectForKey:@"description"]) {
+               book.desc=[key objectForKey:@"description"];    
+               }else{
+                   book.desc=@"";
+               }
+               
                book.sourceFileUrl=[key objectForKey:@"book_url"];
                book.imageUrl=[key objectForKey:@"cover_image_url"];
+               if ([NSNull null] !=[key objectForKey:@"description"]) {
                book.title=[key objectForKey:@"title"];
+               }else{
+                   book.title=@"";
+               }
                book.downloaded=[NSNumber numberWithBool:NO];
                book.link=[key objectForKey:@"book_link"];
                  NSLog(@"id %@",book.id);
                NSNumber *num=[key objectForKey:@"booktype"];
-              
+               if (num !=(id)[NSNull null]) {
                    book.textBook=num;
+
+               }
               
                NSNumber *numb=[key objectForKey:@"source_file_size"];
               // NSLog(@" %@ %f",book.id,[numb floatValue]);
-          //     if(numb!=[NSNull null]){
+             if((id)[NSNull null]!=numb){
                book.size=[NSNumber numberWithFloat:[numb floatValue]];
                NSLog(@"%@",book.title);
               
-            //   }
+               }
 
 //
                
@@ -579,15 +590,22 @@
                NSString *str=[[NSString alloc ]initWithFormat:@"%@.epub",iden];
                Book *book=[self getBookOfId:str];
            //    [str release];
-             //  if(num!=[NSNull null]){
+               if(num!=(id)[NSNull null]){
                    book.size=[NSNumber numberWithFloat:[num floatValue]];
                book.desc=[key objectForKey:@"description"];
-               //}
+               }
                 NSLog(@"id %@",iden );
                  NSNumber *type=[key objectForKey:@"booktype"];
-             
+               if (type!=(id)[NSNull null]) {
                    book.textBook=type;
-               NSLog(@"id %@",iden );
+
+               }
+                                  NSLog(@"id %@",iden );
+               if ([[NSUserDefaults standardUserDefaults] boolForKey:@"changed"]) {
+                   book.sourceFileUrl=[key objectForKey:@"book_url"];
+                      book.imageUrl=[key objectForKey:@"cover_image_url"];
+               }
+
                [self saveData:book];
            }
            if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
@@ -603,6 +621,7 @@
            
            
     }//end for
+    [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"changed"];
 NSLog(@"books inserted %d",count);
     NSLog(@"books downloaded %d",_downloadedImage);
     return YES;

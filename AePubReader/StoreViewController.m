@@ -244,7 +244,7 @@
 -(void)restore:(id)sender{
 
   
-     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    // [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
    
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
     [self showActivityIndicator];
@@ -280,13 +280,16 @@
                 break;
         }
     }///end for
-    [self BuildButtons];
-   //    [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
-    [self hideActivityIndicator];
+
 
 }
-
-
+-(void)transactionRestore{
+    [self BuildButtons];
+    [self hideActivityIndicator];
+}
+-(void)transactionFailed{
+    [self hideActivityIndicator];
+}
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
    
@@ -385,7 +388,7 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
-     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+   //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
 
 -(void)DrawShelf{
