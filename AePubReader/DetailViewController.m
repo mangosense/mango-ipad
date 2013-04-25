@@ -101,14 +101,14 @@
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 - (IBAction)downloadBook:(id)sender {
-    if (_booksMy.downloadBook) {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if (delegate.downloadBook) {
         UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
         [down show];
       //  [down release];
         return;
     }
     [self dismissModalViewControllerAnimated:YES];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
 
     NSString *string=[NSString stringWithFormat:@"%d",_identity ];
     Book *book=  [delegate.dataModel getBookOfId:string];

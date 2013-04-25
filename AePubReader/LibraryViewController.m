@@ -17,6 +17,7 @@
 #import "ZipArchive.h"
 #import "CustomNavViewController.h"
 #import "ViewControllerBaseUrl.h"
+#import "Flurry.h"
 @interface LibraryViewController ()
 
 
@@ -31,7 +32,8 @@
         // Custom initialization
         self.tabBarItem.title=@"My Books";
         self.tabBarItem.image=[UIImage imageNamed:@"library.png"];
-        _addControlEvents=YES;
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        delegate.addControlEvents=YES;
         _downloadFailed=NO;
         _allowOptions=YES;
         _recordButtonShow=NO;
@@ -42,7 +44,8 @@
    // [book retain];
     [self.tabBarController setSelectedIndex:0];
     [self reloadData];
-    _addControlEvents=NO;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.addControlEvents=NO;
     [self BuildButtons];
     //int xmin=75,ymin=50;
     //CGRectMake(x, y, 140, 180);
@@ -357,10 +360,10 @@ self.navigationItem.leftBarButtonItem=settings;
     }
     int x=xmin;
     int y=ymin;
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     for (int i=1; i<=_epubFiles.count; i++) {
        
-        if (i==1&&!_addControlEvents) {
+        if (i==1&&!delegate.addControlEvents) {
          
             return;
         }
@@ -611,6 +614,7 @@ self.navigationItem.leftBarButtonItem=settings;
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
+    [Flurry logEvent:@"Library entered"];
 
     
 }
@@ -619,6 +623,7 @@ self.navigationItem.leftBarButtonItem=settings;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
+    [Flurry logEvent:@"Library existed"];
 
 }
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
@@ -694,7 +699,7 @@ self.navigationItem.leftBarButtonItem=settings;
     }
    
           NSString  *value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     for (int i=0;i<_epubFiles.count;i++) {
         CGRect rect=CGRectMake(x, y, 140, 180);
         ShadowButton *button=[[ShadowButton alloc]init];
@@ -707,7 +712,7 @@ self.navigationItem.leftBarButtonItem=settings;
         
         //[button setupView];
         //[button addTarget:button action:@selector(showBookButton:) forControlEvents:UIControlEventTouchUpInside];
-        if (i==0&&_addControlEvents) {
+        if (i==0&&delegate.addControlEvents) {
             button.downloading=YES;
         }
         
@@ -812,11 +817,12 @@ self.navigationItem.leftBarButtonItem=settings;
     if (_showDeleteButton||_recordButtonShow) {
         return;
     }
-    if (_buttonTapped.tag==0&&_addControlEvents==NO) {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if (_buttonTapped.tag==0&&delegate.addControlEvents==NO) {
         return;
     }
     _alertView =[[UIAlertView alloc]init];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+
     delegate.alertView=_alertView;
    // [_alertView setTitle:@"Loading...."];
     [_alertView setDelegate:self];

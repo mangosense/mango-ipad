@@ -30,4 +30,7 @@
 -(void)transactionFailed;
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction;
 -(void)restoreFailed;
+-(void)liveDismissViewController;
+-(void)downloadComplete:(NSInteger) identity;
+-(void)downloadViewControllerRefreshUI;
 @end

@@ -166,7 +166,7 @@
    color=[UIColor colorWithPatternImage:image];
     _recordBackgroundview.backgroundColor=color;
     _hide=YES;
-    
+    [_recordButton addTarget:self action:@selector(wasDragged:withEvent:)  forControlEvents:UIControlEventTouchDragInside];
 	[_webview setBackgroundColor:[UIColor clearColor]];
 	//First unzip the epub file to documents directory
 	//[self unzipAndSaveFile];
@@ -285,6 +285,16 @@
     [_progressView setHidden:YES];
 
 }
+- (void)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
+    //get the touch
+    UITouch *touch=[[event touchesForView:button] anyObject];
+    //get delta
+    CGPoint previousLocation=[touch previousLocationInView:button];
+    CGPoint location=[touch locationInView:button];
+    CGFloat delta_x=location.x-previousLocation.x;
+    CGFloat delta_y=location.y-previousLocation.y;
+    button.center=CGPointMake(button.center.x+delta_x,button.center.y+delta_y);
+}
 -(void)stopRecord:(id)sender{
     [_anAudioRecorder stop];
     [_playRecordedButton setEnabled:YES];
@@ -292,6 +302,9 @@
     [_timerProgress invalidate];
     UIImage *image=[UIImage imageNamed:@"start-recording-control.png"];
     [_recordAudioButton setImage:image forState:UIControlStateNormal];
+    if (_anAudioPlayer) {
+        _anAudioPlayer=nil;
+    }
 //    UIImage *image=[UIImage imageNamed:@"start-recording-control.png"];
 //    [_playRecordedButton setImage:image forState:UIControlStateNormal];
 
@@ -982,6 +995,9 @@
    // [_anAudioRecorder release];
  
    // _anAudioRecorder=nil;
+    if (_anAudioPlayer) {
+        _anAudioPlayer=nil;
+    }
     UIImage *image=[UIImage imageNamed:@"start-recording-control.png"];
     [_recordAudioButton setImage:image forState:UIControlStateNormal];
   [_recordAudioButton setEnabled:YES];
@@ -1017,6 +1033,7 @@
 }
 
 - (void)viewDidUnload {
+    [self setRecordButton:nil];
     [self setPlayRecordedButton:nil];
     [self setStopButton:nil];
     [self setRightButton:nil];

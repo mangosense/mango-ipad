@@ -19,6 +19,8 @@
 @interface LoginViewControllerIphone ()
 @property(retain,nonatomic)DownloadViewController *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
+@property(retain,nonatomic) MyBooksViewController *myBook;
+
 @end
 
 @implementation LoginViewControllerIphone
@@ -100,18 +102,18 @@
 
 -(void)goToNext{
     UITabBarController *tabBarController=[[UITabBarController alloc]init];
-     MyBooksViewController *myBook=[[MyBooksViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *navLib=[[UINavigationController alloc]initWithRootViewController:myBook];
+    _myBook=[[MyBooksViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    UINavigationController *navLib=[[UINavigationController alloc]initWithRootViewController:_myBook];
    
     _downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    _downloadView.myBook=myBook;
+    _downloadView.myBook=_myBook;
  //    [myBook release];
     
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
   //  [downloadView release];
     _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_liveController];
-    _liveController.myBooks=myBook;
+    _liveController.myBooks=_myBook;
     _liveController.downloadViewController=_downloadView;
     tabBarController.viewControllers=@[navLib,nav,navigationLive];
     [self.navigationController pushViewController:tabBarController animated:YES];
@@ -119,6 +121,9 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
     
+}
+-(void)LiveDismissPresentedController{
+    [_liveController dismissViewControllerAnimated:YES completion:nil];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     switch (textField.tag) {
@@ -264,6 +269,16 @@
     [_alertView show];
 
 
+}
+-(void)liveDismissViewController{
+    [_myBook dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)downloadComplete:(NSInteger) identity{
+    
+    [_myBook downloadComplete:identity];
+}
+-(void)downloadViewControllerRefreshUI{
+    [_downloadView getPurchasedDataFromDataBase];
 }
 -(void)facebookRequest{
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];

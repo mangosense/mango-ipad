@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import <MessageUI/MessageUI.h>
 #import <StoreKit/StoreKit.h>
+#import "Book.h"
 @interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate>
 - (IBAction)Check:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *userName;
@@ -31,6 +31,7 @@
 - (IBAction)forgotPassword:(id)sender;
 - (IBAction)signUp:(id)sender;
 @property(nonatomic,assign)BOOL getFromSignUp;
+-(void)insertInStore;
 
 @property(strong,nonatomic)NSMutableData *data;
 @property(strong,nonatomic)UIAlertView *alertView;
@@ -39,4 +40,7 @@
 -(void)transactionFailed;
 -(void)transactionPurchaseValidation:(SKPaymentTransaction *)transaction;
 -(void)restoreFailed;
+-(void)liveViewControllerDismiss;
+-(void)downloadBook:(Book *)book;
+-(void)refreshDownloads;
 @end

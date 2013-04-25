@@ -15,10 +15,10 @@
 @property(retain,nonatomic)NSMutableArray *array;
 @property(retain,nonatomic)UIAlertView *alertView;
 @property(assign,nonatomic)NSInteger identity;
-@property(assign,nonatomic)BOOL downloadBook;
 @property(retain,nonatomic)UIProgressView *progress;
 @property(assign,nonatomic)NSInteger index;
 @property(assign,nonatomic)BOOL deleted;
 @property(assign,nonatomic)BOOL bookOpen;
 -(void)downloadComplete:(NSInteger)index;
+@property(assign,nonatomic)AePubReaderAppDelegate *delegate;
 @end

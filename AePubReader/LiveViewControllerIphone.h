@@ -18,10 +18,11 @@
 @property(nonatomic,retain)UIAlertView *alertView;
 -(void)requestBooksFromServer;
 @property(retain,nonatomic)NSDecimalNumber *price;
-@property(assign,nonatomic)NSInteger identity;
 @property(assign,nonatomic)MyBooksViewController *myBooks;
 @property(assign,nonatomic)NSInteger pageNumber;
 @property(strong,nonatomic)NSError *error;
+@property(assign,nonatomic)NSInteger totalNoOfBooks;
+@property(assign,nonatomic)NSInteger pages;
 -(void)transactionFailed;
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction;
 @end

@@ -266,6 +266,7 @@
     _value=nil;
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_products.price]];
     _liveViewController.price=_products.price;
+        delegate.price=_products.price;
 //[_liveViewController.price retain];
   //  [formatter release];
         
@@ -282,6 +283,13 @@
     _alertView=nil;
     [_purchaseButton setEnabled:YES];
         
+}
+-(void)request:(SKRequest *)request didFailWithError:(NSError *)error{
+    if(error.code==SKErrorStoreProductNotAvailable){
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Product is waiting for Apple approval or not available on store" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+        [self done:nil];
+    }
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     

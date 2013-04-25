@@ -28,9 +28,8 @@
         // Custom initialization
         self.tabBarItem.title=@"Store";
         self.tabBarItem.image=[UIImage imageNamed:@"cart.png"];
-        _pageNumber=1;
-
-        
+        _currentPageNumber=1;
+        _pg=1;
     }
     return self;
 }
@@ -49,8 +48,12 @@
 
     UIBarButtonItem *itemReferesh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     itemReferesh.tintColor=[UIColor grayColor];
-    self.navigationItem.rightBarButtonItems=@[/*itemRightNext,*/itemReferesh];
-
+    UIBarButtonItem *itemLeft=[[UIBarButtonItem alloc]initWithTitle:@"Previous" style:UIBarButtonItemStyleBordered target:self action:@selector(previousButton:)];
+    itemLeft.tintColor=[UIColor grayColor];
+    UIBarButtonItem *itemRight=[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(nextButton:)];
+    itemRight.tintColor=[UIColor grayColor];
+    self.navigationItem.rightBarButtonItems=@[itemRight,itemReferesh];
+    self.navigationItem.leftBarButtonItem=itemLeft;
    // [itemReferesh release];
     _ymax=768+80;
 
@@ -62,18 +65,22 @@
 }
 
 -(void)nextButton:(id)sender{
-    if (_pageNumber>=_pages) {
+    if (_currentPageNumber>=_pages) {
         return;
     }
-    _pageNumber++;
-    [self requestBooks];
+    _currentPageNumber++;
+    [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
+
+   // [self requestBooks];
     
 }
 -(void)previousButton:(id)sender{
-    if (_pageNumber>1) {
-        _pageNumber--;
+    if (_currentPageNumber>1) {
+        _currentPageNumber--;
     }
-    [self requestBooks];
+    [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
+
+  //  [self requestBooks];
     
 }
 -(void)showActivityIndicator{
@@ -94,10 +101,45 @@
         [alert show];
     }
 }
+-(void)requestBooksWithoutUIChange{
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
+    NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_pg];
+    NSLog(@"URL %@",stringUrl);
+    //stringUrl=@"http://192.168.2.29:3000/api/v1/page/1/books.json";
+    NSURL *url=[[NSURL alloc]initWithString:stringUrl];
+    //[stringUrl release];
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    //   NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
+    NSURLResponse *response;
+    NSError *error;
+    [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
+    NSData *data= [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    _data=[[NSMutableData alloc]initWithData:data];
+    NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",lengthTotal);
+    //[lengthTotal release];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+
+    _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pg];
+    _pages=_totalNumberOfBooks/20;
+    if (_totalNumberOfBooks%20!=0) {
+        _pages++;
+    }
+    //_currentPageNumber>=_pages
+    if (_pg<=_pages) {
+        _pg++;
+        [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
+    }
+
+}
 -(void)requestBooks{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
-    NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_pageNumber];
+    NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_currentPageNumber];
     NSLog(@"URL %@",stringUrl);
     //stringUrl=@"http://192.168.2.29:3000/api/v1/page/1/books.json";
     NSURL *url=[[NSURL alloc]initWithString:stringUrl];
@@ -124,7 +166,7 @@ _error=error;
         NSLog(@"%@",lengthTotal);
         //[lengthTotal release];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pageNumber];
+        _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_currentPageNumber];
         [self buildButtons];
         _pages=_totalNumberOfBooks/20;
         if (_totalNumberOfBooks%20!=0) {
@@ -166,7 +208,7 @@ _error=error;
     NSLog(@"%@",lengthTotal);
     //[lengthTotal release];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-_totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pageNumber];
+_totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_currentPageNumber];
     [self buildButtons];
     _pages=_totalNumberOfBooks/20;
     if (_totalNumberOfBooks%20!=0) {
@@ -201,20 +243,14 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
      [self buildButtons];
 }
 -(void)buildButtons{
-    for (UIView *view in self.scrollView.subviews) {
-        
-        [view removeFromSuperview];
-        
-        
-    }// remove alll views if any
-    // add all views if any
+       // add all views if any
     int xmin=65,ymin=50;
     int x,y;
     x=xmin;
     y=ymin;
     int xinc=190;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSArray *_listOfBooks= [delegate.dataModel getForPage:_pageNumber];
+    NSArray *_listOfBooks= [delegate.dataModel getForPage:_currentPageNumber];
   //  [_listOfBooks retain];
     _ymax=768+80;
     if (_listOfBooks.count==0) {
@@ -222,7 +258,13 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
     //    [_listOfBooks release];
         return;
     }
-   
+    for (UIView *view in self.scrollView.subviews) {
+        
+        [view removeFromSuperview];
+        
+        
+    }// remove alll views if any
+
     if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)){
         _ymax=1024+80;
         if (_listOfBooks.count>16) {
@@ -327,6 +369,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
     }
     else{
         _identity=button.tag;
+        delegate.identity=button.tag;
         PopPurchaseViewController *popPurchaseController=[[PopPurchaseViewController alloc]initWithNibName:@"PopPurchaseViewController" bundle:nil Identity:button.tag live:self ];
         popPurchaseController.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
         popPurchaseController.modalPresentationStyle=UIModalPresentationFormSheet;
@@ -376,7 +419,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
 
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-            [delegate.dataModel insertBookWithNo:books];
             UINavigationController *nav=self.tabBarController.viewControllers[1];
             StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
             [delegate.dataModel insertBookWithNo:books];
@@ -391,7 +433,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
         NSString *valu=[[NSString alloc]initWithFormat:@"%@.epub",identity ];
         Book *bookToDownload=[delegate.dataModel getBookOfId:valu];
      //   [valu release];
-        if (!library.addControlEvents) {
+        if (!delegate.addControlEvents) {
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
       //      [down release];
@@ -409,7 +451,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
         [delegate.dataModel insertBookWithNo:books];
         UINavigationController *nav=self.tabBarController.viewControllers[1];
         StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
-        [delegate.dataModel insertBookWithNo:books];
         [storeViewController BuildButtons];
        // [storeViewController refreshButton:nil];
          [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
@@ -529,11 +570,12 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_p
 
 }
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction{
+        RecieptValidation *recieptValidation;
     NSMutableURLRequest *request;
     NSMutableDictionary *dictionary;
     NSNumber *userid;
     NSData *jsonData;
-    RecieptValidation *recieptValidation;
+
     NSString *valueJson;
     if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
     {

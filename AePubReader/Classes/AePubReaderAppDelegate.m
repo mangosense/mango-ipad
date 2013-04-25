@@ -10,9 +10,10 @@
 
 #import "Book.h"
 #import "CustomNavViewController.h"
-
+#import "Flurry.h"
 #include <sys/xattr.h>
 #import "ZipArchive.h"
+#import "Base64.h"
 @implementation AePubReaderAppDelegate
 
 @synthesize window;
@@ -191,6 +192,8 @@
 
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
+ [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
     return YES;
 }
@@ -202,6 +205,9 @@
     
     int result =  setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
     NSLog(@"Result %d",result);
+}
+void uncaughtExceptionHandler(NSException *exception) {
+    [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
 -(void)removeBackDirectory{
       NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_location error:nil];
@@ -290,6 +296,12 @@
     NSNumber *number;
     BOOL restored;
     restored=NO;
+    NSDictionary *diction;
+    NSData *jsonData;
+    NSString *valueJson;
+    NSData *data;
+    NSData *transactionReciept;
+    NSString *encode;
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
             case SKPaymentTransactionStateFailed:
@@ -307,9 +319,11 @@
                 break;
             case SKPaymentTransactionStatePurchased:
                 if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-                    [_loginViewController transactionPurchaseValidation:transaction];
-                }else{
-                    [_loginViewControllerIphone purchaseValidation:transaction];
+                    [self purchaseValidationIpad:transaction];
+                
+                
+                }else{// for iphone or ipod case
+                    [self purchaseValidationIphone:transaction];
                 }
                 
                 break;
@@ -318,9 +332,21 @@
                 books= [_dataModel getBookById:number];
                 [_dataModel insertBookWithNo:books];
                // [number release];
+//                string=[[NSString alloc]initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];
+//                NSLog(@"string %@",string);
+                data=transaction.transactionReceipt;
+                transactionReciept=transaction.transactionReceipt;
+                encode=[Base64 encode:transactionReciept];
+                 diction=[[NSMutableDictionary alloc]init];
+                [diction setValue:encode forKey:@"receipt_data"];
+                jsonData=[NSJSONSerialization dataWithJSONObject:diction options:NSJSONWritingPrettyPrinted error:nil];
                 
+                valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+                NSLog(@"value json request %@",valueJson);
+
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 restored=YES;
+                
                 break;
             case SKPaymentTransactionStatePurchasing:
                 NSLog(@"Purchasing");
@@ -340,6 +366,311 @@
         }
     }
 
+}
+-(void)purchaseValidationIphone:(SKPaymentTransaction *)transaction{
+    NSMutableURLRequest *request;
+    NSMutableDictionary *dictionary;
+    NSNumber *userid;
+    NSData *jsonData;
+    NSString *valueJson;
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
+    {
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
+        [dictionary setValue:userid forKey:@"user_id"];
+        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
+        [dictionary setValue:_price forKey:@"amount"];
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
+        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
+        NSLog(@"reciept validation %@",urlString);
+        [request setURL:[NSURL URLWithString:urlString]];
+        NSURLResponse *response;
+        NSError *error;
+        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (error) {
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+        }else{
+            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSString *value= [dictionary objectForKey:@"message"];
+            if ([value isEqualToString:@"purchase successful!"]) {
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+                // [alertViewDelegate autorelease];
+                alertView.tag=2000;
+                [alertView show];
+                //   [alertView release];
+                
+                
+            }else{
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alertView show];
+            
+            }
+            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+        }
+        
+        
+    }else// no email
+    {
+        NSURLResponse *response;
+        NSError *error;
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        [dictionary setValue:_price forKey:@"amount"];
+        
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        // [valueJson release];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
+        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
+        NSLog(@"reciept validation %@",urlString);
+        [request setURL:[NSURL URLWithString:urlString]];
+        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (error) {
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+        }else{
+            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSNumber *value= [dictionary objectForKey:@"status"];
+            if (value.integerValue==0) {
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+                // [alertViewDelegate autorelease];
+                alertView.tag=2000;
+                [alertView show];
+
+        
+            }else{
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alertView show];
+                
+            }
+            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+
+        
+        }
+        
+        
+    }
+}
+-(void) purchaseValidationIpad:(SKPaymentTransaction *)transaction{
+    NSMutableURLRequest *request;
+    NSMutableDictionary *dictionary;
+    NSNumber *userid;
+    NSData *jsonData;
+    NSString *valueJson;
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
+    {
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
+        [dictionary setValue:userid forKey:@"user_id"];
+        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
+        [dictionary setValue:_price forKey:@"amount"];
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        //  [valueJson release];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
+        [request setURL:[NSURL URLWithString:urlString]];
+        NSURLResponse *response;
+        NSError *error;
+        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (error) {
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+            
+        }else{
+            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSString *value= [dictionary objectForKey:@"message"];
+            if ([value isEqualToString:@"purchase successful!"])
+            {
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+                alertView.tag=1000;
+                [alertView show];
+                
+            }else{
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alertView show];
+            }
+            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+        }
+        
+    }else{// not logged in
+        request=[[NSMutableURLRequest alloc]init];
+        dictionary=[[NSMutableDictionary alloc]init];
+        // [dictionary setValue:_price forKey:@"amount"];
+        
+        NSData *transactionReciept=transaction.transactionReceipt;
+        NSString *encode=[Base64 encode:transactionReciept];
+        [dictionary setValue:encode forKey:@"receipt_data"];
+        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"value json request %@",valueJson);
+        
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
+        [request setURL:[NSURL URLWithString:urlString]];
+        NSURLResponse *response;
+        NSError *error;
+        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (error) {
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+        }else{
+            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSNumber *value= [dictionary objectForKey:@"status"];
+            if (value.integerValue==0)
+            {
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+                [alertView show];
+                
+            }else{
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alertView show];
+                
+            }
+            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+            
+        }
+    }
+    
+
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+ if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+    NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+    StoreBooks *books=[self.dataModel getBookById:identity];
+    float size=[books.size floatValue];
+    //  [image release];
+    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+    size=size/1024.0f;
+    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+    size=size/1024.0f;
+    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+    if (buttonIndex==1) {// yes is case
+        if (size>[self getFreeDiskspace]) {
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+            [self.dataModel insertBookWithNo:books];
+            [self.loginViewController refreshDownloads];
+
+        }else{// if there is sufficient space
+            if (!_addControlEvents) {
+                UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
+                [down show];
+                [self.dataModel insertBookWithNo:books];
+                [self.loginViewController refreshDownloads];
+
+            }//end if add controlevents
+            else{
+                [self.dataModel insertBookWithYes:books];
+                [self.loginViewController liveViewControllerDismiss];
+                NSString *valu=[[NSString alloc]initWithFormat:@"%d.epub",_identity ];
+                Book *bookToDownload=[self.dataModel getBookOfId:valu];
+                [_loginViewController downloadBook:bookToDownload];
+            }
+            
+        }
+        }else{/// no is the case
+                [self.dataModel insertBookWithNo:books];
+        
+            }
+            [self.loginViewController liveViewControllerDismiss];
+            [self.loginViewController refreshDownloads];
+    }else if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+        StoreBooks *books=[self.dataModel getBookById:identity];
+        float size=[books.size floatValue];
+        //  [image release];
+        NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+        size=size/1024.0f;
+        NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+        size=size/1024.0f;
+        NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+
+        if (buttonIndex==1) {
+            if (size>[self getFreeDiskspace]) {
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alertView show];
+                [self.dataModel insertBookWithNo:books];
+                [self.loginViewControllerIphone downloadViewControllerRefreshUI];
+                
+            }else // if there is space
+                {
+                    if (_downloadBook) {
+                        UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
+                        [down show];
+                        [_dataModel insertBookWithNo:books ];
+                        [self.loginViewControllerIphone downloadViewControllerRefreshUI];
+
+                    }else{
+                        [_dataModel insertBookWithYes:books];
+                        [self.loginViewControllerIphone downloadComplete:_identity];
+                    }
+                }// end else of if there is freespace
+        }        
+        else
+        {
+            [_dataModel insertBookWithNo:books];
+            [self.loginViewControllerIphone downloadViewControllerRefreshUI];
+        }
+        
+        
+    }
+}
+-(uint64_t)getFreeDiskspace {
+    uint64_t totalSpace = 0;
+    uint64_t totalFreeSpace = 0;
+    NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
+    
+    if (dictionary) {
+        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
+        totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
+        NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
+    } else {
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
+    }
+    
+    return totalFreeSpace;
 }
 -(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
@@ -479,6 +810,9 @@
 }
 - (NSString *)applicationDocumentsDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+-(void)insertInStore{
+    [_loginViewController insertInStore];
 }
 /*- (void)dealloc {
   //  _loginViewController=nil;

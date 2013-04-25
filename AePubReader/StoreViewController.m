@@ -7,11 +7,8 @@
 //
 
 #import "StoreViewController.h"
-#import "ASIHTTPRequest.h"
-#import "AePubReaderAppDelegate.h"
 #import <Foundation/Foundation.h>
 #import "Book.h"
-#import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "Book.h"
 #import "FileDownloader.h"
@@ -36,7 +33,6 @@
         // Custom initialization
         self.tabBarItem.title=@"Downloads";
         self.tabBarItem.image=[UIImage imageNamed:@"purchased.png"];
-
         _purchase=YES;
         
      
@@ -45,14 +41,8 @@
 }
 -(void)requestBooksFromServerinit{
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
-
-        
         return;
     }
-
-   // [_alert release];
-
-   
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     NSString *temp;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -245,7 +235,8 @@
 
   
     // [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-   
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate insertInStore];
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
     [self showActivityIndicator];
     
@@ -590,8 +581,8 @@
 
 - (void)DownloadBook:(id)sender {
     
-    LibraryViewController *lib=(LibraryViewController *)_delegate;
-    if (!lib.addControlEvents) {
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *) [UIApplication sharedApplication].delegate;
+    if (!delegate.addControlEvents) {
         UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
         [down show];
      //   [down release];
@@ -599,7 +590,7 @@
         return;
     }
   
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *) [UIApplication sharedApplication].delegate;
+
     
     _listOfBooks=[delegate.dataModel getDataNotDownloaded];
     for (Book *bk in _listOfBooks) {

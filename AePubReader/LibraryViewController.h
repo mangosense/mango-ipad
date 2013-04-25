@@ -21,7 +21,6 @@
 @property(retain,nonatomic)UIAlertView *alertView;
 @property(assign,nonatomic)BOOL showDeleteButton;
 @property(assign,nonatomic)NSInteger index;
-@property(assign,nonatomic)BOOL addControlEvents;
 @property(assign,nonatomic)BOOL downloadFailed;
 @property(retain,nonatomic)UIMenuController *menu;
 @property(retain,nonatomic)UIButton *buttonTapped;

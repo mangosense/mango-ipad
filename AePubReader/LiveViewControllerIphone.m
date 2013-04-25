@@ -59,8 +59,13 @@
     }else{
         _data=[[NSMutableData alloc]initWithData:data];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        [delegate.dataModel insertStoreBooks:_data withPageNumber:1];
-        NSArray *array=  [delegate.dataModel getForPage:1];
+        _totalNoOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pageNumber];
+        
+        NSArray *array=  [delegate.dataModel getForPage:_pageNumber];
+        _pages=_totalNoOfBooks/20;
+        if (_totalNoOfBooks%20!=0) {
+            _pages++;
+        }
         _array=[[NSMutableArray alloc]initWithArray:array];
         [self.tableView reloadData];
     }
@@ -96,8 +101,8 @@
     NSLog(@"%@",lengthTotal);
  //   [lengthTotal release];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-   [delegate.dataModel insertStoreBooks:_data withPageNumber:1];
-    NSArray *array=  [delegate.dataModel getForPage:1];
+   [delegate.dataModel insertStoreBooks:_data withPageNumber:_pageNumber];
+    NSArray *array=  [delegate.dataModel getForPage:_pageNumber];
 
         _array=[[NSMutableArray alloc]initWithArray:array];
 
@@ -118,6 +123,7 @@
 }
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
 //    UIAlertView *alertFailed;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableURLRequest *request;
     NSMutableDictionary *dictionary;
     NSNumber *userid;
@@ -142,7 +148,7 @@
                     dictionary=[[NSMutableDictionary alloc]init];
                     userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
                     [dictionary setValue:userid forKey:@"user_id"];
-                    [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+                    [dictionary setValue:[NSNumber numberWithInteger:delegate.identity ] forKey:@"book_id"];
                     [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
                     [dictionary setValue:_price forKey:@"amount"];
                     NSData *transactionReciept=transaction.transactionReceipt;
@@ -157,7 +163,7 @@
                     [request setHTTPMethod:@"POST"];
                     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                     [request setHTTPBody:jsonData];
-                    recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:_identity withTrans:transaction];
+                    recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:delegate.identity withTrans:transaction];
                     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
                     
                     NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
@@ -187,7 +193,7 @@
                     [request setHTTPMethod:@"POST"];
                     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                     [request setHTTPBody:jsonData];
-                      recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:_identity withTrans:transaction];
+                      recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:delegate.identity withTrans:transaction];
                     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
                     
                     NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
@@ -222,12 +228,13 @@
     NSData *jsonData;
     RecieptValidationIphone *recieptValidation;
     NSString *valueJson;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"email"]) {
         request=[[NSMutableURLRequest alloc]init];
         dictionary=[[NSMutableDictionary alloc]init];
         userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
         [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:[NSNumber numberWithInteger:delegate.identity ] forKey:@"book_id"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
         [dictionary setValue:_price forKey:@"amount"];
         NSData *transactionReciept=transaction.transactionReceipt;
@@ -242,7 +249,7 @@
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
-        recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:_identity withTrans:transaction];
+        recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:delegate.identity withTrans:transaction];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         
         NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
@@ -272,7 +279,7 @@
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
-        recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:_identity withTrans:transaction];
+        recieptValidation=[[RecieptValidationIphone alloc]initWithDetails:(DetailStoreViewController *)self.presentedViewController live:self identity:delegate.identity withTrans:transaction];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         
         NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
@@ -294,17 +301,34 @@
     [super viewDidLoad];
     UIBarButtonItem *rightRefresh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     rightRefresh.tintColor=[UIColor grayColor];
-    self.navigationItem.rightBarButtonItem=rightRefresh;
+    UIBarButtonItem *rightBarButton=[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(next)];
+    rightBarButton.tintColor=[UIColor grayColor];
+    self.navigationItem.rightBarButtonItems=@[rightBarButton,rightRefresh];
  //   [rightRefresh release];
         self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
     self.navigationItem.titleView=imageView;
-
- 
+    UIBarButtonItem *leftButton=[[UIBarButtonItem alloc]initWithTitle:@"Previous" style:UIBarButtonItemStyleBordered target:self action:@selector(previous)];
+    leftButton.tintColor=[UIColor grayColor];
+    self.navigationItem.leftBarButtonItem=leftButton;
 }
 -(void)refreshButton:(id)sender{
     [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
 
+}
+-(void)next{
+    if (_pageNumber<_pages) {
+        _pageNumber++;
+        [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
+
+    }
+}
+-(void)previous{
+    if (_pageNumber>1) {
+        _pageNumber--;
+        [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
+ 
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -414,7 +438,7 @@
         return;
     }
       delegate.PortraitOrientation=NO;
-    _identity=iden.integerValue;
+    delegate.identity=iden.integerValue;
     DetailStoreViewController *detailStore=[[DetailStoreViewController alloc]initWithNibName:@"DetailStoreViewController" bundle:nil with:iden.integerValue];
     detailStore.live=self;
    // detailStore.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
@@ -443,30 +467,30 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+    NSNumber *identity=[[NSNumber alloc]initWithInteger:delegate.identity];
     StoreBooks *books=[delegate.dataModel getBookById:identity];
     
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     if (buttonIndex==1) {// if yes is the case
-        if (_myBooks.downloadBook) {
+        if (delegate.downloadBook) {
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
         //    [down release];
             [delegate.dataModel insertBookWithNo:books ];
         }else{
             [delegate.dataModel insertBookWithYes:books];
-            [_myBooks downloadComplete:_identity];
+            [_myBooks downloadComplete:delegate.identity];
         }
         
     }else{// for no case
         [delegate.dataModel insertBookWithNo:books];
             UINavigationController *nav=self.tabBarController.viewControllers[1];
         DownloadViewController *download=(DownloadViewController *)nav.topViewController;
-        [delegate.dataModel insertBookWithNo:books ];
         [download getPurchasedDataFromDataBase];     
     }
   //  [identity release];
 }
+
 /*-(void)dealloc{
     _array=nil;
     _data=nil;

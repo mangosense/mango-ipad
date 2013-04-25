@@ -49,7 +49,7 @@
     [[_myBookViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
     [store getPurchasedDataFromDataBase];
     //_myBookViewController.downloadFailed=YES;
-    _myBookViewController.downloadBook=NO;
+    delegate.downloadBook=NO;
     [_myBookViewController.tabBarController setSelectedIndex:1];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
 
@@ -121,7 +121,7 @@
     delegate.location=[_loc stringByDeletingPathExtension];
     [delegate removeBackDirectory];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
-    _myBookViewController.downloadBook=NO;
+    delegate.downloadBook=NO;
     [_progress setAlpha:0.0];
 
     [_myBookViewController.tableView reloadData];

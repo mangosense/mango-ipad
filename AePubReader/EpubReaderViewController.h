@@ -30,6 +30,7 @@
 	int _pageNumber;
    
 }
+@property (weak, nonatomic) IBOutlet UIButton *recordButton;
 @property(strong,nonatomic) XMLHandler *xmlHandler;
 @property(strong,nonatomic)XMLHandler *anotherHandlerOPF;
 @property (retain, nonatomic) IBOutlet UIButton *recordAudioButton;

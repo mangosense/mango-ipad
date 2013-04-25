@@ -22,7 +22,7 @@
 @property(assign,nonatomic)NSInteger identity;
 @property(retain,nonatomic)StoreBooks *bookStore;
 @property(assign,nonatomic) LiveViewControllerIphone *live;
-@property(retain,nonatomic)UIAlertView *alertView;
+//@property(retain,nonatomic)UIAlertView *alertView;
 @property(retain,nonatomic)SKProduct *product;
 @property (retain, nonatomic) IBOutlet UIToolbar *toolBarTop;
 @property (retain, nonatomic) IBOutlet UIButton *purchaseButton;

@@ -37,11 +37,11 @@
     [alert show];
    // [alert release];
     [_progress removeFromSuperview];
-    _libViewController.addControlEvents=YES;
     _progress=nil;
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     _book.downloaded=@NO;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.addControlEvents=YES;
     [delegate.dataModel saveData:_book];
     UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[1];
     StoreViewController *store=(StoreViewController *)[nav topViewController];
@@ -133,8 +133,7 @@
 [_progress removeFromSuperview];
   //  [_loc release];
     
-    _libViewController.addControlEvents=YES;
-
+    delegate.addControlEvents=YES;
      [[_libViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
 
 }

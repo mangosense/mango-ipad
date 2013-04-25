@@ -74,10 +74,10 @@
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
     //    [alertView release];
-        if (_detail.alertView) {
-             [_detail.alertView dismissWithClickedButtonIndex:0 animated:YES];
-           
-        }
+//        if (_detail.alertView) {
+//             [_detail.alertView dismissWithClickedButtonIndex:0 animated:YES];
+//           
+//        }
          [_detail backButton:nil];
        
     }

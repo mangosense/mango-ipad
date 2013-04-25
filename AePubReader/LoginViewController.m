@@ -22,9 +22,12 @@
 #import <Accounts/Accounts.h>
 #import "FacebookLogin.h"
 #import "CustomTabViewController.h"
+#import "Flurry.h"
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
+@property(nonatomic,strong)LibraryViewController *library;
+
 @end
 
 @implementation LoginViewController
@@ -63,7 +66,8 @@
         }];
      //   [c release];
     }
-    
+    [Flurry logEvent:@"Login entered"];
+
 }
 -(void)viewDidAppear:(BOOL)animated{
   //    [self dismissViewControllerAnimated:NO completion:nil];
@@ -73,23 +77,22 @@
     delegate.PortraitOrientation=YES;
 
     UITabBarController *tabBarController=[[UITabBarController alloc]init];
-    LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
+    _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
     _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
-    _store.delegate=library;
+    _store.delegate=_library;
     
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-    UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
+    UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
-    _liveViewController.storeViewController=_store;
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
- //   [liveViewController release];
- //   [library release];
     tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
- //   [navigationPurchase release];
- //   [navigation release];
- //   [store release];
- //   [navigationStore release];
+
     [self.navigationController pushViewController:tabBarController animated:YES];
+}
+-(void)insertInStore{
+  //  _liveViewController performSelectorInBackground:@selector() withObject:<#(id)#>
+    [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
+    
 }
 - (void)viewDidLoad
 {
@@ -122,8 +125,19 @@
     [_liveViewController purchaseValidation:transaction];
     
 }
+-(void)liveViewControllerDismiss{
+    [_liveViewController dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)refreshDownloads{
+    [_store BuildButtons];
+}
+-(void)downloadBook:(Book *)book{
+    [_library DownloadComplete:book];
+}
 -(void)viewDidDisappear:(BOOL)animated{
-   
+    [super viewDidDisappear:YES];
+    [Flurry logEvent:@"Login exited"];
+
 }
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     [controller dismissModalViewControllerAnimated:YES];

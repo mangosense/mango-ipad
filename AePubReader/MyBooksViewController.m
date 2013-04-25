@@ -24,31 +24,30 @@
         // Custom initialization
         self.tabBarItem.title=@"My Books";
         self.tabBarItem.image=[UIImage imageNamed:@"library.png"];
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        NSArray *temp=[delegate.dataModel getDataDownloaded];
+        _delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        NSArray *temp=[_delegate.dataModel getDataDownloaded];
         _array=[[NSMutableArray alloc]initWithArray:temp];
-        _downloadBook=NO;
+        _delegate.downloadBook=NO;
         _deleted=NO;
         _bookOpen=NO;
     }
     return self;
 }
 -(void)downloadComplete:(NSInteger)index{
-    _downloadBook=YES;
+    _delegate.downloadBook=YES;
     
     _progress=[[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
     CGRect rect=CGRectMake(170, 150, 250, 12);
     _progress.frame=rect;
       [self.tabBarController setSelectedIndex:0];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSArray *temp=[delegate.dataModel getDataDownloaded];
+    NSArray *temp=[_delegate.dataModel getDataDownloaded];
    // [_array release];
     _array=[[NSMutableArray alloc]initWithArray:temp];
     [self.tableView reloadData];
     BookDownloaderIphone *bookDownload=[[BookDownloaderIphone alloc]initWithViewController:self];
    
     NSString *string=[[NSString alloc]initWithFormat:@"%d",index ];
-    Book *book=[delegate.dataModel getBookOfId:string];
+    Book *book=[_delegate.dataModel getBookOfId:string];
     bookDownload.book=book;
    // [string release];
      string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -151,12 +150,12 @@
     else{
         cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
-   
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
        // [cell autorelease];
     }
-    if (indexPath.row==0&&_downloadBook) {
+    if (indexPath.row==0&&delegate.downloadBook) {
       
         [cell addSubview:_progress];
         
@@ -184,10 +183,11 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         _index=indexPath.row;
-        if (_downloadBook) {
+        if (delegate.downloadBook) {
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"This book is being downloaded. It can be deleted only after downloading is complete." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
          //   [alertView release];
@@ -227,7 +227,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_downloadBook&&indexPath.row==0) {
+    if (_delegate.downloadBook&&indexPath.row==0) {
         return;
     }
     // Navigation logic may go here. Create and push another view controller.

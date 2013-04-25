@@ -18,7 +18,7 @@
 -(void)DownloadComplete:(Book *)book;
 
 @end
-@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,SKPaymentTransactionObserver>{
+@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
    
 }
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -43,5 +43,6 @@
 @property(strong,nonatomic)NSMutableData *data;
 -(void)requestBooksFromServer;
 -(void)transactionRestore;
--(void)transactionFailed;;
+-(void)transactionFailed;
+
 @end

@@ -39,12 +39,12 @@
         return;
     }
    
-    _alertView =[[UIAlertView alloc]init];
-    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-    [indicator startAnimating];
-    [_alertView addSubview:indicator];
-  //  [indicator release];
-    [_alertView setTitle:@"Loading...."];
+//    _alertView =[[UIAlertView alloc]init];
+//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+//    [indicator startAnimating];
+//    [_alertView addSubview:indicator];
+//  //  [indicator release];
+//    [_alertView setTitle:@"Loading...."];
 //    UIImage *image=[UIImage imageNamed:@"loading.png"];
 //    
 //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
@@ -58,8 +58,8 @@
 //    [_alertView addSubview:indicator];
 //    [indicator release];
 
-    [_alertView setDelegate:self];
-    [_alertView show];
+//    [_alertView setDelegate:self];
+//    [_alertView show];
 
     if (_isFree) {
         
@@ -266,9 +266,9 @@
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [self.tabBarController.tabBar setHidden:NO];
-    if (_alertView) {
-        [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    }
+//    if (_alertView) {
+//        [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+//    }
 //[ self.view bringSubviewToFront:self.tabBarController.tabBar];
 }
 

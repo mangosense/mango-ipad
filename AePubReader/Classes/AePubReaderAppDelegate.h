@@ -12,14 +12,16 @@
 #import <StoreKit/StoreKit.h>
 #import "LoginViewControllerIphone.h"
 #import "LoginViewController.h"
+
 @class EPubViewController;
 @class LoginViewController;
-@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver> {
+@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate> {
     
    
         
    
 }
+@property(assign,nonatomic)BOOL addControlEvents;
 
 @property (nonatomic, retain)  UIWindow *window;
 //@property(nonatomic,retain) NSString *baseURL;
@@ -35,11 +37,15 @@
 @property(nonatomic,assign)BOOL wasFirstInPortrait;
 @property(nonatomic,strong)NSString *location;
 @property(assign,nonatomic)UIAlertView *alertView;
-
+@property(strong,nonatomic)NSDecimalNumber *price;
+@property(assign,nonatomic)NSInteger identity;
 @property(assign,nonatomic)BOOL popPurchase;
 @property(assign,nonatomic)BOOL dismissAlertViewFlag;
+@property(assign,nonatomic)BOOL downloadBook;
+
 @property(assign,nonatomic)UIAlertView *dismissAlertView;
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;
+-(void)insertInStore;
 @end

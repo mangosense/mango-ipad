@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
-#import "StoreViewController.h"
 @interface LiveViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,SKPaymentTransactionObserver>
 
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 -(void)requestBooks;
-@property(assign,nonatomic)NSInteger pageNumber;
+@property(assign,nonatomic)NSInteger pg;
+@property(assign,nonatomic)NSInteger currentPageNumber;
 @property(retain,nonatomic)NSMutableData *data;
 @property(assign,nonatomic)NSInteger ymax;
 @property(retain,nonatomic)UIAlertView *alertView;
@@ -22,9 +22,10 @@
 @property(assign,nonatomic)NSInteger identity;
 @property(strong,nonatomic)NSDecimalNumber *price;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *networkIndicator;
-@property(assign,nonatomic)StoreViewController *storeViewController;
+//@property(assign,nonatomic)StoreViewController *storeViewController;
 @property(assign,nonatomic)UIInterfaceOrientation interfaceOrientationChanged;
 @property(strong,nonatomic) NSError *error;
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction;
 -(void)transactionFailed;
+-(void)requestBooksWithoutUIChange;
 @end

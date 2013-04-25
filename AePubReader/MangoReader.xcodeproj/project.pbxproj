@@ -141,6 +141,8 @@
 		AE9BFBAC16537C12000DDEB1 /* LiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9BFBAA16537C12000DDEB1 /* LiveViewController.xib */; };
 		AE9BFBB016537F44000DDEB1 /* PopPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BFBAE16537F44000DDEB1 /* PopPurchaseViewController.m */; };
 		AE9BFBB116537F44000DDEB1 /* PopPurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9BFBAF16537F44000DDEB1 /* PopPurchaseViewController.xib */; };
+		AE9C3CB0171805D900ABAC86 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9C3CAF171805D900ABAC86 /* libFlurry.a */; };
+		AE9C3CB1171805D900ABAC86 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9C3CAF171805D900ABAC86 /* libFlurry.a */; };
 		AE9D4C70162C198700352FF8 /* arrow next.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C6F162C198700352FF8 /* arrow next.png */; };
 		AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C72162C198C00352FF8 /* arrow previous.png */; };
 		AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9D4C79162C20E100352FF8 /* PopViewDetailsViewController.m */; };
@@ -469,6 +471,8 @@
 		AE9BFBAF16537F44000DDEB1 /* PopPurchaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopPurchaseViewController.xib; sourceTree = "<group>"; };
 		AE9BFBB516538719000DDEB1 /* BookDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookDetails.h; sourceTree = "<group>"; };
 		AE9BFBB616538719000DDEB1 /* BookDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDetails.m; sourceTree = "<group>"; };
+		AE9C3CAE171805D900ABAC86 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		AE9C3CAF171805D900ABAC86 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		AE9D4C6F162C198700352FF8 /* arrow next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow next.png"; sourceTree = "<group>"; };
 		AE9D4C72162C198C00352FF8 /* arrow previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow previous.png"; sourceTree = "<group>"; };
 		AE9D4C78162C20E100352FF8 /* PopViewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopViewDetailsViewController.h; sourceTree = "<group>"; };
@@ -676,6 +680,7 @@
 				CA7E023515E388F3001F520B /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				AE9C3CB0171805D900ABAC86 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,6 +691,7 @@
 				AE59B52C16817B7600DC55EC /* UIKit.framework in Frameworks */,
 				AE59B52D16817B7600DC55EC /* Foundation.framework in Frameworks */,
 				AE59B52E16817B7600DC55EC /* CoreGraphics.framework in Frameworks */,
+				AE9C3CB1171805D900ABAC86 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,6 +856,8 @@
 		AE1373721622D9D0006C2CA6 /* flurry */ = {
 			isa = PBXGroup;
 			children = (
+				AE9C3CAE171805D900ABAC86 /* Flurry.h */,
+				AE9C3CAF171805D900ABAC86 /* libFlurry.a */,
 			);
 			name = flurry;
 			sourceTree = "<group>";
@@ -1534,7 +1542,6 @@
 				FAF4584D134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m in Sources */,
 				FAF45858134B18F400D4C0F9 /* CTidy.m in Sources */,
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
-				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
 				AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */,
 				AEA768E01611DA82002B9FDC /* DataModelControl.m in Sources */,
@@ -1563,6 +1570,7 @@
 				AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */,
 				AE8D261E166DF61100156F43 /* BookDownloaderIphone.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
+				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
 				AE18942F166F5F67009F8361 /* DetailStoreViewController.m in Sources */,
 				AE731C5316759D4500FE8F19 /* PurchaseFreeIphone.m in Sources */,
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
@@ -1648,6 +1656,10 @@
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -1677,6 +1689,10 @@
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -1716,6 +1732,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "WebserviceTesting/WebserviceTesting-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1738,6 +1758,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "WebserviceTesting/WebserviceTesting-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
