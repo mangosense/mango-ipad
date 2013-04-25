@@ -274,7 +274,7 @@
     [_myBook dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)downloadComplete:(NSInteger) identity{
-    
+    [_liveController.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     [_myBook downloadComplete:identity];
 }
 -(void)downloadViewControllerRefreshUI{

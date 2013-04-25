@@ -524,7 +524,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/AePubReaderAppDelegate.m"
@@ -684,11 +684,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "LiveViewControllerIphone.m"
-         timestampString = "388473572.229127"
+         timestampString = "388564160.833343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "319"
-         endingLineNumber = "319"
+         startingLineNumber = "323"
+         endingLineNumber = "323"
          landmarkName = "-next"
          landmarkType = "5">
       </FileBreakpoint>
@@ -723,16 +723,16 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "LiveViewControllerIphone.m"
-         timestampString = "388478332.223684"
+         timestampString = "388564160.833343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "326"
-         endingLineNumber = "326"
+         startingLineNumber = "330"
+         endingLineNumber = "330"
          landmarkName = "-previous"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "No"
+         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/AePubReaderAppDelegate.m"
@@ -771,7 +771,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/AePubReaderAppDelegate.m"
@@ -784,7 +784,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/AePubReaderAppDelegate.m"
@@ -820,6 +820,32 @@
          startingLineNumber = "431"
          endingLineNumber = "431"
          landmarkName = "-BuildButtons"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/AePubReaderAppDelegate.m"
+         timestampString = "388563582.367324"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "305"
+         endingLineNumber = "305"
+         landmarkName = "-paymentQueue:updatedTransactions:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "LoginViewControllerIphone.m"
+         timestampString = "388564118.672128"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "277"
+         endingLineNumber = "277"
+         landmarkName = "-downloadComplete:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

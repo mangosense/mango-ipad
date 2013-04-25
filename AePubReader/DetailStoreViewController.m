@@ -175,7 +175,7 @@
 
 
      //  [[SKPaymentQueue defaultQueue]addTransactionObserver:_live];
-    _toolBar.tintColor=[UIColor blackColor];
+    _toolBar.tintColor=[UIColor grayColor];
     _imageView.image=[[UIImage alloc]initWithContentsOfFile:_bookStore.localImage];
     _titleLabel.text=_bookStore.title;
     

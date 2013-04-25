@@ -121,6 +121,10 @@
 -(void)transactionFailed{
          [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
+-(void)dismissViewController{
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+  
+}
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
 //    UIAlertView *alertFailed;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
