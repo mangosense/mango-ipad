@@ -54,16 +54,9 @@
     [super viewDidLoad];
   
     UIBarButtonItem *leftDone=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-//    UIBarButtonItem *action=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
-    // Do any additional setup after loading the view from its nib.
+
     self.navigationItem.leftBarButtonItem=leftDone;
- //   [leftDone release];
-//    self.navigationItem.rightBarButtonItem=action;
-//    [action release];
-//    NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//    NSString *temp=[NSString stringWithFormat:@"%d.jpg",_identity];
-//     temp=[string stringByAppendingPathComponent:temp];
- //   NSLog(@"image URL %@",temp);
+
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *identity=[[NSString alloc]initWithFormat:@"%d",_identity ];
    StoreBooks *booksStore= [delegate.dataModel getStoreBookById:identity];
@@ -266,7 +259,7 @@
     _value=nil;
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_products.price]];
     _liveViewController.price=_products.price;
-        delegate.price=_products.price;
+       // delegate.price=_products.price;
 //[_liveViewController.price retain];
   //  [formatter release];
         

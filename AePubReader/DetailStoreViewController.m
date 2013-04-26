@@ -103,7 +103,8 @@
         
     }else{
          [_purchaseButton setEnabled:NO];
-     
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        delegate.identity=_identity;
         NSLog(@"Product %@",_product.localizedTitle);
          SKPayment *payment=[SKPayment paymentWithProduct:_product];
         [[SKPaymentQueue defaultQueue] addPayment:payment];
@@ -238,6 +239,7 @@
         // _value=[[NSString alloc]initWithString:[formatter stringFromNumber:_number]];
         _priceLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_product.price]];
         _live.price=_product.price;
+      //  delegate.price=_product.price;
     //    [_live.price retain];
      //   [formatter release];
      

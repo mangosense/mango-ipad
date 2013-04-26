@@ -33,4 +33,5 @@
 -(void)liveDismissViewController;
 -(void)downloadComplete:(NSInteger) identity;
 -(void)downloadViewControllerRefreshUI;
+-(void)dismissStoreViewController;
 @end

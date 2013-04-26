@@ -15,7 +15,7 @@
 
 @class EPubViewController;
 @class LoginViewController;
-@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate> {
+@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate,SKProductsRequestDelegate> {
     
    
         
@@ -37,13 +37,15 @@
 @property(nonatomic,assign)BOOL wasFirstInPortrait;
 @property(nonatomic,strong)NSString *location;
 @property(assign,nonatomic)UIAlertView *alertView;
-@property(strong,nonatomic)NSDecimalNumber *price;
+//@property(strong,nonatomic)NSDecimalNumber *price;
 @property(assign,nonatomic)NSInteger identity;
 @property(assign,nonatomic)BOOL popPurchase;
 @property(assign,nonatomic)BOOL dismissAlertViewFlag;
 @property(assign,nonatomic)BOOL downloadBook;
 
 @property(assign,nonatomic)UIAlertView *dismissAlertView;
+@property(strong,nonatomic)SKProduct *product;
+@property(strong,nonatomic)SKPaymentTransaction *transaction;
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;

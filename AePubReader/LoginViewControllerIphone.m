@@ -270,6 +270,10 @@
 
 
 }
+-(void)dismissStoreViewController{
+    [_liveController.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+
+}
 -(void)liveDismissViewController{
     [_myBook dismissViewControllerAnimated:YES completion:nil];
 }

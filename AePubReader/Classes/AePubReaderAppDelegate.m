@@ -318,14 +318,12 @@ void uncaughtExceptionHandler(NSException *exception) {
                     [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStatePurchased:
-                if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-                    [self purchaseValidationIpad:transaction];
-                
-                
-                }else{// for iphone or ipod case
-                    [self purchaseValidationIphone:transaction];
-                }
-                
+                //[self purchaseValidation:transaction];
+                /*
+                 This code will get the price again from the Apple Server. Then validate the purchase and send the price to Apple
+                 */
+                [self requestPrice:transaction];
+
                 break;
             case SKPaymentTransactionStateRestored:
                 number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
@@ -367,12 +365,28 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 
 }
--(void)purchaseValidationIphone:(SKPaymentTransaction *)transaction{
+-(void)requestPrice:(SKPaymentTransaction *)transaction{
+    NSString *iden=[NSString stringWithFormat:@"%d",transaction.payment.productIdentifier.integerValue ];
+    NSSet *prodIds=[NSSet setWithObject:iden];
+    SKProductsRequest *productRequest=[[SKProductsRequest alloc]initWithProductIdentifiers:prodIds];
+    productRequest.delegate=self;
+    [productRequest start];
+    /*the start function will call productRequest:didReceiveResponse 
+     */
+    _transaction=transaction;
+}
+-(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
+    _product=[response.products lastObject];
+    [self purchaseValidation];
+}
+-(void)purchaseValidation {
     NSMutableURLRequest *request;
     NSMutableDictionary *dictionary;
     NSNumber *userid;
     NSData *jsonData;
     NSString *valueJson;
+    _identity=_transaction.payment.productIdentifier.integerValue;
+    
     if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
     {
         request=[[NSMutableURLRequest alloc]init];
@@ -381,14 +395,15 @@ void uncaughtExceptionHandler(NSException *exception) {
         [dictionary setValue:userid forKey:@"user_id"];
         [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
-        [dictionary setValue:_price forKey:@"amount"];
-        NSData *transactionReciept=transaction.transactionReceipt;
+        [dictionary setValue:_product.price forKey:@"amount"];
+        NSData *transactionReciept=_transaction.transactionReceipt;
         NSString *encode=[Base64 encode:transactionReciept];
         
         [dictionary setValue:encode forKey:@"receipt_data"];
         jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
         
         valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"JSON data %@",valueJson);
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
@@ -419,7 +434,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                 [alertView show];
             
             }
-            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+            [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
         }
         
         
@@ -429,9 +444,8 @@ void uncaughtExceptionHandler(NSException *exception) {
         NSError *error;
         request=[[NSMutableURLRequest alloc]init];
         dictionary=[[NSMutableDictionary alloc]init];
-        [dictionary setValue:_price forKey:@"amount"];
-        
-        NSData *transactionReciept=transaction.transactionReceipt;
+        [dictionary setValue:_product.price forKey:@"amount"];
+        NSData *transactionReciept=_transaction.transactionReceipt;
         NSString *encode=[Base64 encode:transactionReciept];
         [dictionary setValue:encode forKey:@"receipt_data"];
         jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
@@ -467,7 +481,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                 [alertView show];
                 
             }
-            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+            [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
 
         
         }
@@ -475,101 +489,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         
     }
 }
--(void) purchaseValidationIpad:(SKPaymentTransaction *)transaction{
-    NSMutableURLRequest *request;
-    NSMutableDictionary *dictionary;
-    NSNumber *userid;
-    NSData *jsonData;
-    NSString *valueJson;
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
-    {
-        request=[[NSMutableURLRequest alloc]init];
-        dictionary=[[NSMutableDictionary alloc]init];
-        userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
-        [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
-        [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
-        [dictionary setValue:_price forKey:@"amount"];
-        NSData *transactionReciept=transaction.transactionReceipt;
-        NSString *encode=[Base64 encode:transactionReciept];
-        [dictionary setValue:encode forKey:@"receipt_data"];
-        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-        
-        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"value json request %@",valueJson);
-        //  [valueJson release];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
-        [request setURL:[NSURL URLWithString:urlString]];
-        NSURLResponse *response;
-        NSError *error;
-        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (error) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alertView show];
-            
-        }else{
-            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSString *value= [dictionary objectForKey:@"message"];
-            if ([value isEqualToString:@"purchase successful!"])
-            {
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-                alertView.tag=1000;
-                [alertView show];
-                
-            }else{
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alertView show];
-            }
-            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-        }
-        
-    }else{// not logged in
-        request=[[NSMutableURLRequest alloc]init];
-        dictionary=[[NSMutableDictionary alloc]init];
-        // [dictionary setValue:_price forKey:@"amount"];
-        
-        NSData *transactionReciept=transaction.transactionReceipt;
-        NSString *encode=[Base64 encode:transactionReciept];
-        [dictionary setValue:encode forKey:@"receipt_data"];
-        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-        
-        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"value json request %@",valueJson);
-        
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
-        [request setURL:[NSURL URLWithString:urlString]];
-        NSURLResponse *response;
-        NSError *error;
-        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (error) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alertView show];
-        }else{
-            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSNumber *value= [dictionary objectForKey:@"status"];
-            if (value.integerValue==0)
-            {
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-                [alertView show];
-                
-            }else{
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alertView show];
-                
-            }
-            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-            
-        }
-    }
-    
 
-}
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
  if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
     {
@@ -649,9 +569,9 @@ void uncaughtExceptionHandler(NSException *exception) {
             [_dataModel insertBookWithNo:books];
             [self.loginViewControllerIphone downloadViewControllerRefreshUI];
         }
-        
-        
+                
     }
+[self.loginViewControllerIphone dismissStoreViewController];
 }
 -(uint64_t)getFreeDiskspace {
     uint64_t totalSpace = 0;
@@ -822,7 +742,102 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     [super dealloc];
 }*/
-
+/*-(void) purchaseValidationIpad:(SKPaymentTransaction *)transaction{
+ NSMutableURLRequest *request;
+ NSMutableDictionary *dictionary;
+ NSNumber *userid;
+ NSData *jsonData;
+ NSString *valueJson;
+ _identity=transaction.payment.productIdentifier.integerValue;
+ if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
+ {
+ request=[[NSMutableURLRequest alloc]init];
+ dictionary=[[NSMutableDictionary alloc]init];
+ userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
+ [dictionary setValue:userid forKey:@"user_id"];
+ [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+ [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
+ [dictionary setValue:_price forKey:@"amount"];
+ NSData *transactionReciept=transaction.transactionReceipt;
+ NSString *encode=[Base64 encode:transactionReciept];
+ [dictionary setValue:encode forKey:@"receipt_data"];
+ jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+ 
+ valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+ NSLog(@"value json request %@",valueJson);
+ //  [valueJson release];
+ [request setHTTPMethod:@"POST"];
+ [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+ [request setHTTPBody:jsonData];
+ NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
+ [request setURL:[NSURL URLWithString:urlString]];
+ NSURLResponse *response;
+ NSError *error;
+ NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+ if (error) {
+ UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+ [alertView show];
+ 
+ }else{
+ NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+ NSString *value= [dictionary objectForKey:@"message"];
+ if ([value isEqualToString:@"purchase successful!"])
+ {
+ UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+ alertView.tag=1000;
+ [alertView show];
+ 
+ }else{
+ UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+ [alertView show];
+ }
+ [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+ }
+ 
+ }else{// not logged in
+ request=[[NSMutableURLRequest alloc]init];
+ dictionary=[[NSMutableDictionary alloc]init];
+ // [dictionary setValue:_price forKey:@"amount"];
+ 
+ NSData *transactionReciept=transaction.transactionReceipt;
+ NSString *encode=[Base64 encode:transactionReciept];
+ [dictionary setValue:encode forKey:@"receipt_data"];
+ jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+ 
+ valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+ NSLog(@"value json request %@",valueJson);
+ 
+ [request setHTTPMethod:@"POST"];
+ [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+ [request setHTTPBody:jsonData];
+ NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
+ [request setURL:[NSURL URLWithString:urlString]];
+ NSURLResponse *response;
+ NSError *error;
+ NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+ if (error) {
+ UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+ [alertView show];
+ }else{
+ NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+ NSNumber *value= [dictionary objectForKey:@"status"];
+ if (value.integerValue==0)
+ {
+ UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+ [alertView show];
+ 
+ }else{
+ UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+ [alertView show];
+ 
+ }
+ [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+ 
+ }
+ }
+ 
+ 
+ }*/
 
 @end
 
