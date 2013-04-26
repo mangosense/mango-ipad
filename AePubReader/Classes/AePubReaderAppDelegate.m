@@ -522,7 +522,11 @@ void uncaughtExceptionHandler(NSException *exception) {
                 [self.loginViewController liveViewControllerDismiss];
                 NSString *valu=[[NSString alloc]initWithFormat:@"%d.epub",_identity ];
                 Book *bookToDownload=[self.dataModel getBookOfId:valu];
-                [_loginViewController downloadBook:bookToDownload];
+                if (![_loginViewController downloadBook:bookToDownload]) {
+                    bookToDownload.downloaded=@NO;
+                    [self.dataModel saveData:bookToDownload];
+                }
+                
             }
             
         }

@@ -41,6 +41,6 @@
 -(void)transactionPurchaseValidation:(SKPaymentTransaction *)transaction;
 -(void)restoreFailed;
 -(void)liveViewControllerDismiss;
--(void)downloadBook:(Book *)book;
+-(BOOL)downloadBook:(Book *)book;
 -(void)refreshDownloads;
 @end

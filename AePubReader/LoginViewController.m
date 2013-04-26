@@ -131,8 +131,15 @@
 -(void)refreshDownloads{
     [_store BuildButtons];
 }
--(void)downloadBook:(Book *)book{
-    [_library DownloadComplete:book];
+-(BOOL)downloadBook:(Book *)book{
+    BOOL didCall;
+    if (_library) {
+          [_library DownloadComplete:book];
+        didCall=YES;
+    }else{
+        didCall=NO;
+    }
+    return didCall;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
