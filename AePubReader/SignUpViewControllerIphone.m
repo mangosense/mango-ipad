@@ -8,6 +8,7 @@
 
 #import "SignUpViewControllerIphone.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 @interface SignUpViewControllerIphone ()
 
 @end
@@ -63,6 +64,15 @@
     [self setConfirmPassword:nil];
     [super viewDidUnload];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [Flurry logEvent:@"Iphone signup entered"];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [Flurry logEvent:@"iphone singup exited"];
+    
+}
 - (IBAction)done:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -100,6 +110,7 @@
         }
         UIAlertView *alertViewSuccess=[[UIAlertView alloc]initWithTitle:@"Success" message:@"You have been sucessfully signed up" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertViewSuccess show];
+        [Flurry logEvent:@"Iphone sucessful signup"];
       //  [alertViewSuccess release];
         
     }

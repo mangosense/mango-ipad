@@ -113,13 +113,20 @@
      //   [c release];
        
         }
+    
+    [Flurry logEvent:@"MyBooks entered iphone "];
+
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [Flurry logEvent:@"MyBooks exited iphone "];
 
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

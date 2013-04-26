@@ -362,6 +362,8 @@
     SignUpViewController *signUp=[[SignUpViewController alloc]initWithNibName:@"SignUpViewController" bundle:nil with:self];
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:signUp animated:YES completion:nil];
+    [Flurry logEvent:@"Goto to signUp"];
+    
   //  [signUp release];
 }
 - (IBAction)showVideo:(id)sender {

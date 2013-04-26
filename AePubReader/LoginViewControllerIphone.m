@@ -15,7 +15,7 @@
 #import "FacebookIphoneLogin.h"
 #import <QuartzCore/QuartzCore.h>
 #import "DownloadViewController.h"
-
+#import "Flurry.h"
 @interface LoginViewControllerIphone ()
 @property(retain,nonatomic)DownloadViewController *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
@@ -72,6 +72,8 @@
     }
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [Flurry logEvent:@"Login entered iphone "];
     if (_fromSignUp) {
         NSString *email=  [[NSUserDefaults standardUserDefaults]valueForKey:@"emailSignUp"];
         NSString *password=   [[NSUserDefaults standardUserDefaults]valueForKey:@"emailPassword"];
@@ -94,6 +96,11 @@
         }];
      //   [c release];
     }
+
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self viewWillDisappear:YES];
+    [Flurry logEvent:@"Login exited iphone "];
 
 }
 - (IBAction)skipLogin:(id)sender {

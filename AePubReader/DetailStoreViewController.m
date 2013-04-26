@@ -262,7 +262,7 @@
     
     [super viewDidAppear:YES];
     [self.tabBarController.tabBar setHidden:YES];
-   
+
   //  [self.view bringSubviewToFront:self.view];
 }
 -(void)viewDidDisappear:(BOOL)animated{

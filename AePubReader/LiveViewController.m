@@ -650,6 +650,12 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
      //   [self performSelector:@selector(requestBooks) withObject:nil];
        // [self requestBooks];
     }
+    [Flurry logEvent:@"Store entered"];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [Flurry logEvent:@"Store exited"];
+
 }
 /*- (void)dealloc {
     [_scrollView release];

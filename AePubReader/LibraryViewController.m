@@ -42,6 +42,8 @@
 }
 -(void)DownloadComplete:(Book *)book{
    // [book retain];
+    NSString *value=[NSString stringWithFormat:@"Book downloading started for id %@ with title %@",book.id,book.title ];
+    [Flurry logEvent:value];
     [self.tabBarController setSelectedIndex:0];
     [self reloadData];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -64,6 +66,7 @@
     FileDownloader *downloader=[[FileDownloader alloc]initWithViewController:self];
     downloader.progress=progress;
     downloader.book=book;
+    
    // [progress release];
     NSString *url= book.sourceFileUrl;
     NSURLRequest *request=[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:url ]];
@@ -1002,7 +1005,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         reader.url=button.stringLink;
         self.tabBarController.hidesBottomBarWhenPushed=YES;
         reader.hidesBottomBarWhenPushed=YES;
-        
+        reader.title=bk.title;
         [self.navigationController pushViewController:reader animated:YES];
     //    [reader release];
         if ([UIDevice currentDevice].systemVersion.integerValue<6) {
@@ -1032,7 +1035,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             reader.url=button.stringLink;
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             reader.hidesBottomBarWhenPushed=YES;
-            
+            reader.titleOfBook=bk.title;
             [self.navigationController pushViewController:reader animated:YES];
          //   [reader release];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
@@ -1051,8 +1054,8 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             value=[value stringByAppendingPathComponent:epubString];
             NSLog(@"Path value: %@",value);
             viewController=[[ViewController alloc]initWithNibName:@"ViewController" bundle:nil WithString:value];
-        
-            
+            viewController.titleOfBook=bk.title;
+            viewController.identity=bk.id.integerValue;
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             viewController.hidesBottomBarWhenPushed=YES;
             self.navigationController.navigationBarHidden=YES;

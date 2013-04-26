@@ -29,6 +29,8 @@
 @property(assign,nonatomic)BOOL hide;
 @property(retain,nonatomic)UIButton *pullPush;
 @property(assign,nonatomic)BOOL searching;
+@property(strong,nonatomic)NSString *titleOfBook;
+@property(assign,nonatomic)NSInteger identity;
 - (NSString *)loadPage;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithString:(NSString *)link;
 

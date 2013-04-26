@@ -14,6 +14,7 @@
 #import "DetailViewController.h"
 #import "SyncIpadConnection.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 @interface DownloadViewController ()
 
 @end
@@ -320,11 +321,18 @@
         [self getPurchasedDataFromDataBase];
         _myBook.deleted=NO;
     }
+    [Flurry logEvent:@"Download entered iphone "];
+
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
     
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [Flurry logEvent:@"Download exited iphone "];
+
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

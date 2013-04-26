@@ -7,7 +7,7 @@
 //
 
 #import "WebViewController.h"
-
+#import "Flurry.h"
 @interface WebViewController ()
 
 @end
@@ -64,6 +64,16 @@
         [_alert setTitle:@"Loading...."];}
     [_alert show];
   //  [_alert release];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [Flurry logEvent:@"Game Center Entered"];
+
+    [super viewWillAppear:YES];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [Flurry logEvent:@"Game Center Exited"];
+
+    [super viewWillDisappear:YES];
 }
 -(BOOL)canBecomeFirstResponder{
     return YES;

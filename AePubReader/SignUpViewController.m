@@ -8,6 +8,7 @@
 
 #import "SignUpViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 @interface SignUpViewController ()
 
 @end
@@ -32,6 +33,7 @@
     
     [_password setSecureTextEntry:YES];
     [_confirmPassword setSecureTextEntry:YES];
+    
 //    self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
 //    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
@@ -46,6 +48,7 @@
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 - (IBAction)signUp:(id)sender {
+    [Flurry logEvent:@"signUp event requested"];
 //    if (_nameFull.text.length==0||_password.text.length==0||_confirmPassword.text.length==0||_email.text.length==0) {
 //        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"No fields should be blank" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 //        
@@ -167,6 +170,7 @@
         }
         UIAlertView *alertViewSuccess=[[UIAlertView alloc]initWithTitle:@"Success" message:@"You have been sucessfully signed up" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertViewSuccess show];
+        [Flurry logEvent:[NSString stringWithFormat:@"Sign up successfull for email %@",_email.text]];
      //   [alertViewSuccess release];
    
     }

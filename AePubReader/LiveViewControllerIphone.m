@@ -15,6 +15,7 @@
 #import "DownloadViewController.h"
 #import "Base64.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 @interface LiveViewControllerIphone ()
 
 @end
@@ -468,6 +469,12 @@
     if (array.count==0) {
         [self refreshButton:nil];
     }
+    [Flurry logEvent:@"Store entered iphone"];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [Flurry logEvent:@"Store exited iphone"];
+
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

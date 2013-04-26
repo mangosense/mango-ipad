@@ -12,6 +12,7 @@
 #import "ZipArchive.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AePubReaderAppDelegate.h"
+#import "Flurry.h"
 @interface ViewController ()
 
 @end
@@ -165,7 +166,12 @@
         [self dismissViewControllerAnimated:NO completion:nil];
        // [c release];
     }
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        [Flurry logEvent:[ NSString stringWithFormat:@"ipad Text Book of id %d and title %@ opened ",_identity,_titleOfBook ] ];
 
+    }else{
+        [Flurry logEvent:[ NSString stringWithFormat:@"iphone or ipod  touch Text Book of id %d and title %@ opened",_identity,_titleOfBook ] ];
+    }
     // do not add views here
    
     //add them in finished parsing
@@ -320,11 +326,17 @@
    // [epubLoc release];
 	//[za release];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+   
+}
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:NO];
+    [Flurry logEvent:[ NSString stringWithFormat:@"Text Book of id %d and title %@ closed at pagenumber %d",_identity,_titleOfBook,_pageNumber ] ];
+
 }
 - (void)didReceiveMemoryWarning
 {

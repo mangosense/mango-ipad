@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <QuartzCore/QuartzCore.h>
 #import "CircularProgressView.h"
-
+#import "Flurry.h"
 //#import "GPUImageVideoCamera.h"
 //#import "GPUImageLuminosity.h"
 @interface EpubReaderViewController : UIViewController<XMLHandlerDelegate,UISearchBarDelegate,UIWebViewDelegate,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
@@ -100,6 +100,7 @@
 - (IBAction)onPreviousOrNext:(id)sender;
 @property(strong,nonatomic)CircularProgressView *progressView;
 @property(strong,nonatomic)NSTimer *timerProgress;
+@property(strong,nonatomic)NSString *titleOfBook;
 //@property (nonatomic, retain) SZActionBar *actionBar;
 //@property (nonatomic, retain) id<SZEntity> entity;
 @end

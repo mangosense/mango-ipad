@@ -17,6 +17,7 @@
 #import "PopViewDetailsViewController.h"
 #import "SyncIpadConnection.h"
 #import "LoginDirectly.h"
+#import "Flurry.h"
 @interface StoreViewController ()
 
 @end
@@ -374,12 +375,14 @@
         [self BuildButtons];
     }
    
-
+    [Flurry logEvent:@"Downloads entered"];
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
    //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+    [Flurry logEvent:@"Downloads exited"];
+
 }
 
 -(void)DrawShelf{

@@ -40,13 +40,16 @@
     }
     return self;
 }
+-(void)viewWillAppear:(BOOL)animated{
+}
 -(void)viewWillDisappear:(BOOL)animated{
  
         
     if (_alertView) {
          [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     }
-    
+    NSString * string=[NSString stringWithFormat: @"In the store details for particular book existed" ];
+    [Flurry logEvent:string];
     //[[SKPaymentQueue defaultQueue]removeTransactionObserver:_liveViewController];
 }
 - (void)viewDidLoad
@@ -60,7 +63,8 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *identity=[[NSString alloc]initWithFormat:@"%d",_identity ];
    StoreBooks *booksStore= [delegate.dataModel getStoreBookById:identity];
-    
+   NSString * string=[NSString stringWithFormat: @"In the store book titled %@ looked at and id %@",booksStore.title,booksStore.productIdentity ];
+    [Flurry logEvent:string];
     _titleLabel.text=booksStore.title;
     [_detailsWebView loadHTMLString:booksStore.desc baseURL:nil];
     NSLog(@"local Image Location %@",booksStore.localImage);
@@ -165,6 +169,7 @@
   //  AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
   //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:_liveViewController];
     // if not logged in
+    [Flurry logEvent:[NSString stringWithFormat:@"Book of id %d bought",_identity]];
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
         if (_isFree) {
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
@@ -229,6 +234,7 @@
         PruchaseFree *purchase=[[PruchaseFree alloc]initWithPop:self LiveController:_liveViewController fileLink:_identity];
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:mutableRequest delegate:purchase];
         [connection start];
+        
       //  [connection autorelease];
       //  [dictionary release];
       //  [mutableRequest release];

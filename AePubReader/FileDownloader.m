@@ -8,6 +8,7 @@
 
 #import "FileDownloader.h"
 #import "LibraryViewController.h"
+#import "Flurry.h"
 #define BYTE 1024
 @implementation FileDownloader
 -(id)initWithViewController:(LibraryViewController *)store{
@@ -118,10 +119,12 @@
     NSURL *url=[[NSURL alloc]initFileURLWithPath:_loc];
     [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
-   
+    [Flurry logEvent:@"download complete"];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *value=[[_loc lastPathComponent] stringByDeletingPathExtension];
     [delegate unzipAndSaveFile:_loc with:value.integerValue];
+    [Flurry logEvent:[NSString stringWithFormat:@"download completed for book of id %@",value]];
+
     delegate.location=[_loc stringByDeletingPathExtension];
     [delegate removeBackDirectory];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];

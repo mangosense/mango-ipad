@@ -10,6 +10,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "Reachability.h"
+#import "Flurry.h"
 @interface PopViewDetailsViewController ()
 
 @end
@@ -56,6 +57,16 @@
         
     }
     return self;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    NSString *value=[NSString stringWithFormat:@"Details page in downloads for id %@ with title %@ entered",_bookTapped.id,_bookTapped.title ];
+    [Flurry logEvent:value];
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:YES];
+    NSString *value=[NSString stringWithFormat:@"Details page in downloads for id %@ with title %@ exited",_bookTapped.id,_bookTapped.title ];
+    [Flurry logEvent:value];
 }
 - (void)viewDidLoad
 {

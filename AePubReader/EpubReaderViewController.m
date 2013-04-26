@@ -158,7 +158,6 @@
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
-
     UIImage *image=[UIImage imageNamed:@"top.png"];
     UIColor *color=[UIColor colorWithPatternImage:image];
     _imageToptoolbar.backgroundColor=color;
@@ -166,6 +165,16 @@
    color=[UIColor colorWithPatternImage:image];
     _recordBackgroundview.backgroundColor=color;
     _hide=YES;
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        NSString *string=[NSString stringWithFormat:@"ipad Story Book reading titled %@  with id %d started",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] ];
+        
+        [Flurry logEvent:string];
+    }else{
+        NSString *string=[NSString stringWithFormat:@"iphone or ipod touch Store Book reading titled %@  with id %d started",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] ];
+        
+        [Flurry logEvent:string];
+    }
+
     [_recordButton addTarget:self action:@selector(wasDragged:withEvent:)  forControlEvents:UIControlEventTouchDragInside];
 	[_webview setBackgroundColor:[UIColor clearColor]];
 	//First unzip the epub file to documents directory
@@ -868,8 +877,15 @@
         [_pop dismissPopoverAnimated:YES];
     }
     [self stopRecording:nil];
-    
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        NSString *string=[NSString stringWithFormat:@"ipad Story Book closed titled %@  with id %d  at page Number %d ",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"],_pageNumber ];
+        [Flurry logEvent:string];
+    }else{
+        NSString *string=[NSString stringWithFormat:@"iphone or ipod touch  Story Book closed titled %@  with id %d  at pageNumber %d",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"],_pageNumber ];
+        [Flurry logEvent:string];
+    }
 
+    
 }
 
 - (IBAction)showPopView:(id)sender {
@@ -968,7 +984,7 @@
 
 - (IBAction)recordAudio:(id)sender {
 
-
+[Flurry logEvent:[NSString stringWithFormat:@"recording start for book of id %d",[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]]];
   
     if(!_record){
         [UIView animateWithDuration:1.0 animations:^{
