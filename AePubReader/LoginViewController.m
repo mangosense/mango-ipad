@@ -106,7 +106,10 @@
         [_facebookButton removeFromSuperview];
         [_orImage removeFromSuperview];
     }
-    [self goToNext];
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+        [self goToNext];
+
+    }
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
     
 }

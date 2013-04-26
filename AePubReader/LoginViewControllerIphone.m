@@ -184,12 +184,12 @@
         frame.origin.x+=10;
         _faceBookId.frame=frame;
     }
-   // NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults
+    NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
    //                              ];
-  //  if ([userDefault objectForKey:@"email"]&&[userDefault objectForKey:@"password"]) {
+    if ([userDefault objectForKey:@"email"]&&[userDefault objectForKey:@"password"]) {
         
         [self goToNext];
-    //}
+    }
     // Do any additional setup after loading the view from its nib.
 }
 

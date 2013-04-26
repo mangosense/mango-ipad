@@ -684,11 +684,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/AePubReaderAppDelegate.m"
-         timestampString = "388646840.876748"
+         timestampString = "388656390.771806"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "529"
-         endingLineNumber = "529"
+         startingLineNumber = "533"
+         endingLineNumber = "533"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -703,19 +703,6 @@
          startingLineNumber = "431"
          endingLineNumber = "431"
          landmarkName = "-BuildButtons"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "LoginViewControllerIphone.m"
-         timestampString = "388573073.949721"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "281"
-         endingLineNumber = "281"
-         landmarkName = "-downloadComplete:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
