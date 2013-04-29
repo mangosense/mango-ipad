@@ -626,6 +626,8 @@
  /*   if (![_playerDefault isPlaying]) {
         [_playerDefault play];
     }*/
+    NSString *string=[NSString stringWithFormat:@"started reading Book of id %d and title %@",[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"],_titleOfBook ];
+    [Flurry logEvent:string];
    
 }
 -(void)viewDidAppear:(BOOL)animated{

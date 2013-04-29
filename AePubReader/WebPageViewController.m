@@ -14,6 +14,7 @@
 #import "NoteButton.h"
 #import "TableOfContentsViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 @interface WebPageViewController ()
 
 @end
@@ -38,6 +39,8 @@
     _query=[[NSString alloc]initWithString:query];
 }
 - (IBAction)onBack:(id)sender {
+    NSString *string=[NSString stringWithFormat:@"exited at pageNumber %d book of id %d and title %@",_chapter.pageCount,_bookId,_titleOfBook ];
+    [Flurry logEvent:string];
       self.navigationController.navigationBarHidden=NO;
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -49,6 +52,7 @@
             [_searchResultsPopover dismissPopoverAnimated:YES];
         }
     }
+    
 }
 
 - (NSUInteger)supportedInterfaceOrientations {

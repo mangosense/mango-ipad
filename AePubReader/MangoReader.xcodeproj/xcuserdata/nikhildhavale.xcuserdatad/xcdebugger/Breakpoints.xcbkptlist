@@ -7,19 +7,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "DetailViewController.m"
-         timestampString = "387782139.326964"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "105"
-         endingLineNumber = "105"
-         landmarkName = "-downloadBook:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "LiveViewController.m"
          timestampString = "387872252.086993"
          startingColumnNumber = "9223372036854775807"
@@ -99,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "WebPageViewController.m"
-         timestampString = "385965881.125757"
+         timestampString = "388908088.579441"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1153"
-         endingLineNumber = "1153"
+         startingLineNumber = "1157"
+         endingLineNumber = "1157"
          landmarkName = "-listOfTOC:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -164,11 +151,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "WebPageViewController.m"
-         timestampString = "385965881.125757"
+         timestampString = "388908088.579441"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "203"
-         endingLineNumber = "203"
+         startingLineNumber = "207"
+         endingLineNumber = "207"
          landmarkName = "-searchBarSearchButtonClicked:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -255,11 +242,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "EpubReaderViewController.m"
-         timestampString = "387442318.805587"
+         timestampString = "388911254.516721"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1063"
-         endingLineNumber = "1063"
+         startingLineNumber = "1065"
+         endingLineNumber = "1065"
          landmarkName = "-viewDidUnload"
          landmarkType = "5">
       </FileBreakpoint>
@@ -319,19 +306,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "LibraryViewController.m"
-         timestampString = "387099598.871355"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "613"
-         endingLineNumber = "613"
-         landmarkName = "-viewWillAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "DownloadViewController.m"
          timestampString = "386576538.3768"
          startingColumnNumber = "9223372036854775807"
@@ -364,7 +338,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "441"
          endingLineNumber = "441"
-         landmarkName = "-AlternativetoPlayAudio"
+         landmarkName = "-readyState"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -377,7 +351,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "410"
          endingLineNumber = "410"
-         landmarkName = "-readyState"
+         landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -430,19 +404,6 @@
          startingLineNumber = "781"
          endingLineNumber = "781"
          landmarkName = "-BuildButtons"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "LibraryViewController.m"
-         timestampString = "387099598.871355"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "608"
-         endingLineNumber = "608"
-         landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -502,11 +463,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "EpubReaderViewController.m"
-         timestampString = "387442318.805587"
+         timestampString = "388911254.516721"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1266"
-         endingLineNumber = "1266"
+         startingLineNumber = "1268"
+         endingLineNumber = "1268"
          landmarkName = "-startRecording:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -676,7 +637,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "408"
          endingLineNumber = "408"
-         landmarkName = "-transactionRestored"
+         landmarkName = "-errorFacebook"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -755,6 +716,19 @@
          startingLineNumber = "322"
          endingLineNumber = "322"
          landmarkName = "-refreshButton:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "StoreViewController.m"
+         timestampString = "388914767.26852"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "381"
+         endingLineNumber = "381"
+         landmarkName = "-viewDidDisappear:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

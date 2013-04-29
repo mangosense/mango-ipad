@@ -400,6 +400,8 @@
         page=[[WebPageViewController alloc]initWithNibName:@"WebPageViewController" bundle:nil url: chap];
     }
     page.totalCount=_ePubContent._spine.count;
+    page.titleOfBook=_titleOfBook;
+    page.bookId=_identity;
    // [page autorelease];
     return page;
 
@@ -426,6 +428,8 @@
     }else{
         page=[[WebPageViewController alloc]initWithNibName:@"WebPageViewController" bundle:nil url: chap];
     }
+    page.titleOfBook=_titleOfBook;
+    page.bookId=_identity;
  page.totalCount=_ePubContent._spine.count;
     //[page autorelease];
     return page;

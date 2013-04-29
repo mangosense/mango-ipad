@@ -99,7 +99,7 @@
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [self viewWillDisappear:YES];
+   // [self viewWillDisappear:YES];
     [Flurry logEvent:@"Login exited iphone "];
 
 }

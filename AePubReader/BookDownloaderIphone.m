@@ -8,6 +8,7 @@
 
 #import "BookDownloaderIphone.h"
 #import "DownloadViewController.h"
+#import "Flurry.h"
 #define BYTE 1024
 @implementation BookDownloaderIphone
 -(id)initWithViewController:(MyBooksViewController *)store{
@@ -52,7 +53,8 @@
     delegate.downloadBook=NO;
     [_myBookViewController.tabBarController setSelectedIndex:1];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
-
+    NSString *flurry=[NSString stringWithFormat:@"Download failed book of %@ and book of title %@",_book.id,_book.title];
+    [Flurry logEvent:flurry];
 
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -123,7 +125,9 @@
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
     delegate.downloadBook=NO;
     [_progress setAlpha:0.0];
-
+    
     [_myBookViewController.tableView reloadData];
+    NSString *flurry=[NSString stringWithFormat:@"Download sucessfully book of %@ and book of title %@",_book.id,_book.title];
+    [Flurry logEvent:flurry];
 }
 @end

@@ -9,6 +9,7 @@
 #import "DetailStoreViewController.h"
 #import "PurchaseFreeIphone.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 @interface DetailStoreViewController ()
 
 @end
@@ -110,7 +111,8 @@
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     }
 
-    
+    NSString *flurry=[NSString stringWithFormat:@"Purchasing book of id %d",_identity];
+    [Flurry logEvent:flurry];
 }
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskLandscape;

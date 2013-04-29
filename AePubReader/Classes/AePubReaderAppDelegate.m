@@ -605,6 +605,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 -(void)applicationDidEnterBackground:(UIApplication *)application{
+    [Flurry logEvent:@"Application went to background thus downloads and and connection request stops"];
 
 }
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -626,7 +626,7 @@ self.navigationItem.leftBarButtonItem=settings;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
-    [Flurry logEvent:@"Library existed"];
+    [Flurry logEvent:@"Library exited"];
 
 }
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
@@ -1005,7 +1005,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         reader.url=button.stringLink;
         self.tabBarController.hidesBottomBarWhenPushed=YES;
         reader.hidesBottomBarWhenPushed=YES;
-        reader.title=bk.title;
+        reader.titleOfBook=bk.title;
         [self.navigationController pushViewController:reader animated:YES];
     //    [reader release];
         if ([UIDevice currentDevice].systemVersion.integerValue<6) {

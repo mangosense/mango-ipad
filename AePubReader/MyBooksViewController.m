@@ -123,7 +123,7 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:YES];
+    //[super viewWillDisappear:YES];
     [Flurry logEvent:@"MyBooks exited iphone "];
 
 }
@@ -297,6 +297,7 @@
          reader._strFileName=value;
          reader.url=bk.link;
          reader.imageLocation=bk.localPathImageFile;
+         reader.titleOfBook=bk.title;
          // reader.url=button.stringLink;
          self.tabBarController.hidesBottomBarWhenPushed=YES;
          reader.hidesBottomBarWhenPushed=YES;
@@ -313,6 +314,7 @@
             reader._strFileName=value;
             reader.url=bk.link;
             reader.imageLocation=bk.localPathImageFile;
+            reader.titleOfBook=bk.title;
             // reader.url=button.stringLink;
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             reader.hidesBottomBarWhenPushed=YES;
@@ -329,6 +331,7 @@
             value=[value stringByAppendingPathComponent:epubString];
             NSLog(@"Path value: %@",value);
             viewController=[[ViewController alloc]initWithNibName:@"ViewControllerIphone" bundle:nil WithString:value];
+            viewController.titleOfBook=bk.title;
             [self.navigationController pushViewController:viewController animated:YES];
         //    [viewController release];
 

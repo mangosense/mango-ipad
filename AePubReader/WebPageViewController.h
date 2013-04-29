@@ -17,6 +17,7 @@
 #import "TableOfContentsHandler.h"
 #import "TableOfContentsViewController.h"
 @interface WebPageViewController : UIViewController<UIWebViewDelegate,UISearchBarDelegate,UIGestureRecognizerDelegate,TextDelegate,ActionOnDeleteDelegate,TableOfContentDelegate>
+@property(assign,nonatomic)NSInteger pageNumber;
 @property (retain, nonatomic) IBOutlet UIButton *tocButton;
 @property (retain, nonatomic) IBOutlet UIWebView *webView;
 @property (retain, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -60,4 +61,6 @@
 @property(strong,nonatomic)UIPopoverController *showNotes;
 @property(strong,nonatomic) UIPopoverController *tableOfContentsPop;
 @property(strong,nonatomic)UIPopoverController *listNotesHighlight;
+@property(strong,nonatomic)NSString *titleOfBook;
+@property(assign,nonatomic)NSInteger bookId;
 @end
