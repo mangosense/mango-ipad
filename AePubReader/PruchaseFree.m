@@ -46,20 +46,24 @@
   //  [value autorelease];
     value= [dictionary objectForKey:@"message"];
     [_liveViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    StoreBooks *books=[delegate.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+    NSString *message=[NSString stringWithFormat:@"Do you wish to download the book titled %@ now?",books.title ];
     if ([value isEqualToString:@"purchase successful!"]) {
+        
         // insert the value
      //   AlertViewDelegateInApp *alertViewDelegate=[[AlertViewDelegateInApp alloc] initWithPop:_popPurchase LiveController:_liveViewController fileLink:_identity];
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
        // [alertViewDelegate autorelease];
         [alertView show];
    
     }else if([value isEqualToString:@"Already Purchased"]){
 
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already purchased" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already purchased" message:message delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         // [alertViewDelegate autorelease];
         [alertView show];
     }else{
-  UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Warning" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+  UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Warning" message:message delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
           [alertView show];
     }
     

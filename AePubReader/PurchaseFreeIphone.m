@@ -7,7 +7,7 @@
 //
 
 #import "PurchaseFreeIphone.h"
-
+#import "Flurry.h"
 @implementation PurchaseFreeIphone
 -(id)initWithDetails:(DetailStoreViewController *)detail live:(LiveViewControllerIphone *)live identity:(NSInteger)identity{
     self=[super init];
@@ -29,6 +29,9 @@
     [_mutableData appendData:data];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [Flurry logEvent:@"Book registered" withParameters:dictionary];
     [_mutableData setLength:0];
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
@@ -37,23 +40,29 @@
     NSLog(@"data mutable %@",value );
  //   [value autorelease];
     value= [dictionary objectForKey:@"message"];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    StoreBooks *book=[delegate.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+    
+    NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",book.title ];
+
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
     if ([value isEqualToString:@"purchase successful!"]) {
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         // [alertViewDelegate autorelease];
         [alertView show];
      //   [alertView release];
         
         
     }else if([value isEqualToString:@"Already Purchased"]){
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already Purchased" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already Purchased" message:message delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         // [alertViewDelegate autorelease];
         [alertView show];
     }
     
         else
     {
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Could not register to user id" message:@"Do you want to download it now?" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Could not register to user id" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
  //       [alertView release];
     }

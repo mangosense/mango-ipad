@@ -63,8 +63,11 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *identity=[[NSString alloc]initWithFormat:@"%d",_identity ];
    StoreBooks *booksStore= [delegate.dataModel getStoreBookById:identity];
-   NSString * string=[NSString stringWithFormat: @"In the store book titled %@ looked at and id %@",booksStore.title,booksStore.productIdentity ];
-    [Flurry logEvent:string];
+   NSString * string= @"In the store book titled";
+    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+    [dict setValue:booksStore.productIdentity forKey:@"identity"];
+    [dict setValue:booksStore.title forKey:@"title"];
+    [Flurry logEvent:string withParameters:dict];
     _titleLabel.text=booksStore.title;
     [_detailsWebView loadHTMLString:booksStore.desc baseURL:nil];
     NSLog(@"local Image Location %@",booksStore.localImage);
@@ -169,14 +172,22 @@
   //  AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
   //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:_liveViewController];
     // if not logged in
-    [Flurry logEvent:[NSString stringWithFormat:@"Book of id %d bought",_identity]];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    StoreBooks *book=[delegate.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+    NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:book.title forKey:@"title"];
+    
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
         if (_isFree) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+           
+            NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now ?",book.title];
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
             // [alertViewDelegate autorelease];
             [alertView show];
       //     [alertView release];
-            
+            [Flurry logEvent:@"Book free added to library (no login)" withParameters:dictionary ];
+  
         }else{
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
 
@@ -187,6 +198,7 @@
             _payment=[SKPayment paymentWithProduct:_products];
             [[SKPaymentQueue defaultQueue] addPayment:_payment];
             _alertView=nil;
+            [Flurry logEvent:@"Book bought (no login)" withParameters:dictionary ];
 
         }
         return;
@@ -200,8 +212,12 @@
         _payment=[SKPayment paymentWithProduct:_products];
         [[SKPaymentQueue defaultQueue] addPayment:_payment];
         _alertView=nil;
+        [Flurry logEvent:@"book bought with login" withParameters:dictionary ];
+
        // [_alertView show];
     }else{// if free then request
+        [Flurry logEvent:@"Book free added to library with login" withParameters:dictionary ];
+
         [_purchaseButton setEnabled:NO];
         NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
         [dictionary setValue:[NSNumber numberWithInteger:0 ] forKey:@"amount"];

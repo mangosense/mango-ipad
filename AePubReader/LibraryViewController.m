@@ -42,8 +42,11 @@
 }
 -(void)DownloadComplete:(Book *)book{
    // [book retain];
-    NSString *value=[NSString stringWithFormat:@"Book downloading started for id %@ with title %@",book.id,book.title ];
-    [Flurry logEvent:value];
+    NSString *value=@"Book downloading ";;
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:book.id forKey:@"identity"];
+    [dictionary setValue:book.title forKey:@"title"];
+    [Flurry logEvent:value withParameters:dictionary];
     [self.tabBarController setSelectedIndex:0];
     [self reloadData];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

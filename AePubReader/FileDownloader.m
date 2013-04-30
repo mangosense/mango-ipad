@@ -119,11 +119,13 @@
     NSURL *url=[[NSURL alloc]initFileURLWithPath:_loc];
     [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
-    [Flurry logEvent:@"download complete"];
+  //  [Flurry logEvent:@"download complete"];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *value=[[_loc lastPathComponent] stringByDeletingPathExtension];
     [delegate unzipAndSaveFile:_loc with:value.integerValue];
-    [Flurry logEvent:[NSString stringWithFormat:@"download completed for book of id %@",value]];
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:value forKey:@"identity"];
+    [Flurry logEvent:@"download completed" withParameters:dictionary];
 
     delegate.location=[_loc stringByDeletingPathExtension];
     [delegate removeBackDirectory];

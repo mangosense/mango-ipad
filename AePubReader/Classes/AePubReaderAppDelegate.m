@@ -302,19 +302,25 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSData *data;
     NSData *transactionReciept;
     NSString *encode;
+    NSString *identifier;
     for (SKPaymentTransaction *transaction in transactions) {
+       identifier= transaction.payment.productIdentifier;
+        NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+        [dict setValue:identifier forKey:@"identity"];
         switch (transaction.transactionState) {
             case SKPaymentTransactionStateFailed:
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
               //  [alertFailed release];
-            
+                
                 if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
                     [_loginViewController transactionFailed];
                 }else{
                     [_loginViewControllerIphone transactionFailed];
                     
                 }
+                [dict setValue:[transaction.error debugDescription] forKey:@"error"];
+                [Flurry logEvent:@"payment failed" withParameters:dict];
                     [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStatePurchased:
@@ -341,7 +347,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                 
                 valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
                 NSLog(@"value json request %@",valueJson);
-
+                [Flurry logEvent:@"book restored" withParameters:dict];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 restored=YES;
                 
@@ -422,7 +428,9 @@ void uncaughtExceptionHandler(NSException *exception) {
             NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             NSString *value= [dictionary objectForKey:@"message"];
             if ([value isEqualToString:@"purchase successful!"]) {
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+                StoreBooks *books=[self.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+                NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",books.title ];
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
                 // [alertViewDelegate autorelease];
                 alertView.tag=2000;
                 [alertView show];
@@ -470,7 +478,10 @@ void uncaughtExceptionHandler(NSException *exception) {
             NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             NSNumber *value= [dictionary objectForKey:@"status"];
             if (value.integerValue==0) {
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+                StoreBooks *books=[self.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+                NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",books.title ];
+
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
                 // [alertViewDelegate autorelease];
                 alertView.tag=2000;
                 [alertView show];
@@ -605,7 +616,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 -(void)applicationDidEnterBackground:(UIApplication *)application{
-    [Flurry logEvent:@"Application went to background thus downloads and and connection request stops"];
+    [Flurry logEvent:@"Application went to background thus downloads and connection request will close"];
 
 }
 - (void)applicationWillResignActive:(UIApplication *)application {

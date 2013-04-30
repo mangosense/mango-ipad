@@ -53,8 +53,11 @@
     delegate.downloadBook=NO;
     [_myBookViewController.tabBarController setSelectedIndex:1];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
-    NSString *flurry=[NSString stringWithFormat:@"Download failed book of %@ and book of title %@",_book.id,_book.title];
-    [Flurry logEvent:flurry];
+    NSString *flurry=@"Download failed";
+    NSMutableDictionary *diction=[[NSMutableDictionary alloc]init];
+    [diction setValue:_book.id forKey:@"identity"];
+    [diction setValue:_book.title forKey:@"book title"];
+    [Flurry logEvent:flurry withParameters:diction];
 
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -127,7 +130,10 @@
     [_progress setAlpha:0.0];
     
     [_myBookViewController.tableView reloadData];
-    NSString *flurry=[NSString stringWithFormat:@"Download sucessfully book of %@ and book of title %@",_book.id,_book.title];
-    [Flurry logEvent:flurry];
+    NSString *flurry=@"Download sucessful";
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [ dictionary setValue:_book.id forKey:@"Identity"];
+    [dictionary setValue:_book.title forKey:@"Title"];
+    [Flurry logEvent:flurry withParameters:dictionary];
 }
 @end

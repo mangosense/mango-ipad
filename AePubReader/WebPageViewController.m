@@ -39,8 +39,13 @@
     _query=[[NSString alloc]initWithString:query];
 }
 - (IBAction)onBack:(id)sender {
-    NSString *string=[NSString stringWithFormat:@"exited at pageNumber %d book of id %d and title %@",_chapter.pageCount,_bookId,_titleOfBook ];
-    [Flurry logEvent:string];
+    NSString *string=@"exited at textbook";
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:_chapter.pageCount] forKey:@"pageCount"];
+    [dictionary setValue:[NSNumber numberWithInteger:_bookId] forKey:@"identity"];
+    [dictionary setValue:_titleOfBook forKey:@"book title"];
+    
+    [Flurry logEvent:string withParameters:dictionary];
       self.navigationController.navigationBarHidden=NO;
     
     [self.navigationController popViewControllerAnimated:YES];

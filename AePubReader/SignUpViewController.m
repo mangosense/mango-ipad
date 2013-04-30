@@ -170,7 +170,9 @@
         }
         UIAlertView *alertViewSuccess=[[UIAlertView alloc]initWithTitle:@"Success" message:@"You have been sucessfully signed up" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertViewSuccess show];
-        [Flurry logEvent:[NSString stringWithFormat:@"Sign up successfull for email %@",_email.text]];
+        NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+        [dictionary setValue:_email.text forKey:@"email"];
+        [Flurry logEvent:@"Sign up successful" withParameters:dictionary];
      //   [alertViewSuccess release];
    
     }

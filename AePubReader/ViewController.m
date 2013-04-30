@@ -166,11 +166,14 @@
         [self dismissViewControllerAnimated:NO completion:nil];
        // [c release];
     }
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:_titleOfBook forKey:@"book title"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-        [Flurry logEvent:[ NSString stringWithFormat:@"ipad Text Book of id %d and title %@ opened ",_identity,_titleOfBook ] ];
+        [Flurry logEvent:@"ipad Text Book of opened " withParameters:dictionary ];
 
     }else{
-        [Flurry logEvent:[ NSString stringWithFormat:@"iphone or ipod  touch Text Book of id %d and title %@ opened",_identity,_titleOfBook ] ];
+        [Flurry logEvent:@"iphone or ipod  touch Text Book opened" withParameters:dictionary ];
     }
     // do not add views here
    
@@ -335,7 +338,11 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:NO];
-    [Flurry logEvent:[ NSString stringWithFormat:@"Text Book of id %d and title %@ closed at pagenumber %d",_identity,_titleOfBook,_pageNumber ] ];
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:_titleOfBook forKey:@"title"];
+    [dictionary setValue:[NSNumber numberWithInteger:_pageNumber] forKey:@"pageNumber"];
+    [Flurry logEvent:@"Text Book of closed" withParameters:dictionary ];
 
 }
 - (void)didReceiveMemoryWarning

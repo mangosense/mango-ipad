@@ -25,7 +25,9 @@
 - (IBAction)purchase:(id)sender {
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
         if (_isFree) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
+            NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",_bookStore.title ];
+
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
             // [alertViewDelegate autorelease];
             [alertView show];
           //  [alertView release];
@@ -111,8 +113,10 @@
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     }
 
-    NSString *flurry=[NSString stringWithFormat:@"Purchasing book of id %d",_identity];
-    [Flurry logEvent:flurry];
+    NSString *flurry=@"Purchasing book";
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [Flurry logEvent:flurry withParameters:dictionary];
 }
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskLandscape;

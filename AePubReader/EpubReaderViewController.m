@@ -165,14 +165,17 @@
    color=[UIColor colorWithPatternImage:image];
     _recordBackgroundview.backgroundColor=color;
     _hide=YES;
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:_titleOfBook forKey:@"book title"];
+    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] ] forKey:@"bookid"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-        NSString *string=[NSString stringWithFormat:@"ipad Story Book reading titled %@  with id %d started",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] ];
+        NSString *string=@"ipad Story Book reading ";
         
-        [Flurry logEvent:string];
+        [Flurry logEvent:string withParameters:dictionary];
     }else{
-        NSString *string=[NSString stringWithFormat:@"iphone or ipod touch Store Book reading titled %@  with id %d started",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] ];
+        NSString *string=@"iphone or ipod touch Store Book reading";
         
-        [Flurry logEvent:string];
+        [Flurry logEvent:string withParameters:dictionary];
     }
 
     [_recordButton addTarget:self action:@selector(wasDragged:withEvent:)  forControlEvents:UIControlEventTouchDragInside];
@@ -626,8 +629,11 @@
  /*   if (![_playerDefault isPlaying]) {
         [_playerDefault play];
     }*/
-    NSString *string=[NSString stringWithFormat:@"started reading Book of id %d and title %@",[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"],_titleOfBook ];
-    [Flurry logEvent:string];
+    NSString *string=@"started reading Book ";
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+    [dictionary setValue:_titleOfBook forKey:@"book title"];
+    [Flurry logEvent:string withParameters:dictionary];
    
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -879,12 +885,15 @@
         [_pop dismissPopoverAnimated:YES];
     }
     [self stopRecording:nil];
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+    [dictionary setValue:_titleOfBook forKey:@"book title"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-        NSString *string=[NSString stringWithFormat:@"ipad Story Book closed titled %@  with id %d  at page Number %d ",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"],_pageNumber ];
-        [Flurry logEvent:string];
+        NSString *string=@"ipad Story Book closed ";
+        [Flurry logEvent:string withParameters:dictionary];
     }else{
-        NSString *string=[NSString stringWithFormat:@"iphone or ipod touch  Story Book closed titled %@  with id %d  at pageNumber %d",_titleOfBook,[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"],_pageNumber ];
-        [Flurry logEvent:string];
+        NSString *string=@"iphone or ipod touch  Story Book closed ";
+                [Flurry logEvent:string withParameters:dictionary];
     }
 
     
@@ -985,8 +994,9 @@
 }
 
 - (IBAction)recordAudio:(id)sender {
-
-[Flurry logEvent:[NSString stringWithFormat:@"recording start for book of id %d",[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]]];
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+[Flurry logEvent:@"recording started" withParameters:dictionary];
   
     if(!_record){
         [UIView animateWithDuration:1.0 animations:^{

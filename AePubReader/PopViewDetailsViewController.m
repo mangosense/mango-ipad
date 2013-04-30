@@ -60,13 +60,19 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    NSString *value=[NSString stringWithFormat:@"Details page in downloads for id %@ with title %@ entered",_bookTapped.id,_bookTapped.title ];
-    [Flurry logEvent:value];
+  //  NSString *value=[NSString stringWithFormat:@"Details page in downloads for id %@ with title %@ entered",_bookTapped.id,_bookTapped.title ];
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:_bookTapped.id forKey:@"identity"];
+    [dictionary setValue:_bookTapped.title forKey:@"title"];
+    [Flurry logEvent:@"Details page in downloads entered" withParameters:dictionary];
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
-    NSString *value=[NSString stringWithFormat:@"Details page in downloads for id %@ with title %@ exited",_bookTapped.id,_bookTapped.title ];
-    [Flurry logEvent:value];
+    NSString *value=@"Details page in downloads ";
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:_bookTapped.id forKey:@"identity"];
+    [dictionary setValue:_bookTapped.title forKey:@"title"];
+    [Flurry logEvent:value withParameters:dictionary];
 }
 - (void)viewDidLoad
 {
