@@ -32,6 +32,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        [cell autorelease];
     }
     
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
@@ -39,6 +40,7 @@
     SearchResult* hit = (SearchResult*)[results objectAtIndex:[indexPath row]];
     cell.textLabel.text = [NSString stringWithFormat:@"...%@...", hit.neighboringText];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"page %d", hit.chapterIndex+1];
+    
     return cell;
 }
 
@@ -53,11 +55,13 @@
 }
 
 - (void) searchString:(NSString*)query{
+    
     self.results = [[NSMutableArray alloc] init];
     [resultsTableView reloadData];
     self.currentQuery=query;
     
-    [self searchString:query inChapterAtIndex:0];    
+    [self searchString:query inChapterAtIndex:0];
+   // [self.results autorelease];
 }
 
 - (void) searchString:(NSString *)query inChapterAtIndex:(int)index{

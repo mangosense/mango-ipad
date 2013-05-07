@@ -95,7 +95,13 @@
    // [downloader.handle retain];
     
     NSLog(@"floatvalue %f id %@",[book.size floatValue],book.id);
-    downloader.value=[book.size floatValue];
+    float size=[book.size floatValue];
+    if (size!=0) {
+        downloader.value=[book.size floatValue];
+
+    }else{
+        downloader.value=1.0f;
+    }
   
     
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:downloader];
@@ -1034,7 +1040,10 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             reader._strFileName=value;
           
             button=(ShadowButton *)_buttonTapped;
-            reader.imageLocation=button.imageLocalLocation;
+            if (button.imageLocalLocation) {
+                reader.imageLocation=button.imageLocalLocation;
+            }
+            
             reader.url=button.stringLink;
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             reader.hidesBottomBarWhenPushed=YES;

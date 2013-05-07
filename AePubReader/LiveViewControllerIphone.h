@@ -23,6 +23,7 @@
 @property(strong,nonatomic)NSError *error;
 @property(assign,nonatomic)NSInteger totalNoOfBooks;
 @property(assign,nonatomic)NSInteger pages;
+@property(assign,nonatomic)NSInteger pg;
 -(void)transactionFailed;
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction;
 @end

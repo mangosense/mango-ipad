@@ -33,8 +33,50 @@
 
             _array=[[NSMutableArray alloc]initWithArray:array];
         _pageNumber=1;
+        _pg=1;
+        [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
     }
     return self;
+}
+-(void)requestBooksWithoutUIChange{
+    [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.completedStorePopulation=NO;
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
+    NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_pg];
+    NSLog(@"URL %@",stringUrl);
+    //stringUrl=@"http://192.168.2.29:3000/api/v1/page/1/books.json";
+    NSURL *url=[[NSURL alloc]initWithString:stringUrl];
+    //[stringUrl release];
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    //   NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
+    NSURLResponse *response;
+    NSError *error;
+    [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
+    NSData *data= [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    _data=[[NSMutableData alloc]initWithData:data];
+    NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",lengthTotal);
+    //[lengthTotal release];
+    
+    _totalNoOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pg];
+    _pages=_totalNoOfBooks/20;
+    if (_totalNoOfBooks%20!=0) {
+        _pages++;
+    }
+    //_currentPageNumber>=_pages
+    if (_pg<_pages) {
+        _pg++;
+        [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
+    }else{
+        [self performSelectorOnMainThread:@selector(hideActivityIndicator) withObject:nil waitUntilDone:NO];
+        delegate.completedStorePopulation=YES;
+    }
+    
 }
 -(void)requestBooksFromServer{
     [_downloadViewController refreshButton:nil];

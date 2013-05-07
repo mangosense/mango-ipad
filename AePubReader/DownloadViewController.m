@@ -173,10 +173,15 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 -(void)restore:(id)sender{
-    [self showIndicator];
-    [[SKPaymentQueue defaultQueue]addTransactionObserver:self];
-    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if (delegate.completedStorePopulation) {
+        [self showIndicator];
+        [[SKPaymentQueue defaultQueue]addTransactionObserver:self];
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+    }else{
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Please wait till the information for books in the store are retrived" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+    }
 }
 -(void)sync:(id)sender{
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {

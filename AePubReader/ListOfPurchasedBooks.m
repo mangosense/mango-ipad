@@ -64,6 +64,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [_dataMutable appendData:data];
 }
+
 /*-(void)dealloc{
     [_dataMutable release];
     [super dealloc];

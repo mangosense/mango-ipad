@@ -44,7 +44,6 @@
 						<string key="NSFrame">{{12, 40}, {744, 964}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -4906,6 +4905,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<string key="removeAllHighlight:">id</string>
 						<string key="selection:">id</string>
 						<string key="showList:">id</string>
+						<string key="showOrHideButton:">id</string>
 						<string key="tableOfContents:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -4931,6 +4931,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<object class="IBActionInfo" key="showList:">
 							<string key="name">showList:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOrHideButton:">
+							<string key="name">showOrHideButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="tableOfContents:">

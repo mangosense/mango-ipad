@@ -22,7 +22,7 @@
    
 }
 @property(assign,nonatomic)BOOL addControlEvents;
-
+@property(assign,nonatomic)BOOL completedStorePopulation;
 @property (nonatomic, retain)  UIWindow *window;
 //@property(nonatomic,retain) NSString *baseURL;
 //@property(nonatomic,retain)NSString *authToken;

@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CircularProgressView.h"
 #import "Flurry.h"
+#import "PuttyView.h"
 //#import "GPUImageVideoCamera.h"
 //#import "GPUImageLuminosity.h"
 @interface EpubReaderViewController : UIViewController<XMLHandlerDelegate,UISearchBarDelegate,UIWebViewDelegate,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
@@ -30,6 +31,7 @@
 	int _pageNumber;
    
 }
+@property (weak, nonatomic) IBOutlet UIButton *stopRecordingOrRecordedAudio;
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 @property(strong,nonatomic) XMLHandler *xmlHandler;
 @property(strong,nonatomic)XMLHandler *anotherHandlerOPF;
@@ -38,7 +40,9 @@
 - (IBAction)startRecording:(id)sender;
 - (IBAction)stopRecording:(id)sender;
 - (IBAction)playRecorded:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *circularProgressView;
 @property(assign,nonatomic)BOOL shouldAutoPlay;
+@property (weak, nonatomic) IBOutlet PuttyView *recordControlView;
 @property(retain,nonatomic)AVAudioRecorder *anAudioRecorder;
 @property(retain,nonatomic)AVAudioPlayer *anAudioPlayer;
 //@property(strong,nonatomic)AVAudioPlayer *playerDefault;
@@ -46,7 +50,7 @@
 @property(nonatomic,assign)BOOL isPlaying;
 @property(assign,nonatomic)float val;
 //@property(retain,nonatomic)NSArray *arrayForItems;
-@property (retain, nonatomic) IBOutlet UIView *recordBackgroundview;
+//@property (retain, nonatomic) IBOutlet UIView *recordBackgroundview;
 - (IBAction)openGame:(id)sender;
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollViewForThumnails;
 - (IBAction)shareTheBook:(id)sender;
@@ -85,7 +89,8 @@
 @property(nonatomic,retain)UINavigationBar *nav;
 @property (weak, nonatomic) IBOutlet UIButton *leftButton;
 @property (weak, nonatomic) IBOutlet UIButton *rightButton;
-@property(strong,nonatomic)NSTimer *timer;
+
+- (IBAction)playOrPauseRecorded:(id)sender;
 @property(strong,nonatomic)NSString *audioPath;
 @property(assign,nonatomic)BOOL isOld;
 -(void)leftOrRightGesture:(UISwipeGestureRecognizer *)gesture;
@@ -98,9 +103,13 @@
 //- (void)setBackButton;
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 - (IBAction)onPreviousOrNext:(id)sender;
+- (IBAction)stopRecordingOrRecordedAudioPlayed:(id)sender;
 @property(strong,nonatomic)CircularProgressView *progressView;
+- (IBAction)playOrPauseRecording:(id)sender;
 @property(strong,nonatomic)NSTimer *timerProgress;
 @property(strong,nonatomic)NSString *titleOfBook;
+@property(assign,nonatomic)BOOL recordPaused;
+@property(assign,nonatomic)BOOL playingPaused;
 //@property (nonatomic, retain) SZActionBar *actionBar;
 //@property (nonatomic, retain) id<SZEntity> entity;
 @end

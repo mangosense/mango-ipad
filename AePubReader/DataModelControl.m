@@ -543,10 +543,13 @@
                }else{
                    book.desc=@"";
                }
-               
-               book.sourceFileUrl=[key objectForKey:@"book_url"];
-               book.imageUrl=[key objectForKey:@"cover_image_url"];
-               if ([NSNull null] !=[key objectForKey:@"description"]) {
+               NSString *tempUrl=[key objectForKey:@"book_url"];
+               tempUrl=[tempUrl stringByReplacingOccurrencesOfString:@"localhost" withString:@"192.168.2.28"];
+               book.sourceFileUrl=tempUrl;
+               tempUrl=[key objectForKey:@"cover_image_url"];
+               tempUrl=[tempUrl stringByReplacingOccurrencesOfString:@"localhost" withString:@"192.168.2.28"];
+               book.imageUrl=tempUrl;
+               if ([NSNull null] !=[key objectForKey:@"title"]) {
                book.title=[key objectForKey:@"title"];
                }else{
                    book.title=@"";
@@ -622,7 +625,7 @@
            
     }//end for
     [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"changed"];
-NSLog(@"books inserted %d",count);
+    NSLog(@"books inserted %d",count);
     NSLog(@"books downloaded %d",_downloadedImage);
     return YES;
 }

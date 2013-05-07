@@ -163,7 +163,7 @@
     _imageToptoolbar.backgroundColor=color;
     image=[UIImage imageNamed:@"side.png"];
    color=[UIColor colorWithPatternImage:image];
-    _recordBackgroundview.backgroundColor=color;
+  //  _recordBackgroundview.backgroundColor=color;
     _hide=YES;
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
@@ -179,6 +179,8 @@
     }
 
     [_recordButton addTarget:self action:@selector(wasDragged:withEvent:)  forControlEvents:UIControlEventTouchDragInside];
+    [_playRecordedButton addTarget:self action:@selector(wasDragged:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+    [_stopRecordingOrRecordedAudio addTarget:self action:@selector(wasDragged:withEvent:) forControlEvents:UIControlEventTouchDragInside];
 	[_webview setBackgroundColor:[UIColor clearColor]];
 	//First unzip the epub file to documents directory
 	//[self unzipAndSaveFile];
@@ -189,12 +191,12 @@
     [_rightButton setAlpha:0.25f];
    
       [self removeZoom:_webview];
-    UISwipeGestureRecognizer *left=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftOrRightGesture:)];
+   /* UISwipeGestureRecognizer *left=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftOrRightGesture:)];
     left.direction=UISwipeGestureRecognizerDirectionRight;
     UISwipeGestureRecognizer *right=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftOrRightGesture:)];
     right.direction=UISwipeGestureRecognizerDirectionLeft;
     [_webview.scrollView addGestureRecognizer:left];
-    [_webview.scrollView addGestureRecognizer:right];
+    [_webview.scrollView addGestureRecognizer:right];*/
 
     [_shareButton setTintColor:[UIColor lightGrayColor]];
     [self.navigationController.navigationBar addSubview:_textField];
@@ -218,7 +220,8 @@
     NSLog(@"superview ht %f",self.view.frame.size.height);
     _webview.scrollView.bounces=NO;
     _webview.scrollView.alwaysBounceHorizontal=NO;
-
+    
+    //_webview.scrollView.scrollEnabled=NO;
     
     _webview.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -234,9 +237,9 @@
       CGRect rect=  _imageToptoolbar.frame;
         rect.size.width=1136.0;
         _imageToptoolbar.frame=rect;
-       rect= _recordBackgroundview.frame;
+      // rect= _recordBackgroundview.frame;
         rect.origin.x=568.0;
-        _recordBackgroundview.frame=rect;
+       // _recordBackgroundview.frame=rect;
         rect=_scrollViewForThumnails.frame;
         rect.size.width=1136.0;
         _scrollViewForThumnails.frame=rect;
@@ -282,22 +285,38 @@
     }
     [_stopButton setHidden:YES];
     [_playRecordedButton setEnabled:NO];
-    if( UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
-        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(9, 29, 66, 66)];
+//    if( UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+//        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(9, 29, 66, 66)];
+//    }else{
+//        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(7, 7, 35,35)];
+//
+//    }
+//    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(stopRecord:)];
+//    [_progressView addGestureRecognizer:tap];
+//    [_recordBackgroundview addSubview:_progressView];
+//    
+//    [_recordBackgroundview bringSubviewToFront:_playRecordedButton];
+//    [_progressView setProgress:0.0f];
+//    [_progressView setHidden:YES];
+//    _recordPaused=YES;
+//    [_stopRecordingOrRecordedAudio setEnabled:NO];
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(27, 25, 178, 175)];
+
     }else{
-        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(7, 7, 35,35)];
-
+        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(34, 33, 95,95)];
+ 
     }
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(stopRecord:)];
-    [_progressView addGestureRecognizer:tap];
-    [_recordBackgroundview addSubview:_progressView];
-    
-    [_recordBackgroundview bringSubviewToFront:_playRecordedButton];
-    [_progressView setProgress:0.0f];
+    [_progressView setColourR:0.0 G:1.0 B:0.0 A:1.0];
+    [_recordControlView addSubview:_progressView];
+    [_recordControlView bringSubviewToFront:_recordButton];
+    [_recordControlView bringSubviewToFront:_stopRecordingOrRecordedAudio];
+    [_recordControlView bringSubviewToFront:_playRecordedButton];
+   // [_progressView setProgress:1.0f];
+   // [_recordControlView setHidden:YES];
     [_progressView setHidden:YES];
-
 }
-- (void)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
+- (IBAction)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
     //get the touch
     UITouch *touch=[[event touchesForView:button] anyObject];
     //get delta
@@ -305,7 +324,7 @@
     CGPoint location=[touch locationInView:button];
     CGFloat delta_x=location.x-previousLocation.x;
     CGFloat delta_y=location.y-previousLocation.y;
-    button.center=CGPointMake(button.center.x+delta_x,button.center.y+delta_y);
+    _recordControlView.center=CGPointMake(_recordControlView.center.x+delta_x,_recordControlView.center.y+delta_y);
 }
 -(void)stopRecord:(id)sender{
     [_anAudioRecorder stop];
@@ -471,13 +490,14 @@
        _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:path] error:&error];
         _playerDefault.delegate=self;
         [_playerDefault play];*/
-       _timer= [NSTimer timerWithTimeInterval:1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+       
         _isOld=NO;
     }
 
     
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
+    [self stopRecordingOrRecordedAudioPlayed:nil];
     _pageLoaded=NO;
     NSString *jsCode;
     UIImage *image=[UIImage imageNamed:@"play-control.png"];
@@ -572,6 +592,7 @@
     }
     _anAudioPlayer=nil;
 
+        
 }
 -(void)update{
    // NSLog(@"seconds %f",_playerDefault.deviceCurrentTime);
@@ -594,10 +615,10 @@
     if ([_anAudioPlayer isPlaying]) {
         [_anAudioPlayer stop];
     }
-    if ([_timer isValid]) {
-        [_timer invalidate];
+    if ([_timerProgress isValid]) {
+        [_timerProgress invalidate];
     }
-   /* if ([_playerDefault isPlaying]) {
+       /* if ([_playerDefault isPlaying]) {
         [_playerDefault stop];
         _playerDefault=nil;
     }*/
@@ -870,6 +891,30 @@
 		}
 	}
 }
+#pragma newRecordControls
+- (IBAction)stopRecordingOrRecordedAudioPlayed:(id)sender {
+    if ([_anAudioRecorder isRecording]||_recordPaused) {
+        [_anAudioRecorder stop];
+        _anAudioRecorder=nil;
+        _recordPaused =NO;
+        [_playRecordedButton setEnabled:YES];
+        [_stopRecordingOrRecordedAudio setEnabled:NO];
+        UIImage *image=[UIImage imageNamed:@"recordbutton.png"];
+        
+        [_recordButton setImage:image forState:UIControlStateNormal];
+    }
+   
+    if ([_anAudioPlayer isPlaying]||_playingPaused) {
+        [_anAudioPlayer stop];
+        _anAudioPlayer =nil;
+        [_stopRecordingOrRecordedAudio setEnabled:NO];
+        [_recordButton setEnabled:YES];
+        _playingPaused=NO;
+        UIImage *image=[UIImage imageNamed:@"playbutton.png"];
+        [_playRecordedButton setImage:image forState:UIControlStateNormal];
+    }
+    [_progressView setHidden:YES];
+}
 
 - (IBAction)onBack:(id)sender{
 
@@ -878,7 +923,10 @@
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
                            [_webview loadRequest:request];
 [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-	[self.navigationController popViewControllerAnimated:YES];
+
+
+    [self.navigationController popToRootViewControllerAnimated:YES];
+	//[self.navigationController popViewControllerAnimated:YES];
     NSLog(@"NSString %@",_strFileName);
 
     if (_pop) {
@@ -994,10 +1042,30 @@
 }
 
 - (IBAction)recordAudio:(id)sender {
-    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
-[Flurry logEvent:@"recording started" withParameters:dictionary];
-  
+
+    if ([_recordControlView isHidden]) {
+        [_recordControlView setHidden:NO];
+        [_recordControlView setAlpha:0.0f];
+        [UIView animateWithDuration:2.0 animations:^(void) {
+            [_recordControlView setAlpha:1.0f];
+            
+        }];
+        [self ribbonButtonClick:nil];
+    }else{
+     //   [_recordButton setAlpha:1.0f];
+        [UIView animateWithDuration:1.0 animations:^(void){
+        
+            [_recordControlView setAlpha:0.0f];
+        } completion:^(BOOL completed){
+            [_recordControlView setHidden:YES];
+        
+        }];
+        
+    }
+    if (_isPlaying) {
+        [self playOrPauseAudio:nil];
+    }
+/*
     if(!_record){
         [UIView animateWithDuration:1.0 animations:^{
               CGRect frame;
@@ -1014,28 +1082,46 @@
             frame.origin.x=frame.origin.x+frame.size.width;
             _recordBackgroundview.frame=frame;
         }];
-    }
+    }*/
     _record=!_record;
 
 }
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
     [_timerProgress invalidate];
+    _timerProgress=nil;
    // [_anAudioRecorder release];
- 
-   // _anAudioRecorder=nil;
+    // _anAudioRecorder=nil;
+    if (_anAudioRecorder) {
+        _anAudioRecorder =nil;
+    }
     if (_anAudioPlayer) {
         _anAudioPlayer=nil;
     }
-    UIImage *image=[UIImage imageNamed:@"start-recording-control.png"];
-    [_recordAudioButton setImage:image forState:UIControlStateNormal];
-  [_recordAudioButton setEnabled:YES];
+    [_stopRecordingOrRecordedAudio setEnabled:NO];
+
+    UIImage *image=[UIImage imageNamed:@"recordbutton.png"];
+    
+    [_recordButton setImage:image forState:UIControlStateNormal];
+  //[_recordButton setEnabled:YES];
+    [_playRecordedButton setEnabled:YES];
+    [_progressView setHidden:YES];
+
 
 }
 -(void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error{
     NSLog(@"Error %@",error);
+
+    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alertView show];
+    UIImage *image=[UIImage imageNamed:@"recordbutton.png"];
+    [_stopRecordingOrRecordedAudio setEnabled:NO];
+
+    [_recordButton setImage:image forState:UIControlStateNormal];
  //   [_anAudioRecorder release];
  //   _anAudioPlayer=nil;
-    
+    [_playRecordedButton setEnabled:YES];
+    [_progressView setHidden:YES];
+
 }
 /*Function Name : loadPage
  *Return Type   : void 
@@ -1061,6 +1147,11 @@
 }
 
 - (void)viewDidUnload {
+    [self setCircularProgressView:nil];
+    [self setStopRecordingOrRecordedAudio:nil];
+    [self setPlayRecordedButton:nil];
+    [self setRecordButton:nil];
+    [self setRecordControlView:nil];
     [self setRecordButton:nil];
     [self setPlayRecordedButton:nil];
     [self setStopButton:nil];
@@ -1076,7 +1167,7 @@
     [self setGameButton:nil];
     
     [self setRecordAudioButton:nil];
-    [self setRecordBackgroundview:nil];
+   // [self setRecordBackgroundview:nil];
     [self setPlayPauseControl:nil];
     [self setToggleToolbar:nil];
     [self setImageToptoolbar:nil];
@@ -1240,6 +1331,8 @@
 - (IBAction)startRecording:(id)sender {
     UIButton *recordButton=(UIButton *)sender;
   //  [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('stop')"];
+ //   [_anAudioRecorder pause];
+    [_progressView setHidden:NO];
     
     if (![_anAudioRecorder isRecording]) {
         if (_isPlaying) {
@@ -1310,17 +1403,26 @@
         [recordButton setImage:image forState:UIControlStateNormal];
         
     }
-    
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+    [Flurry logEvent:@"recording started" withParameters:dictionary];
 }
--(void)updateProgress{
-    double table=_anAudioRecorder.currentTime;
-    table=table/60.0;
-    [_progressView setProgress:table];
+-(void)updateProgressOfRecorder{
+    double progress=_anAudioRecorder.currentTime;
+    progress=progress/60.0;
+    [_progressView setProgress:progress];
     
    // CGFloat float=
     
 }
+-(void)updateProgressOfPlayer{
+    double progress=_anAudioPlayer.currentTime;
+    progress=progress/_anAudioPlayer.duration;
+    [_progressView setProgress:progress];
+}
 - (IBAction)stopRecording:(id)sender {
+    [_progressView setHidden:YES];
+    [_progressView setProgress:0.0f];
     if (_anAudioRecorder) {
         if ([_anAudioRecorder isRecording]) {
             [_anAudioRecorder stop];
@@ -1374,14 +1476,50 @@
     UIImage *image=[UIImage imageNamed:@"pause-control.png"];
     [_playPauseControl setImage:image forState:UIControlStateNormal];
     }*/
-    
-UIImage *image=[UIImage imageNamed:@"play-control.png"];
-[_playRecordedButton setImage:image forState:UIControlStateNormal];
+    UIImage *image=[UIImage imageNamed:@"playbutton.png"];
+    [_playRecordedButton setImage:image forState:UIControlStateNormal];
+    if (_anAudioPlayer) {
+        _anAudioPlayer=nil;
+    }
+    [_stopRecordingOrRecordedAudio setEnabled:NO];
+
+    [_recordButton setEnabled:YES];
+    _playingPaused=NO;
+    if (_timerProgress) {
+        [_timerProgress invalidate];
+        _timerProgress=nil;
+    }
+   
+    [_progressView setProgress:1.0f];
+    [self performSelector:@selector(hideProgress) withObject:nil afterDelay:1.0];
+//UIImage *image=[UIImage imageNamed:@"play-control.png"];
+//[_playRecordedButton setImage:image forState:UIControlStateNormal];
+}
+-(void)hideProgress{
+    [_progressView setHidden:YES];
+
 }
 -(void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error{
     NSLog(@"Error %@",error);
    // [_anAudioRecorder release];
    // _anAudioPlayer=nil;
+    [_progressView setHidden:YES];
+    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alertView show];
+    if (_anAudioPlayer) {
+        _anAudioPlayer =nil;
+        
+    }
+    UIImage *image=[UIImage imageNamed:@"playbutton.png"];
+    [_playRecordedButton setImage:image forState:UIControlStateNormal];
+    _playingPaused=NO;
+    [_stopRecordingOrRecordedAudio setEnabled:NO];
+
+    [_recordButton setEnabled:YES];
+    if (_timerProgress ) {
+        [_timerProgress invalidate];
+        _timerProgress =nil;
+    }
 }
 -(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion==UIEventSubtypeMotionShake){
@@ -1395,6 +1533,110 @@ UIImage *image=[UIImage imageNamed:@"play-control.png"];
 }
 -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
  
+    
+}
+#pragma resume or pause the recording action
+- (IBAction)playOrPauseRecording:(id)sender {
+    UIButton *recordButton=(UIButton *)sender;
+    [_stopRecordingOrRecordedAudio setEnabled:YES];
+    [_progressView setHidden:NO];
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    if (!_timerProgress) {
+    _timerProgress=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgressOfRecorder) userInfo:nil repeats:YES];
+    }
+    
+
+    if (!_anAudioRecorder) {
+        NSDictionary *recordSettings = [NSDictionary
+                                        dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithInt:kAudioFormatAppleIMA4],
+                                        AVFormatIDKey,
+                                        [NSNumber numberWithInt: 1],
+                                        AVNumberOfChannelsKey,
+                                        [NSNumber numberWithFloat:44100.0],
+                                        AVSampleRateKey,
+                                        nil];
+        NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
+        NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
+        NSString *appenLoc=[[NSString alloc] initWithFormat:@"%d",iden];
+        path=[path stringByAppendingPathComponent:appenLoc];
+        NSError *error;
+        if (![[NSFileManager defaultManager]fileExistsAtPath:path]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
+            if (error) {
+                NSLog(@"error %@",error);
+            }
+        }
+        appenLoc=[[NSString alloc]initWithFormat:@"%d.ima4",_pageNumber ];
+        
+        NSString *loc=[path stringByAppendingPathComponent:appenLoc];
+        NSURL *audioFileURL = [NSURL fileURLWithPath:loc];
+
+        _anAudioRecorder=[[AVAudioRecorder alloc]initWithURL:audioFileURL settings:recordSettings error:&error];
+        if (error) {
+            NSLog(@"error %@",error);
+        }
+        [_anAudioRecorder setDelegate:self];
+        [_anAudioRecorder recordForDuration:60];
+        _recordPaused=NO;
+        UIImage *image=[UIImage imageNamed:@"recordbuttonpressed.png"];
+        [recordButton setImage:image forState:UIControlStateNormal];
+        [_playRecordedButton setEnabled:NO];
+    }else{
+        if (!_recordPaused) {// if it is not paused
+            UIImage *image=[UIImage imageNamed:@"recordbutton.png"];
+            [recordButton setImage:image forState:UIControlStateNormal];
+            _recordPaused=YES;
+            [_anAudioRecorder pause];
+            
+        }else{
+            UIImage *image=[UIImage imageNamed:@"recordbuttonpressed.png"];
+            [recordButton setImage:image forState:UIControlStateNormal];
+            [_anAudioRecorder record];
+            _recordPaused=NO;
+            
+        }
+    }
+    [_stopRecordingOrRecordedAudio setEnabled:YES];
+}
+#pragma play or pause the recorded audio
+- (IBAction)playOrPauseRecorded:(id)sender {
+    NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
+    NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
+    //ima4
+    NSString *appenLoc=[[NSString alloc]initWithFormat:@"%d/%d.ima4",iden,_pageNumber ];
+    NSString *loc=[path stringByAppendingPathComponent:appenLoc];
+    _timerProgress=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgressOfPlayer) userInfo:nil repeats:YES];
+    [_progressView setHidden:NO];
+    if ([[NSFileManager defaultManager]fileExistsAtPath:loc]) {
+        [_recordButton setEnabled:NO];
+        [_stopRecordingOrRecordedAudio setEnabled:YES];
+        if (!_anAudioPlayer) {
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),&audioRouteOverride);
+            _anAudioPlayer=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:loc] error:nil];
+            [_anAudioPlayer setDelegate:self];
+            [_anAudioPlayer setVolume:1.0];
+            [_anAudioPlayer play];
+            _playingPaused=NO;
+            UIImage *image=[UIImage imageNamed:@"playbuttonpressed.png"];
+            [_playRecordedButton setImage:image forState:UIControlStateNormal];
+        }else{
+            if (!_playingPaused) {
+                [_anAudioPlayer pause];
+                UIImage *image=[UIImage imageNamed:@"playbutton.png"];
+                [_playRecordedButton setImage:image forState:UIControlStateNormal];
+                _playingPaused=YES;
+            }else{
+                UIImage *image=[UIImage imageNamed:@"playbuttonpressed.png"];
+                [_playRecordedButton setImage:image forState:UIControlStateNormal];
+                [_anAudioPlayer play];
+                _playingPaused=NO;
+            }
+        }
+    }
     
 }
 @end

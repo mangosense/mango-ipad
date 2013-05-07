@@ -234,12 +234,17 @@
 
 -(void)restore:(id)sender{
 
-  
     // [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    [delegate insertInStore];
-    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-    [self showActivityIndicator];
+    if (delegate.completedStorePopulation) {
+       // [delegate insertInStore];
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+        [self showActivityIndicator];
+    }else{
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Please wait till the information for books in the store are retrived" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+    }
+
     
 }
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{

@@ -26,7 +26,7 @@
     _LandscapeOrientation=YES;
     _PortraitOrientation=YES;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
-
+    NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
     _wasFirstInPortrait=NO;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     if (![userDefaults objectForKey:@"baseurl"]) {
@@ -194,7 +194,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
  [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
     return YES;
 }
 -(void)addSkipAttribute:(NSString *) string{
@@ -209,6 +209,13 @@
 void uncaughtExceptionHandler(NSException *exception) {
     [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    // send device token
+}
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    
+}
+
 -(void)removeBackDirectory{
       NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_location error:nil];
     BOOL isDir;

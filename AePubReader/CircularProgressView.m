@@ -35,13 +35,19 @@
 	 // the number of different colours
 	 size_t num_locations = 3; 
 	 // the location of each colour change, these are between 0 and 1, zero is the first circle and 1 is the end circle, so 0.5 is in the middle.
-	 CGFloat locations[3] = { 0.0, 0.5 ,1.0 }; 
+	 //CGFloat locations[3] = { 0.0, 0.5 ,1.0 };
+     CGFloat locations[3] = { 0.0, 0.0 ,0.0 };
 	 // this is the colour components array, because we are using an RGBA system each colour has four components (four numbers associated with it).
-	 CGFloat components[12] = {  0.4, 0.4, 0.4, 0.9, // Start colour
+	/* CGFloat components[12] = {  0.4, 0.4, 0.4, 0.9, // Start colour
 		 0.9, 0.9, 0.9, 1.0,	// middle colour
-		 0.4, 0.4, 0.4, 0.9 }; // End colour
-	 myColorspace = CGColorSpaceCreateDeviceRGB(); 
-	 myGradient = CGGradientCreateWithColorComponents (myColorspace, components,locations, num_locations);
+		 0.4, 0.4, 0.4, 0.9 }; // End colour*/
+     CGFloat components[12]={0.0,0.0,0.0,0.0,
+         0.0,0.0,0.0,0.0,
+         0.0,0.0,0.0,0.0};
+	// myColorspace = CGColorSpaceCreateDeviceRGB();
+     
+     myColorspace=CGColorGetColorSpace([UIColor blackColor].CGColor);
+     myGradient = CGGradientCreateWithColorComponents (myColorspace, components,locations, num_locations);
 	 
 	 // gradient start and end points
 	 CGPoint myStartPoint, myEndPoint; 
@@ -107,8 +113,9 @@
 	 CGFloat components2[12] = {  _r, _g, _b, _a, // Start color
 		 ((_r + 0.5 > 1) ? 1 : (_r+0.5) ) , ((_g + 0.5 > 1) ? 1 : (_g+0.5) ), ((_b + 0.5 > 1) ? 1 : (_b+0.5) ), ((_a + 0.5 > 1) ? 1 : (_a+0.5) ),
 		 _r, _g, _b, _a }; // End color
-	 
-	 myGradient = CGGradientCreateWithColorComponents (myColorspace, components2,locations, num_locations);
+     CGColorSpaceRef anotherColorSpace=CGColorGetColorSpace([UIColor greenColor].CGColor);
+     
+	 myGradient = CGGradientCreateWithColorComponents (anotherColorSpace, components2,locations, num_locations);
 	 
 	 myStartPoint.x = _innerCircleRect.origin.x + _innerCircleRect.size.width/2; 
 	 myStartPoint.y = _innerCircleRect.origin.y + _innerCircleRect.size.width/2;
@@ -117,16 +124,16 @@
 	 // set the radias for start and endpoints a bit smaller, because we want to draw inside the outer circles.
 	 myStartRadius = _innerCircleRect.size.width/2 +1; 
 	 myEndRadius = _outerCircleRect.size.width/2 -1; 
-	 
+        
 	 CGContextDrawRadialGradient(context, 
 								 myGradient, 
 								 myStartPoint, myStartRadius, myEndPoint, myEndRadius, 0);
 	
 	 // release myGradient and myColorSpace
 	 CGGradientRelease(myGradient);
-	 CGColorSpaceRelease(myColorspace);
+	// CGColorSpaceRelease(myColorspace);
 	 
-	 
+	// CGColorSpaceRelease(anotherColorSpace);
 	 // draw circle on the outline to smooth it out.
 	 
 	 CGContextSetRGBStrokeColor(context, _r,_g,_b,_a);

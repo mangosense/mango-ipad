@@ -30,7 +30,9 @@
         self.tabBarItem.image=[UIImage imageNamed:@"cart.png"];
         _currentPageNumber=1;
         _pg=1;
+         [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
     }
+   
     return self;
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
@@ -102,6 +104,9 @@
     }
 }
 -(void)requestBooksWithoutUIChange{
+    [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.completedStorePopulation=NO;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
     NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_pg];
@@ -122,17 +127,19 @@
     NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",lengthTotal);
     //[lengthTotal release];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-
+    
     _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pg];
     _pages=_totalNumberOfBooks/20;
     if (_totalNumberOfBooks%20!=0) {
         _pages++;
     }
     //_currentPageNumber>=_pages
-    if (_pg<=_pages) {
+    if (_pg<_pages) {
         _pg++;
         [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
+    }else{
+        [self performSelectorOnMainThread:@selector(hideActivityIndicator) withObject:nil waitUntilDone:NO];
+        delegate.completedStorePopulation=YES;
     }
 
 }
