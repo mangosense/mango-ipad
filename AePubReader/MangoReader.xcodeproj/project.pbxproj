@@ -141,6 +141,8 @@
 		AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE94606416FC64F8002B6E0B /* DirectionButton.m */; };
 		AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */; };
 		AE9793F91650B01F00DBB5D1 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */; };
+		AE98BFEA173A65F500A7D209 /* CoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE98BFE9173A65F500A7D209 /* CoverViewController.xib */; };
+		AE98BFEC173A69A800A7D209 /* librarybutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE98BFEB173A69A800A7D209 /* librarybutton.png */; };
 		AE9A1869165E583600B5E594 /* dropdown.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9A1868165E583600B5E594 /* dropdown.png */; };
 		AE9BFBAB16537C12000DDEB1 /* LiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BFBA916537C12000DDEB1 /* LiveViewController.m */; };
 		AE9BFBAC16537C12000DDEB1 /* LiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9BFBAA16537C12000DDEB1 /* LiveViewController.xib */; };
@@ -159,6 +161,12 @@
 		AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA7902A16B7E8C5009B9C11 /* CustomLeftView.m */; };
 		AEAC09D51664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png in Resources */ = {isa = PBXBuildFile; fileRef = AEAC09D41664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png */; };
 		AEB78AF8169EF31A00750218 /* select.js in Resources */ = {isa = PBXBuildFile; fileRef = AEB78AF5169EF30C00750218 /* select.js */; };
+		AEB7937F173B8E7900301057 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB7937E173B8E7900301057 /* Appirater.m */; };
+		AEB79382173B99F600301057 /* recordinmyvoicebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB79381173B99F600301057 /* recordinmyvoicebutton.png */; };
+		AEB79384173BA48E00301057 /* bookinfobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB79383173BA48E00301057 /* bookinfobutton.png */; };
+		AEB79386173BA50A00301057 /* sharebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB79385173BA50A00301057 /* sharebutton.png */; };
+		AEB7938A173BA61A00301057 /* ShowPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB79388173BA61900301057 /* ShowPopViewController.m */; };
+		AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AEB79389173BA61900301057 /* ShowPopViewController.xib */; };
 		AEB7AE0216B94974009844B0 /* addhigh.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB7AE0116B94974009844B0 /* addhigh.png */; };
 		AEB7AE0416B94986009844B0 /* lib.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB7AE0316B94986009844B0 /* lib.png */; };
 		AEB7AE0616B9498D009844B0 /* addnot.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB7AE0516B9498D009844B0 /* addnot.png */; };
@@ -246,6 +254,10 @@
 		AEFA9BF6166CC44200A60A12 /* SignUpViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AEFA9BF4166CC44200A60A12 /* SignUpViewControllerIphone.xib */; };
 		AEFA9BF9166CC80900A60A12 /* MyBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEFA9BF8166CC80900A60A12 /* MyBooksViewController.m */; };
 		AEFA9BFC166CC84700A60A12 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEFA9BFB166CC84700A60A12 /* DownloadViewController.m */; };
+		AEFB1C47173A2F3D00C7A081 /* CoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEFB1C45173A2F3D00C7A081 /* CoverViewController.m */; };
+		AEFB1C4A173A5F8700C7A081 /* ipadappcoverpgbg.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */; };
+		AEFB1C4D173A5FC000C7A081 /* Readbymyselfbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */; };
+		AEFB1C4E173A5FC000C7A081 /* Readtomebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFB1C4C173A5FC000C7A081 /* Readtomebutton.png */; };
 		AEFEB750169D72A5009B299D /* UIWebViewSearch.js in Resources */ = {isa = PBXBuildFile; fileRef = AE6F271916803AC900355BCC /* UIWebViewSearch.js */; };
 		AEFEB756169D9089009B299D /* backimageiphonen.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFEB755169D9089009B299D /* backimageiphonen.png */; };
 		CA7E023515E388F3001F520B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7E023415E388F3001F520B /* libz.dylib */; };
@@ -476,6 +488,8 @@
 		AE9793F51650B01F00DBB5D1 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		AE98BFE9173A65F500A7D209 /* CoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewController.xib; sourceTree = "<group>"; };
+		AE98BFEB173A69A800A7D209 /* librarybutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = librarybutton.png; sourceTree = "<group>"; };
 		AE9A1868165E583600B5E594 /* dropdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropdown.png; sourceTree = "<group>"; };
 		AE9BFBA816537C12000DDEB1 /* LiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewController.h; sourceTree = "<group>"; };
 		AE9BFBA916537C12000DDEB1 /* LiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewController.m; sourceTree = "<group>"; };
@@ -501,6 +515,15 @@
 		AEA7902A16B7E8C5009B9C11 /* CustomLeftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLeftView.m; sourceTree = "<group>"; };
 		AEAC09D41664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "f-mangoreader-ipad-signupbg.png"; sourceTree = "<group>"; };
 		AEB78AF5169EF30C00750218 /* select.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = select.js; sourceTree = "<group>"; };
+		AEB7937D173B8E7900301057 /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
+		AEB7937E173B8E7900301057 /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
+		AEB79380173B8EF000301057 /* AppiraterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppiraterDelegate.h; sourceTree = "<group>"; };
+		AEB79381173B99F600301057 /* recordinmyvoicebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recordinmyvoicebutton.png; sourceTree = "<group>"; };
+		AEB79383173BA48E00301057 /* bookinfobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookinfobutton.png; sourceTree = "<group>"; };
+		AEB79385173BA50A00301057 /* sharebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sharebutton.png; sourceTree = "<group>"; };
+		AEB79387173BA61900301057 /* ShowPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowPopViewController.h; sourceTree = "<group>"; };
+		AEB79388173BA61900301057 /* ShowPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowPopViewController.m; sourceTree = "<group>"; };
+		AEB79389173BA61900301057 /* ShowPopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowPopViewController.xib; sourceTree = "<group>"; };
 		AEB7AE0116B94974009844B0 /* addhigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addhigh.png; sourceTree = "<group>"; };
 		AEB7AE0316B94986009844B0 /* lib.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lib.png; sourceTree = "<group>"; };
 		AEB7AE0516B9498D009844B0 /* addnot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addnot.png; sourceTree = "<group>"; };
@@ -620,6 +643,11 @@
 		AEFA9BF8166CC80900A60A12 /* MyBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBooksViewController.m; sourceTree = "<group>"; };
 		AEFA9BFA166CC84700A60A12 /* DownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		AEFA9BFB166CC84700A60A12 /* DownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
+		AEFB1C44173A2F3D00C7A081 /* CoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoverViewController.h; sourceTree = "<group>"; };
+		AEFB1C45173A2F3D00C7A081 /* CoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoverViewController.m; sourceTree = "<group>"; };
+		AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipadappcoverpgbg.png; sourceTree = "<group>"; };
+		AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Readbymyselfbutton.png; sourceTree = "<group>"; };
+		AEFB1C4C173A5FC000C7A081 /* Readtomebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Readtomebutton.png; sourceTree = "<group>"; };
 		AEFEB755169D9089009B299D /* backimageiphonen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backimageiphonen.png; sourceTree = "<group>"; };
 		CA7E023415E388F3001F520B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		FA11956513BA93F100025A2B /* EPubView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EPubView.xib; path = Classes/EPubView.xib; sourceTree = "<group>"; };
@@ -753,6 +781,13 @@
 				AE9280971619AC82001BCBB6 /* mango.png */,
 				AE7FEDEB1615BA1B00C4B51D /* CustomViews */,
 				AE7FEDD4161580AD00C4B51D /* epubReader */,
+				AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */,
+				AE98BFEB173A69A800A7D209 /* librarybutton.png */,
+				AEFB1C4C173A5FC000C7A081 /* Readtomebutton.png */,
+				AEB79381173B99F600301057 /* recordinmyvoicebutton.png */,
+				AEB79383173BA48E00301057 /* bookinfobutton.png */,
+				AEB79385173BA50A00301057 /* sharebutton.png */,
+				AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */,
 				AE43C7131610551500970739 /* asirequest */,
 				AE75374916103A8300761697 /* MangoReader iPad */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -1004,6 +1039,7 @@
 		AE7FEDD4161580AD00C4B51D /* epubReader */ = {
 			isa = PBXGroup;
 			children = (
+				AEB79380173B8EF000301057 /* AppiraterDelegate.h */,
 				AEDAD4AF1739033A002543DF /* playbuttonpressed.png */,
 				AED5E3A517377A4300914590 /* recordbuttonpressed.png */,
 				AED5E3A717377A4300914590 /* stopbuttonpressed.png */,
@@ -1025,6 +1061,9 @@
 				AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */,
 				AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */,
 				AE7FEDDF161581EB00C4B51D /* View.xib */,
+				AEFB1C44173A2F3D00C7A081 /* CoverViewController.h */,
+				AEFB1C45173A2F3D00C7A081 /* CoverViewController.m */,
+				AE98BFE9173A65F500A7D209 /* CoverViewController.xib */,
 				AEF6A151169596CE00ECAE7E /* WebPageViewController.h */,
 				AEF6A152169596CE00ECAE7E /* WebPageViewController.m */,
 				AEF6A153169596CE00ECAE7E /* WebPageViewController.xib */,
@@ -1040,6 +1079,9 @@
 				AEC85BAF16AE86710094843B /* DetailHighlightViewController.m */,
 				AEC85BB016AE86710094843B /* DetailHighlightViewController.xib */,
 				AE67FD4A16BA6BFC00E91A01 /* WebPageViewIphonebig.xib */,
+				AEB79387173BA61900301057 /* ShowPopViewController.h */,
+				AEB79388173BA61900301057 /* ShowPopViewController.m */,
+				AEB79389173BA61900301057 /* ShowPopViewController.xib */,
 			);
 			name = epubReader;
 			sourceTree = "<group>";
@@ -1223,6 +1265,8 @@
 				AE18942C166F5F67009F8361 /* DetailStoreViewController.h */,
 				AE18942D166F5F67009F8361 /* DetailStoreViewController.m */,
 				AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */,
+				AEB7937D173B8E7900301057 /* Appirater.h */,
+				AEB7937E173B8E7900301057 /* Appirater.m */,
 				AED53B381691B6410061A600 /* Sample.xib */,
 			);
 			name = "Mangoreader iphone";
@@ -1519,6 +1563,15 @@
 				AED5E3A817377A4300914590 /* recordbuttonpressed.png in Resources */,
 				AED5E3AA17377A4300914590 /* stopbuttonpressed.png in Resources */,
 				AEDAD4B01739033A002543DF /* playbuttonpressed.png in Resources */,
+				AEFB1C4A173A5F8700C7A081 /* ipadappcoverpgbg.png in Resources */,
+				AEFB1C4D173A5FC000C7A081 /* Readbymyselfbutton.png in Resources */,
+				AEFB1C4E173A5FC000C7A081 /* Readtomebutton.png in Resources */,
+				AE98BFEA173A65F500A7D209 /* CoverViewController.xib in Resources */,
+				AE98BFEC173A69A800A7D209 /* librarybutton.png in Resources */,
+				AEB79382173B99F600301057 /* recordinmyvoicebutton.png in Resources */,
+				AEB79384173BA48E00301057 /* bookinfobutton.png in Resources */,
+				AEB79386173BA50A00301057 /* sharebutton.png in Resources */,
+				AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1638,6 +1691,9 @@
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
 				AE63865F1733D8CA009E372A /* PuttyView.m in Sources */,
+				AEFB1C47173A2F3D00C7A081 /* CoverViewController.m in Sources */,
+				AEB7937F173B8E7900301057 /* Appirater.m in Sources */,
+				AEB7938A173BA61A00301057 /* ShowPopViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

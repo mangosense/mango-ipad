@@ -12,7 +12,7 @@
 #import <StoreKit/StoreKit.h>
 #import "LoginViewControllerIphone.h"
 #import "LoginViewController.h"
-
+#import "Appirater.h"
 @class EPubViewController;
 @class LoginViewController;
 @interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate,SKProductsRequestDelegate> {
@@ -42,7 +42,7 @@
 @property(assign,nonatomic)BOOL popPurchase;
 @property(assign,nonatomic)BOOL dismissAlertViewFlag;
 @property(assign,nonatomic)BOOL downloadBook;
-
+@property(assign,nonatomic)NSInteger options;
 @property(assign,nonatomic)UIAlertView *dismissAlertView;
 @property(strong,nonatomic)SKProduct *product;
 @property(strong,nonatomic)SKPaymentTransaction *transaction;

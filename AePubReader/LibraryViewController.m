@@ -604,23 +604,13 @@ self.navigationItem.leftBarButtonItem=settings;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    [self.tabBarController.tabBar setHidden:NO];
-    [self.navigationController.navigationBar setHidden:NO];
-
-    AePubReaderAppDelegate  *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-
-
-    UIViewController *vc=[[UIViewController alloc]init];
-    LibraryViewController *lib=self;
-    [self presentViewController:vc animated:NO completion:^(void){
-        
-        [lib dismissViewControllerAnimated:NO completion:^(void){ delegate.LandscapeOrientation=YES;
-            delegate.PortraitOrientation=YES;
-              [self BuildButtons];
-        }];
+      
+    UIViewController *c=[[UIViewController alloc]init];
+    c.view.backgroundColor=[UIColor clearColor];
+    [self presentViewController:c animated:YES completion:^(){
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
-
-
+    [self BuildButtons];
 
 
 }
@@ -628,7 +618,10 @@ self.navigationItem.leftBarButtonItem=settings;
     [super viewDidAppear:YES];
     [Flurry logEvent:@"Library entered"];
 
-    
+    [self.tabBarController.tabBar setHidden:NO];
+    [self.navigationController.navigationBar setHidden:NO];
+   
+
 }
 -(void)delay{
 
@@ -904,7 +897,10 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 	return @"";
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return YES;
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        return YES;
+    }
+    return NO;
 }
 - (void)foundRootPath:(NSString*)rootPath{
 	
@@ -1025,6 +1021,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         return;
     }
     ShadowButton *button;
+    NSLog(@"id %d",bk.textBook.integerValue);
     switch (bk.textBook.integerValue) {
         case 1://storyBooks
             delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

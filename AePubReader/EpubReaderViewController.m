@@ -6,6 +6,7 @@
 #import "WebViewController.h"
 #import <AudioToolbox/AudioServices.h>
 #import "UIWebView+SearchWebView.h"
+#import "CoverViewController.h"
 @implementation EpubReaderViewController
 @synthesize _ePubContent;
 @synthesize _rootPath;
@@ -158,6 +159,7 @@
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
+    _callOnBack=NO;
     UIImage *image=[UIImage imageNamed:@"top.png"];
     UIColor *color=[UIColor colorWithPatternImage:image];
     _imageToptoolbar.backgroundColor=color;
@@ -283,7 +285,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorStateChange:)
                                                      name:@"UIDeviceProximityStateDidChangeNotification" object:nil];
     }
-    [_stopButton setHidden:YES];
+
     [_playRecordedButton setEnabled:NO];
 //    if( UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
 //        _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(9, 29, 66, 66)];
@@ -315,6 +317,7 @@
    // [_progressView setProgress:1.0f];
    // [_recordControlView setHidden:YES];
     [_progressView setHidden:YES];
+    _viewAppeared=NO;
 }
 - (IBAction)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
     //get the touch
@@ -325,20 +328,6 @@
     CGFloat delta_x=location.x-previousLocation.x;
     CGFloat delta_y=location.y-previousLocation.y;
     _recordControlView.center=CGPointMake(_recordControlView.center.x+delta_x,_recordControlView.center.y+delta_y);
-}
--(void)stopRecord:(id)sender{
-    [_anAudioRecorder stop];
-    [_playRecordedButton setEnabled:YES];
-    [_progressView setHidden:YES];
-    [_timerProgress invalidate];
-    UIImage *image=[UIImage imageNamed:@"start-recording-control.png"];
-    [_recordAudioButton setImage:image forState:UIControlStateNormal];
-    if (_anAudioPlayer) {
-        _anAudioPlayer=nil;
-    }
-//    UIImage *image=[UIImage imageNamed:@"start-recording-control.png"];
-//    [_playRecordedButton setImage:image forState:UIControlStateNormal];
-
 }
 -(void)showDay{
     _DayOrNight=YES;
@@ -444,8 +433,8 @@
   
     NSLog(@" %@",jsCode);
     if ([jsCode isEqualToString:@"true"]) {
-        
-        if (_shouldAutoPlay) {
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        if (delegate.options) {
             
             
 //            jsCode= @"$('#jquery_jplayer').bind($.jPlayer.event.ready, function(event) {  window.location =\"startPlaying:myObjectiveCFunction\";});";
@@ -467,6 +456,21 @@
         [_playPauseControl setEnabled:NO];
     }
 
+}
+-(void)addListener{
+    NSString  *jsCode=[_webview stringByEvaluatingJavaScriptFromString:@"function tryout(){if(document.getElementById('jquery_jplayer')){return true}} tryout()"];
+    
+    NSLog(@" %@",jsCode);
+    if ([jsCode isEqualToString:@"true"]) {
+        jsCode=@" $('#jquery_jplayer').bind($.jPlayer.event.ended, function(event) {  window.location = \"playingCompleted:myObjectiveCFunction\";});";
+        [_webview stringByEvaluatingJavaScriptFromString:jsCode];
+
+        [_playPauseControl setEnabled:YES];
+
+    }else{
+        [_playPauseControl setEnabled:NO];
+
+    }
 }
 -(void)AlternativetoPlayAudio{
     [self readyState];
@@ -515,12 +519,14 @@
         
         [_leftButton setAlpha:1.0f];
         [_rightButton setAlpha:1.0f];
+        [_toggleToolbar setAlpha:1.0f];
         
     }];
     [UIView animateWithDuration:1.0 animations:^(void) {
         
         [_leftButton setAlpha:0.25f];
         [_rightButton setAlpha:0.25f];
+        [_toggleToolbar setAlpha:0.25f];
         
     }];
     if ([self._ePubContent._spine count]-1==_pageNumber) {
@@ -530,19 +536,47 @@
     }
     
     _isPlaying=NO;
-    jsCode=[_webview stringByEvaluatingJavaScriptFromString:@"localStorage.autoPlay"];
-    NSLog(@"autoPlay value %@",jsCode);
-    if ([jsCode isEqualToString:@"1"]) {
-        _shouldAutoPlay=YES;
-#pragma mark audio
-    
-     //   [self performSelector:@selector(AlternativetoPlayAudio) withObject:nil afterDelay:1];
-    }else if([jsCode isEqualToString:@"0"]){
-        _shouldAutoPlay=NO;
-    }
-        [self performSelector:@selector(readyState) withObject:nil afterDelay:3];
-   
+//    jsCode=[_webview stringByEvaluatingJavaScriptFromString:@"localStorage.autoPlay"];
+//    
+//    NSLog(@"autoPlay value %@",jsCode);
+//
+//    if ([jsCode isEqualToString:@"1"]) {
+//        _shouldAutoPlay=YES;
+//    
+//     //   [self performSelector:@selector(AlternativetoPlayAudio) withObject:nil afterDelay:1];
+//    }else if([jsCode isEqualToString:@"0"]){
+//        _shouldAutoPlay=NO;
+//    }
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    switch (delegate.options) {
+        case 0:
+            jsCode=@"localStorage.autoPlay=\"0\"";
 
+            break;
+        case 1:
+            jsCode=@"localStorage.autoPlay=\"1\"";
+            if (!_isPlaying) {
+                [self playOrPauseAudio:nil];
+            }
+            break;
+        case 2:
+            jsCode=@"localStorage.autoPlay=\"0\"";
+            if ([_recordControlView isHidden]) {
+                [self recordAudio:nil];
+
+            }
+            break;
+        case 3:
+            jsCode=@"localStorage.autoPlay=\"0\"";
+            // player recorded voice 
+            break;
+        default:
+            break;
+    }   
+    [_webview stringByEvaluatingJavaScriptFromString:jsCode];
+     //   [self performSelector:@selector(readyState) withObject:nil afterDelay:3];
+   
+    [self performSelector:@selector(addListener) withObject:nil afterDelay:1.0];
     NSLog(@"pageNumber %d",_pageNumber);
     CGSize size=webView.scrollView.contentSize;
     size.width=1024;
@@ -591,8 +625,7 @@
         [_playRecordedButton setEnabled:YES];
     }
     _anAudioPlayer=nil;
-
-        
+    [_stopRecordingOrRecordedAudio setEnabled:NO];
 }
 -(void)update{
    // NSLog(@"seconds %f",_playerDefault.deviceCurrentTime);
@@ -609,7 +642,6 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
    
-    [self.tabBarController.tabBar setHidden:NO];
     NSString *value=[_strFileName stringByDeletingPathExtension];
     [[NSUserDefaults standardUserDefaults]setValue:value forKey:@"locDirectory"];
     if ([_anAudioPlayer isPlaying]) {
@@ -622,6 +654,9 @@
         [_playerDefault stop];
         _playerDefault=nil;
     }*/
+    if (_isPlaying) {
+        [self playOrPauseAudio:nil];
+    }
     
 }
 /*Function Name : setTitlename
@@ -650,16 +685,34 @@
  /*   if (![_playerDefault isPlaying]) {
         [_playerDefault play];
     }*/
+   /* if (_callOnBack) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }*/
     NSString *string=@"started reading Book ";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     [Flurry logEvent:string withParameters:dictionary];
-   
+
+    if (!_isPlaying ) {
+        [self playOrPauseAudio:nil];
+
+    }
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
        [self becomeFirstResponder];
+    [self loadPage];
+    if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        //CoverViewController
+        CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
+        coverViewController.imageLocation=_imageLocation;
+        [self.navigationController pushViewController:coverViewController animated:NO];
+        coverViewController.epubViewController=self;
+        _pageNumber++;
+        
+    }
+    _viewAppeared=YES;
 }
 
    /*Function Name : unzipAndSaveFile
@@ -918,7 +971,6 @@
 
 - (IBAction)onBack:(id)sender{
 
-    [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBarHidden=NO;
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
                            [_webview loadRequest:request];
@@ -932,7 +984,7 @@
     if (_pop) {
         [_pop dismissPopoverAnimated:YES];
     }
-    [self stopRecording:nil];
+    [self stopRecordingOrRecordedAudioPlayed:nil];
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
@@ -943,6 +995,7 @@
         NSString *string=@"iphone or ipod touch  Story Book closed ";
                 [Flurry logEvent:string withParameters:dictionary];
     }
+    [self.tabBarController.tabBar setHidden:NO];
 
     
 }
@@ -970,7 +1023,6 @@
 
 - (IBAction)playOrPauseAudio:(id)sender {
 
-   // if (_isOld) {
         
    
         if (!_isPlaying) {
@@ -989,49 +1041,7 @@
 
         }
         _isPlaying=!_isPlaying;
-   // }else{
-     /*   if (_playerDefault) {
-            if (_pageLoaded) {
-                NSError *error;
-                NSString *value=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
-                NSString *path=[_rootPath stringByAppendingPathComponent:value ];
-                _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:path] error:&error];
-                _playerDefault.delegate=self;
-                [_playerDefault play];
-                UIImage *image=[UIImage imageNamed:@"pause-control.png"];
-                [_playPauseControl setImage:image forState:UIControlStateNormal];
-                [self ribbonButtonClick:nil];
-            }
-            if ([_playerDefault isPlaying]) {
-                [_playerDefault pause];
-                UIImage *image=[UIImage imageNamed:@"play-control.png"];
-                [_playPauseControl setImage:image forState:UIControlStateNormal];
-            }else{
-                [_playerDefault play];
-                UIImage *image=[UIImage imageNamed:@"pause-control.png"];
-                [_playPauseControl setImage:image forState:UIControlStateNormal];
-                [self ribbonButtonClick:nil];
-            }*/
-            
-            
-            
-     //   }
-      //  else{
-      //      NSString *value=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
-       /*     NSString *path=[_rootPath stringByAppendingPathComponent:value ];
-            NSError *error;
-            
-            _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:path] error:&error];
-            _playerDefault.delegate=self;
-            [_playerDefault play];*/
-         /*   UIImage *image=[UIImage imageNamed:@"pause-control.png"];
-            [_playPauseControl setImage:image forState:UIControlStateNormal];
-            [self ribbonButtonClick:nil];*/
-        //}
-        
-        
-        
- //   }
+ 
     
 }
 -(void)playingEnded{
@@ -1131,9 +1141,19 @@
 
 - (void)loadPage{
 	
+    if (_pageNumber==0&&_viewAppeared&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        //CoverViewController
+        CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
+        coverViewController.imageLocation=_imageLocation;
+        [self.navigationController pushViewController:coverViewController animated:NO];
+        coverViewController.epubViewController=self;
+        _pageNumber++;
+        
+    }else{
 	_pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[self._ePubContent._manifest valueForKey:[self._ePubContent._spine objectAtIndex:_pageNumber]]];
 	[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pagesPath]]];
     [self addThumbnails];
+    }
 	//set page number
 	//_pageNumberLbl.text=[NSString stringWithFormat:@"%d",_pageNumber+1];
 }
@@ -1154,7 +1174,7 @@
     [self setRecordControlView:nil];
     [self setRecordButton:nil];
     [self setPlayRecordedButton:nil];
-    [self setStopButton:nil];
+    //[self setStopButton:nil];
     [self setRightButton:nil];
     [self setLeftButton:nil];
   //  [_videoCamera stopCameraCapture];
@@ -1166,7 +1186,7 @@
     [self setNextButton:nil];
     [self setGameButton:nil];
     
-    [self setRecordAudioButton:nil];
+   // [self setRecordAudioButton:nil];
    // [self setRecordBackgroundview:nil];
     [self setPlayPauseControl:nil];
     [self setToggleToolbar:nil];
@@ -1269,11 +1289,13 @@
             [self performSelector:@selector(ribbonButtonClick:) withObject:nil afterDelay:15];
         [_leftButton setAlpha:1.0f];
         [_rightButton setAlpha:1.0f];
+        [_toggleToolbar setAlpha:1.0f];
     }
 
     else if(!_hide){// simple reason to have else if instead of else is that call to this function is at times schedules with perform selector
         [_leftButton setAlpha:0.25f];
         [_rightButton setAlpha:0.25f];
+        [_toggleToolbar setAlpha:0.25f];
         NSLog(@"hide is not true");
         [UIView animateWithDuration:1.0 animations:^{
             //_imageToptoolbar
@@ -1328,7 +1350,7 @@
 //}
 
 #pragma mark recording
-- (IBAction)startRecording:(id)sender {
+/*- (IBAction)startRecording:(id)sender {
     UIButton *recordButton=(UIButton *)sender;
   //  [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('stop')"];
  //   [_anAudioRecorder pause];
@@ -1403,10 +1425,8 @@
         [recordButton setImage:image forState:UIControlStateNormal];
         
     }
-    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
-    [Flurry logEvent:@"recording started" withParameters:dictionary];
-}
+   
+}*/
 -(void)updateProgressOfRecorder{
     double progress=_anAudioRecorder.currentTime;
     progress=progress/60.0;
@@ -1420,52 +1440,7 @@
     progress=progress/_anAudioPlayer.duration;
     [_progressView setProgress:progress];
 }
-- (IBAction)stopRecording:(id)sender {
-    [_progressView setHidden:YES];
-    [_progressView setProgress:0.0f];
-    if (_anAudioRecorder) {
-        if ([_anAudioRecorder isRecording]) {
-            [_anAudioRecorder stop];
 
-            [_recordAudioButton setEnabled:YES];
-        }
-    }
-    if (_anAudioPlayer) {
-        if ([_anAudioPlayer isPlaying]) {
-            [_anAudioPlayer stop];
-
-        }
-    }
-}
-
-- (IBAction)playRecorded:(id)sender {
-    NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
-    NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
-    //ima4
-    NSString *appenLoc=[[NSString alloc]initWithFormat:@"%d/%d.ima4",iden,_pageNumber ];
- NSString *loc=[path stringByAppendingPathComponent:appenLoc];
-    if ([[NSFileManager defaultManager]fileExistsAtPath:loc]) {
-        if (!_anAudioPlayer) {
-            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
-                                     sizeof (audioRouteOverride),&audioRouteOverride);
-            _anAudioPlayer=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:loc] error:nil];
-            [_anAudioPlayer setDelegate:self];
-            [_anAudioPlayer setVolume:1.0];
-            [_anAudioPlayer play];
-            UIImage *image=[UIImage imageNamed:@"pause-control.png"];
-            [_playRecordedButton setImage:image forState:UIControlStateNormal];
-        }else if(![_anAudioPlayer isPlaying]){
-            [_anAudioPlayer play];
-            UIImage *image=[UIImage imageNamed:@"pause-control.png"];
-            [_playRecordedButton setImage:image forState:UIControlStateNormal];
-        }else {
-            [_anAudioPlayer pause];
-            UIImage *image=[UIImage imageNamed:@"play-control.png"];
-            [_playRecordedButton setImage:image forState:UIControlStateNormal];
-        }
-    }
-}
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
  /*   if ([player isEqual:_playerDefault]) {
         if (_shouldAutoPlay) {
@@ -1492,8 +1467,7 @@
    
     [_progressView setProgress:1.0f];
     [self performSelector:@selector(hideProgress) withObject:nil afterDelay:1.0];
-//UIImage *image=[UIImage imageNamed:@"play-control.png"];
-//[_playRecordedButton setImage:image forState:UIControlStateNormal];
+
 }
 -(void)hideProgress{
     [_progressView setHidden:YES];
@@ -1546,8 +1520,11 @@
     _timerProgress=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgressOfRecorder) userInfo:nil repeats:YES];
     }
     
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
 
     if (!_anAudioRecorder) {
+        [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+        [Flurry logEvent:@"recording" withParameters:dictionary];
         NSDictionary *recordSettings = [NSDictionary
                                         dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithInt:kAudioFormatAppleIMA4],
@@ -1599,6 +1576,7 @@
         }
     }
     [_stopRecordingOrRecordedAudio setEnabled:YES];
+   
 }
 #pragma play or pause the recorded audio
 - (IBAction)playOrPauseRecorded:(id)sender {

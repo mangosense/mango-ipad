@@ -38,6 +38,11 @@
     // Do any additional setup after loading the view from its nib.
     NSURLRequest *request=[[NSURLRequest alloc]initWithURL:_url];
   //  [_url release];
+    if ([_url.absoluteString hasPrefix:@"http://"]) {
+        _barButtonItem.title=@"Done";
+    }else{
+        _barButtonItem.title=@"Back to book";
+    }
     [_webView loadRequest:request];
    // [request release];
     _alert =[[UIAlertView alloc]init];
@@ -64,14 +69,25 @@
         [_alert setTitle:@"Loading...."];}
     [_alert show];
   //  [_alert release];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+
 }
 -(void)viewWillAppear:(BOOL)animated{
-    [Flurry logEvent:@"Game Center Entered"];
+    [Flurry logEvent:@"Game Center Entered/Promo VideoViewing"];
 
     [super viewWillAppear:YES];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:YES];
+
+    
+}
 -(void)viewWillDisappear:(BOOL)animated{
-    [Flurry logEvent:@"Game Center Exited"];
+    [Flurry logEvent:@"Game Center Exited/Promo VideoViewing"];
 
     [super viewWillDisappear:YES];
 }
@@ -147,6 +163,7 @@
 }
 - (void)viewDidUnload {
     [self setWebView:nil];
+    [self setBarButtonItem:nil];
     [super viewDidUnload];
 }
 - (IBAction)DismissViewControlller:(id)sender {

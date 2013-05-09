@@ -195,6 +195,7 @@
  [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
+    [Appirater appLaunched:YES];
     return YES;
 }
 -(void)addSkipAttribute:(NSString *) string{
@@ -209,7 +210,36 @@
 void uncaughtExceptionHandler(NSException *exception) {
     [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    NSLog(@"Error %@",error);
+}
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    NSString* newToken = [deviceToken description];
+	newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+	newToken = [newToken stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *urlString=[NSString stringWithFormat:@"%@apns_device_request",[[NSUserDefaults standardUserDefaults]objectForKey:@"baseurl"]  ];
+    NSURL *url;//=[NSURL URLWithString:@"http://192.168.0.107:3000/api/v1/apns_device_request"];
+    url=[NSURL URLWithString:urlString];
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+   // "apns": {  "udid": " ", "devise_token": " "  }
+    [dictionary setValue:@"Not Allowed" forKey:@"udid"];
+    [dictionary setValue:newToken forKey:@"device_token"];
+    NSMutableDictionary *apns=[[NSMutableDictionary alloc]init];
+    [apns setValue:dictionary forKey:@"apns"];
+    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:apns options:NSJSONWritingPrettyPrinted error:nil];
+    [request setHTTPBody:jsonData];
+    NSLog(@"json token %@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSURLResponse *response;
+    NSError *error;
+    NSData *responseData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (error) {
+        NSLog(@"Error %@",error);
+    }else{
+        NSLog(@"responseData %@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
+    }
     // send device token
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
@@ -222,7 +252,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     for (NSString *fileName in dirFiles) {
         NSString *loc=[_location stringByAppendingPathComponent:fileName];
         BOOL file=[[NSFileManager defaultManager] fileExistsAtPath:loc isDirectory:&isDir];
-        NSLog(@"%@",loc);
+        //NSLog(@"%@",loc);
         NSError *error;
         if (!isDir&&[[NSFileManager defaultManager] fileExistsAtPath:loc]) {
             [[NSURL URLWithString:loc] setResourceValue:[NSNumber numberWithBool: YES]

@@ -421,7 +421,7 @@
         if(numberId){
         NSLog(@"number id %@",numberId);
         }
-        if(![self checkIfStoreId:numberId]&&[key objectForKey:@"title"]!=[NSNull null]){
+        if(![self checkIfStoreId:numberId]&&[key objectForKey:@"title"]!=[NSNull null]&&[NSNull null]!=(NSNull *)numberId){
 
             StoreBooks *storeBooks=[NSEntityDescription insertNewObjectForEntityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
          //   NSArray *totalKeys=[key allKeys];
@@ -479,8 +479,10 @@
             
                     books.textBook=numbr;
                NSLog(@"update id %@",[key objectForKey:@"id"]);
-            
-            [self saveStoreBookData:books];
+            if ([key objectForKey:@"id"]!=[NSNull null]) {
+                [self saveStoreBookData:books];
+
+            }
         }
     }
     

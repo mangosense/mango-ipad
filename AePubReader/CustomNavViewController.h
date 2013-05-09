@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AePubReaderAppDelegate.h"
-@interface CustomNavViewController : UINavigationController
+@interface CustomNavViewController : UINavigationController<UINavigationControllerDelegate>
 @property(nonatomic,assign)AePubReaderAppDelegate *delegateApp;
 @property(nonatomic,assign)UIAlertView *alert;
+
 @end

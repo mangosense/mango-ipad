@@ -35,6 +35,7 @@
 
 @property(strong,nonatomic)NSMutableData *data;
 @property(strong,nonatomic)UIAlertView *alertView;
+@property(strong,nonatomic)UITabBarController *tabBarController;
 -(void)goToNext;
 -(void)transactionRestored;
 -(void)transactionFailed;

@@ -76,7 +76,7 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
 
-    UITabBarController *tabBarController=[[UITabBarController alloc]init];
+    _tabBarController=[[UITabBarController alloc]init];
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
     _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
@@ -85,9 +85,9 @@
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
-    tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
+    _tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
 
-    [self.navigationController pushViewController:tabBarController animated:YES];
+    [self.navigationController pushViewController:_tabBarController animated:YES];
 }
 -(void)insertInStore{
   //  _liveViewController performSelectorInBackground:@selector() withObject:<#(id)#>
@@ -147,6 +147,8 @@
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [Flurry logEvent:@"Login exited"];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+
 
 }
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
@@ -371,6 +373,7 @@
     NSURL *url=[NSURL URLWithString:@"http://www.youtube.com/embed/CyXxt0WSLWE"];
     webView =[[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil URL:url];
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    
     [self presentViewController:webView animated:YES completion:nil];
    // [webView release];
     

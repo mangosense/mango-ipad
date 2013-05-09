@@ -266,6 +266,7 @@
 						<string key="removeAllHighlight:">id</string>
 						<string key="selection:">id</string>
 						<string key="showList:">id</string>
+						<string key="showOrHideButton:">id</string>
 						<string key="tableOfContents:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -291,6 +292,10 @@
 						</object>
 						<object class="IBActionInfo" key="showList:">
 							<string key="name">showList:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOrHideButton:">
+							<string key="name">showOrHideButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="tableOfContents:">

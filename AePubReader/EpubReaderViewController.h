@@ -28,20 +28,17 @@
 	NSString *_strFileName;
 
     
-	int _pageNumber;
+	
    
 }
+@property(assign,nonatomic)int pageNumber;
 @property (weak, nonatomic) IBOutlet UIButton *stopRecordingOrRecordedAudio;
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 @property(strong,nonatomic) XMLHandler *xmlHandler;
 @property(strong,nonatomic)XMLHandler *anotherHandlerOPF;
-@property (retain, nonatomic) IBOutlet UIButton *recordAudioButton;
 -(void)playingEnded;
-- (IBAction)startRecording:(id)sender;
-- (IBAction)stopRecording:(id)sender;
-- (IBAction)playRecorded:(id)sender;
+//- (IBAction)startRecording:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *circularProgressView;
-@property(assign,nonatomic)BOOL shouldAutoPlay;
 @property (weak, nonatomic) IBOutlet PuttyView *recordControlView;
 @property(retain,nonatomic)AVAudioRecorder *anAudioRecorder;
 @property(retain,nonatomic)AVAudioPlayer *anAudioPlayer;
@@ -101,7 +98,6 @@
 - (IBAction)backButtonOrNextButton:(id)sender;
 - (void)setTitlename:(NSString*)titleText;
 //- (void)setBackButton;
-@property (weak, nonatomic) IBOutlet UIButton *stopButton;
 - (IBAction)onPreviousOrNext:(id)sender;
 - (IBAction)stopRecordingOrRecordedAudioPlayed:(id)sender;
 @property(strong,nonatomic)CircularProgressView *progressView;
@@ -110,6 +106,8 @@
 @property(strong,nonatomic)NSString *titleOfBook;
 @property(assign,nonatomic)BOOL recordPaused;
 @property(assign,nonatomic)BOOL playingPaused;
+@property(assign,nonatomic)BOOL callOnBack;
+@property(assign,nonatomic)BOOL viewAppeared;
 //@property (nonatomic, retain) SZActionBar *actionBar;
 //@property (nonatomic, retain) id<SZEntity> entity;
 @end

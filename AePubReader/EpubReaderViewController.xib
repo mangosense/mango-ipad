@@ -129,7 +129,6 @@
 						<string key="NSFrame">{{0, 322}, {480, 78}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -183,7 +182,7 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="770961750"/>
-								<object class="NSCustomResource" key="IBUINormalImage" id="551732092">
+								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">play-control.png</string>
 								</object>
@@ -280,96 +279,6 @@
 						<reference key="IBUIFontDescription" ref="767918306"/>
 						<reference key="IBUIFont" ref="667761847"/>
 					</object>
-					<object class="IBUIView" id="979386836">
-						<reference key="NSNextResponder" ref="774585933"/>
-						<int key="NSvFlags">292</int>
-						<object class="NSMutableArray" key="NSSubviews">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIButton" id="971895983">
-								<reference key="NSNextResponder" ref="979386836"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 92}, {33, 34}}</string>
-								<reference key="NSSuperview" ref="979386836"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="848006207"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="884364092"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="770961750"/>
-								<object class="NSCustomResource" key="IBUINormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">stop-recording-control.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="767918306"/>
-								<reference key="IBUIFont" ref="667761847"/>
-							</object>
-							<object class="IBUIButton" id="2644957">
-								<reference key="NSNextResponder" ref="979386836"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 50}, {33, 34}}</string>
-								<reference key="NSSuperview" ref="979386836"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="971895983"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="884364092"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="770961750"/>
-								<reference key="IBUINormalBackgroundImage" ref="551732092"/>
-								<reference key="IBUIFontDescription" ref="767918306"/>
-								<reference key="IBUIFont" ref="667761847"/>
-							</object>
-							<object class="IBUIButton" id="80880438">
-								<reference key="NSNextResponder" ref="979386836"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 8}, {33, 34}}</string>
-								<reference key="NSSuperview" ref="979386836"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="2644957"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="884364092"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="770961750"/>
-								<object class="NSCustomResource" key="IBUINormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">start-recording-control.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="767918306"/>
-								<reference key="IBUIFont" ref="667761847"/>
-							</object>
-						</object>
-						<string key="NSFrame">{{480, 35}, {53, 90}}</string>
-						<reference key="NSSuperview" ref="774585933"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="80880438"/>
-						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-							<reference key="NSCustomColorSpace" ref="89423265"/>
-						</object>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-					</object>
 					<object class="IBUIView" id="252799181">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">-2147483356</int>
@@ -422,7 +331,6 @@
 								<string key="NSFrame">{{80, 80}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="252799181"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="979386836"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -591,14 +499,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">recordAudioButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="80880438"/>
-					</object>
-					<int key="connectionID">83</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">leftButton</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="704188989"/>
@@ -612,14 +512,6 @@
 						<reference key="destination" ref="848006207"/>
 					</object>
 					<int key="connectionID">86</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">stopButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="971895983"/>
-					</object>
-					<int key="connectionID">87</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -700,33 +592,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopRecording:</string>
-						<reference key="source" ref="971895983"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">75</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">playRecorded:</string>
-						<reference key="source" ref="2644957"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">76</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startRecording:</string>
-						<reference key="source" ref="80880438"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">74</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">openGame:</string>
 						<reference key="source" ref="362571166"/>
 						<reference key="destination" ref="372490531"/>
@@ -804,7 +669,6 @@
 							<reference ref="485220861"/>
 							<reference ref="559971443"/>
 							<reference ref="848006207"/>
-							<reference ref="979386836"/>
 							<reference ref="252799181"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -855,32 +719,6 @@
 						<int key="objectID">55</int>
 						<reference key="object" ref="438798133"/>
 						<reference key="parent" ref="485220861"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">59</int>
-						<reference key="object" ref="979386836"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="80880438"/>
-							<reference ref="971895983"/>
-							<reference ref="2644957"/>
-						</object>
-						<reference key="parent" ref="774585933"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">60</int>
-						<reference key="object" ref="971895983"/>
-						<reference key="parent" ref="979386836"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">61</int>
-						<reference key="object" ref="2644957"/>
-						<reference key="parent" ref="979386836"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">62</int>
-						<reference key="object" ref="80880438"/>
-						<reference key="parent" ref="979386836"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">67</int>
@@ -943,11 +781,7 @@
 					<string>49.IBPluginDependency</string>
 					<string>52.IBPluginDependency</string>
 					<string>55.IBPluginDependency</string>
-					<string>59.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
-					<string>60.IBPluginDependency</string>
-					<string>61.IBPluginDependency</string>
-					<string>62.IBPluginDependency</string>
 					<string>67.IBPluginDependency</string>
 					<string>68.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
@@ -967,10 +801,6 @@
 					<string>DirectionButton</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>DirectionButton</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1023,20 +853,20 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButtonOrNextButton:</string>
 							<string>hideSearch:</string>
+							<string>highlight:</string>
 							<string>onBack:</string>
 							<string>onPreviousOrNext:</string>
 							<string>openGame:</string>
 							<string>playOrPauseAudio:</string>
 							<string>playOrPauseRecorded:</string>
 							<string>playOrPauseRecording:</string>
-							<string>playRecorded:</string>
 							<string>recordAudio:</string>
+							<string>removeHighlight:</string>
 							<string>ribbonButtonClick:</string>
 							<string>shareTheBook:</string>
 							<string>showPopView:</string>
-							<string>startRecording:</string>
-							<string>stopRecording:</string>
 							<string>stopRecordingOrRecordedAudioPlayed:</string>
+							<string>wasDragged:withEvent:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1055,7 +885,7 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
-							<string>id</string>
+							<string>UIButton</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
@@ -1064,20 +894,20 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButtonOrNextButton:</string>
 							<string>hideSearch:</string>
+							<string>highlight:</string>
 							<string>onBack:</string>
 							<string>onPreviousOrNext:</string>
 							<string>openGame:</string>
 							<string>playOrPauseAudio:</string>
 							<string>playOrPauseRecorded:</string>
 							<string>playOrPauseRecording:</string>
-							<string>playRecorded:</string>
 							<string>recordAudio:</string>
+							<string>removeHighlight:</string>
 							<string>ribbonButtonClick:</string>
 							<string>shareTheBook:</string>
 							<string>showPopView:</string>
-							<string>startRecording:</string>
-							<string>stopRecording:</string>
 							<string>stopRecordingOrRecordedAudioPlayed:</string>
+							<string>wasDragged:withEvent:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1087,6 +917,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">hideSearch:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">highlight:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -1114,11 +948,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">playRecorded:</string>
+								<string key="name">recordAudio:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">recordAudio:</string>
+								<string key="name">removeHighlight:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -1134,16 +968,12 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">startRecording:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">stopRecording:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">stopRecordingOrRecordedAudioPlayed:</string>
 								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">wasDragged:withEvent:</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 						</object>
 					</object>
@@ -1160,7 +990,6 @@
 							<string>nextButton</string>
 							<string>playPauseControl</string>
 							<string>playRecordedButton</string>
-							<string>recordAudioButton</string>
 							<string>recordButton</string>
 							<string>recordControlView</string>
 							<string>rightButton</string>
@@ -1168,7 +997,6 @@
 							<string>shareButton</string>
 							<string>showPop</string>
 							<string>showRecordButton</string>
-							<string>stopButton</string>
 							<string>stopRecordingOrRecordedAudio</string>
 							<string>toggleToolbar</string>
 							<string>topToolbar</string>
@@ -1185,13 +1013,11 @@
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
-							<string>UIButton</string>
 							<string>PuttyView</string>
 							<string>UIButton</string>
 							<string>UIScrollView</string>
 							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
-							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -1211,7 +1037,6 @@
 							<string>nextButton</string>
 							<string>playPauseControl</string>
 							<string>playRecordedButton</string>
-							<string>recordAudioButton</string>
 							<string>recordButton</string>
 							<string>recordControlView</string>
 							<string>rightButton</string>
@@ -1219,7 +1044,6 @@
 							<string>shareButton</string>
 							<string>showPop</string>
 							<string>showRecordButton</string>
-							<string>stopButton</string>
 							<string>stopRecordingOrRecordedAudio</string>
 							<string>toggleToolbar</string>
 							<string>topToolbar</string>
@@ -1263,10 +1087,6 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">recordAudioButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">recordButton</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
@@ -1292,10 +1112,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">showRecordButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">stopButton</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -1353,8 +1169,6 @@
 				<string>record-control.png</string>
 				<string>recordbutton.png</string>
 				<string>recording-bg.png</string>
-				<string>start-recording-control.png</string>
-				<string>stop-recording-control.png</string>
 				<string>stopbutton.png</string>
 			</object>
 			<object class="NSArray" key="dict.values">
@@ -1369,8 +1183,6 @@
 				<string>{66, 66}</string>
 				<string>{150, 75}</string>
 				<string>{230, 230}</string>
-				<string>{66, 66}</string>
-				<string>{66, 66}</string>
 				<string>{75, 75}</string>
 			</object>
 		</object>

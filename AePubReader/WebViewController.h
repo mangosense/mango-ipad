@@ -11,6 +11,7 @@
 @interface WebViewController : UIViewController<UIWebViewDelegate>
 @property (retain, nonatomic) IBOutlet UIWebView *webView;
 - (IBAction)DismissViewControlller:(id)sender;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *barButtonItem;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil URL:(NSURL *)url;
 @property(nonatomic,retain)NSURL *url;
 @property(nonatomic,retain)UIAlertView *alert;

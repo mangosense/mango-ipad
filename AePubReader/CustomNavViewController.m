@@ -16,16 +16,15 @@
 
 @implementation CustomNavViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+-(id)initWithRootViewController:(UIViewController *)rootViewController{
+    self=[super initWithRootViewController:rootViewController];
     if (self) {
-        // Custom initialization
         _delegateApp=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
