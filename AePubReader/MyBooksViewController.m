@@ -92,6 +92,27 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
+    barButtonItem.tintColor=[UIColor grayColor];
+    self.navigationItem.rightBarButtonItem=barButtonItem;
+}
+-(void)feedback:(id)sender{
+    MFMailComposeViewController *mail;
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Feed back for the App"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    
+    [mail setMailComposeDelegate:self];
+    [mail setToRecipients:[NSArray arrayWithObjects:@"ios@mangosense.com", nil]];
+    // [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];
+    
+    
+}
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    
+    [controller dismissModalViewControllerAnimated:YES];
+    
 }
 -(void)viewDidAppear:(BOOL)animated{
      [super viewDidAppear:YES];

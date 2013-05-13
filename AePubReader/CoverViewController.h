@@ -18,6 +18,8 @@
 @property(strong,nonatomic)NSString *imageLocation;
 - (IBAction)description:(id)sender;
 - (IBAction)readInMyVoice:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *readInMyVoiceButton;
 @property(weak,nonatomic)EpubReaderViewController *epubViewController;
+- (IBAction)feedback:(id)sender;
 @property(strong,nonatomic) UIPopoverController *popViewController;
 @end

@@ -135,7 +135,6 @@
 		AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8D2618166DD48800156F43 /* DetailViewController.m */; };
 		AE8D261B166DD48800156F43 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE8D2619166DD48800156F43 /* DetailViewController.xib */; };
 		AE8D261E166DF61100156F43 /* BookDownloaderIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8D261D166DF61100156F43 /* BookDownloaderIphone.m */; };
-		AE8F44E816C125DF00D396F2 /* 49.epub in Resources */ = {isa = PBXBuildFile; fileRef = AE8F44E716C125DF00D396F2 /* 49.epub */; };
 		AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = AE919DC51657B0D90017802E /* RecieptValidation.m */; };
 		AE92809416197E51001BCBB6 /* ListOfBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = AE92809316197E51001BCBB6 /* ListOfBooks.m */; };
 		AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE94606416FC64F8002B6E0B /* DirectionButton.m */; };
@@ -208,6 +207,10 @@
 		AEDA4859169E9C6800116C23 /* SimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDA4858169E9C6800116C23 /* SimpleView.m */; };
 		AEDA55B816B266C300530478 /* NoteHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDA55B716B266C200530478 /* NoteHighlight.m */; };
 		AEDAD4B01739033A002543DF /* playbuttonpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDAD4AF1739033A002543DF /* playbuttonpressed.png */; };
+		AEDBB6951740D323003321E4 /* feedbackbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB6941740D323003321E4 /* feedbackbutton.png */; };
+		AEDBB6971740D418003321E4 /* playmyrecordingbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB6961740D418003321E4 /* playmyrecordingbutton.png */; };
+		AEDBB69D1740F3BD003321E4 /* 1094.epub in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB69B1740F3BD003321E4 /* 1094.epub */; };
+		AEDBB69E1740F3BD003321E4 /* 1094.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB69C1740F3BD003321E4 /* 1094.jpg */; };
 		AEDF1810168AC5020087064A /* Draw-control.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1803168AC5020087064A /* Draw-control.png */; };
 		AEDF1812168AC5020087064A /* game-control.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1805168AC5020087064A /* game-control.png */; };
 		AEDF1816168AC5020087064A /* library-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1809168AC5020087064A /* library-icon.png */; };
@@ -476,7 +479,6 @@
 		AE8D2619166DD48800156F43 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		AE8D261C166DF61100156F43 /* BookDownloaderIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDownloaderIphone.h; sourceTree = "<group>"; };
 		AE8D261D166DF61100156F43 /* BookDownloaderIphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDownloaderIphone.m; sourceTree = "<group>"; };
-		AE8F44E716C125DF00D396F2 /* 49.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 49.epub; sourceTree = "<group>"; };
 		AE919DC41657B0D90017802E /* RecieptValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecieptValidation.h; sourceTree = "<group>"; };
 		AE919DC51657B0D90017802E /* RecieptValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecieptValidation.m; sourceTree = "<group>"; };
 		AE92809216197E50001BCBB6 /* ListOfBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfBooks.h; sourceTree = "<group>"; };
@@ -580,6 +582,10 @@
 		AEDA55B716B266C200530478 /* NoteHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteHighlight.m; sourceTree = "<group>"; };
 		AEDA93E7168D7A6E0095BEA9 /* KPWebViewInterceptor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = KPWebViewInterceptor.js; sourceTree = "<group>"; };
 		AEDAD4AF1739033A002543DF /* playbuttonpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playbuttonpressed.png; sourceTree = "<group>"; };
+		AEDBB6941740D323003321E4 /* feedbackbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedbackbutton.png; sourceTree = "<group>"; };
+		AEDBB6961740D418003321E4 /* playmyrecordingbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playmyrecordingbutton.png; sourceTree = "<group>"; };
+		AEDBB69B1740F3BD003321E4 /* 1094.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1094.epub; sourceTree = "<group>"; };
+		AEDBB69C1740F3BD003321E4 /* 1094.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1094.jpg; sourceTree = "<group>"; };
 		AEDF1803168AC5020087064A /* Draw-control.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Draw-control.png"; sourceTree = "<group>"; };
 		AEDF1805168AC5020087064A /* game-control.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game-control.png"; sourceTree = "<group>"; };
 		AEDF1809168AC5020087064A /* library-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "library-icon.png"; sourceTree = "<group>"; };
@@ -777,6 +783,7 @@
 				1D3623240D0F684500981E51 /* AePubReaderAppDelegate.h */,
 				1D3623250D0F684500981E51 /* AePubReaderAppDelegate.m */,
 				AE6386551733BC6E009E372A /* recording-bg.png */,
+				AEDBB6941740D323003321E4 /* feedbackbutton.png */,
 				AE92809A1619AD4B001BCBB6 /* mangoLow.png */,
 				AE9280971619AC82001BCBB6 /* mango.png */,
 				AE7FEDEB1615BA1B00C4B51D /* CustomViews */,
@@ -812,7 +819,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AE8F44E716C125DF00D396F2 /* 49.epub */,
+				AEDBB69B1740F3BD003321E4 /* 1094.epub */,
+				AEDBB69C1740F3BD003321E4 /* 1094.jpg */,
 				AE0FF3EB16BB912C006258E1 /* 445.jpg */,
 				AEEB9B8216A3CED200E91603 /* highlightXpath.js */,
 				AEB78AF5169EF30C00750218 /* select.js */,
@@ -1082,6 +1090,7 @@
 				AEB79387173BA61900301057 /* ShowPopViewController.h */,
 				AEB79388173BA61900301057 /* ShowPopViewController.m */,
 				AEB79389173BA61900301057 /* ShowPopViewController.xib */,
+				AEDBB6961740D418003321E4 /* playmyrecordingbutton.png */,
 			);
 			name = epubReader;
 			sourceTree = "<group>";
@@ -1553,7 +1562,6 @@
 				AE67FD4B16BA6BFC00E91A01 /* WebPageViewIphonebig.xib in Resources */,
 				AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */,
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
-				AE8F44E816C125DF00D396F2 /* 49.epub in Resources */,
 				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
 				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
 				AE6386561733BC6E009E372A /* recording-bg.png in Resources */,
@@ -1572,6 +1580,10 @@
 				AEB79384173BA48E00301057 /* bookinfobutton.png in Resources */,
 				AEB79386173BA50A00301057 /* sharebutton.png in Resources */,
 				AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */,
+				AEDBB6951740D323003321E4 /* feedbackbutton.png in Resources */,
+				AEDBB6971740D418003321E4 /* playmyrecordingbutton.png in Resources */,
+				AEDBB69D1740F3BD003321E4 /* 1094.epub in Resources */,
+				AEDBB69E1740F3BD003321E4 /* 1094.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1733,8 +1745,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1768,8 +1780,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
@@ -1807,7 +1819,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1827,6 +1839,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1840,7 +1853,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1853,6 +1866,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1863,16 +1877,16 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "96652526-47EB-485F-B27B-1AA81C4FD6A6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "96652526-47EB-485F-B27B-1AA81C4FD6A6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1885,8 +1899,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1894,8 +1908,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "96652526-47EB-485F-B27B-1AA81C4FD6A6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "96652526-47EB-485F-B27B-1AA81C4FD6A6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

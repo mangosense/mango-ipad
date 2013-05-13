@@ -68,7 +68,7 @@
     if(![_dataModel checkIfIdExists:moonCapId]){
         Book *book= [_dataModel getBookInstance];
         book.title=@"Moon and the Cap";
-        book.desc=@"Do you like to wear a cap on a sunny day? Find out who else likes to wear a cap in this charming hindi book.The Moon and The Cap was originally published as part of the Read India project by Pratham Books. This book is written and narrated in multiple different languages including Hindi & English. Read this book to your kid and see thier eyes light up! If you're not a kid then this book will take you back in days when life was simple and small simple gifts made us excited with joy.";
+        book.desc=@"Do you like to wear a cap on a sunny day? Find out who else likes to wear a cap in this charming english book.The Moon and The Cap was originally published as part of the Read India project by Pratham Books. This book is written and narrated in multiple different languages including Hindi & English. Read this book to your kid and see their eyes light up! If you're not a kid then this book will take you back in days when life was simple and small simple gifts made us excited with joy. Tap/click on characters and objects and you will discover new things. <br/> <br/><br /><br /> <br/><strong> <br/>Age Group <br/></strong> 2 - 6 <br/><br /><br /> <br/><strong>Grade</strong> <br/>NUR <br/><br /><br /> <br/><strong>Includes:</strong> Interactive audio with highlighting, puzzle game, word game, memory game <br/>";
         book.link=@"http://www.mangoreader.com/books/49";
         book.imageUrl=@"http://www.mangoreader.com/49/cover_image/download";
         book.sourceFileUrl=@"http://www.mangoreader.com/book/49/download";
@@ -78,7 +78,7 @@
         book.date=[NSDate date];
         book.textBook=[NSNumber numberWithInteger:1];
         book.downloadedDate=[NSDate date];
-        book.downloaded=[NSNumber numberWithBool:YES];
+        book.downloaded=[NSNumber numberWithBool:NO];
         NSError *error=nil;
         if (![managedObjectContext save:&error]) {
             NSLog(@"%@",error);
@@ -86,34 +86,34 @@
         
     }
    // [moonCapId release];
-    destPath=@"49.epub";
-    insPath = @"49.epub";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    destPath=[string stringByAppendingPathComponent:destPath];
-   // [fileManager removeItemAtPath:destPath error:nil];
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath toPath:destPath error:&error];
-        
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSLog(@"%@",destPath);
-            NSURL *url=[NSURL fileURLWithPath:destPath];
-            error=nil;
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-            id Flag=nil;
-            [url getResourceValue:&Flag forKey:NSURLIsExcludedFromBackupKey error:&error];
-            if (Flag) {
-                NSNumber *flag=(NSNumber *)Flag;
-                NSLog(flag.boolValue ? @"Yes" : @"No");
-                NSLog(@" 49.epub flag %@",Flag);
-            }
-            if (error) {
-                  NSLog(@"error %@",[error description]);
-            }
-
-        }
-    }
+//    destPath=@"49.epub";
+//    insPath = @"49.epub";
+//    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+//    destPath=[string stringByAppendingPathComponent:destPath];
+//   // [fileManager removeItemAtPath:destPath error:nil];
+//    if (![fileManager fileExistsAtPath:destPath]) {
+//        [fileManager copyItemAtPath:srcPath toPath:destPath error:&error];
+//        
+//        if (error) {
+//            NSLog(@"error %@",[error description]);
+//        }else{
+//            NSLog(@"%@",destPath);
+//            NSURL *url=[NSURL fileURLWithPath:destPath];
+//            error=nil;
+//            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+//            id Flag=nil;
+//            [url getResourceValue:&Flag forKey:NSURLIsExcludedFromBackupKey error:&error];
+//            if (Flag) {
+//                NSNumber *flag=(NSNumber *)Flag;
+//                NSLog(flag.boolValue ? @"Yes" : @"No");
+//                NSLog(@" 49.epub flag %@",Flag);
+//            }
+//            if (error) {
+//                  NSLog(@"error %@",[error description]);
+//            }
+//
+//        }
+//    }
     
     NSURL *url=[NSURL fileURLWithPath:destPath];
     
@@ -163,7 +163,59 @@
         
         
     }
-    
+    NSNumber *azzura=[[NSNumber alloc]initWithInt:1094];
+    if (![_dataModel checkIfIdExists:azzura]) {
+        Book *book= [_dataModel getBookInstance];
+        book.title=@"Azzura";
+        book.desc=@"Azzura";
+        book.link=@"http://www.mangoreader.com/books/1094";
+        book.imageUrl=@"http://www.mangoreader.com/1094/cover_image/download";
+        book.sourceFileUrl=@"http://www.mangoreader.com/book/1094/download";
+        book.localPathImageFile=destPath;
+        book.id=[NSNumber numberWithInteger:1094];
+        book.size=[NSNumber numberWithInteger:26171226];
+        book.date=[NSDate date];
+        book.downloadedDate=[NSDate date];
+        book.downloaded=[NSNumber numberWithBool:YES];
+        //book.downloaded=[NSNumber numberWithBool:NO];
+        NSError *error=nil;
+        if (![managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+
+    }
+    destPath=@"1094.jpg";
+    destPath=[string stringByAppendingPathComponent:destPath];
+    insPath = @"1094.jpg";
+    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+    // NSLog(@"src path %@ des path %@",srcPath,temp);
+    if (![fileManager fileExistsAtPath:destPath]) {
+        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
+        if (error) {
+            NSLog(@"error %@",[error description]);
+        }else{
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            // [url release];
+        }
+    }
+    destPath=@"1094.epub";
+    destPath=[string stringByAppendingPathComponent:destPath];
+    insPath = @"1094.epub";
+    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+    // NSLog(@"src path %@ des path %@",srcPath,temp);
+    if (![fileManager fileExistsAtPath:destPath]) {
+        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
+        if (error) {
+            NSLog(@"error %@",[error description]);
+        }else{
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            // [url release];
+        }
+    }
    // [vayuTheWind release];
 
     

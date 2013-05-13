@@ -74,7 +74,7 @@
 }
 -(void)goToNext{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    delegate.PortraitOrientation=YES;
+    delegate.PortraitOrientation=NO;
 
     _tabBarController=[[UITabBarController alloc]init];
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];

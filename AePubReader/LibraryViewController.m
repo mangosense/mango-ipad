@@ -138,15 +138,19 @@
          
          UIBarButtonItem *leftLoginItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
          leftLoginItem.tintColor=[UIColor grayColor];
-         UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
-         settings.tintColor=[UIColor grayColor];
-         NSArray *aray=[NSArray arrayWithObjects:leftLoginItem,settings, nil];
+         /*UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
+         settings.tintColor=[UIColor grayColor];*/
+         UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
+         feedback.tintColor=[UIColor grayColor];
+         NSArray *aray=[NSArray arrayWithObjects:leftLoginItem/*,settings*/,feedback, nil];
          self.navigationItem.leftBarButtonItems=aray;
+         
      }else{
-         UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
-         settings.tintColor=[UIColor grayColor];
-
-self.navigationItem.leftBarButtonItem=settings;
+       /*  UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
+         settings.tintColor=[UIColor grayColor];*/
+         UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
+         feedback.tintColor=[UIColor grayColor];
+         self.navigationItem.leftBarButtonItems=[NSArray arrayWithObjects:/*settings,*/feedback, nil];
      }
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
@@ -165,6 +169,19 @@ self.navigationItem.leftBarButtonItem=settings;
     // Do any additional setup after loading the view from its nib.
 
    
+}
+-(void)feedback:(id)sender{
+    MFMailComposeViewController *mail;
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Feed back for the App"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    
+    [mail setMailComposeDelegate:self];
+    [mail setToRecipients:[NSArray arrayWithObjects:@"ios@mangosense.com", nil]];
+   // [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];
+
+    
 }
 -(void)settings{
     ViewControllerBaseUrl *viewController=[[ViewControllerBaseUrl alloc]initWithNibName:@"ViewControllerBaseUrl" bundle:nil];
@@ -611,15 +628,18 @@ self.navigationItem.leftBarButtonItem=settings;
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     [self BuildButtons];
-
+    
+    [self.tabBarController.tabBar setHidden:NO];
+    [self.navigationController.navigationBar setHidden:NO];
+    
 
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     [Flurry logEvent:@"Library entered"];
 
-    [self.tabBarController.tabBar setHidden:NO];
-    [self.navigationController.navigationBar setHidden:NO];
+  //  [self.tabBarController.tabBar setHidden:NO];
+  //  [self.navigationController.navigationBar setHidden:NO];
    
 
 }

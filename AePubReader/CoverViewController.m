@@ -31,9 +31,22 @@
     // Do any additional setup after loading the view from its nib.
     UIImage *image=[UIImage imageWithContentsOfFile:_imageLocation];
     [_imageView setImage:image];
+
     
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
+    NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
+    //ima4
+    NSString *appenLoc=[[NSString alloc]initWithFormat:@"%d/1.ima4",iden ];
+    NSString *loc=[path stringByAppendingPathComponent:appenLoc];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:loc]) {
+        [_readInMyVoiceButton setHidden:YES];
+    }else{
+        [_readInMyVoiceButton setHidden:NO];
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -154,6 +167,7 @@
 - (void)viewDidUnload {
     [self setImageView:nil];
     [self setImageView:nil];
+    [self setReadInMyVoiceButton:nil];
     [super viewDidUnload];
 }
 - (IBAction)description:(id)sender {
@@ -182,6 +196,23 @@
         }
     }
     [self.navigationController popToViewController:viewControllerToPop animated:NO];
+
+}
+- (IBAction)feedback:(id)sender {
+    MFMailComposeViewController *mail;
+    mail=[[MFMailComposeViewController alloc]init];
+    NSInteger bookId= [[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
+    NSString *bookIdString=[NSString stringWithFormat:@"%d",bookId ];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    Book *book=  [delegate.dataModel getBookOfId:bookIdString];
+    NSString *feedbackSubject=[NSString stringWithFormat:@"Feedback for book titled %@",book.title ];
+    [mail setSubject:feedbackSubject];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [mail setToRecipients:[NSArray arrayWithObjects:@"ios@mangosense.com", nil]];
+
+    [mail setMailComposeDelegate:self];
+   
+    [self presentModalViewController:mail animated:YES];
 
 }
 @end

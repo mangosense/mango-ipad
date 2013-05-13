@@ -11,7 +11,7 @@
 #import "DataModelControl.h"
 #import "Book.h"
 
-@interface MyBooksViewController : UITableViewController<UIAlertViewDelegate>
+@interface MyBooksViewController : UITableViewController<UIAlertViewDelegate,MFMailComposeViewControllerDelegate>
 @property(retain,nonatomic)NSMutableArray *array;
 @property(retain,nonatomic)UIAlertView *alertView;
 @property(assign,nonatomic)NSInteger identity;

@@ -41,7 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIView *circularProgressView;
 @property (weak, nonatomic) IBOutlet PuttyView *recordControlView;
 @property(retain,nonatomic)AVAudioRecorder *anAudioRecorder;
-@property(retain,nonatomic)AVAudioPlayer *anAudioPlayer;
+@property(strong,nonatomic)AVAudioPlayer *anAudioPlayer;
 //@property(strong,nonatomic)AVAudioPlayer *playerDefault;
 @property (retain, nonatomic) IBOutlet UIButton *playPauseControl;
 @property(nonatomic,assign)BOOL isPlaying;

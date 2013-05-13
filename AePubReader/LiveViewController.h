@@ -14,6 +14,8 @@
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 -(void)requestBooks;
 @property(assign,nonatomic)NSInteger pg;
+@property (weak, nonatomic) IBOutlet UIButton *previousButton;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property(assign,nonatomic)NSInteger currentPageNumber;
 @property(retain,nonatomic)NSMutableData *data;
 @property(assign,nonatomic)NSInteger ymax;
@@ -21,7 +23,9 @@
 @property(assign,nonatomic)NSInteger totalNumberOfBooks;
 @property(assign,nonatomic)NSInteger pages;
 @property(assign,nonatomic)NSInteger identity;
+- (IBAction)leftbutton:(id)sender;
 @property(strong,nonatomic)NSDecimalNumber *price;
+- (IBAction)rightButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *networkIndicator;
 //@property(assign,nonatomic)StoreViewController *storeViewController;
 @property(assign,nonatomic)UIInterfaceOrientation interfaceOrientationChanged;

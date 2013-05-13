@@ -363,7 +363,8 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     }
     //[_listOfBooks release];
     //_alertView=nil;
-    
+    [self.view bringSubviewToFront:_previousButton];
+    [self.view bringSubviewToFront:_nextButton];
 }
 -(void)tap:(id)sender{
     ShadowButton *button=(ShadowButton *)sender;
@@ -672,6 +673,14 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
 - (void)viewDidUnload {
     [self setScrollView:nil];
     [self setNetworkIndicator:nil];
+    [self setPreviousButton:nil];
+    [self setNextButton:nil];
     [super viewDidUnload];
+}
+- (IBAction)leftbutton:(id)sender {
+    [self previousButton:nil];
+}
+- (IBAction)rightButton:(id)sender {
+    [self nextButton:nil];
 }
 @end
