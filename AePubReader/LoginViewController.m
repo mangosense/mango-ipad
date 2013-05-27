@@ -23,6 +23,7 @@
 #import "FacebookLogin.h"
 #import "CustomTabViewController.h"
 #import "Flurry.h"
+#import "RootViewController.h"
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
@@ -109,6 +110,11 @@
     if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
         [self goToNext];
 
+    }else if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"help"]){
+        NSArray *array=[NSArray arrayWithObjects:@"large_one.png",@"large_two.png",@"large_three.png", @"large_four",nil];
+        RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"padContent" bundle:nil contentList:array] ;
+        [self presentViewController:rootViewController animated:YES completion:nil];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
     }
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
     

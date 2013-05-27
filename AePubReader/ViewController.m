@@ -24,7 +24,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _strFileName=[[NSString alloc]initWithString:link];
-      //  [self unzipAndSaveFile];
         NSLog(@" in view controller %@",_strFileName);
       
 //        _array=[[NSMutableArray alloc]init];
@@ -43,7 +42,8 @@
     
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return YES;
+   
+    return  UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
 }
 - (NSString *)applicationDocumentsDirectory {
 	
@@ -246,36 +246,7 @@
     [self.tabBarController.tabBar setHidden:YES];
 
 }
-//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-//    CGPoint point = [touch locationInView:self.view];
-//
-//    
-//    NSInteger index=[self indexOfViewController:(WebPageViewController *)[self.controller.viewControllers lastObject]];
-//    if (index==0) {
-//        
-//     
-//    }
-//    
-//    else if(index ==_array.count-1)
-//    {
-//        
-//  
-//    }
-//
-//    
-//        
-//        if(point.x > 50) return YES;
-//        
-// 
-//    
-//    return NO;
-//
-//}
-//-(void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:YES];
-//
-//    
-//}
+
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed{
 
    
@@ -584,7 +555,7 @@
 	
 	_pagesPath=[NSString stringWithFormat:@"%@/%@",self.rootPath,[self.ePubContent._manifest valueForKey:[self.ePubContent._spine objectAtIndex:_pageNumber]]];
 	
-    [self addThumbnails];
+  //  [self addThumbnails];
     return _pagesPath;
     
 	//set page number

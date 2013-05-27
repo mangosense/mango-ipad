@@ -26,7 +26,7 @@
     _LandscapeOrientation=YES;
     _PortraitOrientation=YES;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
-    NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
+ //   NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
     _wasFirstInPortrait=NO;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     if (![userDefaults objectForKey:@"baseurl"]) {
@@ -155,6 +155,7 @@
         book.date=[NSDate date];
         book.downloadedDate=[NSDate date];
         book.downloaded=[NSNumber numberWithBool:NO];
+        book.textBook=[NSNumber numberWithInt:1];
         //book.downloaded=[NSNumber numberWithBool:NO];
         NSError *error=nil;
         if (![managedObjectContext save:&error]) {
@@ -177,6 +178,8 @@
         book.date=[NSDate date];
         book.downloadedDate=[NSDate date];
         book.downloaded=[NSNumber numberWithBool:YES];
+        book.textBook=[NSNumber numberWithInt:1];
+
         //book.downloaded=[NSNumber numberWithBool:NO];
         NSError *error=nil;
         if (![managedObjectContext save:&error]) {
@@ -217,8 +220,61 @@
         }
     }
    // [vayuTheWind release];
+    destPath=@"1.jpg";
+    destPath=[string stringByAppendingPathComponent:destPath];
+    insPath = @"1.jpg";
+    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+    if (![fileManager fileExistsAtPath:destPath]) {
+        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
+        if (error) {
+            NSLog(@"error %@",[error description]);
+        }else{
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            // [url release];
+        }
+    }
+    if (![_dataModel checkIfIdExists:[NSNumber numberWithInt:1]]) {
+        Book *book= [_dataModel getBookInstance];
+        book.title=@"InOpen";
+        book.desc=@" InOpen Book";
+        book.link=@"http://www.mangoreader.com/books/1";
+        book.imageUrl=@"http://www.mangoreader.com/1/cover_image/download";
+        book.sourceFileUrl=@"http://www.mangoreader.com/book/445/download";
+        book.localPathImageFile=destPath;
+        book.id=[NSNumber numberWithInteger:1];
+        book.size=[NSNumber numberWithInteger:26171226];
+        book.date=[NSDate date];
+        book.downloadedDate=[NSDate date];
+        book.downloaded=[NSNumber numberWithBool:YES];
+        book.textBook=[NSNumber numberWithInt:3];
 
-    
+        //book.downloaded=[NSNumber numberWithBool:NO];
+        NSError *error=nil;
+        if (![managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+        
+        
+    }
+    destPath=@"1.epub";
+    destPath=[string stringByAppendingPathComponent:destPath];
+    insPath = @"1.epub";
+    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+    // NSLog(@"src path %@ des path %@",srcPath,temp);
+    if (![fileManager fileExistsAtPath:destPath]) {
+        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
+        if (error) {
+            NSLog(@"error %@",[error description]);
+        }else{
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            // [url release];
+        }
+    }
+
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
@@ -282,15 +338,15 @@ void uncaughtExceptionHandler(NSException *exception) {
     [apns setValue:dictionary forKey:@"apns"];
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:apns options:NSJSONWritingPrettyPrinted error:nil];
     [request setHTTPBody:jsonData];
-    NSLog(@"json token %@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
+  //  NSLog(@"json token %@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSURLResponse *response;
     NSError *error;
-    NSData *responseData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    /*NSData *responseData=*/[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) {
         NSLog(@"Error %@",error);
     }else{
-        NSLog(@"responseData %@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
+    //    NSLog(@"responseData %@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
     }
     // send device token
 }
@@ -435,7 +491,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                 jsonData=[NSJSONSerialization dataWithJSONObject:diction options:NSJSONWritingPrettyPrinted error:nil];
                 
                 valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-                NSLog(@"value json request %@",valueJson);
+             //   NSLog(@"value json request %@",valueJson);
                 [Flurry logEvent:@"book restored" withParameters:dict];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 restored=YES;
@@ -498,14 +554,14 @@ void uncaughtExceptionHandler(NSException *exception) {
         jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
         
         valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"JSON data %@",valueJson);
+        //NSLog(@"JSON data %@",valueJson);
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
         //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
-        NSLog(@"reciept validation %@",urlString);
+       // NSLog(@"reciept validation %@",urlString);
         [request setURL:[NSURL URLWithString:urlString]];
         NSURLResponse *response;
         NSError *error;
@@ -548,7 +604,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
         
         valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"value json request %@",valueJson);
+     //   NSLog(@"value json request %@",valueJson);
         // [valueJson release];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -557,7 +613,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         
         NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
         //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
-        NSLog(@"reciept validation %@",urlString);
+        //NSLog(@"reciept validation %@",urlString);
         [request setURL:[NSURL URLWithString:urlString]];
         NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if (error) {

@@ -177,10 +177,10 @@
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
   //   NSLog(@"downloaded book count %d",array.count);
-    for (Book *bk in array) {
-        NSLog(@"book %@ %@",bk.id,bk.title);
-        NSLog(@"book localimage Loc %@",bk.localPathImageFile);
-    }
+//    for (Book *bk in array) {
+//        NSLog(@"book %@ %@",bk.id,bk.title);
+//        NSLog(@"book localimage Loc %@",bk.localPathImageFile);
+//    }
   //  [fetchRequest release];
     return array;
     
@@ -400,8 +400,8 @@
     NSArray *bookArray=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
     //[fetchRequest release];
     //[identity release];
-    StoreBooks *bks=[bookArray lastObject];
-    NSLog(@"Boook id and title %@ %@",identity,bks.title);
+   // StoreBooks *bks=[bookArray lastObject];
+   // NSLog(@"Boook id and title %@ %@",identity,bks.title);
     return [bookArray lastObject];
 }
 
@@ -416,7 +416,7 @@
         NSDictionary *fromArray=[bookArray objectAtIndex:i];
        
         NSDictionary *key=[fromArray objectForKey:@"book"];
-         NSLog(@"key %@",key);
+      //   NSLog(@"key %@",key);
         NSNumber *numberId=[key objectForKey:@"id"];
         if(numberId){
         NSLog(@"number id %@",numberId);
@@ -614,7 +614,7 @@
                [self saveData:book];
            }
            if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
-               NSLog(@"File downloading %@",temp);
+         //      NSLog(@"File downloading %@",temp);
                ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
                [request setDownloadDestinationPath:temp];
                [request setDelegate:self];
@@ -627,8 +627,8 @@
            
     }//end for
     [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"changed"];
-    NSLog(@"books inserted %d",count);
-    NSLog(@"books downloaded %d",_downloadedImage);
+ //   NSLog(@"books inserted %d",count);
+  //  NSLog(@"books downloaded %d",_downloadedImage);
     return YES;
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{

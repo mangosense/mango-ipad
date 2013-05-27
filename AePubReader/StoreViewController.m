@@ -124,8 +124,8 @@
     [dictionary setValue:temp forKey:@"auth_token"];
      NSLog(@"auth_token %@",temp);
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *jsonInput=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",jsonInput);
+  //  NSString *jsonInput=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+   // NSLog(@"%@",jsonInput);
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
   //  [jsonInput autorelease];
    connectionString=[connectionString stringByAppendingFormat:@"book_purchase"];
@@ -172,7 +172,7 @@
             //[connection autorelease];
             return;
         }
-        NSLog(@"%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
+     //   NSLog(@"%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
         _data=[[NSMutableData alloc]initWithData:data];
         [delegate.dataModel insertIfNew:_data];
         [self BuildButtons];
@@ -491,7 +491,7 @@
         button.tag=[book.id integerValue];
         
        // [button setupView];
-        NSLog(@"localPath %@",book.localPathImageFile);
+    //    NSLog(@"localPath %@",book.localPathImageFile);
         UIImage *image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
         button.imageLocalLocation=book.localPathImageFile;
         [button setImage:image forState:UIControlStateNormal];

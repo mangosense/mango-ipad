@@ -18,6 +18,7 @@
 #import "CustomNavViewController.h"
 #import "ViewControllerBaseUrl.h"
 #import "Flurry.h"
+#import "LandscapeTextBookViewController.h"
 @interface LibraryViewController ()
 
 
@@ -167,7 +168,16 @@
   ///  [imageView release];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"help"]){
+        NSArray *array=[NSArray arrayWithObjects:@"large_one.png",@"large_two.png",@"large_three.png", @"large_four",nil];
 
+        RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"padContent" bundle:nil contentList:array] ;
+        [self presentViewController:rootViewController animated:YES completion:nil];
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"help"];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        delegate.PortraitOrientation=NO;
+        delegate.LandscapeOrientation=YES;
+    }
    
 }
 -(void)feedback:(id)sender{
@@ -621,7 +631,9 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-      
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.PortraitOrientation=YES;
+    delegate.LandscapeOrientation=YES;
     UIViewController *c=[[UIViewController alloc]init];
     c.view.backgroundColor=[UIColor clearColor];
     [self presentViewController:c animated:YES completion:^(){
@@ -631,7 +643,7 @@
     
     [self.tabBarController.tabBar setHidden:NO];
     [self.navigationController.navigationBar setHidden:NO];
-    
+
 
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -1011,6 +1023,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     ViewController *viewController;
     EpubReaderViewController *reader;
     AePubReaderAppDelegate *delegate;
+    LandscapeTextBookViewController *landscapeTextBook;
     NSLog(@"title %@",bk.title);
     if (!bk.textBook) {
         delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -1076,7 +1089,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         case 2://textBooks
            delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             delegate.LandscapeOrientation=NO;
-
+            delegate.PortraitOrientation=YES;
             value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
             
             epubString=[NSString stringWithFormat:@"%@.epub",bk.id];
@@ -1096,6 +1109,25 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             }
             
             break;
+        case 3:
+            delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            delegate.LandscapeOrientation=YES;
+            delegate.PortraitOrientation=NO;
+            value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+            
+            epubString=[NSString stringWithFormat:@"%@.epub",bk.id];
+            value=[value stringByAppendingPathComponent:epubString];
+            landscapeTextBook=[[LandscapeTextBookViewController alloc]initWithNibName:@"LandscapeTextBookViewController" bundle:nil WithString:value];
+            landscapeTextBook.titleOfBook=bk.title;
+            landscapeTextBook.identity=bk.id.integerValue;
+            self.tabBarController.hidesBottomBarWhenPushed=YES;
+            landscapeTextBook.hidesBottomBarWhenPushed=YES;
+            self.navigationController.navigationBarHidden=YES;
+            [self.navigationController pushViewController:landscapeTextBook animated:YES];
+            if ([UIDevice currentDevice].systemVersion.integerValue<6) {
+                [alertView dismissWithClickedButtonIndex:0 animated:YES];
+                //    _alertView=nil;
+            }
         default:
             break;
     }

@@ -16,6 +16,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DownloadViewController.h"
 #import "Flurry.h"
+#import "RootViewController.h"
 @interface LoginViewControllerIphone ()
 @property(retain,nonatomic)DownloadViewController *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
@@ -196,6 +197,12 @@
     if ([userDefault objectForKey:@"email"]&&[userDefault objectForKey:@"password"]) {
         
         [self goToNext];
+    }else if(![userDefault boolForKey:@"help"]){
+            NSArray *array=[NSArray arrayWithObjects:@"small_one.png",@"small_two.png",@"small_three.png", @"small_four",nil];
+        RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"PhoneContent" bundle:nil contentList:array] ;
+        [self presentViewController:rootViewController animated:YES completion:nil];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
+
     }
     // Do any additional setup after loading the view from its nib.
 }

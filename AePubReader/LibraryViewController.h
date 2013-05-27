@@ -14,6 +14,7 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MFMessageComposeViewController.h>
+#import "RootViewController.h"
 @interface LibraryViewController : UIViewController<StoreControllerDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,XMLHandlerDelegate>
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 @property(nonatomic,retain)NSArray *epubFiles;

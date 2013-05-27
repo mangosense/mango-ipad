@@ -11,6 +11,8 @@
 #import "BookDownloaderIphone.h"
 #import <Foundation/Foundation.h>
 #import "ViewController.h"
+#import "RootViewController.h"
+#import "LandscapeTextBookViewController.h"
 @interface MyBooksViewController ()
 
 @end
@@ -95,6 +97,22 @@
     UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
     barButtonItem.tintColor=[UIColor grayColor];
     self.navigationItem.rightBarButtonItem=barButtonItem;
+    if (![[NSUserDefaults standardUserDefaults]boolForKey:@"help"]) {
+            NSArray *array=[NSArray arrayWithObjects:@"small_one.png",@"small_two.png",@"small_three.png", @"small_four",nil];
+        RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"PhoneContent" bundle:nil contentList:array] ;
+        [self presentViewController:rootViewController animated:YES completion:nil];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        delegate.PortraitOrientation=NO;
+        delegate.LandscapeOrientation=YES;
+
+    }
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.PortraitOrientation=YES;
+    delegate.LandscapeOrientation=YES;
 }
 -(void)feedback:(id)sender{
     MFMailComposeViewController *mail;
@@ -307,7 +325,7 @@
     NSString *epubString=[NSString stringWithFormat:@"%@.epub",bk.id];
     value=[value stringByAppendingPathComponent:epubString];
     NSLog(@"Path value: %@",value);
-    
+    LandscapeTextBookViewController *landscapeViewController;
     ViewController *viewController;
          AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSLog(@"booktype %d",bk.textBook.integerValue);
@@ -327,6 +345,7 @@
          _bookOpen=YES;
      }
     EpubReaderViewController *reader;
+    
     switch (bk.textBook.integerValue) {
         case 1://storyBooks
             delegate.LandscapeOrientation=YES;
@@ -355,6 +374,20 @@
             viewController.titleOfBook=bk.title;
             [self.navigationController pushViewController:viewController animated:YES];
         //    [viewController release];
+            break;
+        case 3:
+            delegate.LandscapeOrientation=YES;
+            delegate.PortraitOrientation=NO;
+            value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+            _bookOpen=YES;
+            epubString=[NSString stringWithFormat:@"%@.epub",bk.id];
+            value=[value stringByAppendingPathComponent:epubString];
+            self.tabBarController.hidesBottomBarWhenPushed=YES;
+            
+            landscapeViewController=[[LandscapeTextBookViewController
+                                      alloc]initWithNibName:@"LandscapeTextBookiPhone" bundle:nil WithString:value];
+            landscapeViewController.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:landscapeViewController animated:YES];
 
             break;
     }

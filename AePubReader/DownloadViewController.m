@@ -71,13 +71,13 @@
     [dictionary setValue:temp forKey:@"email"];
     temp=[userDefaults stringForKey:@"auth_token"];
     [dictionary setValue:temp forKey:@"auth_token"];
-    NSLog(@"auth_token %@",temp);
+  //  NSLog(@"auth_token %@",temp);
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
     
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
     connectionString=[connectionString stringByAppendingFormat:@"book_purchase"];
     connectionString=[connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"Connection String %@",connectionString);
+ //   NSLog(@"Connection String %@",connectionString);
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
@@ -96,7 +96,7 @@
         _error=error;
     }else{
         id dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSLog(@"dict %@",[dict class]);
+      //  NSLog(@"dict %@",[dict class]);
         
         if ([[dict class] isSubclassOfClass:[NSDictionary class]]) {
             if ([dict objectForKey:@"error"]) {
@@ -215,8 +215,8 @@
         }
         [diction setValue:arryMutable forKey:@"books"];
         NSData *json=[NSJSONSerialization dataWithJSONObject:diction options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *string=[[NSString alloc]initWithData:json encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",string);
+      //  NSString *string=[[NSString alloc]initWithData:json encoding:NSUTF8StringEncoding];
+     //   NSLog(@"%@",string);
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:json];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

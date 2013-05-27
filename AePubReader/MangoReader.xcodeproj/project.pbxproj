@@ -32,11 +32,34 @@
 		AE1C6C2F16721DD00090DFDD /* mangoreader-iphone5-signup.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C2E16721DD00090DFDD /* mangoreader-iphone5-signup.png */; };
 		AE1C6C3216721EBB0090DFDD /* download-button-iphone3.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C3016721EBA0090DFDD /* download-button-iphone3.png */; };
 		AE1C6C3316721EBB0090DFDD /* purchase-button-iphone3.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C3116721EBA0090DFDD /* purchase-button-iphone3.png */; };
+		AE1D511E1752600000D2F25E /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1D511D1752600000D2F25E /* RootViewController.m */; };
+		AE1D51201752600900D2F25E /* PhoneContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE1D511F1752600900D2F25E /* PhoneContent.xib */; };
+		AE1D51221752606600D2F25E /* padContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51211752606600D2F25E /* padContent.xib */; };
+		AE1D51251752625D00D2F25E /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1D51241752625D00D2F25E /* MyViewController.m */; };
+		AE1D512C175268EA00D2F25E /* small_one.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D5126175268EA00D2F25E /* small_one.png */; };
+		AE1D512D175268EA00D2F25E /* small_two.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D5127175268EA00D2F25E /* small_two.png */; };
+		AE1D512E175268EA00D2F25E /* small_three.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D5128175268EA00D2F25E /* small_three.png */; };
+		AE1D512F175268EA00D2F25E /* small_four.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D5129175268EA00D2F25E /* small_four.png */; };
+		AE1D5130175268EA00D2F25E /* small_five.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D512A175268EA00D2F25E /* small_five.png */; };
+		AE1D5131175268EA00D2F25E /* small_six.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D512B175268EA00D2F25E /* small_six.png */; };
+		AE1D51381752690300D2F25E /* large_one.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51321752690300D2F25E /* large_one.png */; };
+		AE1D51391752690300D2F25E /* large_two.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51331752690300D2F25E /* large_two.png */; };
+		AE1D513A1752690300D2F25E /* large_three.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51341752690300D2F25E /* large_three.png */; };
+		AE1D513B1752690300D2F25E /* large_four.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51351752690300D2F25E /* large_four.png */; };
+		AE1D513C1752690300D2F25E /* large_five.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51361752690300D2F25E /* large_five.png */; };
+		AE1D513D1752690300D2F25E /* large_six.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1D51371752690300D2F25E /* large_six.png */; };
+		AE1D513F17526AF800D2F25E /* MyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE1D513E17526AF800D2F25E /* MyView.xib */; };
 		AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */; };
 		AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */; };
 		AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */; };
 		AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2D35BA16B1562D009E99A7 /* NoteButton.m */; };
 		AE2D35BD16B15902009E99A7 /* not.png in Resources */ = {isa = PBXBuildFile; fileRef = AE2D35BC16B15902009E99A7 /* not.png */; };
+		AE37CD67175278D500EA8653 /* LandscapeTextBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37CD65175278D500EA8653 /* LandscapeTextBookViewController.m */; };
+		AE37CD68175278D500EA8653 /* LandscapeTextBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE37CD66175278D500EA8653 /* LandscapeTextBookViewController.xib */; };
+		AE37CD6A175278F300EA8653 /* LandscapeTextBookiPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE37CD69175278F300EA8653 /* LandscapeTextBookiPhone.xib */; };
+		AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37CD6C1752792100EA8653 /* LandscapePageViewController.m */; };
+		AE37CD6F1752792100EA8653 /* LandscapePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE37CD6D1752792100EA8653 /* LandscapePageViewController.xib */; };
+		AE37CD711752796700EA8653 /* LandscapePageiPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE37CD701752796700EA8653 /* LandscapePageiPhone.xib */; };
 		AE3E0F281653F4B800625CEB /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE3E0F271653F4B800625CEB /* cart@2x.png */; };
 		AE3E0F2B1653F4E300625CEB /* cart.png in Resources */ = {isa = PBXBuildFile; fileRef = AE3E0F2A1653F4E300625CEB /* cart.png */; };
 		AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3F981A16D637C70052C85C /* CoreFoundation.framework */; };
@@ -192,6 +215,8 @@
 		AED2B4F6169A8EF9001956CF /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = AED2B4F5169A8EF9001956CF /* Default-Portrait~ipad.png */; };
 		AED2B4F9169A8F12001956CF /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = AED2B4F8169A8F12001956CF /* Default-Portrait@2x~ipad.png */; };
 		AED2B518169AA742001956CF /* 49.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AED2B517169AA742001956CF /* 49.jpg */; };
+		AED2C66C17535B31008C4147 /* 1.epub in Resources */ = {isa = PBXBuildFile; fileRef = AED2C66B17535B31008C4147 /* 1.epub */; };
+		AED2C66E17535B45008C4147 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AED2C66D17535B45008C4147 /* 1.jpg */; };
 		AED4C88516A82DF8009F462E /* TextViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AED4C88316A82DF8009F462E /* TextViewViewController.m */; };
 		AED4C88616A82DF8009F462E /* TextViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED4C88416A82DF8009F462E /* TextViewViewController.xib */; };
 		AED53B2916914AC30061A600 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AED53B2716914AC30061A600 /* DetailsViewController.m */; };
@@ -325,6 +350,25 @@
 		AE1C6C2E16721DD00090DFDD /* mangoreader-iphone5-signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-iphone5-signup.png"; sourceTree = "<group>"; };
 		AE1C6C3016721EBA0090DFDD /* download-button-iphone3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button-iphone3.png"; sourceTree = "<group>"; };
 		AE1C6C3116721EBA0090DFDD /* purchase-button-iphone3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchase-button-iphone3.png"; sourceTree = "<group>"; };
+		AE1D511C1752600000D2F25E /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		AE1D511D1752600000D2F25E /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		AE1D511F1752600900D2F25E /* PhoneContent.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneContent.xib; sourceTree = "<group>"; };
+		AE1D51211752606600D2F25E /* padContent.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = padContent.xib; sourceTree = "<group>"; };
+		AE1D51231752625D00D2F25E /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
+		AE1D51241752625D00D2F25E /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
+		AE1D5126175268EA00D2F25E /* small_one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_one.png; sourceTree = "<group>"; };
+		AE1D5127175268EA00D2F25E /* small_two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_two.png; sourceTree = "<group>"; };
+		AE1D5128175268EA00D2F25E /* small_three.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_three.png; sourceTree = "<group>"; };
+		AE1D5129175268EA00D2F25E /* small_four.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_four.png; sourceTree = "<group>"; };
+		AE1D512A175268EA00D2F25E /* small_five.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_five.png; sourceTree = "<group>"; };
+		AE1D512B175268EA00D2F25E /* small_six.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_six.png; sourceTree = "<group>"; };
+		AE1D51321752690300D2F25E /* large_one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_one.png; sourceTree = "<group>"; };
+		AE1D51331752690300D2F25E /* large_two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_two.png; sourceTree = "<group>"; };
+		AE1D51341752690300D2F25E /* large_three.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_three.png; sourceTree = "<group>"; };
+		AE1D51351752690300D2F25E /* large_four.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_four.png; sourceTree = "<group>"; };
+		AE1D51361752690300D2F25E /* large_five.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_five.png; sourceTree = "<group>"; };
+		AE1D51371752690300D2F25E /* large_six.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_six.png; sourceTree = "<group>"; };
+		AE1D513E17526AF800D2F25E /* MyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyView.xib; sourceTree = "<group>"; };
 		AE21CAE51712A82A00A4877F /* ViewControllerBaseUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerBaseUrl.h; sourceTree = "<group>"; };
 		AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerBaseUrl.m; sourceTree = "<group>"; };
 		AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerBaseUrl.xib; sourceTree = "<group>"; };
@@ -335,6 +379,14 @@
 		AE2D35BA16B1562D009E99A7 /* NoteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteButton.m; sourceTree = "<group>"; };
 		AE2D35BC16B15902009E99A7 /* not.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = not.png; sourceTree = "<group>"; };
 		AE2D35BE16B15FF4009E99A7 /* Books 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 7.xcdatamodel"; sourceTree = "<group>"; };
+		AE37CD64175278D500EA8653 /* LandscapeTextBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandscapeTextBookViewController.h; sourceTree = "<group>"; };
+		AE37CD65175278D500EA8653 /* LandscapeTextBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandscapeTextBookViewController.m; sourceTree = "<group>"; };
+		AE37CD66175278D500EA8653 /* LandscapeTextBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandscapeTextBookViewController.xib; sourceTree = "<group>"; };
+		AE37CD69175278F300EA8653 /* LandscapeTextBookiPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandscapeTextBookiPhone.xib; sourceTree = "<group>"; };
+		AE37CD6B1752792100EA8653 /* LandscapePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandscapePageViewController.h; sourceTree = "<group>"; };
+		AE37CD6C1752792100EA8653 /* LandscapePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandscapePageViewController.m; sourceTree = "<group>"; };
+		AE37CD6D1752792100EA8653 /* LandscapePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandscapePageViewController.xib; sourceTree = "<group>"; };
+		AE37CD701752796700EA8653 /* LandscapePageiPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandscapePageiPhone.xib; sourceTree = "<group>"; };
 		AE3E0F271653F4B800625CEB /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		AE3E0F2A1653F4E300625CEB /* cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cart.png; sourceTree = "<group>"; };
 		AE3F981A16D637C70052C85C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -395,6 +447,7 @@
 		AE59B54116817B7600DC55EC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		AE59B54216817B7600DC55EC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		AE59B54516817B7600DC55EC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		AE59ED7C1743480100C35899 /* MangoReader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MangoReader.entitlements; sourceTree = "<group>"; };
 		AE5B19D8167F21B4000FFADA /* skip-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skip-button.png"; sourceTree = "<group>"; };
 		AE5BA1271667427100143BE8 /* ViewControllerMailCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerMailCustom.h; sourceTree = "<group>"; };
 		AE5BA1281667427100143BE8 /* ViewControllerMailCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerMailCustom.m; sourceTree = "<group>"; };
@@ -559,6 +612,8 @@
 		AED2B4F5169A8EF9001956CF /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		AED2B4F8169A8F12001956CF /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		AED2B517169AA742001956CF /* 49.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 49.jpg; sourceTree = "<group>"; };
+		AED2C66B17535B31008C4147 /* 1.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.epub; sourceTree = "<group>"; };
+		AED2C66D17535B45008C4147 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		AED4C88216A82DF8009F462E /* TextViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewViewController.h; sourceTree = "<group>"; };
 		AED4C88316A82DF8009F462E /* TextViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewViewController.m; sourceTree = "<group>"; };
 		AED4C88416A82DF8009F462E /* TextViewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewViewController.xib; sourceTree = "<group>"; };
@@ -761,6 +816,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
 				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
 				AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */,
 				AEC70E1716D4C35100A191D2 /* CoreVideo.framework */,
@@ -777,6 +833,7 @@
 				AE5FC01B167701DC00BB9AED /* Social.framework */,
 				AE8D260D166DC99D00156F43 /* ConnectionDelegate iphone */,
 				AEEF8474166C91020098BAA2 /* Mangoreader iphone */,
+				AE1D511B17525FED00D2F25E /* help */,
 				AE9793F21650ABB500DBB5D1 /* ConnectionDelegate iPad */,
 				AE9793F41650ACCA00DBB5D1 /* Database */,
 				AE1373721622D9D0006C2CA6 /* flurry */,
@@ -819,6 +876,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AED2C66D17535B45008C4147 /* 1.jpg */,
+				AED2C66B17535B31008C4147 /* 1.epub */,
 				AEDBB69B1740F3BD003321E4 /* 1094.epub */,
 				AEDBB69C1740F3BD003321E4 /* 1094.jpg */,
 				AE0FF3EB16BB912C006258E1 /* 445.jpg */,
@@ -921,6 +980,50 @@
 				AE9C3CAF171805D900ABAC86 /* libFlurry.a */,
 			);
 			name = flurry;
+			sourceTree = "<group>";
+		};
+		AE1D511B17525FED00D2F25E /* help */ = {
+			isa = PBXGroup;
+			children = (
+				AE1D51231752625D00D2F25E /* MyViewController.h */,
+				AE1D51241752625D00D2F25E /* MyViewController.m */,
+				AE1D511C1752600000D2F25E /* RootViewController.h */,
+				AE1D511D1752600000D2F25E /* RootViewController.m */,
+				AE1D513E17526AF800D2F25E /* MyView.xib */,
+				AECBA39617525C85001DC38A /* help ipad */,
+				AECBA38D17525BE4001DC38A /* help iphone */,
+			);
+			name = help;
+			sourceTree = "<group>";
+		};
+		AE37CD62175278A700EA8653 /* TextBook */ = {
+			isa = PBXGroup;
+			children = (
+				AEF6A151169596CE00ECAE7E /* WebPageViewController.h */,
+				AEF6A152169596CE00ECAE7E /* WebPageViewController.m */,
+				AEF6A153169596CE00ECAE7E /* WebPageViewController.xib */,
+				AEF6A1561695973B00ECAE7E /* WebPageViewIphone.xib */,
+				AEF6A16016959B5E00ECAE7E /* ViewController.h */,
+				AEF6A16116959B5E00ECAE7E /* ViewController.m */,
+				AEF6A16216959B5E00ECAE7E /* ViewController.xib */,
+				AED6A8771696B81400FADB3D /* ViewControllerIphone.xib */,
+			);
+			name = TextBook;
+			sourceTree = "<group>";
+		};
+		AE37CD63175278B800EA8653 /* Landscape TextBook */ = {
+			isa = PBXGroup;
+			children = (
+				AE37CD64175278D500EA8653 /* LandscapeTextBookViewController.h */,
+				AE37CD65175278D500EA8653 /* LandscapeTextBookViewController.m */,
+				AE37CD66175278D500EA8653 /* LandscapeTextBookViewController.xib */,
+				AE37CD69175278F300EA8653 /* LandscapeTextBookiPhone.xib */,
+				AE37CD6B1752792100EA8653 /* LandscapePageViewController.h */,
+				AE37CD6C1752792100EA8653 /* LandscapePageViewController.m */,
+				AE37CD6D1752792100EA8653 /* LandscapePageViewController.xib */,
+				AE37CD701752796700EA8653 /* LandscapePageiPhone.xib */,
+			);
+			name = "Landscape TextBook";
 			sourceTree = "<group>";
 		};
 		AE43C7051610530B00970739 /* Products */ = {
@@ -1047,6 +1150,8 @@
 		AE7FEDD4161580AD00C4B51D /* epubReader */ = {
 			isa = PBXGroup;
 			children = (
+				AE37CD62175278A700EA8653 /* TextBook */,
+				AE37CD63175278B800EA8653 /* Landscape TextBook */,
 				AEB79380173B8EF000301057 /* AppiraterDelegate.h */,
 				AEDAD4AF1739033A002543DF /* playbuttonpressed.png */,
 				AED5E3A517377A4300914590 /* recordbuttonpressed.png */,
@@ -1072,14 +1177,6 @@
 				AEFB1C44173A2F3D00C7A081 /* CoverViewController.h */,
 				AEFB1C45173A2F3D00C7A081 /* CoverViewController.m */,
 				AE98BFE9173A65F500A7D209 /* CoverViewController.xib */,
-				AEF6A151169596CE00ECAE7E /* WebPageViewController.h */,
-				AEF6A152169596CE00ECAE7E /* WebPageViewController.m */,
-				AEF6A153169596CE00ECAE7E /* WebPageViewController.xib */,
-				AEF6A1561695973B00ECAE7E /* WebPageViewIphone.xib */,
-				AEF6A16016959B5E00ECAE7E /* ViewController.h */,
-				AEF6A16116959B5E00ECAE7E /* ViewController.m */,
-				AEF6A16216959B5E00ECAE7E /* ViewController.xib */,
-				AED6A8771696B81400FADB3D /* ViewControllerIphone.xib */,
 				AED4C88216A82DF8009F462E /* TextViewViewController.h */,
 				AED4C88316A82DF8009F462E /* TextViewViewController.m */,
 				AED4C88416A82DF8009F462E /* TextViewViewController.xib */,
@@ -1199,6 +1296,34 @@
 				AEC9B12816B665A5008CD1F5 /* EachCellOfTOC.m */,
 			);
 			name = tableOfContents;
+			sourceTree = "<group>";
+		};
+		AECBA38D17525BE4001DC38A /* help iphone */ = {
+			isa = PBXGroup;
+			children = (
+				AE1D5126175268EA00D2F25E /* small_one.png */,
+				AE1D5127175268EA00D2F25E /* small_two.png */,
+				AE1D5128175268EA00D2F25E /* small_three.png */,
+				AE1D5129175268EA00D2F25E /* small_four.png */,
+				AE1D512A175268EA00D2F25E /* small_five.png */,
+				AE1D512B175268EA00D2F25E /* small_six.png */,
+				AE1D511F1752600900D2F25E /* PhoneContent.xib */,
+			);
+			name = "help iphone";
+			sourceTree = "<group>";
+		};
+		AECBA39617525C85001DC38A /* help ipad */ = {
+			isa = PBXGroup;
+			children = (
+				AE1D51321752690300D2F25E /* large_one.png */,
+				AE1D51331752690300D2F25E /* large_two.png */,
+				AE1D51341752690300D2F25E /* large_three.png */,
+				AE1D51351752690300D2F25E /* large_four.png */,
+				AE1D51361752690300D2F25E /* large_five.png */,
+				AE1D51371752690300D2F25E /* large_six.png */,
+				AE1D51211752606600D2F25E /* padContent.xib */,
+			);
+			name = "help ipad";
 			sourceTree = "<group>";
 		};
 		AEDF1802168AC4EA0087064A /* IpadReaderImages */ = {
@@ -1584,6 +1709,27 @@
 				AEDBB6971740D418003321E4 /* playmyrecordingbutton.png in Resources */,
 				AEDBB69D1740F3BD003321E4 /* 1094.epub in Resources */,
 				AEDBB69E1740F3BD003321E4 /* 1094.jpg in Resources */,
+				AE1D51201752600900D2F25E /* PhoneContent.xib in Resources */,
+				AE1D51221752606600D2F25E /* padContent.xib in Resources */,
+				AE1D512C175268EA00D2F25E /* small_one.png in Resources */,
+				AE1D512D175268EA00D2F25E /* small_two.png in Resources */,
+				AE1D512E175268EA00D2F25E /* small_three.png in Resources */,
+				AE1D512F175268EA00D2F25E /* small_four.png in Resources */,
+				AE1D5130175268EA00D2F25E /* small_five.png in Resources */,
+				AE1D5131175268EA00D2F25E /* small_six.png in Resources */,
+				AE1D51381752690300D2F25E /* large_one.png in Resources */,
+				AE1D51391752690300D2F25E /* large_two.png in Resources */,
+				AE1D513A1752690300D2F25E /* large_three.png in Resources */,
+				AE1D513B1752690300D2F25E /* large_four.png in Resources */,
+				AE1D513C1752690300D2F25E /* large_five.png in Resources */,
+				AE1D513D1752690300D2F25E /* large_six.png in Resources */,
+				AE1D513F17526AF800D2F25E /* MyView.xib in Resources */,
+				AE37CD68175278D500EA8653 /* LandscapeTextBookViewController.xib in Resources */,
+				AE37CD6A175278F300EA8653 /* LandscapeTextBookiPhone.xib in Resources */,
+				AE37CD6F1752792100EA8653 /* LandscapePageViewController.xib in Resources */,
+				AE37CD711752796700EA8653 /* LandscapePageiPhone.xib in Resources */,
+				AED2C66C17535B31008C4147 /* 1.epub in Resources */,
+				AED2C66E17535B45008C4147 /* 1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1706,6 +1852,10 @@
 				AEFB1C47173A2F3D00C7A081 /* CoverViewController.m in Sources */,
 				AEB7937F173B8E7900301057 /* Appirater.m in Sources */,
 				AEB7938A173BA61A00301057 /* ShowPopViewController.m in Sources */,
+				AE1D511E1752600000D2F25E /* RootViewController.m in Sources */,
+				AE1D51251752625D00D2F25E /* MyViewController.m in Sources */,
+				AE37CD67175278D500EA8653 /* LandscapeTextBookViewController.m in Sources */,
+				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1745,8 +1895,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1769,8 +1920,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "210D64DA-D196-4085-AAE7-326BE5A0AD2B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "210D64DA-D196-4085-AAE7-326BE5A0AD2B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1780,8 +1931,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
@@ -1802,8 +1954,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "210D64DA-D196-4085-AAE7-326BE5A0AD2B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "210D64DA-D196-4085-AAE7-326BE5A0AD2B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1819,6 +1971,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1839,6 +1992,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1853,6 +2007,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1866,6 +2021,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1877,8 +2033,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1899,8 +2055,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

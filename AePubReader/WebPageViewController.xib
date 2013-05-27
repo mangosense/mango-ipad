@@ -44,6 +44,7 @@
 						<string key="NSFrame">{{12, 40}, {744, 964}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -4818,11 +4819,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<array class="NSMutableArray" key="children">
 							<reference ref="920014818"/>
 							<reference ref="547043562"/>
-							<reference ref="1035308205"/>
 							<reference ref="438093600"/>
 							<reference ref="232330429"/>
 							<reference ref="338614303"/>
 							<reference ref="1062036720"/>
+							<reference ref="1035308205"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>

@@ -89,7 +89,7 @@
         NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
         
         float sizeLong=diction.fileSize;
-        NSLog(@"downloaded %@ total %f",[NSNumber numberWithLong:_sizeLenght],_value);
+    //    NSLog(@"downloaded %@ total %f",[NSNumber numberWithLong:_sizeLenght],_value);
         
         sizeLong=sizeLong/_value;
         [_progress setProgress:sizeLong animated:YES];

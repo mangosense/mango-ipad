@@ -34,7 +34,7 @@
         }else{
             [_purchaseButton setEnabled:NO];
             
-            NSLog(@"Product %@",_product.localizedTitle);
+       //     NSLog(@"Product %@",_product.localizedTitle);
             SKPayment *payment=[SKPayment paymentWithProduct:_product];
             [[SKPaymentQueue defaultQueue] addPayment:payment];
         }
@@ -80,8 +80,8 @@
         // [dictionary setValue:@"sxd4igWVyWAY6uzxgzRv" forKey:@"auth_token"];
         NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
         
-        NSString *valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"value json request %@",valueJson);
+     //   NSString *valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //    NSLog(@"value json request %@",valueJson);
         NSString *stringURL=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
         // NSString *stringURL=[NSString stringWithFormat:@"http://www.mangoreader.com/api/v1/register_a_purchase.json?amount=0&&user_id=%@&book_id=%d&&currency=INR",email,_identity ];
         // NSURL *url=[NSURL URLWithString:stringURL];
@@ -108,7 +108,7 @@
          [_purchaseButton setEnabled:NO];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         delegate.identity=_identity;
-        NSLog(@"Product %@",_product.localizedTitle);
+     //   NSLog(@"Product %@",_product.localizedTitle);
          SKPayment *payment=[SKPayment paymentWithProduct:_product];
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     }
