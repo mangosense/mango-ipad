@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Book.h"
-#import "ASIHTTPRequest.h"
 #import "StoreBooks.h"
 #import "NoteHighlight.h"
-@interface DataModelControl : NSObject<ASIHTTPRequestDelegate>
+@interface DataModelControl : NSObject
 @property (nonatomic, retain)NSManagedObjectContext* dataModelContext;
 -(id)initWithContext:(NSManagedObjectContext *)context;
 -(NSInteger)insertStoreBooks:(NSMutableData *)data withPageNumber:(NSInteger )pageNumber;

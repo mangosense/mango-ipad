@@ -148,9 +148,10 @@
     NSLog(@"production baseurl %@",baseUrl);
     // baseUrl=@"http://192.168.2.29:3000/api/v1/users/sign_up.json?user[email]=";
     NSString *parameter=[NSString stringWithFormat:@"%@&user[password]=%@&user[password_confirmation]=%@&user[name]=%@",_email.text,_password.text,_confirmPassword.text,_name.text];
+   parameter= [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     baseUrl=[baseUrl stringByAppendingString:parameter];
     NSLog(@"staging baseurl %@",baseUrl);
-
+    
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:baseUrl]];
 
     [request setHTTPMethod:@"POST"];

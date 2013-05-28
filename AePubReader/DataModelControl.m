@@ -7,7 +7,6 @@
 //
 
 #import "DataModelControl.h"
-#import "ASIHTTPRequest.h"
 #import <CoreData/CoreData.h>
 #import "Book.h"
 #import "ImageDownloader.h"
@@ -442,19 +441,15 @@
             NSNumber *numbr=[key objectForKey:@"booktype"];
            
                 storeBooks.textBook=numbr;
-           
+            NSURLResponse *response;
+            NSError *error;
             NSString *temp=[NSString stringWithFormat:@"%@.jpg",[key objectForKey:@"id"]];
             temp=[string stringByAppendingPathComponent:temp];
             NSURL *url=[NSURL URLWithString:storeBooks.imageUrl];
-            
-            ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
+            NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
+            NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            [data writeToFile:temp atomically:YES];
             storeBooks.localImage=temp;
-            [request setDownloadDestinationPath:temp];
-            [request setDelegate:self];
-            
-            [request setAllowResumeForFileDownloads:YES];
-            [request startSynchronous];
-            NSError *error=nil;
             if (![_dataModelContext save:&error]) {
                 NSLog(@"%@",error);
             }
@@ -465,12 +460,18 @@
             NSURL *url=[NSURL URLWithString:urlString];
             NSString *temp=[NSString stringWithFormat:@"%@.jpg",[key objectForKey:@"id"]];
             temp=[string stringByAppendingPathComponent:temp];
+            NSURLResponse *response;
+            NSError *erro;
+            NSURLRequest *request;
             if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
-                 ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
-                [request setDownloadDestinationPath:temp];
-                [request setDelegate:self];
-                [request setAllowResumeForFileDownloads:YES];
-                [request startSynchronous];
+                request=[NSURLRequest requestWithURL:url];
+                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&erro];
+//                 ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
+//                [request setDownloadDestinationPath:temp];
+//                [request setDelegate:self];
+//                [request setAllowResumeForFileDownloads:YES];
+//                [request startSynchronous];
+                [data writeToFile:temp atomically:YES];
             }
             NSString *val=[NSString stringWithFormat:@"%@",numberId ];
             StoreBooks *books=[self getStoreBookById:val];
@@ -572,19 +573,15 @@
                NSLog(@"%@",book.title);
               
                }
-
+               NSError *error=nil;
+               NSURLResponse *response;
 //
-               
-               ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
+               NSURLRequest *request=[NSURLRequest requestWithURL:url];
+               NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                book.localPathImageFile=temp;
-               [request setDownloadDestinationPath:temp];
-               [request setDelegate:self];
-               
-               [request setAllowResumeForFileDownloads:YES];
-               [request startSynchronous];
+               [data writeToFile:temp atomically:YES];
 //               NSData *data=[NSData dataWithContentsOfURL:url];
 //               [data writeToFile:temp atomically:NO];
-               NSError *error=nil;
                if (![_dataModelContext save:&error]) {
                    NSLog(@"%@",error);
                }
@@ -615,13 +612,11 @@
            }
            if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
          //      NSLog(@"File downloading %@",temp);
-               ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
-               [request setDownloadDestinationPath:temp];
-               [request setDelegate:self];
-               
-               [request setAllowResumeForFileDownloads:YES];
-               [request startSynchronous];
-
+               NSURLResponse *response;
+               NSError *error;
+               NSURLRequest *request=[NSURLRequest requestWithURL:url];
+               NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+               [data writeToFile:temp atomically:YES];
            }
            
            

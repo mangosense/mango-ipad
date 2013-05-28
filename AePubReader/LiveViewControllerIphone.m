@@ -421,8 +421,9 @@
     
     // Configure the cell...
     StoreBooks *storeBooks=[_array objectAtIndex:indexPath.row];
-
-    cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:storeBooks.localImage];
+    NSLog(@"storebooks %@",storeBooks.localImage);
+    UIImage *image=[[UIImage alloc]initWithContentsOfFile:storeBooks.localImage];
+    cell.imageView.image=image;
 
     cell.textLabel.text=storeBooks.title;
 

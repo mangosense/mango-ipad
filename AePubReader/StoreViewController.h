@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ASIHTTPRequest.h"
 #import "AePubReaderAppDelegate.h"
 #import "Book.h"
 #import <MessageUI/MessageUI.h>
@@ -18,7 +17,7 @@
 -(void)DownloadComplete:(Book *)book;
 
 @end
-@interface StoreViewController : UIViewController<ASIHTTPRequestDelegate,ASIProgressDelegate,NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
+@interface StoreViewController : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
    
 }
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;

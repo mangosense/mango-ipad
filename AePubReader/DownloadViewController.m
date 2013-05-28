@@ -36,7 +36,9 @@
         else{
             _array=[[NSMutableArray alloc]initWithArray:array];
         }
-        
+
+
+
     }
     return self;
 }
@@ -131,6 +133,10 @@
         [alert show];
         
     }
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate*)[UIApplication sharedApplication].delegate;
+    NSArray *array=[delegate.dataModel getDataNotDownloaded];
+    _array=[[NSMutableArray alloc]initWithArray:array];
+    [self.tableView reloadData];
 }
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
   //  [_alert dismissWithClickedButtonIndex:0 animated:YES];
