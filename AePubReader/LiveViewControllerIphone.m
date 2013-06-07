@@ -195,7 +195,7 @@
                     dictionary=[[NSMutableDictionary alloc]init];
                     userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
                     [dictionary setValue:userid forKey:@"user_id"];
-                    [dictionary setValue:[NSNumber numberWithInteger:delegate.identity ] forKey:@"book_id"];
+                    [dictionary setValue:@(delegate.identity) forKey:@"book_id"];
                     [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
                     [dictionary setValue:_price forKey:@"amount"];
                     NSData *transactionReciept=transaction.transactionReceipt;
@@ -281,7 +281,7 @@
         dictionary=[[NSMutableDictionary alloc]init];
         userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
         [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:delegate.identity ] forKey:@"book_id"];
+        [dictionary setValue:@(delegate.identity) forKey:@"book_id"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
         [dictionary setValue:_price forKey:@"amount"];
         NSData *transactionReciept=transaction.transactionReceipt;
@@ -420,7 +420,7 @@
     }
     
     // Configure the cell...
-    StoreBooks *storeBooks=[_array objectAtIndex:indexPath.row];
+    StoreBooks *storeBooks=_array[indexPath.row];
     NSLog(@"storebooks %@",storeBooks.localImage);
     UIImage *image=[[UIImage alloc]initWithContentsOfFile:storeBooks.localImage];
     cell.imageView.image=image;
@@ -474,7 +474,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    StoreBooks *book=[_array objectAtIndex:indexPath.row];
+    StoreBooks *book=_array[indexPath.row];
     
     NSNumber *iden=book.productIdentity;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -521,7 +521,7 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSNumber *identity=[[NSNumber alloc]initWithInteger:delegate.identity];
+    NSNumber *identity=@(delegate.identity);
     StoreBooks *books=[delegate.dataModel getBookById:identity];
     
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];

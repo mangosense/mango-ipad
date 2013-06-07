@@ -64,7 +64,7 @@
     [manager createFileAtPath:string contents:nil attributes:nil];
     NSError *error;
     NSURL *urlFile=[NSURL fileURLWithPath:string];
-    [urlFile setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+    [urlFile setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
     bookDownload.handle=[NSFileHandle fileHandleForUpdatingAtPath:string];
   //  [bookDownload.handle retain];
     bookDownload.progress=_progress;
@@ -98,7 +98,7 @@
     barButtonItem.tintColor=[UIColor grayColor];
     self.navigationItem.rightBarButtonItem=barButtonItem;
     if (![[NSUserDefaults standardUserDefaults]boolForKey:@"help"]) {
-            NSArray *array=[NSArray arrayWithObjects:@"small_one.png",@"small_two.png",@"small_three.png", @"small_four",nil];
+            NSArray *array=@[@"small_one.png",@"small_two.png",@"small_three.png", @"small_four"];
         RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"PhoneContent" bundle:nil contentList:array] ;
         [self presentViewController:rootViewController animated:YES completion:nil];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
@@ -121,7 +121,7 @@
     mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     
     [mail setMailComposeDelegate:self];
-    [mail setToRecipients:[NSArray arrayWithObjects:@"ios@mangosense.com", nil]];
+    [mail setToRecipients:@[@"ios@mangosense.com"]];
     // [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
     
@@ -208,7 +208,8 @@
     }
    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    Book *book=[_array objectAtIndex:indexPath.row];
+    Book *book=_array[indexPath.row];
+    NSLog(@"%@",book.localPathImageFile);
     cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile];
     cell.textLabel.text=book.title;
 
@@ -239,7 +240,7 @@
          //   [alertView release];
             return;
         }
-           Book *book=[_array objectAtIndex:indexPath.row];
+           Book *book=_array[indexPath.row];
          NSString *alertViewMessage=[NSString stringWithFormat:@"Do you wish to delete book titled %@ ?",book.title ];
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Delete Book" message:alertViewMessage delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         alertView.tag=300;

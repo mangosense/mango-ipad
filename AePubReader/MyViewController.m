@@ -68,7 +68,7 @@
 // set the label and background color when the view has finished loading
 - (void)viewDidLoad
 {
-    self.pageNumberLabel.text = [NSString stringWithFormat:@"Page %d", pageNumber + 1];
+   
 }
 
 @end

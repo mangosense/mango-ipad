@@ -34,9 +34,9 @@
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
-    NSString *authToken=[diction objectForKey:@"auth_token"];
+    NSString *authToken=diction[@"auth_token"];
     [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:@"auth_token"];
-    NSString *email=[diction objectForKey:@"email"];
+    NSString *email=diction[@"email"];
     [[NSUserDefaults standardUserDefaults] setObject:email forKey:@"email"];
     [[NSUserDefaults standardUserDefaults] setObject:diction[@"id"] forKey:@"id"];
 //    [userDefault setObject:diction[@"id"] forKey:@"id"];

@@ -13,7 +13,6 @@
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
 			<string>IBUIButton</string>
-			<string>IBUIImageView</string>
 			<string>IBUISearchBar</string>
 			<string>IBUIView</string>
 			<string>IBUIWebView</string>
@@ -41,10 +40,9 @@
 					<object class="IBUIWebView" id="317441065">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{12, 40}, {744, 964}}</string>
+						<string key="NSFrame">{{9, 40}, {750, 936}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -63,7 +61,7 @@
 							<object class="IBUIButton" id="232330429">
 								<reference key="NSNextResponder" ref="331836005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{72, 6}, {34, 28}}</string>
+								<string key="NSFrame">{{42, 4}, {55, 32}}</string>
 								<reference key="NSSuperview" ref="331836005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1035308205"/>
@@ -4543,7 +4541,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBUIButton" id="438093600">
 								<reference key="NSNextResponder" ref="331836005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{249, 6}, {34, 28}}</string>
+								<string key="NSFrame">{{242, 6}, {34, 28}}</string>
 								<reference key="NSSuperview" ref="331836005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="547043562"/>
@@ -4566,7 +4564,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBUIButton" id="920014818">
 								<reference key="NSNextResponder" ref="331836005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{190, 6}, {34, 28}}</string>
+								<string key="NSFrame">{{173, 6}, {35, 28}}</string>
 								<reference key="NSSuperview" ref="331836005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="438093600"/>
@@ -4589,7 +4587,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBUIButton" id="1035308205">
 								<reference key="NSNextResponder" ref="331836005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{131, 6}, {34, 28}}</string>
+								<string key="NSFrame">{{115, 6}, {34, 28}}</string>
 								<reference key="NSSuperview" ref="331836005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="920014818"/>
@@ -4611,26 +4609,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<reference key="IBUIFontDescription" ref="626324094"/>
 								<reference key="IBUIFont" ref="546219038"/>
 							</object>
-							<object class="IBUIImageView" id="338614303">
-								<reference key="NSNextResponder" ref="331836005"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{8, 4}, {26, 32}}</string>
-								<reference key="NSSuperview" ref="331836005"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="232330429"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">tmangot.png</string>
-								</object>
-							</object>
 						</array>
 						<string key="NSFrameSize">{768, 40}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="338614303"/>
+						<reference key="NSNextKeyView" ref="232330429"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="509580738"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -4817,13 +4800,12 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="objectID">17</int>
 						<reference key="object" ref="331836005"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="920014818"/>
 							<reference ref="547043562"/>
-							<reference ref="438093600"/>
-							<reference ref="232330429"/>
-							<reference ref="338614303"/>
 							<reference ref="1062036720"/>
+							<reference ref="232330429"/>
 							<reference ref="1035308205"/>
+							<reference ref="920014818"/>
+							<reference ref="438093600"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -4857,11 +4839,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="object" ref="1035308205"/>
 						<reference key="parent" ref="331836005"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">54</int>
-						<reference key="object" ref="338614303"/>
-						<reference key="parent" ref="331836005"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4878,7 +4855,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -5018,7 +4994,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 			<string key="addnot.png">{34, 28}</string>
 			<string key="lib.png">{34, 28}</string>
 			<string key="nh.png">{34, 28}</string>
-			<string key="tmangot.png">{26, 32}</string>
 			<string key="toc.png">{34, 28}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>

@@ -39,7 +39,7 @@
 {
 [self.nodePool addObject:child];
 
-CXMLNode *theCurrentNode = [self.children objectAtIndex:index];
+CXMLNode *theCurrentNode = (self.children)[index];
 xmlAddPrevSibling(theCurrentNode->_node, child->_node);
 }
 

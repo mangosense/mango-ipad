@@ -69,9 +69,7 @@ if ((self = [super init]) != NULL)
 		{
 		xmlErrorPtr	theLastErrorPtr = xmlGetLastError();
 		
-		NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSString stringWithUTF8String:theLastErrorPtr->message], NSLocalizedDescriptionKey,
-			NULL];
+		NSDictionary *theUserInfo = @{NSLocalizedDescriptionKey: @(theLastErrorPtr->message)};
 		
 		
 		theError = [NSError errorWithDomain:@"CXMLErrorDomain" code:1 userInfo:theUserInfo];
@@ -133,10 +131,8 @@ if ((self = [super init]) != NULL)
 		else
 			{
 			xmlErrorPtr	theLastErrorPtr = xmlGetLastError();
-			NSString* message = [NSString stringWithUTF8String:
-								 (theLastErrorPtr ? theLastErrorPtr->message : "Unknown error")];
-			NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-										 message, NSLocalizedDescriptionKey, NULL];
+			NSString* message = @(theLastErrorPtr ? theLastErrorPtr->message : "Unknown error");
+			NSDictionary *theUserInfo = @{NSLocalizedDescriptionKey: message};
 			theError = [NSError errorWithDomain:@"CXMLErrorDomain" code:1 userInfo:theUserInfo];
 								 
 			xmlResetLastError();

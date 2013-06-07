@@ -41,7 +41,7 @@
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
     if (!_signIn) {
         
-       NSNumber *status= [dictionary objectForKey:@"status"];
+       NSNumber *status= dictionary[@"status"];
         if ([status integerValue]==0) {
             
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
@@ -62,7 +62,7 @@
         
         return;
     }
-     value= [dictionary objectForKey:@"message"];
+     value= dictionary[@"message"];
     if ([value isEqualToString:@"purchase successful!"]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
         // [alertViewDelegate autorelease];

@@ -208,7 +208,7 @@
     NSString *feedbackSubject=[NSString stringWithFormat:@"Feedback for book titled %@",book.title ];
     [mail setSubject:feedbackSubject];
     mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-    [mail setToRecipients:[NSArray arrayWithObjects:@"ios@mangosense.com", nil]];
+    [mail setToRecipients:@[@"ios@mangosense.com"]];
 
     [mail setMailComposeDelegate:self];
    

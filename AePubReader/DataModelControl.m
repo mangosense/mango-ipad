@@ -64,9 +64,9 @@
 -(void)insertNoteOFHighLight:(BOOL)highLight book:(NSInteger )bookid page:(NSInteger)pageNo string:(NSString *)text{
   //  [text retain];
     NoteHighlight *noteHighLight=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
-    noteHighLight.highlight=[NSNumber numberWithBool:highLight];
-    noteHighLight.bookid=[NSNumber numberWithInteger:bookid];
-    noteHighLight.pageNo=[NSNumber numberWithInteger:pageNo];
+    noteHighLight.highlight=@(highLight);
+    noteHighLight.bookid=@(bookid);
+    noteHighLight.pageNo=@(pageNo);
     noteHighLight.text=text;
     noteHighLight.date_added=[NSDate date];
     noteHighLight.date_modified=[NSDate date];
@@ -82,7 +82,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d && pageNo=%d",[NSNumber numberWithBool:YES],bookid,pageNumber];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d && pageNo=%d",@YES,bookid,pageNumber];
     [fetchRequest setPredicate:predicate];
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
@@ -110,7 +110,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
      [fetchRequest setEntity:entity];
-     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d",[NSNumber numberWithBool:NO],bookid];
+     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d",@NO,bookid];
     [fetchRequest setPredicate:predicate];
     NSError *error;
     NSArray *array=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
@@ -126,7 +126,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d ",[NSNumber numberWithBool:YES],bookid];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d ",@YES,bookid];
     [fetchRequest setPredicate:predicate];
     NSSortDescriptor *desc=[[NSSortDescriptor alloc] initWithKey:@"pageNo" ascending:YES];
     NSError *error;
@@ -154,7 +154,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d && pageNo=%d",[NSNumber numberWithBool:NO],bookid,pageNumber];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"highlight==%@ && bookid=%d && pageNo=%d",@NO,bookid,pageNumber];
 
     [fetchRequest setPredicate:predicate];
     NSError *error;
@@ -170,7 +170,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"downloaded==%@",[NSNumber numberWithBool:NO]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"downloaded==%@",@NO];
     [fetchRequest setPredicate:predicate];
     
     NSError *error;
@@ -215,7 +215,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"downloaded==%@",[NSNumber numberWithBool:YES]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"downloaded==%@",@YES];
     [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *desc=[[NSSortDescriptor alloc] initWithKey:@"downloadedDate" ascending:NO];
@@ -406,44 +406,44 @@
 
 -(NSInteger)insertStoreBooks:(NSMutableData *)data withPageNumber:(NSInteger )pageNumber{
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    NSInteger totalBooks=[[diction objectForKey:@"total_no_of_books"] integerValue];
+    NSInteger totalBooks=[diction[@"total_no_of_books"] integerValue];
     
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSArray *bookArray=[diction objectForKey:@"books"];
+    NSArray *bookArray=diction[@"books"];
     
     for (int i=0;i<bookArray.count;i++) {
-        NSDictionary *fromArray=[bookArray objectAtIndex:i];
+        NSDictionary *fromArray=bookArray[i];
        
-        NSDictionary *key=[fromArray objectForKey:@"book"];
+        NSDictionary *key=fromArray[@"book"];
       //   NSLog(@"key %@",key);
-        NSNumber *numberId=[key objectForKey:@"id"];
+        NSNumber *numberId=key[@"id"];
         if(numberId){
         NSLog(@"number id %@",numberId);
         }
-        if(![self checkIfStoreId:numberId]&&[key objectForKey:@"title"]!=[NSNull null]&&[NSNull null]!=(NSNull *)numberId){
+        if(![self checkIfStoreId:numberId]&&key[@"title"]!=[NSNull null]&&[NSNull null]!=(NSNull *)numberId){
 
             StoreBooks *storeBooks=[NSEntityDescription insertNewObjectForEntityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
          //   NSArray *totalKeys=[key allKeys];
            
           //  NSLog(@"key title value %@",[key objectForKey:@"title"]);
           
-            storeBooks.productIdentity=[key objectForKey:@"id"];
+            storeBooks.productIdentity=key[@"id"];
            
-            storeBooks.title=[key objectForKey:@"title"];
-            storeBooks.bookLink=[key objectForKey:@"book_link"];
-            storeBooks.book_url=[key objectForKey:@"book_url"];
-            storeBooks.imageUrl=[key objectForKey:@"cover_image_url"];
-            storeBooks.size=[key objectForKey:@"source_file_size"];
-            storeBooks.desc=[key objectForKey:@"description"];
-            storeBooks.pageNumber=[NSNumber numberWithInteger:pageNumber];
-           storeBooks.free=[key objectForKey:@"is_free"];
+            storeBooks.title=key[@"title"];
+            storeBooks.bookLink=key[@"book_link"];
+            storeBooks.book_url=key[@"book_url"];
+            storeBooks.imageUrl=key[@"cover_image_url"];
+            storeBooks.size=key[@"source_file_size"];
+            storeBooks.desc=key[@"description"];
+            storeBooks.pageNumber=@(pageNumber);
+           storeBooks.free=key[@"is_free"];
             storeBooks.purchased=@NO;
-            NSNumber *numbr=[key objectForKey:@"booktype"];
+            NSNumber *numbr=key[@"booktype"];
            
                 storeBooks.textBook=numbr;
             NSURLResponse *response;
             NSError *error;
-            NSString *temp=[NSString stringWithFormat:@"%@.jpg",[key objectForKey:@"id"]];
+            NSString *temp=[NSString stringWithFormat:@"%@.jpg",key[@"id"]];
             temp=[string stringByAppendingPathComponent:temp];
             NSURL *url=[NSURL URLWithString:storeBooks.imageUrl];
             NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
@@ -453,12 +453,12 @@
             if (![_dataModelContext save:&error]) {
                 NSLog(@"%@",error);
             }
-            NSLog(@"inserted id %@",[key objectForKey:@"id"]);
+            NSLog(@"inserted id %@",key[@"id"]);
         }
         else{
-            NSString *urlString=[key objectForKey:@"cover_image_url"];
+            NSString *urlString=key[@"cover_image_url"];
             NSURL *url=[NSURL URLWithString:urlString];
-            NSString *temp=[NSString stringWithFormat:@"%@.jpg",[key objectForKey:@"id"]];
+            NSString *temp=[NSString stringWithFormat:@"%@.jpg",key[@"id"]];
             temp=[string stringByAppendingPathComponent:temp];
             NSURLResponse *response;
             NSError *erro;
@@ -475,12 +475,12 @@
             }
             NSString *val=[NSString stringWithFormat:@"%@",numberId ];
             StoreBooks *books=[self getStoreBookById:val];
-            books.desc=[key objectForKey:@"description"];
-            NSNumber *numbr=[key objectForKey:@"booktype"];
+            books.desc=key[@"description"];
+            NSNumber *numbr=key[@"booktype"];
             
                     books.textBook=numbr;
-               NSLog(@"update id %@",[key objectForKey:@"id"]);
-            if ([key objectForKey:@"id"]!=[NSNull null]) {
+               NSLog(@"update id %@",key[@"id"]);
+            if (key[@"id"]!=[NSNull null]) {
                 [self saveStoreBookData:books];
 
             }
@@ -494,7 +494,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"purchased==%@",[NSNumber numberWithBool:YES]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"purchased==%@",@YES];
     [fetchRequest setPredicate:predicate];
     NSArray *arr=[_dataModelContext executeFetchRequest:fetchRequest error:nil];
     
@@ -506,7 +506,7 @@
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pageNumber==%@",[NSNumber numberWithInteger:pageNumber]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pageNumber==%@",@(pageNumber)];
     [fetchRequest setPredicate:predicate];
     
         NSError *error;
@@ -527,49 +527,49 @@
     _downloadedImage=0;
     
     for (int i=0;i<array.count;i++) {
-        NSDictionary *fromDict=[array objectAtIndex:i];
-        NSDictionary *key=[fromDict objectForKey:@"book"];
+        NSDictionary *fromDict=array[i];
+        NSDictionary *key=fromDict[@"book"];
 
-           NSString *temp=[NSString stringWithFormat:@"%@.jpg",[key objectForKey:@"id"]];
+           NSString *temp=[NSString stringWithFormat:@"%@.jpg",key[@"id"]];
            
            
-           NSNumber *numberId=[key objectForKey:@"id"];
+           NSNumber *numberId=key[@"id"];
            
            temp=[string stringByAppendingPathComponent:temp];
-           NSURL *url=[NSURL URLWithString:[key objectForKey:@"cover_image_url"]];
+           NSURL *url=[NSURL URLWithString:key[@"cover_image_url"]];
            if (![self checkIfIdExists:numberId]) {
                count++;
                Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
-               book.id=[key objectForKey:@"id"];
-               if ([NSNull null] !=[key objectForKey:@"description"]) {
-               book.desc=[key objectForKey:@"description"];    
+               book.id=key[@"id"];
+               if ([NSNull null] !=key[@"description"]) {
+               book.desc=key[@"description"];    
                }else{
                    book.desc=@"";
                }
-               NSString *tempUrl=[key objectForKey:@"book_url"];
+               NSString *tempUrl=key[@"book_url"];
                tempUrl=[tempUrl stringByReplacingOccurrencesOfString:@"localhost" withString:@"192.168.2.28"];
                book.sourceFileUrl=tempUrl;
-               tempUrl=[key objectForKey:@"cover_image_url"];
+               tempUrl=key[@"cover_image_url"];
                tempUrl=[tempUrl stringByReplacingOccurrencesOfString:@"localhost" withString:@"192.168.2.28"];
                book.imageUrl=tempUrl;
-               if ([NSNull null] !=[key objectForKey:@"title"]) {
-               book.title=[key objectForKey:@"title"];
+               if ([NSNull null] !=key[@"title"]) {
+               book.title=key[@"title"];
                }else{
                    book.title=@"";
                }
-               book.downloaded=[NSNumber numberWithBool:NO];
-               book.link=[key objectForKey:@"book_link"];
+               book.downloaded=@NO;
+               book.link=key[@"book_link"];
                  NSLog(@"id %@",book.id);
-               NSNumber *num=[key objectForKey:@"booktype"];
+               NSNumber *num=key[@"booktype"];
                if (num !=(id)[NSNull null]) {
                    book.textBook=num;
 
                }
               
-               NSNumber *numb=[key objectForKey:@"source_file_size"];
+               NSNumber *numb=key[@"source_file_size"];
               // NSLog(@" %@ %f",book.id,[numb floatValue]);
              if((id)[NSNull null]!=numb){
-               book.size=[NSNumber numberWithFloat:[numb floatValue]];
+               book.size=@([numb floatValue]);
                NSLog(@"%@",book.title);
               
                }
@@ -587,25 +587,25 @@
                }
               
            }else{
-               NSNumber *num=[key objectForKey:@"source_file_size"];
-               NSNumber *iden=[key objectForKey:@"id"];
+               NSNumber *num=key[@"source_file_size"];
+               NSNumber *iden=key[@"id"];
                NSString *str=[[NSString alloc ]initWithFormat:@"%@.epub",iden];
                Book *book=[self getBookOfId:str];
            //    [str release];
                if(num!=(id)[NSNull null]){
-                   book.size=[NSNumber numberWithFloat:[num floatValue]];
-               book.desc=[key objectForKey:@"description"];
+                   book.size=@([num floatValue]);
+               book.desc=key[@"description"];
                }
                 NSLog(@"id %@",iden );
-                 NSNumber *type=[key objectForKey:@"booktype"];
+                 NSNumber *type=key[@"booktype"];
                if (type!=(id)[NSNull null]) {
                    book.textBook=type;
 
                }
                                   NSLog(@"id %@",iden );
                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"changed"]) {
-                   book.sourceFileUrl=[key objectForKey:@"book_url"];
-                      book.imageUrl=[key objectForKey:@"cover_image_url"];
+                   book.sourceFileUrl=key[@"book_url"];
+                      book.imageUrl=key[@"cover_image_url"];
                }
 
                [self saveData:book];

@@ -101,7 +101,7 @@
       //  NSLog(@"dict %@",[dict class]);
         
         if ([[dict class] isSubclassOfClass:[NSDictionary class]]) {
-            if ([dict objectForKey:@"error"]) {
+            if (dict[@"error"]) {
                   [self performSelectorOnMainThread:@selector(sessionExpired) withObject:nil waitUntilDone:NO];
             }
           
@@ -160,7 +160,7 @@
     restore.tintColor=[UIColor grayColor];
     UIBarButtonItem *syncing=[[UIBarButtonItem alloc]initWithTitle:@"Sync" style:UIBarButtonItemStyleBordered target:self action:@selector(sync:)];
     syncing.tintColor=[UIColor grayColor];
-    NSArray *array=[NSArray arrayWithObjects:refresh,restore,syncing, nil];
+    NSArray *array=@[refresh,restore,syncing];
   //  [restore release];
   //  [syncing release];
     self.navigationItem.leftBarButtonItems=array;
@@ -214,7 +214,7 @@
         for (StoreBooks *books in stor) {
             NSNumber *bookId=books.productIdentity;
             NSNumber *amount=books.amount;
-            NSArray *array=[[NSArray alloc ]initWithObjects:bookId,amount, nil];
+            NSArray *array=@[bookId,amount];
             [arryMutable addObject:array];
          //   [array release];
             
@@ -256,7 +256,7 @@
                   
                   break;
               case SKPaymentTransactionStateRestored:
-                  number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
+                  number=@(transaction.payment.productIdentifier.integerValue);
                  books= [delegate.dataModel getBookById:number];
                   [delegate.dataModel insertBookWithNo:books];
                 //  [number release];
@@ -363,7 +363,7 @@
     }
     
     // Configure the cell...
-    Book *book=[_array objectAtIndex:indexPath.row];
+    Book *book=_array[indexPath.row];
     cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile];
     
     
@@ -417,7 +417,7 @@
 {
     // Navigation logic may go here. Create and push another view controller.
     
-   Book *book= [_array objectAtIndex:indexPath.row];
+   Book *book= _array[indexPath.row];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=NO;
     DetailViewController *detail=[[DetailViewController alloc]initWithNibName:@"DetailViewController" bundle:nil];
@@ -434,8 +434,8 @@
     NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
     
     if (dictionary) {
-        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
-        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        NSNumber *fileSystemSizeInBytes = dictionary[NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = dictionary[NSFileSystemFreeSize];
         totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));

@@ -40,7 +40,7 @@
     NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
     NSString *valu=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",valu);
-    NSString *value= [dictionary objectForKey:@"message"];  
+    NSString *value= dictionary[@"message"];  
     if ([value isEqualToString:@"purchase successful!"]) {
       //  [_store requestBooksFromServer];
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Sync successful" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

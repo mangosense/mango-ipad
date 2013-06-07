@@ -29,8 +29,8 @@
         //allocate memory
     }
     if ([elementName isEqualToString:@"navPoint"]) {
-        NSLog(@"%@",[attributeDict objectForKey:@"playOrder"]);
-        NSString *str=[attributeDict objectForKey:@"playOrder"];
+        NSLog(@"%@",attributeDict[@"playOrder"]);
+        NSString *str=attributeDict[@"playOrder"];
         if (!_toc) {
             _toc=[[EachCellOfTOC alloc]init];
         }
@@ -39,8 +39,8 @@
     }
     if ([elementName isEqualToString:@"content"]) {
       
-        NSLog(@"%@",[attributeDict objectForKey:@"src"]);
-        _toc.file=[[NSString alloc]initWithString:[attributeDict objectForKey:@"src"]];
+        NSLog(@"%@",attributeDict[@"src"]);
+        _toc.file=[[NSString alloc]initWithString:attributeDict[@"src"]];
         
     }
     if ([elementName isEqualToString:@"text"]) {

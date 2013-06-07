@@ -55,7 +55,7 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
        // [cell autorelease];
     }
-    cell.textLabel.text=[NSString stringWithFormat:@"%@    ",[_array objectAtIndex:indexPath.row] ];
+    cell.textLabel.text=[NSString stringWithFormat:@"%@    ",_array[indexPath.row] ];
     cell.textLabel.textAlignment=NSTextAlignmentCenter;
 //    UIButton *button=[UIButton buttonWithType:UIButtonTypeCustom];
 //    UIImage *image=[UIImage imageNamed:@"play-control.png"];
@@ -75,8 +75,8 @@
     NSString *record=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
     NSString *iden=[NSString stringWithFormat:@"%d",_identity ];
     record=[record stringByAppendingPathComponent:iden];
-    record=[record stringByAppendingPathComponent:[_array objectAtIndex:indexPath.row]];
-    DetailsViewController *details=[[DetailsViewController alloc]initWithNibName:@"DetailsViewController" bundle:nil title:[_array objectAtIndex:indexPath.row] value:record];
+    record=[record stringByAppendingPathComponent:_array[indexPath.row]];
+    DetailsViewController *details=[[DetailsViewController alloc]initWithNibName:@"DetailsViewController" bundle:nil title:_array[indexPath.row] value:record];
     [self.navigationController pushViewController:details animated:YES];
   //  [details release];
 }
@@ -151,7 +151,7 @@
         NSString *record=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
         NSString *iden=[NSString stringWithFormat:@"%d",_identity ];
         record=[record stringByAppendingPathComponent:iden];
-        record =[record stringByAppendingPathComponent:[_array objectAtIndex:indexPath.row]];
+        record =[record stringByAppendingPathComponent:_array[indexPath.row]];
         [[NSFileManager defaultManager] removeItemAtPath:record error:nil];
         [_array removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];

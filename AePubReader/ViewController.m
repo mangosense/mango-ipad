@@ -48,7 +48,7 @@
 - (NSString *)applicationDocumentsDirectory {
 	
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
     return basePath;
 }
 /*Function Name : getRootFilePath
@@ -167,7 +167,7 @@
        // [c release];
     }
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         [Flurry logEvent:@"ipad Text Book of opened " withParameters:dictionary ];
@@ -195,7 +195,7 @@
             _array=[[NSMutableArray alloc]init];
     
     for (int i=0;i<_ePubContent._spine.count;i++) {
-        NSString *key=[_ePubContent._spine objectAtIndex:i];
+        NSString *key=(_ePubContent._spine)[i];
                 NSString *temp=  [NSString stringWithFormat:@"%@/%@",_rootPath,[_ePubContent._manifest valueForKey:key]];
         Chapter *chap=[[Chapter alloc]initWithPath:temp chapterIndex:i andWith:i];
                 [_array addObject:chap];
@@ -222,7 +222,7 @@
 //      
 //    }
     WebPageViewController *page;
-        Chapter *chap=[_array objectAtIndex:0];
+        Chapter *chap=_array[0];
     if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
      
        
@@ -248,7 +248,11 @@
 }
 
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed{
-
+    if (completed) {
+        NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
+        pageCount++;
+        [[NSUserDefaults standardUserDefaults]setInteger:pageCount forKey:@"tpageCount"];
+    }
    
 }
 -(void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers{
@@ -310,9 +314,9 @@
     [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:NO];
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"title"];
-    [dictionary setValue:[NSNumber numberWithInteger:_pageNumber] forKey:@"pageNumber"];
+    [dictionary setValue:@(_pageNumber) forKey:@"pageNumber"];
     [Flurry logEvent:@"Text Book of closed" withParameters:dictionary ];
 
 }
@@ -322,7 +326,7 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)loadSpine:(int)chapterIndex atPageIndex:(int)pageIndex highlightSearchResult:(SearchResult *)hit{
-    Chapter *chapter=[_array objectAtIndex:chapterIndex];
+    Chapter *chapter=_array[chapterIndex];
     WebPageViewController *page;
     if (_pop) {
         [_pop dismissPopoverAnimated:YES];
@@ -340,7 +344,7 @@
            page.query=hit.originatingQuery; 
     }
  page.totalCount=_ePubContent._spine.count;
-    NSArray *array=[NSArray arrayWithObject:page];
+    NSArray *array=@[page];
   //  [page release];
     WebPageViewController *current=[_controller.viewControllers lastObject];
     [current.searchResultsPopover dismissPopoverAnimated:YES];
@@ -366,7 +370,7 @@
     
   
     WebPageViewController *page;
-    Chapter *chap=[_array objectAtIndex:index];
+    Chapter *chap=_array[index];
 
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
@@ -395,7 +399,7 @@
     }
    
     WebPageViewController *page;
-    Chapter *chap=[_array objectAtIndex:index];
+    Chapter *chap=_array[index];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
 
@@ -462,10 +466,10 @@
         
         for (index=0; index<_ePubContent._spine.count; index++) {
             // NSString *val=[[NSString alloc]initWithFormat:@"pg%d.jpg",index+1 ];
-            NSString  *actual=[self.ePubContent._manifest valueForKey:[self.ePubContent._spine objectAtIndex:index]];
+            NSString  *actual=[self.ePubContent._manifest valueForKey:(self.ePubContent._spine)[index]];
             actual =[actual stringByDeletingPathExtension];
             NSString *val=[actual stringByAppendingString:@".png"];
-            NSLog(@"spine at %d %@ %@",index,val,[self.ePubContent._spine objectAtIndex:index]);
+            NSLog(@"spine at %d %@ %@",index,val,(self.ePubContent._spine)[index]);
             [arrayMutable addObject:val];
             //[val release];
         }
@@ -513,7 +517,7 @@
             x=20;
         }
         for (index=0;index<_ePubContent._spine.count;index++) {
-            NSString *imageLoc=[array objectAtIndex:index];
+            NSString *imageLoc=array[index];
             CGRect rect=CGRectMake(x, y, widthThum, heightThum);
             UIButton *button=[[UIButton alloc]initWithFrame:rect];
             imageLoc=[thumbNailLocation stringByAppendingPathComponent:imageLoc];
@@ -553,7 +557,7 @@
 }
 - (NSString *)loadPage{
 	
-	_pagesPath=[NSString stringWithFormat:@"%@/%@",self.rootPath,[self.ePubContent._manifest valueForKey:[self.ePubContent._spine objectAtIndex:_pageNumber]]];
+	_pagesPath=[NSString stringWithFormat:@"%@/%@",self.rootPath,[self.ePubContent._manifest valueForKey:(self.ePubContent._spine)[_pageNumber]]];
 	
   //  [self addThumbnails];
     return _pagesPath;

@@ -30,7 +30,7 @@
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [Flurry logEvent:@"Book registered" withParameters:dictionary];
     [_mutableData setLength:0];
 }
@@ -39,9 +39,9 @@
     NSString *value=[[NSString alloc]initWithData:_mutableData encoding:NSUTF8StringEncoding];
     NSLog(@"data mutable %@",value );
  //   [value autorelease];
-    value= [dictionary objectForKey:@"message"];
+    value= dictionary[@"message"];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    StoreBooks *book=[delegate.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+    StoreBooks *book=[delegate.dataModel getBookById:@(_identity)];
     
     NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",book.title ];
 

@@ -111,7 +111,7 @@
         [self goToNext];
 
     }else if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"help"]){
-        NSArray *array=[NSArray arrayWithObjects:@"large_one.png",@"large_two.png",@"large_three.png", @"large_four",nil];
+        NSArray *array=@[@"large_one.png",@"large_two.png",@"large_three.png", @"large_four.png",@"large_five.png",@"large_six.png"];
         RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"padContent" bundle:nil contentList:array] ;
         [self presentViewController:rootViewController animated:YES completion:nil];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
@@ -389,9 +389,9 @@
     
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     
-    [dictionary setObject:[userDefaults objectForKey:@"FacebookUsername"]  forKey:@"email"];
+    dictionary[@"email"] = [userDefaults objectForKey:@"FacebookUsername"];
     
-    [dictionary setObject:[userDefaults objectForKey:@"FullName"] forKey:@"name"];
+    dictionary[@"name"] = [userDefaults objectForKey:@"FullName"];
     
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonValue=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -459,7 +459,7 @@
             [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
                 NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                 
-                [[NSUserDefaults standardUserDefaults] setObject:[dict objectForKey:@"name"] forKey:@"FullName"];
+                [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
                 [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
                 
             }];

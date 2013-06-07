@@ -107,6 +107,8 @@
     //
     [self loadScrollViewWithPage:0];
     [self loadScrollViewWithPage:1];
+    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+
 }
 
 // rotation support for iOS 5.x and earlier, note for iOS 6.0 and later this will not be called
@@ -154,11 +156,11 @@
         return;
     
     // replace the placeholder if necessary
-    MyViewController *controller = [self.viewControllers objectAtIndex:page];
+    MyViewController *controller = (self.viewControllers)[page];
     if ((NSNull *)controller == [NSNull null])
     {
         controller = [[MyViewController alloc] initWithPageNumber:page];
-        [self.viewControllers replaceObjectAtIndex:page withObject:controller];
+        (self.viewControllers)[page] = controller;
     }
     
     // add the controller's view to the scroll view
@@ -173,9 +175,8 @@
         [self.scrollView addSubview:controller.view];
         [controller didMoveToParentViewController:self];
         
-        NSString *numberItem = [self.contentList objectAtIndex:page];
+        NSString *numberItem = (self.contentList)[page];
         controller.numberImage.image = [UIImage imageNamed:numberItem];
-        controller.numberTitle.text = nil;
     }
 }
 

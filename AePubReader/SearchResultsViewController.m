@@ -37,7 +37,7 @@
     
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     
-    SearchResult* hit = (SearchResult*)[results objectAtIndex:[indexPath row]];
+    SearchResult* hit = (SearchResult*)results[[indexPath row]];
     cell.textLabel.text = [NSString stringWithFormat:@"...%@...", hit.neighboringText];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"page %d", hit.chapterIndex+1];
     
@@ -49,7 +49,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    SearchResult* hit = (SearchResult*)[results objectAtIndex:[indexPath row]];
+    SearchResult* hit = (SearchResult*)results[[indexPath row]];
 
     [epubViewController loadSpine:hit.chapterIndex atPageIndex:hit.pageIndex highlightSearchResult:hit];
 }
@@ -68,7 +68,7 @@
     
     currentChapterIndex = index;
     
-    Chapter* chapter = [_array objectAtIndex:index];
+    Chapter* chapter = _array[index];
     
     NSRange range = NSMakeRange(0, chapter.text.length);
     range = [chapter.text rangeOfString:query options:NSCaseInsensitiveSearch range:range locale:nil];
@@ -116,7 +116,7 @@
 	
 	NSString *insertRule1 = [NSString stringWithFormat:@"addCSSRule('html', 'padding: 0px; height: %fpx; -webkit-column-gap: 0px; -webkit-column-width: %fpx;')", webView.frame.size.height, webView.frame.size.width];
 	NSString *insertRule2 = [NSString stringWithFormat:@"addCSSRule('p', 'text-align: justify;')"];
-	NSString *setTextSizeRule = [NSString stringWithFormat:@"addCSSRule('body', '-webkit-text-size-adjust: %d%%;')",[[_array objectAtIndex:currentChapterIndex] fontPercentSize]];
+	NSString *setTextSizeRule = [NSString stringWithFormat:@"addCSSRule('body', '-webkit-text-size-adjust: %d%%;')",[_array[currentChapterIndex] fontPercentSize]];
     
 	
 	[webView stringByEvaluatingJavaScriptFromString:varMySheet];
@@ -139,17 +139,17 @@
     
     NSArray* stringObjects = [foundHits componentsSeparatedByString:@";"];
     for(int i=0; i<[stringObjects count]; i++){
-        NSArray* strObj = [[stringObjects objectAtIndex:i] componentsSeparatedByString:@","];
+        NSArray* strObj = [stringObjects[i] componentsSeparatedByString:@","];
         if([strObj count]==3){
             [objects addObject:strObj];   
         }
     }
     
     NSArray* orderedRes = [objects sortedArrayUsingComparator:^(id obj1, id obj2){
-                                            int x1 = [[obj1 objectAtIndex:0] intValue];
-                                            int x2 = [[obj2 objectAtIndex:0] intValue];
-                                            int y1 = [[obj1 objectAtIndex:1] intValue];
-                                            int y2 = [[obj2 objectAtIndex:1] intValue];
+                                            int x1 = [obj1[0] intValue];
+                                            int x2 = [obj2[0] intValue];
+                                            int y1 = [obj1[1] intValue];
+                                            int y2 = [obj2[1] intValue];
                                             if(y1<y2){
                                                 return NSOrderedAscending;
                                             } else if(y1>y2){
@@ -168,9 +168,9 @@
     [objects release];
     
     for(int i=0; i<[orderedRes count]; i++){
-        NSArray* currObj = [orderedRes objectAtIndex:i];
+        NSArray* currObj = orderedRes[i];
          
-        SearchResult* searchRes = [[SearchResult alloc] initWithChapterIndex:currentChapterIndex pageIndex:([[currObj objectAtIndex:1] intValue]/webView.bounds.size.height) hitIndex:0 neighboringText:[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"unescape('%@')", [currObj objectAtIndex:2]]] originatingQuery:currentQuery];
+        SearchResult* searchRes = [[SearchResult alloc] initWithChapterIndex:currentChapterIndex pageIndex:([currObj[1] intValue]/webView.bounds.size.height) hitIndex:0 neighboringText:[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"unescape('%@')", currObj[2]]] originatingQuery:currentQuery];
         [results addObject:searchRes];
 		[searchRes release];
     }

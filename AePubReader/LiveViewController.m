@@ -337,7 +337,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         //        [tap release];
         NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localImage];
         NSError *error=nil;
-        [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
       //  [url release];
         [button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
         //NSLog(@" x= %d",x);
@@ -369,7 +369,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
 -(void)tap:(id)sender{
     ShadowButton *button=(ShadowButton *)sender;
      AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSNumber *number=[[NSNumber alloc]initWithInteger:button.tag];
+    NSNumber *number=@(button.tag);
     if([delegate.dataModel checkIfIdExists:number]){
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Book purchased" message:@"You have already purchased the book" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
@@ -400,8 +400,8 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
     
     if (dictionary) {
-        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
-        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        NSNumber *fileSystemSizeInBytes = dictionary[NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = dictionary[NSFileSystemFreeSize];
         totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
@@ -413,7 +413,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+    NSNumber *identity=@(_identity);
     StoreBooks *books=[delegate.dataModel getBookById:identity];
     float size=[books.size floatValue];
     //  [image release];
@@ -445,7 +445,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
       //      [down release];
-            bookToDownload.downloaded=[NSNumber numberWithBool:NO];
+            bookToDownload.downloaded=@NO;
             [delegate.dataModel saveData:bookToDownload];
        //     [identity release];
             [delegate.dataModel insertBookWithNo:books];
@@ -494,7 +494,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
                 dictionary=[[NSMutableDictionary alloc]init];
                 userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
                 [dictionary setValue:userid forKey:@"user_id"];
-                [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+                [dictionary setValue:@(_identity) forKey:@"book_id"];
                 [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
                 [dictionary setValue:_price forKey:@"amount"];
                 NSData *transactionReciept=transaction.transactionReceipt;
@@ -591,7 +591,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         dictionary=[[NSMutableDictionary alloc]init];
         userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
         [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:@(_identity) forKey:@"book_id"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
         [dictionary setValue:_price forKey:@"amount"];
         NSData *transactionReciept=transaction.transactionReceipt;

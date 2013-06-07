@@ -36,7 +36,7 @@
 - (NSString *)applicationDocumentsDirectory {
 	
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
     return basePath;
 }
 /*Function Name : getRootFilePath
@@ -113,7 +113,7 @@
         // [c release];
     }
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         [Flurry logEvent:@"ipad Text Book Landscape of opened " withParameters:dictionary ];
@@ -139,7 +139,7 @@
     _array=[[NSMutableArray alloc]init];
     
     for (int i=0;i<_ePubContent._spine.count;i++) {
-        NSString *key=[_ePubContent._spine objectAtIndex:i];
+        NSString *key=(_ePubContent._spine)[i];
         NSString *temp=  [NSString stringWithFormat:@"%@/%@",_rootPath,[_ePubContent._manifest valueForKey:key]];
         Chapter *chap=[[Chapter alloc]initWithPath:temp chapterIndex:i andWith:i];
         [_array addObject:chap];
@@ -174,7 +174,7 @@
     
     /// Here code Changes
     LandscapePageViewController *page;
-    Chapter *chap=[_array objectAtIndex:0];
+    Chapter *chap=_array[0];
     if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
         
         
@@ -199,7 +199,11 @@
     
 }
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed{
-    
+    if (completed) {
+        NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
+        pageCount++;
+        [[NSUserDefaults standardUserDefaults]setInteger:pageCount forKey:@"tpageCount"];
+    }
     
 }
 -(void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers{
@@ -227,14 +231,14 @@
     [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:NO];
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"title"];
-    [dictionary setValue:[NSNumber numberWithInteger:_pageNumber] forKey:@"pageNumber"];
+    [dictionary setValue:@(_pageNumber) forKey:@"pageNumber"];
     [Flurry logEvent:@"Text Book of closed" withParameters:dictionary ];
     
 }
 -(void)loadSpine:(int)chapterIndex atPageIndex:(int)pageIndex highlightSearchResult:(SearchResult *)hit{
-    Chapter *chapter=[_array objectAtIndex:chapterIndex];
+    Chapter *chapter=_array[chapterIndex];
     LandscapePageViewController *page;
 
     if (_pop) {
@@ -254,7 +258,7 @@
         page.query=hit.originatingQuery;
     }
     page.totalCount=_ePubContent._spine.count;
-    NSArray *array=[NSArray arrayWithObject:page];
+    NSArray *array=@[page];
     //  [page release];
     LandscapePageViewController *current=[_controller.viewControllers lastObject];
     [current.searchResultsPopover dismissPopoverAnimated:YES];
@@ -280,7 +284,7 @@
     
     
     LandscapePageViewController *page;
-    Chapter *chap=[_array objectAtIndex:index];
+    Chapter *chap=_array[index];
     
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
@@ -309,7 +313,7 @@
     }
     
     LandscapePageViewController *page;
-    Chapter *chap=[_array objectAtIndex:index];
+    Chapter *chap=_array[index];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPhone) {
         
@@ -340,7 +344,7 @@
 }
 - (NSString *)loadPage{
 	
-	_pagesPath=[NSString stringWithFormat:@"%@/%@",self.rootPath,[self.ePubContent._manifest valueForKey:[self.ePubContent._spine objectAtIndex:_pageNumber]]];
+	_pagesPath=[NSString stringWithFormat:@"%@/%@",self.rootPath,[self.ePubContent._manifest valueForKey:(self.ePubContent._spine)[_pageNumber]]];
 	
     //[self addThumbnails];
     return _pagesPath;

@@ -34,7 +34,7 @@
         NSArray *notes= [delegate.dataModel getNoteWithBook:bookid];
         _array=[[NSMutableArray alloc]init];//traversing is needed since pages may not have notes
         _arraySection=[[NSMutableArray alloc]init];
-        NSNumber *number=[NSNumber numberWithInt:-1];
+        NSNumber *number=@-1;
 
         NSMutableArray *arrayPerPage=[[NSMutableArray alloc]init];
    //     [arrayPerPage addObject:noteHighlight];
@@ -82,7 +82,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSArray *array =[NSArray arrayWithObjects:@"Notes",@"Highlight" ,nil];
+    NSArray *array =@[@"Notes",@"Highlight"];
     UISegmentedControl *segmentedControl=[[UISegmentedControl alloc]initWithItems:array];
     segmentedControl.segmentedControlStyle=UISegmentedControlStyleBar;
     self.navigationItem.titleView=segmentedControl;
@@ -129,7 +129,7 @@
     
     _array=[[NSMutableArray alloc]init];//traversing is needed since pages may not have notes
     _arraySection=[[NSMutableArray alloc]init];
-    NSNumber *number=[NSNumber numberWithInt:-1];
+    NSNumber *number=@-1;
     
     NSMutableArray *arrayPerPage=[[NSMutableArray alloc]init];
     //     [arrayPerPage addObject:noteHighlight];
@@ -182,11 +182,11 @@
 {
 
     // Return the number of rows in the section.
-    NSMutableArray *arrayPerPage=[_array objectAtIndex:section];
+    NSMutableArray *arrayPerPage=_array[section];
     return arrayPerPage.count;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    NSString *title=[NSString stringWithFormat:@"%@",[_arraySection objectAtIndex:section] ];
+    NSString *title=[NSString stringWithFormat:@"%@",_arraySection[section] ];
     return  title;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -207,8 +207,8 @@
             cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] ;
         
     }
-     NSMutableArray *arrayPerPage=[_array objectAtIndex:indexPath.section];
-    NoteHighlight *notesOrHighlight=[arrayPerPage objectAtIndex:indexPath.row];
+     NSMutableArray *arrayPerPage=_array[indexPath.section];
+    NoteHighlight *notesOrHighlight=arrayPerPage[indexPath.row];
     cell.textLabel.text=notesOrHighlight.text;
     if (notesOrHighlight.note) {
             cell.detailTextLabel.text=[notesOrHighlight.note stringByConvertingHTMLToPlainText];
@@ -250,10 +250,10 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        NSMutableArray *arrayPerPage=[_array objectAtIndex:indexPath.section];
+        NSMutableArray *arrayPerPage=_array[indexPath.section];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
-        NoteHighlight *high=[arrayPerPage objectAtIndex:indexPath.row];
+        NoteHighlight *high=arrayPerPage[indexPath.row];
    
         [arrayPerPage removeObjectAtIndex:indexPath.row];
    
@@ -288,7 +288,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *pagNumber=[_arraySection objectAtIndex:indexPath.section];
+    NSNumber *pagNumber=_arraySection[indexPath.section];
     [_delegate loadSpine:pagNumber.integerValue  atPageIndex:pagNumber.integerValue highlightSearchResult:nil];
     
 }

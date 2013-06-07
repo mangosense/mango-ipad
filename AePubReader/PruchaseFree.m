@@ -44,10 +44,10 @@
     NSString *value=[[NSString alloc]initWithData:_mutableData encoding:NSUTF8StringEncoding];
     NSLog(@"data mutable %@",value );
   //  [value autorelease];
-    value= [dictionary objectForKey:@"message"];
+    value= dictionary[@"message"];
     [_liveViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    StoreBooks *books=[delegate.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+    StoreBooks *books=[delegate.dataModel getBookById:@(_identity)];
     NSString *message=[NSString stringWithFormat:@"Do you wish to download the book titled %@ now?",books.title ];
     if ([value isEqualToString:@"purchase successful!"]) {
         
@@ -85,7 +85,7 @@
      NSLog(@"index %d",buttonIndex);//if it is yes
     // in both cases insert the book in the database;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+    NSNumber *identity=@(_identity);
     StoreBooks *books=[delegate.dataModel getBookById:identity];
     
     

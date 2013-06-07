@@ -72,7 +72,7 @@
 	NSDictionary* attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file error:nil];
 	if( attr )
 	{
-		NSDate* fileDate = (NSDate*)[attr objectForKey:NSFileModificationDate];
+		NSDate* fileDate = (NSDate*)attr[NSFileModificationDate];
 		if( fileDate )
 		{
 			// some application does use dosDate, but tmz_date instead
@@ -212,7 +212,7 @@
 		filename[fileInfo.size_filename] = '\0';
 		
 		// check if it contains directory
-		NSString * strPath = [NSString  stringWithCString:filename encoding: NSUTF8StringEncoding];
+		NSString * strPath = @(filename);
 		BOOL isDirectory = NO;
 		if( filename[fileInfo.size_filename-1]=='/' || filename[fileInfo.size_filename-1]=='\\')
 			isDirectory = YES;
@@ -277,7 +277,7 @@
 			//}}
 			
 			
-			NSDictionary* attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate]; //[[NSFileManager defaultManager] fileAttributesAtPath:fullPath traverseLink:YES];
+			NSDictionary* attr = @{NSFileModificationDate: orgDate}; //[[NSFileManager defaultManager] fileAttributesAtPath:fullPath traverseLink:YES];
 			if( attr )
 			{
 				//		[attr  setValue:orgDate forKey:NSFileCreationDate];

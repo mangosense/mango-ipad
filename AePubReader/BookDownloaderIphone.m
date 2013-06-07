@@ -47,7 +47,7 @@
     [_myBookViewController.tableView reloadData];
     UINavigationController *nav=(_myBookViewController.tabBarController.viewControllers)[1];
     DownloadViewController *store=(DownloadViewController *)[nav topViewController];
-    [[_myBookViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    [(_myBookViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
     [store getPurchasedDataFromDataBase];
     //_myBookViewController.downloadFailed=YES;
     delegate.downloadBook=NO;
@@ -114,7 +114,7 @@
     NSLog(@"total %f over %f",_value,sizeLong);
     NSLog(@"total %f over %f",_value,sizeLong);
     NSURL *url=[[NSURL alloc]initFileURLWithPath:_loc];
-    [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
     [_myBookViewController.tabBarController setSelectedIndex:0];
 

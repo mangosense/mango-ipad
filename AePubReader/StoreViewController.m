@@ -145,6 +145,7 @@
     NSError *error;
     [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
     data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSLog(@"data %@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
     if (error) {
         _error=error;
     }else{
@@ -216,7 +217,7 @@
     barButtonRefresh.tintColor=[UIColor grayColor];
     restore.tintColor=[UIColor grayColor];
     sync.tintColor=[UIColor grayColor];
-    NSArray *array=[NSArray arrayWithObjects:barButtonRefresh,restore,sync, nil];
+    NSArray *array=@[barButtonRefresh,restore,sync];
     self.navigationItem.leftBarButtonItems=array;
    // [restore release];
    // [barButtonRefresh release];
@@ -265,7 +266,7 @@
                 
                 break;
             case SKPaymentTransactionStateRestored:
-                number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
+                number=@(transaction.payment.productIdentifier.integerValue);
                 books= [delegate.dataModel getBookById:number];
                 [delegate.dataModel insertBookWithNo:books];
                // [number release];
@@ -337,7 +338,7 @@
         for (StoreBooks *books in stor) {
             NSNumber *bookId=books.productIdentity;
             NSNumber *amount=books.amount;
-            NSArray *array=[[NSArray alloc ]initWithObjects:bookId,amount, nil];
+            NSArray *array=@[bookId,amount];
             [arryMutable addObject:array];
        //     [array release];
             
@@ -504,7 +505,7 @@
 //        [tap release];
         NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localPathImageFile];
         NSError *error=nil;
-        [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
        // [url release];
         UITapGestureRecognizer *Singletap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
         [button addGestureRecognizer:Singletap];

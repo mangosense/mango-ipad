@@ -116,8 +116,8 @@
     NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
     
     if (dictionary) {
-        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
-        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        NSNumber *fileSystemSizeInBytes = dictionary[NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = dictionary[NSFileSystemFreeSize];
         totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
@@ -173,9 +173,9 @@
   //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:_liveViewController];
     // if not logged in
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    StoreBooks *book=[delegate.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+    StoreBooks *book=[delegate.dataModel getBookById:@(_identity)];
     NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:book.title forKey:@"title"];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
@@ -220,12 +220,12 @@
 
         [_purchaseButton setEnabled:NO];
         NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-        [dictionary setValue:[NSNumber numberWithInteger:0 ] forKey:@"amount"];
+        [dictionary setValue:@0 forKey:@"amount"];
         NSNumber *userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
        // email=@"1";
      //   userid=[NSNumber numberWithInteger:130];
         [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:@(_identity) forKey:@"book_id"];
    //      [dictionary setValue:[NSNumber numberWithInteger:557 ] forKey:@"book_id"];
         [dictionary setValue:@"INR" forKey:@"currency"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
@@ -287,7 +287,7 @@
         
          }
     else{
-        NSNumber *number=[NSNumber numberWithInt:0];
+        NSNumber *number=@0;
         booksStore.amount=number;
         [delegate.dataModel saveStoreBookData:booksStore];
         

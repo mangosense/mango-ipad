@@ -18,6 +18,7 @@
 #import "CustomNavViewController.h"
 #import "ViewControllerBaseUrl.h"
 #import "Flurry.h"
+#import "StatsViewController.h"
 #import "LandscapeTextBookViewController.h"
 @interface LibraryViewController ()
 
@@ -65,7 +66,7 @@
         
     }
     UIProgressView *progress=[[UIProgressView alloc]initWithFrame:rect];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
+    [(self.navigationItem.rightBarButtonItems)[0] setEnabled:NO];
     [self.scrollView addSubview:progress];
     FileDownloader *downloader=[[FileDownloader alloc]initWithViewController:self];
     downloader.progress=progress;
@@ -88,7 +89,7 @@
      [manager createFileAtPath:string contents:nil attributes:nil];
     NSError *error=nil;
     NSURL *urlFile=[NSURL fileURLWithPath:string];
-     [urlFile setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+     [urlFile setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
     if (error) {
         NSLog(@"error %@",error);
     }
@@ -126,8 +127,10 @@
     optionsItem.tintColor=[UIColor grayColor];
     UIBarButtonItem *recordButton=[[UIBarButtonItem alloc]initWithTitle:@"recording" style:UIBarButtonItemStyleBordered target:self action:@selector(showRecordButton:)];
     recordButton.tintColor=[UIColor grayColor];
+    /*UIBarButtonItem *bookItem=[[UIBarButtonItem alloc]initWithTitle:@"stats" style:UIBarButtonItemStyleBordered target:self action:@selector(openStats:)];
+    bookItem.tintColor=[UIColor grayColor];*/
    // NSLog(@"options retainCount %d",optionsItem.retainCount);
-    _array=[[NSArray alloc]initWithObjects:editBarButtonItem,optionsItem,recordButton, nil];
+    _array=@[editBarButtonItem,optionsItem,recordButton];
    //  NSLog(@"options retainCount %d",optionsItem.retainCount);
   /*[recordButton release];
     [editBarButtonItem release];
@@ -143,7 +146,7 @@
          settings.tintColor=[UIColor grayColor];*/
          UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
          feedback.tintColor=[UIColor grayColor];
-         NSArray *aray=[NSArray arrayWithObjects:leftLoginItem/*,settings*/,feedback, nil];
+         NSArray *aray=@[leftLoginItem/*,settings*/,feedback];
          self.navigationItem.leftBarButtonItems=aray;
          
      }else{
@@ -151,7 +154,7 @@
          settings.tintColor=[UIColor grayColor];*/
          UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
          feedback.tintColor=[UIColor grayColor];
-         self.navigationItem.leftBarButtonItems=[NSArray arrayWithObjects:/*settings,*/feedback, nil];
+         self.navigationItem.leftBarButtonItems=@[feedback];
      }
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
@@ -169,7 +172,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"help"]){
-        NSArray *array=[NSArray arrayWithObjects:@"large_one.png",@"large_two.png",@"large_three.png", @"large_four",nil];
+        NSArray *array=@[@"large_one.png",@"large_two.png",@"large_three.png", @"large_four"];
 
         RootViewController *rootViewController=[[RootViewController alloc]initWithNibName:@"padContent" bundle:nil contentList:array] ;
         [self presentViewController:rootViewController animated:YES completion:nil];
@@ -180,6 +183,11 @@
     }
    
 }
+-(void)openStats:(id)sender{
+    StatsViewController *stats=[[StatsViewController alloc]initWithNibName:@"StatsViewController" bundle:nil];
+    [self presentViewController:stats animated:YES completion:nil];
+    
+}
 -(void)feedback:(id)sender{
     MFMailComposeViewController *mail;
     mail=[[MFMailComposeViewController alloc]init];
@@ -187,7 +195,7 @@
     mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     
     [mail setMailComposeDelegate:self];
-    [mail setToRecipients:[NSArray arrayWithObjects:@"ios@mangosense.com", nil]];
+    [mail setToRecipients:@[@"ios@mangosense.com"]];
    // [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
 
@@ -204,12 +212,12 @@
     NSLog(@"record Button");
     
     if (!_recordButtonShow) {// if not shown
-        UIBarButtonItem *item=[_array objectAtIndex:2];
+        UIBarButtonItem *item=_array[2];
         [item setTitle:@"Done"];
         [item setTintColor:[UIColor blueColor]];
-        item=[_array objectAtIndex:0];
+        item=_array[0];
         [item setEnabled:NO];
-        item=[_array objectAtIndex:1];
+        item=_array[1];
         [item setEnabled:NO];
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
             item.enabled=NO;
@@ -234,12 +242,12 @@
         /*
         
          */
-        UIBarButtonItem *item=[_array objectAtIndex:2];
+        UIBarButtonItem *item=_array[2];
         [item setTitle:@"Recording"];
         [item setTintColor:[UIColor grayColor]];
-        item=[_array objectAtIndex:0];
+        item=_array[0];
         [item setEnabled:YES];
-        item=[_array objectAtIndex:1];
+        item=_array[1];
         [item setEnabled:YES];
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
             item.enabled=YES;
@@ -257,18 +265,18 @@
 -(void)allowoptions:(UIBarButtonItem *)sender{
   //   NSLog(@"options retainCount %d",_array.retainCount);
     if (_allowOptions) {
-        UIBarButtonItem *item=[_array objectAtIndex:1];
+        UIBarButtonItem *item=_array[1];
         [item setTitle:@"Done"];
         [item setTintColor:[UIColor blueColor]];
-        item=[_array objectAtIndex:0];
+        item=_array[0];
         [item setEnabled:NO];
-        item=[_array objectAtIndex:2];
+        item=_array[2];
         [item setEnabled:NO];
         for (UIView *view in self.scrollView.subviews) {
             if ([view isKindOfClass:[ShadowButton class]]) {
               //  ShareButton *button=(ShareButton *)view;
                 NSLog(@"Button views %d",view.subviews.count);
-                [[view.subviews objectAtIndex:1] setHidden:NO];
+                [(view.subviews)[1] setHidden:NO];
             }
             
         }
@@ -280,17 +288,17 @@
         for (UIView *view in self.scrollView.subviews) {
             if ([view isKindOfClass:[ShadowButton class]]) {
                // ShareButton *button=(ShareButton *)view;
-                [[view.subviews objectAtIndex:1] setHidden:YES];
+                [(view.subviews)[1] setHidden:YES];
             }
             
         }
-      [[self.navigationController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
-        UIBarButtonItem *item=[_array objectAtIndex:1];
+      [(self.navigationController.navigationItem.rightBarButtonItems)[0] setEnabled:NO];
+        UIBarButtonItem *item=_array[1];
         [item setTitle:@"Share"];
         [item setTintColor:[UIColor grayColor]];
-        item=[_array objectAtIndex:0];
+        item=_array[0];
         [item setEnabled:YES];
-        item=[_array objectAtIndex:2];
+        item=_array[2];
         [item setEnabled:YES];
 
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
@@ -359,11 +367,11 @@
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
             item.enabled=YES;
         }
-        UIBarButtonItem *item=[_array objectAtIndex:0];
+        UIBarButtonItem *item=_array[0];
         [item setTitle:@"Edit"];
-        item=[_array objectAtIndex:1];
+        item=_array[1];
         [item setEnabled:YES];
-        item=[_array objectAtIndex:2];
+        item=_array[2];
         [item setEnabled:YES];
 
         return;/// end of exceution
@@ -379,11 +387,11 @@
     [self addDeleteButton];
     //[self.navigationItem.rightBarButtonItem setTitle:@"Done"];
       _showDeleteButton=YES;
-    UIBarButtonItem *item=[_array objectAtIndex:0];
+    UIBarButtonItem *item=_array[0];
     [item setTitle:@"Done"];
-    item=[_array objectAtIndex:1];
+    item=_array[1];
     [item setEnabled:NO];
-    item=[_array objectAtIndex:2];
+    item=_array[2];
     [item setEnabled:NO];
     
 }
@@ -565,7 +573,7 @@
     if (_epubFiles.count==0) {
 
         _showDeleteButton=NO;
-        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setTitle:@"Edit"];
+        [(self.navigationItem.rightBarButtonItems)[0] setTitle:@"Edit"];
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
             item.enabled=YES;
         }
@@ -970,7 +978,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
 - (NSString *)applicationDocumentsDirectory {
 	
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
     return basePath;
 }
 /*Function Name : unzipAndSaveFile

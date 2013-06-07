@@ -57,7 +57,7 @@
     _fileSizeLabel.text=[NSString stringWithFormat:@"File Size : %0.2f MB",size];
     NSString *flurry=@"DetailsViewController entered to view details";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [Flurry logEvent:flurry withParameters:dictionary];
 }
 
@@ -71,7 +71,7 @@
     [self.tabBarController.tabBar setHidden:NO];
     NSString *flurry=@"DetailsViewController exited";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [Flurry logEvent:flurry withParameters:dictionary];
 
 }
@@ -127,7 +127,7 @@
     [_booksMy downloadComplete:_identity];
     NSString *flurry=@"Downloading... book ";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [Flurry logEvent:flurry withParameters:dictionary];
     //add download code
 }

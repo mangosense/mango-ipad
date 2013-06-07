@@ -46,7 +46,7 @@
     [delegate.dataModel saveData:_book];
     UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[1];
     StoreViewController *store=(StoreViewController *)[nav topViewController];
-    [[_libViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    [(_libViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
     [store BuildButtons];
   _libViewController.downloadFailed=YES;
     
@@ -85,7 +85,7 @@
         NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
         
         float sizeLong=diction.fileSize;
-        NSLog(@"downloaded %@ total %f",[NSNumber numberWithLong:_sizeLenght],_value);
+        NSLog(@"downloaded %@ total %f",@(_sizeLenght),_value);
    
         sizeLong=sizeLong/_value;
         [_progress setProgress:sizeLong animated:YES];
@@ -117,7 +117,7 @@
     float sizeLong=diction.fileSize;
     NSLog(@"total %f over %f",_value,sizeLong);
     NSURL *url=[[NSURL alloc]initFileURLWithPath:_loc];
-    [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     _progress.progress=1.0;
   //  [Flurry logEvent:@"download complete"];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -139,7 +139,7 @@
   //  [_loc release];
     
     delegate.addControlEvents=YES;
-     [[_libViewController.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+     [(_libViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
 
 }
 

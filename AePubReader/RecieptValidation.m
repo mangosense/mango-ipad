@@ -36,7 +36,7 @@
     if (!_signedIn) {
         NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_mutableData options:NSJSONReadingAllowFragments error:nil];
         
-        NSNumber *value= [dictionary objectForKey:@"status"];
+        NSNumber *value= dictionary[@"status"];
         if (_popPurchase) {
             [_popPurchase.purchaseButton setEnabled:YES];
             if (_popPurchase.alertView) {
@@ -67,7 +67,7 @@
         return;
     }
     NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_mutableData options:NSJSONReadingAllowFragments error:nil];
-   NSString *value= [dictionary objectForKey:@"message"];
+   NSString *value= dictionary[@"message"];
     
     if ([value isEqualToString:@"purchase successful!"]) {
 
@@ -93,7 +93,7 @@
     NSLog(@"index %d",buttonIndex);//if it is yes
     // in both cases insert the book in the database;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+    NSNumber *identity=@(_identity);
     StoreBooks *books=[delegate.dataModel getBookById:identity];
     
     

@@ -41,8 +41,8 @@
 - (IBAction)onBack:(id)sender {
     NSString *string=@"exited at textbook";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_chapter.pageCount] forKey:@"pageCount"];
-    [dictionary setValue:[NSNumber numberWithInteger:_bookId] forKey:@"identity"];
+    [dictionary setValue:@(_chapter.pageCount) forKey:@"pageCount"];
+    [dictionary setValue:@(_bookId) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     
     [Flurry logEvent:string withParameters:dictionary];
@@ -248,7 +248,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
 - (NSString *)applicationDocumentsDirectory {
 	
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
     return basePath;
 }
 - (void)viewDidLoad
@@ -265,7 +265,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
 //        _webView.scrollView.scrollEnabled=NO;
     
     _hide=YES;
-    for(UIView *wview in [[[_webView subviews] objectAtIndex:0] subviews]) {
+    for(UIView *wview in [[_webView subviews][0] subviews]) {
         if([wview isKindOfClass:[UIImageView class]]) { wview.hidden = YES; }
     }
     _topView.backgroundColor=[UIColor blackColor];
@@ -293,7 +293,13 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     UIImage *image=[UIImage imageNamed:@"srbar.png"];
     _searchBar.backgroundImage=image;
-
+   /* UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+    [self.webView addGestureRecognizer:tap];
+    _topView.hidden=YES;*/
+    _webView.scrollView.scrollEnabled=NO;
+}
+-(void)tap:(id)sender{
+    _topView.hidden=!_topView.hidden;
 }
 -(void)pan:(id)sender{
     if (_tap) {
@@ -345,10 +351,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
 
         NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]options:NSJSONReadingAllowFragments error:nil];
         
-        NSNumber *left=[dict objectForKey:@"left"];
-        NSNumber *top=[dict objectForKey:@"top"];
-        NSNumber *width=[dict objectForKey:@"width"];
-        NSNumber *height=[dict objectForKey:@"height"];
+        NSNumber *left=dict[@"left"];
+        NSNumber *top=dict[@"top"];
+        NSNumber *width=dict[@"width"];
+        NSNumber *height=dict[@"height"];
         
        _frame=CGRectMake(left.floatValue, top.floatValue, width.floatValue, height.floatValue);
         _left=left.doubleValue;
@@ -479,7 +485,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         int i;
         for (i=0;i<array.count;i++) {
             @try {
-                NoteHighlight *noteOrHighlight=[array objectAtIndex:i];
+                NoteHighlight *noteOrHighlight=array[i];
                 NSRange range= [noteOrHighlight.surroundingtext rangeOfString:selectedText];
                 surroundingText=noteOrHighlight.surroundingtext;
                 if (range.location!=NSNotFound)// if valid range
@@ -547,8 +553,8 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                   NSLog(@"\nfragment-----%@",tempText);
                 tempText=[NSString stringWithFormat:@"%@%@",tempText,highlight.text];
                 highlight.text=tempText;
-                 highlight.srno=[NSNumber numberWithInteger:currentstartOffset.integerValue];
-                highlight.highlight=[NSNumber numberWithBool:YES];
+                 highlight.srno=@(currentstartOffset.integerValue);
+                highlight.highlight=@YES;
                 if ([highlight hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -593,7 +599,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
             }//currentstart---oldstart-----oldend--currentend
             else if(currentstartOffset.intValue<indexStart&&currentendIndex>indexEnd){
                 highlight.text=selectedText;
-                highlight.srno=[NSNumber numberWithInteger:currentstartOffset.intValue];
+                highlight.srno=@(currentstartOffset.intValue);
                 if ([highlight hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -626,16 +632,16 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     NoteHighlight *noteHighlight=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:delegate.managedObjectContext];
     noteHighlight.text=selectedText;
     noteHighlight.surroundingtext=surroundingText;
-    noteHighlight.srno=[NSNumber numberWithInteger:currentstartOffset.integerValue];// srno is startoffset
+    noteHighlight.srno=@(currentstartOffset.integerValue);// srno is startoffset
     
     noteHighlight.identity=[NSNumber numberWithInteger:[delegate.dataModel getCount]];
     NSLog(@"identity %@",noteHighlight.identity);
-    noteHighlight.bookid=[NSNumber numberWithInteger:bookId];
+    noteHighlight.bookid=@(bookId);
     NSInteger pageNumber=  _chapter.chapterIndex;
-    noteHighlight.pageNo=[NSNumber numberWithInteger:pageNumber];
+    noteHighlight.pageNo=@(pageNumber);
     noteHighlight.date_added=[NSDate date];
     noteHighlight.date_modified=[NSDate date];
-    noteHighlight.highlight=[NSNumber numberWithBool:YES];
+    noteHighlight.highlight=@YES;
     NSError *error;
     if (![delegate.managedObjectContext save:&error]) {
         NSLog(@"%@",error);
@@ -654,7 +660,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         array=[[NSArray alloc]initWithArray:array];
         int i;
         for (i=0;i<array.count;i++) {
-            NoteHighlight *noteOrHighlight=[array objectAtIndex:i];
+            NoteHighlight *noteOrHighlight=array[i];
             NSRange range= [noteOrHighlight.surroundingtext rangeOfString:_selectedStringNote];
             newSurrounding=noteOrHighlight.surroundingtext;
             if (range.location!=NSNotFound) {
@@ -720,16 +726,16 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                 NSLog(@"\nfragment-----%@",tempText);
                 tempText=[NSString stringWithFormat:@"%@%@",tempText,highlightOrNote.text];
                 highlightOrNote.text=tempText;
-                highlightOrNote.srno=[NSNumber numberWithInteger:_currentstartOffsetNote.intValue];
+                highlightOrNote.srno=@(_currentstartOffsetNote.intValue);
                 if (highlightOrNote.highlight.boolValue==NO) {
                     highlightOrNote.note=[highlightOrNote.note stringByAppendingFormat:@"<div><br></div>%@",string];
                 }else{
                     
                     highlightOrNote.note=string;
-                    highlightOrNote.highlight=[NSNumber numberWithBool:NO];
+                    highlightOrNote.highlight=@NO;
                 }
-                highlightOrNote.left=[NSNumber numberWithDouble:_left];
-                highlightOrNote.top=[NSNumber numberWithDouble:_top];
+                highlightOrNote.left=@(_left);
+                highlightOrNote.top=@(_top);
                 if ([highlightOrNote hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -763,10 +769,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                     highlightOrNote.note=[highlightOrNote.note stringByAppendingFormat:@"<div><br></div>%@",string];
                 }else{
                     highlightOrNote.note=string;
-                    highlightOrNote.highlight=[NSNumber numberWithBool:NO];
+                    highlightOrNote.highlight=@NO;
                 }
-                highlightOrNote.left=[NSNumber numberWithDouble:_left];
-                highlightOrNote.top=[NSNumber numberWithDouble:_top];
+                highlightOrNote.left=@(_left);
+                highlightOrNote.top=@(_top);
                 if ([highlightOrNote hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -791,10 +797,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                     highlightOrNote.note=[highlightOrNote.note stringByAppendingFormat:@"<div><br></div>%@",string];
                 }else{
                     highlightOrNote.note=string;
-                    highlightOrNote.highlight=[NSNumber numberWithBool:NO];
+                    highlightOrNote.highlight=@NO;
                 }
-                highlightOrNote.left=[NSNumber numberWithDouble:_left];
-                highlightOrNote.top=[NSNumber numberWithDouble:_top];
+                highlightOrNote.left=@(_left);
+                highlightOrNote.top=@(_top);
                 if ([highlightOrNote hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -816,10 +822,10 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
                     highlightOrNote.note=[highlightOrNote.note stringByAppendingFormat:@"<div><br></div>%@",string];
                 }else{
                     highlightOrNote.note=string;
-                    highlightOrNote.highlight=[NSNumber numberWithBool:NO];
+                    highlightOrNote.highlight=@NO;
                 }
-                highlightOrNote.left=[NSNumber numberWithDouble:_left];
-                highlightOrNote.top=[NSNumber numberWithDouble:_top];
+                highlightOrNote.left=@(_left);
+                highlightOrNote.top=@(_top);
                 if ([highlightOrNote hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -838,15 +844,15 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
             }//currentstart---oldstart-----oldend--currentend
             else if(_currentstartOffsetNote.intValue<indexStart&&currentendIndex>indexEnd){
                 highlightOrNote.text=_selectedStringNote;
-                highlightOrNote.srno=[NSNumber numberWithInteger:_currentstartOffsetNote.intValue];
+                highlightOrNote.srno=@(_currentstartOffsetNote.intValue);
                 if (highlightOrNote.highlight.boolValue==NO) {
                     highlightOrNote.note=[highlightOrNote.note stringByAppendingFormat:@"<div><br></div>%@",string];
                 }else{
                     highlightOrNote.note=string;
-                    highlightOrNote.highlight=[NSNumber numberWithBool:NO];
+                    highlightOrNote.highlight=@NO;
                 }
-                highlightOrNote.left=[NSNumber numberWithDouble:_left];
-                highlightOrNote.top=[NSNumber numberWithDouble:_top];
+                highlightOrNote.left=@(_left);
+                highlightOrNote.top=@(_top);
                 if ([highlightOrNote hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
                     if (erro) {
@@ -872,16 +878,16 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     noteHighlight.surroundingtext=_surroundingTextNote;
     noteHighlight.identity=[NSNumber numberWithInteger:[delegate.dataModel getCount]];// srno is startoffset
       NSLog(@"identity %@",noteHighlight.identity);
-    noteHighlight.srno=[NSNumber numberWithInteger:_currentstartOffsetNote.integerValue];
-    noteHighlight.bookid=[NSNumber numberWithInteger:bookId];
+    noteHighlight.srno=@(_currentstartOffsetNote.integerValue);
+    noteHighlight.bookid=@(bookId);
     NSInteger pageNumber=  _chapter.chapterIndex;
-    noteHighlight.pageNo=[NSNumber numberWithInteger:pageNumber];
+    noteHighlight.pageNo=@(pageNumber);
     noteHighlight.date_added=[NSDate date];
     noteHighlight.date_modified=[NSDate date];
-    noteHighlight.highlight=[NSNumber numberWithBool:NO];
+    noteHighlight.highlight=@NO;
     noteHighlight.note=string;
-    noteHighlight.left=[NSNumber numberWithDouble:_left];
-    noteHighlight.top=[NSNumber numberWithDouble:_top];
+    noteHighlight.left=@(_left);
+    noteHighlight.top=@(_top);
     NSError *error;
     if (![delegate.managedObjectContext save:&error]) {
         NSLog(@"%@",error);
@@ -917,7 +923,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         int i;
         NoteHighlight *notes=nil;
         for (i=0;i<array.count;i++) {
-            notes=[array objectAtIndex:i];
+            notes=array[i];
             if (notes.text.length==0) {
                 
                 
@@ -1061,7 +1067,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         }else{
             left=20;
         }
-        frame=CGRectMake(left, newTop, 16, 18);
+        frame=CGRectMake(left, newTop, 20, 25);
         NoteButton *button=[[NoteButton alloc]initWithFrame:frame];
         NSLog(@"noteidentity %d",noteHighlight.identity.integerValue);
         button.tag=noteHighlight.identity.integerValue;
@@ -1165,4 +1171,5 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     
     //    NSLog(@"rootPath %@",controller.rootPath);
 }
+
 @end

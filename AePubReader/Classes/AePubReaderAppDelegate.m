@@ -59,11 +59,11 @@
             NSLog(@"error %@",[error description]);
         }else{
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
            // [url release];
         }
     }
-    moonCapId=[[NSNumber alloc]initWithInt:49];
+    moonCapId=@49;
     
     if(![_dataModel checkIfIdExists:moonCapId]){
         Book *book= [_dataModel getBookInstance];
@@ -73,12 +73,12 @@
         book.imageUrl=@"http://www.mangoreader.com/49/cover_image/download";
         book.sourceFileUrl=@"http://www.mangoreader.com/book/49/download";
         book.localPathImageFile=destPath;
-        book.id=[NSNumber numberWithInteger:49];
-        book.size=[NSNumber numberWithInteger:7631651];
+        book.id=@49;
+        book.size=@7631651;
         book.date=[NSDate date];
-        book.textBook=[NSNumber numberWithInteger:1];
+        book.textBook=@1;
         book.downloadedDate=[NSDate date];
-        book.downloaded=[NSNumber numberWithBool:NO];
+        book.downloaded=@NO;
         NSError *error=nil;
         if (![managedObjectContext save:&error]) {
             NSLog(@"%@",error);
@@ -137,11 +137,11 @@
         }else{
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
             //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
            // [url release];
         }
     }
-      NSNumber *vayuTheWind=[[NSNumber alloc]initWithInt:445];
+      NSNumber *vayuTheWind=@445;
     if (![_dataModel checkIfIdExists:vayuTheWind]) {
         Book *book= [_dataModel getBookInstance];
         book.title=@"Vayu the Wind";
@@ -150,12 +150,12 @@
         book.imageUrl=@"http://www.mangoreader.com/445/cover_image/download";
         book.sourceFileUrl=@"http://www.mangoreader.com/book/445/download";
         book.localPathImageFile=destPath;
-        book.id=[NSNumber numberWithInteger:445];
-        book.size=[NSNumber numberWithInteger:26171226];
+        book.id=@445;
+        book.size=@26171226;
         book.date=[NSDate date];
         book.downloadedDate=[NSDate date];
-        book.downloaded=[NSNumber numberWithBool:NO];
-        book.textBook=[NSNumber numberWithInt:1];
+        book.downloaded=@NO;
+        book.textBook=@1;
         //book.downloaded=[NSNumber numberWithBool:NO];
         NSError *error=nil;
         if (![managedObjectContext save:&error]) {
@@ -164,29 +164,7 @@
         
         
     }
-    NSNumber *azzura=[[NSNumber alloc]initWithInt:1094];
-    if (![_dataModel checkIfIdExists:azzura]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Azzura";
-        book.desc=@"Azzura";
-        book.link=@"http://www.mangoreader.com/books/1094";
-        book.imageUrl=@"http://www.mangoreader.com/1094/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/1094/download";
-        book.localPathImageFile=destPath;
-        book.id=[NSNumber numberWithInteger:1094];
-        book.size=[NSNumber numberWithInteger:26171226];
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=[NSNumber numberWithBool:YES];
-        book.textBook=[NSNumber numberWithInt:1];
 
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-
-    }
     destPath=@"1094.jpg";
     destPath=[string stringByAppendingPathComponent:destPath];
     insPath = @"1094.jpg";
@@ -199,9 +177,32 @@
         }else{
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
             //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
             // [url release];
         }
+    }
+    NSNumber *azzura=@1094;
+    if (![_dataModel checkIfIdExists:azzura]) {
+        Book *book= [_dataModel getBookInstance];
+        book.title=@"Azzura";
+        book.desc=@"Azzura";
+        book.link=@"http://www.mangoreader.com/books/1094";
+        book.imageUrl=@"http://www.mangoreader.com/1094/cover_image/download";
+        book.sourceFileUrl=@"http://www.mangoreader.com/book/1094/download";
+        book.localPathImageFile=destPath;
+        book.id=@1094;
+        book.size=@26171226;
+        book.date=[NSDate date];
+        book.downloadedDate=[NSDate date];
+        book.downloaded=@YES;
+        book.textBook=@1;
+        
+        //book.downloaded=[NSNumber numberWithBool:NO];
+        NSError *error=nil;
+        if (![managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+        
     }
     destPath=@"1094.epub";
     destPath=[string stringByAppendingPathComponent:destPath];
@@ -215,66 +216,12 @@
         }else{
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
             //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
             // [url release];
         }
     }
    // [vayuTheWind release];
-    destPath=@"1.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-    if (![_dataModel checkIfIdExists:[NSNumber numberWithInt:1]]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"InOpen";
-        book.desc=@" InOpen Book";
-        book.link=@"http://www.mangoreader.com/books/1";
-        book.imageUrl=@"http://www.mangoreader.com/1/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/445/download";
-        book.localPathImageFile=destPath;
-        book.id=[NSNumber numberWithInteger:1];
-        book.size=[NSNumber numberWithInteger:26171226];
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=[NSNumber numberWithBool:YES];
-        book.textBook=[NSNumber numberWithInt:3];
-
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-        
-    }
-    destPath=@"1.epub";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1.epub";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-
+  
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
@@ -363,7 +310,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         //NSLog(@"%@",loc);
         NSError *error;
         if (!isDir&&[[NSFileManager defaultManager] fileExistsAtPath:loc]) {
-            [[NSURL URLWithString:loc] setResourceValue:[NSNumber numberWithBool: YES]
+            [[NSURL URLWithString:loc] setResourceValue:@YES
         forKey: NSURLIsExcludedFromBackupKey error: &error];
         }else if(file){
             _location=loc;
@@ -477,7 +424,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
                 break;
             case SKPaymentTransactionStateRestored:
-                number=[[NSNumber alloc]initWithInteger:transaction.payment.productIdentifier.integerValue];
+                number=@(transaction.payment.productIdentifier.integerValue);
                 books= [_dataModel getBookById:number];
                 [_dataModel insertBookWithNo:books];
                // [number release];
@@ -544,7 +491,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         dictionary=[[NSMutableDictionary alloc]init];
         userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
         [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:@(_identity) forKey:@"book_id"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
         [dictionary setValue:_product.price forKey:@"amount"];
         NSData *transactionReciept=_transaction.transactionReceipt;
@@ -571,9 +518,9 @@ void uncaughtExceptionHandler(NSException *exception) {
             [alertView show];
         }else{
             NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSString *value= [dictionary objectForKey:@"message"];
+            NSString *value= dictionary[@"message"];
             if ([value isEqualToString:@"purchase successful!"]) {
-                StoreBooks *books=[self.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+                StoreBooks *books=[self.dataModel getBookById:@(_identity)];
                 NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",books.title ];
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
                 // [alertViewDelegate autorelease];
@@ -621,9 +568,9 @@ void uncaughtExceptionHandler(NSException *exception) {
             [alertView show];
         }else{
             NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSNumber *value= [dictionary objectForKey:@"status"];
+            NSNumber *value= dictionary[@"status"];
             if (value.integerValue==0) {
-                StoreBooks *books=[self.dataModel getBookById:[NSNumber numberWithInteger:_identity]];
+                StoreBooks *books=[self.dataModel getBookById:@(_identity)];
                 NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",books.title ];
 
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
@@ -649,15 +596,15 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
  if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
     {
-    NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+    NSNumber *identity=@(_identity);
     StoreBooks *books=[self.dataModel getBookById:identity];
     float size=[books.size floatValue];
     //  [image release];
-    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-    size=size/1024.0f;
-    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-    size=size/1024.0f;
-    NSLog(@"%@",[NSNumber numberWithLongLong:size] );
+//    NSLog(@"%ll",size );
+//    size=size/1024.0f;
+//    NSLog(@"%f",size );
+//    size=size/1024.0f;
+//    NSLog(@"%f",size);
     if (buttonIndex==1) {// yes is case
         if (size>[self getFreeDiskspace]) {
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -693,7 +640,7 @@ void uncaughtExceptionHandler(NSException *exception) {
             [self.loginViewController liveViewControllerDismiss];
             [self.loginViewController refreshDownloads];
     }else if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
-        NSNumber *identity=[[NSNumber alloc]initWithInteger:_identity];
+        NSNumber *identity=@(_identity);
         StoreBooks *books=[self.dataModel getBookById:identity];
         float size=[books.size floatValue];
         //  [image release];
@@ -741,8 +688,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
     
     if (dictionary) {
-        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
-        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        NSNumber *fileSystemSizeInBytes = dictionary[NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = dictionary[NSFileSystemFreeSize];
         totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
@@ -831,9 +778,8 @@ void uncaughtExceptionHandler(NSException *exception) {
                                                stringByAppendingPathComponent: @"MangoReader.sqlite"]];
     NSError *error = nil;
        
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-    						 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-    						 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
+    						 NSInferMappingModelAutomaticallyOption: @YES};
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
                                   initWithManagedObjectModel:[self managedObjectModel]];
     NSString *ver=[UIDevice currentDevice].systemVersion;

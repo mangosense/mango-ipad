@@ -40,7 +40,7 @@
     if ([[dict class] isSubclassOfClass:[NSArray class]]) {
         NSLog(@"arry ");
     }
-    else if ([dict objectForKey:@"error"]) {
+    else if (dict[@"error"]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Session invalid" message:@"The session is invalid. Please signout and sign in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
     //    [alertView release];

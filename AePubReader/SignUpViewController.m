@@ -160,10 +160,10 @@
    NSDictionary *dictionary= [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"json output %@",string);
   //  [string release];
-    if ([dictionary objectForKey:@"user"]) {
+    if (dictionary[@"user"]) {
         //sucess
-        dictionary=[dictionary objectForKey:@"user"];
-        if ([dictionary objectForKey:@"email"]==nil) {
+        dictionary=dictionary[@"user"];
+        if (dictionary[@"email"]==nil) {
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: @"Email is either used or invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                         [alert show];
                       //  [alert release];
@@ -178,17 +178,17 @@
    
     }
     else{
-      dictionary=  [dictionary objectForKey:@"error"];
-        NSArray *arrayError=[dictionary objectForKey:@"email"];
+      dictionary=  dictionary[@"error"];
+        NSArray *arrayError=dictionary[@"email"];
         if (arrayError!=nil) {
-            NSString *stringError=[NSString stringWithFormat:@"email %@",[arrayError objectAtIndex:0] ];
+            NSString *stringError=[NSString stringWithFormat:@"email %@",arrayError[0] ];
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: stringError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
           //  [alert release];
         }else{
-            NSArray *arrayError=[dictionary objectForKey:@"password"];
+            NSArray *arrayError=dictionary[@"password"];
 
-            NSString *stringError= [ NSString stringWithFormat:@"password %@",[arrayError objectAtIndex:0]];
+            NSString *stringError= [ NSString stringWithFormat:@"password %@",arrayError[0]];
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: stringError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
            // [alert release];

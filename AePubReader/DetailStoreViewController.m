@@ -68,12 +68,12 @@
         
         [_purchaseButton setEnabled:NO];
         NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-        [dictionary setValue:[NSNumber numberWithInteger:0 ] forKey:@"amount"];
+        [dictionary setValue:@0 forKey:@"amount"];
         NSNumber *userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
         // email=@"1";
         //   userid=[NSNumber numberWithInteger:130];
         [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
+        [dictionary setValue:@(_identity) forKey:@"book_id"];
         //      [dictionary setValue:[NSNumber numberWithInteger:557 ] forKey:@"book_id"];
         [dictionary setValue:@"INR" forKey:@"currency"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
@@ -115,7 +115,7 @@
 
     NSString *flurry=@"Purchasing book";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:_identity] forKey:@"identity"];
+    [dictionary setValue:@(_identity) forKey:@"identity"];
     [Flurry logEvent:flurry withParameters:dictionary];
 }
 -(NSUInteger)supportedInterfaceOrientations{
@@ -138,7 +138,7 @@
         _identity=identity;
         // Custom initialization
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        NSNumber *number=[[NSNumber alloc]initWithInteger:_identity];
+        NSNumber *number=@(_identity);
         _bookStore =[delegate.dataModel getBookById:number];
       //  [_bookStore retain];
         _isFree=[_bookStore.free boolValue];
@@ -252,7 +252,7 @@
     }else{
         _isFree=YES;
        _priceLabel.text= [NSString stringWithFormat:@"Price : Free "];
-        NSNumber *numbr=[NSNumber numberWithInt:0];
+        NSNumber *numbr=@0;
         booksStore.amount=numbr;
         [delegate.dataModel saveStoreBookData:booksStore];
         

@@ -61,7 +61,7 @@
         
         for (index=0; index<_ePubContent._spine.count; index++) {
            // NSString *val=[[NSString alloc]initWithFormat:@"pg%d.jpg",index+1 ];
-            NSString  *actual=[self._ePubContent._manifest valueForKey:[self._ePubContent._spine objectAtIndex:index]];
+            NSString  *actual=[self._ePubContent._manifest valueForKey:(self._ePubContent._spine)[index]];
             actual =[actual stringByDeletingPathExtension];
             NSString *val=[actual stringByAppendingString:@".png"];
            //  NSLog(@"spine at %d %@ %@",index,val,[self._ePubContent._spine objectAtIndex:index]);
@@ -112,7 +112,7 @@
             x=20;
         }
         for (index=0;index<_ePubContent._spine.count;index++) {
-            NSString *imageLoc=[array objectAtIndex:index];
+            NSString *imageLoc=array[index];
             CGRect rect=CGRectMake(x, y, widthThum, heightThum);
             UIButton *button=[[UIButton alloc]initWithFrame:rect];
             imageLoc=[thumbNailLocation stringByAppendingPathComponent:imageLoc];
@@ -169,7 +169,7 @@
     _hide=YES;
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
-    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"] ] forKey:@"bookid"];
+    [dictionary setValue:@([[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]) forKey:@"bookid"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         NSString *string=@"ipad Story Book reading ";
         
@@ -210,7 +210,7 @@
     NSLog(@"height %f",_webview.frame.size.height);
     NSString *temp=[_strFileName stringByDeletingPathExtension];
     if([[NSFileManager defaultManager]fileExistsAtPath:temp]){
-        [[NSURL URLWithString:temp] setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+        [[NSURL URLWithString:temp] setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     }
     NSString *gameLink=[_rootPath stringByAppendingPathComponent:@"game.html"];
     if ([[NSFileManager defaultManager]fileExistsAtPath:gameLink]) {
@@ -318,6 +318,7 @@
    // [_recordControlView setHidden:YES];
     [_progressView setHidden:YES];
     _viewAppeared=NO;
+    _startTime=[[NSDate date]timeIntervalSince1970];
 }
 - (IBAction)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
     //get the touch
@@ -598,11 +599,14 @@
     NSString *page=[[webView.request.URL absoluteString] lastPathComponent];
     NSLog(@"path %@",page);
     for (int i=0;i<_ePubContent._spine.count;i++) {
-        NSString *temp=[_ePubContent._manifest valueForKey:[self._ePubContent._spine objectAtIndex:i]];
+        NSString *temp=[_ePubContent._manifest valueForKey:(self._ePubContent._spine)[i]];
         //NSLog(@"temp %@",temp);
         if ([temp isEqualToString:page]) {
             if (i!=_pageNumber) {
-                _pageNumber=i;
+                if (_pageNumber<i) {
+                    _pageNumber=i;
+
+                }
                 NSLog(@"pagenumber %d",_pageNumber);
             }
             break;
@@ -734,7 +738,7 @@
     }*/
     NSString *string=@"started reading Book ";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+    [dictionary setValue:@([[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     [Flurry logEvent:string withParameters:dictionary];
 
@@ -809,7 +813,7 @@
 - (NSString *)applicationDocumentsDirectory {
 	
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
     return basePath;
 }
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
@@ -933,7 +937,7 @@
 }
 - (void)finishedParsing:(EpubContent*)ePubContents{
 
-	_pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[ePubContents._manifest valueForKey:[ePubContents._spine objectAtIndex:0]]];
+	_pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[ePubContents._manifest valueForKey:(ePubContents._spine)[0]]];
 	self._ePubContent=ePubContents;
 	_pageNumber=0;
 	[self loadPage];
@@ -1030,7 +1034,7 @@
     }
     [self stopRecordingOrRecordedAudioPlayed:nil];
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+    [dictionary setValue:@([[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         NSString *string=@"ipad Story Book closed ";
@@ -1040,7 +1044,12 @@
                 [Flurry logEvent:string withParameters:dictionary];
     }
     [self.tabBarController.tabBar setHidden:NO];
-
+  
+    double last=    [[NSUserDefaults standardUserDefaults]doubleForKey:@"timerCompleted"];
+       double endStartTimer=[[NSDate date]timeIntervalSince1970];
+    endStartTimer=endStartTimer-_startTime;
+    last=last+endStartTimer;
+    [[NSUserDefaults standardUserDefaults] setFloat:last forKey:@"timerCompleted"];
     
 }
 
@@ -1208,9 +1217,17 @@
        // _pageNumber++;
         
     }else{
-	_pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[self._ePubContent._manifest valueForKey:[self._ePubContent._spine objectAtIndex:_pageNumber]]];
+	_pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[self._ePubContent._manifest valueForKey:(self._ePubContent._spine)[_pageNumber]]];
 	[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pagesPath]]];
     [self addThumbnails];
+    }
+   NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
+    pageCount++;
+    [[NSUserDefaults standardUserDefaults]setInteger:pageCount forKey:@"tpageCount"];
+    if(self._ePubContent._spine.count-2<=_pageNumber){
+        NSInteger bookCount=[[NSUserDefaults standardUserDefaults]integerForKey:@"tbookCount"];
+        bookCount++;
+        [[NSUserDefaults standardUserDefaults] setInteger:bookCount forKey:@"tbookCount"];
     }
 	//set page number
 	//_pageNumberLbl.text=[NSString stringWithFormat:@"%d",_pageNumber+1];
@@ -1589,17 +1606,11 @@
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
 
     if (!_anAudioRecorder) {
-        [dictionary setValue:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]] forKey:@"identity"];
+        [dictionary setValue:@([[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"]) forKey:@"identity"];
         [Flurry logEvent:@"recording" withParameters:dictionary];
-        NSDictionary *recordSettings = [NSDictionary
-                                        dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithInt:kAudioFormatAppleIMA4],
-                                        AVFormatIDKey,
-                                        [NSNumber numberWithInt: 1],
-                                        AVNumberOfChannelsKey,
-                                        [NSNumber numberWithFloat:44100.0],
-                                        AVSampleRateKey,
-                                        nil];
+        NSDictionary *recordSettings = @{AVFormatIDKey: @(kAudioFormatAppleIMA4),
+                                        AVNumberOfChannelsKey: @1,
+                                        AVSampleRateKey: @44100.0f};
         NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
         NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
         NSString *appenLoc=[[NSString alloc] initWithFormat:@"%d",iden];

@@ -108,6 +108,7 @@
 @property(assign,nonatomic)BOOL playingPaused;
 @property(assign,nonatomic)BOOL callOnBack;
 @property(assign,nonatomic)BOOL viewAppeared;
+@property(assign,nonatomic)NSTimeInterval startTime;
 //@property (nonatomic, retain) SZActionBar *actionBar;
 //@property (nonatomic, retain) id<SZEntity> entity;
 @end
