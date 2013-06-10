@@ -383,7 +383,7 @@
     NSLog(@"Total %d",_epubFiles.count);
     
     [self addDeleteButton];
-    //[self.navigationItem.rightBarButtonItem setTitle:@"Done"];
+
       _showDeleteButton=YES;
     UIBarButtonItem *item=_array[0];
     [item setTitle:@"Done"];
