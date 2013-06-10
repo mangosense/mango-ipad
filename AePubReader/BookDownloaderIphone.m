@@ -22,23 +22,12 @@
 -(void)setBook:(Book *)book{
     
     _book=book;
-    //[_book retain];
 }
-/*-(void)dealloc{
-    _data=nil;
-    _loc=nil;
-    _progress=nil;
-    _book=nil;
-    [_handle release];
-    [super dealloc];
-}*/
+
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    //[error autorelease];
-    
- //   [_handle release];
+
     [alert show];
-  //  [alert release];
     [_progress removeFromSuperview];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     _book.downloaded=@NO;
@@ -49,7 +38,6 @@
     DownloadViewController *store=(DownloadViewController *)[nav topViewController];
     [(_myBookViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
     [store getPurchasedDataFromDataBase];
-    //_myBookViewController.downloadFailed=YES;
     delegate.downloadBook=NO;
     [_myBookViewController.tabBarController setSelectedIndex:1];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
@@ -74,13 +62,7 @@
     if (_data.length>BYTE) {
         somethinRemains=NO;
         
-        //        if(_sizeLenght>_value){
-        //            NSError *error=[[NSError alloc]initWithDomain:@"Download file corrupt" code:400 userInfo:nil];
-        //            [connection cancel];
-        //            [self connection:connection didFailWithError:error];
-        //            [error release];
-        //            return;
-        //        }
+
         if (!_handle) {
             
             _handle=[NSFileHandle fileHandleForUpdatingAtPath:_loc];
@@ -89,12 +71,10 @@
         NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
         
         float sizeLong=diction.fileSize;
-    //    NSLog(@"downloaded %@ total %f",[NSNumber numberWithLong:_sizeLenght],_value);
         
         sizeLong=sizeLong/_value;
         [_progress setProgress:sizeLong animated:YES];
-        
-        // NSLog(@"size %@ MB url %@ ",[NSNumber numberWithFloat:sizeLong],connection.originalRequest.URL.absoluteString);
+    
         _data=nil;
         _data=[[NSMutableData alloc]initWithLength:0];
 
@@ -108,7 +88,6 @@
     if (somethinRemains) {
         [_handle writeData:_data];
     }
-   // [_handle release];
     NSDictionary *diction=[[NSFileManager defaultManager] attributesOfItemAtPath:_loc error:nil];
     float sizeLong=diction.fileSize;
     NSLog(@"total %f over %f",_value,sizeLong);

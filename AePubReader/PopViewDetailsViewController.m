@@ -30,9 +30,7 @@
     [self.parentViewController dismissModalViewControllerAnimated:YES];
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];
-   // UIAlertView *alert=nil;
-   // NetworkStatus status = [reachability currentReachabilityStatus];
-   // if (status==ReachableViaWiFi) {
+     // if (status==ReachableViaWiFi) {
     long freeSpace=[self getFreeDiskspace];
     if (freeSpace<_size) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

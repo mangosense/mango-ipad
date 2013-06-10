@@ -24,7 +24,6 @@
     [_store.navigationItem.rightBarButtonItem setEnabled:YES];
   //  [_store BuildButtons];
     [alert show];
-  //  [alert release];
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     [_dataMutable setLength:0];
@@ -32,8 +31,8 @@
 }
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     
-    NSString *stringJsonData=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
-    NSLog(@"String %@",stringJsonData);
+   // NSString *stringJsonData=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
+  //  NSLog(@"String %@",stringJsonData);
    
     id dict=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"dict %@",[dict class]);
@@ -43,8 +42,7 @@
     else if (dict[@"error"]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Session invalid" message:@"The session is invalid. Please signout and sign in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-    //    [alertView release];
-     //   [stringJsonData release];
+
         return;
     }
     [_store.navigationItem.rightBarButtonItem setEnabled:YES];
@@ -53,20 +51,11 @@
     [delegate.dataModel insertIfNew:_dataMutable];
     
     [_store getPurchasedDataFromDataBase];
-//    if (_shouldBuild) {
-//        [_store BuildButtons];
-//    }else{
-//        
-//    }
-    
-   //  [stringJsonData release];
+
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [_dataMutable appendData:data];
 }
 
-/*-(void)dealloc{
-    [_dataMutable release];
-    [super dealloc];
-}*/
+
 @end

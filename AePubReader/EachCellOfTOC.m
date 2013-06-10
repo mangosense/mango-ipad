@@ -9,9 +9,5 @@
 #import "EachCellOfTOC.h"
 
 @implementation EachCellOfTOC
-/*-(void)dealloc{
-    [_title release];
-    [_file release];
-    [super dealloc];
-}*/
+
 @end

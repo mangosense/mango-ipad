@@ -30,23 +30,19 @@
     if (self) {
         // ustom initialization
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-           // NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
         NSArray *notes= [delegate.dataModel getNoteWithBook:bookid];
         _array=[[NSMutableArray alloc]init];//traversing is needed since pages may not have notes
         _arraySection=[[NSMutableArray alloc]init];
         NSNumber *number=@-1;
 
         NSMutableArray *arrayPerPage=[[NSMutableArray alloc]init];
-   //     [arrayPerPage addObject:noteHighlight];
         for (NoteHighlight *high in notes) {
-           // NSLog(@"note %@ relevantHighlight %@ page number %@",high.note,high.text,high.pageNo);
             if (number.integerValue!=high.pageNo.integerValue&&[notes indexOfObject:high]!=0) {
                 number=high.pageNo;
                  [_arraySection addObject:high.pageNo];
                
                 [_array addObject:arrayPerPage];
                 
-               // [arrayPerPage release];
                 arrayPerPage=[[NSMutableArray alloc]init];
                  [arrayPerPage addObject:high];
                 NSLog(@"new page");
@@ -63,13 +59,7 @@
         if(arrayPerPage.count!=0){
             [_array addObject:arrayPerPage];
         }
-//        for (NSMutableArray *array in _array) {
-//            NSLog(@"total notes :%d",array.count );
-//            for (NoteHighlight *highlight in array) {
-//                NSLog(@"%@ pageNumber---%@ location--%@ top ----%@ identity---%@",highlight.note,highlight.pageNo,highlight.left,highlight.top,highlight.identity);
-//            }
-//            
-//        }
+
         [delegate.dataModel showNotesAndHighlight];
        // [arrayPerPage autorelease];
         _bookId=bookid;
@@ -88,22 +78,14 @@
     self.navigationItem.titleView=segmentedControl;
     [segmentedControl addTarget:self action:@selector(notesOrHighLight:) forControlEvents:UIControlEventValueChanged];
     [segmentedControl setSelectedSegmentIndex:0];
-  //  [segmentedControl release];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 
 -(void)notesOrHighLight:(id)sender{
     UISegmentedControl *seg=(UISegmentedControl *)sender;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSArray *arrayNotesOrHighlight=nil;
-   // [_array release];
-   // [_arraySection release];
-   
+
 
     switch (seg.selectedSegmentIndex) {
         case 0:
@@ -292,10 +274,5 @@
     [_delegate loadSpine:pagNumber.integerValue  atPageIndex:pagNumber.integerValue highlightSearchResult:nil];
     
 }
-/*-(void)dealloc{
-    
-    [_array release];
-    [_arraySection release];
-    [super dealloc];
-}*/
+
 @end

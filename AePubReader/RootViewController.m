@@ -211,7 +211,9 @@
     bounds.origin.y = 0;
     [self.scrollView scrollRectToVisible:bounds animated:animated];
 }
-
+-(NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskLandscape;
+}
 - (IBAction)changePage:(id)sender
 {
     [self gotoPage:YES];    // YES = animate

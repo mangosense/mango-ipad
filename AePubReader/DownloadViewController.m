@@ -84,7 +84,6 @@
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
     
-    //  [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
     ListOfPurchasedBooks *books=[[ListOfPurchasedBooks alloc]initWithViewController:self];
@@ -139,12 +138,10 @@
     [self.tableView reloadData];
 }
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
-  //  [_alert dismissWithClickedButtonIndex:0 animated:YES];
     
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message: @"Cannot connect to iTunes store" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-  //  [alertView release];
-  //  _alert=nil;
+ 
 }
 - (void)viewDidLoad
 {
@@ -161,8 +158,7 @@
     UIBarButtonItem *syncing=[[UIBarButtonItem alloc]initWithTitle:@"Sync" style:UIBarButtonItemStyleBordered target:self action:@selector(sync:)];
     syncing.tintColor=[UIColor grayColor];
     NSArray *array=@[refresh,restore,syncing];
-  //  [restore release];
-  //  [syncing release];
+
     self.navigationItem.leftBarButtonItems=array;
  
     
@@ -170,13 +166,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
     self.navigationItem.titleView=imageView;
- //   [imageView release];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 -(void)restore:(id)sender{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -228,13 +218,7 @@
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:syncIpad];
         [connection start];
-     /*   [syncIpad release];
-        [request release];
-        [connection autorelease];
-        [arryMutable release];
-        [diction release];
-        [string release];
-        [stor release];*/
+
     }
     
 }
@@ -242,7 +226,6 @@
     [self hideIndicator];
 }
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
-    //    UIAlertView *alertFailed;
     StoreBooks *books;
     NSNumber *number;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -267,12 +250,9 @@
  
 
     }
-  //  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
     [self getPurchasedDataFromDataBase];
     [self hideIndicator];
-  //  [_alert dismissWithClickedButtonIndex:0 animated:YES];
-   // request from server
-    //reload data
+
     
 }
 -(void)transactionRestored{
@@ -359,7 +339,6 @@
     }   
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] ;
-      //  [cell autorelease];
     }
     
     // Configure the cell...

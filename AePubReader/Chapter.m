@@ -81,12 +81,6 @@
     
 }
 
-/*- (void)dealloc {
-    //[title release];
-	[spinePath release];
-	[text release];
-    [super dealloc];
-}*/
 
 
 @end

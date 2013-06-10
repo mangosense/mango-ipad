@@ -69,8 +69,7 @@
             NSLog(@"playOrder %d file %@ title %@",toc.playOrder,toc.file,toc.title);
         }
         [_delegate listOfTOC:_array];
-    //    [_array autorelease];
-     //   [self autorelease];
+
     }
     if ([elementName isEqualToString:@"navPoint"]) {
         EachCellOfTOC *toc=[[EachCellOfTOC alloc]init];
@@ -78,9 +77,7 @@
         toc.file=[[NSString alloc]initWithString:_toc.file];
         toc.playOrder=_toc.playOrder;
         [_array addObject:toc];
-     //   [toc release];
-      //  [_toc release];
-      //  _toc=nil;
+
         _toc=[[EachCellOfTOC alloc]init];
         _toc.playOrder=-1;
     }
@@ -96,9 +93,5 @@
 
 
 }
-/*-(void)dealloc{
-    [_parser release];
-   // [_array release];
-    [super dealloc];
-}*/
+
 @end

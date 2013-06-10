@@ -177,15 +177,12 @@
     NSData *jsonData;
     RecieptValidationIphone *recieptValidation;
     NSString *valueJson;
-    // VerificationController *verification=[[VerificationController alloc]init];
-    
     UIAlertView *alertFailed;
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
             case SKPaymentTransactionStateFailed:
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
-            //    [alertFailed release];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
                 break;
@@ -219,11 +216,8 @@
                     [request setURL:[NSURL URLWithString:urlString]];
                     recieptValidation.signIn=YES;
                     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
-                  //  [recieptValidation release];
                     [connection start];
-                    //  [connection autorelease];
-                  //  [request release];
-                  //  [dictionary release];
+
                 }else{
                     request=[[NSMutableURLRequest alloc]init];
                     dictionary=[[NSMutableDictionary alloc]init];
@@ -236,7 +230,6 @@
                     
                     valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
                     NSLog(@"value json request %@",valueJson);
-                   // [valueJson release];
                     [request setHTTPMethod:@"POST"];
                     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                     [request setHTTPBody:jsonData];
@@ -249,15 +242,11 @@
                     [request setURL:[NSURL URLWithString:urlString]];
                     recieptValidation.signIn=NO;
                     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
-                   // [recieptValidation release];
-                  //  [connection autorelease];
-                  //  [request release];
-                  //  [dictionary release];
+
                     [connection start];
                 }
 
-                //after book is purchased
-               //  [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+
                 break;
             case SKPaymentTransactionStateRestored:
                 break;
@@ -545,10 +534,5 @@
   //  [identity release];
 }
 
-/*-(void)dealloc{
-    _array=nil;
-    _data=nil;
-    _price=nil;
-    [super dealloc];
-}*/
+
 @end

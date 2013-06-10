@@ -44,7 +44,6 @@
      CGFloat components[12]={0.0,0.0,0.0,0.0,
          0.0,0.0,0.0,0.0,
          0.0,0.0,0.0,0.0};
-	// myColorspace = CGColorSpaceCreateDeviceRGB();
      
      myColorspace=CGColorGetColorSpace([UIColor blackColor].CGColor);
      myGradient = CGGradientCreateWithColorComponents (myColorspace, components,locations, num_locations);
@@ -131,11 +130,7 @@
 	
 	 // release myGradient and myColorSpace
 	 CGGradientRelease(myGradient);
-	// CGColorSpaceRelease(myColorspace);
-	 
-	// CGColorSpaceRelease(anotherColorSpace);
-	 // draw circle on the outline to smooth it out.
-	 
+
 	 CGContextSetRGBStrokeColor(context, _r,_g,_b,_a);
 	 
 	 // draw an ellipse in the provided rectangle
@@ -228,7 +223,6 @@
 }
 
 - (void)dealloc {
-   // [super dealloc];
 }
 
 

@@ -26,7 +26,7 @@
     [_dataMutable setLength:0];
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    NSLog(@"LocalLocation %@",_localImageLocation);
+   // NSLog(@"LocalLocation %@",_localImageLocation);
     NSFileManager *manager=[NSFileManager defaultManager];
     if ([manager fileExistsAtPath:_localImageLocation ]) {
         [manager removeItemAtPath:_localImageLocation error:nil];

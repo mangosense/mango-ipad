@@ -66,7 +66,6 @@
     NSURL *urlFile=[NSURL fileURLWithPath:string];
     [urlFile setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
     bookDownload.handle=[NSFileHandle fileHandleForUpdatingAtPath:string];
-  //  [bookDownload.handle retain];
     bookDownload.progress=_progress;
     bookDownload.value=[book.size floatValue];
     NSString *stirngValue=book.sourceFileUrl;
@@ -75,9 +74,7 @@
     
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:bookDownload];
     [connection start];
- /*   [request release];
-    [bookDownload release];
-    [connection autorelease];*/
+
     
 }
 - (void)viewDidLoad
@@ -87,13 +84,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
     self.navigationItem.titleView=imageView;
-  //  [imageView release];
-//[self.navigationController.navigationBar setHidden:YES];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
     UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
     barButtonItem.tintColor=[UIColor grayColor];
     self.navigationItem.rightBarButtonItem=barButtonItem;
@@ -149,7 +140,6 @@
             delegate.LandscapeOrientation=YES;
             delegate.PortraitOrientation=YES;}];
     }];
-     //   [c release];
        
         }
     
@@ -162,7 +152,6 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    //[super viewWillDisappear:YES];
     [Flurry logEvent:@"MyBooks exited iphone "];
 
 }
@@ -199,7 +188,6 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-       // [cell autorelease];
     }
     if (indexPath.row==0&&delegate.downloadBook) {
       
@@ -237,7 +225,6 @@
         if (delegate.downloadBook) {
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"This book is being downloaded. It can be deleted only after downloading is complete." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-         //   [alertView release];
             return;
         }
            Book *book=_array[indexPath.row];
@@ -245,7 +232,6 @@
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Delete Book" message:alertViewMessage delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         alertView.tag=300;
         [alertView show];
-        //[alertView release];
         
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -279,34 +265,15 @@
     }
     // Navigation logic may go here. Create and push another view controller.
     _alertView =[[UIAlertView alloc]init];
-//    CGRect rect=_alertView.frame;
-//    
-//    rect.size.height=190;
-//    rect.size.width=160;
-//    _alertView.frame=rect;
+
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-   //[indicator release];
     [_alertView setTitle:@"Loading...."];
     [_alertView setDelegate:self];
-//    UIImage *image=[UIImage imageNamed:@"loading.png"];
-//    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, -50, 190, 160)];
-//    
-//    
-//    imageView.image=image;
-//    [_alertView addSubview:imageView];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-//    indicator.color=[UIColor blackColor];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//    [indicator release];
-//
+
     [_alertView show];
-//    UIImage *image=[UIImage imageNamed:@"pattern.png"];
-//    UIColor *color=[UIColor colorWithPatternImage:image];
-//    _alertView.backgroundColor=color;
+
     Book *iden=_array[indexPath.row];
     _identity=indexPath.row;
     [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
@@ -338,11 +305,9 @@
          reader.url=bk.link;
          reader.imageLocation=bk.localPathImageFile;
          reader.titleOfBook=bk.title;
-         // reader.url=button.stringLink;
          self.tabBarController.hidesBottomBarWhenPushed=YES;
          reader.hidesBottomBarWhenPushed=YES;
          [self.navigationController pushViewController:reader animated:YES];
-       //  [reader release];
          _bookOpen=YES;
      }
     EpubReaderViewController *reader;
@@ -356,12 +321,10 @@
             reader.url=bk.link;
             reader.imageLocation=bk.localPathImageFile;
             reader.titleOfBook=bk.title;
-            // reader.url=button.stringLink;
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             reader.hidesBottomBarWhenPushed=YES;
             _bookOpen=YES;
             [self.navigationController pushViewController:reader animated:YES];
-        //    [reader release];
             break;
         case 2://textbooks
             delegate.LandscapeOrientation=NO;
@@ -374,7 +337,6 @@
             viewController=[[ViewController alloc]initWithNibName:@"ViewControllerIphone" bundle:nil WithString:value];
             viewController.titleOfBook=bk.title;
             [self.navigationController pushViewController:viewController animated:YES];
-        //    [viewController release];
             break;
         case 3:
             delegate.LandscapeOrientation=YES;
@@ -421,8 +383,5 @@
         
     }
 }
-/*-(void)dealloc{
-    _progress=nil;
-    [super dealloc];
-}*/
+
 @end

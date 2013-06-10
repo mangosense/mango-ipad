@@ -222,21 +222,12 @@
     NSError *error;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
     NSArray *descp=@[desc];
-  //  [desc release];
     array=[array sortedArrayUsingDescriptors:descp];
-   // [fetchRequest release];
- //   NSLog(@"downloaded book count %d",array.count);
-//    for (Book *book in array) {
-//     //   NSDateFormatter *format=[[NSDateFormatter alloc]init];
-//        
-//      //  NSLog(@"%@",[format stringFromDate:book.date]);
-//     //   [format release];
-//    }
+
     return array;
     
 }
 -(Book *)getBookOfId:(NSString *)iden{
-//    [iden retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -245,12 +236,10 @@
     [fetchRequest setPredicate:predicate];
     [fetchRequest setEntity:entity];
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-  //  [fetchRequest release];
-   // [iden release];
+
     return [array lastObject];
 }
 -(StoreBooks *)getStoreBookById:(NSString *)productId{
-    //[productId retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -260,13 +249,11 @@
     [fetchRequest setEntity:entity];
     NSError *error=nil;
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-//    [fetchRequest release];
- //   [productId release];
+
     return [array lastObject];
 
 }
 -(BOOL)checkIfIdExists:(NSNumber *)iden{
- //   [iden retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -275,8 +262,7 @@
     [fetchRequest setPredicate:predicate];
     [fetchRequest setEntity:entity];
     NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-  //  [iden release];
-  //  [fetchRequest release];
+
     if (array.count==0) {
        return NO;
     }
@@ -302,7 +288,6 @@
 }
 -(BOOL)checkIfStoreId:(NSNumber *)identity{
   
-   //     [identity retain];
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription
                                        entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -311,8 +296,6 @@
         [fetchRequest setPredicate:predicate];
         [fetchRequest setEntity:entity];
         NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
-     //   [identity release];
-   // [fetchRequest release];
         if (array.count==0) {
             return NO;
         }
@@ -323,9 +306,7 @@
 
 }
 -(void)insertBookWithNo:(StoreBooks *)storeBooks {
- //   [storeBooks retain];
     if ([self checkIfIdExists:storeBooks.productIdentity]) {
-     //   [storeBooks release];
         return;
     }
     Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -352,12 +333,9 @@
     }
     storeBooks.purchased=@YES;
     [self saveStoreBookData:storeBooks];
-   // [storeBooks release];
 }
 -(void)insertBookWithYes:(StoreBooks *)storeBooks{
-    //[storeBooks retain];
     if ([self checkIfIdExists:storeBooks.productIdentity]) {
-      //  [storeBooks release];
         return;
     }
     Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
@@ -384,11 +362,9 @@
     }
     storeBooks.purchased=@YES;
     [self saveStoreBookData:storeBooks];
-   // [storeBooks release];
     
 }
 -(StoreBooks *)getBookById:(NSNumber *)identity{
-   // [identity retain];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
@@ -397,10 +373,7 @@
     [fetchRequest setPredicate:predicate];
     NSError *error=nil;
     NSArray *bookArray=[_dataModelContext executeFetchRequest:fetchRequest error:&error];
-    //[fetchRequest release];
-    //[identity release];
-   // StoreBooks *bks=[bookArray lastObject];
-   // NSLog(@"Boook id and title %@ %@",identity,bks.title);
+
     return [bookArray lastObject];
 }
 
@@ -423,10 +396,7 @@
         if(![self checkIfStoreId:numberId]&&key[@"title"]!=[NSNull null]&&[NSNull null]!=(NSNull *)numberId){
 
             StoreBooks *storeBooks=[NSEntityDescription insertNewObjectForEntityForName:@"StoreBooks" inManagedObjectContext:_dataModelContext];
-         //   NSArray *totalKeys=[key allKeys];
-           
-          //  NSLog(@"key title value %@",[key objectForKey:@"title"]);
-          
+  
             storeBooks.productIdentity=key[@"id"];
            
             storeBooks.title=key[@"title"];
@@ -439,8 +409,10 @@
            storeBooks.free=key[@"is_free"];
             storeBooks.purchased=@NO;
             NSNumber *numbr=key[@"booktype"];
-           
+            if (![[NSNull null] isEqual:numbr]) {
                 storeBooks.textBook=numbr;
+
+            }
             NSURLResponse *response;
             NSError *error;
             NSString *temp=[NSString stringWithFormat:@"%@.jpg",key[@"id"]];
@@ -463,22 +435,28 @@
             NSURLResponse *response;
             NSError *erro;
             NSURLRequest *request;
+//            if ([[NSFileManager defaultManager] fileExistsAtPath:temp]) {
+//                [[NSFileManager defaultManager] removeItemAtPath:temp error:&erro];
+//                if (erro) {
+//                    NSLog(@"%@",erro);
+//                }
+//            }
             if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
                 request=[NSURLRequest requestWithURL:url];
                 NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&erro];
-//                 ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
-//                [request setDownloadDestinationPath:temp];
-//                [request setDelegate:self];
-//                [request setAllowResumeForFileDownloads:YES];
-//                [request startSynchronous];
+                NSLog(@"url %@ local %@",url.absoluteString,temp);
                 [data writeToFile:temp atomically:YES];
             }
             NSString *val=[NSString stringWithFormat:@"%@",numberId ];
             StoreBooks *books=[self getStoreBookById:val];
             books.desc=key[@"description"];
+            books.localImage=temp;
+
             NSNumber *numbr=key[@"booktype"];
-            
-                    books.textBook=numbr;
+            if (![[NSNull null] isEqual:numbr]) {
+                books.textBook=numbr;
+
+            }
                NSLog(@"update id %@",key[@"id"]);
             if (key[@"id"]!=[NSNull null]) {
                 [self saveStoreBookData:books];
@@ -521,8 +499,7 @@
     NSArray *array=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    //NSFileManager *manager=[NSFileManager defaultManager];
-  //  NSLog(@"diction count %d",diction.count);
+
     NSInteger count=0;
     _downloadedImage=0;
     
@@ -567,7 +544,6 @@
                }
               
                NSNumber *numb=key[@"source_file_size"];
-              // NSLog(@" %@ %f",book.id,[numb floatValue]);
              if((id)[NSNull null]!=numb){
                book.size=@([numb floatValue]);
                NSLog(@"%@",book.title);
@@ -580,8 +556,7 @@
                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                book.localPathImageFile=temp;
                [data writeToFile:temp atomically:YES];
-//               NSData *data=[NSData dataWithContentsOfURL:url];
-//               [data writeToFile:temp atomically:NO];
+
                if (![_dataModelContext save:&error]) {
                    NSLog(@"%@",error);
                }
@@ -591,7 +566,6 @@
                NSNumber *iden=key[@"id"];
                NSString *str=[[NSString alloc ]initWithFormat:@"%@.epub",iden];
                Book *book=[self getBookOfId:str];
-           //    [str release];
                if(num!=(id)[NSNull null]){
                    book.size=@([num floatValue]);
                book.desc=key[@"description"];
@@ -603,18 +577,20 @@
 
                }
                                   NSLog(@"id %@",iden );
-               if ([[NSUserDefaults standardUserDefaults] boolForKey:@"changed"]) {
                    book.sourceFileUrl=key[@"book_url"];
                       book.imageUrl=key[@"cover_image_url"];
-               }
+               book.localPathImageFile=temp;
 
                [self saveData:book];
            }
+      //  if ([[NSFileManager defaultManager] fileExistsAtPath:temp]) {
+       //     [[NSFileManager defaultManager] removeItemAtPath:temp error:nil];
+        //}
            if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
-         //      NSLog(@"File downloading %@",temp);
                NSURLResponse *response;
                NSError *error;
                NSURLRequest *request=[NSURLRequest requestWithURL:url];
+               NSLog(@"locallocation %@ %@",temp,url.absoluteString);
                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                [data writeToFile:temp atomically:YES];
            }
@@ -622,8 +598,7 @@
            
     }//end for
     [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"changed"];
- //   NSLog(@"books inserted %d",count);
-  //  NSLog(@"books downloaded %d",_downloadedImage);
+
     return YES;
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{

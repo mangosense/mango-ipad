@@ -50,7 +50,6 @@
     }
     NSString * string=[NSString stringWithFormat: @"In the store details for particular book existed" ];
     [Flurry logEvent:string];
-    //[[SKPaymentQueue defaultQueue]removeTransactionObserver:_liveViewController];
 }
 - (void)viewDidLoad
 {
@@ -75,14 +74,12 @@
     [_imageView setImage:image];
 
     float size=[booksStore.size floatValue];
-  //  [image release];
     NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
     NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
     NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     _fileSizeLabel.text=[NSString stringWithFormat:@"File Size :%@ MB",[NSNumber numberWithLongLong:size] ];
-  //  [identity release];
     NSLog(@"The value of the bool is %@\n", ([booksStore.free boolValue] ? @"YES" : @"NO"));
    _isFree= [booksStore.free boolValue];
  _purchaseLabel.text=@"Please wait...";
@@ -101,7 +98,6 @@
         }else{
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You are not authorsized to make payments" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
-          //  [alertView release];
             [self done:nil];
         }
     }
@@ -136,19 +132,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*- (void)dealloc {
-    [_imageView release];
-    [_titleLabel release];
-  
-    [_fileSizeLabel release];
-    [_purchaseLabel release];
-    _products=nil;
-    _payment=nil;
-    _value=nil;
-    [_purchaseButton release];
-    [_detailsWebView release];
-    [super dealloc];
-}*/
+
 - (void)viewDidUnload {
      
     [self setImageView:nil];
@@ -169,8 +153,7 @@
 
 - (IBAction)toPurchase:(id)sender {
     // must be done application did finish launching
-  //  AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-  //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:_liveViewController];
+
     // if not logged in
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     StoreBooks *book=[delegate.dataModel getBookById:@(_identity)];
@@ -183,9 +166,7 @@
            
             NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now ?",book.title];
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_liveViewController cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-            // [alertViewDelegate autorelease];
             [alertView show];
-      //     [alertView release];
             [Flurry logEvent:@"Book free added to library (no login)" withParameters:dictionary ];
   
         }else{
@@ -194,7 +175,6 @@
             delegate.dismissAlertViewFlag=YES;
             delegate.dismissAlertView=_alertView;
             NSLog(@"Product %@",_products.localizedTitle);
-          //    [[SKPaymentQueue defaultQueue]addTransactionObserver:_liveViewController];
             _payment=[SKPayment paymentWithProduct:_products];
             [[SKPaymentQueue defaultQueue] addPayment:_payment];
             _alertView=nil;
@@ -208,13 +188,11 @@
     if (!_isFree) {// if not free request payment
      
         NSLog(@"Product %@",_products.localizedTitle);
-          // [[SKPaymentQueue defaultQueue]addTransactionObserver:_liveViewController];
         _payment=[SKPayment paymentWithProduct:_products];
         [[SKPaymentQueue defaultQueue] addPayment:_payment];
         _alertView=nil;
         [Flurry logEvent:@"book bought with login" withParameters:dictionary ];
 
-       // [_alertView show];
     }else{// if free then request
         [Flurry logEvent:@"Book free added to library with login" withParameters:dictionary ];
 
@@ -223,13 +201,10 @@
         [dictionary setValue:@0 forKey:@"amount"];
         NSNumber *userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
        // email=@"1";
-     //   userid=[NSNumber numberWithInteger:130];
         [dictionary setValue:userid forKey:@"user_id"];
         [dictionary setValue:@(_identity) forKey:@"book_id"];
-   //      [dictionary setValue:[NSNumber numberWithInteger:557 ] forKey:@"book_id"];
         [dictionary setValue:@"INR" forKey:@"currency"];
         [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
-       // [dictionary setValue:@"sxd4igWVyWAY6uzxgzRv" forKey:@"auth_token"];
          NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
         
         NSString *valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -251,11 +226,7 @@
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:mutableRequest delegate:purchase];
         [connection start];
         
-      //  [connection autorelease];
-      //  [dictionary release];
-      //  [mutableRequest release];
-      //  [purchase release];
-     //   [valueJson release];
+ 
     }
 }
 
@@ -265,12 +236,10 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *identity=[[NSString alloc]initWithFormat:@"%d",_identity ];
     StoreBooks *booksStore= [delegate.dataModel getStoreBookById:identity];
-   // [identity release];
     if (_products) {
      
         booksStore.amount=_products.price;
         [delegate.dataModel saveStoreBookData:booksStore];
-   // [_products retain];
   
     
     NSLocale *priceLocale=_products.priceLocale;
@@ -281,10 +250,7 @@
     _value=nil;
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_products.price]];
     _liveViewController.price=_products.price;
-       // delegate.price=_products.price;
-//[_liveViewController.price retain];
-  //  [formatter release];
-        
+
          }
     else{
         NSNumber *number=@0;

@@ -129,8 +129,5 @@
     [_delegate loadPage:obj.file];
     
 }
-/*-(void)dealloc{
-    [_array release];
-    [super dealloc];
-}*/
+
 @end

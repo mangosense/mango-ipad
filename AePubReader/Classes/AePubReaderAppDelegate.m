@@ -85,35 +85,7 @@
         }
         
     }
-   // [moonCapId release];
-//    destPath=@"49.epub";
-//    insPath = @"49.epub";
-//    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-//    destPath=[string stringByAppendingPathComponent:destPath];
-//   // [fileManager removeItemAtPath:destPath error:nil];
-//    if (![fileManager fileExistsAtPath:destPath]) {
-//        [fileManager copyItemAtPath:srcPath toPath:destPath error:&error];
-//        
-//        if (error) {
-//            NSLog(@"error %@",[error description]);
-//        }else{
-//            NSLog(@"%@",destPath);
-//            NSURL *url=[NSURL fileURLWithPath:destPath];
-//            error=nil;
-//            [url setResourceValue:[NSNumber numberWithBool: YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-//            id Flag=nil;
-//            [url getResourceValue:&Flag forKey:NSURLIsExcludedFromBackupKey error:&error];
-//            if (Flag) {
-//                NSNumber *flag=(NSNumber *)Flag;
-//                NSLog(flag.boolValue ? @"Yes" : @"No");
-//                NSLog(@" 49.epub flag %@",Flag);
-//            }
-//            if (error) {
-//                  NSLog(@"error %@",[error description]);
-//            }
-//
-//        }
-//    }
+
     
     NSURL *url=[NSURL fileURLWithPath:destPath];
     
@@ -827,7 +799,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     
     // Delete the reference to non-existing store
-   // [persistentStoreCoordinator release];
     persistentStoreCoordinator = nil;
     
     NSPersistentStoreCoordinator *r = [self persistentStoreCoordinator];
@@ -841,110 +812,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)insertInStore{
     [_loginViewController insertInStore];
 }
-/*- (void)dealloc {
-  //  _loginViewController=nil;
 
-    
-    [window release];
-    
-    [super dealloc];
-}*/
-/*-(void) purchaseValidationIpad:(SKPaymentTransaction *)transaction{
- NSMutableURLRequest *request;
- NSMutableDictionary *dictionary;
- NSNumber *userid;
- NSData *jsonData;
- NSString *valueJson;
- _identity=transaction.payment.productIdentifier.integerValue;
- if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
- {
- request=[[NSMutableURLRequest alloc]init];
- dictionary=[[NSMutableDictionary alloc]init];
- userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
- [dictionary setValue:userid forKey:@"user_id"];
- [dictionary setValue:[NSNumber numberWithInteger:_identity ] forKey:@"book_id"];
- [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
- [dictionary setValue:_price forKey:@"amount"];
- NSData *transactionReciept=transaction.transactionReceipt;
- NSString *encode=[Base64 encode:transactionReciept];
- [dictionary setValue:encode forKey:@"receipt_data"];
- jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
- 
- valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
- NSLog(@"value json request %@",valueJson);
- //  [valueJson release];
- [request setHTTPMethod:@"POST"];
- [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
- [request setHTTPBody:jsonData];
- NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
- [request setURL:[NSURL URLWithString:urlString]];
- NSURLResponse *response;
- NSError *error;
- NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
- if (error) {
- UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
- [alertView show];
- 
- }else{
- NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
- NSString *value= [dictionary objectForKey:@"message"];
- if ([value isEqualToString:@"purchase successful!"])
- {
- UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
- alertView.tag=1000;
- [alertView show];
- 
- }else{
- UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
- [alertView show];
- }
- [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
- }
- 
- }else{// not logged in
- request=[[NSMutableURLRequest alloc]init];
- dictionary=[[NSMutableDictionary alloc]init];
- // [dictionary setValue:_price forKey:@"amount"];
- 
- NSData *transactionReciept=transaction.transactionReceipt;
- NSString *encode=[Base64 encode:transactionReciept];
- [dictionary setValue:encode forKey:@"receipt_data"];
- jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
- 
- valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
- NSLog(@"value json request %@",valueJson);
- 
- [request setHTTPMethod:@"POST"];
- [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
- [request setHTTPBody:jsonData];
- NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"] ];
- [request setURL:[NSURL URLWithString:urlString]];
- NSURLResponse *response;
- NSError *error;
- NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
- if (error) {
- UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
- [alertView show];
- }else{
- NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
- NSNumber *value= [dictionary objectForKey:@"status"];
- if (value.integerValue==0)
- {
- UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:@"Do you want to download it now?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
- [alertView show];
- 
- }else{
- UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
- [alertView show];
- 
- }
- [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
- 
- }
- }
- 
- 
- }*/
 
 @end
 

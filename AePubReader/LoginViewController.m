@@ -65,13 +65,11 @@
         [self presentViewController:c animated:YES completion:^(){
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-     //   [c release];
     }
     [Flurry logEvent:@"Login entered"];
 
 }
 -(void)viewDidAppear:(BOOL)animated{
-  //    [self dismissViewControllerAnimated:NO completion:nil];
 }
 -(void)goToNext{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -91,7 +89,6 @@
     [self.navigationController pushViewController:_tabBarController animated:YES];
 }
 -(void)insertInStore{
-  //  _liveViewController performSelectorInBackground:@selector() withObject:<#(id)#>
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
     
 }
@@ -250,11 +247,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     _alertView =[[UIAlertView alloc]init];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//    [indicator release];
-//    [_alertView setTitle:@"Loading...."];
+
     
     UIImage *image=[UIImage imageNamed:@"loading.png"];
     
@@ -264,28 +257,14 @@
     
     imageView.image=image;
     [_alertView addSubview:imageView];
-  //  [imageView release];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-  //  [indicator release];
-    [_alertView show];
-   // [_alertView release];
+
 
 }
-/*- (void)dealloc {
-    [_userName release];
-    [_password release];
-    [_ForgotPassword release];
-    [_signUp release];
-    [_AboutUs release];
-    [_videoView release];
-  //  [_webView release];
-    [_facebookButton release];
-    [_orImage release];
-    [super dealloc];
-}*/
+
 - (void)viewDidUnload {
     [self setUserName:nil];
     [self setPassword:nil];
@@ -307,9 +286,7 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"Index %d",buttonIndex);
-//    if (buttonIndex==1) {
-//      [self loadURL:nil];
-//    }
+
     
     if(buttonIndex==1){
         MFMailComposeViewController *mail=[[MFMailComposeViewController alloc]init];
@@ -322,16 +299,9 @@
     }
         
 }
-//- (NSUInteger)supportedInterfaceOrientations {
-//    
-//    return UIInterfaceOrientationMaskAll;
-//    
-//}
 
-//- (BOOL)shouldAutorotate {
-//    
-//    return YES;
-//}
+
+
 
 - (void)popUpThenURL:(UIButton *)sender {
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Mango Reader" message:@"MangoReader - we bring books to life by making them engaging and fun using videos, animation, quizzes, maps, graphics and interactivity. Publishers, Authors and Educators can reach new audiences using mobiles, tablets and online reader and generate more revenue. Readers get better books and a great learning experience and can collaborate with friends, take notes and use learning tools such as dictionary, search and quizzes. We are not only redefining books and publishing, but reinventing the way people learn." delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Share", nil];
@@ -339,14 +309,8 @@
     frame.size.height=frame.size.height+100;
     frame.size.width=frame.size.width+300;
     alert.frame=frame;
-//    UIImage *image=[UIImage imageNamed:@"logo1.png"];
-//      UIImageView *imageView=[[UIImageView alloc]initWithImage:image];
-//    imageView.frame=CGRectMake(50.0f, 0, 210.0f, 52.0f);
-//    [alert addSubview:imageView];
-//    
-  //  [imageView release];
+
     [alert show];
-  //  [alert release];
 }
 - (IBAction)forgotPassword:(id)sender {
     NSURL *url=nil;
@@ -359,20 +323,12 @@
 }
 
 - (IBAction)signUp:(id)sender {
-//    NSURL *url=nil;
-//    WebViewController *webView;
-//
-//    url=[NSURL URLWithString:@"http://www.mangoreader.com/users/signup"];
-//    webView=[[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil URL:url];
-//    webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-//     [self presentViewController:webView animated:YES completion:nil ];
-//    [webView release];
+
     SignUpViewController *signUp=[[SignUpViewController alloc]initWithNibName:@"SignUpViewController" bundle:nil with:self];
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:signUp animated:YES completion:nil];
     [Flurry logEvent:@"Goto to signUp"];
     
-  //  [signUp release];
 }
 - (IBAction)showVideo:(id)sender {
      WebViewController *webView;
@@ -381,8 +337,7 @@
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     
     [self presentViewController:webView animated:YES completion:nil];
-   // [webView release];
-    
+
 }
 -(void)facebookRequest{
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -408,19 +363,12 @@
     
     FacebookLogin *facebook=[[FacebookLogin alloc]initWithloginViewController:self];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
- //   [facebook release];
     [connection start];
-   // [request release];
-   // [connection autorelease];
-   // [dictionary release];
+
 }
 - (IBAction)facebookLogin:(id)sender {
                 _alertView =[[UIAlertView alloc]init];
-//                UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//                [indicator startAnimating];
-//                [_alertView addSubview:indicator];
-//                [indicator autorelease];
-//                [_alertView setTitle:@"Loading...."];
+
     UIImage *image=[UIImage imageNamed:@"loading.png"];
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
@@ -429,14 +377,11 @@
     
     imageView.image=image;
     [_alertView addSubview:imageView];
- //   [imageView release];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-  //  [indicator release];
     [_alertView show];
-  //  [_alertView release];
     ACAccountStore *accountStore=[[ACAccountStore alloc]init];
     
     ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
@@ -473,7 +418,6 @@
 -(void)facebookError{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-  //  [alert release];
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 - (IBAction)skipLogin:(id)sender {

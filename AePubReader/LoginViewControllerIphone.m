@@ -52,7 +52,6 @@
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
-   // [str release];
     if (temp) {
         NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
         NSString *temp=diction[@"auth_token"];
@@ -69,7 +68,6 @@
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-        //[alertView release];
     }
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -95,7 +93,6 @@
         [self presentViewController:c animated:YES completion:^(){
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-     //   [c release];
     }
 
 }
@@ -115,10 +112,8 @@
    
     _downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
     _downloadView.myBook=_myBook;
- //    [myBook release];
     
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
-  //  [downloadView release];
     _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_liveController];
     _liveController.myBooks=_myBook;
@@ -215,18 +210,7 @@
 
 - (IBAction)email:(id)sender {
 }
-/*- (void)dealloc {
-    _error=nil;
-    [_email release];
-    [_password release];
-    [_faceBookId release];
-    _alertView=nil;
-    [_orImage release];
-    [_backgroundImage release];
-    [_signIn release];
-    [_signUp release];
-    [super dealloc];
-}*/
+
 - (void)viewDidUnload {
     [self setEmail:nil];
     [self setPassword:nil];
@@ -242,7 +226,6 @@
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     signUp.loginViewControllerIphone=self;
     [self presentViewController:signUp animated:YES completion:nil];
-   // [signUp release];
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
@@ -257,27 +240,14 @@
     [request setHTTPMethod:@"GET"];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
-  //  [request release];
-  //  [connection autorelease];
+
     _alertView =[[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
    // [indicator release];
     [_alertView setTitle:@"Loading...."];
-//    UIImage *image=[UIImage imageNamed:@"loading.png"];
-//    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
-//    
-//    
-//    imageView.image=image;
-//    [_alertView addSubview:imageView];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-//    indicator.color=[UIColor blackColor];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//    [indicator release];
-    
+
  
 
     [_alertView show];
@@ -322,19 +292,12 @@
    
     FacebookIphoneLogin *facebook=[[FacebookIphoneLogin alloc]initWithloginViewController:self];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
-   // [facebook release];
     [connection start];
-    //[request release];
-    //[connection autorelease];
-    //[dictionary release];
-    //[jsonValue autorelease];
+
 
 }
 - (IBAction)faceBookLogin:(id)sender {
-//    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"FullName"]) {
-//        [self facebookRequest];
-//        return;
-//    }
+
                 _alertView =[[UIAlertView alloc]init];
                 UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
                 [indicator startAnimating];
@@ -342,18 +305,6 @@
             //    [indicator autorelease];
                 [_alertView setTitle:@"Loading...."];
                [_alertView show];
-  //  UIImage *image=[UIImage imageNamed:@"loading.png"];
-    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
-    
-    
-//    imageView.image=image;
-//    [_alertView addSubview:imageView];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-//    indicator.color=[UIColor blackColor];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//    [indicator release];
 
     ACAccountStore *accountStore=[[ACAccountStore alloc]init];
   
@@ -403,8 +354,7 @@
 -(void)errorOther{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-   // [alert release];
-   // [_error release];
+
     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     
 }
@@ -412,7 +362,6 @@
     
                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
-               // [alert release];
    
     
     _error=nil;

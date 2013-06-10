@@ -30,7 +30,6 @@
         self.tabBarItem.image=[UIImage imageNamed:@"cart.png"];
         _currentPageNumber=1;
         _pg=1;
-         [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
     }
    
     return self;
@@ -41,7 +40,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  
+    [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
+
     [self buildButtons];
  self.scrollView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
@@ -56,7 +56,6 @@
     itemRight.tintColor=[UIColor grayColor];
     self.navigationItem.rightBarButtonItems=@[itemRight,itemReferesh];
     self.navigationItem.leftBarButtonItem=itemLeft;
-   // [itemReferesh release];
     _ymax=768+80;
 
     
@@ -73,7 +72,6 @@
     _currentPageNumber++;
     [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
 
-   // [self requestBooks];
     
 }
 -(void)previousButton:(id)sender{
@@ -82,7 +80,6 @@
     }
     [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
 
-  //  [self requestBooks];
     
 }
 -(void)showActivityIndicator{
@@ -102,6 +99,7 @@
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
+    [self buildButtons];
 }
 -(void)requestBooksWithoutUIChange{
     [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
@@ -118,7 +116,6 @@
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    //   NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     NSURLResponse *response;
     NSError *error;
     [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
@@ -126,14 +123,12 @@
     _data=[[NSMutableData alloc]initWithData:data];
     NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",lengthTotal);
-    //[lengthTotal release];
     
     _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_pg];
     _pages=_totalNumberOfBooks/20;
     if (_totalNumberOfBooks%20!=0) {
         _pages++;
     }
-    //_currentPageNumber>=_pages
     if (_pg<_pages) {
         _pg++;
         [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
@@ -150,12 +145,10 @@
     NSLog(@"URL %@",stringUrl);
     //stringUrl=@"http://192.168.2.29:3000/api/v1/page/1/books.json";
     NSURL *url=[[NSURL alloc]initWithString:stringUrl];
-    //[stringUrl release];
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
     [request setHTTPMethod:@"GET"];
       [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
- //   NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     NSURLResponse *response;
     NSError *error;
     [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
@@ -171,7 +164,6 @@ _error=error;
   
         NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
         NSLog(@"%@",lengthTotal);
-        //[lengthTotal release];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_currentPageNumber];
         [self buildButtons];
@@ -201,9 +193,7 @@ _error=error;
 
     [alert show];
   [self performSelectorOnMainThread:@selector(hideActivityIndicator) withObject:nil waitUntilDone:NO];
-   // [alert release];
- //   [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-  //  _alertView=nil;
+
 
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -213,7 +203,6 @@ _error=error;
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",lengthTotal);
-    //[lengthTotal release];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
 _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_currentPageNumber];
     [self buildButtons];
@@ -258,11 +247,9 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     int xinc=190;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSArray *_listOfBooks= [delegate.dataModel getForPage:_currentPageNumber];
-  //  [_listOfBooks retain];
     _ymax=768+80;
     if (_listOfBooks.count==0) {
         
-    //    [_listOfBooks release];
         return;
     }
     for (UIView *view in self.scrollView.subviews) {
@@ -324,21 +311,15 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         button.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"bookshadow.png"]];
         button.tag=[book.productIdentity integerValue];
         // [button setupView];
-        
+        NSLog(@"local image%@",book.localImage);
         UIImage *image=[UIImage imageWithContentsOfFile:book.localImage];
         button.imageLocalLocation=book.localImage;
         [button setImage:image forState:UIControlStateNormal];
-        //[button addTarget:button action:@selector(DownloadBook:) forControlEvents:UIControlEventTouchUpInside];
         [button setAlpha:0.7];
-        //        UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
-        //        tap.numberOfTouchesRequired=2;
-        //        [button addGestureRecognizer:tap];
-        //
-        //        [tap release];
+
         NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localImage];
         NSError *error=nil;
         [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-      //  [url release];
         [button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
         //NSLog(@" x= %d",x);
         x=x+xinc;
@@ -350,19 +331,13 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
             x=xmin;
             y+=+250;
         }
-        //        UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(LongPress:)];
-        //        [button addGestureRecognizer:longPress];
-        // [button setupView];
-        //  button.viewController=self;
-        // NSLog(@"viewcontroller retain count %d",[button.viewController retainCount]);
+
         [self.scrollView addSubview:button];
-      //  [button release];
     }
     if (_alertView) {
         [ _alertView dismissWithClickedButtonIndex:0 animated:YES];
     }
-    //[_listOfBooks release];
-    //_alertView=nil;
+
     [self.view bringSubviewToFront:_previousButton];
     [self.view bringSubviewToFront:_nextButton];
 }
@@ -373,7 +348,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     if([delegate.dataModel checkIfIdExists:number]){
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Book purchased" message:@"You have already purchased the book" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-    //   [alertView release];
     }
     else{
         _identity=button.tag;
@@ -385,11 +359,8 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         nav.modalPresentationStyle=UIModalPresentationFormSheet;
         nav.modalTransitionStyle=UIModalTransitionStyleCrossDissolve;
         [self presentModalViewController:nav animated:YES];
-      //  [popPurchaseController release];
-      //  [nav release];
-    
+       
 }
-    //[number release];
     
 }
 -(uint64_t)getFreeDiskspace {
@@ -431,7 +402,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
             StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
             [delegate.dataModel insertBookWithNo:books];
             [storeViewController BuildButtons];
-            // [storeViewController refreshButton:nil];
+            
             [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
             return;
         }
@@ -440,14 +411,11 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         LibraryViewController *library=(LibraryViewController *)nav.topViewController;
         NSString *valu=[[NSString alloc]initWithFormat:@"%@.epub",identity ];
         Book *bookToDownload=[delegate.dataModel getBookOfId:valu];
-     //   [valu release];
         if (!delegate.addControlEvents) {
             UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [down show];
-      //      [down release];
             bookToDownload.downloaded=@NO;
             [delegate.dataModel saveData:bookToDownload];
-       //     [identity release];
             [delegate.dataModel insertBookWithNo:books];
             
             return;
@@ -460,10 +428,8 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         UINavigationController *nav=self.tabBarController.viewControllers[1];
         StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
         [storeViewController BuildButtons];
-       // [storeViewController refreshButton:nil];
          [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     }
-   // [identity release];
     
 }
 
@@ -475,7 +441,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     NSData *jsonData;
     RecieptValidation *recieptValidation;
     NSString *valueJson;
-    // VerificationController *verification=[[VerificationController alloc]init];
    
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
@@ -483,7 +448,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
                 NSLog(@"error %@",transaction.error);
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:[transaction.error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
-            //    [alertFailed release];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
                 break;
@@ -504,7 +468,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
                 
                 valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
                 NSLog(@"value json request %@",valueJson);
-              //  [valueJson release];
                 [request setHTTPMethod:@"POST"];
                 [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                 [request setHTTPBody:jsonData];
@@ -516,18 +479,13 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
                 NSLog(@"reciept validation %@",urlString);
                 [request setURL:[NSURL URLWithString:urlString]];
                 NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
-          //      [recieptValidation release];
-          //      [connection autorelease];
-          //      [request release];
-          //      [dictionary release];
+
                     [connection start];
-                     //  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
             }else{// no user id
                 
                
                 request=[[NSMutableURLRequest alloc]init];
                 dictionary=[[NSMutableDictionary alloc]init];
-               // [dictionary setValue:_price forKey:@"amount"];
                 
                 NSData *transactionReciept=transaction.transactionReceipt;
                 NSString *encode=[Base64 encode:transactionReciept];
@@ -551,13 +509,8 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
                 [request setURL:[NSURL URLWithString:urlString]];
                 recieptValidation.signedIn=NO;
                 NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
-              /*  [recieptValidation release];
-                [connection autorelease];
-                [request release];
-                [dictionary release];
-                [valueJson release];*/
+
                 [connection start];
-                //  [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
                 
             }
         
@@ -601,7 +554,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         
         valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
         NSLog(@"value json request %@",valueJson);
-        //  [valueJson release];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
@@ -615,7 +567,6 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:recieptValidation];
 
         [connection start];
-    //    [[SKPaymentQueue defaultQueue]removeTransactionObserver:self];
     }else{// no user id
         request=[[NSMutableURLRequest alloc]init];
         dictionary=[[NSMutableDictionary alloc]init];        
@@ -655,8 +606,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         
         [self DrawShelf];
         [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
-     //   [self performSelector:@selector(requestBooks) withObject:nil];
-       // [self requestBooks];
+   
     }
     [Flurry logEvent:@"Store entered"];
 }
@@ -665,11 +615,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     [Flurry logEvent:@"Store exited"];
 
 }
-/*- (void)dealloc {
-    [_scrollView release];
-    _price=nil;
-    [super dealloc];
-}*/
+
 - (void)viewDidUnload {
     [self setScrollView:nil];
     [self setNetworkIndicator:nil];

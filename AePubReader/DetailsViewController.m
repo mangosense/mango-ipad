@@ -42,14 +42,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*- (void)dealloc {
-    [_fileName release];
-    [_titleLabel release];
-    [_loc release];
-    _player=nil;
-    [_playPause release];
-    [super dealloc];
-}*/
+
 - (void)viewDidUnload {
     [self setFileName:nil];
     [self setPlayPause:nil];
@@ -69,25 +62,21 @@
         UIImage *image=[UIImage imageNamed:@"play-control.png"];
         [_playPause setImage:image forState:UIControlStateNormal];
         [_player stop];
-       // [_player release];
-       // _player=nil;
+ 
         
     }
 _isPlaying=!_isPlaying;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [_player stop];
-    //_player=nil;
-  //  [_player release];
+
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     _isPlaying=NO;
-    //[_player release];
-   // _player=nil;
+
 }
 -(void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error{
     _isPlaying=NO;
-    //[_player release];
-   // _player=nil;
+    
 }
 @end

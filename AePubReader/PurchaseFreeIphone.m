@@ -22,7 +22,6 @@
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
-  //  [alertView release];
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -38,7 +37,6 @@
     NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:_mutableData options:NSJSONReadingAllowFragments error:nil];
     NSString *value=[[NSString alloc]initWithData:_mutableData encoding:NSUTF8StringEncoding];
     NSLog(@"data mutable %@",value );
- //   [value autorelease];
     value= dictionary[@"message"];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     StoreBooks *book=[delegate.dataModel getBookById:@(_identity)];
@@ -48,15 +46,12 @@
     [_live.alertView dismissWithClickedButtonIndex:0 animated:YES];
     if ([value isEqualToString:@"purchase successful!"]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-        // [alertViewDelegate autorelease];
         [alertView show];
-     //   [alertView release];
         
         
     }else if([value isEqualToString:@"Already Purchased"]){
 
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Already Purchased" message:message delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-        // [alertViewDelegate autorelease];
         [alertView show];
     }
     
@@ -64,11 +59,7 @@
     {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Could not register to user id" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
- //       [alertView release];
     }
 }
-/*-(void)dealloc{
-    _mutableData=nil;
-    [super dealloc];
-}*/
+
 @end

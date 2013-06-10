@@ -24,7 +24,6 @@
 
 @implementation StoreViewController
 -(void)setListOfBooks:(NSArray *)listOfBooks{
-   // _listOfBooks=nil;
     _listOfBooks=[[NSMutableArray alloc]initWithArray:listOfBooks];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -68,8 +67,7 @@
     ListOfBooks *books=[[ListOfBooks alloc]initWithViewController:self];
     books.shouldBuild=YES;
     _connection=[[NSURLConnection alloc]initWithRequest:request delegate:books];
-   // [request release];
-   // [books release];
+
     _purchase=YES;
     
     
@@ -88,33 +86,14 @@
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
+    [self BuildButtons];
 }
 -(void)requestBooksFromServer{
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
         [self BuildButtons];
         return;
     }
-/*    _alert =[[UIAlertView alloc]init];
 
-    UIImage *image=[UIImage imageNamed:@"loading.png"];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
-    imageView.layer.cornerRadius = 5.0;
-    imageView.layer.masksToBounds = YES;
-    
-    imageView.image=image;
-    [_alert addSubview:imageView];
-  //  [imageView release];
-    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-    indicator.color=[UIColor blackColor];
-    [indicator startAnimating];
-    [_alert addSubview:indicator];
-
-  //  [indicator release];
-
-    
-    [_alert show];
-   // [_alert release];*/
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     NSString *temp;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -127,7 +106,6 @@
   //  NSString *jsonInput=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
    // NSLog(@"%@",jsonInput);
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
-  //  [jsonInput autorelease];
    connectionString=[connectionString stringByAppendingFormat:@"book_purchase"];
     connectionString=[connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"Connection String %@",connectionString);
@@ -135,11 +113,9 @@
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
   
-  //  [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
-  //  ListOfBooks *books=[[ListOfBooks alloc]initWithViewController:self];
-   // _connection=[[NSURLConnection alloc]initWithRequest:request delegate:books];
+ 
     NSURLResponse *response;
     NSData *data;
     NSError *error;
@@ -168,9 +144,7 @@
             directly.storeController=self;
             NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:directly];
             [connection start];
-            // [directly release];
-            // [request release];
-            //[connection autorelease];
+          
             return;
         }
      //   NSLog(@"%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
@@ -199,11 +173,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-   // [_mainSpinner startAnimating];
-   // _spinner.hidesWhenStopped=YES;
-    _ymax=768+80;
+     _ymax=768+80;
     self.scrollView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
-    //CGSize size=self.scrollView.contentSize;
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
         self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)];
     }else{
@@ -219,15 +190,11 @@
     sync.tintColor=[UIColor grayColor];
     NSArray *array=@[barButtonRefresh,restore,sync];
     self.navigationItem.leftBarButtonItems=array;
-   // [restore release];
-   // [barButtonRefresh release];
-   // [sync release];
- 
+
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
-   // [imageView release];
-    //[self DrawShelf];
+
   
     [self BuildButtons];
     
@@ -235,10 +202,8 @@
 
 -(void)restore:(id)sender{
 
-    // [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (delegate.completedStorePopulation) {
-       // [delegate insertInStore];
         [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
         [self showActivityIndicator];
     }else{
@@ -258,7 +223,6 @@
             case SKPaymentTransactionStateFailed:
                 alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertFailed show];
-               // [alertFailed release];
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStatePurchased:
@@ -269,12 +233,9 @@
                 number=@(transaction.payment.productIdentifier.integerValue);
                 books= [delegate.dataModel getBookById:number];
                 [delegate.dataModel insertBookWithNo:books];
-               // [number release];
                 
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-                //restored=YES;
-                //[_alert dismissWithClickedButtonIndex:0 animated:YES];
-                //_alert=nil;
+           
                 break;
         }
     }///end for
@@ -290,11 +251,7 @@
 }
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
-   
-//    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message: @"Cannot connect to iTunes store" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-//    [alertView show];
-    //[alertView release];
-    //_alert=nil;
+
 }
 - (void)signOut:(id)sender {
     NSString *signout=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
@@ -304,8 +261,7 @@
     [request setHTTPMethod:@"GET"];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
-   // [request release];
-  //  [connection autorelease];
+
     
     [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
@@ -343,14 +299,7 @@
        //     [array release];
             
         }
-//        [arryMutable removeAllObjects];
-//        number=[NSNumber numberWithInteger:229];
-//        
-//        NSArray *array=[NSArray arrayWithObjects:number,[NSNumber numberWithInteger:0], nil];
-//        number=[NSNumber numberWithInteger:212];
-//        NSArray *arrayaother=[NSArray arrayWithObjects:number,[NSNumber numberWithInteger:0], nil];
-//        [arryMutable addObject:array];
-//        [arryMutable addObject:arrayaother];
+
         [diction setValue:arryMutable forKey:@"books"];
         NSData *json=[NSJSONSerialization dataWithJSONObject:diction options:NSJSONWritingPrettyPrinted error:nil];
         [request setHTTPMethod:@"POST"];
@@ -360,13 +309,7 @@
          [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:syncIpad];
         [connection start];
-       // [syncIpad release];
-       // [request release];
-        //[string release];
-        //[connection autorelease];
-       // [arryMutable release];
-       // [diction release];
-       // [stor release];
+
     }
     
 }
@@ -386,7 +329,6 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
-   //  [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
     [Flurry logEvent:@"Downloads exited"];
 
 }
@@ -407,16 +349,9 @@
         ymin+=210+40;
         imageView.frame=frame;
         [self.scrollView addSubview:imageView];
-      //  [imageView release];
     }
 }
-//- (NSUInteger)supportedInterfaceOrientations {
-//    
-//    return UIInterfaceOrientationMaskAll;
-//    
-//}
-//
-//
+
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return YES;
 }
@@ -491,26 +426,19 @@
         button.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"bookshadow.png"]];
         button.tag=[book.id integerValue];
         
-       // [button setupView];
-    //    NSLog(@"localPath %@",book.localPathImageFile);
+        NSLog(@"%@",book.localPathImageFile);
         UIImage *image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
         button.imageLocalLocation=book.localPathImageFile;
         [button setImage:image forState:UIControlStateNormal];
-        //[button addTarget:button action:@selector(DownloadBook:) forControlEvents:UIControlEventTouchUpInside];
         [button setAlpha:0.7];
-//        UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
-//        tap.numberOfTouchesRequired=2;
-//        [button addGestureRecognizer:tap];
-//        
-//        [tap release];
+
         NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localPathImageFile];
         NSError *error=nil;
         [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
        // [url release];
         UITapGestureRecognizer *Singletap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
         [button addGestureRecognizer:Singletap];
-       // [Singletap release];
-        //NSLog(@" x= %d",x);
+    
                x=x+xinc;
         
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)&&x+140>1024) {
@@ -521,19 +449,13 @@
             y+=+250;
             
         }
-//        UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(LongPress:)];
-//        [button addGestureRecognizer:longPress];
-     // [button setupView];
-      //  button.viewController=self;
-       // NSLog(@"viewcontroller retain count %d",[button.viewController retainCount]);
+
         [self.scrollView addSubview:button];
-       // [button release];
     }
     if (_alert) {
           [ _alert dismissWithClickedButtonIndex:0 animated:YES];
     }
  
-    //_alert=nil;
     
 }
 -(void)singleTap:(UIGestureRecognizer *)gesture{
@@ -562,25 +484,7 @@
     nav.modalPresentationStyle=UIModalPresentationFormSheet;
     nav.modalTransitionStyle=UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:nav animated:YES];
-   // [controller release];
-   // [nav release];
-    
-    
-    //    [gesture.view becomeFirstResponder];
-//    UIMenuItem *menuItem=[[UIMenuItem alloc]initWithTitle:@"share" action:@selector(share:)];
-//   UIMenuItem *downloadOrShow=[[UIMenuItem alloc]initWithTitle:@"download" action:@selector(DownloadBook:)];
-//
-//   // _menuController=[UIMenuController sharedMenuController];
-//     
-//    [_menuController setMenuItems:@[downloadOrShow,menuItem]];
-//    [menuItem release];
-//    [downloadOrShow release];
-//    CGRect frame=gesture.view.frame;
-//    frame.origin.x-=10;
-//    frame.origin.y-=10;
-//    [_menuController setTargetRect:frame inView:self.scrollView];
-//    [_menuController setMenuVisible:YES animated:YES];
-}
+ }
 
 - (void)didReceiveMemoryWarning
 {
@@ -594,7 +498,6 @@
     if (!delegate.addControlEvents) {
         UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
         [down show];
-     //   [down release];
         
         return;
     }
@@ -620,14 +523,6 @@
 }
 
 
-/*- (void)dealloc {
-
-    
-    [_scrollView release];
-    [super dealloc];
-    _listOfBooks=nil;
-    _connection=nil;
-}*/
 - (void)viewDidUnload {
 
    
@@ -637,8 +532,7 @@
 }
 - (void)refreshButton:(id)sender {
     [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
-  //  [self requestBooksFromServer];
-  //  [self BuildButtons];
+
 }
 
 -(void)defunct:(id)sender{

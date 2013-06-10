@@ -144,18 +144,13 @@
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
-/*- (void)dealloc {
-    [_webView release];
-    [super dealloc];
-}*/
+
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
-   // _alert =nil;
     NSLog(@"error %@",error);
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
      [_alert dismissWithClickedButtonIndex:0 animated:YES];
-   // _alert=nil;
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
  
@@ -171,6 +166,5 @@
     
     [_webView loadRequest:request];
     [self dismissModalViewControllerAnimated:YES];
-   // [request release];
 }
 @end

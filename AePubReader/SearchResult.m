@@ -24,10 +24,6 @@
     return self;
 }
 
-/*- (void)dealloc {
-    [neighboringText release];
-	[originatingQuery release];
-    [super dealloc];
-}*/
+
 
 @end

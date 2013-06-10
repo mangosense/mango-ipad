@@ -57,15 +57,7 @@
     }
     cell.textLabel.text=[NSString stringWithFormat:@"%@    ",_array[indexPath.row] ];
     cell.textLabel.textAlignment=NSTextAlignmentCenter;
-//    UIButton *button=[UIButton buttonWithType:UIButtonTypeCustom];
-//    UIImage *image=[UIImage imageNamed:@"play-control.png"];
-//    [button setImage:image forState:UIControlStateNormal];
-//    button.tag=indexPath.row;
-//    button.frame=CGRectMake(20.0, 5.0, 66, 66);
-//    [button addTarget:self action:@selector(PlayOrPause:) forControlEvents:UIControlEventTouchUpInside];
-//    button.titleLabel.text=@"p";
-//    [cell addSubview:button];
-//    [button release];
+
     return cell;
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

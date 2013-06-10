@@ -23,7 +23,6 @@
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 
     [alert show];
-   // [alert release];
       [_loginViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -39,17 +38,9 @@
     NSString *email=diction[@"email"];
     [[NSUserDefaults standardUserDefaults] setObject:email forKey:@"email"];
     [[NSUserDefaults standardUserDefaults] setObject:diction[@"id"] forKey:@"id"];
-//    [userDefault setObject:diction[@"id"] forKey:@"id"];
-//    [userDefault setObject:temp forKey:@"auth_token"];
-//    [userDefault setObject:_email.text forKey:@"email"];
-//    [userDefault setObject:_password.text forKey:@"password"];
     [_loginViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
     [_loginViewController goToNext];
     
 }
-/*-(void)dealloc{
-    NSLog(@"dealloc in facebookLogin");
-    [_data release];
-    [super dealloc];
-}*/
+
 @end

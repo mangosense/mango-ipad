@@ -50,9 +50,7 @@
     }
     float size=[book.size floatValue];
 
-    // NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
-    //NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
     _fileSizeLabel.text=[NSString stringWithFormat:@"File Size : %0.2f MB",size];
     NSString *flurry=@"DetailsViewController entered to view details";
@@ -80,17 +78,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-- (void)dealloc {
-    [_imageView release];
-    [_titleLabel release];
-    [_textView release];
-    [_downloadButton release];
-    [_topToolbar release];
-    [_bckButton release];
-    [_fileSizeLabel release];
-    [super dealloc];
-}*/
+
 - (void)viewDidUnload {
     [self setImageView:nil];
     [self setTitleLabel:nil];
@@ -113,7 +101,6 @@
     if (delegate.downloadBook) {
         UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
         [down show];
-      //  [down release];
         return;
     }
     [self dismissModalViewControllerAnimated:YES];

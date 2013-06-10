@@ -87,15 +87,7 @@
        parameter= [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     baseUrl=[baseUrl stringByAppendingString:parameter];
     NSLog(@"staging baseurl %@",baseUrl);
-//    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-//    [dictionary setValue:_email.text forKey:@"user[email]"];
-//    [dictionary setValue:_password.text forKey:@"user[password]"];
-//    [dictionary setValue:_confirmPassword.text forKey:@"user[password_confirmation]"];
-//    [dictionary setValue:_nameFull.text forKey:@"user[name]"];
-//    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-//   
-//    NSString *stringJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-//    NSLog(@"JSON %@",stringJson);
+
   
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:baseUrl]];
  //   [request setHTTPMethod:@"POST"];
@@ -104,16 +96,9 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
-   // [connection autorelease];
-    //[request release];
-//    NSString *string=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-//    NSLog(@"json data %@",string);
-//    [string release];
+
     _alertView =[[UIAlertView alloc]init];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//    [indicator release];
+
 //
     
     UIImage *image=[UIImage imageNamed:@"loading.png"];

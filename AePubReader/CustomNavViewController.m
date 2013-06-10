@@ -31,7 +31,7 @@
 	// Do any additional setup after loading the view.
 }
 -(NSUInteger)supportedInterfaceOrientations{
-    NSLog(@"Navigation Supported");
+    //NSLog(@"Navigation Supported");
   
     
     if (!_delegateApp.PortraitOrientation) {
@@ -45,7 +45,7 @@
     return [self.topViewController supportedInterfaceOrientations]; 
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    NSLog(@"Navigation Supported ios 5");
+  //  NSLog(@"Navigation Supported ios 5");
     if (!_delegateApp.PortraitOrientation) {
 //        if (_delegateApp.alertView) {
 //            [_delegateApp.alertView dismissWithClickedButtonIndex:0 animated:YES];

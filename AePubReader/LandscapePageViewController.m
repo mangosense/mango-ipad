@@ -179,7 +179,7 @@
 }
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     if ([[[request URL]absoluteString]hasPrefix:@"selection"]) {
-        NSLog(@"%@",[request URL].absoluteString);
+      //  NSLog(@"%@",[request URL].absoluteString);
         return NO;
     }
     
@@ -245,7 +245,7 @@
     
     //    NSLog(@"x=%f y=%f w=%f h=%f", [UIMenuController sharedMenuController].menuFrame.origin.x,[UIMenuController sharedMenuController].menuFrame.origin.y,[UIMenuController sharedMenuController].menuFrame.size.width,[UIMenuController sharedMenuController].menuFrame.size.height);
     if (json.length>0) {
-        NSLog(@"JSON %@",json);
+     //   NSLog(@"JSON %@",json);
         
         NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]options:NSJSONReadingAllowFragments error:nil];
         
@@ -392,11 +392,11 @@
             NSInteger indexEnd=highlight.text.length+indexStart;
             //currentstart---oldstart-----currentend<---->oldend
             if (currentstartOffset.intValue<indexStart&&currentendIndex<=indexEnd) {
-                NSLog(@"\n\n\noldselection ----%@",highlight.text);
-                NSLog(@"newselection ----%@",selectedText);
+             //   NSLog(@"\n\n\noldselection ----%@",highlight.text);
+              //  NSLog(@"newselection ----%@",selectedText);
                 tempText=[selectedText substringToIndex:(indexStart-currentstartOffset.intValue)];
                 
-                NSLog(@"\nfragment-----%@",tempText);
+               /// NSLog(@"\nfragment-----%@",tempText);
                 tempText=[NSString stringWithFormat:@"%@%@",tempText,highlight.text];
                 highlight.text=tempText;
                 highlight.srno=@(currentstartOffset.integerValue);
@@ -414,14 +414,14 @@
             }
             //oldstart<-->currentstart------oldend-----currentend
             else if (currentstartOffset.intValue>=indexStart&&indexEnd<currentendIndex){
-                NSLog(@"\n\n\noldselection ----%@",highlight.text);
-                NSLog(@"newselection ----%@",selectedText);
+           //     NSLog(@"\n\n\noldselection ----%@",highlight.text);
+            //    NSLog(@"newselection ----%@",selectedText);
                 //transform the older text
                 tempText=[highlight.text substringToIndex:(currentstartOffset.intValue-indexStart)];
                 
-                NSLog(@"\nfragment-----%@",tempText);
+              //  NSLog(@"\nfragment-----%@",tempText);
                 tempText=[NSString stringWithFormat:@"%@%@",tempText,selectedText];
-                NSLog(@"actual new string %@",tempText);
+              //  NSLog(@"actual new string %@",tempText);
                 highlight.text=tempText;
                 if ([highlight hasChanges]) {
                     [delegate.dataModel.dataModelContext save:&erro];
@@ -513,7 +513,7 @@
                 newCurrentOffset=[NSString stringWithFormat:@"%d",range.location ];
                 NSInteger endTempOffset=newCurrentOffset.integerValue+_selectedStringNote.length;
                 
-                NSLog(@"surrounding text %@",newSurrounding);
+           //     NSLog(@"surrounding text %@",newSurrounding);
                 NSInteger startoldOffset=noteOrHighlight.srno.integerValue;
                 NSInteger endOldOffset=noteOrHighlight.srno.integerValue+noteOrHighlight.text.length;
                 BOOL val=endTempOffset<startoldOffset;
@@ -565,11 +565,9 @@
             NSInteger indexEnd=highlightOrNote.text.length+indexStart;
             //currentstart---oldstart-----currentend<---->oldend
             if (_currentstartOffsetNote.intValue<indexStart&&currentendIndex<=indexEnd) {
-                NSLog(@"\n\n\noldselection ----%@",highlightOrNote.text);
-                NSLog(@"newselection ----%@",_selectedStringNote);
+
                 tempText=[_selectedStringNote substringToIndex:(indexStart-_currentstartOffsetNote.intValue)];
-                
-                NSLog(@"\nfragment-----%@",tempText);
+
                 tempText=[NSString stringWithFormat:@"%@%@",tempText,highlightOrNote.text];
                 highlightOrNote.text=tempText;
                 highlightOrNote.srno=@(_currentstartOffsetNote.intValue);
@@ -590,25 +588,17 @@
                 }
                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                //                [array release];
-                //                [_selectedStringNote release];
-                //                [_startContainerNote release];
-                //                [_endContainerNote release];
-                //                [_surroundingTextNote release];
-                //                [_currentstartOffsetNote release];
-                //                [string release];
+
                 return;
             }
             //oldstart<-->currentstart------oldend-----currentend
             else if (_currentstartOffsetNote.intValue>=indexStart&&indexEnd<currentendIndex){
-                NSLog(@"\n\n\noldselection ----%@",highlightOrNote.text);
-                NSLog(@"newselection ----%@",_selectedStringNote);
+
                 //transform the older text
                 tempText=[highlightOrNote.text substringToIndex:(_currentstartOffsetNote.intValue-indexStart)];
                 
-                NSLog(@"\nfragment-----%@",tempText);
+                //NSLog(@"\nfragment-----%@",tempText);
                 tempText=[NSString stringWithFormat:@"%@%@",tempText,_selectedStringNote];
-                NSLog(@"actual new string %@",tempText);
                 highlightOrNote.text=tempText;
                 
                 if (highlightOrNote.highlight.boolValue==NO) {
@@ -628,13 +618,7 @@
                 
                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                //                [array release];
-                //                [_selectedStringNote release];
-                //                [_startContainerNote release];
-                //                [_endContainerNote release];
-                //                [_surroundingTextNote release];
-                //                [_currentstartOffsetNote release];
-                //                [string release];
+
                 return;
             }
             //oldstart---currentstart---currentend---oldend
@@ -653,14 +637,7 @@
                         NSLog(@"%@",erro);
                     }
                 }
-                
-                //                [_selectedStringNote release];
-                //                [_startContainerNote release];
-                //                [_endContainerNote release];
-                //                [_surroundingTextNote release];
-                //                [_currentstartOffsetNote release];
-                //                [string release];
-                //                [array release];
+
                 return;
             }
             else if(_currentstartOffsetNote.intValue==indexStart&&currentendIndex==indexEnd){
@@ -678,14 +655,7 @@
                         NSLog(@"%@",erro);
                     }
                 }
-                
-                //                [_selectedStringNote release];
-                //                [_startContainerNote release];
-                //                [_endContainerNote release];
-                //                [_surroundingTextNote release];
-                //                [_currentstartOffsetNote release];
-                //                [string release];
-                //                [array release];
+
                 return;
             }//currentstart---oldstart-----oldend--currentend
             else if(_currentstartOffsetNote.intValue<indexStart&&currentendIndex>indexEnd){
@@ -707,13 +677,7 @@
                 }
                 [self removeAllHighlight:nil];
                 [self selection:nil];
-                //                [_selectedStringNote release];
-                //                [_startContainerNote release];
-                //                [_endContainerNote release];
-                //                [_surroundingTextNote release];
-                //                [_currentstartOffsetNote release];
-                //                [string release];
-                //                [array release];
+ 
                 return;
             }
         }
@@ -739,13 +703,7 @@
         NSLog(@"%@",error);
     }
     [self selection:nil];
-    //    [array release];
-    //    [_selectedStringNote release];
-    //    [_startContainerNote release];
-    //    [_endContainerNote release];
-    //    [_surroundingTextNote release];
-    //    [_currentstartOffsetNote release];
-    //    [string release];
+
 }
 -(IBAction)notes:(id)sender{
     
@@ -793,7 +751,6 @@
         
         textViewController.delegate=self;
         _pop=[[UIPopoverController alloc]initWithContentViewController:textViewController];
-        //   [textViewController release];
         [_pop setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
         [_pop presentPopoverFromRect:_frame inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         return;
@@ -807,7 +764,6 @@
         textViewController.update=NO;
         
         _pop=[[UIPopoverController alloc]initWithContentViewController:textViewController];
-        //  [textViewController release];
         [_pop setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
         [_pop presentPopoverFromRect:_frame inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }    
@@ -847,13 +803,11 @@
         UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
         [indicator startAnimating];
         [_alertView addSubview:indicator];
-        //        [indicator release];
         [_alertView setTitle:@"Deleting...."];
         [_alertView show];
     }
 }
 - (IBAction)selection:(id)sender {
-    //[self removeAllHighlight:nil];
     for (UIView *view in self.view.subviews) {
         if ([view isKindOfClass:[NoteButton class]]) {
             [view removeFromSuperview];
@@ -866,10 +820,7 @@
     for (NoteHighlight *noteHighlight in array) {
         NSString *selectedText=noteHighlight.text;
         NSString *surroundingText=noteHighlight.surroundingtext;
-        //        NSLog(@" selected string ---%@",selectedText);
-        //        NSLog(@"outer text ----%@",surroundingText);
-        //        NSLog(@"surrounding endindex %d",surroundingText.length);
-        //        NSLog(@"selected endindex %d",selectedText.length);
+
         NSNumber *startOffset=noteHighlight.srno;
         NSString *before=[surroundingText substringToIndex:startOffset.integerValue];
         NSUInteger endIndex=startOffset.integerValue+selectedText.length;
@@ -879,7 +830,6 @@
             NSString *newSurroundingText=[[NSString alloc]initWithFormat:@"%@<span xmlns=\"http://www.w3.org/1999/xhtml\" class=\"uiWebviewHighlight\" style=\"background-color: yellow; color: black; \">%@</span>%@",before,selectedText,after ];
             NSString *jsCode=[NSString stringWithFormat:@"document.body.innerHTML=document.body.innerHTML.replace('%@','%@')",surroundingText,newSurroundingText];
             [_webView stringByEvaluatingJavaScriptFromString:jsCode];
-            //           [newSurroundingText release];
         }
         else{
             CGRect frame;
@@ -889,7 +839,6 @@
                 NSString *newSurroundingText=[[NSString alloc]initWithFormat:@"%@<span xmlns=\"http://www.w3.org/1999/xhtml\" class=\"uiWebviewHighlight\" style=\"background-color: red; color: black; \">%@</span>%@",before,selectedText,after ];
                 NSString *jsCode=[NSString stringWithFormat:@"document.body.innerHTML=document.body.innerHTML.replace('%@','%@')",surroundingText,newSurroundingText];
                 [_webView stringByEvaluatingJavaScriptFromString:jsCode];
-                //           [newSurroundingText release];
                 left=noteHighlight.left.integerValue;
                 top=noteHighlight.top.doubleValue;
             }
@@ -939,9 +888,7 @@
     TextViewViewController *textViewController=[[TextViewViewController alloc]initWithNibName:@"TextViewViewController" bundle:nil With:notOrHiglight.note withUpdate:YES withInteger:button.tag];
     textViewController.delegate=self;
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:textViewController];
-    //   [textViewController release];
     _showNotes=[[UIPopoverController alloc]initWithContentViewController:nav];
-    //   [nav release];
     [_showNotes setPopoverContentSize:CGSizeMake(300.0f, 300.0f)];
     [_showNotes presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
@@ -972,9 +919,7 @@
     notesHighlight.delegate=controller;
     notesHighlight.delegateAction=self;
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:notesHighlight];
-    //   [notesHighlight release];
     _listNotesHighlight=[[UIPopoverController alloc]initWithContentViewController:nav];
-    //   [nav release];
     controller.pop=_listNotesHighlight;
     [_listNotesHighlight presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     

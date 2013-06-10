@@ -257,7 +257,6 @@
 						<string key="NSFrame">{{165, 180}, {93, 29}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -552,6 +551,7 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="dismissKeyboard:">id</string>
+						<string key="email:">id</string>
 						<string key="faceBookLogin:">id</string>
 						<string key="signIn:">id</string>
 						<string key="signUp:">id</string>
@@ -560,6 +560,10 @@
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="dismissKeyboard:">
 							<string key="name">dismissKeyboard:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="email:">
+							<string key="name">email:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="faceBookLogin:">

@@ -280,19 +280,6 @@
 		FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4C1372CA9200FBD25F /* slider_ball.png */; };
 		FA881E501372CA9200FBD25F /* yellowslide.png in Resources */ = {isa = PBXBuildFile; fileRef = FA881E4D1372CA9200FBD25F /* yellowslide.png */; };
 		FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA881E581372E96000FBD25F /* SearchResultsViewController.xib */; };
-		FAF4584C134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF4584D134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45833134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF4584E134B18F400D4C0F9 /* CXHTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45835134B18F400D4C0F9 /* CXHTMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF4584F134B18F400D4C0F9 /* CXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45837134B18F400D4C0F9 /* CXMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF45850134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45839134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m */; };
-		FAF45851134B18F400D4C0F9 /* CXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583B134B18F400D4C0F9 /* CXMLElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF45852134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583D134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF45853134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4583F134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m */; };
-		FAF45854134B18F400D4C0F9 /* CXMLNamespaceNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45841134B18F400D4C0F9 /* CXMLNamespaceNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF45855134B18F400D4C0F9 /* CXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45843134B18F400D4C0F9 /* CXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF45856134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45845134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAF45857134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF45847134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m */; };
-		FAF45858134B18F400D4C0F9 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF4584A134B18F400D4C0F9 /* CTidy.m */; };
 		FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8E9E134A06D6000291E2 /* ioapi.c */; };
 		FAFA8EA8134A06D6000291E2 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA0134A06D6000291E2 /* mztools.c */; };
 		FAFA8EA9134A06D6000291E2 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA2134A06D6000291E2 /* unzip.c */; };
@@ -674,33 +661,6 @@
 		FA881E4C1372CA9200FBD25F /* slider_ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slider_ball.png; sourceTree = "<group>"; };
 		FA881E4D1372CA9200FBD25F /* yellowslide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowslide.png; sourceTree = "<group>"; };
 		FA881E581372E96000FBD25F /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchResultsViewController.xib; path = Classes/SearchResultsViewController.xib; sourceTree = "<group>"; };
-		FAF45830134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_CreationExtensions.h; sourceTree = "<group>"; };
-		FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_CreationExtensions.m; sourceTree = "<group>"; };
-		FAF45832134B18F400D4C0F9 /* CXMLNode_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_CreationExtensions.h; sourceTree = "<group>"; };
-		FAF45833134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode_CreationExtensions.m; sourceTree = "<group>"; };
-		FAF45834134B18F400D4C0F9 /* CXHTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXHTMLDocument.h; sourceTree = "<group>"; };
-		FAF45835134B18F400D4C0F9 /* CXHTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXHTMLDocument.m; sourceTree = "<group>"; };
-		FAF45836134B18F400D4C0F9 /* CXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument.h; sourceTree = "<group>"; };
-		FAF45837134B18F400D4C0F9 /* CXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument.m; sourceTree = "<group>"; };
-		FAF45838134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_PrivateExtensions.h; sourceTree = "<group>"; };
-		FAF45839134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_PrivateExtensions.m; sourceTree = "<group>"; };
-		FAF4583A134B18F400D4C0F9 /* CXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLElement.h; sourceTree = "<group>"; };
-		FAF4583B134B18F400D4C0F9 /* CXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLElement.m; sourceTree = "<group>"; };
-		FAF4583C134B18F400D4C0F9 /* CXMLElement_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLElement_CreationExtensions.h; sourceTree = "<group>"; };
-		FAF4583D134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLElement_CreationExtensions.m; sourceTree = "<group>"; };
-		FAF4583E134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLElement_ElementTreeExtensions.h; sourceTree = "<group>"; };
-		FAF4583F134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLElement_ElementTreeExtensions.m; sourceTree = "<group>"; };
-		FAF45840134B18F400D4C0F9 /* CXMLNamespaceNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNamespaceNode.h; sourceTree = "<group>"; };
-		FAF45841134B18F400D4C0F9 /* CXMLNamespaceNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNamespaceNode.m; sourceTree = "<group>"; };
-		FAF45842134B18F400D4C0F9 /* CXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode.h; sourceTree = "<group>"; };
-		FAF45843134B18F400D4C0F9 /* CXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode.m; sourceTree = "<group>"; };
-		FAF45844134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_PrivateExtensions.h; sourceTree = "<group>"; };
-		FAF45845134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode_PrivateExtensions.m; sourceTree = "<group>"; };
-		FAF45846134B18F400D4C0F9 /* CXMLNode_XPathExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_XPathExtensions.h; sourceTree = "<group>"; };
-		FAF45847134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode_XPathExtensions.m; sourceTree = "<group>"; };
-		FAF45849134B18F400D4C0F9 /* CTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTidy.h; sourceTree = "<group>"; };
-		FAF4584A134B18F400D4C0F9 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
-		FAF4584B134B18F400D4C0F9 /* TouchXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchXML.h; sourceTree = "<group>"; };
 		FAFA8E9B134A06D6000291E2 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		FAFA8E9D134A06D6000291E2 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		FAFA8E9E134A06D6000291E2 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -763,7 +723,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				FAF4582D134B18D600D4C0F9 /* TouchXML */,
 				FAF4585B134B195500D4C0F9 /* ZipArchive */,
 			);
 			path = Classes;
@@ -1326,65 +1285,6 @@
 			name = "Mangoreader iphone";
 			sourceTree = "<group>";
 		};
-		FAF4582D134B18D600D4C0F9 /* TouchXML */ = {
-			isa = PBXGroup;
-			children = (
-				FAF4582E134B18F400D4C0F9 /* Source */,
-			);
-			name = TouchXML;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		FAF4582E134B18F400D4C0F9 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				FAF4582F134B18F400D4C0F9 /* Creation */,
-				FAF45834134B18F400D4C0F9 /* CXHTMLDocument.h */,
-				FAF45835134B18F400D4C0F9 /* CXHTMLDocument.m */,
-				FAF45836134B18F400D4C0F9 /* CXMLDocument.h */,
-				FAF45837134B18F400D4C0F9 /* CXMLDocument.m */,
-				FAF45838134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.h */,
-				FAF45839134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m */,
-				FAF4583A134B18F400D4C0F9 /* CXMLElement.h */,
-				FAF4583B134B18F400D4C0F9 /* CXMLElement.m */,
-				FAF4583C134B18F400D4C0F9 /* CXMLElement_CreationExtensions.h */,
-				FAF4583D134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m */,
-				FAF4583E134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.h */,
-				FAF4583F134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m */,
-				FAF45840134B18F400D4C0F9 /* CXMLNamespaceNode.h */,
-				FAF45841134B18F400D4C0F9 /* CXMLNamespaceNode.m */,
-				FAF45842134B18F400D4C0F9 /* CXMLNode.h */,
-				FAF45843134B18F400D4C0F9 /* CXMLNode.m */,
-				FAF45844134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.h */,
-				FAF45845134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m */,
-				FAF45846134B18F400D4C0F9 /* CXMLNode_XPathExtensions.h */,
-				FAF45847134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m */,
-				FAF45848134B18F400D4C0F9 /* Tidy */,
-				FAF4584B134B18F400D4C0F9 /* TouchXML.h */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
-		FAF4582F134B18F400D4C0F9 /* Creation */ = {
-			isa = PBXGroup;
-			children = (
-				FAF45830134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.h */,
-				FAF45831134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m */,
-				FAF45832134B18F400D4C0F9 /* CXMLNode_CreationExtensions.h */,
-				FAF45833134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m */,
-			);
-			path = Creation;
-			sourceTree = "<group>";
-		};
-		FAF45848134B18F400D4C0F9 /* Tidy */ = {
-			isa = PBXGroup;
-			children = (
-				FAF45849134B18F400D4C0F9 /* CTidy.h */,
-				FAF4584A134B18F400D4C0F9 /* CTidy.m */,
-			);
-			path = Tidy;
-			sourceTree = "<group>";
-		};
 		FAF4585B134B195500D4C0F9 /* ZipArchive */ = {
 			isa = PBXGroup;
 			children = (
@@ -1669,25 +1569,12 @@
 				AE43C738161056DD00970739 /* Reachability.m in Sources */,
 				AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				FAF4584E134B18F400D4C0F9 /* CXHTMLDocument.m in Sources */,
-				FAF4584F134B18F400D4C0F9 /* CXMLDocument.m in Sources */,
-				FAF45850134B18F400D4C0F9 /* CXMLDocument_PrivateExtensions.m in Sources */,
-				FAF45851134B18F400D4C0F9 /* CXMLElement.m in Sources */,
-				FAF45852134B18F400D4C0F9 /* CXMLElement_CreationExtensions.m in Sources */,
-				FAF45853134B18F400D4C0F9 /* CXMLElement_ElementTreeExtensions.m in Sources */,
-				FAF45854134B18F400D4C0F9 /* CXMLNamespaceNode.m in Sources */,
-				FAF45855134B18F400D4C0F9 /* CXMLNode.m in Sources */,
-				FAF45856134B18F400D4C0F9 /* CXMLNode_PrivateExtensions.m in Sources */,
-				FAF45857134B18F400D4C0F9 /* CXMLNode_XPathExtensions.m in Sources */,
 				1D3623260D0F684500981E51 /* AePubReaderAppDelegate.m in Sources */,
 				FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */,
 				FAFA8EA8134A06D6000291E2 /* mztools.c in Sources */,
 				FAFA8EA9134A06D6000291E2 /* unzip.c in Sources */,
 				FAFA8EAA134A06D6000291E2 /* zip.c in Sources */,
 				FAFA8EAB134A06D6000291E2 /* ZipArchive.mm in Sources */,
-				FAF4584C134B18F400D4C0F9 /* CXMLDocument_CreationExtensions.m in Sources */,
-				FAF4584D134B18F400D4C0F9 /* CXMLNode_CreationExtensions.m in Sources */,
-				FAF45858134B18F400D4C0F9 /* CTidy.m in Sources */,
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
 				AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */,

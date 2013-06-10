@@ -45,16 +45,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*- (void)dealloc {
-    [_scrollView release];
-    [_toolBar release];
-    [_data release];
-    [_name release];
-    [_email release];
-    [_password release];
-    [_confirmPassword release];
-    [super dealloc];
-}*/
 - (void)viewDidUnload {
     [self setScrollView:nil];
     [self setToolBar:nil];
@@ -81,7 +71,6 @@
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
  
     [alertView show];
- //   [alertView release];
 
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -94,24 +83,20 @@
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
      [_alertVew dismissWithClickedButtonIndex:0 animated:YES];
     
-   // [self done:nil];
     NSString *string=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSDictionary *dictionary= [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"json output %@",string);
-  //  [string release];
     if (dictionary[@"user"]) {
         //sucess
         dictionary=dictionary[@"user"];
         if (dictionary[@"email"]==nil) {
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: @"Email is either used or invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-    //        [alert release];
             return;
         }
         UIAlertView *alertViewSuccess=[[UIAlertView alloc]initWithTitle:@"Success" message:@"You have been sucessfully signed up" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertViewSuccess show];
         [Flurry logEvent:@"Iphone sucessful signup"];
-      //  [alertViewSuccess release];
         
     }
     else{
@@ -121,14 +106,12 @@
             NSString *stringError=[NSString stringWithFormat:@"email %@",arrayError[0] ];
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: stringError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-       //     [alert release];
         }else{
             NSArray *arrayError=dictionary[@"password"];
             
             NSString *stringError= [ NSString stringWithFormat:@"password %@",arrayError[0]];
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: stringError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-       //     [alert release];
         }
         
     }
@@ -138,7 +121,6 @@
     if (_email.text.length==0||_password.text.length==0||_confirmPassword.text.length==0||_name.text.length==0) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"All fields are required" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-   //     [alertView release];
         return;
     }
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -158,20 +140,16 @@
 
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-   // [connection autorelease];
-  //  [request release];
+
     [connection start];
     _alertVew =[[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertVew addSubview:indicator];
-    //[indicator release];
     [_alertVew setTitle:@"Loading...."];
 
     [_alertVew show];
-    //[_alertVew release];
 
-   // _data=nil;
     _data=[[NSMutableData alloc]init];
 
     

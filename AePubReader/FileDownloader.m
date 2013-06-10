@@ -60,7 +60,7 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 
     
-    NSLog(@"url %@",[connection.originalRequest.URL absoluteString]);
+ //   NSLog(@"url %@",[connection.originalRequest.URL absoluteString]);
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [_data appendData:data];

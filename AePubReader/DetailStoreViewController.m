@@ -88,7 +88,7 @@
         //stringURL=@"http://192.168.2.29:3000/api/v1/";
         // stringURL=@"http://staging.mangoreader.com/api/v1/";
         stringURL=[stringURL stringByAppendingString:@"register_a_purchase.json"];
-        NSLog(@"register pur url %@",stringURL);
+     //   NSLog(@"register pur url %@",stringURL);
         NSURL *url=[NSURL URLWithString:stringURL];
         
         NSMutableURLRequest *mutableRequest=[[NSMutableURLRequest alloc]initWithURL:url];
