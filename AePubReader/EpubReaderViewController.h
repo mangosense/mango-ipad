@@ -42,7 +42,7 @@
 @property (weak, nonatomic) IBOutlet PuttyView *recordControlView;
 @property(retain,nonatomic)AVAudioRecorder *anAudioRecorder;
 @property(strong,nonatomic)AVAudioPlayer *anAudioPlayer;
-//@property(strong,nonatomic)AVAudioPlayer *playerDefault;
+@property(strong,nonatomic)AVAudioPlayer *playerDefault;
 @property (retain, nonatomic) IBOutlet UIButton *playPauseControl;
 @property(nonatomic,assign)BOOL isPlaying;
 @property(assign,nonatomic)float val;
@@ -109,6 +109,7 @@
 @property(assign,nonatomic)BOOL callOnBack;
 @property(assign,nonatomic)BOOL viewAppeared;
 @property(assign,nonatomic)NSTimeInterval startTime;
+@property(retain,nonatomic)NSString *jsCode;
 //@property (nonatomic, retain) SZActionBar *actionBar;
 //@property (nonatomic, retain) id<SZEntity> entity;
 @end

@@ -14,6 +14,8 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
+		AE032C0E17674BEB00ABAD2C /* 1331.epub in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0D17674BEB00ABAD2C /* 1331.epub */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
@@ -218,8 +220,8 @@
 		AEDAD4B01739033A002543DF /* playbuttonpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDAD4AF1739033A002543DF /* playbuttonpressed.png */; };
 		AEDBB6951740D323003321E4 /* feedbackbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB6941740D323003321E4 /* feedbackbutton.png */; };
 		AEDBB6971740D418003321E4 /* playmyrecordingbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB6961740D418003321E4 /* playmyrecordingbutton.png */; };
-		AEDBB69D1740F3BD003321E4 /* 1094.epub in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB69B1740F3BD003321E4 /* 1094.epub */; };
 		AEDBB69E1740F3BD003321E4 /* 1094.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AEDBB69C1740F3BD003321E4 /* 1094.jpg */; };
+		AEDDF5D31768502100A4E194 /* 1094.epub in Resources */ = {isa = PBXBuildFile; fileRef = AEDDF5D21768502100A4E194 /* 1094.epub */; };
 		AEDF1810168AC5020087064A /* Draw-control.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1803168AC5020087064A /* Draw-control.png */; };
 		AEDF1812168AC5020087064A /* game-control.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1805168AC5020087064A /* game-control.png */; };
 		AEDF1816168AC5020087064A /* library-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1809168AC5020087064A /* library-icon.png */; };
@@ -299,6 +301,8 @@
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
+		AE032C0D17674BEB00ABAD2C /* 1331.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1331.epub; sourceTree = "<group>"; };
 		AE0B8F24162BEA4D00D16A02 /* LoginDirectly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginDirectly.h; sourceTree = "<group>"; };
 		AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginDirectly.m; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
@@ -582,8 +586,8 @@
 		AEDAD4AF1739033A002543DF /* playbuttonpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playbuttonpressed.png; sourceTree = "<group>"; };
 		AEDBB6941740D323003321E4 /* feedbackbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedbackbutton.png; sourceTree = "<group>"; };
 		AEDBB6961740D418003321E4 /* playmyrecordingbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playmyrecordingbutton.png; sourceTree = "<group>"; };
-		AEDBB69B1740F3BD003321E4 /* 1094.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1094.epub; sourceTree = "<group>"; };
 		AEDBB69C1740F3BD003321E4 /* 1094.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1094.jpg; sourceTree = "<group>"; };
+		AEDDF5D21768502100A4E194 /* 1094.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1094.epub; sourceTree = "<group>"; };
 		AEDF1803168AC5020087064A /* Draw-control.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Draw-control.png"; sourceTree = "<group>"; };
 		AEDF1805168AC5020087064A /* game-control.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game-control.png"; sourceTree = "<group>"; };
 		AEDF1809168AC5020087064A /* library-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "library-icon.png"; sourceTree = "<group>"; };
@@ -791,7 +795,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AEDBB69B1740F3BD003321E4 /* 1094.epub */,
+				AEDDF5D21768502100A4E194 /* 1094.epub */,
 				AEDBB69C1740F3BD003321E4 /* 1094.jpg */,
 				AE0FF3EB16BB912C006258E1 /* 445.jpg */,
 				AEEB9B8216A3CED200E91603 /* highlightXpath.js */,
@@ -1196,6 +1200,8 @@
 		AECBA39617525C85001DC38A /* help ipad */ = {
 			isa = PBXGroup;
 			children = (
+				AE032C0D17674BEB00ABAD2C /* 1331.epub */,
+				AE032C0B17674BCB00ABAD2C /* 1331.jpg */,
 				AEBD469B1755B4AC0060692A /* large_one.png */,
 				AEBD46A31755B5130060692A /* large_two.png */,
 				AEBD46A51755B5230060692A /* large_three.png */,
@@ -1526,7 +1532,6 @@
 				AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */,
 				AEDBB6951740D323003321E4 /* feedbackbutton.png in Resources */,
 				AEDBB6971740D418003321E4 /* playmyrecordingbutton.png in Resources */,
-				AEDBB69D1740F3BD003321E4 /* 1094.epub in Resources */,
 				AEDBB69E1740F3BD003321E4 /* 1094.jpg in Resources */,
 				AE1D51201752600900D2F25E /* PhoneContent.xib in Resources */,
 				AE1D51221752606600D2F25E /* padContent.xib in Resources */,
@@ -1542,6 +1547,9 @@
 				AEBD46A21755B4F70060692A /* large_five.png in Resources */,
 				AEBD46A41755B5130060692A /* large_two.png in Resources */,
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
+				AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */,
+				AE032C0E17674BEB00ABAD2C /* 1331.epub in Resources */,
+				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

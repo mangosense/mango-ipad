@@ -176,9 +176,66 @@
         }
         
     }
+  
     destPath=@"1094.epub";
     destPath=[string stringByAppendingPathComponent:destPath];
     insPath = @"1094.epub";
+    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+    // NSLog(@"src path %@ des path %@",srcPath,temp);
+    if (![fileManager fileExistsAtPath:destPath]) {
+        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
+        if (error) {
+            NSLog(@"error %@",[error description]);
+        }else{
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
+            // [url release];
+        }
+    }
+   azzura=@1331;
+    destPath=@"1331.jpg";
+    destPath=[string stringByAppendingPathComponent:destPath];
+    insPath = @"1331.jpg";
+    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
+    // NSLog(@"src path %@ des path %@",srcPath,temp);
+    if (![fileManager fileExistsAtPath:destPath]) {
+        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
+        if (error) {
+            NSLog(@"error %@",[error description]);
+        }else{
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
+            // [url release];
+        }
+    }
+
+    if (![_dataModel checkIfIdExists:azzura]) {
+        Book *book= [_dataModel getBookInstance];
+        book.title=@"InOpen";
+        book.desc=@"InOpen";
+        book.link=@"http://www.mangoreader.com/books/1331";
+        book.imageUrl=@"http://www.mangoreader.com/1331/cover_image/download";
+        book.sourceFileUrl=@"http://www.mangoreader.com/book/1331/download";
+        book.localPathImageFile=destPath;
+        book.id=@1331;
+        book.size=@26171226;
+        book.date=[NSDate date];
+        book.downloadedDate=[NSDate date];
+        book.downloaded=@YES;
+        book.textBook=@3;
+        
+        //book.downloaded=[NSNumber numberWithBool:NO];
+        NSError *error=nil;
+        if (![managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+        
+    }
+    destPath=@"1331.epub";
+    destPath=[string stringByAppendingPathComponent:destPath];
+    insPath = @"1331.epub";
     srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
     // NSLog(@"src path %@ des path %@",srcPath,temp);
     if (![fileManager fileExistsAtPath:destPath]) {

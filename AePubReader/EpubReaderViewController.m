@@ -506,35 +506,35 @@
 //
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
-        
+        jsCode=[_webview stringByEvaluatingJavaScriptFromString:@"localStorage.autoPlay"];
    
         if ([jsCode isEqualToString:@"1"]) {
         delegate.options=1;
+            [self performSelector:@selector(playOrPauseAudio:) withObject:nil afterDelay:0];
+
         }else if([jsCode isEqualToString:@"0"]){
             delegate.options=0;
         }
     }else
     {
+ 
+
         switch (delegate.options) {
-            case 0:
-                jsCode=@"localStorage.autoPlay=\"0\"";
+            case 0: // read by myself
 
             break;
-            case 1:
-                jsCode=@"localStorage.autoPlay=\"1\"";
-                if (!_isPlaying) {
-                    [self performSelector:@selector(playOrPauseAudio:) withObject:nil afterDelay:2];
-                }
+            case 1:// read to me
+              
+                    [self performSelector:@selector(playOrPauseAudio:) withObject:nil afterDelay:0];
+                
             break;
-            case 2:
-            jsCode=@"localStorage.autoPlay=\"0\"";
+            case 2: // record voice
             if ([_recordControlView isHidden]) {
                 [self recordAudio:nil];
 
             }
             break;
-            case 3:
-                jsCode=@"localStorage.autoPlay=\"0\"";
+            case 3: // play recorded voice
                 if (![_recordControlView isHidden]) {
                     [self recordAudio:nil];
  
@@ -547,6 +547,7 @@
             default:
             break;
             }
+       
     [_webview stringByEvaluatingJavaScriptFromString:jsCode];
   
     [self performSelector:@selector(addListener) withObject:nil afterDelay:1.0];
@@ -633,6 +634,19 @@
     
 }
 -(void)update{
+    
+    float totalDuration=[_playerDefault duration];
+    float currentDuration=_playerDefault.currentTime;
+    float percentage=currentDuration/totalDuration;
+    percentage=percentage*100;
+    _jsCode=[[NSString alloc]initWithFormat:@"$('#jquery_jplayer').data('handleAudio').setAudioCue(%f,%f)",percentage,currentDuration];
+   // NSLog(@"%@",_jsCode);
+    [self performSelectorOnMainThread:@selector(sendUrl) withObject:nil waitUntilDone:YES];
+    /*"$('#jquery_jplayer').data('handleAudio').setAudioCue("
+    + percentage + "," + currentDuration + ")";*/
+}
+-(void)sendUrl{
+    [_webview stringByEvaluatingJavaScriptFromString:_jsCode];
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
    
@@ -684,10 +698,10 @@
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     [Flurry logEvent:string withParameters:dictionary];
 
-    if (!_isPlaying ) {
-        [self playOrPauseAudio:nil];
-
-    }
+//    if (!_isPlaying ) {
+//        [self playOrPauseAudio:nil];
+//
+//    }
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
@@ -947,7 +961,9 @@
 }
 
 - (IBAction)onBack:(id)sender{
-
+    if(_playerDefault){
+        _playerDefault=nil;
+    }
     self.navigationController.navigationBarHidden=NO;
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
                            [_webview loadRequest:request];
@@ -1016,11 +1032,53 @@
    
      }
     else{
-        if (!_isPlaying) {
+        
+        if (_timerProgress&&!_playerDefault) {
+            [_timerProgress invalidate];
+            _timerProgress=nil;
+        }
+        if (!_playerDefault) {
+            
+         
+            NSString *audioPath=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
+            audioPath=[_rootPath stringByAppendingPathComponent:audioPath];
+            NSLog(@"audioPath %@",audioPath);
+            NSError *error;
+            if ([audioPath hasSuffix:@"mp3"]) {
+                audioPath=[audioPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                
+                _playerDefault=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:&error];
+                if (error) {
+                    NSLog(@"%@",error);
+
+                }
+                [_playerDefault setDelegate:self];
+                [_playerDefault setVolume:1.0];
+                [_playerDefault play];
+                  _timerProgress=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+                }
+            UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+            [_playPauseControl setImage:image forState:UIControlStateNormal];
+             [self ribbonButtonClick:nil];
+        }else{
+            if ([_playerDefault isPlaying]) {
+                [_playerDefault pause];
+                UIImage *image=[UIImage imageNamed:@"play-control.png"];
+                [_playPauseControl setImage:image forState:UIControlStateNormal];
+            }else{
+                [_playerDefault play];
+                UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+                [_playPauseControl setImage:image forState:UIControlStateNormal];
+                 [self ribbonButtonClick:nil];
+            }
+        }
+    /*    if (!_isPlaying) {
         
       
             [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').jPlayer('play')"];
             UIImage *image=[UIImage imageNamed:@"pause-control.png"];
+              NSString *audioPath=[_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').getAudioPath()"];
+            NSLog(@"%@",audioPath);
             [_playPauseControl setImage:image forState:UIControlStateNormal];
             [self ribbonButtonClick:nil];
         
@@ -1031,7 +1089,7 @@
             [_playPauseControl setImage:image forState:UIControlStateNormal];
 
         }
-        _isPlaying=!_isPlaying;
+        _isPlaying=!_isPlaying;*/
     }
     
 }
@@ -1120,8 +1178,12 @@
        // _pageNumber++;
         
     }else{
+        if (_playerDefault) {
+            _playerDefault=nil;
+        }
 	_pagesPath=[NSString stringWithFormat:@"%@/%@",self._rootPath,[self._ePubContent._manifest valueForKey:(self._ePubContent._spine)[_pageNumber]]];
 	[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pagesPath]]];
+        
     [self addThumbnails];
     }
    NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
@@ -1309,6 +1371,11 @@
     [_playPauseControl setImage:image forState:UIControlStateNormal];
         _isPlaying=NO;
     }
+    if ([_playerDefault isPlaying]) {
+        [_playerDefault pause];
+        UIImage *image=[UIImage imageNamed:@"play-control.png"];
+        [_playPauseControl setImage:image forState:UIControlStateNormal];
+    }
     _gameLink=[_gameLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
    NSURL *url= [NSURL URLWithString:_gameLink];
     WebViewController *web;
@@ -1413,7 +1480,7 @@
 }
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-
+    
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (delegate.options==3) {
         [_anAudioPlayer stop];
@@ -1421,9 +1488,24 @@
         [self loadPage];
         return;
     }
+    if (_playerDefault) {
+        _playerDefault=nil;
+        [_timerProgress invalidate];
+        _timerProgress=nil;
+    }
+    if (delegate.options==1) {// if read to me option
+        if ([self._ePubContent._spine count]-1>_pageNumber) {
+			
+			_pageNumber++;
+            
+			[self loadPage];
+		}
+
+    }
     UIImage *image=[UIImage imageNamed:@"playbutton.png"];
     [_playRecordedButton setImage:image forState:UIControlStateNormal];
-    if (_anAudioPlayer) {
+    if (_anAudioPlayer==player) {
+        [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').resetCues()"];
         _anAudioPlayer=nil;
     }
     [_stopRecordingOrRecordedAudio setEnabled:NO];
