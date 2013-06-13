@@ -124,8 +124,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EachCellOfTOC *obj=_array[indexPath.row];
-   UIPopoverController *pop= (UIPopoverController *)self.parentViewController;
-    [pop dismissPopoverAnimated:YES];
+   
+    [_controller dismissPopoverAnimated:YES];
     [_delegate loadPage:obj.file];
     
 }

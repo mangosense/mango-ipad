@@ -86,9 +86,10 @@
     
     ////
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector( show: ) ];
-    //  gr.delegate=self;
-    [self.webView.scrollView addGestureRecognizer: gr];
+      gr.delegate=self;
+    //[self.webView.scrollView addGestureRecognizer: gr];
     // [gr release];
+    [self.webView addGestureRecognizer:gr];
     //    UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(show:)];
     //    [self.webView addGestureRecognizer:pan];
     //    [pan release];
@@ -106,11 +107,16 @@
     UIImage *image=[UIImage imageNamed:@"srbar.png"];
     _searchBar.backgroundImage=image;
     // Do any additional setup after loading the view from its nib.
+    _topView.hidden=!_topView.hidden;
 }
+
 - (NSUInteger)supportedInterfaceOrientations {
     
     return UIInterfaceOrientationMaskLandscape;
     
+}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return YES;
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
@@ -286,7 +292,7 @@
             _tap=YES;
         }
     }
-    
+    _topView.hidden=!_topView.hidden;
     
 }
 -(BOOL)canBecomeFirstResponder{

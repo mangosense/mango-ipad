@@ -214,6 +214,7 @@
 		AED5E3AA17377A4300914590 /* stopbuttonpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = AED5E3A717377A4300914590 /* stopbuttonpressed.png */; };
 		AED6A8781696B81400FADB3D /* ViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED6A8771696B81400FADB3D /* ViewControllerIphone.xib */; };
 		AED77757169431200043E3D4 /* header-toolbar-slider.png in Resources */ = {isa = PBXBuildFile; fileRef = AED77756169431200043E3D4 /* header-toolbar-slider.png */; };
+		AED7A3941769BD6D00A828E9 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AED7A3931769BD6D00A828E9 /* Book.m */; };
 		AEDA4856169E7F9C00116C23 /* HighlightedStringOld.js in Resources */ = {isa = PBXBuildFile; fileRef = AEDA4853169E7F8E00116C23 /* HighlightedStringOld.js */; };
 		AEDA4859169E9C6800116C23 /* SimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDA4858169E9C6800116C23 /* SimpleView.m */; };
 		AEDA55B816B266C300530478 /* NoteHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDA55B716B266C200530478 /* NoteHighlight.m */; };
@@ -236,7 +237,6 @@
 		AEDF1825168AE3DD0087064A /* next-button_new.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1823168AE3DD0087064A /* next-button_new.png */; };
 		AEDF1826168AE3DD0087064A /* previous-button_new.png in Resources */ = {isa = PBXBuildFile; fileRef = AEDF1824168AE3DD0087064A /* previous-button_new.png */; };
 		AEDF184B168B62890087064A /* StoreBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDF184A168B62890087064A /* StoreBooks.m */; };
-		AEDF184F168B629D0087064A /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDF184E168B629D0087064A /* Book.m */; };
 		AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEDF1850168B72CF0087064A /* AVFoundation.framework */; };
 		AEE103BE169C023400AEEEFB /* librarytext.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE103BD169C023400AEEEFB /* librarytext.png */; };
 		AEE26AD7165F8EE70021B4AA /* purchase-button.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE26AD6165F8EE70021B4AA /* purchase-button.png */; };
@@ -575,6 +575,9 @@
 		AED6A8771696B81400FADB3D /* ViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerIphone.xib; sourceTree = "<group>"; };
 		AED7028016A68BA40073811C /* Books 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 8.xcdatamodel"; sourceTree = "<group>"; };
 		AED77756169431200043E3D4 /* header-toolbar-slider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header-toolbar-slider.png"; sourceTree = "<group>"; };
+		AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Books 10.xcdatamodel"; sourceTree = "<group>"; };
+		AED7A3921769BD6D00A828E9 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		AED7A3931769BD6D00A828E9 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AEDA4853169E7F8E00116C23 /* HighlightedStringOld.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = HighlightedStringOld.js; sourceTree = "<group>"; };
 		AEDA4857169E9C6800116C23 /* SimpleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleView.h; sourceTree = "<group>"; };
 		AEDA4858169E9C6800116C23 /* SimpleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleView.m; sourceTree = "<group>"; };
@@ -603,8 +606,6 @@
 		AEDF1824168AE3DD0087064A /* previous-button_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "previous-button_new.png"; sourceTree = "<group>"; };
 		AEDF1849168B62890087064A /* StoreBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreBooks.h; sourceTree = "<group>"; };
 		AEDF184A168B62890087064A /* StoreBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBooks.m; sourceTree = "<group>"; };
-		AEDF184D168B629D0087064A /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		AEDF184E168B629D0087064A /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AEDF1850168B72CF0087064A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AEE103BD169C023400AEEEFB /* librarytext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = librarytext.png; sourceTree = "<group>"; };
 		AEE26AD6165F8EE70021B4AA /* purchase-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchase-button.png"; sourceTree = "<group>"; };
@@ -1162,10 +1163,10 @@
 				AEA768DF1611DA81002B9FDC /* DataModelControl.m */,
 				AEDF1849168B62890087064A /* StoreBooks.h */,
 				AEDF184A168B62890087064A /* StoreBooks.m */,
-				AEDF184D168B629D0087064A /* Book.h */,
-				AEDF184E168B629D0087064A /* Book.m */,
 				AEDA55B616B266C200530478 /* NoteHighlight.h */,
 				AEDA55B716B266C200530478 /* NoteHighlight.m */,
+				AED7A3921769BD6D00A828E9 /* Book.h */,
+				AED7A3931769BD6D00A828E9 /* Book.m */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -1621,7 +1622,6 @@
 				AE5167301680781000DF5136 /* NotesHighlightViewController.m in Sources */,
 				AE5F71681682EE36004A7A37 /* SyncIpadConnection.m in Sources */,
 				AEDF184B168B62890087064A /* StoreBooks.m in Sources */,
-				AEDF184F168B629D0087064A /* Book.m in Sources */,
 				AECA3EBA1690BB5D002D97D4 /* ShowViewController.m in Sources */,
 				AED53B2916914AC30061A600 /* DetailsViewController.m in Sources */,
 				AEF6A154169596CE00ECAE7E /* WebPageViewController.m in Sources */,
@@ -1655,6 +1655,7 @@
 				AE37CD67175278D500EA8653 /* LandscapeTextBookViewController.m in Sources */,
 				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
 				AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */,
+				AED7A3941769BD6D00A828E9 /* Book.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1908,6 +1909,7 @@
 		AEA7687816117CF7002B9FDC /* Books.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */,
 				AE2D35BE16B15FF4009E99A7 /* Books 7.xcdatamodel */,
 				AEDA55B416B265BE00530478 /* Books 9.xcdatamodel */,
 				AE2D35B516B150DF009E99A7 /* Books 6.xcdatamodel */,
@@ -1918,7 +1920,7 @@
 				AE4346B616662A8300D4E5F7 /* Books 2.xcdatamodel */,
 				AEA7687916117CF7002B9FDC /* Books.xcdatamodel */,
 			);
-			currentVersion = AEDA55B416B265BE00530478 /* Books 9.xcdatamodel */;
+			currentVersion = AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */;
 			path = Books.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

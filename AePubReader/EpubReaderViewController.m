@@ -297,6 +297,7 @@
     [_progressView setHidden:YES];
     _viewAppeared=NO;
     _startTime=[[NSDate date]timeIntervalSince1970];
+    _startedReading=YES;
 }
 - (IBAction)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
     //get the touch
@@ -666,7 +667,13 @@
     if (_isPlaying) {
         [self playOrPauseAudio:nil];
     }
-    
+_pageCountTime=[[NSDate date]timeIntervalSince1970]-_pageCountTime;
+NSTimeInterval avgTime=[[NSUserDefaults standardUserDefaults] floatForKey:@"avgPageTimer"];
+avgTime=avgTime+_pageCountTime;
+avgTime=avgTime/2;
+[[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
+
+
 }
 /*Function Name : setTitlename
  *Return Type   : void
@@ -994,7 +1001,11 @@
     endStartTimer=endStartTimer-_startTime;
     last=last+endStartTimer;
     [[NSUserDefaults standardUserDefaults] setFloat:last forKey:@"timerCompleted"];
-    
+    _pageCountTime=[[NSDate date]timeIntervalSince1970]-_pageCountTime;
+    NSTimeInterval avgTime=[[NSUserDefaults standardUserDefaults] floatForKey:@"avgPageTimer"];
+    avgTime=avgTime+_pageCountTime;
+    avgTime=avgTime/2;
+    [[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
 }
 
 - (IBAction)showPopView:(id)sender {
@@ -1170,13 +1181,13 @@
 
 - (void)loadPage{
 	
-    if (_pageNumber==0&&_viewAppeared&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+    if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
         coverViewController.imageLocation=_imageLocation;
         [self.navigationController pushViewController:coverViewController animated:NO];
         coverViewController.epubViewController=self;
        // _pageNumber++;
-        
+        return;
     }else{
         if (_playerDefault) {
             _playerDefault=nil;
@@ -1185,14 +1196,37 @@
 	[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pagesPath]]];
         
     [self addThumbnails];
+        if (_pageCountTime==0) {
+            _pageCountTime=[[NSDate date]timeIntervalSince1970];
+            
+        }else{
+           
+            NSTimeInterval diff=[[NSDate date]timeIntervalSince1970]-_pageCountTime;
+             _pageCountTime=[[NSDate date]timeIntervalSince1970];
+            NSTimeInterval avgTime=[[NSUserDefaults standardUserDefaults] floatForKey:@"avgPageTimer"];
+            avgTime=avgTime+diff;
+            avgTime=avgTime/2;
+            [[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
+            
+        }
     }
    NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
     pageCount++;
     [[NSUserDefaults standardUserDefaults]setInteger:pageCount forKey:@"tpageCount"];
-    if(self._ePubContent._spine.count-2<=_pageNumber){
+    if(self._ePubContent._spine.count-2<=_pageNumber&&_startedReading){
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         NSInteger bookCount=[[NSUserDefaults standardUserDefaults]integerForKey:@"tbookCount"];
         bookCount++;
         [[NSUserDefaults standardUserDefaults] setInteger:bookCount forKey:@"tbookCount"];
+         NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
+      
+        Book *book=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d",iden ]];
+         bookCount=book.bookCount.integerValue;
+        bookCount++;
+        book.bookCount=[NSNumber numberWithInteger:bookCount];
+            [delegate.dataModel saveData:book];
+            _startedReading=NO;
+        
     }
 	//set page number
 	//_pageNumberLbl.text=[NSString stringWithFormat:@"%d",_pageNumber+1];

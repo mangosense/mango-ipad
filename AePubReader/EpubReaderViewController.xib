@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -851,6 +851,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButtonOrNextButton:</string>
 							<string>hideSearch:</string>
+							<string>highlight:</string>
 							<string>onBack:</string>
 							<string>onPreviousOrNext:</string>
 							<string>openGame:</string>
@@ -858,10 +859,12 @@
 							<string>playOrPauseRecorded:</string>
 							<string>playOrPauseRecording:</string>
 							<string>recordAudio:</string>
+							<string>removeHighlight:</string>
 							<string>ribbonButtonClick:</string>
 							<string>shareTheBook:</string>
 							<string>showPopView:</string>
 							<string>stopRecordingOrRecordedAudioPlayed:</string>
+							<string>wasDragged:withEvent:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -878,6 +881,9 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>UIButton</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
@@ -886,6 +892,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButtonOrNextButton:</string>
 							<string>hideSearch:</string>
+							<string>highlight:</string>
 							<string>onBack:</string>
 							<string>onPreviousOrNext:</string>
 							<string>openGame:</string>
@@ -893,10 +900,12 @@
 							<string>playOrPauseRecorded:</string>
 							<string>playOrPauseRecording:</string>
 							<string>recordAudio:</string>
+							<string>removeHighlight:</string>
 							<string>ribbonButtonClick:</string>
 							<string>shareTheBook:</string>
 							<string>showPopView:</string>
 							<string>stopRecordingOrRecordedAudioPlayed:</string>
+							<string>wasDragged:withEvent:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -906,6 +915,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">hideSearch:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">highlight:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -937,6 +950,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">removeHighlight:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">ribbonButtonClick:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -951,6 +968,10 @@
 							<object class="IBActionInfo">
 								<string key="name">stopRecordingOrRecordedAudioPlayed:</string>
 								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">wasDragged:withEvent:</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 						</object>
 					</object>

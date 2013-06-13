@@ -175,6 +175,10 @@
             NSLog(@"%@",error);
         }
         
+    }else{
+        Book *book= [_dataModel getBookOfId:[NSString stringWithFormat:@"%@",azzura ]];
+        book.localPathImageFile=destPath;
+        [_dataModel saveData:book];
     }
   
     destPath=@"1094.epub";

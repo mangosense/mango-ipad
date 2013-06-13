@@ -2,7 +2,7 @@
 //  Book.h
 //  MangoReader
 //
-//  Created by Nikhil Dhavale on 26/12/12.
+//  Created by Nikhil Dhavale on 13/06/13.
 //
 //
 
@@ -23,7 +23,8 @@
 @property (nonatomic, retain) NSString * localPathImageFile;
 @property (nonatomic, retain) NSNumber * size;
 @property (nonatomic, retain) NSString * sourceFileUrl;
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * textBook;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * bookCount;
 
 @end
