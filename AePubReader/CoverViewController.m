@@ -120,6 +120,9 @@
 }
 
 - (IBAction)shareTheBook:(id)sender {
+    @try {
+        
+   
     UIButton *button=(UIButton *)sender;
     NSString *ver= [UIDevice currentDevice].systemVersion;
     NSInteger bookId= [[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
@@ -157,7 +160,13 @@
     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
     [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
-
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     [controller dismissModalViewControllerAnimated:YES];
@@ -199,7 +208,8 @@
 
 }
 - (IBAction)feedback:(id)sender {
-    MFMailComposeViewController *mail;
+    @try {
+      MFMailComposeViewController *mail;
     mail=[[MFMailComposeViewController alloc]init];
     NSInteger bookId= [[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
     NSString *bookIdString=[NSString stringWithFormat:@"%d",bookId ];
@@ -213,6 +223,14 @@
     [mail setMailComposeDelegate:self];
    
     [self presentModalViewController:mail animated:YES];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 
 }
 @end

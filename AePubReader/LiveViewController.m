@@ -316,11 +316,19 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         button.imageLocalLocation=book.localImage;
         [button setImage:image forState:UIControlStateNormal];
         [button setAlpha:0.7];
+        @try {
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localImage];
+            NSError *error=nil;
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
 
-        NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localImage];
-        NSError *error=nil;
-        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-        [button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+                [button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
         //NSLog(@" x= %d",x);
         x=x+xinc;
         

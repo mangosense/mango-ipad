@@ -619,9 +619,18 @@
     delegate.LandscapeOrientation=YES;
     UIViewController *c=[[UIViewController alloc]init];
     c.view.backgroundColor=[UIColor clearColor];
-    [self presentViewController:c animated:YES completion:^(){
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
+    @try {
+        [self presentViewController:c animated:YES completion:^(){
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+   
     [self BuildButtons];
     
     [self.tabBarController.tabBar setHidden:NO];

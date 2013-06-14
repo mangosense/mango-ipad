@@ -431,11 +431,14 @@
         button.imageLocalLocation=book.localPathImageFile;
         [button setImage:image forState:UIControlStateNormal];
         [button setAlpha:0.7];
-
+        @try{
         NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localPathImageFile];
         NSError *error=nil;
         [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
        // [url release];
+        }@catch (NSException *e) {
+            
+        }
         UITapGestureRecognizer *Singletap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
         [button addGestureRecognizer:Singletap];
     
