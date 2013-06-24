@@ -336,8 +336,13 @@
                 request.account=account;
                 [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
                     NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                    
+                    NSLog(@"%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
+                    NSLog(@"%@",dict[@"name"]);
+                    if (!dict[@"name"]) {
+                         [[NSUserDefaults standardUserDefaults] setObject:@"NA" forKey:@"FullName"];
+                    }else{
                     [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
+                    }
                     [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
                     
                 }];

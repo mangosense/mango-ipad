@@ -15,7 +15,6 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
-		AE032C0E17674BEB00ABAD2C /* 1331.epub in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0D17674BEB00ABAD2C /* 1331.epub */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
@@ -575,7 +574,7 @@
 		AED6A8771696B81400FADB3D /* ViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerIphone.xib; sourceTree = "<group>"; };
 		AED7028016A68BA40073811C /* Books 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 8.xcdatamodel"; sourceTree = "<group>"; };
 		AED77756169431200043E3D4 /* header-toolbar-slider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header-toolbar-slider.png"; sourceTree = "<group>"; };
-		AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Books 10.xcdatamodel"; sourceTree = "<group>"; };
+		AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 10.xcdatamodel"; sourceTree = "<group>"; };
 		AED7A3921769BD6D00A828E9 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		AED7A3931769BD6D00A828E9 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AEDA4853169E7F8E00116C23 /* HighlightedStringOld.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = HighlightedStringOld.js; sourceTree = "<group>"; };
@@ -1549,7 +1548,6 @@
 				AEBD46A41755B5130060692A /* large_two.png in Resources */,
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
 				AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */,
-				AE032C0E17674BEB00ABAD2C /* 1331.epub in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

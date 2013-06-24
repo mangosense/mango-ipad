@@ -57,7 +57,9 @@
             [_searchResultsPopover dismissPopoverAnimated:YES];
         }
     }
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [self.navigationController.navigationBar setHidden:NO];
+    [self.tabBarController.tabBar setHidden:NO];
 }
 -(void)setQuery:(NSString *)query{
     _query=[[NSString alloc]initWithString:query];
@@ -86,10 +88,10 @@
     
     ////
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector( show: ) ];
-      gr.delegate=self;
-    //[self.webView.scrollView addGestureRecognizer: gr];
-    // [gr release];
-    [self.webView addGestureRecognizer:gr];
+     gr.delegate=self;
+    [self.webView.scrollView addGestureRecognizer: gr];
+   //  [gr release];
+  //  [self.webView addGestureRecognizer:gr];
     //    UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(show:)];
     //    [self.webView addGestureRecognizer:pan];
     //    [pan release];
@@ -115,6 +117,24 @@
     return UIInterfaceOrientationMaskLandscape;
     
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+//    UIViewController *c=[[UIViewController alloc]init];
+//    c.view.backgroundColor=[UIColor clearColor];
+//    @try {
+//        [self presentViewController:c animated:YES completion:^(){
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//    }
+//    @catch (NSException *exception) {
+//        
+//    }
+//    @finally {
+//        
+//    }
+    
+}
+
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return YES;
 }
@@ -129,8 +149,8 @@
         [_alertView dismissWithClickedButtonIndex:0 animated:YES];
         _alertView =nil;
     }
-    NSString *jsCode=@"var hLink=document.getElementsByTagName('a');for (i=0;i<hLink.length;i++) {if (hLink[i].getAttribute('href')=='#') {hLink[i].setAttribute('href','javascript:void(0)');}}";
-    [_webView stringByEvaluatingJavaScriptFromString:jsCode];
+//    NSString *jsCode=@"var hLink=document.getElementsByTagName('a');for (i=0;i<hLink.length;i++) {if (hLink[i].getAttribute('href')=='#') {hLink[i].setAttribute('href','javascript:void(0)');}}";
+//    [_webView stringByEvaluatingJavaScriptFromString:jsCode];
     
     NSString *filePath  = [[NSBundle mainBundle] pathForResource:@"UIWebViewSearch" ofType:@"js" inDirectory:@""];
     NSData *fileData    = [NSData dataWithContentsOfFile:filePath];
@@ -163,11 +183,11 @@
      selection = window.getSelection();
      selection.setPosition(myDiv, 0);
      */
-    _webView.scrollView.scrollEnabled=YES;
-    NSString *width=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientWidth"];
-    NSString *height=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight"];
-    NSLog(@"width %@ height %@",width,height);
-
+//    _webView.scrollView.scrollEnabled=YES;
+//    NSString *width=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientWidth"];
+//    NSString *height=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight"];
+//    NSLog(@"width %@ height %@",width,height);
+//
     
 
         

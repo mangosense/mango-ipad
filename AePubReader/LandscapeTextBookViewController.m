@@ -221,15 +221,30 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+//    UIViewController *c=[[UIViewController alloc]init];
+//    c.view.backgroundColor=[UIColor clearColor];
+//    @try {
+//        [self presentViewController:c animated:YES completion:^(){
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//    }
+//    @catch (NSException *exception) {
+//        
+//    }
+//    @finally {
+//        
+//    }
+
+}
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [self.navigationController.navigationBar setHidden:NO];
-    [self.tabBarController.tabBar setHidden:NO];
+
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"title"];

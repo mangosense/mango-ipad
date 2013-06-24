@@ -227,7 +227,7 @@
         book.size=@26171226;
         book.date=[NSDate date];
         book.downloadedDate=[NSDate date];
-        book.downloaded=@YES;
+        book.downloaded=@NO;
         book.textBook=@3;
         
         //book.downloaded=[NSNumber numberWithBool:NO];
@@ -237,7 +237,7 @@
         }
         
     }
-    destPath=@"1331.epub";
+   /* destPath=@"1331.epub";
     destPath=[string stringByAppendingPathComponent:destPath];
     insPath = @"1331.epub";
     srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
@@ -252,7 +252,7 @@
             [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
             // [url release];
         }
-    }
+    }*/
    // [vayuTheWind release];
   
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
