@@ -851,7 +851,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButtonOrNextButton:</string>
 							<string>hideSearch:</string>
-							<string>highlight:</string>
 							<string>onBack:</string>
 							<string>onPreviousOrNext:</string>
 							<string>openGame:</string>
@@ -859,12 +858,10 @@
 							<string>playOrPauseRecorded:</string>
 							<string>playOrPauseRecording:</string>
 							<string>recordAudio:</string>
-							<string>removeHighlight:</string>
 							<string>ribbonButtonClick:</string>
 							<string>shareTheBook:</string>
 							<string>showPopView:</string>
 							<string>stopRecordingOrRecordedAudioPlayed:</string>
-							<string>wasDragged:withEvent:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -881,9 +878,6 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>UIButton</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
@@ -892,7 +886,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButtonOrNextButton:</string>
 							<string>hideSearch:</string>
-							<string>highlight:</string>
 							<string>onBack:</string>
 							<string>onPreviousOrNext:</string>
 							<string>openGame:</string>
@@ -900,12 +893,10 @@
 							<string>playOrPauseRecorded:</string>
 							<string>playOrPauseRecording:</string>
 							<string>recordAudio:</string>
-							<string>removeHighlight:</string>
 							<string>ribbonButtonClick:</string>
 							<string>shareTheBook:</string>
 							<string>showPopView:</string>
 							<string>stopRecordingOrRecordedAudioPlayed:</string>
-							<string>wasDragged:withEvent:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -915,10 +906,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">hideSearch:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">highlight:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -950,10 +937,6 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">removeHighlight:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">ribbonButtonClick:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -968,10 +951,6 @@
 							<object class="IBActionInfo">
 								<string key="name">stopRecordingOrRecordedAudioPlayed:</string>
 								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">wasDragged:withEvent:</string>
-								<string key="candidateClassName">UIButton</string>
 							</object>
 						</object>
 					</object>

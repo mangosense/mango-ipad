@@ -974,9 +974,12 @@
     LandscapeTextBookViewController *controller=(LandscapeTextBookViewController *)self.parentViewController.parentViewController;
     contentViewController.delegate=controller;
     _tableOfContentsPop=[[UIPopoverController alloc]initWithContentViewController:contentViewController];
-
+    contentViewController.controller=_tableOfContentsPop;
     [_tableOfContentsPop presentPopoverFromRect:_tocButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [_tableOfContentsPop dismissPopoverAnimated:YES];
 }
 - (void)didReceiveMemoryWarning
 {

@@ -298,6 +298,7 @@
     _viewAppeared=NO;
     _startTime=[[NSDate date]timeIntervalSince1970];
     _startedReading=YES;
+    _playingPaused=YES;
 }
 - (IBAction)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
     //get the touch
@@ -1041,7 +1042,7 @@ avgTime=avgTime/2;
         
         
    
-     }
+     }//recording case ends
     else{
         
         if (_timerProgress&&!_playerDefault) {
@@ -1067,6 +1068,7 @@ avgTime=avgTime/2;
                 [_playerDefault setVolume:1.0];
                 [_playerDefault play];
                   _timerProgress=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+                _playingPaused=NO;
                 }
             UIImage *image=[UIImage imageNamed:@"pause-control.png"];
             [_playPauseControl setImage:image forState:UIControlStateNormal];
@@ -1074,10 +1076,12 @@ avgTime=avgTime/2;
         }else{
             if ([_playerDefault isPlaying]) {
                 [_playerDefault pause];
+                _playingPaused=YES;
                 UIImage *image=[UIImage imageNamed:@"play-control.png"];
                 [_playPauseControl setImage:image forState:UIControlStateNormal];
             }else{
                 [_playerDefault play];
+                _playingPaused=NO;
                 UIImage *image=[UIImage imageNamed:@"pause-control.png"];
                 [_playPauseControl setImage:image forState:UIControlStateNormal];
                  [self ribbonButtonClick:nil];
@@ -1522,12 +1526,7 @@ avgTime=avgTime/2;
         [self loadPage];
         return;
     }
-    if (_playerDefault) {
-        _playerDefault=nil;
-        [_timerProgress invalidate];
-        _timerProgress=nil;
-    }
-    if (delegate.options==1) {// if read to me option
+       if (delegate.options==1) {// if read to me option
         if ([self._ePubContent._spine count]-1>_pageNumber) {
 			
 			_pageNumber++;
@@ -1536,16 +1535,23 @@ avgTime=avgTime/2;
 		}
 
     }
-    UIImage *image=[UIImage imageNamed:@"playbutton.png"];
+    UIImage *image=[UIImage imageNamed:@"play-control.png"];
     [_playRecordedButton setImage:image forState:UIControlStateNormal];
-    if (_anAudioPlayer==player) {
+    [_playPauseControl setImage:image forState:UIControlStateNormal];
+    if (_playerDefault==player) {
         [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').resetCues()"];
         _anAudioPlayer=nil;
     }
     [_stopRecordingOrRecordedAudio setEnabled:NO];
 
     [_recordButton setEnabled:YES];
-    _playingPaused=NO;
+    //_playingPaused=NO;
+    if (_playerDefault) {
+        _playerDefault=nil;
+        [_timerProgress invalidate];
+        _timerProgress=nil;
+    }
+
     if (_timerProgress) {
         [_timerProgress invalidate];
         _timerProgress=nil;

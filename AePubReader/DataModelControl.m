@@ -556,7 +556,7 @@
                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                book.localPathImageFile=temp;
                [data writeToFile:temp atomically:YES];
-
+NSLog(@"mime type %@",response.MIMEType);
                if (![_dataModelContext save:&error]) {
                    NSLog(@"%@",error);
                }
@@ -592,6 +592,7 @@
                NSURLRequest *request=[NSURLRequest requestWithURL:url];
                NSLog(@"locallocation %@ %@",temp,url.absoluteString);
                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+               NSLog(@"mime type %@",response.MIMEType);
                [data writeToFile:temp atomically:YES];
            }
            

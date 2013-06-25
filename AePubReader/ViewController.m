@@ -355,6 +355,7 @@
     }else{
          [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
     }
+    
 
     
 }
