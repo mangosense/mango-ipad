@@ -15,6 +15,8 @@
 #import "PruchaseFree.h"
 #import "Base64.h"
 #import "RecieptValidation.h"
+#import "Cell.h"
+#import "CollectionViewLayout.h"
 @interface LiveViewController ()
 
 @end
@@ -40,9 +42,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
-
-    [self buildButtons];
+   // [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
+    _listOfBooks=nil;
+   // [self buildButtons];
  self.scrollView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
@@ -50,18 +52,67 @@
 
     UIBarButtonItem *itemReferesh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     itemReferesh.tintColor=[UIColor grayColor];
-    UIBarButtonItem *itemLeft=[[UIBarButtonItem alloc]initWithTitle:@"Previous" style:UIBarButtonItemStyleBordered target:self action:@selector(previousButton:)];
+    /*UIBarButtonItem *itemLeft=[[UIBarButtonItem alloc]initWithTitle:@"Previous" style:UIBarButtonItemStyleBordered target:self action:@selector(previousButton:)];
     itemLeft.tintColor=[UIColor grayColor];
     UIBarButtonItem *itemRight=[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(nextButton:)];
-    itemRight.tintColor=[UIColor grayColor];
-    self.navigationItem.rightBarButtonItems=@[itemRight,itemReferesh];
-    self.navigationItem.leftBarButtonItem=itemLeft;
+    itemRight.tintColor=[UIColor grayColor];*/
+    self.navigationItem.rightBarButtonItem=itemReferesh;
+   // self.navigationItem.leftBarButtonItem=itemLeft;
     _ymax=768+80;
+    _currentPageNumber=1;
+  // AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+  //  _listOfBooks= [delegate.dataModel getForPage:_currentPageNumber];
+    _currentPageNumber=0;
+    [self loadMore:nil];
+    CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
+    CGRect frame=self.view.bounds;
+    NSString *ver= [UIDevice currentDevice].systemVersion;
 
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        frame.size.height=911;
+        frame.size.width=768;
+       
+        
+    }else{
+        frame.size.height=655;
+        frame.size.width=1024;
+    }
+    if ([ver floatValue]>=6.0) {
+        
     
+     _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
+    [_collectionView registerClass:[Cell class] forCellWithReuseIdentifier:@"Cell"];
+    [ _collectionView registerClass:[FooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView"];
+    _collectionView.dataSource=self;
+    _collectionView.delegate=self;
+    _collectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
+
+ //   _collectionView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
+    [self.view addSubview:_collectionView];
+    }else{
+        PSUICollectionViewFlowLayout *collectionViewFlowLayout=[[PSUICollectionViewFlowLayout alloc]init];
+        [collectionViewFlowLayout setScrollDirection:PSTCollectionViewScrollDirectionVertical];
+        [collectionViewFlowLayout setItemSize:CGSizeMake(140, 180)];
+        [collectionViewFlowLayout setSectionInset:UIEdgeInsetsMake(30, 30, 30, 30)];
+        [collectionViewFlowLayout setMinimumInteritemSpacing:50];
+        [collectionViewFlowLayout setMinimumLineSpacing:50];
+        [collectionViewFlowLayout setFooterReferenceSize:CGSizeMake(300, 300)];
+        _dataSource=[[PSTCollectionDataSource alloc]init];
+        _dataSource.array=_listOfBooks;
+        _dataSource.controller=self;
+        _dataSource.controllerCount=2;
+        _pstCollectionView=[[PSUICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewFlowLayout];
+        [_pstCollectionView registerClass:[OldCell class] forCellWithReuseIdentifier:@"Cell"];
+        [ _pstCollectionView registerClass:[OldFooterView class]forSupplementaryViewOfKind:PSTCollectionElementKindSectionFooter withReuseIdentifier:@"Footer" ];
+        _pstCollectionView.dataSource=_dataSource;
+        _pstCollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
+        [self.view addSubview:_pstCollectionView];
+    }
 }
+
 -(void)refreshButton:(id)sender{
-   
+    _listOfBooks=nil;
+    _currentPageNumber=1;
   [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
 }
 
@@ -85,9 +136,10 @@
 -(void)showActivityIndicator{
     UIApplication *app=[UIApplication sharedApplication];
     app.networkActivityIndicatorVisible=YES;
-    [_networkIndicator bringSubviewToFront:_scrollView];
+ //   [_networkIndicator bringSubviewToFront:_scrollView];
+    [self.view bringSubviewToFront:_networkIndicator];
     [_networkIndicator startAnimating];
-    
+
     
 }
 -(void)hideActivityIndicator{
@@ -99,7 +151,10 @@
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
-    [self buildButtons];
+    _dataSource.array=_listOfBooks;
+    [self.pstCollectionView reloadData];
+    [self.collectionView reloadData];
+//    [self buildButtons];
 }
 -(void)requestBooksWithoutUIChange{
     [self performSelectorOnMainThread:@selector(showActivityIndicator) withObject:nil waitUntilDone:NO];
@@ -138,6 +193,31 @@
     }
 
 }
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    CGRect frame=self.view.bounds;
+    CGFloat x;
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        frame.size.height=911;
+        frame.size.width=768;
+        //100
+        x=334;
+        
+    }else{
+        frame.size.height=655;
+        frame.size.width=1024;
+        x=462;
+    }
+    _collectionView.frame=frame;
+    _pstCollectionView.frame=frame;
+   frame= _footerView.button.frame;
+    frame.origin.x=x;
+    _footerView.button.frame=frame;
+    frame= _oldFootView.button.frame;
+    frame.origin.x=x;
+    _oldFootView.button.frame=frame;
+
+}
+
 -(void)requestBooks{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
@@ -166,7 +246,15 @@ _error=error;
         NSLog(@"%@",lengthTotal);
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_currentPageNumber];
-        [self buildButtons];
+        if (_listOfBooks==nil) {
+            _listOfBooks=[[NSMutableArray alloc]initWithArray:[delegate.dataModel getForPage:_currentPageNumber]];
+       
+
+        }else{
+            NSArray *array=[delegate.dataModel getForPage:_currentPageNumber];;
+            [_listOfBooks addObjectsFromArray:array];
+        }
+     //   [self buildButtons];
         _pages=_totalNumberOfBooks/20;
         if (_totalNumberOfBooks%20!=0) {
             _pages++;
@@ -205,7 +293,7 @@ _error=error;
     NSLog(@"%@",lengthTotal);
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
 _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_currentPageNumber];
-    [self buildButtons];
+ //   [self buildButtons];
     _pages=_totalNumberOfBooks/20;
     if (_totalNumberOfBooks%20!=0) {
         _pages++;
@@ -236,7 +324,59 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
    
 }
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-     [self buildButtons];
+    // [self buildButtons];
+}
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return _listOfBooks.count;
+}
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+-(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    Cell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    StoreBooks *book=_listOfBooks[indexPath.row];
+     cell.button.stringLink=book.bookLink;
+    cell.button.tag=[book.productIdentity integerValue];
+    UIImage *image=[UIImage imageWithContentsOfFile:book.localImage];
+    cell.button.imageLocalLocation=book.localImage;
+    [cell.button setImage:image forState:UIControlStateNormal];
+    [cell.button setAlpha:0.7];
+    [cell.button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
+    @try {
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localImage];
+        NSError *error=nil;
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    return cell;
+
+}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    Cell *cell=(Cell*)[collectionView cellForItemAtIndexPath:indexPath];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSNumber *number=@(cell.button.tag);
+    if([delegate.dataModel checkIfIdExists:number]){
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Book purchased" message:@"You have already purchased the book" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+    }
+    else{
+        _identity=cell.button.tag;
+        delegate.identity=cell.button.tag;
+        PopPurchaseViewController *popPurchaseController=[[PopPurchaseViewController alloc]initWithNibName:@"PopPurchaseViewController" bundle:nil Identity:cell.button.tag live:self ];
+        popPurchaseController.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
+        popPurchaseController.modalPresentationStyle=UIModalPresentationFormSheet;
+        UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:popPurchaseController];
+        nav.modalPresentationStyle=UIModalPresentationFormSheet;
+        nav.modalTransitionStyle=UIModalTransitionStyleCrossDissolve;
+        [self presentModalViewController:nav animated:YES];
+    }
+
 }
 -(void)buildButtons{
        // add all views if any
@@ -245,8 +385,8 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     x=xmin;
     y=ymin;
     int xinc=190;
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSArray *_listOfBooks= [delegate.dataModel getForPage:_currentPageNumber];
+   // AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+   // _listOfBooks= [delegate.dataModel getForPage:_currentPageNumber];
     _ymax=768+80;
     if (_listOfBooks.count==0) {
         
@@ -305,9 +445,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         //button.storeViewController=self;
         button.frame=rect;
         button.tag=i;
-        button.stringLink=book.bookLink;
-        button.frame=rect;
-        
+        button.stringLink=book.bookLink;        
         button.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"bookshadow.png"]];
         button.tag=[book.productIdentity integerValue];
         // [button setupView];
@@ -612,11 +750,33 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     NSArray *array=[delegate.dataModel getForPage:1];
     if (array.count==0) {
         
-        [self DrawShelf];
+     //   [self DrawShelf];
         [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
    
     }
     [Flurry logEvent:@"Store entered"];
+    CGRect frame=self.view.bounds;
+    CGFloat x;
+    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+        frame.size.height=911;
+        frame.size.width=768;
+        //100
+        x=334;
+        
+    }else{
+        frame.size.height=655;
+        frame.size.width=1024;
+        x=462;
+    }
+    _collectionView.frame=frame;
+    _pstCollectionView.frame=frame;
+    frame= _footerView.button.frame;
+    frame.origin.x=x;
+    _footerView.button.frame=frame;
+    frame= _oldFootView.button.frame;
+    frame.origin.x=x;
+    _oldFootView.button.frame=frame;
+
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
@@ -631,10 +791,27 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     [self setNextButton:nil];
     [super viewDidUnload];
 }
+-(void)loadMore:(id)sender{
+    if(_currentPageNumber<=_pages){
+    _currentPageNumber++;
+    [self performSelectorInBackground:@selector(requestBooks) withObject:nil];
+    }
+}
 - (IBAction)leftbutton:(id)sender {
     [self previousButton:nil];
 }
 - (IBAction)rightButton:(id)sender {
     [self nextButton:nil];
+}
+-(UICollectionReusableView *) collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:
+(NSIndexPath *)indexPath{
+     NSString *ver= [UIDevice currentDevice].systemVersion;
+    if(ver.floatValue>-6.0){
+    if (kind == UICollectionElementKindSectionFooter) {
+        _footerView=[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView" forIndexPath:indexPath];
+        [_footerView setTarget:self];
+    }
+    }
+    return _footerView;
 }
 @end

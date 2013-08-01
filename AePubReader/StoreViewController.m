@@ -18,6 +18,9 @@
 #import "SyncIpadConnection.h"
 #import "LoginDirectly.h"
 #import "Flurry.h"
+#import "CollectionViewLayout.h"
+#import "Cell.h"
+#import "OldCell.h"
 @interface StoreViewController ()
 
 @end
@@ -75,6 +78,7 @@
 -(void)showActivityIndicator{
     UIApplication *app=[UIApplication sharedApplication];
     app.networkActivityIndicatorVisible=YES;
+    [self.view bringSubviewToFront:_networkActivityIndicator];
     [_networkActivityIndicator startAnimating];
     
 }
@@ -86,11 +90,11 @@
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
-    [self BuildButtons];
+  //  [self BuildButtons];
 }
 -(void)requestBooksFromServer{
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
-        [self BuildButtons];
+      //  [self BuildButtons];
         return;
     }
 
@@ -150,7 +154,7 @@
      //   NSLog(@"%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
         _data=[[NSMutableData alloc]initWithData:data];
         [delegate.dataModel insertIfNew:_data];
-        [self BuildButtons];
+       // [self BuildButtons];
     }
     [self performSelectorOnMainThread:@selector(hideActivityIndicator) withObject:nil waitUntilDone:NO];
     _purchase=YES;
@@ -194,9 +198,89 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate.dataModel displayAllData];
+    NSArray *temp=[delegate.dataModel getDataNotDownloaded];
+    _listOfBooks=[[NSArray alloc]initWithArray:temp];
+    CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
+    collectionViewLayout.footerReferenceSize=CGSizeMake(0, 0);
+    CGRect frame=self.view.bounds;
+    NSString *ver= [UIDevice currentDevice].systemVersion;
 
-  
-    [self BuildButtons];
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        frame.size.height=911;
+        frame.size.width=768;
+
+      }else{
+          frame.size.height=655;
+          frame.size.width=1024;
+    }
+    if([ver floatValue]>=6.0){
+    _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
+    
+    
+    NSLog(@"viewdidload %f %f",_collectionView.frame.size.width,_collectionView.frame.size.height);
+
+        [_collectionView registerClass:[Cell class] forCellWithReuseIdentifier:@"Cell"];
+    _collectionView.dataSource=self;
+    _collectionView.delegate=self;
+        _collectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
+    [self.view addSubview:_collectionView];
+    }else{
+        PSUICollectionViewFlowLayout *collectionViewFlowLayout=[[PSUICollectionViewFlowLayout alloc]init];
+        [collectionViewFlowLayout setScrollDirection:PSTCollectionViewScrollDirectionVertical];
+        [collectionViewFlowLayout setItemSize:CGSizeMake(140, 180)];
+        [collectionViewFlowLayout setSectionInset:UIEdgeInsetsMake(30, 30, 30, 30)];
+        [collectionViewFlowLayout setMinimumInteritemSpacing:50];
+        [collectionViewFlowLayout setMinimumLineSpacing:50];
+        _dataSource=[[PSTCollectionDataSource alloc]init];
+        _dataSource.array=_listOfBooks;
+        _dataSource.controller=self;
+        _dataSource.controllerCount=1;
+        _pstCollectionView=[[PSUICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewFlowLayout];
+        [_pstCollectionView registerClass:[OldCell class] forCellWithReuseIdentifier:@"Cell"];
+
+        _pstCollectionView.dataSource=_dataSource;
+        _pstCollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
+        [self.view addSubview:_pstCollectionView];
+        /*
+         self.itemSize = CGSizeMake(140, 180);
+         self.scrollDirection = UICollectionViewScrollDirectionVertical;
+         self.sectionInset = UIEdgeInsetsMake(30, 30.0, 30.0, 30.0);
+         self.minimumLineSpacing = 50.0;
+         self.minimumInteritemSpacing=50.0;
+         self.footerReferenceSize=CGSizeMake(300, 300);
+         */
+  /*      _gridView= [[AQGridView alloc]initWithFrame:frame];
+//        _gridView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _gridView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
+        _gridView.contentInset=UIEdgeInsetsMake(20, 20.0, 20.0, 20.0);
+        _gridView.layoutDirection=AQGridViewLayoutDirectionVertical;
+////        _gridView.leftContentInset=30;
+////        _gridView.rightContentInset=30;
+////        [_gridView setTopContentInset:30];
+////        [_gridView setButtomContentInset:30];
+        _gridView.dataSource=self;
+        
+       // _gridView.resizesCellWidthToFit=YES;
+        _gridView.separatorStyle=AQGridViewCellSeparatorStyleEmptySpace;
+       _gridView.bouncesZoom=NO;
+        _gridView.bounces=NO;
+//        
+      //  _gridView.scrollEnabled=NO;
+        [self.view addSubview:_gridView];
+        [_gridView reloadData];
+        _PsCollectionView=[[PSCollectionView alloc]initWithFrame:frame];
+        _PsCollectionView.collectionViewDataSource=self;
+        _PsCollectionView.collectionViewDelegate=self;
+        
+        _PsCollectionView.numColsLandscape=4;
+        _PsCollectionView.numColsPortrait=3;
+        
+        [self.view addSubview:_PsCollectionView];
+        [_PsCollectionView reloadData];*/
+    }
+  //  [self BuildButtons];
     
 }
 
@@ -243,7 +327,7 @@
 
 }
 -(void)transactionRestore{
-    [self BuildButtons];
+    //[self BuildButtons];
     [self hideActivityIndicator];
 }
 -(void)transactionFailed{
@@ -313,7 +397,6 @@
     }
     
 }
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
@@ -321,11 +404,21 @@
         return;
     }
     if (!_purchase) {
-        [self BuildButtons];
+      //  [self BuildButtons];
     }
-   
-    [Flurry logEvent:@"Downloads entered"];
+      [Flurry logEvent:@"Downloads entered"];
+    CGRect frame=self.view.bounds;
     
+    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+        frame.size.height=911;
+        frame.size.width=768;
+    }else{
+        frame.size.height=655;
+        frame.size.width=1024;
+    }
+    _collectionView.frame=frame;
+    _pstCollectionView.frame=frame;
+
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
@@ -356,8 +449,106 @@
     return YES;
 }
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [self BuildButtons];
+ //   [self BuildButtons];
 }
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    //NSLog(@"library width %f %f",self.scrollView.frame.size.width,self.scrollView.frame.origin.x);
+    //_interfaceOrientation=toInterfaceOrientation;
+      
+}
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    CGRect frame=self.view.bounds;
+
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+        frame.size.height=911;
+        frame.size.width=768;
+      
+    }else{
+        frame.size.height=655;
+        frame.size.width=1024;
+
+    }
+    _collectionView.frame=frame;
+    _pstCollectionView.frame=frame;
+
+}
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return _listOfBooks.count;
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+-(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+     Cell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    Book *book=_listOfBooks[indexPath.row];
+    
+    cell.button.storeViewController=self;
+    cell.button.libraryViewController=nil;
+    cell.button.stringLink=book.link;
+    cell.button.tag=[book.id integerValue];
+          UIImage *image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
+     cell.button.imageLocalLocation=book.localPathImageFile;
+    [ cell.button setImage:image forState:UIControlStateNormal];
+    [ cell.button setAlpha:0.7];
+    [cell.button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
+    @try{
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:book.localPathImageFile];
+        NSError *error=nil;
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
+        // [url release];
+    }@catch (NSException *e) {
+        
+    }
+    return cell;
+}
+
+/*-(AQGridViewCell *)gridView:(AQGridView *)gridView cellForItemAtIndex:(NSUInteger)index{
+    static NSString * EmptyIdentifier = @"EmptyIdentifier";
+    static NSString * CellIdentifier = @"CellIdentifier";
+    if ( index == NSNotFound )
+    {
+        NSLog( @"Loading empty cell at index %u", index );
+        AQGridViewCell * hiddenCell = [gridView dequeueReusableCellWithIdentifier: EmptyIdentifier];
+        if ( hiddenCell == nil )
+        {
+            // must be the SAME SIZE AS THE OTHERS
+            // Yes, this is probably a bug. Sigh. Look at -[AQGridView fixCellsFromAnimation] to fix
+            hiddenCell = [[AQGridViewCell alloc] initWithFrame: CGRectMake(0.0, 0.0, 72.0, 72.0)
+                                               reuseIdentifier: EmptyIdentifier];
+        }
+        
+        hiddenCell.hidden = YES;
+        return ( hiddenCell );
+    }
+    OldCell *cell=(OldCell *)[gridView dequeueReusableCellWithIdentifier: CellIdentifier];
+    if (cell==nil) {
+        cell=[[OldCell alloc]initWithFrame:CGRectMake(0, 0,140, 180)];
+    }
+    Book *book=_listOfBooks[index];
+    cell.button.storeViewController=self;
+    cell.button.libraryViewController=nil;
+    cell.button.stringLink=book.link;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if (index==0&&delegate.addControlEvents) {
+        cell.button.downloading=YES;
+    }
+    
+    NSString *title=[NSString stringWithFormat:@"%@.jpg",book.id];
+    NSString  *value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    
+    
+    title=[value stringByAppendingPathComponent:title];
+    UIImage *image=[UIImage imageWithContentsOfFile:title];
+    cell.button.imageLocalLocation=title;
+    cell.button.tag=[book.id integerValue];
+    [cell.button setImage:image forState:UIControlStateNormal];
+    [cell.button addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
+    return cell;
+
+   // return  nil;
+}*/
 -(void)BuildButtons{
     for (UIView *view in self.scrollView.subviews) {
         
@@ -465,7 +656,7 @@
     _buttonTapped=(UIButton *)gesture.view;
     [self DownloadBook:_buttonTapped];
 }
--(void)tap:(UIGestureRecognizer*)gesture{
+-(void)tap:(id)gesture{
        UIMenuController *_menuController=[UIMenuController sharedMenuController];
     if (_menuController.menuVisible) {
         [_menuController setMenuVisible:NO animated:YES];
@@ -473,8 +664,8 @@
     }
   
 
-    _buttonTapped=(UIButton *)gesture.view;
-    ShadowButton *shadow=(ShadowButton *)gesture.view;
+    _buttonTapped=(UIButton *)gesture;
+    ShadowButton *shadow=(ShadowButton *)gesture;
     PopViewDetailsViewController *controller=[[PopViewDetailsViewController alloc]initWithNibName:@"PopViewDetailsViewController" bundle:nil imageLocation:shadow.imageLocalLocation indentity:shadow.tag];
     controller.view.frame=CGRectMake(50, 60, 300, 300);
     controller.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
@@ -521,7 +712,7 @@
       [delegate.dataModel saveData:self.book];
     _purchase=NO;
     [_delegate DownloadComplete:self.book];
-    [self BuildButtons];
+  //  [self BuildButtons];
    
 }
 

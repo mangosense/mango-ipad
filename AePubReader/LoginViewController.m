@@ -46,6 +46,7 @@
     return YES;
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     if (_getFromSignUp) {
       NSString *email=  [[NSUserDefaults standardUserDefaults]valueForKey:@"emailSignUp"];
      NSString *password=   [[NSUserDefaults standardUserDefaults]valueForKey:@"emailPassword"];
@@ -59,7 +60,7 @@
 
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=NO;
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)&&![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
         UIViewController *c=[[UIViewController alloc]init];
         c.view.backgroundColor=[UIColor clearColor];
         [self presentViewController:c animated:YES completion:^(){
@@ -70,6 +71,7 @@
 
 }
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 -(void)goToNext{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

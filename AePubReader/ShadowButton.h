@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StoreViewController.h"
-#import "LibraryViewController.h"
+
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MFMessageComposeViewController.h>
+@class StoreViewController,LibraryViewController;
+
 @interface ShadowButton : UIButton<MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 @property(nonatomic,retain)NSString *stringLink;
 @property(nonatomic,assign)NSString *imageLocalLocation;

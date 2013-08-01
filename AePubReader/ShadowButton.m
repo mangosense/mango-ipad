@@ -5,10 +5,11 @@
 //  Created by Nikhil Dhavale on 28/09/12.
 //
 //
-#import "LibraryViewController.h"
-#import "StoreViewController.h"
+
 #import "ShadowButton.h"
 #import <QuartzCore/QuartzCore.h>
+#import "LibraryViewController.h"
+#import "StoreViewController.h"
 @implementation ShadowButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -23,7 +24,6 @@
 -(id)init{
     self=[super init];
     if (self) {
-        
        // [self setupView];
     }
     return self;
@@ -84,10 +84,10 @@
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     [controller dismissModalViewControllerAnimated:YES];
 }
--(BOOL)canBecomeFirstResponder{
+/*-(BOOL)canBecomeFirstResponder{
     return YES;
-}
--(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
+}*/
+/*-(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
     
     if (action==@selector(share:)) {
         return YES;
@@ -103,7 +103,7 @@
         
     }
     return NO;
-}
+}*/
 -(void)DownloadBook:(id)storeBookButton{
  
     [_storeViewController DownloadBook:storeBookButton];

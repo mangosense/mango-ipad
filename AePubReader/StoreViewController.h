@@ -13,13 +13,16 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MFMessageComposeViewController.h>
 #import <StoreKit/StoreKit.h>
+#import "PSTCollectionView.h"
+#import "PSTCollectionDataSource.h"
 @protocol StoreControllerDelegate<NSObject>
 -(void)DownloadComplete:(Book *)book;
 
 @end
-@interface StoreViewController : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
+@interface StoreViewController : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>{
    
 }
+@property(strong,nonatomic)UICollectionView *collectionView;
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 - (void)DownloadBook:(id)sender;
 -(void)BuildButtons;
@@ -40,6 +43,8 @@
 @property(assign,nonatomic)BOOL purchase;
 @property(retain,nonatomic)NSError *error;
 @property(strong,nonatomic)NSMutableData *data;
+@property(strong,nonatomic)PSUICollectionView *pstCollectionView;
+@property(strong,nonatomic)PSTCollectionDataSource *dataSource;
 -(void)requestBooksFromServer;
 -(void)transactionRestore;
 -(void)transactionFailed;
