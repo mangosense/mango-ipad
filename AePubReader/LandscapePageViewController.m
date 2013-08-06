@@ -46,8 +46,10 @@
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     
     [Flurry logEvent:string withParameters:dictionary];
+  //  self.navigationController.navigationBarHidden=NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.navigationController.navigationBarHidden=NO;
-    
+
     [self.navigationController popViewControllerAnimated:YES];
     [self.parentViewController.parentViewController.navigationController popViewControllerAnimated:YES];
     NSNotificationCenter *defaultCenter=[NSNotificationCenter defaultCenter];
@@ -57,10 +59,9 @@
             [_searchResultsPopover dismissPopoverAnimated:YES];
         }
     }
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:NO];
-}
+
+   }
 -(void)setQuery:(NSString *)query{
     _query=[[NSString alloc]initWithString:query];
 }
@@ -119,20 +120,23 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-//    UIViewController *c=[[UIViewController alloc]init];
-//    c.view.backgroundColor=[UIColor clearColor];
-//    @try {
-//        [self presentViewController:c animated:YES completion:^(){
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        }];
-//    }
-//    @catch (NSException *exception) {
-//        
-//    }
-//    @finally {
-//        
-//    }
-    
+    if (_chapter.chapterIndex==0) {
+        UIViewController *c=[[UIViewController alloc]init];
+        c.view.backgroundColor=[UIColor clearColor];
+        @try {
+            [self presentViewController:c animated:YES completion:^(){
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+
+    }
+      
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{

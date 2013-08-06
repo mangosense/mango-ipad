@@ -20,6 +20,10 @@
 - (IBAction)readInMyVoice:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *readInMyVoiceButton;
 @property(weak,nonatomic)EpubReaderViewController *epubViewController;
+@property(strong,nonatomic)NSString *_strFileName;
+@property(strong,nonatomic)NSString *url;
+@property(strong,nonatomic)NSString *titleOfBook;
+
 - (IBAction)feedback:(id)sender;
 @property(strong,nonatomic) UIPopoverController *popViewController;
 @end

@@ -11,5 +11,9 @@
 @interface CustomNavViewController : UINavigationController<UINavigationControllerDelegate>
 @property(nonatomic,assign)AePubReaderAppDelegate *delegateApp;
 @property(nonatomic,assign)UIAlertView *alert;
+- (void) pushCodeBlock:(void (^)())codeBlock;
+- (void) runNextBlock;
 
+@property (nonatomic, retain) NSMutableArray* stack;
+@property (nonatomic, assign) bool transitioning;
 @end

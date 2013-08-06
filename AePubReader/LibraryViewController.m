@@ -23,6 +23,7 @@
 #import "CollectionViewLayout.h"
 #import "LibraryOldCell.h"
 #import "LibraryCell.h"
+#import "CoverViewController.h"
 @interface LibraryViewController ()
 
 
@@ -243,6 +244,7 @@
         delegate.LandscapeOrientation=YES;
     }
     _correctNavigation=NO;
+    _nav=NO;
 }
 -(void)openStats:(id)sender{
     StatsViewController *stats=[[StatsViewController alloc]initWithNibName:@"StatsViewController" bundle:nil];
@@ -693,6 +695,7 @@
   
     [self.tabBarController.tabBar setHidden:NO];
     [self.navigationController.navigationBar setHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     CGRect frame=self.view.bounds;
     if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         frame.size.height=911;
@@ -703,19 +706,27 @@
     }
     _collectionView.frame=frame;
     _pstcollectionView.frame=frame;
-
+   /* if (_nav) {
+        UIViewController *c=[[UIViewController alloc]init];
+        c.view.backgroundColor=[UIColor clearColor];
+        [self presentViewController:c animated:YES completion:^(void){
+            [c dismissViewControllerAnimated:YES completion:nil];
+        }];
+        _nav=NO;
+    }*/
+ /*   UIViewController *c=[[UIViewController alloc]init];
+    c.view.backgroundColor=[UIColor clearColor];
+    [self presentViewController:c animated:YES completion:^(void){
+        [c dismissViewControllerAnimated:YES completion:nil];
+    }];*/
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     [Flurry logEvent:@"Library entered"];
-    if (_correctNavigation) {
-      /*  UIViewController *c=[[UIViewController alloc]init];
-        c.view.backgroundColor=[UIColor clearColor];
-        [self presentViewController:c animated:YES completion:^(void){
-            [c dismissViewControllerAnimated:YES completion:nil];
-        }];*/
-        _correctNavigation=NO;
-    }
+    //if (_correctNavigation) {
+    
+   //     _correctNavigation=NO;
+    //}
 }
 -(void)delay{
 
@@ -1168,6 +1179,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     if (alertView.tag==300) {
         return;
     }
+    _nav=YES;
     _correctNavigation=YES;
        Book *bk=_epubFiles[_index];
     NSString  *value;
@@ -1204,6 +1216,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         return;
     }
     ShadowButton *button;
+    CoverViewController *coverViewController;
     NSLog(@"id %d",bk.textBook.integerValue);
     switch (bk.textBook.integerValue) {
         case 1://storyBooks
@@ -1216,7 +1229,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             epubString=[NSString stringWithFormat:@"%@.epub",bk.id];
             value=[value stringByAppendingPathComponent:epubString];
             NSLog(@"Path value: %@",value);
-                   reader=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
+            /*       reader=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
             reader._strFileName=value;
           
             button=(ShadowButton *)_buttonTapped;
@@ -1228,7 +1241,20 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             self.tabBarController.hidesBottomBarWhenPushed=YES;
             reader.hidesBottomBarWhenPushed=YES;
             reader.titleOfBook=bk.title;
-            [self.navigationController pushViewController:reader animated:YES];
+            [self.navigationController pushViewController:reader animated:YES];*/
+            coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
+            coverViewController._strFileName=value;
+            button=(ShadowButton *)_buttonTapped;
+
+            if (button.imageLocalLocation) {
+                coverViewController.imageLocation=button.imageLocalLocation;
+                
+            }
+            coverViewController.url=button.stringLink;
+                self.tabBarController.hidesBottomBarWhenPushed=YES;
+            coverViewController.hidesBottomBarWhenPushed=YES;
+            coverViewController.titleOfBook=bk.title;
+            [self.navigationController pushViewController:coverViewController animated:YES];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 [alertView dismissWithClickedButtonIndex:0 animated:YES];
             }

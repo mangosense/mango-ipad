@@ -39,6 +39,11 @@
     if (button.tag==_pageNumber) {
         return;
     }
+    if (button.tag==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        [self.navigationController popViewControllerAnimated:NO];
+        _pageNumber=1;
+        return;
+    }
     _pageNumber=button.tag;
     [self loadPage];
     
@@ -711,14 +716,21 @@ avgTime=avgTime/2;
 //
 //    }
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    if (_playerDefault&&_playerDefault.isPlaying) {
+        [self playOrPauseAudio:nil];
+
+    }
+}
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-       [self becomeFirstResponder];
-    [self loadPage];
-    if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+       //[self becomeFirstResponder];
+//[self loadPage];
+   /* if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         //CoverViewController
         [self performSelector:@selector(delayedPush) withObject:nil afterDelay:5];
-    }
+    }*/
+    //[self performSelector:@selector(loadPage) withObject:nil afterDelay:6];
     _viewAppeared=YES;
 }
 -(void)delayedPush{
@@ -830,8 +842,14 @@ avgTime=avgTime/2;
 		if (_pageNumber>0) {
 			
 			_pageNumber--;
+            if (_pageNumber==0) {
+                [self.navigationController popViewControllerAnimated:NO];
+                _pageNumber=1;
 
-			[self loadPage];
+            }else{
+                [self loadPage];
+
+            }
 		}else{
       [self onBack:nil];
         }
@@ -975,13 +993,17 @@ avgTime=avgTime/2;
     if(_playerDefault){
         _playerDefault=nil;
     }
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+
     self.navigationController.navigationBarHidden=NO;
+
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
                            [_webview loadRequest:request];
-[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
 
     [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.tabBarController.tabBar setHidden:NO];
+
     NSLog(@"NSString %@",_strFileName);
 
     if (_pop) {
@@ -1189,13 +1211,9 @@ avgTime=avgTime/2;
 - (void)loadPage{
 	
     if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-        CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
-        coverViewController.imageLocation=_imageLocation;
-        [self.navigationController pushViewController:coverViewController animated:NO];
-        coverViewController.epubViewController=self;
-       // _pageNumber++;
-        return;
-    }else{
+            _pageNumber++;
+        
+    }
         if (_playerDefault) {
             _playerDefault=nil;
         }
@@ -1216,7 +1234,7 @@ avgTime=avgTime/2;
             [[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
             
         }
-    }
+    
    NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
     pageCount++;
     [[NSUserDefaults standardUserDefaults]setInteger:pageCount forKey:@"tpageCount"];
