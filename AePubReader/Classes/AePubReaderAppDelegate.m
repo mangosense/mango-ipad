@@ -811,7 +811,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
                                                stringByAppendingPathComponent: @"MangoReader.sqlite"]];
     NSError *error = nil;
-       
+    
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
     						 NSInferMappingModelAutomaticallyOption: @YES};
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]

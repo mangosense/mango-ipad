@@ -130,7 +130,7 @@
     [super viewDidLoad];
     UIBarButtonItem *editBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(DeleteButton:)];
     editBarButtonItem.tintColor=[UIColor grayColor];
-   
+    
     UIBarButtonItem *optionsItem=[[UIBarButtonItem alloc]initWithTitle:@"share" style:UIBarButtonItemStyleBordered target:self action:@selector(allowoptions:)];
     optionsItem.tintColor=[UIColor grayColor];
     UIBarButtonItem *recordButton=[[UIBarButtonItem alloc]initWithTitle:@"recording" style:UIBarButtonItemStyleBordered target:self action:@selector(showRecordButton:)];
@@ -686,6 +686,16 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    
+    /*if (_correctNavigation) {
+        UIViewController *c=[[UIViewController alloc]init];
+        c.view.backgroundColor=[UIColor clearColor];
+        [self presentViewController:c animated:YES completion:^(void){
+            [c dismissViewControllerAnimated:YES completion:nil];
+        }];
+        _correctNavigation=NO;
+    }*/
+    
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
     delegate.LandscapeOrientation=YES;
@@ -708,14 +718,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     [Flurry logEvent:@"Library entered"];
-    if (_correctNavigation) {
-      /*  UIViewController *c=[[UIViewController alloc]init];
-        c.view.backgroundColor=[UIColor clearColor];
-        [self presentViewController:c animated:YES completion:^(void){
-            [c dismissViewControllerAnimated:YES completion:nil];
-        }];*/
-        _correctNavigation=NO;
-    }
 }
 -(void)delay{
 
@@ -725,23 +727,12 @@
     [Flurry logEvent:@"Library exited"];
 
 }
-/*-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    //NSLog(@"library width %f %f",self.scrollView.frame.size.width,self.scrollView.frame.origin.x);
-     //_interfaceOrientation=toInterfaceOrientation;
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-        CGRect frame=self.view.bounds;
-        frame.size.height=655;
-        frame.size.width=1024;
-        _collectionView.frame=frame;
-    }else{
-        CGRect frame=self.view.bounds;
 
-        frame.size.height=655;
-        frame.size.width=1024;
-        _collectionView.frame=self.view.bounds;
-    }
-   
-}*/
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     NSLog(@"library width %f %f",self.scrollView.frame.size.width,self.scrollView.frame.origin.x);
     // [self BuildButtons];
