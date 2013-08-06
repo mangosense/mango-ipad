@@ -189,10 +189,20 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
   Book *book=  [delegate.dataModel getBookOfId:bookIdString];
     ShowPopViewController *showPopViewController =[[ShowPopViewController alloc]initWithNibName:@"ShowPopViewController" bundle:nil withString:book.desc];
-    showPopViewController.contentSizeForViewInPopover=CGSizeMake(300, 500);
+
+    if (!book.desc || [book.desc length] == 0) {
+        book.desc = @"No Description";
+    }
+    
+    CGFloat descriptionHeight = [book.desc sizeWithFont:[UIFont systemFontOfSize:17.0f] constrainedToSize:CGSizeMake(300, 10000) lineBreakMode:NSLineBreakByWordWrapping].height + 20;
+    UIWebView *descriptionWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 300, MIN(500, descriptionHeight))];
+    [descriptionWebView loadHTMLString:book.desc baseURL:nil];
+    showPopViewController.contentSizeForViewInPopover=CGSizeMake(300, descriptionHeight);
+    [showPopViewController.view addSubview:descriptionWebView];
+    
    _popViewController=[[UIPopoverController alloc]initWithContentViewController:showPopViewController];
     [_popViewController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    _popViewController.popoverContentSize=CGSizeMake(300, 500);
+    _popViewController.popoverContentSize=CGSizeMake(300, descriptionHeight);
 }
 
 - (IBAction)readInMyVoice:(id)sender {

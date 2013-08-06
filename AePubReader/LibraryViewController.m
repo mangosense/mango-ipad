@@ -706,19 +706,7 @@
     }
     _collectionView.frame=frame;
     _pstcollectionView.frame=frame;
-   /* if (_nav) {
-        UIViewController *c=[[UIViewController alloc]init];
-        c.view.backgroundColor=[UIColor clearColor];
-        [self presentViewController:c animated:YES completion:^(void){
-            [c dismissViewControllerAnimated:YES completion:nil];
-        }];
-        _nav=NO;
-    }*/
- /*   UIViewController *c=[[UIViewController alloc]init];
-    c.view.backgroundColor=[UIColor clearColor];
-    [self presentViewController:c animated:YES completion:^(void){
-        [c dismissViewControllerAnimated:YES completion:nil];
-    }];*/
+
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
