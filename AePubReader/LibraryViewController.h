@@ -41,6 +41,7 @@
 @property(strong,nonatomic)PSTCollectionDataSource *dataSource;
 @property(strong,nonatomic) PSUICollectionView *pstcollectionView;
 @property(assign,nonatomic)BOOL correctNavigation;
+@property(assign,nonatomic) BOOL nav;
 -(void)shareButtonClicked:(id)sender;
 - (void)showBookButton:(UIButton *)sender;
 -(void)AddShareButton:(id)sender;

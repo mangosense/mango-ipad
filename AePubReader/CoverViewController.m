@@ -31,8 +31,18 @@
     // Do any additional setup after loading the view from its nib.
     UIImage *image=[UIImage imageWithContentsOfFile:_imageLocation];
     [_imageView setImage:image];
+    [self.navigationController.navigationBar setHidden:YES];
+    [self.tabBarController.tabBar setHidden:YES];
 
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    UIViewController *c=[[UIViewController alloc]init];
+    c.view.backgroundColor=[UIColor clearColor];
+    [self presentViewController:c animated:YES completion:^(void){
+        [c dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
@@ -58,29 +68,29 @@
 - (IBAction)readByMyself:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.options=0;
-    EpubReaderViewController *viewControllerToPop;
-    for (UIViewController *viewController in self.navigationController.viewControllers) {
-        if ([viewController isKindOfClass:[EpubReaderViewController class]]) {
-            viewControllerToPop=(EpubReaderViewController *)viewController;
-            viewControllerToPop.pageNumber=1;
+    EpubReaderViewController *epubViewController=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
+    epubViewController.pageNumber=1;
+    epubViewController._strFileName=__strFileName;
+    epubViewController.imageLocation=_imageLocation;
+    epubViewController.url=_url;
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+    epubViewController.hidesBottomBarWhenPushed=YES;
+    epubViewController.titleOfBook=_titleOfBook;
+       [self.navigationController pushViewController:epubViewController animated:NO];
 
-            break;
-        }
-    }
-    [self.navigationController popToViewController:viewControllerToPop animated:NO];}
+}
 
 - (IBAction)readToMe:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.options=1;
-    EpubReaderViewController *viewControllerToPop;
-    for (UIViewController *viewController in self.navigationController.viewControllers) {
-        if ([viewController isKindOfClass:[EpubReaderViewController class]]) {
-            viewControllerToPop=(EpubReaderViewController *)viewController;
-            viewControllerToPop.pageNumber=1;
-            break;
-        }
-    }
-    [self.navigationController popToViewController:viewControllerToPop animated:NO];
+    EpubReaderViewController *epubViewController=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
+    epubViewController.pageNumber=1;
+    epubViewController._strFileName=__strFileName;
+    epubViewController.imageLocation=_imageLocation;
+    epubViewController.url=_url;
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+    epubViewController.hidesBottomBarWhenPushed=YES;
+    epubViewController.titleOfBook=_titleOfBook;    [self.navigationController pushViewController:epubViewController animated:NO];
 
 }
 
@@ -89,35 +99,26 @@
     //if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
         
     //}else{
-        UIViewController *viewControllerToPop;
-        for (UIViewController *controller in self.navigationController.viewControllers) {
-            if ([controller isKindOfClass:[LibraryViewController class]]) {
-                viewControllerToPop=controller;
-                break;
-            }
-        }
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-   // [self.navigationController popToRootViewControllerAnimated:YES];
-        [self.navigationController popToViewController:viewControllerToPop animated:YES];
+    self.navigationController.navigationBarHidden=NO;
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.tabBarController.tabBar setHidden:NO];
 
-    
     
 }
 
 - (IBAction)recordMyVoice:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.options=2;
-    EpubReaderViewController *viewControllerToPop;
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[EpubReaderViewController class]]) {
-            viewControllerToPop=(EpubReaderViewController *)controller;
-            viewControllerToPop.pageNumber=1;
-
-            break;
-        }
-    }
-    [self.navigationController popToViewController:viewControllerToPop animated:NO];
+    EpubReaderViewController *epubViewController=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
+    epubViewController.pageNumber=1;
+    epubViewController._strFileName=__strFileName;
+    epubViewController.imageLocation=_imageLocation;
+    epubViewController.url=_url;
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+    epubViewController.hidesBottomBarWhenPushed=YES;
+    epubViewController.titleOfBook=_titleOfBook;    [self.navigationController popToViewController:epubViewController animated:NO];
 
 }
 
@@ -207,17 +208,15 @@
 - (IBAction)readInMyVoice:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.options=3;
-    EpubReaderViewController *viewControllerToPop;
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[EpubReaderViewController class]]) {
-            viewControllerToPop=(EpubReaderViewController *)controller;
-            viewControllerToPop.pageNumber=1;
-            
-            break;
-        }
-    }
-    [self.navigationController popToViewController:viewControllerToPop animated:NO];
-
+    EpubReaderViewController *epubViewController=[[EpubReaderViewController alloc]initWithNibName:@"View" bundle:nil];
+    epubViewController.pageNumber=1;
+    epubViewController._strFileName=__strFileName;
+    epubViewController.imageLocation=_imageLocation;
+    epubViewController.url=_url;
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+    epubViewController.hidesBottomBarWhenPushed=YES;
+    epubViewController.titleOfBook=_titleOfBook;
+    [self.navigationController pushViewController:epubViewController animated:NO];
 }
 - (IBAction)feedback:(id)sender {
     @try {

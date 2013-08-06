@@ -48,7 +48,7 @@
     [Flurry logEvent:string withParameters:dictionary];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     self.navigationController.navigationBarHidden=NO;
-    
+
     [self.navigationController popViewControllerAnimated:YES];
     [self.parentViewController.parentViewController.navigationController popViewControllerAnimated:YES];
     NSNotificationCenter *defaultCenter=[NSNotificationCenter defaultCenter];
@@ -59,7 +59,8 @@
         }
     }
     [self.tabBarController.tabBar setHidden:NO];
-}
+
+   }
 -(void)setQuery:(NSString *)query{
     _query=[[NSString alloc]initWithString:query];
 }
@@ -118,20 +119,23 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-//    UIViewController *c=[[UIViewController alloc]init];
-//    c.view.backgroundColor=[UIColor clearColor];
-//    @try {
-//        [self presentViewController:c animated:YES completion:^(){
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        }];
-//    }
-//    @catch (NSException *exception) {
-//        
-//    }
-//    @finally {
-//        
-//    }
-    
+    if (_chapter.chapterIndex==0) {
+        UIViewController *c=[[UIViewController alloc]init];
+        c.view.backgroundColor=[UIColor clearColor];
+        @try {
+            [self presentViewController:c animated:YES completion:^(){
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+
+    }
+      
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
