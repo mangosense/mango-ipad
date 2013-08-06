@@ -96,8 +96,10 @@
                 break;
             }
         }
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+   // [self.navigationController popToRootViewControllerAnimated:YES];
         [self.navigationController popToViewController:viewControllerToPop animated:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
     
     

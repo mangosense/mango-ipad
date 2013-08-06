@@ -110,7 +110,8 @@
         downloader.value=1.0f;
     }
   
-    
+    _deleteButton=NO;
+    _recordButton=NO;
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:downloader];
     
    // [request release];
@@ -804,6 +805,8 @@
     cell.button.tag=indexPath.row;
     [cell.button setImage:image forState:UIControlStateNormal];
     [cell.button addTarget:self action:@selector(showBookButton:) forControlEvents:UIControlEventTouchUpInside];
+    cell.shareButton.hidden=YES;
+    cell.buttonDelete.hidden=YES;
     if (!_allowOptions) {
     
         cell.shareButton.imageLocalLocation=title;

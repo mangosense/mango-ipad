@@ -713,6 +713,11 @@
     _purchase=NO;
     [_delegate DownloadComplete:self.book];
   //  [self BuildButtons];
+    _listOfBooks=[delegate.dataModel getDataNotDownloaded];
+    _dataSource.array=_listOfBooks;
+    [_collectionView reloadData];
+    
+    [_pstCollectionView reloadData];
    
 }
 

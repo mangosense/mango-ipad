@@ -41,7 +41,9 @@
               cellLibrary.button.storeViewController=nil;
               cellLibrary.button.libraryViewController=library;
               cellLibrary.button.stringLink=book.link;
-             
+              cellLibrary.shareButton.hidden=YES;
+              cellLibrary.buttonDelete.hidden=YES;
+
               
               if (indexPath==0&&delegate.addControlEvents) {
                   cellLibrary.button.downloading=YES;

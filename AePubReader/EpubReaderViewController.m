@@ -717,14 +717,17 @@ avgTime=avgTime/2;
     [self loadPage];
     if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         //CoverViewController
-        CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
-        coverViewController.imageLocation=_imageLocation;
-        [self.navigationController pushViewController:coverViewController animated:NO];
-        coverViewController.epubViewController=self;
-        _pageNumber++;
-        
+        [self performSelector:@selector(delayedPush) withObject:nil afterDelay:5];
     }
     _viewAppeared=YES;
+}
+-(void)delayedPush{
+    CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
+    coverViewController.imageLocation=_imageLocation;
+    [self.navigationController pushViewController:coverViewController animated:NO];
+    coverViewController.epubViewController=self;
+    _pageNumber++;
+
 }
 
    /*Function Name : unzipAndSaveFile
