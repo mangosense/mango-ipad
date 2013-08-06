@@ -703,7 +703,7 @@
     }
     _collectionView.frame=frame;
     _pstcollectionView.frame=frame;
-
+    
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];

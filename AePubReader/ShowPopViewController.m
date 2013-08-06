@@ -27,7 +27,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _descrption.text=_desc;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -38,7 +37,6 @@
 }
 
 - (void)viewDidUnload {
-    [self setDescrption:nil];
     [super viewDidUnload];
 }
 @end
