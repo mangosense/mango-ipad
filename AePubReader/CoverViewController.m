@@ -43,6 +43,8 @@
     [self presentViewController:c animated:YES completion:^(void){
         [c dismissViewControllerAnimated:YES completion:nil];
     }];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
@@ -99,7 +101,7 @@
     //if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
         
     //}else{
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     
     self.navigationController.navigationBarHidden=NO;
     [self.navigationController popViewControllerAnimated:YES];
