@@ -703,9 +703,9 @@
     delegate.LandscapeOrientation=YES;
   //  [UIViewController attemptRotationToDeviceOrientation];
   
-    [self.tabBarController.tabBar setHidden:NO];
-    [self.navigationController.navigationBar setHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
+    [self.navigationController.navigationBar setHidden:NO];
     CGRect frame=self.view.bounds;
     if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         frame.size.height=911;
@@ -716,6 +716,8 @@
     }
     _collectionView.frame=frame;
     _pstcollectionView.frame=frame;
+    [self.tabBarController.tabBar setHidden:NO];
+
 
 }
 -(void)viewDidAppear:(BOOL)animated{
