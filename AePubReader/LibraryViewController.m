@@ -283,22 +283,22 @@
         for (UITabBarItem *item in self.tabBarController.tabBar.items) {
             item.enabled=NO;
         }
-    for (UIView *view in self.scrollView.subviews) {
-        if([view isKindOfClass:[ShadowButton class]]){
-            NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
-         
-            NSLog(@"%@",path);
-           Book *book=  _epubFiles[view.tag];
-               path =[path stringByAppendingFormat:@"/%@",book.id];
-            /*
-             Check if recording exists
-             */
-           if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-                [[view.subviews lastObject] setHidden:NO];
+        for (UIView *view in self.scrollView.subviews) {
+            if([view isKindOfClass:[ShadowButton class]]){
+                NSString *path=[[NSUserDefaults standardUserDefaults] objectForKey:@"recordingDirectory"];
+             
+                NSLog(@"%@",path);
+               Book *book=  _epubFiles[view.tag];
+                   path =[path stringByAppendingFormat:@"/%@",book.id];
+                /*
+                 Check if recording exists
+                 */
+               if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+                    [[view.subviews lastObject] setHidden:NO];
+                }
+                
             }
-            
         }
-    }
     }else{ // if shown
         /*
         
@@ -310,10 +310,10 @@
         [item setEnabled:YES];
         item=_array[1];
         [item setEnabled:YES];
-        /*for (UITabBarItem *item in self.tabBarController.tabBar.items) {
+        for (UITabBarItem *item in self.tabBarController.tabBar.items) {
             item.enabled=YES;
         }
-        for (UIView *view in self.scrollView.subviews) {
+        /*for (UIView *view in self.scrollView.subviews) {
             if([view isKindOfClass:[ShadowButton class]]){
 
 
