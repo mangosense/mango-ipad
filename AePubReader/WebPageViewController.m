@@ -46,7 +46,9 @@
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     
     [Flurry logEvent:string withParameters:dictionary];
-      self.navigationController.navigationBarHidden=NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+
+    self.navigationController.navigationBarHidden=NO;
     
     [self.navigationController popViewControllerAnimated:YES];
     [self.parentViewController.parentViewController.navigationController popViewControllerAnimated:YES];
@@ -57,7 +59,7 @@
             [_searchResultsPopover dismissPopoverAnimated:YES];
         }
     }
-    
+    self.tabBarController.tabBar.hidden=NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
