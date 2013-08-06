@@ -208,8 +208,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "1077"
          endingLineNumber = "1077"
-         landmarkName = "@implementation LibraryViewController"
-         landmarkType = "3">
+         landmarkName = "-getRootFilePath"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -221,8 +221,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "1056"
          endingLineNumber = "1056"
-         landmarkName = "-showBookButton:"
-         landmarkType = "5">
+         landmarkName = "@implementation LibraryViewController"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -520,7 +520,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "727"
          endingLineNumber = "727"
-         landmarkName = "-viewDidAppear:"
+         landmarkName = "-delay"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -589,7 +589,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "LandscapePageViewController.m"

@@ -842,7 +842,7 @@ avgTime=avgTime/2;
 		if (_pageNumber>0) {
 			
 			_pageNumber--;
-            if (_pageNumber==0) {
+            if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
                 [self.navigationController popViewControllerAnimated:NO];
                 _pageNumber=1;
 
