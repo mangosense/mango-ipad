@@ -403,14 +403,19 @@
             NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
             SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
             request.account=account;
-            [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
-                
-            }];
+         
 
             [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
                 NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                 if (!dict[@"name"]) {
-                                      
+                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
+                        if (renewresult==ACAccountCredentialRenewResultRenewed) {
+                            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
+                                [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
+                                [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
+                            }];
+                        }
+                    }];
                 }else{
                 [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
                 [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
