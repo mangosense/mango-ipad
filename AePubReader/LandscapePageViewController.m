@@ -111,7 +111,10 @@
     // Do any additional setup after loading the view from its nib.
     _topView.hidden=!_topView.hidden;
 }
-
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
 - (NSUInteger)supportedInterfaceOrientations {
     
     return UIInterfaceOrientationMaskLandscape;

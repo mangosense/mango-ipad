@@ -151,7 +151,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  //  [self unzipAndSaveFile:_strFileName];
     _xmlhandler=[[XMLHandler alloc] init];
 	_xmlhandler.delegate=self;
 	[_xmlhandler parseXMLFileAt:[self getRootFilePath]];

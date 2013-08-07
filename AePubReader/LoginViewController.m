@@ -407,9 +407,15 @@
                 NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                 
                 NSLog(@"%@", dict);
+                if (!dict[@"name"]) {
+                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
+                            
+                        }];
+                   
+                }else{
                 [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
                 [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
-                
+                }
             }];
         }else{
             [_alertView dismissWithClickedButtonIndex:0 animated:YES];

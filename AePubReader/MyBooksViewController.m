@@ -193,11 +193,13 @@
       
         [cell addSubview:_progress];
         
+    }else{
+        
     }
    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     Book *book=_array[indexPath.row];
-    NSLog(@"%@",book.localPathImageFile);
+  //  NSLog(@"%@",book.localPathImageFile);
     cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile];
     cell.textLabel.text=book.title;
 
