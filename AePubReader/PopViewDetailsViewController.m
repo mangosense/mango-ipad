@@ -124,6 +124,9 @@
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeSaveToCameraRoll ];
+        if (_popDetails) {
+            [_popDetails dismissPopoverAnimated:YES];
+        }
         _popDetails=[[UIPopoverController alloc]initWithContentViewController:activity];
         
      //   [activity release];
@@ -144,6 +147,9 @@
    // [mail release];
 }
 -(void)closeModal:(id)sender{
+    if (_popDetails) {
+        [_popDetails dismissPopoverAnimated:YES];
+    }
     [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning
