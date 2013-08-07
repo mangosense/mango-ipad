@@ -394,7 +394,11 @@
                 NSLog(@"%@", dict);
                 if (!dict[@"name"]) {
                     [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
-                        [self getFacebookAccess];
+                        if (renewresult != ACAccountCredentialRenewResultRejected) {
+                            [self getFacebookAccess];
+                        } else {
+                            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+                        }
                     }];
                 }else{
                     [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
