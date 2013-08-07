@@ -406,6 +406,7 @@
             [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
                 NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                 
+                NSLog(@"%@", dict);
                 [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
                 [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
                 
