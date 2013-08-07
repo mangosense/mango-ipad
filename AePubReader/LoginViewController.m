@@ -388,7 +388,7 @@
             NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
             SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
             request.account=account;
-            
+
             [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
                 NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                 NSLog(@"%@", dict);
