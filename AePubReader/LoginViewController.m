@@ -368,6 +368,46 @@
     [connection start];
 
 }
+
+- (void)getFacebookAccess {
+    ACAccountStore *accountStore=[[ACAccountStore alloc]init];
+    
+    ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
+    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
+        if (e) {
+            [self performSelectorOnMainThread:@selector(facebookError) withObject:nil waitUntilDone:NO];
+        }
+        else if (granted) {
+            
+            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
+            ACAccount *account=[accounts lastObject];
+            
+            NSLog(@"%@", account.username);
+            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
+            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
+            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
+            request.account=account;
+            
+            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
+                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                NSLog(@"%@", dict);
+                if (!dict[@"name"]) {
+                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
+                        [self getFacebookAccess];
+                    }];
+                }else{
+                    [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
+                    [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
+                }
+            }];
+        }else{
+            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+        }
+        
+    }];
+}
+
 - (IBAction)facebookLogin:(id)sender {
                 _alertView =[[UIAlertView alloc]init];
 
@@ -384,44 +424,8 @@
     [indicator startAnimating];
     [_alertView addSubview:indicator];
     [_alertView show];
-    ACAccountStore *accountStore=[[ACAccountStore alloc]init];
     
-    ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-    NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
-    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
-        if (e) {
-           [ self performSelectorOnMainThread:@selector(facebookError) withObject:nil waitUntilDone:NO];
-        }
-        else if (granted) {
-
-            
-            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
-            ACAccount *account=[accounts lastObject];
-            
-            NSLog(@"%@", account.username);
-            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
-            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
-            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
-            request.account=account;
-            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
-                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                
-                NSLog(@"%@", dict);
-                if (!dict[@"name"]) {
-                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
-                            
-                        }];
-                   
-                }else{
-                [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
-                [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
-                }
-            }];
-        }else{
-            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-        }
-        
-    }];
+    [self getFacebookAccess];
 
 }
 -(void)facebookError{
