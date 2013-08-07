@@ -689,14 +689,14 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     
-    /*if (_correctNavigation) {
+    if (_correctNavigation) {
         UIViewController *c=[[UIViewController alloc]init];
         c.view.backgroundColor=[UIColor clearColor];
         [self presentViewController:c animated:YES completion:^(void){
             [c dismissViewControllerAnimated:YES completion:nil];
         }];
         _correctNavigation=NO;
-    }*/
+    }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
@@ -704,8 +704,8 @@
   //  [UIViewController attemptRotationToDeviceOrientation];
   
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-
     [self.navigationController.navigationBar setHidden:NO];
+
     CGRect frame=self.view.bounds;
     if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         frame.size.height=911;
