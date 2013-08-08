@@ -1,0 +1,88 @@
+//
+//  MovableTextView.m
+//  MangoReader
+//
+//  Created by Kedar Kulkarni on 08/08/13.
+//
+//
+
+#import "MovableTextView.h"
+#import <QuartzCore/QuartzCore.h>
+
+@interface MovableTextView()
+
+@property (nonatomic, assign) CGFloat xDiffToCenter;
+@property (nonatomic, assign) CGFloat yDiffToCenter;
+
+@end
+
+@implementation MovableTextView
+
+@synthesize xDiffToCenter;
+@synthesize yDiffToCenter;
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        
+    }
+    return self;
+}
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+#pragma mark - Touch Event Handler Methods
+
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.superview];
+    xDiffToCenter = location.x - self.center.x;
+    yDiffToCenter = location.y - self.center.y;
+    
+    [[self layer] setCornerRadius:self.frame.size.height/10];
+    [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesMoved:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.superview];
+    
+    self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    [[self layer] setCornerRadius:self.frame.size.height/10];
+    [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.superview];
+    
+    [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
+    
+    self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    [self resignFirstResponder];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.superview];
+    
+    [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
+    
+    self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    [self resignFirstResponder];
+}
+
+@end

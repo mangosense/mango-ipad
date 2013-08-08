@@ -14,6 +14,9 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB91E17B375D90073F9C2 /* EditorViewController.m */; };
+		832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832CB91F17B375D90073F9C2 /* EditorViewController.xib */; };
+		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
@@ -320,6 +323,11 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		832CB91D17B375D90073F9C2 /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorViewController.h; sourceTree = "<group>"; };
+		832CB91E17B375D90073F9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
+		832CB91F17B375D90073F9C2 /* EditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditorViewController.xib; sourceTree = "<group>"; };
+		832CB92217B383EA0073F9C2 /* MovableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovableTextView.h; sourceTree = "<group>"; };
+		832CB92317B383EA0073F9C2 /* MovableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableTextView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
 		AE032C0D17674BEB00ABAD2C /* 1331.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1331.epub; sourceTree = "<group>"; };
@@ -837,6 +845,7 @@
 				AEB79385173BA50A00301057 /* sharebutton.png */,
 				AE43C735161056DD00970739 /* Reachability */,
 				AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */,
+				832CB91C17B375930073F9C2 /* MangoEditor iPad */,
 				AE75374916103A8300761697 /* MangoReader iPad */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -952,6 +961,18 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
+			isa = PBXGroup;
+			children = (
+				832CB91D17B375D90073F9C2 /* EditorViewController.h */,
+				832CB91E17B375D90073F9C2 /* EditorViewController.m */,
+				832CB91F17B375D90073F9C2 /* EditorViewController.xib */,
+				832CB92217B383EA0073F9C2 /* MovableTextView.h */,
+				832CB92317B383EA0073F9C2 /* MovableTextView.m */,
+			);
+			name = "MangoEditor iPad";
 			sourceTree = "<group>";
 		};
 		AE1373721622D9D0006C2CA6 /* flurry */ = {
@@ -1658,6 +1679,7 @@
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
 				AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
+				832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1784,6 +1806,8 @@
 				AE5B84EE17AA54C600EDC098 /* OldCell.m in Sources */,
 				AE5B84F117AA54E000EDC098 /* FooterView.m in Sources */,
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
+				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
+				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

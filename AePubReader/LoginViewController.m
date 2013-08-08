@@ -24,14 +24,19 @@
 #import "CustomTabViewController.h"
 #import "Flurry.h"
 #import "RootViewController.h"
+#import "EditorViewController.h"
+
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
+@property (nonatomic, strong) EditorViewController *editorViewController;
 
 @end
 
 @implementation LoginViewController
+
+@synthesize editorViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -81,12 +86,15 @@
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
     _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
-    
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
+    editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+    
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
-    _tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
+    UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
+    
+    _tabBarController.viewControllers=@[editorNavigationController, navigation, navigationPurchase, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
 }
@@ -217,20 +225,16 @@
             UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
         UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
          LiveViewController *liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-        //    [library release];
         UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:liveViewController];
-        //[liveViewController release];
-            tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
-       // [navigationStore release];
-       // [navigationPurchase release];
-       //     [navigation release];
-       //     [store release];
-            [self.navigationController pushViewController:tabBarController animated:YES];
-           // [tabBarController release];
+        
+        /*EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+        UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
+        
+        tabBarController.viewControllers=@[navigation , navigationPurchase, navigationStore];
+        [self.navigationController pushViewController:tabBarController animated:YES];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-       // [alertView release];
     }
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
