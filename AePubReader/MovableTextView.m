@@ -26,7 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
+        [self setBackgroundColor:[UIColor clearColor]];
     }
     return self;
 }
@@ -49,6 +49,7 @@
     xDiffToCenter = location.x - self.center.x;
     yDiffToCenter = location.y - self.center.y;
     
+    self.alpha = 0.7f;
     [[self layer] setCornerRadius:self.frame.size.height/10];
     [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
 }
@@ -59,6 +60,7 @@
     CGPoint location = [touch locationInView:self.superview];
     
     self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    self.alpha = 0.7f;
     [[self layer] setCornerRadius:self.frame.size.height/10];
     [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
 }
@@ -69,7 +71,8 @@
     CGPoint location = [touch locationInView:self.superview];
     
     [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
-    
+    self.alpha = 1.0f;
+
     self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
     [self resignFirstResponder];
 }
@@ -80,6 +83,7 @@
     CGPoint location = [touch locationInView:self.superview];
     
     [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
+    self.alpha = 1.0f;
     
     self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
     [self resignFirstResponder];
