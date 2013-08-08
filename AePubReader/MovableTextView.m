@@ -59,7 +59,7 @@
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint location = [touch locationInView:self.superview];
     
-    self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5)));
     self.alpha = 0.7f;
     [[self layer] setCornerRadius:self.frame.size.height/10];
     [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
@@ -73,7 +73,7 @@
     [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
     self.alpha = 1.0f;
 
-    self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5)));
     [self resignFirstResponder];
 }
 
@@ -85,7 +85,7 @@
     [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
     self.alpha = 1.0f;
     
-    self.center = CGPointMake(location.x - xDiffToCenter, location.y - yDiffToCenter);
+    self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5)));
     [self resignFirstResponder];
 }
 
