@@ -24,6 +24,7 @@
 @synthesize mainTextView;
 @synthesize arrayOfPages;
 @synthesize pageScrollView;
+@synthesize paintPalletView;
 @synthesize backgroundImagesArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -57,22 +58,24 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     
     [self.view bringSubviewToFront:pageScrollView];
-    [pageScrollView setFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150)];
+    [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
     UIImage *image=[UIImage imageNamed:@"footer-bg.png"];
     pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
     
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
     swipeUp.numberOfTouchesRequired = 2;
-    swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+    swipeUp.direction = UISwipeGestureRecognizerDirectionRight;
     swipeUp.delaysTouchesBegan = YES;
     [backgroundImageView addGestureRecognizer:swipeUp];
     
     UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hidePageScrollView)];
     swipeDown.numberOfTouchesRequired = 2;
-    swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    swipeDown.direction = UISwipeGestureRecognizerDirectionLeft;
     swipeDown.delaysTouchesBegan = YES;
     [backgroundImageView addGestureRecognizer:swipeDown];
-
+    
+    [self.view bringSubviewToFront:paintPalletView]
+    ;
     [self getBookJson];
 }
 
@@ -88,7 +91,7 @@
     [UIView
      animateWithDuration:0.5
      animations:^{
-         pageScrollView.frame = CGRectMake(0, self.view.frame.size.height - 150, self.view.frame.size.width, 150);
+         pageScrollView.frame = CGRectMake(0, 0, 150, self.view.frame.size.height);
      }];
 }
 
@@ -96,7 +99,7 @@
     [UIView
      animateWithDuration:0.5
      animations:^{
-         pageScrollView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150);
+         pageScrollView.frame = CGRectMake(-150, 0, 150, self.view.frame.size.height);
      }];
 }
 
@@ -138,8 +141,8 @@
 }
 
 - (void)createScrollView {
-    CGFloat minContentWidth = MAX(pageScrollView.frame.size.width, [arrayOfPages count]*150);
-    pageScrollView.contentSize = CGSizeMake(minContentWidth, pageScrollView.frame.size.height);
+    CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, [arrayOfPages count]*150);
+    pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
     for (NSDictionary *dictionaryForPage in arrayOfPages) {
         for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
             if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
@@ -152,8 +155,8 @@
                 UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
                 [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
-                CGFloat xOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                [pageButton setFrame:CGRectMake(15 + xOffsetForButton, 15, 120, 120)];
+                CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
+                [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
                 pageButton.tag = [arrayOfPages indexOfObject:dictionaryForPage];
                 
                 [[pageButton layer] setMasksToBounds:NO];

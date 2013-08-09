@@ -17,6 +17,7 @@
 @property (nonatomic, strong) PageBackgroundImageView *backgroundImageView;
 @property (nonatomic, strong) MovableTextView *mainTextView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pageScrollView;
+@property (nonatomic, strong) IBOutlet UIView *paintPalletView;
 @property (nonatomic, strong) NSMutableArray *backgroundImagesArray;
 
 @end
