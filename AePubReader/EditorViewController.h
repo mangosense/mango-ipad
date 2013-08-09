@@ -15,5 +15,6 @@
 
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) MovableTextView *mainTextView;
+@property (nonatomic, strong) IBOutlet UIScrollView *pageScrollView;
 
 @end

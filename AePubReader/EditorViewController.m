@@ -23,6 +23,7 @@
 @synthesize backgroundImageView;
 @synthesize mainTextView;
 @synthesize arrayOfPages;
+@synthesize pageScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +54,8 @@
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     
+    [self.view bringSubviewToFront:pageScrollView];
+    
     [self getBookJson];
 }
 
@@ -63,6 +66,31 @@
 }
 
 #pragma mark - Prepare UI
+
+- (void)createScrollView {
+    CGFloat minContentWidth = MAX(pageScrollView.frame.size.width, [arrayOfPages count]*150);
+    pageScrollView.contentSize = CGSizeMake(minContentWidth, pageScrollView.frame.size.height);
+    for (NSDictionary *dictionaryForPage in arrayOfPages) {
+        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
+            if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+                UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
+                CGFloat xOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
+                [pageButton setFrame:CGRectMake(15 + xOffsetForButton, 15, 120, 120)];
+                
+                [[pageButton layer] setMasksToBounds:NO];
+                [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+                [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
+                [[pageButton layer] setShadowOpacity:0.3f];
+                [[pageButton layer] setShadowRadius:2];
+                [[pageButton layer] setShouldRasterize:YES];
+                
+                [pageScrollView addSubview:pageButton];
+                
+            }
+        }
+    }
+}
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
     UIImage *backgroundImageForPage;
@@ -100,6 +128,7 @@
     NSLog(@"number of pages: %d", [arrayOfPages count]);
     
     [self createPageWithPageNumber:1];
+    [self createScrollView];
 }
 
 @end
