@@ -21,5 +21,7 @@
 @property (nonatomic, assign) CGPoint location;
 @property (nonatomic, assign) NSInteger indexOfThisImage;
 @property (nonatomic, assign) id <BackgroundImageDelegate> delegate;
+@property (nonatomic, assign) NSInteger selectedColor;
+@property (nonatomic, assign) NSInteger selectedBrush;
 
 @end

@@ -11,6 +11,14 @@
 
 #define MAIN_TEXTVIEW_TAG 100
 
+#define RED_BUTTON_TAG 1
+#define YELLOW_BUTTON_TAG 2
+#define GREEN_BUTTON_TAG 3
+#define BLUE_BUTTON_TAG 4
+#define PEA_GREEN_BUTTON_TAG 5
+#define PURPLE_BUTTON_TAG 6
+#define ORANGE_BUTTON_TAG 7
+
 @interface EditorViewController ()
 
 @property (nonatomic, strong) NSArray *arrayOfPages;
@@ -59,7 +67,7 @@
     
     [self.view bringSubviewToFront:pageScrollView];
     [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
-    UIImage *image=[UIImage imageNamed:@"footer-bg.png"];
+    UIImage *image=[UIImage imageNamed:@"topdot.png"];
     pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
     
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
@@ -107,6 +115,18 @@
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
     [backgroundImagesArray replaceObjectAtIndex:index withObject:image];
+}
+
+#pragma mark - Paint Button Methods
+
+- (IBAction)paintButtonPressed:(id)sender {
+    UIButton *paintButton = (UIButton *)sender;
+    backgroundImageView.selectedColor = paintButton.tag;
+}
+
+- (IBAction)paintBrushButtonPressed:(id)sender {
+    UIButton *brushButton = (UIButton *)sender;
+    backgroundImageView.selectedBrush = brushButton.tag;
 }
 
 #pragma mark - Prepare UI

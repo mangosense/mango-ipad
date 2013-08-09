@@ -9,10 +9,24 @@
 #import "PageBackgroundImageView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define RED_BUTTON_TAG 1
+#define YELLOW_BUTTON_TAG 2
+#define GREEN_BUTTON_TAG 3
+#define BLUE_BUTTON_TAG 4
+#define PEA_GREEN_BUTTON_TAG 5
+#define PURPLE_BUTTON_TAG 6
+#define ORANGE_BUTTON_TAG 7
+
+#define SMALL_BRUSH_TAG 1
+#define MEDIUM_BRUSH_TAG 2
+#define LARGE_BRUSH_TAG 3
+
 @implementation PageBackgroundImageView
 
 @synthesize indexOfThisImage;
 @synthesize delegate;
+@synthesize selectedColor;
+@synthesize selectedBrush;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -48,8 +62,56 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     [self.image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     CGContextSetLineCap(ctx, kCGLineCapRound);
-    CGContextSetLineWidth(ctx, 5.0);
-    CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 1.0);
+    switch (selectedBrush) {
+        case SMALL_BRUSH_TAG:
+            CGContextSetLineWidth(ctx, 5.0);
+            break;
+            
+        case MEDIUM_BRUSH_TAG:
+            CGContextSetLineWidth(ctx, 10.0);
+            break;
+            
+        case LARGE_BRUSH_TAG:
+            CGContextSetLineWidth(ctx, 15.0);
+            break;
+            
+        default:
+            CGContextSetLineWidth(ctx, 5.0);
+            break;
+    }
+    CGContextSetShouldAntialias(ctx, false);
+    switch (selectedColor) {
+        case RED_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 1.0);
+            break;
+            
+        case GREEN_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 0.0, 1.0, 0.0, 1.0);
+            break;
+            
+        case BLUE_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 0.0, 0.0, 1.0, 1.0);
+            break;
+            
+        case YELLOW_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 1.0, 0.0, 1.0);
+            break;
+            
+        case PEA_GREEN_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 0.06, 0.87, 0.69, 1.0);
+            break;
+            
+        case PURPLE_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 1.0, 1.0);
+            break;
+            
+        case ORANGE_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 0.5, 0.0, 1.0);
+            break;
+            
+        default:
+            break;
+    }
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, self.location.x, self.location.y);
     CGContextAddLineToPoint(ctx, currentLocation.x, currentLocation.y);
@@ -68,8 +130,56 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     [self.image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     CGContextSetLineCap(ctx, kCGLineCapRound);
-    CGContextSetLineWidth(ctx, 5.0);
-    CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 1.0);
+    switch (selectedBrush) {
+        case SMALL_BRUSH_TAG:
+            CGContextSetLineWidth(ctx, 5.0);
+            break;
+            
+        case MEDIUM_BRUSH_TAG:
+            CGContextSetLineWidth(ctx, 10.0);
+            break;
+            
+        case LARGE_BRUSH_TAG:
+            CGContextSetLineWidth(ctx, 15.0);
+            break;
+            
+        default:
+            CGContextSetLineWidth(ctx, 5.0);
+            break;
+    }
+    CGContextSetShouldAntialias(ctx, false);
+    switch (selectedColor) {
+        case RED_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 1.0);
+            break;
+            
+        case GREEN_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 0.0, 1.0, 0.0, 1.0);
+            break;
+            
+        case BLUE_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 0.0, 0.0, 1.0, 1.0);
+            break;
+            
+        case YELLOW_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 1.0, 0.0, 1.0);
+            break;
+            
+        case PEA_GREEN_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 0.0, 204/255, 102/255, 1.0);
+            break;
+            
+        case PURPLE_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 1.0, 1.0);
+            break;
+            
+        case ORANGE_BUTTON_TAG:
+            CGContextSetRGBStrokeColor(ctx, 1.0, 0.5, 0.0, 1.0);
+            break;
+            
+        default:
+            break;
+    }
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, self.location.x, self.location.y);
     CGContextAddLineToPoint(ctx, currentLocation.x, currentLocation.y);

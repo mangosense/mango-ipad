@@ -20,4 +20,7 @@
 @property (nonatomic, strong) IBOutlet UIView *paintPalletView;
 @property (nonatomic, strong) NSMutableArray *backgroundImagesArray;
 
+- (IBAction)paintButtonPressed:(id)sender;
+- (IBAction)paintBrushButtonPressed:(id)sender;
+
 @end
