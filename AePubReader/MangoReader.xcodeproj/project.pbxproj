@@ -69,6 +69,7 @@
 		832D54C717B3B9AA005B81FD /* updown_e1e8d1ae58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */; };
 		832D54C817B3B9AA005B81FD /* updown_fea8d05bf8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */; };
 		832D54C917B3B9AA005B81FD /* x.wav in Resources */ = {isa = PBXBuildFile; fileRef = 832D549817B3B9AA005B81FD /* x.wav */; };
+		839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
@@ -432,6 +433,8 @@
 		832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_e1e8d1ae58.jpg; path = "Temp Images/updown_e1e8d1ae58.jpg"; sourceTree = "<group>"; };
 		832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_fea8d05bf8.jpg; path = "Temp Images/updown_fea8d05bf8.jpg"; sourceTree = "<group>"; };
 		832D549817B3B9AA005B81FD /* x.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = x.wav; path = "Temp Images/x.wav"; sourceTree = "<group>"; };
+		839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageBackgroundImageView.h; sourceTree = "<group>"; };
+		839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageBackgroundImageView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
 		AE032C0D17674BEB00ABAD2C /* 1331.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1331.epub; sourceTree = "<group>"; };
@@ -1120,6 +1123,8 @@
 				832CB91F17B375D90073F9C2 /* EditorViewController.xib */,
 				832CB92217B383EA0073F9C2 /* MovableTextView.h */,
 				832CB92317B383EA0073F9C2 /* MovableTextView.m */,
+				839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */,
+				839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2025,6 +2030,7 @@
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
 				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
+				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

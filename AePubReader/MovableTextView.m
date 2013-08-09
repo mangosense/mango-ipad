@@ -50,7 +50,7 @@
     yDiffToCenter = location.y - self.center.y;
     
     self.alpha = 0.7f;
-    [[self layer] setCornerRadius:self.frame.size.height/10];
+    [[self layer] setCornerRadius:self.frame.size.height/120];
     [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
 }
 
@@ -61,7 +61,7 @@
     
     self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5/* - 150*/)));
     self.alpha = 0.7f;
-    [[self layer] setCornerRadius:self.frame.size.height/10];
+    [[self layer] setCornerRadius:self.frame.size.height/20];
     [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
 }
 

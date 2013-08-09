@@ -24,6 +24,7 @@
 @synthesize mainTextView;
 @synthesize arrayOfPages;
 @synthesize pageScrollView;
+@synthesize backgroundImagesArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +41,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
-    backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    backgroundImageView = [[PageBackgroundImageView alloc] initWithFrame:self.view.frame];
+    backgroundImageView.delegate = self;
     // Temporarily adding fixed image
     [self.view addSubview:backgroundImageView];
     
@@ -65,17 +67,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - PageBackgroundImageView Delegate Method
+
+- (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
+    [backgroundImagesArray replaceObjectAtIndex:index withObject:image];
+}
+
 #pragma mark - Prepare UI
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
-    UIImage *backgroundImageForPage;
     NSMutableString *textOnPage = [[NSMutableString alloc] initWithString:@""];
     
     NSDictionary *dictionaryForPage = [arrayOfPages objectAtIndex:pageNumber];
     for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
-        if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
-            backgroundImageForPage = [UIImage imageNamed:[layerDict objectForKey:@"url"]];
-        }
         if ([[layerDict objectForKey:@"type"] isEqualToString:@"audio"]) {
             NSArray *arrayOfWords = [layerDict objectForKey:@"wordMap"];
             for (NSDictionary *wordDict in arrayOfWords) {
@@ -83,8 +87,9 @@
             }
         }
     }
-    if (backgroundImageForPage) {
-        [backgroundImageView setImage:backgroundImageForPage];
+    if ([backgroundImagesArray objectAtIndex:pageNumber]) {
+        [backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
+        backgroundImageView.indexOfThisImage = pageNumber;
     }
     if ([textOnPage length] > 0) {
         mainTextView.text = textOnPage;
@@ -105,6 +110,12 @@
     for (NSDictionary *dictionaryForPage in arrayOfPages) {
         for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
             if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+                
+                if (!backgroundImagesArray) {
+                    backgroundImagesArray = [[NSMutableArray alloc] init];
+                }
+                [backgroundImagesArray addObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
+                
                 UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
                 [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
@@ -135,8 +146,9 @@
     arrayOfPages = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"number of pages: %d", [arrayOfPages count]);
     
-    [self createPageWithPageNumber:0];
     [self createScrollView];
+    [self createPageWithPageNumber:0];
+
 }
 
 @end
