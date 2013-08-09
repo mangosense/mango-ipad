@@ -57,7 +57,22 @@
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     
     [self.view bringSubviewToFront:pageScrollView];
+    [pageScrollView setFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150)];
+    UIImage *image=[UIImage imageNamed:@"footer-bg.png"];
+    pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
     
+    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
+    swipeUp.numberOfTouchesRequired = 2;
+    swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+    swipeUp.delaysTouchesBegan = YES;
+    [backgroundImageView addGestureRecognizer:swipeUp];
+    
+    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hidePageScrollView)];
+    swipeDown.numberOfTouchesRequired = 2;
+    swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    swipeDown.delaysTouchesBegan = YES;
+    [backgroundImageView addGestureRecognizer:swipeDown];
+
     [self getBookJson];
 }
 
@@ -65,6 +80,24 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Gesture Handlers
+
+- (void)showPageScrollView {
+    [UIView
+     animateWithDuration:0.5
+     animations:^{
+         pageScrollView.frame = CGRectMake(0, self.view.frame.size.height - 150, self.view.frame.size.width, 150);
+     }];
+}
+
+- (void)hidePageScrollView {
+    [UIView
+     animateWithDuration:0.5
+     animations:^{
+         pageScrollView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150);
+     }];
 }
 
 #pragma mark - PageBackgroundImageView Delegate Method
