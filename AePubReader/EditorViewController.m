@@ -67,31 +67,6 @@
 
 #pragma mark - Prepare UI
 
-- (void)createScrollView {
-    CGFloat minContentWidth = MAX(pageScrollView.frame.size.width, [arrayOfPages count]*150);
-    pageScrollView.contentSize = CGSizeMake(minContentWidth, pageScrollView.frame.size.height);
-    for (NSDictionary *dictionaryForPage in arrayOfPages) {
-        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
-            if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
-                UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
-                CGFloat xOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                [pageButton setFrame:CGRectMake(15 + xOffsetForButton, 15, 120, 120)];
-                
-                [[pageButton layer] setMasksToBounds:NO];
-                [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-                [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
-                [[pageButton layer] setShadowOpacity:0.3f];
-                [[pageButton layer] setShadowRadius:2];
-                [[pageButton layer] setShouldRasterize:YES];
-                
-                [pageScrollView addSubview:pageButton];
-                
-            }
-        }
-    }
-}
-
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
     UIImage *backgroundImageForPage;
     NSMutableString *textOnPage = [[NSMutableString alloc] initWithString:@""];
@@ -115,6 +90,39 @@
         mainTextView.text = textOnPage;
         CGSize textSize = [mainTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:24] constrainedToSize:CGSizeMake(700, 500) lineBreakMode:NSLineBreakByWordWrapping];
         [mainTextView setFrame:CGRectMake(mainTextView.frame.origin.x, mainTextView.frame.origin.y, textSize.width, textSize.height + 20)];
+    } else {
+        mainTextView.text = @"";
+    }
+}
+
+- (void)createPageForSender:(UIButton *)sender {
+    [self createPageWithPageNumber:sender.tag];
+}
+
+- (void)createScrollView {
+    CGFloat minContentWidth = MAX(pageScrollView.frame.size.width, [arrayOfPages count]*150);
+    pageScrollView.contentSize = CGSizeMake(minContentWidth, pageScrollView.frame.size.height);
+    for (NSDictionary *dictionaryForPage in arrayOfPages) {
+        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
+            if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+                UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
+                [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
+                CGFloat xOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
+                [pageButton setFrame:CGRectMake(15 + xOffsetForButton, 15, 120, 120)];
+                pageButton.tag = [arrayOfPages indexOfObject:dictionaryForPage];
+                
+                [[pageButton layer] setMasksToBounds:NO];
+                [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+                [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
+                [[pageButton layer] setShadowOpacity:0.3f];
+                [[pageButton layer] setShadowRadius:2];
+                [[pageButton layer] setShouldRasterize:YES];
+                
+                [pageScrollView addSubview:pageButton];
+                
+            }
+        }
     }
 }
 
@@ -127,7 +135,7 @@
     arrayOfPages = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"number of pages: %d", [arrayOfPages count]);
     
-    [self createPageWithPageNumber:1];
+    [self createPageWithPageNumber:0];
     [self createScrollView];
 }
 
