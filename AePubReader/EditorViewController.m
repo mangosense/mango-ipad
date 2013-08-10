@@ -22,6 +22,8 @@
 @interface EditorViewController ()
 
 @property (nonatomic, strong) NSArray *arrayOfPages;
+@property (nonatomic, strong) UIButton *showScrollViewButton;
+@property (nonatomic, strong) UIButton *showPaintPalletButton;
 - (void)getBookJson;
 
 @end
@@ -34,6 +36,8 @@
 @synthesize pageScrollView;
 @synthesize paintPalletView;
 @synthesize backgroundImagesArray;
+@synthesize showScrollViewButton;
+@synthesize showPaintPalletButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,6 +73,12 @@
     [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
     UIImage *image=[UIImage imageNamed:@"topdot.png"];
     pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
+    [[pageScrollView layer] setMasksToBounds:NO];
+    [[pageScrollView layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
+    [[pageScrollView layer] setShadowOpacity:0.3f];
+    [[pageScrollView layer] setShadowRadius:5];
+    [[pageScrollView layer] setShouldRasterize:YES];
     
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
     swipeUp.numberOfTouchesRequired = 2;
@@ -82,8 +92,41 @@
     swipeDown.delaysTouchesBegan = YES;
     [backgroundImageView addGestureRecognizer:swipeDown];
     
-    [self.view bringSubviewToFront:paintPalletView]
-    ;
+    [paintPalletView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+    [self.view bringSubviewToFront:paintPalletView];
+    
+    showScrollViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
+    [showScrollViewButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [[showScrollViewButton layer] setCornerRadius:showScrollViewButton.frame.size.height/20];
+    [showScrollViewButton setUserInteractionEnabled:YES];
+    [[showScrollViewButton layer] setMasksToBounds:NO];
+    [[showScrollViewButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[showScrollViewButton layer] setShadowOffset:CGSizeMake(3, 3)];
+    [[showScrollViewButton layer] setShadowOpacity:0.3f];
+    [[showScrollViewButton layer] setShadowRadius:5];
+    [[showScrollViewButton layer] setShouldRasterize:YES];
+    showScrollViewButton.tag = pageScrollView.frame.origin.x>0 ? 1:0;
+    [showScrollViewButton addTarget:self action:@selector(showOrHideScrollView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:showScrollViewButton];
+    [self.view bringSubviewToFront:showScrollViewButton];
+    
+    showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+    [showPaintPalletButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [[showPaintPalletButton layer] setCornerRadius:showPaintPalletButton.frame.size.height/20];
+    [showPaintPalletButton setUserInteractionEnabled:YES];
+    [[showPaintPalletButton layer] setMasksToBounds:NO];
+    [[showPaintPalletButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[showPaintPalletButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[showPaintPalletButton layer] setShadowOpacity:0.3f];
+    [[showPaintPalletButton layer] setShadowRadius:5];
+    [[showPaintPalletButton layer] setShouldRasterize:YES];
+    showPaintPalletButton.tag = paintPalletView.frame.origin.x>self.view.frame.size.width ? 1:0;
+    [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:showPaintPalletButton];
+    [self.view bringSubviewToFront:showPaintPalletButton];
+    
     [self getBookJson];
 }
 
@@ -93,21 +136,55 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Show/Hide Panels
+
+- (void)showOrHidePaintPalletView {
+    if (showPaintPalletButton.tag == 1) {
+        [UIView
+         animateWithDuration:0.2
+         animations:^{
+             paintPalletView.frame = CGRectMake(self.view.frame.size.width, 0, 90, self.view.frame.size.height);
+             [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+         }];
+        showPaintPalletButton.tag = 0;
+    } else {
+        [UIView
+         animateWithDuration:0.2
+         animations:^{
+             paintPalletView.frame = CGRectMake(self.view.frame.size.width - 90, 0, 90, self.view.frame.size.height);
+             [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+         }];
+        showPaintPalletButton.tag = 1;
+    }
+}
+
+- (void)showOrHideScrollView {
+    if (showScrollViewButton.tag == 1) {
+        [self hidePageScrollView];
+        showScrollViewButton.tag = 0;
+    } else {
+        [self showPageScrollView];
+        showScrollViewButton.tag = 1;
+    }
+}
+
 #pragma mark - Gesture Handlers
 
 - (void)showPageScrollView {
     [UIView
-     animateWithDuration:0.5
+     animateWithDuration:0.2
      animations:^{
          pageScrollView.frame = CGRectMake(0, 0, 150, self.view.frame.size.height);
+         [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
      }];
 }
 
 - (void)hidePageScrollView {
     [UIView
-     animateWithDuration:0.5
+     animateWithDuration:0.2
      animations:^{
          pageScrollView.frame = CGRectMake(-150, 0, 150, self.view.frame.size.height);
+         [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
      }];
 }
 
