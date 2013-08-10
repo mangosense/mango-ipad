@@ -122,7 +122,7 @@
     [[showPaintPalletButton layer] setShadowOpacity:0.3f];
     [[showPaintPalletButton layer] setShadowRadius:5];
     [[showPaintPalletButton layer] setShouldRasterize:YES];
-    showPaintPalletButton.tag = paintPalletView.frame.origin.x>self.view.frame.size.width ? 1:0;
+    showPaintPalletButton.tag = paintPalletView.frame.origin.x>=self.view.frame.size.width ? 1:0;
     [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showPaintPalletButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
@@ -140,35 +140,41 @@
 
 - (void)showOrHidePaintPalletView {
     if (showPaintPalletButton.tag == 1) {
-        [UIView
-         animateWithDuration:0.2
-         animations:^{
-             paintPalletView.frame = CGRectMake(self.view.frame.size.width, 0, 90, self.view.frame.size.height);
-             [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
-         }];
-        showPaintPalletButton.tag = 0;
+        [self hidePaintPalletView];
     } else {
-        [UIView
-         animateWithDuration:0.2
-         animations:^{
-             paintPalletView.frame = CGRectMake(self.view.frame.size.width - 90, 0, 90, self.view.frame.size.height);
-             [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
-         }];
-        showPaintPalletButton.tag = 1;
+        [self showPaintPalletView];
     }
 }
 
 - (void)showOrHideScrollView {
     if (showScrollViewButton.tag == 1) {
         [self hidePageScrollView];
-        showScrollViewButton.tag = 0;
     } else {
         [self showPageScrollView];
-        showScrollViewButton.tag = 1;
     }
 }
 
 #pragma mark - Gesture Handlers
+
+- (void)showPaintPalletView {
+    [UIView
+     animateWithDuration:0.2
+     animations:^{
+         paintPalletView.frame = CGRectMake(self.view.frame.size.width, 0, 90, self.view.frame.size.height);
+         [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+     }];
+    showPaintPalletButton.tag = 1;
+}
+
+- (void)hidePaintPalletView {
+    [UIView
+     animateWithDuration:0.2
+     animations:^{
+         paintPalletView.frame = CGRectMake(self.view.frame.size.width - 90, 0, 90, self.view.frame.size.height);
+         [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+     }];
+    showPaintPalletButton.tag = 0;
+}
 
 - (void)showPageScrollView {
     [UIView
@@ -177,6 +183,7 @@
          pageScrollView.frame = CGRectMake(0, 0, 150, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
      }];
+    showScrollViewButton.tag = 1;
 }
 
 - (void)hidePageScrollView {
@@ -186,6 +193,7 @@
          pageScrollView.frame = CGRectMake(-150, 0, 150, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
      }];
+    showScrollViewButton.tag = 0;
 }
 
 #pragma mark - PageBackgroundImageView Delegate Method
