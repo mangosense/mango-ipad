@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIButton *showScrollViewButton;
 @property (nonatomic, strong) UIButton *showPaintPalletButton;
 @property (nonatomic, strong) UIButton *recordAudioButton;
+@property (nonatomic, strong) UIButton *playButton;
 - (void)getBookJson;
 
 @end
@@ -40,6 +41,9 @@
 @synthesize showScrollViewButton;
 @synthesize showPaintPalletButton;
 @synthesize recordAudioButton;
+@synthesize audioPlayer;
+@synthesize audioRecorder;
+@synthesize playButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -88,23 +92,23 @@
 #pragma mark - Gesture Handlers
 
 - (void)showPaintPalletView {
-    [UIView
-     animateWithDuration:0.2
-     animations:^{
-         paintPalletView.frame = CGRectMake(self.view.frame.size.width, 0, 90, self.view.frame.size.height);
-         [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
-         [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
-     }];
-    showPaintPalletButton.tag = 1;
-}
-
-- (void)hidePaintPalletView {
+    [self.view bringSubviewToFront:paintPalletView];
     [UIView
      animateWithDuration:0.2
      animations:^{
          paintPalletView.frame = CGRectMake(self.view.frame.size.width - 90, 0, 90, self.view.frame.size.height);
          [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
-         [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
+     }];
+    showPaintPalletButton.tag = 1;
+}
+
+- (void)hidePaintPalletView {
+    [self.view bringSubviewToFront:paintPalletView];
+    [UIView
+     animateWithDuration:0.2
+     animations:^{
+         paintPalletView.frame = CGRectMake(self.view.frame.size.width, 0, 90, self.view.frame.size.height);
+         [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
      }];
     showPaintPalletButton.tag = 0;
 }
@@ -156,20 +160,155 @@
 }
 
 - (void)animateRecordButton {
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse animations:^{
-        recordAudioButton.frame = CGRectMake(recordAudioButton.frame.origin.x - 5, recordAudioButton.frame.origin.y - 5, recordAudioButton.frame.size.width + 10, recordAudioButton.frame.size.height + 10);
+    [UIView animateWithDuration:0.7 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse animations:^{
+        recordAudioButton.frame = CGRectMake(recordAudioButton.frame.origin.x - 3, recordAudioButton.frame.origin.y - 3, recordAudioButton.frame.size.width + 6, recordAudioButton.frame.size.height + 6);
     } completion:NULL];
 }
 
 #pragma mark - Audio Recording
 
+- (void)startRecording
+{
+    NSLog(@"startRecording");
+    
+    // Init audio with record capability
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryRecord error:nil];
+    
+    NSMutableDictionary *recordSettings = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if(recordEncoding == ENC_PCM)
+    {
+        [recordSettings setObject:[NSNumber numberWithInt: kAudioFormatLinearPCM] forKey: AVFormatIDKey];
+        [recordSettings setObject:[NSNumber numberWithFloat:44100.0] forKey: AVSampleRateKey];
+        [recordSettings setObject:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
+        [recordSettings setObject:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+        [recordSettings setObject:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
+        [recordSettings setObject:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
+    }
+    else
+    {
+        NSNumber *formatObject;
+        
+        switch (recordEncoding) {
+            case (ENC_AAC):
+                formatObject = [NSNumber numberWithInt: kAudioFormatMPEG4AAC];
+                break;
+            case (ENC_ALAC):
+                formatObject = [NSNumber numberWithInt: kAudioFormatAppleLossless];
+                break;
+            case (ENC_IMA4):
+                formatObject = [NSNumber numberWithInt: kAudioFormatAppleIMA4];
+                break;
+            case (ENC_ILBC):
+                formatObject = [NSNumber numberWithInt: kAudioFormatiLBC];
+                break;
+            case (ENC_ULAW):
+                formatObject = [NSNumber numberWithInt: kAudioFormatULaw];
+                break;
+            default:
+                formatObject = [NSNumber numberWithInt: kAudioFormatAppleIMA4];
+        }
+        
+        [recordSettings setObject:formatObject forKey: AVFormatIDKey];
+        [recordSettings setObject:[NSNumber numberWithFloat:44100.0] forKey: AVSampleRateKey];
+        [recordSettings setObject:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
+        [recordSettings setObject:[NSNumber numberWithInt:12800] forKey:AVEncoderBitRateKey];
+        [recordSettings setObject:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+        [recordSettings setObject:[NSNumber numberWithInt: AVAudioQualityHigh] forKey: AVEncoderAudioQualityKey];
+    }
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, backgroundImageView.indexOfThisImage]];
+    
+    NSError *error = nil;
+    audioRecorder = [[ AVAudioRecorder alloc] initWithURL:url settings:recordSettings error:&error];
+    
+    if ([audioRecorder prepareToRecord] == YES){
+        [audioRecorder record];
+    }else {
+        int errorCode = CFSwapInt32HostToBig ([error code]);
+        NSLog(@"Error: %@ [%4.4s])" , [error localizedDescription], (char*)&errorCode);
+        
+    }
+    NSLog(@"recording");
+}
+
+- (void)stopRecording
+{
+    NSLog(@"stopRecording");
+    [audioRecorder stop];
+    NSLog(@"stopped");
+}
+
+- (void)playRecording
+{
+    NSLog(@"playRecording");
+    // Init audio with playback capability
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, backgroundImageView.indexOfThisImage]];
+    NSError *error;
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    audioPlayer.numberOfLoops = 0;
+    [audioPlayer play];
+    NSLog(@"playing");
+    
+    [playButton setImage:[UIImage imageNamed:@"stop-recording-control.png"] forState:UIControlStateNormal];
+    [playButton addTarget:self action:@selector(stopPlaying) forControlEvents:UIControlEventTouchUpInside];
+
+}
+
+- (void)stopPlaying
+{
+    NSLog(@"stopPlaying");
+    [audioPlayer stop];
+    NSLog(@"stopped");
+    [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
+    [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+}
+/////------------------------/////
+
+
 - (void)stopRecording:(id)sender {
     UIButton *stopButton = (UIButton *)sender;
     [stopButton removeFromSuperview];
     [self stopAnimatingRecordButton];
+    [self stopRecording];
+    
+    if (!playButton) {
+        playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [playButton setFrame:CGRectMake(recordAudioButton.frame.origin.x, 120, 44, 44)];
+        [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
+        [playButton setUserInteractionEnabled:YES];
+        [[playButton layer] setMasksToBounds:NO];
+        [[playButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+        [[playButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+        [[playButton layer] setShadowOpacity:0.3f];
+        [[playButton layer] setShadowRadius:5];
+        [[playButton layer] setShouldRasterize:YES];
+    }
+    [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+    if (![[self.view subviews] containsObject:playButton]) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *recDir = [paths objectAtIndex:0];
+        NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, backgroundImageView.indexOfThisImage]];
+        NSString *path = [url path];
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
+        if (data) {
+            [self.view addSubview:playButton];
+            [self.view bringSubviewToFront:playButton];
+            [self.view bringSubviewToFront:paintPalletView];
+        }
+    }
 }
 
 - (void)recordAudio {
+    [self stopPlaying];
+    
     [recordAudioButton setImage:[UIImage imageNamed:@"start-recording-control.png"] forState:UIControlStateNormal];
     [self animateRecordButton];
     
@@ -186,6 +325,12 @@
     [stopRecordingButton addTarget:self action:@selector(stopRecording:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:stopRecordingButton];
     [self.view bringSubviewToFront:stopRecordingButton];
+    
+    if (playButton) {
+        [playButton removeFromSuperview];
+    }
+    
+    [self startRecording];
 
 }
 
@@ -219,7 +364,6 @@
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     
-    [self.view bringSubviewToFront:pageScrollView];
     [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
     UIImage *image=[UIImage imageNamed:@"topdot.png"];
     pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
@@ -268,7 +412,7 @@
     [[showPaintPalletButton layer] setShadowOpacity:0.3f];
     [[showPaintPalletButton layer] setShadowRadius:5];
     [[showPaintPalletButton layer] setShouldRasterize:YES];
-    showPaintPalletButton.tag = paintPalletView.frame.origin.x>=self.view.frame.size.width ? 1:0;
+    showPaintPalletButton.tag = paintPalletView.frame.origin.x<self.view.frame.size.width ? 1:0;
     [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showPaintPalletButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
@@ -286,7 +430,8 @@
     [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:recordAudioButton];
     [self.view bringSubviewToFront:recordAudioButton];
-
+    
+    [self.view bringSubviewToFront:pageScrollView];
 }
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
@@ -312,10 +457,40 @@
     } else {
         mainTextView.text = @"";
     }
+    
+    if ([[self.view subviews] containsObject:playButton]) {
+        [playButton removeFromSuperview];
+    }
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, backgroundImageView.indexOfThisImage]];
+    NSString *path = [url path];
+    NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
+    if (data) {
+        playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [playButton setFrame:CGRectMake(recordAudioButton.frame.origin.x, 120, 44, 44)];
+        [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
+        [playButton setUserInteractionEnabled:YES];
+        [[playButton layer] setMasksToBounds:NO];
+        [[playButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+        [[playButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+        [[playButton layer] setShadowOpacity:0.3f];
+        [[playButton layer] setShadowRadius:5];
+        [[playButton layer] setShouldRasterize:YES];
+        [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:playButton];
+        [self.view bringSubviewToFront:playButton];
+    } else if ([[self.view subviews] containsObject:playButton]) {
+        [playButton removeFromSuperview];
+    }
+    [self.view bringSubviewToFront:pageScrollView];
+    [self.view bringSubviewToFront:paintPalletView];
 }
 
 - (void)createPageForSender:(UIButton *)sender {
     [self createPageWithPageNumber:sender.tag];
+    [self hidePageScrollView];
 }
 
 - (void)createScrollView {
