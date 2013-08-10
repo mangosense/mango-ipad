@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSArray *arrayOfPages;
 @property (nonatomic, strong) UIButton *showScrollViewButton;
 @property (nonatomic, strong) UIButton *showPaintPalletButton;
+@property (nonatomic, strong) UIButton *recordAudioButton;
 - (void)getBookJson;
 
 @end
@@ -38,6 +39,7 @@
 @synthesize backgroundImagesArray;
 @synthesize showScrollViewButton;
 @synthesize showPaintPalletButton;
+@synthesize recordAudioButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,87 +56,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
-    backgroundImageView = [[PageBackgroundImageView alloc] initWithFrame:self.view.frame];
-    backgroundImageView.delegate = self;
-    // Temporarily adding fixed image
-    [self.view addSubview:backgroundImageView];
     
-    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
-    mainTextView.tag = MAIN_TEXTVIEW_TAG;
-    mainTextView.textColor = [UIColor blackColor];
-    mainTextView.font = [UIFont boldSystemFontOfSize:24];
-    [self.view addSubview:mainTextView];
-    
-    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
-    self.navigationItem.titleView=imageView;
-    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
-    
-    [self.view bringSubviewToFront:pageScrollView];
-    [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
-    UIImage *image=[UIImage imageNamed:@"topdot.png"];
-    pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
-    [[pageScrollView layer] setMasksToBounds:NO];
-    [[pageScrollView layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
-    [[pageScrollView layer] setShadowOpacity:0.3f];
-    [[pageScrollView layer] setShadowRadius:5];
-    [[pageScrollView layer] setShouldRasterize:YES];
-    
-    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
-    swipeUp.numberOfTouchesRequired = 2;
-    swipeUp.direction = UISwipeGestureRecognizerDirectionRight;
-    swipeUp.delaysTouchesBegan = YES;
-    [backgroundImageView addGestureRecognizer:swipeUp];
-    
-    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hidePageScrollView)];
-    swipeDown.numberOfTouchesRequired = 2;
-    swipeDown.direction = UISwipeGestureRecognizerDirectionLeft;
-    swipeDown.delaysTouchesBegan = YES;
-    [backgroundImageView addGestureRecognizer:swipeDown];
-    
-    [[paintPalletView layer] setMasksToBounds:NO];
-    [[paintPalletView layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[paintPalletView layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [[paintPalletView layer] setShadowOpacity:0.3f];
-    [[paintPalletView layer] setShadowRadius:5];
-    [[paintPalletView layer] setShouldRasterize:YES];
-    [paintPalletView setBackgroundColor:[UIColor colorWithPatternImage:image]];
-    [self.view bringSubviewToFront:paintPalletView];
-    
-    showScrollViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
-    [showScrollViewButton setImage:[UIImage imageNamed:@"mango-icon.png"] forState:UIControlStateNormal];
-//    [showScrollViewButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
-    [[showScrollViewButton layer] setCornerRadius:showScrollViewButton.frame.size.height/20];
-    [showScrollViewButton setUserInteractionEnabled:YES];
-    [[showScrollViewButton layer] setMasksToBounds:NO];
-    [[showScrollViewButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[showScrollViewButton layer] setShadowOffset:CGSizeMake(3, 3)];
-    [[showScrollViewButton layer] setShadowOpacity:0.3f];
-    [[showScrollViewButton layer] setShadowRadius:5];
-    [[showScrollViewButton layer] setShouldRasterize:YES];
-    showScrollViewButton.tag = pageScrollView.frame.origin.x>0 ? 1:0;
-    [showScrollViewButton addTarget:self action:@selector(showOrHideScrollView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:showScrollViewButton];
-    [self.view bringSubviewToFront:showScrollViewButton];
-    
-    showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
-    [showPaintPalletButton setImage:[UIImage imageNamed:@"brush-small.png"] forState:UIControlStateNormal];
-//    [showPaintPalletButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
-    [[showPaintPalletButton layer] setCornerRadius:showPaintPalletButton.frame.size.height/20];
-    [showPaintPalletButton setUserInteractionEnabled:YES];
-    [[showPaintPalletButton layer] setMasksToBounds:NO];
-    [[showPaintPalletButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[showPaintPalletButton layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [[showPaintPalletButton layer] setShadowOpacity:0.3f];
-    [[showPaintPalletButton layer] setShadowRadius:5];
-    [[showPaintPalletButton layer] setShouldRasterize:YES];
-    showPaintPalletButton.tag = paintPalletView.frame.origin.x>=self.view.frame.size.width ? 1:0;
-    [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:showPaintPalletButton];
-    [self.view bringSubviewToFront:showPaintPalletButton];
-    
+    [self createInitialUI];
     [self getBookJson];
 }
 
@@ -170,6 +93,7 @@
      animations:^{
          paintPalletView.frame = CGRectMake(self.view.frame.size.width, 0, 90, self.view.frame.size.height);
          [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+         [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
      }];
     showPaintPalletButton.tag = 1;
 }
@@ -180,6 +104,7 @@
      animations:^{
          paintPalletView.frame = CGRectMake(self.view.frame.size.width - 90, 0, 90, self.view.frame.size.height);
          [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+         [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
      }];
     showPaintPalletButton.tag = 0;
 }
@@ -222,7 +147,147 @@
     backgroundImageView.selectedBrush = brushButton.tag;
 }
 
+#pragma mark - Button Animation
+
+- (void)stopAnimatingRecordButton {
+    [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
+    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
+    [[recordAudioButton layer] removeAllAnimations];
+}
+
+- (void)animateRecordButton {
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse animations:^{
+        recordAudioButton.frame = CGRectMake(recordAudioButton.frame.origin.x - 5, recordAudioButton.frame.origin.y - 5, recordAudioButton.frame.size.width + 10, recordAudioButton.frame.size.height + 10);
+    } completion:NULL];
+}
+
+#pragma mark - Audio Recording
+
+- (void)stopRecording:(id)sender {
+    UIButton *stopButton = (UIButton *)sender;
+    [stopButton removeFromSuperview];
+    [self stopAnimatingRecordButton];
+}
+
+- (void)recordAudio {
+    [recordAudioButton setImage:[UIImage imageNamed:@"start-recording-control.png"] forState:UIControlStateNormal];
+    [self animateRecordButton];
+    
+    UIButton *stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [stopRecordingButton setFrame:CGRectMake(recordAudioButton.frame.origin.x - 44 - 15, 60, 44, 44)];
+    [stopRecordingButton setImage:[UIImage imageNamed:@"stop-recording-control.png"] forState:UIControlStateNormal];
+    [stopRecordingButton setUserInteractionEnabled:YES];
+    [[stopRecordingButton layer] setMasksToBounds:NO];
+    [[stopRecordingButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[stopRecordingButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[stopRecordingButton layer] setShadowOpacity:0.3f];
+    [[stopRecordingButton layer] setShadowRadius:5];
+    [[stopRecordingButton layer] setShouldRasterize:YES];
+    [stopRecordingButton addTarget:self action:@selector(stopRecording:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:stopRecordingButton];
+    [self.view bringSubviewToFront:stopRecordingButton];
+
+}
+
 #pragma mark - Prepare UI
+
+- (void)createInitialUI {
+    backgroundImageView = [[PageBackgroundImageView alloc] initWithFrame:self.view.frame];
+    backgroundImageView.delegate = self;
+    // Temporarily adding fixed image
+    [self.view addSubview:backgroundImageView];
+    
+    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
+    swipeUp.numberOfTouchesRequired = 2;
+    swipeUp.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeUp.delaysTouchesBegan = YES;
+    [backgroundImageView addGestureRecognizer:swipeUp];
+    
+    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hidePageScrollView)];
+    swipeDown.numberOfTouchesRequired = 2;
+    swipeDown.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipeDown.delaysTouchesBegan = YES;
+    [backgroundImageView addGestureRecognizer:swipeDown];
+    
+    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
+    mainTextView.tag = MAIN_TEXTVIEW_TAG;
+    mainTextView.textColor = [UIColor blackColor];
+    mainTextView.font = [UIFont boldSystemFontOfSize:24];
+    [self.view addSubview:mainTextView];
+    
+    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
+    self.navigationItem.titleView=imageView;
+    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+    
+    [self.view bringSubviewToFront:pageScrollView];
+    [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
+    UIImage *image=[UIImage imageNamed:@"topdot.png"];
+    pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
+    [[pageScrollView layer] setMasksToBounds:NO];
+    [[pageScrollView layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
+    [[pageScrollView layer] setShadowOpacity:0.3f];
+    [[pageScrollView layer] setShadowRadius:5];
+    [[pageScrollView layer] setShouldRasterize:YES];
+        
+    [[paintPalletView layer] setMasksToBounds:NO];
+    [[paintPalletView layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[paintPalletView layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[paintPalletView layer] setShadowOpacity:0.3f];
+    [[paintPalletView layer] setShadowRadius:5];
+    [[paintPalletView layer] setShouldRasterize:YES];
+    [paintPalletView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+    [self.view bringSubviewToFront:paintPalletView];
+    
+    showScrollViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
+    [showScrollViewButton setImage:[UIImage imageNamed:@"mango-icon.png"] forState:UIControlStateNormal];
+    //    [showScrollViewButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [[showScrollViewButton layer] setCornerRadius:showScrollViewButton.frame.size.height/20];
+    [showScrollViewButton setUserInteractionEnabled:YES];
+    [[showScrollViewButton layer] setMasksToBounds:NO];
+    [[showScrollViewButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[showScrollViewButton layer] setShadowOffset:CGSizeMake(3, 3)];
+    [[showScrollViewButton layer] setShadowOpacity:0.3f];
+    [[showScrollViewButton layer] setShadowRadius:5];
+    [[showScrollViewButton layer] setShouldRasterize:YES];
+    showScrollViewButton.tag = pageScrollView.frame.origin.x>0 ? 1:0;
+    [showScrollViewButton addTarget:self action:@selector(showOrHideScrollView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:showScrollViewButton];
+    [self.view bringSubviewToFront:showScrollViewButton];
+    
+    showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
+    [showPaintPalletButton setImage:[UIImage imageNamed:@"brush-small.png"] forState:UIControlStateNormal];
+    //    [showPaintPalletButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [[showPaintPalletButton layer] setCornerRadius:showPaintPalletButton.frame.size.height/20];
+    [showPaintPalletButton setUserInteractionEnabled:YES];
+    [[showPaintPalletButton layer] setMasksToBounds:NO];
+    [[showPaintPalletButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[showPaintPalletButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[showPaintPalletButton layer] setShadowOpacity:0.3f];
+    [[showPaintPalletButton layer] setShadowRadius:5];
+    [[showPaintPalletButton layer] setShouldRasterize:YES];
+    showPaintPalletButton.tag = paintPalletView.frame.origin.x>=self.view.frame.size.width ? 1:0;
+    [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:showPaintPalletButton];
+    [self.view bringSubviewToFront:showPaintPalletButton];
+    
+    recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
+    [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
+    [recordAudioButton setUserInteractionEnabled:YES];
+    [[recordAudioButton layer] setMasksToBounds:NO];
+    [[recordAudioButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[recordAudioButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[recordAudioButton layer] setShadowOpacity:0.3f];
+    [[recordAudioButton layer] setShadowRadius:5];
+    [[recordAudioButton layer] setShouldRasterize:YES];
+    [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:recordAudioButton];
+    [self.view bringSubviewToFront:recordAudioButton];
+
+}
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
     NSMutableString *textOnPage = [[NSMutableString alloc] initWithString:@""];
