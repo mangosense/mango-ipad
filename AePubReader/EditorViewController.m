@@ -491,6 +491,7 @@
 - (void)createPageForSender:(UIButton *)sender {
     [self createPageWithPageNumber:sender.tag];
     [self hidePageScrollView];
+    [self hidePaintPalletView];
 }
 
 - (void)createScrollView {
