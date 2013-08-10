@@ -92,12 +92,19 @@
     swipeDown.delaysTouchesBegan = YES;
     [backgroundImageView addGestureRecognizer:swipeDown];
     
+    [[paintPalletView layer] setMasksToBounds:NO];
+    [[paintPalletView layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[paintPalletView layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[paintPalletView layer] setShadowOpacity:0.3f];
+    [[paintPalletView layer] setShadowRadius:5];
+    [[paintPalletView layer] setShouldRasterize:YES];
     [paintPalletView setBackgroundColor:[UIColor colorWithPatternImage:image]];
     [self.view bringSubviewToFront:paintPalletView];
     
     showScrollViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
-    [showScrollViewButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [showScrollViewButton setImage:[UIImage imageNamed:@"mango-icon.png"] forState:UIControlStateNormal];
+//    [showScrollViewButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
     [[showScrollViewButton layer] setCornerRadius:showScrollViewButton.frame.size.height/20];
     [showScrollViewButton setUserInteractionEnabled:YES];
     [[showScrollViewButton layer] setMasksToBounds:NO];
@@ -113,7 +120,8 @@
     
     showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
-    [showPaintPalletButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [showPaintPalletButton setImage:[UIImage imageNamed:@"brush-small.png"] forState:UIControlStateNormal];
+//    [showPaintPalletButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
     [[showPaintPalletButton layer] setCornerRadius:showPaintPalletButton.frame.size.height/20];
     [showPaintPalletButton setUserInteractionEnabled:YES];
     [[showPaintPalletButton layer] setMasksToBounds:NO];
