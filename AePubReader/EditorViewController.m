@@ -168,6 +168,7 @@
     } completion:NULL];
 }
 
+/*
 #pragma mark - Audio Recording
 
 - (void)startRecording
@@ -336,7 +337,8 @@
     [self startRecording];
 
 }
-
+*/
+ 
 #pragma mark - Prepare UI
 
 - (void)createInitialUI {
@@ -420,7 +422,7 @@
     [self.view addSubview:showPaintPalletButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
     
-    recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    /*recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
     [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
     [recordAudioButton setUserInteractionEnabled:YES];
@@ -432,7 +434,7 @@
     [[recordAudioButton layer] setShouldRasterize:YES];
     [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:recordAudioButton];
-    [self.view bringSubviewToFront:recordAudioButton];
+    [self.view bringSubviewToFront:recordAudioButton];*/
     
     [self.view bringSubviewToFront:pageScrollView];
 }
@@ -470,9 +472,9 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, backgroundImageView.indexOfThisImage]];
-    NSString *path = [url path];
-    NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
-    if (data) {
+    //NSString *path = [url path];
+    //NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
+    /*if (data) {
         playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [playButton setFrame:CGRectMake(recordAudioButton.frame.origin.x, 120, 44, 44)];
         [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
@@ -488,12 +490,13 @@
         [self.view bringSubviewToFront:playButton];
     } else if ([[self.view subviews] containsObject:playButton]) {
         [playButton removeFromSuperview];
-    }
+    }*/
     [self.view bringSubviewToFront:pageScrollView];
     [self.view bringSubviewToFront:paintPalletView];
     
     if (!audioRecViewController) {
         audioRecViewController = [[AudioRecordingViewController alloc] initWithNibName:@"AudioRecordingViewController" bundle:nil];
+        [audioRecViewController.view setFrame:CGRectMake(self.view.frame.size.width - 205, self.view.frame.size.height - 205, 200, 200)];
         [self.view addSubview:audioRecViewController.view];
     }
     audioRecViewController.audioUrl = url;
