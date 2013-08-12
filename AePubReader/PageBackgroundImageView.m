@@ -7,6 +7,7 @@
 //
 
 #import "PageBackgroundImageView.h"
+#import "SmoothDrawingView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define RED_BUTTON_TAG 1
@@ -36,6 +37,12 @@
         [self setUserInteractionEnabled:YES];
     }
     return self;
+}
+
+- (void)setImage:(UIImage *)image {
+    SmoothDrawingView *smoothDrawingView = [[SmoothDrawingView alloc] initWithFrame:self.frame];
+    smoothDrawingView.incrementalImage = image;
+    [self addSubview:smoothDrawingView];
 }
 
 /*

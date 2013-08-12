@@ -69,6 +69,7 @@
 		832D54C717B3B9AA005B81FD /* updown_e1e8d1ae58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */; };
 		832D54C817B3B9AA005B81FD /* updown_fea8d05bf8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */; };
 		832D54C917B3B9AA005B81FD /* x.wav in Resources */ = {isa = PBXBuildFile; fileRef = 832D549817B3B9AA005B81FD /* x.wav */; };
+		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */; };
 		839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */; };
 		839DD8D817B4F3F3003B62C8 /* green-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8D017B4F3F2003B62C8 /* green-splash.png */; };
@@ -446,6 +447,8 @@
 		832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_e1e8d1ae58.jpg; path = "Temp Images/updown_e1e8d1ae58.jpg"; sourceTree = "<group>"; };
 		832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_fea8d05bf8.jpg; path = "Temp Images/updown_fea8d05bf8.jpg"; sourceTree = "<group>"; };
 		832D549817B3B9AA005B81FD /* x.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = x.wav; path = "Temp Images/x.wav"; sourceTree = "<group>"; };
+		833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothDrawingView.h; sourceTree = "<group>"; };
+		833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmoothDrawingView.m; sourceTree = "<group>"; };
 		839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageBackgroundImageView.h; sourceTree = "<group>"; };
 		839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageBackgroundImageView.m; sourceTree = "<group>"; };
 		839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringle-splash.png"; sourceTree = "<group>"; };
@@ -1163,6 +1166,8 @@
 				832CB92317B383EA0073F9C2 /* MovableTextView.m */,
 				839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */,
 				839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */,
+				833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */,
+				833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2083,6 +2088,7 @@
 				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
+				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

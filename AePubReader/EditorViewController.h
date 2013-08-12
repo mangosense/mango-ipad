@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "MovableTextView.h"
 #import "PageBackgroundImageView.h"
+#import "SmoothDrawingView.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface EditorViewController : UIViewController <BackgroundImageDelegate> {
+@interface EditorViewController : UIViewController <DoodleDelegate> {
     AVAudioPlayer *audioPlayer;
     AVAudioRecorder *audioRecorder;
     
@@ -27,7 +28,7 @@
     } encodingTypes;
 }
 
-@property (nonatomic, strong) PageBackgroundImageView *backgroundImageView;
+@property (nonatomic, strong) SmoothDrawingView *backgroundImageView;
 @property (nonatomic, strong) MovableTextView *mainTextView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pageScrollView;
 @property (nonatomic, strong) IBOutlet UIView *paintPalletView;

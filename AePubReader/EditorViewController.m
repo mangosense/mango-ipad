@@ -337,7 +337,7 @@
 #pragma mark - Prepare UI
 
 - (void)createInitialUI {
-    backgroundImageView = [[PageBackgroundImageView alloc] initWithFrame:self.view.frame];
+    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
     backgroundImageView.delegate = self;
     // Temporarily adding fixed image
     [self.view addSubview:backgroundImageView];
