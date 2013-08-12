@@ -59,7 +59,58 @@ uint ctr;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    [self.image drawInRect:rect];
+    switch (selectedBrush) {
+        case SMALL_BRUSH_TAG:
+            [path setLineWidth:5.0];
+            break;
+            
+        case MEDIUM_BRUSH_TAG:
+            [path setLineWidth:10.0];
+            break;
+            
+        case LARGE_BRUSH_TAG:
+            [path setLineWidth:15.0];
+            break;
+            
+        default:
+            [path setLineWidth:5.0];
+            break;
+    }
+    switch (selectedColor) {
+        case RED_BUTTON_TAG:
+            [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0] setStroke];
+            break;
+            
+        case GREEN_BUTTON_TAG:
+            [[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0] setStroke];
+            break;
+            
+        case BLUE_BUTTON_TAG:
+            [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] setStroke];
+            break;
+            
+        case YELLOW_BUTTON_TAG:
+            [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] setStroke];
+            break;
+            
+        case PEA_GREEN_BUTTON_TAG:
+            [[UIColor colorWithRed:0.06 green:0.87 blue:0.69 alpha:1.0] setStroke];
+            break;
+            
+        case PURPLE_BUTTON_TAG:
+            [[UIColor colorWithRed:1.0 green:0.0 blue:1.0 alpha:1.0] setStroke];
+            break;
+            
+        case ORANGE_BUTTON_TAG:
+            [[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            break;
+            
+        default:
+            [[UIColor blackColor] setStroke];
+            break;
+    }
+    
+    [incrementalImage drawInRect:rect];
     [path stroke];
 }
 
@@ -87,10 +138,6 @@ uint ctr;
         pts[1] = pts[4];
         ctr = 1;
     }
-    
-    [self drawBitmap];
-    [self setNeedsDisplay];
-
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -99,6 +146,8 @@ uint ctr;
     [self setNeedsDisplay];
     [path removeAllPoints];
     ctr = 0;
+    
+    [delegate replaceImageAtIndex:indexOfThisImage withImage:incrementalImage];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
@@ -109,13 +158,13 @@ uint ctr;
 - (void)drawBitmap
 {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
-    if (!self.image) // first time; paint background white
+    if (!incrementalImage) // first time; paint background clear
     {
         UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.bounds];
         [[UIColor clearColor] setFill];
         [rectpath fill];
     }
-    [self.image drawInRect:self.frame];
+    [incrementalImage drawInRect:self.frame];
     
     switch (selectedBrush) {
         case SMALL_BRUSH_TAG:
@@ -169,10 +218,8 @@ uint ctr;
     }
     
     [path stroke];
-    self.image = UIGraphicsGetImageFromCurrentImageContext();
+    incrementalImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-    [delegate replaceImageAtIndex:indexOfThisImage withImage:self.image];
 }
 
 @end

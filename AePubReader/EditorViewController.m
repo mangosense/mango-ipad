@@ -447,7 +447,9 @@
         }
     }
     if ([backgroundImagesArray objectAtIndex:pageNumber]) {
-        [backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
+        backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
+        [backgroundImageView setNeedsDisplay];
+        //[backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
         backgroundImageView.indexOfThisImage = pageNumber;
     }
     if ([textOnPage length] > 0) {

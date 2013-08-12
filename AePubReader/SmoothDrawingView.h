@@ -14,7 +14,7 @@
 
 @end
 
-@interface SmoothDrawingView : UIImageView {
+@interface SmoothDrawingView : UIView {
     UIImage *incrementalImage;
 }
 
