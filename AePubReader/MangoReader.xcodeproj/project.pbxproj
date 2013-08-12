@@ -70,6 +70,8 @@
 		832D54C817B3B9AA005B81FD /* updown_fea8d05bf8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */; };
 		832D54C917B3B9AA005B81FD /* x.wav in Resources */ = {isa = PBXBuildFile; fileRef = 832D549817B3B9AA005B81FD /* x.wav */; };
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
+		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
+		833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */; };
 		839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */; };
 		839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */; };
 		839DD8D817B4F3F3003B62C8 /* green-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8D017B4F3F2003B62C8 /* green-splash.png */; };
@@ -449,6 +451,9 @@
 		832D549817B3B9AA005B81FD /* x.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = x.wav; path = "Temp Images/x.wav"; sourceTree = "<group>"; };
 		833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothDrawingView.h; sourceTree = "<group>"; };
 		833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmoothDrawingView.m; sourceTree = "<group>"; };
+		833DDD5F17B8EDA5009BCA5C /* AudioRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingViewController.h; sourceTree = "<group>"; };
+		833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordingViewController.m; sourceTree = "<group>"; };
+		833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecordingViewController.xib; sourceTree = "<group>"; };
 		839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageBackgroundImageView.h; sourceTree = "<group>"; };
 		839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageBackgroundImageView.m; sourceTree = "<group>"; };
 		839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringle-splash.png"; sourceTree = "<group>"; };
@@ -981,6 +986,7 @@
 				AEB79385173BA50A00301057 /* sharebutton.png */,
 				AE43C735161056DD00970739 /* Reachability */,
 				AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */,
+				833DDD5E17B8ECD1009BCA5C /* Audio Recorder */,
 				832CB91C17B375930073F9C2 /* MangoEditor iPad */,
 				AE75374916103A8300761697 /* MangoReader iPad */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -1186,6 +1192,16 @@
 			);
 			name = thumb;
 			path = "Temp Images/thumb";
+			sourceTree = "<group>";
+		};
+		833DDD5E17B8ECD1009BCA5C /* Audio Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				833DDD5F17B8EDA5009BCA5C /* AudioRecordingViewController.h */,
+				833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */,
+				833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */,
+			);
+			name = "Audio Recorder";
 			sourceTree = "<group>";
 		};
 		AE1373721622D9D0006C2CA6 /* flurry */ = {
@@ -1959,6 +1975,7 @@
 				839DD8E517B4F6A2003B62C8 /* brush-medium.png in Resources */,
 				839DD8E617B4F6A2003B62C8 /* brush-small.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
+				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2089,6 +2106,7 @@
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
 				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,
+				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

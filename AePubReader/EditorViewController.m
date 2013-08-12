@@ -7,6 +7,7 @@
 //
 
 #import "EditorViewController.h"
+#import "AudioRecordingViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define MAIN_TEXTVIEW_TAG 100
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) UIButton *showPaintPalletButton;
 @property (nonatomic, strong) UIButton *recordAudioButton;
 @property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) AudioRecordingViewController *audioRecViewController;
 - (void)getBookJson;
 
 @end
@@ -44,6 +46,7 @@
 @synthesize audioPlayer;
 @synthesize audioRecorder;
 @synthesize playButton;
+@synthesize audioRecViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -488,6 +491,13 @@
     }
     [self.view bringSubviewToFront:pageScrollView];
     [self.view bringSubviewToFront:paintPalletView];
+    
+    if (!audioRecViewController) {
+        audioRecViewController = [[AudioRecordingViewController alloc] initWithNibName:@"AudioRecordingViewController" bundle:nil];
+        [self.view addSubview:audioRecViewController.view];
+    }
+    audioRecViewController.audioUrl = url;
+    [audioRecViewController stopPlaying];
 }
 
 - (void)createPageForSender:(UIButton *)sender {
