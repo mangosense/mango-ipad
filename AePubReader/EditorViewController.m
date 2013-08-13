@@ -173,6 +173,7 @@
     } completion:NULL];
 }
 
+// Commented Audio recording. The feature has been abstracted to AudioRecordingViewController.
 /*
 #pragma mark - Audio Recording
 
@@ -393,7 +394,6 @@
             
             //Display newly created page
             [self createPageWithPageNumber:[arrayOfPages count]-1];
-
         }
     } failureBlock:^(NSError *myerror) {
         NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
@@ -423,6 +423,7 @@
             [self addNewPageWithImageUrl:assetURL];
         }  
     }];
+    [self hidePageScrollView];
 }
 
 #pragma mark - UIActionSheet Delegate Method
