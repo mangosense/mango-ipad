@@ -86,6 +86,8 @@
 		839DD8E517B4F6A2003B62C8 /* brush-medium.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E217B4F6A2003B62C8 /* brush-medium.png */; };
 		839DD8E617B4F6A2003B62C8 /* brush-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E317B4F6A2003B62C8 /* brush-small.png */; };
 		839DD8E817B50320003B62C8 /* topdot.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E717B50320003B62C8 /* topdot.png */; };
+		83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E723CD17BA058D0083DBD6 /* camera_gray_round.png */; };
+		83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
@@ -469,6 +471,8 @@
 		839DD8E217B4F6A2003B62C8 /* brush-medium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brush-medium.png"; sourceTree = "<group>"; };
 		839DD8E317B4F6A2003B62C8 /* brush-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brush-small.png"; sourceTree = "<group>"; };
 		839DD8E717B50320003B62C8 /* topdot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topdot.png; sourceTree = "<group>"; };
+		83E723CD17BA058D0083DBD6 /* camera_gray_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_gray_round.png; sourceTree = "<group>"; };
+		83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
 		AE032C0D17674BEB00ABAD2C /* 1331.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1331.epub; sourceTree = "<group>"; };
@@ -897,6 +901,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */,
 				AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */,
 				AEC70E1A16D4C35E00A191D2 /* OpenGLES.framework in Frameworks */,
 				AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */,
@@ -949,6 +954,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
 				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
 				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
 				AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */,
@@ -1164,6 +1170,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				83E723CD17BA058D0083DBD6 /* camera_gray_round.png */,
 				832CB92B17B3B1110073F9C2 /* story.json */,
 				832CB91D17B375D90073F9C2 /* EditorViewController.h */,
 				832CB91E17B375D90073F9C2 /* EditorViewController.m */,
@@ -1976,6 +1983,7 @@
 				839DD8E617B4F6A2003B62C8 /* brush-small.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
 				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
+				83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@
 #import "SmoothDrawingView.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface EditorViewController : UIViewController <DoodleDelegate> {
+@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate> {
     AVAudioPlayer *audioPlayer;
     AVAudioRecorder *audioRecorder;
     
