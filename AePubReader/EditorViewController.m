@@ -63,6 +63,8 @@
 @synthesize angryBirdsTamilJsonString;
 @synthesize angryBirdsEnglishJsonString;
 @synthesize tagForLanguage;
+@synthesize englishLanguageButton;
+@synthesize tamilLanguageButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -80,14 +82,43 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
     
-    [self createInitialUI];
-    [self getBookJson];
+    [self.view setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
+    
+    [[tamilLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[tamilLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
+    [[tamilLanguageButton layer] setShadowOpacity:0.7f];
+    [[tamilLanguageButton layer] setShadowRadius:5];
+    [[tamilLanguageButton layer] setShouldRasterize:YES];
+    
+    [[englishLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[englishLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
+    [[englishLanguageButton layer] setShadowOpacity:0.7f];
+    [[englishLanguageButton layer] setShadowRadius:5];
+    [[englishLanguageButton layer] setShouldRasterize:YES];
+
+    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
+    self.navigationItem.titleView=imageView;
+    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Choose Language
+
+- (IBAction)languageButtonTapped:(id)sender {
+    UIButton *languageButton = (UIButton *)sender;
+    [self chooseLanguage:languageButton.tag];
+}
+
+- (void)chooseLanguage:(NSInteger)tagForChosenLanguage {
+    tagForLanguage = tagForChosenLanguage;
+    [self createInitialUI];
+    [self getBookJson];
 }
 
 #pragma mark - Show/Hide Panels
@@ -489,7 +520,6 @@
 #pragma mark - Prepare UI
 
 - (void)createInitialUI {
-    tagForLanguage = TAMIL_TAG;
     backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
     backgroundImageView.delegate = self;
     // Temporarily adding fixed image

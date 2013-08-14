@@ -32,6 +32,8 @@
 @property (nonatomic, strong) MovableTextView *mainTextView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pageScrollView;
 @property (nonatomic, strong) IBOutlet UIView *paintPalletView;
+@property (nonatomic, strong) IBOutlet UIButton *englishLanguageButton;
+@property (nonatomic, strong) IBOutlet UIButton *tamilLanguageButton;
 @property (nonatomic, strong) NSMutableArray *backgroundImagesArray;
 
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
@@ -39,5 +41,6 @@
 
 - (IBAction)paintButtonPressed:(id)sender;
 - (IBAction)paintBrushButtonPressed:(id)sender;
+- (IBAction)languageButtonTapped:(id)sender;
 
 @end
