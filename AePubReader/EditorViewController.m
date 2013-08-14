@@ -747,6 +747,7 @@
     [self.view bringSubviewToFront:paintPalletView];
     [self.view bringSubviewToFront:showScrollViewButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
+    [self.view bringSubviewToFront:cameraButton];
     [self.view bringSubviewToFront:audioRecViewController.view];
 }
 
