@@ -31,6 +31,8 @@
 @property (nonatomic, strong) UIButton *playButton;
 @property (nonatomic, strong) AudioRecordingViewController *audioRecViewController;
 @property (nonatomic, strong) UIPopoverController *photoPopoverController;
+@property (nonatomic, strong) NSString *angryBirdsTamilJsonString;
+@property (nonatomic, strong) NSString *angryBirdsEnglishJsonString;
 - (void)getBookJson;
 
 @end
@@ -52,13 +54,15 @@
 @synthesize playButton;
 @synthesize audioRecViewController;
 @synthesize photoPopoverController;
+@synthesize angryBirdsTamilJsonString;
+@synthesize angryBirdsEnglishJsonString;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.tabBarItem.title=@"Editor";
+        self.tabBarItem.title=@"Stories";
         self.tabBarItem.image=[UIImage imageNamed:@"library.png"];
     }
     return self;
@@ -381,7 +385,7 @@
             [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
             CGFloat yOffsetForButton = [arrayOfPages indexOfObject:newPageDictionary]*150;
             [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
-            pageButton.tag = [arrayOfPages indexOfObject:newPageDictionary];
+            pageButton.tag = [backgroundImagesArray indexOfObject:image];
             
             [[pageButton layer] setMasksToBounds:NO];
             [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
@@ -602,20 +606,55 @@
             }
         }
     }
-    if ([backgroundImagesArray objectAtIndex:pageNumber]) {
-        backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
-        [backgroundImageView setNeedsDisplay];
-        //[backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
-        backgroundImageView.indexOfThisImage = pageNumber;
-    }
-    if ([textOnPage length] > 0) {
-        mainTextView.text = textOnPage;
-        CGSize textSize = [mainTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:24] constrainedToSize:CGSizeMake(700, 500) lineBreakMode:NSLineBreakByWordWrapping];
-        [mainTextView setFrame:CGRectMake(mainTextView.frame.origin.x, mainTextView.frame.origin.y, textSize.width, textSize.height + 20)];
-    } else {
-        mainTextView.text = @"";
-    }
     
+    if ([[dictionaryForPage allKeys] containsObject:@"type"]) {
+        if ([[dictionaryForPage objectForKey:@"type"] isEqualToString:@"widget"]) {
+            NSDictionary *layerDict = [[dictionaryForPage objectForKey:@"layers"] objectAtIndex:0];
+            
+            [backgroundImageView removeFromSuperview];
+            UIWebView *widgetWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+            
+            NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:[NSString stringWithFormat:@"/widgets/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]]];
+            [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
+            
+            [self.view addSubview:widgetWebView];
+            
+            [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
+            mainTextView.text = @"";
+
+        }
+    } else {
+        for (UIView *subview in self.view.subviews) {
+            if ([subview isKindOfClass:[UIWebView class]]) {
+                [subview removeFromSuperview];
+                break;
+            }
+        }
+        if (!backgroundImageView) {
+            backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
+            backgroundImageView.delegate = self;
+        }
+        if (![self.view.subviews containsObject:backgroundImageView]) {
+            // Temporarily adding fixed image
+            [self.view addSubview:backgroundImageView];
+        }
+
+        if ([backgroundImagesArray objectAtIndex:pageNumber]) {
+            backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
+            [backgroundImageView setNeedsDisplay];
+            //[backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
+            backgroundImageView.indexOfThisImage = pageNumber;
+        }
+        if ([textOnPage length] > 0) {
+            mainTextView.text = textOnPage;
+            CGSize textSize = [mainTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:24] constrainedToSize:CGSizeMake(700, 500) lineBreakMode:NSLineBreakByWordWrapping];
+            [mainTextView setFrame:CGRectMake(mainTextView.frame.origin.x, mainTextView.frame.origin.y, textSize.width, textSize.height + 60)];
+        } else {
+            [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
+            mainTextView.text = @"";
+        }
+    }
+
     if ([[self.view subviews] containsObject:playButton]) {
         [playButton removeFromSuperview];
     }
@@ -652,6 +691,13 @@
     }
     audioRecViewController.audioUrl = url;
     [audioRecViewController stopPlaying];
+    
+    [self.view bringSubviewToFront:mainTextView];
+    [self.view bringSubviewToFront:pageScrollView];
+    [self.view bringSubviewToFront:paintPalletView];
+    [self.view bringSubviewToFront:showScrollViewButton];
+    [self.view bringSubviewToFront:showPaintPalletButton];
+    [self.view bringSubviewToFront:audioRecViewController.view];
 }
 
 - (void)createPageForSender:(UIButton *)sender {
@@ -684,7 +730,7 @@
                          [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
                          CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
                          [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
-                         pageButton.tag = [arrayOfPages indexOfObject:dictionaryForPage];
+                         pageButton.tag = [backgroundImagesArray indexOfObject:image];
                          
                          [[pageButton layer] setMasksToBounds:NO];
                          [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
@@ -711,7 +757,7 @@
                 [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
                 CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
                 [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
-                pageButton.tag = [arrayOfPages indexOfObject:dictionaryForPage];
+                pageButton.tag = [backgroundImagesArray indexOfObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
                 
                 [[pageButton layer] setMasksToBounds:NO];
                 [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
@@ -722,6 +768,35 @@
                 
                 [pageScrollView addSubview:pageButton];
                 
+            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"widget"]) {
+                if (!backgroundImagesArray) {
+                    backgroundImagesArray = [[NSMutableArray alloc] init];
+                }
+                [backgroundImagesArray addObject:[[UIImage alloc] init]];
+                
+                UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
+                CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
+                [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+                pageButton.tag = [backgroundImagesArray count]-1;
+                
+                [[pageButton layer] setMasksToBounds:NO];
+                [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+                [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
+                [[pageButton layer] setShadowOpacity:0.3f];
+                [[pageButton layer] setShadowRadius:2];
+                [[pageButton layer] setShouldRasterize:YES];
+                
+                if ([[layerDict objectForKey:@"wid"] intValue] == 4 || [[layerDict objectForKey:@"wid"] intValue] == 7) {
+                    [pageButton setImage:[UIImage imageNamed:@"page1.jpg"] forState:UIControlStateNormal];
+                } else if ([[layerDict objectForKey:@"wid"] intValue] == 5 || [[layerDict objectForKey:@"wid"] intValue] == 8) {
+                    [pageButton setImage:[UIImage imageNamed:@"3.jpg"] forState:UIControlStateNormal];
+                } else if ([[layerDict objectForKey:@"wid"] intValue] == 6 || [[layerDict objectForKey:@"wid"] intValue] == 9) {
+                    [pageButton setImage:[UIImage imageNamed:@"q1.jpg"] forState:UIControlStateNormal];
+                }
+                
+                [pageScrollView addSubview:pageButton];
+
             }
         }
     }
@@ -731,8 +806,11 @@
 
 - (void)getBookJson {
     // Temporarily adding hardcoded string
-    NSString *bookJsonString = @"[{\"id\":\"Cover\",\"name\":\"Cover\",\"layers\":[{\"type\":\"image\",\"url\":\"a9457d95f7.jpg\",\"alignment\":\"left\",\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":1317},{\"id\":1,\"name\":1,\"layers\":[{\"type\":\"image\",\"url\":\"71b1a3e2b0.jpg\",\"alignment\":\"middle\",\"order\":0,\"name\":\"\"},{\"type\":\"audio\",\"url\":\"51d029a922.mp3\",\"wordTimes\":[1.70530104637146,2.2062370777130127,2.7171740531921387,3.218951940536499,3.7340469360351562,3.9840149879455566,4.5863800048828125,4.836188793182373,5.338126182556152,6.100030899047852,6.598808765411377,7.39418888092041,7.644157886505127,8.151094436645508,8.402063369750977,8.901841163635254,9.151650428771973,9.402618408203125,9.907554626464844,10.159363746643066,10.661300659179688,11.420206069946289,11.671014785766602,11.924983024597168,12.440077781677246,12.690047264099121,13.459952354431152,13.709919929504395,13.991363525390625,14.994919776916504,15.502857208251953,15.752823829650879,16.002792358398438,17.00634765625,17.287792205810547,17.796728134155273,18.563793182373047,19.06357192993164,19.5633487701416,20.063125610351562,21.814586639404297,22.319364547729492,22.570331573486328,22.821300506591797,23.57304573059082,23.822856903076172,24.072824478149414,24.574602127075195,24.82457160949707,25.07453727722168,25.5753173828125,26.325063705444336,26.826841354370117,27.077808380126953,27.328777313232422,27.831554412841797,28.081523895263672,28.331331253051758,28.837268829345703,29.089237213134766,29.598173141479492,30.09895133972168],\"wordMap\":[{\"word\":\"Neelu\",\"step\":17,\"wordIdx\":1},{\"word\":\"the\",\"step\":22,\"wordIdx\":2},{\"word\":\"butterfly\",\"step\":27,\"wordIdx\":3},{\"word\":\"was\",\"step\":32,\"wordIdx\":4},{\"word\":\"scolding\",\"step\":37,\"wordIdx\":5},{\"word\":\"her\",\"step\":40,\"wordIdx\":6},{\"word\":\"son\",\"step\":46,\"wordIdx\":7},{\"word\":\"Katty,\",\"step\":48,\"wordIdx\":8},{\"word\":\"the\",\"step\":53,\"wordIdx\":9},{\"word\":\"caterpillar,\",\"step\":61,\"wordIdx\":10},{\"word\":\"Why\",\"step\":66,\"wordIdx\":11},{\"word\":\"did\",\"step\":74,\"wordIdx\":12},{\"word\":\"you\",\"step\":76,\"wordIdx\":13},{\"word\":\"eat\",\"step\":82,\"wordIdx\":14},{\"word\":\"all\",\"step\":84,\"wordIdx\":15},{\"word\":\"the\",\"step\":89,\"wordIdx\":16},{\"word\":\"leaves\",\"step\":92,\"wordIdx\":17},{\"word\":\"of\",\"step\":94,\"wordIdx\":18},{\"word\":\"the\",\"step\":99,\"wordIdx\":19},{\"word\":\"plants?\",\"step\":102,\"wordIdx\":20},{\"word\":\"Why\",\"step\":107,\"wordIdx\":21},{\"word\":\"do\",\"step\":114,\"wordIdx\":22},{\"word\":\"you\",\"step\":117,\"wordIdx\":23},{\"word\":\"overeat?\",\"step\":119,\"wordIdx\":24},{\"word\":\"The\",\"step\":124,\"wordIdx\":25},{\"word\":\"gardener\",\"step\":127,\"wordIdx\":26},{\"word\":\"is\",\"step\":135,\"wordIdx\":27},{\"word\":\"angry.\",\"step\":137,\"wordIdx\":28},{\"word\":\"He\",\"step\":140,\"wordIdx\":29},{\"word\":\"is\",\"step\":150,\"wordIdx\":30},{\"word\":\"looking\",\"step\":155,\"wordIdx\":31},{\"word\":\"for\",\"step\":158,\"wordIdx\":32},{\"word\":\"you.\",\"step\":160,\"wordIdx\":33},{\"word\":\"Why?\",\"step\":170,\"wordIdx\":34},{\"word\":\"don't\",\"step\":173,\"wordIdx\":35},{\"word\":\"yath'ever\",\"step\":178,\"wordIdx\":36},{\"word\":\"use\",\"step\":186,\"wordIdx\":37},{\"word\":\"your\",\"step\":191,\"wordIdx\":38},{\"word\":\"brain?\",\"step\":196,\"wordIdx\":39},{\"word\":\"What\",\"step\":201,\"wordIdx\":40},{\"word\":\"can\",\"step\":218,\"wordIdx\":41},{\"word\":\"I\",\"step\":223,\"wordIdx\":42},{\"word\":\"do\",\"step\":226,\"wordIdx\":43},{\"word\":\"mother?\",\"step\":228,\"wordIdx\":44},{\"word\":\"My\",\"step\":236,\"wordIdx\":45},{\"word\":\"brain\",\"step\":238,\"wordIdx\":46},{\"word\":\"is\",\"step\":241,\"wordIdx\":47},{\"word\":\"in\",\"step\":246,\"wordIdx\":48},{\"word\":\"my\",\"step\":248,\"wordIdx\":49},{\"word\":\"tummy,\",\"step\":251,\"wordIdx\":50},{\"word\":\"so\",\"step\":256,\"wordIdx\":51},{\"word\":\"I\",\"step\":263,\"wordIdx\":52},{\"word\":\"do\",\"step\":268,\"wordIdx\":53},{\"word\":\"what\",\"step\":271,\"wordIdx\":54},{\"word\":\"my\",\"step\":273,\"wordIdx\":55},{\"word\":\"tummy\",\"step\":278,\"wordIdx\":56},{\"word\":\"tells\",\"step\":281,\"wordIdx\":57},{\"word\":\"me\",\"step\":283,\"wordIdx\":58},{\"word\":\"to\",\"step\":288,\"wordIdx\":59},{\"word\":\"do,\",\"step\":291,\"wordIdx\":60},{\"word\":\"replied\",\"step\":296,\"wordIdx\":61},{\"word\":\"Katty.\",\"step\":301,\"wordIdx\":62}],\"order\":0,\"name\":\"\"},{\"type\":\"color\",\"color\":\"rgb(255,204,102)\",\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":1329}]";
-    NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+    angryBirdsTamilJsonString = @"[{\"id\":\"Cover\",\"name\":\"Cover\",\"layers\":[{\"type\":\"image\",\"url\":\"abad124338.jpg\",\"alignment\":\"left\",\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":747,\"child\":\"jigsaw\"},{\"id\":1,\"name\":1,\"layers\":[{\"type\":\"image\",\"url\":\"21833583e6.jpg\",\"alignment\":\"middle\",\"order\":0,\"name\":\"\"},{\"type\":\"text\",\"alignment\":\"left\",\"order\":0,\"name\":\"\"},{\"type\":\"audio\",\"url\":\"671db6ad7f.mp3\",\"wordTimes\":[2.4927539825439453,3.2448489665985107,4.247387886047363,4.749120235443115,5.000740051269531],\"wordMap\":[{\"word\":\"சுந்தரம்\",\"step\":25,\"wordIdx\":1},{\"word\":\"தினமும்\",\"step\":32,\"wordIdx\":2},{\"word\":\"கணினி\",\"step\":42,\"wordIdx\":3},{\"word\":\"விளையாட்டு\",\"step\":47,\"wordIdx\":4},{\"word\":\"விளையாடுவான்.\",\"step\":50,\"wordIdx\":5}],\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":748},{\"id\":2,\"name\":2,\"layers\":[{\"type\":\"image\",\"url\":\"50d0f84f99.jpg\",\"alignment\":\"middle\",\"order\":0,\"name\":\"\"},{\"type\":\"text\",\"alignment\":\"left\",\"order\":0,\"name\":\"\"},{\"type\":\"audio\",\"url\":\"d13bba5005.mp3\",\"wordTimes\":[1.2127419710159302,1.9000000000000001,2.725771903991699,3.4780259132385254,3.981329917907715,5.232964038848877,6.485886096954346,7,7.489037990570068,7.9,8.200000000000001,8.8,9.243943214416504],\"wordMap\":[{\"word\":\"ஒருநாள்\",\"step\":12,\"wordIdx\":1},{\"word\":\"அவன்\",\"step\":19,\"wordIdx\":2},{\"word\":\"வீட்டில்\",\"step\":27,\"wordIdx\":3},{\"word\":\"யாரும்\",\"step\":35,\"wordIdx\":4},{\"word\":\"இல்லை.\",\"step\":40,\"wordIdx\":5},{\"word\":\"அப்போது\",\"step\":52,\"wordIdx\":6},{\"word\":\"சுந்தரம்\",\"step\":65,\"wordIdx\":7},{\"word\":\" “கோபமான\",\"step\":70,\"wordIdx\":8},{\"word\":\"குருவி”\",\"step\":75,\"wordIdx\":9},{\"word\":\"என்ற\",\"step\":79,\"wordIdx\":10},{\"word\":\"விளையாட்டை\",\"step\":82,\"wordIdx\":11},{\"word\":\"விளையாடிக்\",\"step\":88,\"wordIdx\":12},{\"word\":\"கொண்டிருந்தான்.\",\"step\":92,\"wordIdx\":13}],\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":749},{\"id\":3,\"name\":3,\"layers\":[{\"type\":\"image\",\"url\":\"a8fc0e26ef.jpg\",\"alignment\":\"middle\",\"order\":0,\"name\":\"\"},{\"type\":\"text\",\"alignment\":\"left\",\"order\":0,\"name\":\"\"},{\"type\":\"audio\",\"url\":\"bd026a2f3b.mp3\",\"wordTimes\":null,\"wordMap\":[{\"word\":\"அப்போது\",\"step\":12,\"wordIdx\":1},{\"word\":\"ஏதோ\",\"step\":19,\"wordIdx\":2},{\"word\":\"சத்தம்\",\"step\":27,\"wordIdx\":3},{\"word\":\"கேட்டது\",\"step\":35,\"wordIdx\":4},{\"word\":\"அவன்.\",\"step\":40,\"wordIdx\":5},{\"word\":\"திரும்பிப்\",\"step\":52,\"wordIdx\":6},{\"word\":\"பார்த்தான்.\",\"step\":65,\"wordIdx\":7}],\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":750},{\"id\":4,\"name\":4,\"layers\":[{\"type\":\"image\",\"url\":\"685dcbd3db.jpg\",\"alignment\":\"middle\",\"order\":0,\"name\":\"\"},{\"type\":\"text\",\"alignment\":\"left\",\"order\":0,\"name\":\"\"},{\"type\":\"audio\",\"url\":\"515c992c1b.mp3\",\"wordTimes\":null,\"wordMap\":[{\"word\":\"அங்கே\",\"step\":12,\"wordIdx\":1},{\"word\":\"அவன்\",\"step\":19,\"wordIdx\":2},{\"word\":\"வீட்டுச்\",\"step\":27,\"wordIdx\":3},{\"word\":\"சன்னல்\",\"step\":35,\"wordIdx\":4},{\"word\":\"பக்கத்தில்\",\"step\":40,\"wordIdx\":5},{\"word\":\"நான்கு\",\"step\":52,\"wordIdx\":6},{\"word\":\"பறவைகள்\",\"step\":65,\"wordIdx\":7},{\"word\":\"உட்கார்ந்து\",\"step\":35,\"wordIdx\":8},{\"word\":\"இருந்தன.\",\"step\":40,\"wordIdx\":9},{\"word\":\"அவை\",\"step\":52,\"wordIdx\":10},{\"word\":\"அவனைக்\",\"step\":65,\"wordIdx\":11},		{\"word\":\"கோபமாகப்\",\"step\":52,\"wordIdx\":12},{\"word\":\"பார்த்தன.\",\"step\":65,\"wordIdx\":13}],\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"original_id\":752},{\"id\":5,\"name\":6,\"layers\":[{\"type\":\"widget\",\"wid\":\"5\",\"slug\":\"Where_is_sundaram\",\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"type\":\"widget\",\"original_id\":760},{\"id\":6,\"name\":5,\"layers\":[{\"type\":\"widget\",\"wid\":\"4\",\"slug\":\"where_is_bird\",\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"type\":\"widget\",\"original_id\":761},{\"id\":7,\"name\":7,\"layers\":[{\"type\":\"widget\",\"wid\":\"6\",\"slug\":\"widget3\",\"order\":0,\"name\":\"\"}],\"order\":0,\"pageNo\":1,\"type\":\"widget\",\"original_id\":762},{\"id\":\"jigsaw\",\"name\":\"jigsaw\",\"layers\":[{\"type\":\"image\",\"url\":\"a8fc0e26ef.jpg\",\"order\":0,\"name\":\"\"}],\"type\":\"game\",\"pageid\":\"Cover\",\"order\":0,\"pageNo\":1,\"original_id\":775}]";
+    
+    angryBirdsEnglishJsonString = @"[{\"id\": \"Cover\",\"name\": \"Cover\",\"layers\": [{\"type\": \"image\",\"url\": \"8517823664.jpg\",\"alignment\": \"left\",\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"original_id\": 763},{\"id\": 1,\"name\": 1,\"layers\": [{\"type\": \"image\",\"url\": \"21833583e6.jpg\",\"alignment\": \"middle\",\"order\": 0,\"name\": \"\"},{\"type\": \"text\",\"text\": \"Sundaram utilizar para jugar juegos de computadora todo el día.\",\"alignment\": \"left\",\"order\": 0,\"name\": \"\",\"language\": \"es\"},{\"type\": \"audio\",\"url\": \"f9c3d294be.mp3\",\"wordTimes\": [0.6199439764022827,1.1206820011138916,1.4000000000000001,1.6,1.9000000000000001,2.2,2.7],\"wordMap\": [{\"word\": \"Sundaram\",\"step\": 6,\"wordIdx\": 1},{\"word\": \"used\",\"step\": 11,\"wordIdx\": 2},{\"word\": \"to\",\"step\": 14,\"wordIdx\": 3},{\"word\": \"play\",\"step\": 16,\"wordIdx\": 4},{\"word\": \"computer\",\"step\": 19,\"wordIdx\": 5},{\"word\": \"games\",\"step\": 22,\"wordIdx\": 6},{\"word\": \"everyday.\",\"step\": 27,\"wordIdx\": 7}],\"order\": 0,\"name\": \"\"},{\"type\": \"original_text\",\"text\": \"Sundaram used to play computer games all day.\",\"language\": \"en\",\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"original_id\": 764},{\"id\": 2,\"name\": 2,\"layers\": [{\"type\": \"image\",\"url\": \"50d0f84f99.jpg\",\"alignment\": \"middle\",\"order\": 0,\"name\": \"\"},{\"type\": \"text\",\"alignment\": \"left\",\"order\": 0,\"name\": \"\"},{\"type\": \"audio\",\"url\": \"23a68f3938.mp3\",\"wordTimes\": [0.41754600405693054,0.6674889922142029,1.173475980758667,1.4266209602355957,1.679677963256836,1.9314359426498413,2.1820950508117676,2.4327518939971924,2.9337239265441895,3.18544602394104,3.9370460510253906,4.187881946563721,4.438592910766602,4.7,4.9],\"wordMap\": [{\"word\": \"One\",\"step\": 4,\"wordIdx\": 1},{\"word\": \"day\",\"step\": 7,\"wordIdx\": 2},{\"word\": \"he\",\"step\": 12,\"wordIdx\": 3},{\"word\": \"is\",\"step\": 14,\"wordIdx\": 4},{\"word\": \"playing\",\"step\": 17,\"wordIdx\": 5},{\"word\": \"a\",\"step\": 19,\"wordIdx\": 6},{\"word\": \"game\",\"step\": 22,\"wordIdx\": 7},{\"word\": \"called\",\"step\": 24,\"wordIdx\": 8},{\"word\": \"Angry\",\"step\": 29,\"wordIdx\": 9},{\"word\": \"birds\",\"step\": 32,\"wordIdx\": 10},{\"word\": \"when\",\"step\": 39,\"wordIdx\": 11},{\"word\": \"no\",\"step\": 42,\"wordIdx\": 12},{\"word\": \"one\",\"step\": 44,\"wordIdx\": 13},{\"word\": \"is\",\"step\": 47,\"wordIdx\": 14},{\"word\": \"around.\",\"step\": 49,\"wordIdx\": 15}],\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"original_id\": 765},{\"id\": 3,\"name\": 3,\"layers\": [{\"type\": \"image\",\"url\": \"a8fc0e26ef.jpg\",\"alignment\": \"middle\",\"order\": 0,\"name\": \"\"},{\"type\": \"text\",\"alignment\": \"left\",\"order\": 0,\"name\": \"\"},{\"type\": \"audio\",\"url\": \"64d4de5ec4.mp3\",\"wordTimes\": [0.4,0.9,1,1.3,1.6,1.957522988319397,2.2085559368133545,2.2085559368133545,3.2106990814208984,3.4614439010620117,3.711867094039917,3.9624791145324707,4.213839054107666,4.4638590812683105,4.720414161682129,4.965227127075195],\"wordMap\": [{\"word\": \"And\",\"step\": 4,\"wordIdx\": 1},{\"word\": \"he\",\"step\": 9,\"wordIdx\": 2},{\"word\": \"heard\",\"step\": 10,\"wordIdx\": 3},{\"word\": \"some\",\"step\": 13,\"wordIdx\": 4},{\"word\": \"noise\",\"step\": 16,\"wordIdx\": 5},{\"word\": \"near\",\"step\": 20,\"wordIdx\": 6},{\"word\": \"the\",\"step\": 22,\"wordIdx\": 7},{\"word\": \"window,\",\"step\": 22,\"wordIdx\": 8},{\"word\": \"he\",\"step\": 32,\"wordIdx\": 9},{\"word\": \"turned\",\"step\": 35,\"wordIdx\": 10},{\"word\": \"from\",\"step\": 37,\"wordIdx\": 11},{\"word\": \"game\",\"step\": 40,\"wordIdx\": 12},{\"word\": \"and\",\"step\": 42,\"wordIdx\": 13},{\"word\": \"looked\",\"step\": 45,\"wordIdx\": 14},{\"word\": \"at\",\"step\": 47,\"wordIdx\": 15},{\"word\": \"it.\",\"step\": 50,\"wordIdx\": 16}],\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"original_id\": 766},{\"id\": 4,\"name\": 4,\"layers\": [{\"type\": \"image\",\"url\": \"685dcbd3db.jpg\",\"alignment\": \"middle\",\"order\": 0,\"name\": \"\"},{\"type\": \"text\",\"alignment\": \"left\",\"order\": 0,\"name\": \"\"},{\"type\": \"audio\",\"url\": \"f3905b0506.mp3\",\"wordTimes\": [0.6486089825630188,0.8334199786186218,1.2000000000000002,1.6,1.9000000000000001,2.5,2.943850040435791,3.1125309467315674,3.3000000000000003,3.5,3.8000000000000003,4.170816898345947,5.1000000000000005,5.4,5.742791175842285,6.095162868499756,6.443782806396484,6.976383209228516],\"wordMap\": [{\"word\": \"Four\",\"step\": 6,\"wordIdx\": 1},{\"word\": \"birds\",\"step\": 8,\"wordIdx\": 2},{\"word\": \"were\",\"step\": 12,\"wordIdx\": 3},{\"word\": \"sitting\",\"step\": 16,\"wordIdx\": 4},{\"word\": \"there\",\"step\": 19,\"wordIdx\": 5},{\"word\": \"on\",\"step\": 25,\"wordIdx\": 6},{\"word\": \"the\",\"step\": 29,\"wordIdx\": 7},{\"word\": \"side\",\"step\": 31,\"wordIdx\": 8},{\"word\": \"of\",\"step\": 33,\"wordIdx\": 9},{\"word\": \"his\",\"step\": 35,\"wordIdx\": 10},{\"word\": \"house\",\"step\": 38,\"wordIdx\": 11},{\"word\": \"window,\",\"step\": 42,\"wordIdx\": 12},{\"word\": \"and\",\"step\": 51,\"wordIdx\": 13},{\"word\": \"staring\",\"step\": 54,\"wordIdx\": 14},{\"word\": \"at\",\"step\": 57,\"wordIdx\": 15},{\"word\": \"him\",\"step\": 61,\"wordIdx\": 16},{\"word\": \"very\",\"step\": 64,\"wordIdx\": 17},{\"word\": \"angrily.\",\"step\": 70,\"wordIdx\": 18}],\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"original_id\": 768},{\"id\": 5,\"name\": 5,\"layers\": [{\"type\": \"widget\",\"wid\": \"7\",\"slug\": \"Where_is_sundaram\",\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"type\": \"widget\"},{\"id\": 6,\"name\": 6,\"layers\": [{\"type\": \"widget\",\"wid\": \"8\",\"slug\": \"where_is_bird\",\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"type\": \"widget\",\"original_id\": 773},{\"id\": 7,\"name\": 7,\"layers\": [{\"type\": \"widget\",\"wid\": \"9\",\"slug\": \"widget3\",\"order\": 0,\"name\": \"\"}],\"order\": 0,\"pageNo\": 1,\"type\": \"widget\"}]";
+    
+    NSData *jsonData = [angryBirdsTamilJsonString dataUsingEncoding:NSUTF8StringEncoding];
     arrayOfPages = [[NSMutableArray alloc] initWithArray:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"number of pages: %d", [arrayOfPages count]);
     

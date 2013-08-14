@@ -1,0 +1,58 @@
+<html>
+	<head>
+
+		<style>
+			#qBg {
+				background: url(core/img/qImage/q1.jpg) no-repeat;
+				height: 768px;
+				width: 1024px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 0px;
+				
+			}
+			#answers
+			{
+				position: relative;
+				margin-top: 272px;
+				margin-left: 150px;
+				font-family: "Comic Sans MS";
+				font-size: 25px;
+				background-color: transparent;
+				outline: none;
+				border: none;
+				text-align: left;
+				width: 800px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="qBg">
+		
+		
+		<textarea  name=textarea2 class="q1Data" id="answers" cols="67" rows="12" autofocus="true">
+			</textarea>
+			<input style="position:absolute;top: 706px;left: 689px;height: 50px;width: 80px;font-size: 20px;"  type=button value="Send" onclick="sendmail()">
+		
+		  
+		</div>
+
+		
+	
+		
+		<script type="text/javascript" src="core/js/jquery.min.js"></script>
+		<script type="text/javascript">
+function sendmail()
+{
+ var MyText = $('#answers').val();
+MyAction="mailto:jagdish@mangosense.com?Subject=Your Suggestions For Improvement&Body=" + MyText;
+window.location.href = MyAction;
+}
+	
+		</script>
+
+	</body>
+
+</html>
