@@ -547,6 +547,21 @@
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     
+    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cameraButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
+    [cameraButton setImage:[UIImage imageNamed:@"camera_gray_round.png"] forState:UIControlStateNormal];
+    [[cameraButton layer] setCornerRadius:cameraButton.frame.size.height/20];
+    [cameraButton setUserInteractionEnabled:YES];
+    [[cameraButton layer] setMasksToBounds:NO];
+    [[cameraButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[cameraButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[cameraButton layer] setShadowOpacity:0.3f];
+    [[cameraButton layer] setShadowRadius:5];
+    [[cameraButton layer] setShouldRasterize:YES];
+    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cameraButton];
+    [self.view bringSubviewToFront:cameraButton];
+    
     [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
     UIImage *image=[UIImage imageNamed:@"topdot.png"];
     pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
@@ -599,22 +614,7 @@
     [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showPaintPalletButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
-    
-    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cameraButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
-    [cameraButton setImage:[UIImage imageNamed:@"camera_gray_round.png"] forState:UIControlStateNormal];
-    [[cameraButton layer] setCornerRadius:cameraButton.frame.size.height/20];
-    [cameraButton setUserInteractionEnabled:YES];
-    [[cameraButton layer] setMasksToBounds:NO];
-    [[cameraButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[cameraButton layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [[cameraButton layer] setShadowOpacity:0.3f];
-    [[cameraButton layer] setShadowRadius:5];
-    [[cameraButton layer] setShouldRasterize:YES];
-    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:cameraButton];
-    [self.view bringSubviewToFront:cameraButton];
-    
+        
     /*recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
     [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
@@ -731,8 +731,6 @@
     } else if ([[self.view subviews] containsObject:playButton]) {
         [playButton removeFromSuperview];
     }*/
-    [self.view bringSubviewToFront:pageScrollView];
-    [self.view bringSubviewToFront:paintPalletView];
     
     if (!audioRecViewController) {
         audioRecViewController = [[AudioRecordingViewController alloc] initWithNibName:@"AudioRecordingViewController" bundle:nil];
@@ -743,12 +741,13 @@
     [audioRecViewController stopPlaying];
     
     [self.view bringSubviewToFront:mainTextView];
-    [self.view bringSubviewToFront:pageScrollView];
-    [self.view bringSubviewToFront:paintPalletView];
     [self.view bringSubviewToFront:showScrollViewButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
     [self.view bringSubviewToFront:cameraButton];
     [self.view bringSubviewToFront:audioRecViewController.view];
+    [self.view bringSubviewToFront:pageScrollView];
+    [self.view bringSubviewToFront:paintPalletView];
+
 }
 
 - (void)createPageForSender:(UIButton *)sender {
