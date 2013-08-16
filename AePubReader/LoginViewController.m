@@ -25,18 +25,21 @@
 #import "Flurry.h"
 #import "RootViewController.h"
 #import "EditorViewController.h"
+#import "StoriesViewController.h"
 
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
 @property (nonatomic, strong) EditorViewController *editorViewController;
+@property (nonatomic, strong) StoriesViewController *storiesViewController;
 
 @end
 
 @implementation LoginViewController
 
 @synthesize editorViewController;
+@synthesize storiesViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -88,13 +91,15 @@
     _store.delegate=_library;
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
     editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+    storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
     
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
     UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
+    UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
     
-    _tabBarController.viewControllers=@[editorNavigationController, navigation, navigationPurchase, navigationStore];
+    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
 }

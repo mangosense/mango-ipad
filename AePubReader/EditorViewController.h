@@ -16,6 +16,8 @@
     AVAudioPlayer *audioPlayer;
     AVAudioRecorder *audioRecorder;
     
+    int tagForLanguage;
+    
     int recordEncoding;
     enum
     {
@@ -38,6 +40,8 @@
 
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
+
+@property (nonatomic, assign) int tagForLanguage;
 
 - (IBAction)paintButtonPressed:(id)sender;
 - (IBAction)paintBrushButtonPressed:(id)sender;

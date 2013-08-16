@@ -96,6 +96,8 @@
 		839BC59A17BB9EB600F1E9C5 /* 7 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59717BB9EB600F1E9C5 /* 7 */; };
 		839BC59B17BB9EB600F1E9C5 /* 8 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59817BB9EB600F1E9C5 /* 8 */; };
 		839BC59C17BB9EB600F1E9C5 /* 9 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59917BB9EB600F1E9C5 /* 9 */; };
+		839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */; };
+		839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */; };
 		839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */; };
 		839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */; };
 		839DD8D817B4F3F3003B62C8 /* green-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8D017B4F3F2003B62C8 /* green-splash.png */; };
@@ -504,6 +506,9 @@
 		839BC59717BB9EB600F1E9C5 /* 7 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 7; sourceTree = "<group>"; };
 		839BC59817BB9EB600F1E9C5 /* 8 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 8; sourceTree = "<group>"; };
 		839BC59917BB9EB600F1E9C5 /* 9 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 9; sourceTree = "<group>"; };
+		839BC59D17BDEAA400F1E9C5 /* StoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoriesViewController.h; sourceTree = "<group>"; };
+		839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoriesViewController.m; sourceTree = "<group>"; };
+		839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoriesViewController.xib; sourceTree = "<group>"; };
 		839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageBackgroundImageView.h; sourceTree = "<group>"; };
 		839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageBackgroundImageView.m; sourceTree = "<group>"; };
 		839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringle-splash.png"; sourceTree = "<group>"; };
@@ -1234,6 +1239,9 @@
 				839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */,
 				833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */,
 				833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */,
+				839BC59D17BDEAA400F1E9C5 /* StoriesViewController.h */,
+				839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */,
+				839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2104,6 +2112,7 @@
 				839BC59A17BB9EB600F1E9C5 /* 7 in Resources */,
 				839BC59B17BB9EB600F1E9C5 /* 8 in Resources */,
 				839BC59C17BB9EB600F1E9C5 /* 9 in Resources */,
+				839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2235,6 +2244,7 @@
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
 				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
+				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

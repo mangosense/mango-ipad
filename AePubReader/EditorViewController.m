@@ -38,7 +38,6 @@
 @property (nonatomic, strong) UIPopoverController *photoPopoverController;
 @property (nonatomic, strong) NSString *angryBirdsTamilJsonString;
 @property (nonatomic, strong) NSString *angryBirdsEnglishJsonString;
-@property (nonatomic, assign) int tagForLanguage;
 - (void)getBookJson;
 
 @end
@@ -84,7 +83,7 @@
     
     [self.view setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
     
-    [[tamilLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    /*[[tamilLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
     [[tamilLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
     [[tamilLanguageButton layer] setShadowOpacity:0.7f];
     [[tamilLanguageButton layer] setShadowRadius:5];
@@ -94,12 +93,13 @@
     [[englishLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
     [[englishLanguageButton layer] setShadowOpacity:0.7f];
     [[englishLanguageButton layer] setShadowRadius:5];
-    [[englishLanguageButton layer] setShouldRasterize:YES];
-
+    [[englishLanguageButton layer] setShouldRasterize:YES];*/
+    
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
 
+    [self chooseLanguage:tagForLanguage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -116,7 +116,7 @@
 }
 
 - (void)chooseLanguage:(NSInteger)tagForChosenLanguage {
-    tagForLanguage = tagForChosenLanguage;
+//    tagForLanguage = tagForChosenLanguage;
     [self createInitialUI];
     [self getBookJson];
 }
