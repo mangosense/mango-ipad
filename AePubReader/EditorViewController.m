@@ -665,8 +665,6 @@
             /*NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"widgets/4/"]];
             [webview loadRequest:[NSURLRequest requestWithURL:url]];*/
             
-
-            
             [self.view addSubview:widgetWebView];
             
             [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];

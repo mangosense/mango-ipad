@@ -51,6 +51,7 @@ uint ctr;
         self.userInteractionEnabled = YES;
         [self setMultipleTouchEnabled:NO];
         path = [UIBezierPath bezierPath];
+        [path setLineCapStyle:kCGLineCapRound];
     }
     return self;
 }
@@ -114,17 +115,9 @@ uint ctr;
     [path stroke];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    ctr = 0;
-    UITouch *touch = [touches anyObject];
-    pts[0] = [touch locationInView:self];
-}
+#pragma mark - Point Calculations
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    CGPoint p = [touch locationInView:self];
+- (void)calculatePositionsForPoint:(CGPoint)p {
     ctr++;
     pts[ctr] = p;
     if (ctr == 4)
@@ -140,8 +133,33 @@ uint ctr;
     }
 }
 
+#pragma mark - Touch Methods
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    ctr = 0;
+    UITouch *touch = [touches anyObject];
+    pts[0] = [touch locationInView:self];
+    
+    CGPoint p = [touch locationInView:self];
+    [path moveToPoint:p];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint p = [touch locationInView:self];
+    [self calculatePositionsForPoint:p];
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint p = [touch locationInView:self];
+    if (ctr == 0) {
+        [path addCurveToPoint:p controlPoint1:p controlPoint2:p];
+    }
+
     [self drawBitmap];
     [self setNeedsDisplay];
     [path removeAllPoints];
