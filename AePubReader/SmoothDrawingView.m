@@ -156,9 +156,7 @@ uint ctr;
 {
     UITouch *touch = [touches anyObject];
     CGPoint p = [touch locationInView:self];
-    if (ctr == 0) {
-        [path addCurveToPoint:p controlPoint1:p controlPoint2:p];
-    }
+    [path addCurveToPoint:p controlPoint1:p controlPoint2:p];
 
     [self drawBitmap];
     [self setNeedsDisplay];
