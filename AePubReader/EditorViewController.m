@@ -519,6 +519,21 @@
  
 #pragma mark - Prepare UI
 
+- (void)showAudioControl {
+    if (audioRecViewController.view.isHidden == YES) {
+        [audioRecViewController.view setHidden:NO];
+        [UIView animateWithDuration:0.5 animations:^{
+            audioRecViewController.view.alpha = 1.0f;
+        }];
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            audioRecViewController.view.alpha = 0.0f;
+        } completion:^(BOOL finished){
+            [audioRecViewController.view setHidden:YES];
+        }];
+    }
+}
+
 - (void)createInitialUI {
     backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
     backgroundImageView.delegate = self;
@@ -615,8 +630,8 @@
     [self.view addSubview:showPaintPalletButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
         
-    /*recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
+    recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 120, 44, 44)];
     [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
     [recordAudioButton setUserInteractionEnabled:YES];
     [[recordAudioButton layer] setMasksToBounds:NO];
@@ -625,9 +640,9 @@
     [[recordAudioButton layer] setShadowOpacity:0.3f];
     [[recordAudioButton layer] setShadowRadius:5];
     [[recordAudioButton layer] setShouldRasterize:YES];
-    [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [recordAudioButton addTarget:self action:@selector(showAudioControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:recordAudioButton];
-    [self.view bringSubviewToFront:recordAudioButton];*/
+    [self.view bringSubviewToFront:recordAudioButton];
     
     [self.view bringSubviewToFront:pageScrollView];
 }
@@ -733,6 +748,8 @@
     if (!audioRecViewController) {
         audioRecViewController = [[AudioRecordingViewController alloc] initWithNibName:@"AudioRecordingViewController" bundle:nil];
         [audioRecViewController.view setFrame:CGRectMake(self.view.frame.size.width - 205, self.view.frame.size.height - 205, 200, 200)];
+        audioRecViewController.view.alpha = 0.0f;
+        [audioRecViewController.view setHidden:YES];
         [self.view addSubview:audioRecViewController.view];
     }
     audioRecViewController.audioUrl = url;
