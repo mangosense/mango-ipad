@@ -16,6 +16,7 @@
 
 @interface SmoothDrawingView : UIView {
     UIImage *incrementalImage;
+    UIImage *tempImage;
 }
 
 @property (nonatomic, strong) UIImage *incrementalImage;
@@ -23,5 +24,6 @@
 @property (nonatomic, assign) id <DoodleDelegate> delegate;
 @property (nonatomic, assign) NSInteger selectedColor;
 @property (nonatomic, assign) NSInteger selectedBrush;
+@property (nonatomic, strong) UIImage *tempImage;
 
 @end

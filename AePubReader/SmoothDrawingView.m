@@ -27,6 +27,7 @@ uint ctr;
 @implementation SmoothDrawingView
 
 @synthesize incrementalImage;
+@synthesize tempImage;
 @synthesize indexOfThisImage;
 @synthesize delegate;
 @synthesize selectedColor;
@@ -54,6 +55,14 @@ uint ctr;
         [path setLineCapStyle:kCGLineCapRound];
     }
     return self;
+}
+
+- (void)setTempImage:(UIImage *)tempImageFromStory {
+    UIGraphicsBeginImageContext(self.frame.size);
+    UIImage *image = tempImageFromStory;
+    [image drawInRect:self.bounds];
+    tempImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -103,7 +112,8 @@ uint ctr;
             break;
             
         case ORANGE_BUTTON_TAG:
-            [[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            //[[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            [[UIColor colorWithPatternImage:tempImage] set];
             break;
             
         default:
@@ -181,7 +191,7 @@ uint ctr;
         [rectpath fill];
     }
     [incrementalImage drawInRect:self.frame];
-    
+        
     switch (selectedBrush) {
         case SMALL_BRUSH_TAG:
             [path setLineWidth:5.0];
@@ -225,7 +235,8 @@ uint ctr;
             break;
             
         case ORANGE_BUTTON_TAG:
-            [[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            //[[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            [[UIColor colorWithPatternImage:tempImage] set];
             break;
             
         default:
