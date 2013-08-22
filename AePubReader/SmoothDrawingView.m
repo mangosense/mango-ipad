@@ -15,6 +15,7 @@
 #define PEA_GREEN_BUTTON_TAG 5
 #define PURPLE_BUTTON_TAG 6
 #define ORANGE_BUTTON_TAG 7
+#define ERASER_BUTTON_TAG 8
 
 #define SMALL_BRUSH_TAG 1
 #define MEDIUM_BRUSH_TAG 2
@@ -112,12 +113,15 @@ uint ctr;
             break;
             
         case ORANGE_BUTTON_TAG:
-            //[[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            [[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            break;
+            
+        case ERASER_BUTTON_TAG:
             [[UIColor colorWithPatternImage:tempImage] set];
             break;
             
         default:
-            [[UIColor blackColor] setStroke];
+            [[UIColor redColor] setStroke];
             break;
     }
     
@@ -235,12 +239,15 @@ uint ctr;
             break;
             
         case ORANGE_BUTTON_TAG:
-            //[[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            [[UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:1.0] setStroke];
+            break;
+            
+        case ERASER_BUTTON_TAG:
             [[UIColor colorWithPatternImage:tempImage] set];
             break;
             
         default:
-            [[UIColor blackColor] setStroke];
+            [[UIColor redColor] setStroke];
             break;
     }
     

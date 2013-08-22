@@ -20,6 +20,7 @@
 #define PEA_GREEN_BUTTON_TAG 5
 #define PURPLE_BUTTON_TAG 6
 #define ORANGE_BUTTON_TAG 7
+#define ERASER_BUTTON_TAG 8
 
 #define ENGLISH_TAG 9
 #define TAMIL_TAG 10
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) NSMutableArray *arrayOfPages;
 @property (nonatomic, strong) UIButton *showScrollViewButton;
 @property (nonatomic, strong) UIButton *showPaintPalletButton;
+@property (nonatomic, strong) UIButton *eraserButton;
 @property (nonatomic, strong) UIButton *cameraButton;
 @property (nonatomic, strong) UIButton *recordAudioButton;
 @property (nonatomic, strong) UIButton *playButton;
@@ -52,6 +54,7 @@
 @synthesize backgroundImagesArray;
 @synthesize showScrollViewButton;
 @synthesize showPaintPalletButton;
+@synthesize eraserButton;
 @synthesize cameraButton;
 @synthesize recordAudioButton;
 @synthesize audioPlayer;
@@ -561,22 +564,7 @@
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
-    
-    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cameraButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
-    [cameraButton setImage:[UIImage imageNamed:@"camera_gray_round.png"] forState:UIControlStateNormal];
-    [[cameraButton layer] setCornerRadius:cameraButton.frame.size.height/20];
-    [cameraButton setUserInteractionEnabled:YES];
-    [[cameraButton layer] setMasksToBounds:NO];
-    [[cameraButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[cameraButton layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [[cameraButton layer] setShadowOpacity:0.3f];
-    [[cameraButton layer] setShadowRadius:5];
-    [[cameraButton layer] setShouldRasterize:YES];
-    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:cameraButton];
-    [self.view bringSubviewToFront:cameraButton];
-    
+        
     [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
     UIImage *image=[UIImage imageNamed:@"topdot.png"];
     pageScrollView.backgroundColor= [UIColor colorWithPatternImage:image];
@@ -629,9 +617,41 @@
     [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showPaintPalletButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
-        
+    
+    eraserButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [eraserButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, showPaintPalletButton.frame.origin.y + 60, 44, 44)];
+    eraserButton.tag = ERASER_BUTTON_TAG;
+    [eraserButton setImage:[UIImage imageNamed:@"eraser.png"] forState:UIControlStateNormal];
+    [[eraserButton layer] setCornerRadius:eraserButton.frame.size.height/20];
+    [eraserButton setUserInteractionEnabled:YES];
+    [[eraserButton layer] setMasksToBounds:NO];
+    [[eraserButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[eraserButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[eraserButton layer] setShadowOpacity:0.3f];
+    [[eraserButton layer] setShadowRadius:5];
+    [[eraserButton layer] setShouldRasterize:YES];
+    [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:eraserButton];
+    [self.view bringSubviewToFront:eraserButton];
+
+    
+    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cameraButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, eraserButton.frame.origin.y + 60, 44, 44)];
+    [cameraButton setImage:[UIImage imageNamed:@"camera_gray_round.png"] forState:UIControlStateNormal];
+    [[cameraButton layer] setCornerRadius:cameraButton.frame.size.height/20];
+    [cameraButton setUserInteractionEnabled:YES];
+    [[cameraButton layer] setMasksToBounds:NO];
+    [[cameraButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[cameraButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[cameraButton layer] setShadowOpacity:0.3f];
+    [[cameraButton layer] setShadowRadius:5];
+    [[cameraButton layer] setShouldRasterize:YES];
+    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cameraButton];
+    [self.view bringSubviewToFront:cameraButton];
+    
     recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 120, 44, 44)];
+    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, cameraButton.frame.origin.y + 60, 44, 44)];
     [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
     [recordAudioButton setUserInteractionEnabled:YES];
     [[recordAudioButton layer] setMasksToBounds:NO];
