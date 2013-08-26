@@ -118,6 +118,7 @@ uint ctr;
             
         case ERASER_BUTTON_TAG:
             [[UIColor colorWithPatternImage:tempImage] set];
+            [path setLineWidth:25.0];
             break;
             
         default:
@@ -244,6 +245,7 @@ uint ctr;
             
         case ERASER_BUTTON_TAG:
             [[UIColor colorWithPatternImage:tempImage] set];
+            [path setLineWidth:25.0];
             break;
             
         default:

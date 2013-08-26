@@ -87,7 +87,7 @@
     [self.view setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
     self.navigationController.navigationBar.translucent = NO;
     self.tabBarController.tabBar.translucent = NO;
-    
+
     /*[[tamilLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
     [[tamilLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
     [[tamilLanguageButton layer] setShadowOpacity:0.7f];
@@ -782,6 +782,8 @@
     [self.view bringSubviewToFront:showScrollViewButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
     [self.view bringSubviewToFront:cameraButton];
+    [self.view bringSubviewToFront:eraserButton];
+    [self.view bringSubviewToFront:recordAudioButton];
     [self.view bringSubviewToFront:audioRecViewController.view];
     [self.view bringSubviewToFront:pageScrollView];
     [self.view bringSubviewToFront:paintPalletView];
