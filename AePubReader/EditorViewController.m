@@ -85,6 +85,8 @@
     // Do any additional setup after loading the view from its nib.    
     
     [self.view setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
+    self.navigationController.navigationBar.translucent = NO;
+    self.tabBarController.tabBar.translucent = NO;
     
     /*[[tamilLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
     [[tamilLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];

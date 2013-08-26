@@ -127,6 +127,9 @@
 
 - (void)viewDidLoad
 {
+    self.navigationController.navigationBar.translucent = NO;
+    self.tabBarController.tabBar.translucent = NO;
+    
     _emptyCellIndex=NSNotFound;
     [super viewDidLoad];
     UIBarButtonItem *editBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(DeleteButton:)];
