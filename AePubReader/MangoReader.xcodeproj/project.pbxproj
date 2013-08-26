@@ -92,6 +92,10 @@
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
 		833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */; };
+		83603C5317CB7D39000DA2CE /* AwesomeMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 83603C4F17CB776B000DA2CE /* AwesomeMenu.h */; };
+		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
+		83603C5517CB7D39000DA2CE /* AwesomeMenuItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */; };
+		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		839BC59617BB9DF100F1E9C5 /* widgets in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59517BB9DF100F1E9C5 /* widgets */; };
 		839BC59A17BB9EB600F1E9C5 /* 7 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59717BB9EB600F1E9C5 /* 7 */; };
 		839BC59B17BB9EB600F1E9C5 /* 8 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59817BB9EB600F1E9C5 /* 8 */; };
@@ -502,6 +506,10 @@
 		833DDD5F17B8EDA5009BCA5C /* AudioRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingViewController.h; sourceTree = "<group>"; };
 		833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordingViewController.m; sourceTree = "<group>"; };
 		833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecordingViewController.xib; sourceTree = "<group>"; };
+		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
+		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
+		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
+		83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenuItem.m; sourceTree = "<group>"; };
 		839BC59517BB9DF100F1E9C5 /* widgets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = widgets; sourceTree = "<group>"; };
 		839BC59717BB9EB600F1E9C5 /* 7 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 7; sourceTree = "<group>"; };
 		839BC59817BB9EB600F1E9C5 /* 8 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 8; sourceTree = "<group>"; };
@@ -1223,6 +1231,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				83603C4E17CB7756000DA2CE /* Paint Menu */,
 				839BC59717BB9EB600F1E9C5 /* 7 */,
 				839BC59817BB9EB600F1E9C5 /* 8 */,
 				839BC59917BB9EB600F1E9C5 /* 9 */,
@@ -1313,6 +1322,17 @@
 				833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */,
 			);
 			name = "Audio Recorder";
+			sourceTree = "<group>";
+		};
+		83603C4E17CB7756000DA2CE /* Paint Menu */ = {
+			isa = PBXGroup;
+			children = (
+				83603C4F17CB776B000DA2CE /* AwesomeMenu.h */,
+				83603C5017CB776B000DA2CE /* AwesomeMenu.m */,
+				83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */,
+				83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */,
+			);
+			name = "Paint Menu";
 			sourceTree = "<group>";
 		};
 		AE1373721622D9D0006C2CA6 /* flurry */ = {
@@ -2135,6 +2155,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83603C5317CB7D39000DA2CE /* AwesomeMenu.h in Sources */,
+				83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */,
+				83603C5517CB7D39000DA2CE /* AwesomeMenuItem.h in Sources */,
+				83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */,
 				AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */,
 				AE6860691659F70800A8C9E8 /* Base64.m in Sources */,
 				AE43C738161056DD00970739 /* Reachability.m in Sources */,

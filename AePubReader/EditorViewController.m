@@ -8,6 +8,8 @@
 
 #import "EditorViewController.h"
 #import "AudioRecordingViewController.h"
+#import "AwesomeMenu.h"
+#import "AwesomeMenuItem.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -32,6 +34,7 @@
 @property (nonatomic, strong) NSMutableArray *arrayOfPages;
 @property (nonatomic, strong) UIButton *showScrollViewButton;
 @property (nonatomic, strong) UIButton *showPaintPalletButton;
+@property (nonatomic, strong) AwesomeMenu *paintMenu;
 @property (nonatomic, strong) UIButton *eraserButton;
 @property (nonatomic, strong) UIButton *cameraButton;
 @property (nonatomic, strong) UIButton *recordAudioButton;
@@ -67,6 +70,7 @@
 @synthesize tagForLanguage;
 @synthesize englishLanguageButton;
 @synthesize tamilLanguageButton;
+@synthesize paintMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -521,6 +525,12 @@
     UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
     [photoActionSheet showFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton animated:YES];
 }
+
+#pragma mark - Paint Menu Delegate
+
+- (void)awesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx {
+    backgroundImageView.selectedColor = idx + 1;
+}
  
 #pragma mark - Prepare UI
 
@@ -603,7 +613,7 @@
     [self.view addSubview:showScrollViewButton];
     [self.view bringSubviewToFront:showScrollViewButton];
     
-    showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    /*showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showPaintPalletButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
     [showPaintPalletButton setImage:[UIImage imageNamed:@"brush-small.png"] forState:UIControlStateNormal];
     //    [showPaintPalletButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
@@ -618,27 +628,10 @@
     showPaintPalletButton.tag = paintPalletView.frame.origin.x<self.view.frame.size.width ? 1:0;
     [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showPaintPalletButton];
-    [self.view bringSubviewToFront:showPaintPalletButton];
-    
-    eraserButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [eraserButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, showPaintPalletButton.frame.origin.y + 60, 44, 44)];
-    eraserButton.tag = ERASER_BUTTON_TAG;
-    [eraserButton setImage:[UIImage imageNamed:@"eraser.png"] forState:UIControlStateNormal];
-    [[eraserButton layer] setCornerRadius:eraserButton.frame.size.height/20];
-    [eraserButton setUserInteractionEnabled:YES];
-    [[eraserButton layer] setMasksToBounds:NO];
-    [[eraserButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[eraserButton layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [[eraserButton layer] setShadowOpacity:0.3f];
-    [[eraserButton layer] setShadowRadius:5];
-    [[eraserButton layer] setShouldRasterize:YES];
-    [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:eraserButton];
-    [self.view bringSubviewToFront:eraserButton];
-
+    [self.view bringSubviewToFront:showPaintPalletButton];*/
     
     cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cameraButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, eraserButton.frame.origin.y + 60, 44, 44)];
+    [cameraButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 0, 44, 44)];
     [cameraButton setImage:[UIImage imageNamed:@"camera_gray_round.png"] forState:UIControlStateNormal];
     [[cameraButton layer] setCornerRadius:cameraButton.frame.size.height/20];
     [cameraButton setUserInteractionEnabled:YES];
@@ -665,6 +658,70 @@
     [recordAudioButton addTarget:self action:@selector(showAudioControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:recordAudioButton];
     [self.view bringSubviewToFront:recordAudioButton];
+    
+    eraserButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [eraserButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, recordAudioButton.frame.origin.y + 60, 44, 44)];
+    eraserButton.tag = ERASER_BUTTON_TAG;
+    [eraserButton setImage:[UIImage imageNamed:@"eraser.png"] forState:UIControlStateNormal];
+    [[eraserButton layer] setCornerRadius:eraserButton.frame.size.height/20];
+    [eraserButton setUserInteractionEnabled:YES];
+    [[eraserButton layer] setMasksToBounds:NO];
+    [[eraserButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[eraserButton layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[eraserButton layer] setShadowOpacity:0.3f];
+    [[eraserButton layer] setShadowRadius:5];
+    [[eraserButton layer] setShouldRasterize:YES];
+    [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:eraserButton];
+    [self.view bringSubviewToFront:eraserButton];
+    
+    //Paint Buttons Menu
+    AwesomeMenuItem *starMenuItem1 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"red-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"red-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"red-splash.png"]
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem2 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"yellow-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"yellow-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"yellow-splash.png"]
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem3 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"green-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"green-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"green-splash.png"]
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem4 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"skyblue-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"skyblue-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"skyblue-splash.png"]
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem5 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"peasgreen-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"peasgreen-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"peasgreen-splash.png"]
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem6 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"purple-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"purple-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"purple-splash.png"]
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem7 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"orange-splash.png"]
+                                                           highlightedImage:[UIImage imageNamed:@"orange-splash.png"]
+                                                               ContentImage:[UIImage imageNamed:@"orange-splash.png"]
+                                                    highlightedContentImage:nil];
+    
+    // the start item, similar to "add" button of Path
+    AwesomeMenuItem *startItem = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"red-splash.png"]
+                                                       highlightedImage:[UIImage imageNamed:@"red-splash.png"]
+                                                           ContentImage:[UIImage imageNamed:@"red-splash.png"]
+                                                highlightedContentImage:[UIImage imageNamed:@"red-splash.png"]];
+    // setup the menu and options
+    paintMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:[NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5, starMenuItem6, starMenuItem7, nil]];
+    paintMenu.delegate = self;
+    [self.view addSubview:paintMenu];
+    
+    paintMenu.startPoint = CGPointMake(paintPalletView.frame.origin.x - 22, eraserButton.frame.origin.y + 60 + 22);
+    paintMenu.rotateAngle = -M_PI/4 + 0.35;
+    paintMenu.menuWholeAngle = -M_PI/2 - 0.7;
+    paintMenu.timeOffset = 0.036f;
+    paintMenu.farRadius = 150.0f;
+    paintMenu.nearRadius = 120.0f;
+    paintMenu.endRadius = 150.0f;
     
     [self.view bringSubviewToFront:pageScrollView];
 }
@@ -781,6 +838,7 @@
     [self.view bringSubviewToFront:mainTextView];
     [self.view bringSubviewToFront:showScrollViewButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
+    [self.view bringSubviewToFront:paintMenu];
     [self.view bringSubviewToFront:cameraButton];
     [self.view bringSubviewToFront:eraserButton];
     [self.view bringSubviewToFront:recordAudioButton];
