@@ -13,7 +13,7 @@
 #import "AwesomeMenu.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, AwesomeMenuDelegate, AwesomeMenuItemDelegate> {
+@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, AwesomeMenuDelegate> {
     AVAudioPlayer *audioPlayer;
     AVAudioRecorder *audioRecorder;
     

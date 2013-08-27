@@ -39,6 +39,7 @@
 @property (nonatomic, strong) UIButton *cameraButton;
 @property (nonatomic, strong) UIButton *recordAudioButton;
 @property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) UIButton *assetsButton;
 @property (nonatomic, strong) AudioRecordingViewController *audioRecViewController;
 @property (nonatomic, strong) UIPopoverController *photoPopoverController;
 @property (nonatomic, strong) NSString *angryBirdsTamilJsonString;
@@ -71,6 +72,7 @@
 @synthesize englishLanguageButton;
 @synthesize tamilLanguageButton;
 @synthesize paintMenu;
+@synthesize assetsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -532,6 +534,12 @@
 - (void)awesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx {
     backgroundImageView.selectedColor = idx + 1;
 }
+
+#pragma mark - Show Assets
+
+- (void)showAssets {
+    NSLog(@"Show Assets");
+}
  
 #pragma mark - Prepare UI
 
@@ -550,44 +558,30 @@
     }
 }
 
+- (NSMutableArray *)arrayOfMenuItemsForColors:(NSArray *)colorsArray {
+    NSMutableArray *arrayOfMenuItems = [[NSMutableArray alloc] init];
+    for (NSString *colorString in colorsArray) {
+        AwesomeMenuItem *starMenuItem = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:colorString]
+                                                               highlightedImage:[UIImage imageNamed:colorString]
+                                                                   ContentImage:[UIImage imageNamed:colorString]
+                                                        highlightedContentImage:nil];
+        [arrayOfMenuItems addObject:starMenuItem];
+    }
+    
+    return arrayOfMenuItems;
+}
+
 - (void)createPaintPalletView {
     //Paint Buttons Menu
-    AwesomeMenuItem *starMenuItem1 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"red-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"red-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"red-splash.png"]
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem2 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"yellow-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"yellow-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"yellow-splash.png"]
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem3 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"green-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"green-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"green-splash.png"]
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem4 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"skyblue-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"skyblue-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"skyblue-splash.png"]
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem5 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"peasgreen-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"peasgreen-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"peasgreen-splash.png"]
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem6 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"purple-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"purple-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"purple-splash.png"]
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem7 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"orange-splash.png"]
-                                                           highlightedImage:[UIImage imageNamed:@"orange-splash.png"]
-                                                               ContentImage:[UIImage imageNamed:@"orange-splash.png"]
-                                                    highlightedContentImage:nil];
-    
+    NSArray *menuItemsArray = (NSArray *)[self arrayOfMenuItemsForColors:[NSArray arrayWithObjects:@"red-splash.png", @"yellow-splash.png", @"green-splash.png", @"skyblue-splash.png", @"peasgreen-splash.png", @"purple-splash.png", @"orange-splash.png", nil]];
+        
     // the start item, similar to "add" button of Path
     AwesomeMenuItem *startItem = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"red-splash.png"]
                                                        highlightedImage:[UIImage imageNamed:@"red-splash.png"]
                                                            ContentImage:[UIImage imageNamed:@"red-splash.png"]
                                                 highlightedContentImage:[UIImage imageNamed:@"red-splash.png"]];
     // setup the menu and options
-    paintMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:[NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5, starMenuItem6, starMenuItem7, nil]];
+    paintMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:menuItemsArray];
     paintMenu.delegate = self;
     [self.view addSubview:paintMenu];
     
@@ -600,7 +594,7 @@
     paintMenu.endRadius = 150.0f;
 }
 
-- (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIButton *)upperButton {
+- (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton {
     CGFloat originY = 0;
     if (upperButton) {
         originY = upperButton.frame.origin.y + 60;
@@ -628,42 +622,7 @@
     [theView setBackgroundColor:[UIColor colorWithPatternImage:image]];
 }
 
-- (void)createInitialUI {
-    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
-    backgroundImageView.delegate = self;
-    // Temporarily adding fixed image
-    [self.view addSubview:backgroundImageView];
-    
-    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showPageScrollView)];
-    swipeUp.numberOfTouchesRequired = 2;
-    swipeUp.direction = UISwipeGestureRecognizerDirectionRight;
-    swipeUp.delaysTouchesBegan = YES;
-    [backgroundImageView addGestureRecognizer:swipeUp];
-    
-    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hidePageScrollView)];
-    swipeDown.numberOfTouchesRequired = 2;
-    swipeDown.direction = UISwipeGestureRecognizerDirectionLeft;
-    swipeDown.delaysTouchesBegan = YES;
-    [backgroundImageView addGestureRecognizer:swipeDown];
-    
-    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
-    mainTextView.tag = MAIN_TEXTVIEW_TAG;
-    mainTextView.textColor = [UIColor blackColor];
-    mainTextView.font = [UIFont boldSystemFontOfSize:24];
-    [self.view addSubview:mainTextView];
-    
-    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
-    self.navigationItem.titleView=imageView;
-    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
-    
-    [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
-    [self setupScrollView:pageScrollView withImage:[UIImage imageNamed:@"topdot.png"]];
-    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
-    
-    [self setupScrollView:paintPalletView withImage:[UIImage imageNamed:@"topdot.png"]];
-    [[paintPalletView layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [self.view bringSubviewToFront:paintPalletView];
-    
+- (void)createScrollViewButton {
     showScrollViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
     [showScrollViewButton setImage:[UIImage imageNamed:@"mango-icon.png"] forState:UIControlStateNormal];
@@ -679,27 +638,68 @@
     [showScrollViewButton addTarget:self action:@selector(showOrHideScrollView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showScrollViewButton];
     [self.view bringSubviewToFront:showScrollViewButton];
+}
+
+- (void)createInitialUI {
+    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
+    self.navigationItem.titleView=imageView;
+    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+
+    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
+    backgroundImageView.delegate = self;
+    // Temporarily adding fixed image
+    [self.view addSubview:backgroundImageView];
+        
+    // Text View
+    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
+    mainTextView.tag = MAIN_TEXTVIEW_TAG;
+    mainTextView.textColor = [UIColor blackColor];
+    mainTextView.font = [UIFont boldSystemFontOfSize:24];
+    [self.view addSubview:mainTextView];
     
+    // Pages List View
+    [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
+    [self setupScrollView:pageScrollView withImage:[UIImage imageNamed:@"topdot.png"]];
+    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
+    
+    /*// Pain Pallet View
+    [self setupScrollView:paintPalletView withImage:[UIImage imageNamed:@"topdot.png"]];
+    [[paintPalletView layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [self.view bringSubviewToFront:paintPalletView];*/
+    
+    // Show Scroll View Button
+    [self createScrollViewButton];
+    
+    // Camera Button
     cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:nil];
     [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
+    // Record Audio Button
     recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:cameraButton];
     [recordAudioButton addTarget:self action:@selector(showAudioControl) forControlEvents:UIControlEventTouchUpInside];
     
+    // Eraser Button
     eraserButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self setupButton:eraserButton withImage:[UIImage imageNamed:@"eraser.png"] belowButton:recordAudioButton];
     eraserButton.tag = ERASER_BUTTON_TAG;
     [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
+        
+    // Show Paint Pallet Button
     /*showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self setupButton:showPaintPalletButton withImage:[UIImage imageNamed:@"brush-small.png"] belowButton:eraserButton];
     showPaintPalletButton.tag = paintPalletView.frame.origin.x<self.view.frame.size.width ? 1:0;
     [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];*/
     
+    // Paint Pallet Round Menu
     [self createPaintPalletView];
-        
+    
+    // Assets Button
+    assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"image_icon.png"] belowButton:paintMenu];
+    [assetsButton setFrame:CGRectMake(assetsButton.frame.origin.x, paintMenu.startPoint.y + 60, assetsButton.frame.size.width, assetsButton.frame.size.height)];
+    
     [self.view bringSubviewToFront:pageScrollView];
 }
 
@@ -733,14 +733,10 @@
                 [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
             }
             
-            /*NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"widgets/4/"]];
-            [webview loadRequest:[NSURLRequest requestWithURL:url]];*/
-            
             [self.view addSubview:widgetWebView];
             
             [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
             mainTextView.text = @"";
-
         }
     } else {
         for (UIView *subview in self.view.subviews) {
