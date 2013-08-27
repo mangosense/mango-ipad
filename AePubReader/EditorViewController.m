@@ -42,6 +42,7 @@
 @property (nonatomic, strong) UIButton *assetsButton;
 @property (nonatomic, strong) AudioRecordingViewController *audioRecViewController;
 @property (nonatomic, strong) UIPopoverController *photoPopoverController;
+@property (nonatomic, strong) UIPopoverController *assetPopoverController;
 @property (nonatomic, strong) NSString *angryBirdsTamilJsonString;
 @property (nonatomic, strong) NSString *angryBirdsEnglishJsonString;
 - (void)getBookJson;
@@ -66,6 +67,7 @@
 @synthesize playButton;
 @synthesize audioRecViewController;
 @synthesize photoPopoverController;
+@synthesize assetPopoverController;
 @synthesize angryBirdsTamilJsonString;
 @synthesize angryBirdsEnglishJsonString;
 @synthesize tagForLanguage;
@@ -535,12 +537,97 @@
     backgroundImageView.selectedColor = idx + 1;
 }
 
+#pragma mark - Gesture Handlers for Assets
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void) addGestureRecognizersforView:(UIView *)someView {
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
+    [panRecognizer setMinimumNumberOfTouches:1];
+    [panRecognizer setMaximumNumberOfTouches:1];
+    panRecognizer.delegate = self;
+    [someView addGestureRecognizer:panRecognizer];
+    
+    UIRotationGestureRecognizer *rotateRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotate:)];
+    rotateRecognizer.delegate = self;
+    someView.multipleTouchEnabled = YES;
+    [someView addGestureRecognizer:rotateRecognizer];
+    
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
+    pinchRecognizer.delegate = self;
+    [someView addGestureRecognizer:pinchRecognizer];
+    
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
+    longPressRecognizer.delegate = self;
+    longPressRecognizer.minimumPressDuration = 2.0;
+    [someView addGestureRecognizer:longPressRecognizer];
+}
+
+- (void) move:(UIPanGestureRecognizer *)recognizer{
+    CGPoint translation = [recognizer translationInView:self.view];
+    recognizer.view.center = CGPointMake(recognizer.view.center.x+translation.x, recognizer.view.center.y+translation.y);
+    [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
+}
+
+- (void) rotate:(UIRotationGestureRecognizer *)recognizer{
+    NSLog(@"Rotate");
+    recognizer.view.transform = CGAffineTransformRotate(recognizer.view.transform, recognizer.rotation);
+    recognizer.rotation = 0;
+}
+
+- (void) pinch:(UIPinchGestureRecognizer *)recognizer{
+    recognizer.view.transform = CGAffineTransformScale(recognizer.view.transform, recognizer.scale, recognizer.scale);
+    recognizer.scale = 1;
+}
+
+- (void) longPressed:(UILongPressGestureRecognizer *)recognizer{
+    NSLog(@"Long Pressed");
+}
+
 #pragma mark - Show Assets
+
+- (void)addImageForButton:(UIButton *)button {
+    [assetPopoverController dismissPopoverAnimated:YES];
+    NSArray *arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+    
+    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - 60, self.view.center.y - 60, 120, 120)];
+    [assetImageView setUserInteractionEnabled:YES];
+    [assetImageView setMultipleTouchEnabled:YES];
+    [self addGestureRecognizersforView:assetImageView];
+    assetImageView.image = [UIImage imageNamed:[arrayOfImageNames objectAtIndex:button.tag]];
+    [self.view addSubview:assetImageView];
+}
 
 - (void)showAssets {
     NSLog(@"Show Assets");
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 250, 500)];
+    assetsScrollView.backgroundColor = [UIColor whiteColor];
+    [assetsScrollView setUserInteractionEnabled:YES];
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37*150);
+    assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
+    UIViewController *scrollViewController = [[UIViewController alloc] init];
+    [scrollViewController.view setFrame:CGRectMake(0, 0, 250, 500)];
+    [scrollViewController.view addSubview:assetsScrollView];
+    
+    NSArray *arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+    for (NSString *imageName in arrayOfImageNames) {
+        UIImage *image = [UIImage imageNamed:imageName];
+        UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [imageButton setImage:image forState:UIControlStateNormal];
+        [imageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
+        imageButton.tag = [arrayOfImageNames indexOfObject:imageName];
+        [imageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
+        [assetsScrollView addSubview:imageButton];
+    }
+    
+    assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollViewController];
+    [assetPopoverController setPopoverContentSize:CGSizeMake(250, 500)];
+    assetPopoverController.delegate = self;
+    [assetPopoverController presentPopoverFromRect:assetsButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
- 
+
 #pragma mark - Prepare UI
 
 - (void)showAudioControl {
@@ -649,7 +736,7 @@
     backgroundImageView.delegate = self;
     // Temporarily adding fixed image
     [self.view addSubview:backgroundImageView];
-        
+    
     // Text View
     mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
     mainTextView.tag = MAIN_TEXTVIEW_TAG;
@@ -699,6 +786,7 @@
     assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self setupButton:assetsButton withImage:[UIImage imageNamed:@"image_icon.png"] belowButton:paintMenu];
     [assetsButton setFrame:CGRectMake(assetsButton.frame.origin.x, paintMenu.startPoint.y + 60, assetsButton.frame.size.width, assetsButton.frame.size.height)];
+    [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view bringSubviewToFront:pageScrollView];
 }
