@@ -128,7 +128,7 @@
 - (void)viewDidLoad
 {
     self.navigationController.navigationBar.translucent = NO;
-    self.tabBarController.tabBar.translucent = NO;
+//    self.tabBarController.tabBar.translucent = NO;
     
     _emptyCellIndex=NSNotFound;
     [super viewDidLoad];

@@ -44,7 +44,7 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.translucent = NO;
-    self.tabBarController.tabBar.translucent = NO;
+//    self.tabBarController.tabBar.translucent = NO;
 
    // [self performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
     _listOfBooks=nil;
