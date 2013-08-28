@@ -24,6 +24,9 @@
 #define ORANGE_BUTTON_TAG 7
 #define ERASER_BUTTON_TAG 8
 
+#define BRUSH_MENU_TAG 1
+#define COLOR_MENU_TAG 2
+
 #define ENGLISH_TAG 9
 #define TAMIL_TAG 10
 #define MALAY_TAG 12
@@ -35,11 +38,13 @@
 @property (nonatomic, strong) UIButton *showScrollViewButton;
 @property (nonatomic, strong) UIButton *showPaintPalletButton;
 @property (nonatomic, strong) AwesomeMenu *paintMenu;
+@property (nonatomic, strong) AwesomeMenu *brushMenu;
 @property (nonatomic, strong) UIButton *eraserButton;
 @property (nonatomic, strong) UIButton *cameraButton;
 @property (nonatomic, strong) UIButton *recordAudioButton;
 @property (nonatomic, strong) UIButton *playButton;
 @property (nonatomic, strong) UIButton *assetsButton;
+@property (nonatomic, strong) UIButton *brushButton;
 @property (nonatomic, strong) AudioRecordingViewController *audioRecViewController;
 @property (nonatomic, strong) UIPopoverController *photoPopoverController;
 @property (nonatomic, strong) UIPopoverController *assetPopoverController;
@@ -75,7 +80,9 @@
 @synthesize englishLanguageButton;
 @synthesize tamilLanguageButton;
 @synthesize paintMenu;
+@synthesize brushMenu;
 @synthesize assetsButton;
+@synthesize brushButton;
 @synthesize addNewPageButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -533,10 +540,21 @@
     [photoActionSheet showFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton animated:YES];
 }
 
-#pragma mark - Paint Menu Delegate
+#pragma mark - Awesome Menu Delegate
 
 - (void)awesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx {
-    backgroundImageView.selectedColor = idx + 1;
+    switch (menu.tag) {
+        case BRUSH_MENU_TAG:
+            backgroundImageView.selectedBrush = idx + 1;
+            break;
+            
+        case COLOR_MENU_TAG:
+            backgroundImageView.selectedColor = idx + 1;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - Gesture Handlers for Assets
@@ -660,6 +678,30 @@
     return arrayOfMenuItems;
 }
 
+- (void)createBrushMenu {
+    //Brush Buttons Menu
+    NSArray *menuItemsArray = (NSArray *)[self arrayOfMenuItemsForColors:[NSArray arrayWithObjects:@"brush-small.png", @"brush-medium.png", @"brush-large.png", nil]];
+    
+    // the start item, similar to "add" button of Path
+    AwesomeMenuItem *startItem = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"brush-small.png"]
+                                                       highlightedImage:[UIImage imageNamed:@"brush-small.png"]
+                                                           ContentImage:[UIImage imageNamed:@"brush-small.png"]
+                                                highlightedContentImage:[UIImage imageNamed:@"brush-small.png"]];
+    // setup the menu and options
+    brushMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:menuItemsArray];
+    brushMenu.tag = BRUSH_MENU_TAG;
+    brushMenu.delegate = self;
+    [self.view addSubview:brushMenu];
+    
+    brushMenu.startPoint = CGPointMake(paintPalletView.frame.origin.x - 22, paintMenu.startPoint.y + 60 + 22);
+    brushMenu.rotateAngle = -M_PI/4 + 0.35;
+    brushMenu.menuWholeAngle = -M_PI/2 - 0.7;
+    brushMenu.timeOffset = 0.036f;
+    brushMenu.farRadius = 150.0f;
+    brushMenu.nearRadius = 120.0f;
+    brushMenu.endRadius = 150.0f;
+}
+
 - (void)createPaintPalletView {
     //Paint Buttons Menu
     NSArray *menuItemsArray = (NSArray *)[self arrayOfMenuItemsForColors:[NSArray arrayWithObjects:@"red-splash.png", @"yellow-splash.png", @"green-splash.png", @"skyblue-splash.png", @"peasgreen-splash.png", @"purple-splash.png", @"orange-splash.png", nil]];
@@ -671,6 +713,7 @@
                                                 highlightedContentImage:[UIImage imageNamed:@"red-splash.png"]];
     // setup the menu and options
     paintMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:menuItemsArray];
+    paintMenu.tag = COLOR_MENU_TAG;
     paintMenu.delegate = self;
     [self.view addSubview:paintMenu];
     
@@ -784,10 +827,13 @@
     // Paint Pallet Round Menu
     [self createPaintPalletView];
     
+    // Brush Menu
+    [self createBrushMenu];
+    
     // Assets Button
     assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"image_icon.png"] belowButton:paintMenu];
-    [assetsButton setFrame:CGRectMake(assetsButton.frame.origin.x, paintMenu.startPoint.y + 60, assetsButton.frame.size.width, assetsButton.frame.size.height)];
+    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"image_icon.png"] belowButton:brushMenu];
+    [assetsButton setFrame:CGRectMake(assetsButton.frame.origin.x, brushMenu.startPoint.y + 60, assetsButton.frame.size.width, assetsButton.frame.size.height)];
     [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view bringSubviewToFront:pageScrollView];
