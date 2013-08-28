@@ -45,6 +45,7 @@
 @property (nonatomic, strong) UIPopoverController *assetPopoverController;
 @property (nonatomic, strong) NSString *angryBirdsTamilJsonString;
 @property (nonatomic, strong) NSString *angryBirdsEnglishJsonString;
+@property (nonatomic, strong) UIButton *addNewPageButton;
 - (void)getBookJson;
 
 @end
@@ -75,6 +76,7 @@
 @synthesize tamilLanguageButton;
 @synthesize paintMenu;
 @synthesize assetsButton;
+@synthesize addNewPageButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -794,71 +796,113 @@
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
     NSMutableString *textOnPage = [[NSMutableString alloc] initWithString:@""];
     
-    NSDictionary *dictionaryForPage = [arrayOfPages objectAtIndex:pageNumber];
-    for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
-        if ([[layerDict objectForKey:@"type"] isEqualToString:@"audio"]) {
-            NSArray *arrayOfWords = [layerDict objectForKey:@"wordMap"];
-            for (NSDictionary *wordDict in arrayOfWords) {
-                [textOnPage appendFormat:@"%@ ", [wordDict objectForKey:@"word"]];
+    if (pageNumber < [arrayOfPages count]) {
+        NSDictionary *dictionaryForPage = [arrayOfPages objectAtIndex:pageNumber];
+        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
+            if ([[layerDict objectForKey:@"type"] isEqualToString:@"audio"]) {
+                NSArray *arrayOfWords = [layerDict objectForKey:@"wordMap"];
+                for (NSDictionary *wordDict in arrayOfWords) {
+                    [textOnPage appendFormat:@"%@ ", [wordDict objectForKey:@"word"]];
+                }
             }
         }
+        
+        if ([[dictionaryForPage allKeys] containsObject:@"type"]) {
+            if ([[dictionaryForPage objectForKey:@"type"] isEqualToString:@"widget"]) {
+                NSDictionary *layerDict = [[dictionaryForPage objectForKey:@"layers"] objectAtIndex:0];
+                
+                [backgroundImageView removeFromSuperview];
+                UIWebView *widgetWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+                
+                if (tagForLanguage == ENGLISH_TAG) {
+                    NSLog(@"%@", [NSString stringWithFormat:@"/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]);
+                    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:[NSString stringWithFormat:@"/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]]];
+                    [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
+                } else if (tagForLanguage == TAMIL_TAG) {
+                    NSLog(@"%@", [NSString stringWithFormat:@"/widgets/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]);
+                    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:[NSString stringWithFormat:@"/widgets/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]]];
+                    [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
+                }
+                
+                [self.view addSubview:widgetWebView];
+                
+                [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
+                mainTextView.text = @"";
+            }
+        } else {
+            for (UIView *subview in self.view.subviews) {
+                if ([subview isKindOfClass:[UIWebView class]]) {
+                    [subview removeFromSuperview];
+                    break;
+                }
+            }
+            if (!backgroundImageView) {
+                backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
+                backgroundImageView.delegate = self;
+            }
+            if (![self.view.subviews containsObject:backgroundImageView]) {
+                // Temporarily adding fixed image
+                [self.view addSubview:backgroundImageView];
+            }
+            
+            if ([backgroundImagesArray objectAtIndex:pageNumber]) {
+                backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
+                backgroundImageView.tempImage = [backgroundImagesArray objectAtIndex:pageNumber];
+                [backgroundImageView setNeedsDisplay];
+                //[backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
+                backgroundImageView.indexOfThisImage = pageNumber;
+            }
+            if ([textOnPage length] > 0) {
+                mainTextView.text = textOnPage;
+                CGSize textSize = [mainTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:24] constrainedToSize:CGSizeMake(700, 500) lineBreakMode:NSLineBreakByWordWrapping];
+                [mainTextView setFrame:CGRectMake(mainTextView.frame.origin.x, mainTextView.frame.origin.y, textSize.width, textSize.height + 60)];
+            } else {
+                [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
+                mainTextView.text = @"";
+            }
+        }
+    }
+    else {
+        NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
+        [newPageDict setObject:[NSNumber numberWithInt:[arrayOfPages count]] forKey:@"id"];
+        [newPageDict setObject:[NSNumber numberWithInt:[arrayOfPages count]] forKey:@"name"];
+        NSMutableArray *layersArray = [[NSMutableArray alloc] init];
+        NSMutableDictionary *imageDict = [[NSMutableDictionary alloc] init];
+        [imageDict setObject:@"image" forKey:@"type"];
+        [imageDict setObject:@"white_page.jpeg" forKey:@"url"];
+        [layersArray addObject:imageDict];
+        [newPageDict setObject:layersArray forKey:@"layers"];
+        [arrayOfPages addObject:newPageDict];
+        
+        if (!backgroundImagesArray) {
+            backgroundImagesArray = [[NSMutableArray alloc] init];
+        }
+        [backgroundImagesArray addObject:[UIImage imageNamed:[imageDict objectForKey:@"url"]]];
+        
+        UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [pageButton setImage:[UIImage imageNamed:[imageDict objectForKey:@"url"]] forState:UIControlStateNormal];
+        [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
+        CGFloat yOffsetForButton = [arrayOfPages indexOfObject:newPageDict]*150;
+        [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+        pageButton.tag = [backgroundImagesArray count] - 1;
+        [[pageButton layer] setMasksToBounds:NO];
+        [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+        [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
+        [[pageButton layer] setShadowOpacity:0.3f];
+        [[pageButton layer] setShadowRadius:2];
+        [[pageButton layer] setShouldRasterize:YES];
+        [pageScrollView addSubview:pageButton];
+        
+        CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, ([arrayOfPages count]+1)*150);
+        pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
+        // Add New Page Button
+        if (addNewPageButton) {
+            [addNewPageButton removeFromSuperview];
+        }
+        [self creatAddNewPageButton];
+        [self createPageWithPageNumber:pageNumber];
     }
     
-    if ([[dictionaryForPage allKeys] containsObject:@"type"]) {
-        if ([[dictionaryForPage objectForKey:@"type"] isEqualToString:@"widget"]) {
-            NSDictionary *layerDict = [[dictionaryForPage objectForKey:@"layers"] objectAtIndex:0];
-            
-            [backgroundImageView removeFromSuperview];
-            UIWebView *widgetWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-            
-            if (tagForLanguage == ENGLISH_TAG) {
-                NSLog(@"%@", [NSString stringWithFormat:@"/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]);
-                NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:[NSString stringWithFormat:@"/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]]];
-                [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
-            } else if (tagForLanguage == TAMIL_TAG) {
-                NSLog(@"%@", [NSString stringWithFormat:@"/widgets/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]);
-                NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:[NSString stringWithFormat:@"/widgets/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]]];
-                [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
-            }
-            
-            [self.view addSubview:widgetWebView];
-            
-            [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
-            mainTextView.text = @"";
-        }
-    } else {
-        for (UIView *subview in self.view.subviews) {
-            if ([subview isKindOfClass:[UIWebView class]]) {
-                [subview removeFromSuperview];
-                break;
-            }
-        }
-        if (!backgroundImageView) {
-            backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
-            backgroundImageView.delegate = self;
-        }
-        if (![self.view.subviews containsObject:backgroundImageView]) {
-            // Temporarily adding fixed image
-            [self.view addSubview:backgroundImageView];
-        }
-
-        if ([backgroundImagesArray objectAtIndex:pageNumber]) {
-            backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
-            backgroundImageView.tempImage = [backgroundImagesArray objectAtIndex:pageNumber];
-            [backgroundImageView setNeedsDisplay];
-            //[backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
-            backgroundImageView.indexOfThisImage = pageNumber;
-        }
-        if ([textOnPage length] > 0) {
-            mainTextView.text = textOnPage;
-            CGSize textSize = [mainTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:24] constrainedToSize:CGSizeMake(700, 500) lineBreakMode:NSLineBreakByWordWrapping];
-            [mainTextView setFrame:CGRectMake(mainTextView.frame.origin.x, mainTextView.frame.origin.y, textSize.width, textSize.height + 60)];
-        } else {
-            [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
-            mainTextView.text = @"";
-        }
-    }
-
     if ([[self.view subviews] containsObject:playButton]) {
         [playButton removeFromSuperview];
     }
@@ -915,8 +959,26 @@
     [self hidePaintPalletView];
 }
 
+- (void)creatAddNewPageButton {
+    addNewPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addNewPageButton setImage:[UIImage imageNamed:@"new_page.png"] forState:UIControlStateNormal];
+    [addNewPageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat yOffsetForButton = [arrayOfPages count]*150;
+    [addNewPageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+    addNewPageButton.tag = [arrayOfPages count];
+    
+    [[addNewPageButton layer] setMasksToBounds:NO];
+    [[addNewPageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
+    [[addNewPageButton layer] setShadowOffset:CGSizeMake(10, 10)];
+    [[addNewPageButton layer] setShadowOpacity:0.3f];
+    [[addNewPageButton layer] setShadowRadius:2];
+    [[addNewPageButton layer] setShouldRasterize:YES];
+    
+    [pageScrollView addSubview:addNewPageButton];
+}
+
 - (void)createScrollView {
-    CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, [arrayOfPages count]*150);
+    CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, ([arrayOfPages count]+1)*150);
     pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
     for (NSDictionary *dictionaryForPage in arrayOfPages) {
         for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
@@ -1009,6 +1071,9 @@
             }
         }
     }
+    
+    // Add New Page Button
+    [self creatAddNewPageButton];
 }
 
 #pragma mark - Parsing Book Json
