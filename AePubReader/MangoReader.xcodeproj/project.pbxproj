@@ -139,6 +139,7 @@
 		8374AF2A17CC69DD009DA792 /* pictures_icon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8374AF2817CC69DD009DA792 /* pictures_icon.jpeg */; };
 		8374AF2C17CC76B4009DA792 /* image_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AF2B17CC76B4009DA792 /* image_icon.png */; };
 		8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E07D17CF12FE0080EB0C /* Checkmark.png */; };
+		8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8393E08317CF45280080EB0C /* UIImage-Extensions.m */; };
 		839BC59617BB9DF100F1E9C5 /* widgets in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59517BB9DF100F1E9C5 /* widgets */; };
 		839BC59A17BB9EB600F1E9C5 /* 7 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59717BB9EB600F1E9C5 /* 7 */; };
 		839BC59B17BB9EB600F1E9C5 /* 8 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59817BB9EB600F1E9C5 /* 8 */; };
@@ -596,6 +597,8 @@
 		8374AF2817CC69DD009DA792 /* pictures_icon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pictures_icon.jpeg; sourceTree = "<group>"; };
 		8374AF2B17CC76B4009DA792 /* image_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_icon.png; sourceTree = "<group>"; };
 		8393E07D17CF12FE0080EB0C /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checkmark.png; sourceTree = "<group>"; };
+		8393E08217CF45280080EB0C /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
+		8393E08317CF45280080EB0C /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
 		839BC59517BB9DF100F1E9C5 /* widgets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = widgets; sourceTree = "<group>"; };
 		839BC59717BB9EB600F1E9C5 /* 7 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 7; sourceTree = "<group>"; };
 		839BC59817BB9EB600F1E9C5 /* 8 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 8; sourceTree = "<group>"; };
@@ -1344,6 +1347,8 @@
 				839BC59D17BDEAA400F1E9C5 /* StoriesViewController.h */,
 				839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */,
 				839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */,
+				8393E08217CF45280080EB0C /* UIImage-Extensions.h */,
+				8393E08317CF45280080EB0C /* UIImage-Extensions.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2449,6 +2454,7 @@
 				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
+				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 #import "SmoothDrawingView.h"
+#import "UIImage-Extensions.h"
 
 #define RED_BUTTON_TAG 1
 #define YELLOW_BUTTON_TAG 2
@@ -199,9 +200,9 @@ uint ctr;
     
     [incrementalImage drawInRect:self.frame];
     
-//    CGContextRotateCTM(UIGraphicsGetCurrentContext(), -angle);
-    NSLog(@"Origin = %f, %f", tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20 - frame.size.height/2);
-    [stickerImage drawInRect:CGRectMake(tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20*(frame.size.height/120) - frame.size.height/2, frame.size.width, frame.size.height)];
+    stickerImage = [stickerImage imageRotatedByRadians:-angle];
+    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20*(frame.size.height/120) - frame.size.height/2);
+    [stickerImage drawInRect:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     
     incrementalImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -218,7 +219,7 @@ uint ctr;
         [rectpath fill];
     }
     [incrementalImage drawInRect:self.frame];
-        
+    
     switch (selectedBrush) {
         case SMALL_BRUSH_TAG:
             [path setLineWidth:5.0];
