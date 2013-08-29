@@ -51,6 +51,10 @@
 @property (nonatomic, strong) NSString *angryBirdsTamilJsonString;
 @property (nonatomic, strong) NSString *angryBirdsEnglishJsonString;
 @property (nonatomic, strong) UIButton *addNewPageButton;
+@property (nonatomic, strong) UIView *stickerView;
+@property (nonatomic, assign) CGFloat rotateAngle;
+@property (nonatomic, assign) CGPoint translatePoint;
+
 - (void)getBookJson;
 
 @end
@@ -84,6 +88,9 @@
 @synthesize assetsButton;
 @synthesize brushButton;
 @synthesize addNewPageButton;
+@synthesize stickerView;
+@synthesize rotateAngle;
+@synthesize translatePoint;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -592,12 +599,16 @@
 - (void) move:(UIPanGestureRecognizer *)recognizer{
     CGPoint translation = [recognizer translationInView:self.view];
     recognizer.view.center = CGPointMake(recognizer.view.center.x+translation.x, recognizer.view.center.y+translation.y);
+    translatePoint = recognizer.view.center;
+    NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
 }
 
 - (void) rotate:(UIRotationGestureRecognizer *)recognizer{
     NSLog(@"Rotate");
     recognizer.view.transform = CGAffineTransformRotate(recognizer.view.transform, recognizer.rotation);
+    rotateAngle = atan2f(recognizer.view.transform.b, recognizer.view.transform.a);;
+    NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
     recognizer.rotation = 0;
 }
 
@@ -615,16 +626,46 @@
 
 #pragma mark - Show Assets
 
+- (void)addAssetToView {
+    UIImage *viewImage = nil;
+    for (UIView *subview in [stickerView subviews]) {
+        if ([subview isKindOfClass:[UIImageView class]]) {
+            UIImageView *subviewImageView = (UIImageView *)subview;
+            viewImage = subviewImageView.image;
+            if (viewImage) {
+                NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
+                [backgroundImageView drawSticker:viewImage inRect:[stickerView convertRect:subview.frame toView:self.view] WithTranslation:translatePoint AndRotation:-rotateAngle];
+            }
+            [stickerView removeFromSuperview];
+            break;
+        }
+    }
+    
+}
+
 - (void)addImageForButton:(UIButton *)button {
     [assetPopoverController dismissPopoverAnimated:YES];
     NSArray *arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
     
-    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - 60, self.view.center.y - 60, 120, 120)];
-    [assetImageView setUserInteractionEnabled:YES];
-    [assetImageView setMultipleTouchEnabled:YES];
-    [self addGestureRecognizersforView:assetImageView];
+    stickerView = [[UIView alloc] initWithFrame:CGRectMake(self.view.center.x - 90, self.view.center.y - 90, 140, 180)];
+    [stickerView setUserInteractionEnabled:YES];
+    [stickerView setMultipleTouchEnabled:YES];
+    [self addGestureRecognizersforView:stickerView];
+
+    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 120, 120)];
     assetImageView.image = [UIImage imageNamed:[arrayOfImageNames objectAtIndex:button.tag]];
-    [self.view addSubview:assetImageView];
+    [stickerView addSubview:assetImageView];
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setImage:[UIImage imageNamed:@"Checkmark.png"] forState:UIControlStateNormal];
+    [doneButton setFrame:CGRectMake(50, 130, 44, 44)];
+    [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
+    [stickerView addSubview:doneButton];
+    
+    [self.view addSubview:stickerView];
+    
+    rotateAngle = 0;
+    translatePoint = stickerView.center;
 }
 
 - (void)showAssets {

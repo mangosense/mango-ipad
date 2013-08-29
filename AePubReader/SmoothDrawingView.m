@@ -186,6 +186,28 @@ uint ctr;
     [self touchesEnded:touches withEvent:event];
 }
 
+#pragma mark - Drawing Methods
+
+- (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle {
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
+    if (!incrementalImage) // first time; paint background clear
+    {
+        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.bounds];
+        [[UIColor clearColor] setFill];
+        [rectpath fill];
+    }
+    
+    [incrementalImage drawInRect:self.frame];
+    
+//    CGContextRotateCTM(UIGraphicsGetCurrentContext(), -angle);
+    NSLog(@"Origin = %f, %f", tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20 - frame.size.height/2);
+    [stickerImage drawInRect:CGRectMake(tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20*(frame.size.height/120) - frame.size.height/2, frame.size.width, frame.size.height)];
+    
+    incrementalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [self setNeedsDisplay];
+}
+
 - (void)drawBitmap
 {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);

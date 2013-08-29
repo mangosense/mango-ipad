@@ -25,5 +25,6 @@
 @property (nonatomic, assign) NSInteger selectedColor;
 @property (nonatomic, assign) NSInteger selectedBrush;
 @property (nonatomic, strong) UIImage *tempImage;
+- (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle;
 
 @end
