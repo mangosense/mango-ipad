@@ -207,6 +207,8 @@ uint ctr;
     incrementalImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     [self setNeedsDisplay];
+    
+    [delegate replaceImageAtIndex:indexOfThisImage withImage:incrementalImage];
 }
 
 - (void)drawBitmap

@@ -615,7 +615,7 @@
 - (void) pinch:(UIPinchGestureRecognizer *)recognizer{
     recognizer.view.transform = CGAffineTransformScale(recognizer.view.transform, recognizer.scale, recognizer.scale);
     recognizer.scale = 1;
-    if (recognizer.view.frame.size.width < 40) {
+    if (recognizer.view.frame.size.width < 120) {
         [recognizer.view removeFromSuperview];
     }
 }
@@ -880,7 +880,7 @@
     
     // Assets Button
     assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"image_icon.png"] belowButton:brushMenu];
+    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"insert_image.png"] belowButton:brushMenu];
     [assetsButton setFrame:CGRectMake(assetsButton.frame.origin.x, brushMenu.startPoint.y + 60, assetsButton.frame.size.width, assetsButton.frame.size.height)];
     [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
     

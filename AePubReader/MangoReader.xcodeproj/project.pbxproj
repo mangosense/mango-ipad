@@ -140,6 +140,7 @@
 		8374AF2C17CC76B4009DA792 /* image_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AF2B17CC76B4009DA792 /* image_icon.png */; };
 		8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E07D17CF12FE0080EB0C /* Checkmark.png */; };
 		8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8393E08317CF45280080EB0C /* UIImage-Extensions.m */; };
+		8393E08617CF7A940080EB0C /* insert_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E08517CF7A940080EB0C /* insert_image.png */; };
 		839BC59617BB9DF100F1E9C5 /* widgets in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59517BB9DF100F1E9C5 /* widgets */; };
 		839BC59A17BB9EB600F1E9C5 /* 7 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59717BB9EB600F1E9C5 /* 7 */; };
 		839BC59B17BB9EB600F1E9C5 /* 8 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59817BB9EB600F1E9C5 /* 8 */; };
@@ -599,6 +600,7 @@
 		8393E07D17CF12FE0080EB0C /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checkmark.png; sourceTree = "<group>"; };
 		8393E08217CF45280080EB0C /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
 		8393E08317CF45280080EB0C /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
+		8393E08517CF7A940080EB0C /* insert_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert_image.png; sourceTree = "<group>"; };
 		839BC59517BB9DF100F1E9C5 /* widgets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = widgets; sourceTree = "<group>"; };
 		839BC59717BB9EB600F1E9C5 /* 7 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 7; sourceTree = "<group>"; };
 		839BC59817BB9EB600F1E9C5 /* 8 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 8; sourceTree = "<group>"; };
@@ -1327,6 +1329,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				8393E08517CF7A940080EB0C /* insert_image.png */,
 				83603C4E17CB7756000DA2CE /* Paint Menu */,
 				839BC59717BB9EB600F1E9C5 /* 7 */,
 				839BC59817BB9EB600F1E9C5 /* 8 */,
@@ -2318,6 +2321,7 @@
 				83417AA217CE137100D48BC3 /* new_page.png in Resources */,
 				83417AA317CE137100D48BC3 /* white_page.jpeg in Resources */,
 				8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */,
+				8393E08617CF7A940080EB0C /* insert_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
