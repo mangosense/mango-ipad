@@ -206,6 +206,10 @@
     showScrollViewButton.tag = 0;
 }
 
+- (void)createTextBoxAtPoint:(CGPoint)textCenterPoint {
+    
+}
+
 #pragma mark - PageBackgroundImageView Delegate Method
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
@@ -220,8 +224,8 @@
 }
 
 - (IBAction)paintBrushButtonPressed:(id)sender {
-    UIButton *brushButton = (UIButton *)sender;
-    backgroundImageView.selectedBrush = brushButton.tag;
+    UIButton *brushSizeButton = (UIButton *)sender;
+    backgroundImageView.selectedBrush = brushSizeButton.tag;
 }
 
 #pragma mark - Button Animation
@@ -600,6 +604,9 @@
 - (void) pinch:(UIPinchGestureRecognizer *)recognizer{
     recognizer.view.transform = CGAffineTransformScale(recognizer.view.transform, recognizer.scale, recognizer.scale);
     recognizer.scale = 1;
+    if (recognizer.view.frame.size.width < 40) {
+        [recognizer.view removeFromSuperview];
+    }
 }
 
 - (void) longPressed:(UILongPressGestureRecognizer *)recognizer{
