@@ -468,6 +468,13 @@
             
             [pageScrollView addSubview:pageButton];
             
+            CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, ([arrayOfPages count]+1)*150);
+            pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
+            // Add New Page Button
+            if (addNewPageButton) {
+                [addNewPageButton removeFromSuperview];
+            }
+            [self creatAddNewPageButton];
             //Display newly created page
             [self createPageWithPageNumber:[arrayOfPages count]-1];
         }
@@ -1042,6 +1049,8 @@
     [self.view bringSubviewToFront:showScrollViewButton];
     [self.view bringSubviewToFront:showPaintPalletButton];
     [self.view bringSubviewToFront:paintMenu];
+    [self.view bringSubviewToFront:brushMenu];
+    [self.view bringSubviewToFront:assetsButton];
     [self.view bringSubviewToFront:cameraButton];
     [self.view bringSubviewToFront:eraserButton];
     [self.view bringSubviewToFront:recordAudioButton];
