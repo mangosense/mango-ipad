@@ -200,8 +200,8 @@
     [UIView
      animateWithDuration:0.2
      animations:^{
-         pageScrollView.frame = CGRectMake(0, 0, 150, self.view.frame.size.height);
-         [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
+         accordion.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
+         [showScrollViewButton setFrame:CGRectMake(accordion.frame.origin.x + accordion.frame.size.width, 0, 44, 44)];
      }];
     showScrollViewButton.tag = 1;
 }
@@ -210,8 +210,8 @@
     [UIView
      animateWithDuration:0.2
      animations:^{
-         pageScrollView.frame = CGRectMake(-150, 0, 150, self.view.frame.size.height);
-         [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
+         accordion.frame = CGRectMake(-200, 0, 200, self.view.frame.size.height);
+         [showScrollViewButton setFrame:CGRectMake(accordion.frame.origin.x + accordion.frame.size.width, 0, 44, 44)];
      }];
     showScrollViewButton.tag = 0;
 }
@@ -755,13 +755,13 @@
     brushMenu.delegate = self;
     [self.view addSubview:brushMenu];
     
-    brushMenu.startPoint = CGPointMake(100, 300);
-    brushMenu.rotateAngle = M_PI/4 + 0.35;
-    brushMenu.menuWholeAngle = M_PI/2 - 0.7;
+    brushMenu.startPoint = CGPointMake(100, 200);
+    brushMenu.rotateAngle = 0;
+    brushMenu.menuWholeAngle = 2*M_PI;
     brushMenu.timeOffset = 0.036f;
-    brushMenu.farRadius = 80.0f;
+    brushMenu.farRadius = 70.0f;
     brushMenu.nearRadius = 60.0f;
-    brushMenu.endRadius = 80.0f;
+    brushMenu.endRadius = 70.0f;
     
     return brushMenu;
 }
@@ -821,7 +821,7 @@
 
 - (void)createScrollViewButton {
     showScrollViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [showScrollViewButton setFrame:CGRectMake(pageScrollView.frame.origin.x + pageScrollView.frame.size.width, 0, 44, 44)];
+    [showScrollViewButton setFrame:CGRectMake(accordion.frame.origin.x + accordion.frame.size.width, 0, 44, 44)];
     [showScrollViewButton setImage:[UIImage imageNamed:@"mango-icon.png"] forState:UIControlStateNormal];
     [[showScrollViewButton layer] setCornerRadius:showScrollViewButton.frame.size.height/20];
     [showScrollViewButton setUserInteractionEnabled:YES];
@@ -831,7 +831,7 @@
     [[showScrollViewButton layer] setShadowOpacity:0.3f];
     [[showScrollViewButton layer] setShadowRadius:5];
     [[showScrollViewButton layer] setShouldRasterize:YES];
-    showScrollViewButton.tag = pageScrollView.frame.origin.x>0 ? 1:0;
+    showScrollViewButton.tag = accordion.frame.origin.x>0 ? 1:0;
     [showScrollViewButton addTarget:self action:@selector(showOrHideScrollView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showScrollViewButton];
     [self.view bringSubviewToFront:showScrollViewButton];
@@ -866,7 +866,7 @@
     [self.view bringSubviewToFront:pageScrollView];
 
     
-    accordion = [[AccordionView alloc] initWithFrame:CGRectMake(0, 0, 200, [[UIScreen mainScreen] bounds].size.height)];
+    accordion = [[AccordionView alloc] initWithFrame:CGRectMake(-200, 0, 200, [[UIScreen mainScreen] bounds].size.height)];
     
     [self.view addSubview:accordion];
     self.view.backgroundColor = [UIColor colorWithRed:0.925 green:0.941 blue:0.945 alpha:1.000];
