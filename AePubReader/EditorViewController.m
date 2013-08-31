@@ -857,15 +857,6 @@
     eraserButton.tag = ERASER_BUTTON_TAG;
     [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    // Assets Button
-    assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"insert_image.png"] belowButton:brushMenu];
-    [assetsButton setFrame:CGRectMake(assetsButton.frame.origin.x, brushMenu.startPoint.y + 60, assetsButton.frame.size.width, assetsButton.frame.size.height)];
-    [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view bringSubviewToFront:pageScrollView];
-
-    
     accordion = [[AccordionView alloc] initWithFrame:CGRectMake(-200, 0, 200, [[UIScreen mainScreen] bounds].size.height)];
     
     [self.view addSubview:accordion];
@@ -897,8 +888,15 @@
     UIButton *header3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
     [header3 setTitle:@"Assets" forState:UIControlStateNormal];
     header3.backgroundColor = [UIColor blackColor];
+    // Assets Button
+    assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"insert_image.png"] belowButton:brushMenu];
+    [assetsButton setFrame:CGRectMake(0, 0, 200, 200)];
+    [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
+
     UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.view.frame.size.height - 90)];
     view3.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]];
+    [view3 addSubview:assetsButton];
     [accordion addHeader:header3 withView:view3];
     
     [accordion setNeedsLayout];
