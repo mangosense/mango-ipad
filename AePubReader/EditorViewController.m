@@ -10,6 +10,7 @@
 #import "AudioRecordingViewController.h"
 #import "AwesomeMenu.h"
 #import "AwesomeMenuItem.h"
+#import "AccordionView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -54,6 +55,7 @@
 @property (nonatomic, strong) UIView *stickerView;
 @property (nonatomic, assign) CGFloat rotateAngle;
 @property (nonatomic, assign) CGPoint translatePoint;
+@property (nonatomic, strong) AccordionView *accordion;
 
 - (void)getBookJson;
 
@@ -91,6 +93,7 @@
 @synthesize stickerView;
 @synthesize rotateAngle;
 @synthesize translatePoint;
+@synthesize accordion;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -456,7 +459,7 @@
             [pageButton setImage:image forState:UIControlStateNormal];
             [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
             CGFloat yOffsetForButton = [arrayOfPages indexOfObject:newPageDictionary]*150;
-            [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+            [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
             pageButton.tag = [backgroundImagesArray indexOfObject:image];
             
             [[pageButton layer] setMasksToBounds:NO];
@@ -737,7 +740,7 @@
     return arrayOfMenuItems;
 }
 
-- (void)createBrushMenu {
+- (AwesomeMenu *)createBrushMenu {
     //Brush Buttons Menu
     NSArray *menuItemsArray = (NSArray *)[self arrayOfMenuItemsForColors:[NSArray arrayWithObjects:@"brush-small.png", @"brush-medium.png", @"brush-large.png", nil]];
     
@@ -747,21 +750,23 @@
                                                            ContentImage:[UIImage imageNamed:@"brush-small.png"]
                                                 highlightedContentImage:[UIImage imageNamed:@"brush-small.png"]];
     // setup the menu and options
-    brushMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:menuItemsArray];
+    brushMenu = [[AwesomeMenu alloc] initWithFrame:CGRectMake(0, 200, 200, 200) startItem:startItem optionMenus:menuItemsArray];
     brushMenu.tag = BRUSH_MENU_TAG;
     brushMenu.delegate = self;
     [self.view addSubview:brushMenu];
     
-    brushMenu.startPoint = CGPointMake(paintPalletView.frame.origin.x - 22, paintMenu.startPoint.y + 60 + 22);
-    brushMenu.rotateAngle = -M_PI/4 + 0.35;
-    brushMenu.menuWholeAngle = -M_PI/2 - 0.7;
+    brushMenu.startPoint = CGPointMake(100, 300);
+    brushMenu.rotateAngle = M_PI/4 + 0.35;
+    brushMenu.menuWholeAngle = M_PI/2 - 0.7;
     brushMenu.timeOffset = 0.036f;
-    brushMenu.farRadius = 150.0f;
-    brushMenu.nearRadius = 120.0f;
-    brushMenu.endRadius = 150.0f;
+    brushMenu.farRadius = 80.0f;
+    brushMenu.nearRadius = 60.0f;
+    brushMenu.endRadius = 80.0f;
+    
+    return brushMenu;
 }
 
-- (void)createPaintPalletView {
+- (AwesomeMenu *)createPaintPalletView {
     //Paint Buttons Menu
     NSArray *menuItemsArray = (NSArray *)[self arrayOfMenuItemsForColors:[NSArray arrayWithObjects:@"red-splash.png", @"yellow-splash.png", @"green-splash.png", @"skyblue-splash.png", @"peasgreen-splash.png", @"purple-splash.png", @"orange-splash.png", nil]];
         
@@ -771,18 +776,19 @@
                                                            ContentImage:[UIImage imageNamed:@"red-splash.png"]
                                                 highlightedContentImage:[UIImage imageNamed:@"red-splash.png"]];
     // setup the menu and options
-    paintMenu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:startItem optionMenus:menuItemsArray];
+    paintMenu = [[AwesomeMenu alloc] initWithFrame:CGRectMake(0, 0, 200, 200) startItem:startItem optionMenus:menuItemsArray];
     paintMenu.tag = COLOR_MENU_TAG;
     paintMenu.delegate = self;
-    [self.view addSubview:paintMenu];
     
-    paintMenu.startPoint = CGPointMake(paintPalletView.frame.origin.x - 22, eraserButton.frame.origin.y + 60 + 22);
-    paintMenu.rotateAngle = -M_PI/4 + 0.35;
-    paintMenu.menuWholeAngle = -M_PI/2 - 0.7;
+    paintMenu.startPoint = CGPointMake(100, 100);
+    paintMenu.rotateAngle = 0;
+    paintMenu.menuWholeAngle = 2*M_PI;
     paintMenu.timeOffset = 0.036f;
-    paintMenu.farRadius = 150.0f;
-    paintMenu.nearRadius = 120.0f;
-    paintMenu.endRadius = 150.0f;
+    paintMenu.farRadius = 70.0f;
+    paintMenu.nearRadius = 60.0f;
+    paintMenu.endRadius = 70.0f;
+    
+    return paintMenu;
 }
 
 - (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton {
@@ -831,33 +837,7 @@
     [self.view bringSubviewToFront:showScrollViewButton];
 }
 
-- (void)createInitialUI {
-    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
-    self.navigationItem.titleView=imageView;
-    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
-
-    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
-    backgroundImageView.delegate = self;
-    // Temporarily adding fixed image
-    [self.view addSubview:backgroundImageView];
-    
-    // Text View
-    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
-    mainTextView.tag = MAIN_TEXTVIEW_TAG;
-    mainTextView.textColor = [UIColor blackColor];
-    mainTextView.font = [UIFont boldSystemFontOfSize:24];
-    [self.view addSubview:mainTextView];
-    
-    // Pages List View
-    [pageScrollView setFrame:CGRectMake(-150, 0, 150, self.view.frame.size.height)];
-    [self setupScrollView:pageScrollView withImage:[UIImage imageNamed:@"topdot.png"]];
-    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
-    
-    /*// Pain Pallet View
-    [self setupScrollView:paintPalletView withImage:[UIImage imageNamed:@"topdot.png"]];
-    [[paintPalletView layer] setShadowOffset:CGSizeMake(-3, -3)];
-    [self.view bringSubviewToFront:paintPalletView];*/
-    
+- (void)createToolView {
     // Show Scroll View Button
     [self createScrollViewButton];
     
@@ -876,18 +856,6 @@
     [self setupButton:eraserButton withImage:[UIImage imageNamed:@"eraser.png"] belowButton:recordAudioButton];
     eraserButton.tag = ERASER_BUTTON_TAG;
     [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-    // Show Paint Pallet Button
-    /*showPaintPalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:showPaintPalletButton withImage:[UIImage imageNamed:@"brush-small.png"] belowButton:eraserButton];
-    showPaintPalletButton.tag = paintPalletView.frame.origin.x<self.view.frame.size.width ? 1:0;
-    [showPaintPalletButton addTarget:self action:@selector(showOrHidePaintPalletView) forControlEvents:UIControlEventTouchUpInside];*/
-    
-    // Paint Pallet Round Menu
-    [self createPaintPalletView];
-    
-    // Brush Menu
-    [self createBrushMenu];
     
     // Assets Button
     assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -896,6 +864,66 @@
     [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view bringSubviewToFront:pageScrollView];
+
+    
+    accordion = [[AccordionView alloc] initWithFrame:CGRectMake(0, 0, 200, [[UIScreen mainScreen] bounds].size.height)];
+    
+    [self.view addSubview:accordion];
+    self.view.backgroundColor = [UIColor colorWithRed:0.925 green:0.941 blue:0.945 alpha:1.000];
+    
+    // Only height is taken into account, so other parameters are just dummy
+    UIButton *header1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
+    [header1 setTitle:@"Pages" forState:UIControlStateNormal];
+    header1.backgroundColor = [UIColor blackColor];
+    // Pages List View
+    pageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height - 90)];
+    [self setupScrollView:pageScrollView withImage:[UIImage imageNamed:@"topdot.png"]];
+    [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
+    [accordion addHeader:header1 withView:pageScrollView];
+    
+    UIButton *header2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
+    [header2 setTitle:@"Drawing Tools" forState:UIControlStateNormal];
+    header2.backgroundColor = [UIColor blackColor];
+    // Paint Pallet Round Menu
+    paintMenu = [self createPaintPalletView];
+    // Brush Menu
+    brushMenu = [self createBrushMenu];
+    UIView *paintBrushMenu = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height - 90)];
+    [paintBrushMenu setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [paintBrushMenu addSubview:paintMenu];
+    [paintBrushMenu addSubview:brushMenu];
+    [accordion addHeader:header2 withView:paintBrushMenu];
+    
+    UIButton *header3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
+    [header3 setTitle:@"Assets" forState:UIControlStateNormal];
+    header3.backgroundColor = [UIColor blackColor];
+    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.view.frame.size.height - 90)];
+    view3.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]];
+    [accordion addHeader:header3 withView:view3];
+    
+    [accordion setNeedsLayout];
+    // Set this if you want to allow multiple selection
+    [accordion setAllowsMultipleSelection:NO];
+}
+
+- (void)createInitialUI {
+    UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
+    self.navigationItem.titleView=imageView;
+    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+
+    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
+    backgroundImageView.delegate = self;
+    // Temporarily adding fixed image
+    [self.view addSubview:backgroundImageView];
+    
+    // Text View
+    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
+    mainTextView.tag = MAIN_TEXTVIEW_TAG;
+    mainTextView.textColor = [UIColor blackColor];
+    mainTextView.font = [UIFont boldSystemFontOfSize:24];
+    [self.view addSubview:mainTextView];
+        
+    [self createToolView];
 }
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
@@ -988,7 +1016,7 @@
         [pageButton setImage:[UIImage imageNamed:[imageDict objectForKey:@"url"]] forState:UIControlStateNormal];
         [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
         CGFloat yOffsetForButton = [arrayOfPages indexOfObject:newPageDict]*150;
-        [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+        [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
         pageButton.tag = [backgroundImagesArray count] - 1;
         [[pageButton layer] setMasksToBounds:NO];
         [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
@@ -1057,7 +1085,6 @@
     [self.view bringSubviewToFront:audioRecViewController.view];
     [self.view bringSubviewToFront:pageScrollView];
     [self.view bringSubviewToFront:paintPalletView];
-
 }
 
 - (void)createPageForSender:(UIButton *)sender {
@@ -1071,7 +1098,7 @@
     [addNewPageButton setImage:[UIImage imageNamed:@"new_page.png"] forState:UIControlStateNormal];
     [addNewPageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
     CGFloat yOffsetForButton = [arrayOfPages count]*150;
-    [addNewPageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+    [addNewPageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
     addNewPageButton.tag = [arrayOfPages count];
     
     [[addNewPageButton layer] setMasksToBounds:NO];
@@ -1107,7 +1134,7 @@
                          [pageButton setImage:image forState:UIControlStateNormal];
                          [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
                          CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                         [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+                         [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
                          pageButton.tag = [backgroundImagesArray indexOfObject:image];
                          
                          [[pageButton layer] setMasksToBounds:NO];
@@ -1134,7 +1161,7 @@
                 [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
                 [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
                 CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+                [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
                 pageButton.tag = [backgroundImagesArray indexOfObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
                 
                 [[pageButton layer] setMasksToBounds:NO];
@@ -1155,7 +1182,7 @@
                 UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
                 CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                [pageButton setFrame:CGRectMake(10, 15 + yOffsetForButton, 120, 120)];
+                [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
                 pageButton.tag = [backgroundImagesArray count]-1;
                 
                 [[pageButton layer] setMasksToBounds:NO];

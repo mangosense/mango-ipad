@@ -34,7 +34,7 @@
 @property (nonatomic, strong) SmoothDrawingView *backgroundImageView;
 @property (nonatomic, strong) MovableTextView *mainTextView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pageScrollView;
-@property (nonatomic, strong) IBOutlet UIView *paintPalletView;
+@property (nonatomic, strong) IBOutlet UIScrollView *paintPalletView;
 @property (nonatomic, strong) IBOutlet UIButton *englishLanguageButton;
 @property (nonatomic, strong) IBOutlet UIButton *tamilLanguageButton;
 @property (nonatomic, strong) NSMutableArray *backgroundImagesArray;

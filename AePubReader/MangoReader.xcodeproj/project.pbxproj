@@ -89,6 +89,7 @@
 		832D54C717B3B9AA005B81FD /* updown_e1e8d1ae58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */; };
 		832D54C817B3B9AA005B81FD /* updown_fea8d05bf8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */; };
 		832D54C917B3B9AA005B81FD /* x.wav in Resources */ = {isa = PBXBuildFile; fileRef = 832D549817B3B9AA005B81FD /* x.wav */; };
+		833765CF17D09BCE00262C26 /* AccordionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833765CE17D09BCE00262C26 /* AccordionView.m */; };
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
 		833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */; };
@@ -546,6 +547,8 @@
 		832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_e1e8d1ae58.jpg; path = "Temp Images/updown_e1e8d1ae58.jpg"; sourceTree = "<group>"; };
 		832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_fea8d05bf8.jpg; path = "Temp Images/updown_fea8d05bf8.jpg"; sourceTree = "<group>"; };
 		832D549817B3B9AA005B81FD /* x.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = x.wav; path = "Temp Images/x.wav"; sourceTree = "<group>"; };
+		833765CD17D09BCE00262C26 /* AccordionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccordionView.h; sourceTree = "<group>"; };
+		833765CE17D09BCE00262C26 /* AccordionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccordionView.m; sourceTree = "<group>"; };
 		833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothDrawingView.h; sourceTree = "<group>"; };
 		833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmoothDrawingView.m; sourceTree = "<group>"; };
 		833DDD5F17B8EDA5009BCA5C /* AudioRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingViewController.h; sourceTree = "<group>"; };
@@ -1329,6 +1332,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				833765CC17D09BC000262C26 /* Accordion View */,
 				8393E08517CF7A940080EB0C /* insert_image.png */,
 				83603C4E17CB7756000DA2CE /* Paint Menu */,
 				839BC59717BB9EB600F1E9C5 /* 7 */,
@@ -1413,6 +1417,15 @@
 			);
 			name = thumb;
 			path = "Temp Images/thumb";
+			sourceTree = "<group>";
+		};
+		833765CC17D09BC000262C26 /* Accordion View */ = {
+			isa = PBXGroup;
+			children = (
+				833765CD17D09BCE00262C26 /* AccordionView.h */,
+				833765CE17D09BCE00262C26 /* AccordionView.m */,
+			);
+			name = "Accordion View";
 			sourceTree = "<group>";
 		};
 		833DDD5E17B8ECD1009BCA5C /* Audio Recorder */ = {
@@ -2459,6 +2472,7 @@
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
+				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
