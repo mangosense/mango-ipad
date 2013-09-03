@@ -14,6 +14,7 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
 		832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB91E17B375D90073F9C2 /* EditorViewController.m */; };
 		832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832CB91F17B375D90073F9C2 /* EditorViewController.xib */; };
 		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
@@ -470,6 +471,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		830DE2A417D471E300399146 /* DrawingToolsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingToolsView.h; sourceTree = "<group>"; };
+		830DE2A517D471E300399146 /* DrawingToolsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingToolsView.m; sourceTree = "<group>"; };
 		832CB91D17B375D90073F9C2 /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorViewController.h; sourceTree = "<group>"; };
 		832CB91E17B375D90073F9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
 		832CB91F17B375D90073F9C2 /* EditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditorViewController.xib; sourceTree = "<group>"; };
@@ -1356,6 +1359,8 @@
 				839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */,
 				8393E08217CF45280080EB0C /* UIImage-Extensions.h */,
 				8393E08317CF45280080EB0C /* UIImage-Extensions.m */,
+				830DE2A417D471E300399146 /* DrawingToolsView.h */,
+				830DE2A517D471E300399146 /* DrawingToolsView.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2473,6 +2478,7 @@
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
+				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,6 +34,7 @@ uint ctr;
 @synthesize delegate;
 @synthesize selectedColor;
 @synthesize selectedBrush;
+@synthesize selectedEraserWidth;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -60,9 +61,9 @@ uint ctr;
 }
 
 - (void)setTempImage:(UIImage *)tempImageFromStory {
-    UIGraphicsBeginImageContext(self.frame.size);
+    UIGraphicsBeginImageContext(self.bounds.size);
     UIImage *image = tempImageFromStory;
-    [image drawInRect:self.bounds];
+    [image drawInRect:self.frame];
     tempImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 }
@@ -71,23 +72,8 @@ uint ctr;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    switch (selectedBrush) {
-        case SMALL_BRUSH_TAG:
-            [path setLineWidth:5.0];
-            break;
-            
-        case MEDIUM_BRUSH_TAG:
-            [path setLineWidth:10.0];
-            break;
-            
-        case LARGE_BRUSH_TAG:
-            [path setLineWidth:15.0];
-            break;
-            
-        default:
-            [path setLineWidth:5.0];
-            break;
-    }
+    [path setLineWidth:selectedBrush];
+    
     switch (selectedColor) {
         case RED_BUTTON_TAG:
             [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0] setStroke];
@@ -119,7 +105,7 @@ uint ctr;
             
         case ERASER_BUTTON_TAG:
             [[UIColor colorWithPatternImage:tempImage] set];
-            [path setLineWidth:25.0];
+            [path setLineWidth:selectedEraserWidth];
             break;
             
         default:
@@ -190,10 +176,10 @@ uint ctr;
 #pragma mark - Drawing Methods
 
 - (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(self.frame.size, YES, 0.0f);
     if (!incrementalImage) // first time; paint background clear
     {
-        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.bounds];
+        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.frame];
         [[UIColor clearColor] setFill];
         [rectpath fill];
     }
@@ -213,32 +199,17 @@ uint ctr;
 
 - (void)drawBitmap
 {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(self.frame.size, YES, 0.0f);
     if (!incrementalImage) // first time; paint background clear
     {
-        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.bounds];
+        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.frame];
         [[UIColor clearColor] setFill];
         [rectpath fill];
     }
     [incrementalImage drawInRect:self.frame];
     
-    switch (selectedBrush) {
-        case SMALL_BRUSH_TAG:
-            [path setLineWidth:5.0];
-            break;
-            
-        case MEDIUM_BRUSH_TAG:
-            [path setLineWidth:10.0];
-            break;
-            
-        case LARGE_BRUSH_TAG:
-            [path setLineWidth:15.0];
-            break;
-            
-        default:
-            [path setLineWidth:5.0];
-            break;
-    }
+    [path setLineWidth:selectedBrush];
+    
     switch (selectedColor) {
         case RED_BUTTON_TAG:
             [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0] setStroke];
@@ -270,7 +241,7 @@ uint ctr;
             
         case ERASER_BUTTON_TAG:
             [[UIColor colorWithPatternImage:tempImage] set];
-            [path setLineWidth:25.0];
+            [path setLineWidth:selectedEraserWidth];
             break;
             
         default:

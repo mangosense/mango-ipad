@@ -23,7 +23,8 @@
 @property (nonatomic, assign) NSInteger indexOfThisImage;
 @property (nonatomic, assign) id <DoodleDelegate> delegate;
 @property (nonatomic, assign) NSInteger selectedColor;
-@property (nonatomic, assign) NSInteger selectedBrush;
+@property (nonatomic, assign) CGFloat selectedBrush;
+@property (nonatomic, assign) CGFloat selectedEraserWidth;
 @property (nonatomic, strong) UIImage *tempImage;
 - (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle;
 

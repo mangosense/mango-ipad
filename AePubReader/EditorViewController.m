@@ -11,6 +11,7 @@
 #import "AwesomeMenu.h"
 #import "AwesomeMenuItem.h"
 #import "AccordionView.h"
+#import "DrawingToolsView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -56,6 +57,9 @@
 @property (nonatomic, assign) CGFloat rotateAngle;
 @property (nonatomic, assign) CGPoint translatePoint;
 @property (nonatomic, strong) AccordionView *accordion;
+@property (nonatomic, strong) DrawingToolsView *toolsView;
+@property (nonatomic, strong) UIView *drawerView;
+@property (nonatomic, strong) UIView *staticToolsView;
 
 - (void)getBookJson;
 
@@ -94,6 +98,9 @@
 @synthesize rotateAngle;
 @synthesize translatePoint;
 @synthesize accordion;
+@synthesize toolsView;
+@synthesize drawerView;
+@synthesize staticToolsView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -200,8 +207,15 @@
     [UIView
      animateWithDuration:0.2
      animations:^{
-         accordion.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-         [showScrollViewButton setFrame:CGRectMake(accordion.frame.origin.x + accordion.frame.size.width, 0, 44, 44)];
+         drawerView.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
+         //[showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
+         [backgroundImageView setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width + 20, self.view.frame.size.height/2 - 265, self.view.frame.size.width - 200 - 40, 531)];
+         [[backgroundImageView layer] setMasksToBounds:NO];
+         [[backgroundImageView layer] setShadowColor:[[UIColor blackColor] CGColor]];
+         [[backgroundImageView layer] setShadowOffset:CGSizeMake(3, 3)];
+         [[backgroundImageView layer] setShadowOpacity:0.3f];
+         [[backgroundImageView layer] setShadowRadius:5];
+         [[backgroundImageView layer] setShouldRasterize:YES];
      }];
     showScrollViewButton.tag = 1;
 }
@@ -210,8 +224,9 @@
     [UIView
      animateWithDuration:0.2
      animations:^{
-         accordion.frame = CGRectMake(-200, 0, 200, self.view.frame.size.height);
-         [showScrollViewButton setFrame:CGRectMake(accordion.frame.origin.x + accordion.frame.size.width, 0, 44, 44)];
+         drawerView.frame = CGRectMake(-200, 0, 200, self.view.frame.size.height);
+         [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
+         //[backgroundImageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
      }];
     showScrollViewButton.tag = 0;
 }
@@ -224,6 +239,20 @@
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
     [backgroundImagesArray replaceObjectAtIndex:index withObject:image];
+}
+
+#pragma mark - Drawing Delegate
+
+- (void)widthOfBrush:(CGFloat)brushWidth {
+    backgroundImageView.selectedBrush = brushWidth;
+}
+
+- (void)widthOfEraser:(CGFloat)eraserWidth {
+    backgroundImageView.selectedEraserWidth = eraserWidth;
+}
+
+- (void)selectedColor:(int)color {
+    backgroundImageView.selectedColor = color;
 }
 
 #pragma mark - Paint Button Methods
@@ -252,8 +281,6 @@
     } completion:NULL];
 }
 
-// Commented Audio recording. The feature has been abstracted to AudioRecordingViewController.
-/*
 #pragma mark - Audio Recording
 
 - (void)startRecording
@@ -348,7 +375,7 @@
     
     [playButton setImage:[UIImage imageNamed:@"stop-recording-control.png"] forState:UIControlStateNormal];
     [playButton addTarget:self action:@selector(stopPlaying) forControlEvents:UIControlEventTouchUpInside];
-
+    [recordAudioButton setEnabled:NO];
 }
 
 - (void)stopPlaying
@@ -358,41 +385,20 @@
     NSLog(@"stopped");
     [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
     [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+    [recordAudioButton setEnabled:YES];
 }
 /////------------------------/////
 
 
 - (void)stopRecording:(id)sender {
+
     UIButton *stopButton = (UIButton *)sender;
     [stopButton removeFromSuperview];
     [self stopAnimatingRecordButton];
     [self stopRecording];
     
-    if (!playButton) {
-        playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [playButton setFrame:CGRectMake(recordAudioButton.frame.origin.x, 120, 44, 44)];
-        [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
-        [playButton setUserInteractionEnabled:YES];
-        [[playButton layer] setMasksToBounds:NO];
-        [[playButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-        [[playButton layer] setShadowOffset:CGSizeMake(-3, -3)];
-        [[playButton layer] setShadowOpacity:0.3f];
-        [[playButton layer] setShadowRadius:5];
-        [[playButton layer] setShouldRasterize:YES];
-    }
+    [playButton setEnabled:YES];
     [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
-    if (![[self.view subviews] containsObject:playButton]) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *recDir = [paths objectAtIndex:0];
-        NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, backgroundImageView.indexOfThisImage]];
-        NSString *path = [url path];
-        NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
-        if (data) {
-            [self.view addSubview:playButton];
-            [self.view bringSubviewToFront:playButton];
-            [self.view bringSubviewToFront:paintPalletView];
-        }
-    }
 }
 
 - (void)recordAudio {
@@ -415,14 +421,12 @@
     [self.view addSubview:stopRecordingButton];
     [self.view bringSubviewToFront:stopRecordingButton];
     
-    if (playButton) {
-        [playButton removeFromSuperview];
-    }
+    [playButton setEnabled:NO];
     
     [self startRecording];
 
 }
-*/
+
 
 #pragma mark - New Page
 
@@ -544,7 +548,7 @@
                 
                 photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
                 photoPopoverController.delegate = self;
-                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
             }
         }
             break;
@@ -644,7 +648,7 @@
             viewImage = subviewImageView.image;
             if (viewImage) {
                 NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
-                [backgroundImageView drawSticker:viewImage inRect:[stickerView convertRect:subview.frame toView:self.view] WithTranslation:translatePoint AndRotation:-rotateAngle];
+                [backgroundImageView drawSticker:viewImage inRect:[stickerView convertRect:subview.frame toView:backgroundImageView] WithTranslation:translatePoint AndRotation:-rotateAngle];
             }
             [stickerView removeFromSuperview];
             break;
@@ -707,7 +711,7 @@
     assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollViewController];
     [assetPopoverController setPopoverContentSize:CGSizeMake(250, 500)];
     assetPopoverController.delegate = self;
-    [assetPopoverController presentPopoverFromRect:assetsButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [assetPopoverController presentPopoverFromRect:CGRectMake(0, 100 + 2*200/3 + 150 + 10, 200, 45) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
 #pragma mark - Prepare UI
@@ -753,7 +757,6 @@
     brushMenu = [[AwesomeMenu alloc] initWithFrame:CGRectMake(0, 200, 200, 200) startItem:startItem optionMenus:menuItemsArray];
     brushMenu.tag = BRUSH_MENU_TAG;
     brushMenu.delegate = self;
-    [self.view addSubview:brushMenu];
     
     brushMenu.startPoint = CGPointMake(100, 200);
     brushMenu.rotateAngle = 0;
@@ -794,20 +797,18 @@
 - (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton {
     CGFloat originY = 0;
     if (upperButton) {
-        originY = upperButton.frame.origin.y + 60;
+        originY = upperButton.frame.origin.y + 30;
     }
-    [button setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, originY, 44, 44)];
+    [button setFrame:CGRectMake(28, originY, 44, 44)];
     [button setImage:buttonImage forState:UIControlStateNormal];
     [[button layer] setCornerRadius:button.frame.size.height/20];
     [button setUserInteractionEnabled:YES];
     [[button layer] setMasksToBounds:NO];
     [[button layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[button layer] setShadowOffset:CGSizeMake(-3, -3)];
+    [[button layer] setShadowOffset:CGSizeMake(3, 3)];
     [[button layer] setShadowOpacity:0.3f];
     [[button layer] setShadowRadius:5];
     [[button layer] setShouldRasterize:YES];
-    [self.view addSubview:button];
-    [self.view bringSubviewToFront:button];
 }
 
 - (void)setupScrollView:(UIView *)theView withImage:(UIImage *)image {
@@ -837,71 +838,84 @@
     [self.view bringSubviewToFront:showScrollViewButton];
 }
 
-- (void)createToolView {
-    // Show Scroll View Button
-    [self createScrollViewButton];
-    
-    // Camera Button
-    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:nil];
-    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+- (void)createStaticToolsView {
+    UIButton *header = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, staticToolsView.frame.size.width, 10)];
+    [header setTitle:@"" forState:UIControlStateNormal];
+    header.backgroundColor = [UIColor blackColor];
+    [staticToolsView addSubview:header];
     
     // Record Audio Button
     recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:cameraButton];
-    [recordAudioButton addTarget:self action:@selector(showAudioControl) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:header];
+    [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [staticToolsView addSubview:recordAudioButton];
     
-    // Eraser Button
-    eraserButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:eraserButton withImage:[UIImage imageNamed:@"eraser.png"] belowButton:recordAudioButton];
-    eraserButton.tag = ERASER_BUTTON_TAG;
-    [eraserButton addTarget:self action:@selector(paintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:playButton withImage:[UIImage imageNamed:@"play-control.png"] belowButton:header];
+    [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+    [playButton setFrame:CGRectMake(128, playButton.frame.origin.y, 44, 44)];
+    [staticToolsView addSubview:playButton];
     
-    accordion = [[AccordionView alloc] initWithFrame:CGRectMake(-200, 0, 200, [[UIScreen mainScreen] bounds].size.height)];
+    // Camera Button
+    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:playButton];
+    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [cameraButton setFrame:CGRectMake(128, 104, 44, 44)];
+    [staticToolsView addSubview:cameraButton];
     
-    [self.view addSubview:accordion];
-    self.view.backgroundColor = [UIColor colorWithRed:0.925 green:0.941 blue:0.945 alpha:1.000];
+    UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:shareButton withImage:[UIImage imageNamed:@"sharebutton.png"] belowButton:recordAudioButton];
+    [shareButton setFrame:CGRectMake(28, 104, 44, 44)];
+    [staticToolsView addSubview:shareButton];
+}
+
+- (void)createToolView {
+    // Show Scroll View Button
+    [self createScrollViewButton];
+        
+    drawerView = [[UIView alloc] initWithFrame:CGRectMake(-200, 0, 200, self.view.frame.size.height)];
+    [[drawerView layer] setBorderColor:[[UIColor blackColor] CGColor]];
+    [[drawerView layer] setBorderWidth:2.0f];
+    
+    accordion = [[AccordionView alloc] initWithFrame:CGRectMake(0, 0, 200, drawerView.frame.size.height - 180)];
+    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
     // Only height is taken into account, so other parameters are just dummy
-    UIButton *header1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
+    UIButton *header1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 45)];
     [header1 setTitle:@"Pages" forState:UIControlStateNormal];
+    [[header1 layer] setBorderWidth:1.0f];
+    [[header1 layer] setBorderColor:[[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]] CGColor]];
     header1.backgroundColor = [UIColor blackColor];
     // Pages List View
-    pageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height - 90)];
+    pageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height - 90 - 180)];
     [self setupScrollView:pageScrollView withImage:[UIImage imageNamed:@"topdot.png"]];
     [[pageScrollView layer] setShadowOffset:CGSizeMake(3, 3)];
     [accordion addHeader:header1 withView:pageScrollView];
     
-    UIButton *header2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
+    UIButton *header2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 45)];
     [header2 setTitle:@"Drawing Tools" forState:UIControlStateNormal];
+    [[header2 layer] setBorderWidth:1.0f];
+    [[header2 layer] setBorderColor:[[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]] CGColor]];
     header2.backgroundColor = [UIColor blackColor];
-    // Paint Pallet Round Menu
-    paintMenu = [self createPaintPalletView];
-    // Brush Menu
-    brushMenu = [self createBrushMenu];
-    UIView *paintBrushMenu = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height - 90)];
-    [paintBrushMenu setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
-    [paintBrushMenu addSubview:paintMenu];
-    [paintBrushMenu addSubview:brushMenu];
-    [accordion addHeader:header2 withView:paintBrushMenu];
-    
-    UIButton *header3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
-    [header3 setTitle:@"Assets" forState:UIControlStateNormal];
-    header3.backgroundColor = [UIColor blackColor];
-    // Assets Button
-    assetsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:assetsButton withImage:[UIImage imageNamed:@"insert_image.png"] belowButton:brushMenu];
-    [assetsButton setFrame:CGRectMake(0, 0, 200, 200)];
-    [assetsButton addTarget:self action:@selector(showAssets) forControlEvents:UIControlEventTouchUpInside];
-
-    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.view.frame.size.height - 90)];
-    view3.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]];
-    [view3 addSubview:assetsButton];
-    [accordion addHeader:header3 withView:view3];
+    toolsView = [[DrawingToolsView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height - 90 - 180)];
+    toolsView.delegate = self;
+    [accordion addHeader:header2 withView:toolsView];
+    [self selectedColor:RED_BUTTON_TAG];
+    [self widthOfBrush:5.0f];
+    [self widthOfEraser:20.0f];
     
     [accordion setNeedsLayout];
     // Set this if you want to allow multiple selection
     [accordion setAllowsMultipleSelection:NO];
+
+    [drawerView addSubview:accordion];
+    
+    staticToolsView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 180, 200, 180)];
+    [staticToolsView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"topdot.png"]]];
+    [self createStaticToolsView];
+    [drawerView addSubview:staticToolsView];
+    
+    [self.view addSubview:drawerView];
 }
 
 - (void)createInitialUI {
@@ -915,12 +929,12 @@
     [self.view addSubview:backgroundImageView];
     
     // Text View
-    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 20, self.view.frame.size.width/3, self.view.frame.size.height/4)];
+    mainTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(backgroundImageView.frame.origin.x + 20, backgroundImageView.frame.origin.y + 20, backgroundImageView.frame.size.width/3, backgroundImageView.frame.size.height/4)];
     mainTextView.tag = MAIN_TEXTVIEW_TAG;
     mainTextView.textColor = [UIColor blackColor];
     mainTextView.font = [UIFont boldSystemFontOfSize:24];
-    [self.view addSubview:mainTextView];
-        
+    [backgroundImageView addSubview:mainTextView];
+    
     [self createToolView];
 }
 

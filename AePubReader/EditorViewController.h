@@ -11,9 +11,10 @@
 #import "PageBackgroundImageView.h"
 #import "SmoothDrawingView.h"
 #import "AwesomeMenu.h"
+#import "DrawingToolsView.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, AwesomeMenuDelegate, UIGestureRecognizerDelegate> {
+@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, AwesomeMenuDelegate, UIGestureRecognizerDelegate, DrawingToolsDelegate> {
     AVAudioPlayer *audioPlayer;
     AVAudioRecorder *audioRecorder;
     
