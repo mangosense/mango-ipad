@@ -60,6 +60,9 @@
 @property (nonatomic, strong) DrawingToolsView *toolsView;
 @property (nonatomic, strong) UIView *drawerView;
 @property (nonatomic, strong) UIView *staticToolsView;
+@property (nonatomic, strong) UIButton *nextPageButton;
+@property (nonatomic, strong) UIButton *previousPageButton;
+@property (nonatomic, assign) int currentPage;
 
 - (void)getBookJson;
 
@@ -101,6 +104,9 @@
 @synthesize toolsView;
 @synthesize drawerView;
 @synthesize staticToolsView;
+@synthesize nextPageButton;
+@synthesize previousPageButton;
+@synthesize currentPage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -209,6 +215,7 @@
      animations:^{
          drawerView.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
+         [previousPageButton setFrame:CGRectMake(showScrollViewButton.frame.origin.x, previousPageButton.frame.origin.y, 44, 44)];
          [backgroundImageView setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width + 20, self.view.frame.size.height/2 - 265, self.view.frame.size.width - 200 - 40, 531)];
          for (UIView *subView in [backgroundImageView subviews]) {
              if ([subView isKindOfClass:[UIWebView class]]) {
@@ -233,6 +240,7 @@
      animations:^{
          drawerView.frame = CGRectMake(-200, 0, 200, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
+         [previousPageButton setFrame:CGRectMake(showScrollViewButton.frame.origin.x, previousPageButton.frame.origin.y, 44, 44)];
          [backgroundImageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
          for (UIView *subView in [backgroundImageView subviews]) {
              if ([subView isKindOfClass:[UIWebView class]]) {
@@ -728,6 +736,18 @@
     [assetPopoverController presentPopoverFromRect:CGRectMake(0, 100 + 2*200/3 + 150 + 10, 200, 45) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
+#pragma mark - Previous Next Page Methods
+
+- (void)showNextPage {
+    [self createPageWithPageNumber:currentPage+1];
+}
+
+- (void)showPreviousPage {
+    if (currentPage > 0) {
+        [self createPageWithPageNumber:currentPage-1];
+    }
+}
+
 #pragma mark - Prepare UI
 
 - (void)showAudioControl {
@@ -883,6 +903,23 @@
     [staticToolsView addSubview:shareButton];
 }
 
+- (void)createPreviousAndNextButtons {
+    nextPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextPageButton setFrame:CGRectMake(self.view.frame.origin.x + self.view.frame.size.width - 50, backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height - 50, 44, 44)];
+    [nextPageButton setImage:[UIImage imageNamed:@"next-button.png"] forState:UIControlStateNormal];
+    [nextPageButton addTarget:self action:@selector(showNextPage) forControlEvents:UIControlEventTouchUpInside];
+    
+    previousPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [previousPageButton setFrame:CGRectMake(0, backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height - 50, 44, 44)];
+    [previousPageButton setImage:[UIImage imageNamed:@"previous-button.png"] forState:UIControlStateNormal];
+    [previousPageButton addTarget:self action:@selector(showPreviousPage) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:nextPageButton];
+    [self.view addSubview:previousPageButton];
+    [self.view bringSubviewToFront:nextPageButton];
+    [self.view bringSubviewToFront:previousPageButton];
+}
+
 - (void)createToolView {
     // Show Scroll View Button
     [self createScrollViewButton];
@@ -930,6 +967,8 @@
     [self createStaticToolsView];
     [drawerView addSubview:staticToolsView];
     
+    [self createPreviousAndNextButtons];
+    
     [self.view addSubview:drawerView];
 }
 
@@ -954,6 +993,8 @@
 }
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
+    currentPage = pageNumber;
+    
     NSMutableString *textOnPage = [[NSMutableString alloc] initWithString:@""];
     
     if (pageNumber < [arrayOfPages count]) {
