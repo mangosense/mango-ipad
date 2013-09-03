@@ -210,6 +210,12 @@
          drawerView.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
          [backgroundImageView setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width + 20, self.view.frame.size.height/2 - 265, self.view.frame.size.width - 200 - 40, 531)];
+         for (UIView *subView in [backgroundImageView subviews]) {
+             if ([subView isKindOfClass:[UIWebView class]]) {
+                 [subView setFrame:CGRectMake(0, 0, self.view.frame.size.width - 200 - 40, 531)];
+                 break;
+             }
+         }
          [[backgroundImageView layer] setMasksToBounds:NO];
          [[backgroundImageView layer] setShadowColor:[[UIColor blackColor] CGColor]];
          [[backgroundImageView layer] setShadowOffset:CGSizeMake(3, 3)];
@@ -228,6 +234,12 @@
          drawerView.frame = CGRectMake(-200, 0, 200, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
          [backgroundImageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+         for (UIView *subView in [backgroundImageView subviews]) {
+             if ([subView isKindOfClass:[UIWebView class]]) {
+                 [subView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+                 break;
+             }
+         }
      }];
     [backgroundImageView refreshTempImage];
     showScrollViewButton.tag = 0;
@@ -273,7 +285,7 @@
 
 - (void)stopAnimatingRecordButton {
     [recordAudioButton setImage:[UIImage imageNamed:@"record-control.png"] forState:UIControlStateNormal];
-    [recordAudioButton setFrame:CGRectMake(paintPalletView.frame.origin.x - 44, 60, 44, 44)];
+    [recordAudioButton setFrame:CGRectMake(28, 30, 44, 44)];
     [[recordAudioButton layer] removeAllAnimations];
 }
 
@@ -407,10 +419,10 @@
     [self stopPlaying];
     
     [recordAudioButton setImage:[UIImage imageNamed:@"start-recording-control.png"] forState:UIControlStateNormal];
-    [self animateRecordButton];
+    //[self animateRecordButton];
     
     UIButton *stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [stopRecordingButton setFrame:CGRectMake(recordAudioButton.frame.origin.x - 44 - 15, 60, 44, 44)];
+    [stopRecordingButton setFrame:CGRectMake(recordAudioButton.frame.origin.x, recordAudioButton.frame.origin.y, 44, 44)];
     [stopRecordingButton setImage:[UIImage imageNamed:@"stop-recording-control.png"] forState:UIControlStateNormal];
     [stopRecordingButton setUserInteractionEnabled:YES];
     [[stopRecordingButton layer] setMasksToBounds:NO];
@@ -420,8 +432,8 @@
     [[stopRecordingButton layer] setShadowRadius:5];
     [[stopRecordingButton layer] setShouldRasterize:YES];
     [stopRecordingButton addTarget:self action:@selector(stopRecording:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:stopRecordingButton];
-    [self.view bringSubviewToFront:stopRecordingButton];
+    [staticToolsView addSubview:stopRecordingButton];
+    [staticToolsView bringSubviewToFront:stopRecordingButton];
     
     [playButton setEnabled:NO];
     
@@ -959,8 +971,14 @@
             if ([[dictionaryForPage objectForKey:@"type"] isEqualToString:@"widget"]) {
                 NSDictionary *layerDict = [[dictionaryForPage objectForKey:@"layers"] objectAtIndex:0];
                 
-                [backgroundImageView removeFromSuperview];
-                UIWebView *widgetWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+                for (UIView *subview in backgroundImageView.subviews) {
+                    if ([subview isKindOfClass:[UIWebView class]]) {
+                        [subview removeFromSuperview];
+                        break;
+                    }
+                }
+                
+                UIWebView *widgetWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, backgroundImageView.frame.size.width, backgroundImageView.frame.size.height)];
                 
                 if (tagForLanguage == ENGLISH_TAG) {
                     NSLog(@"%@", [NSString stringWithFormat:@"/%d/%@", [[layerDict objectForKey:@"wid"] intValue], [layerDict objectForKey:@"slug"]]);
@@ -972,7 +990,7 @@
                     [widgetWebView loadRequest:[NSURLRequest requestWithURL:url]];
                 }
                 
-                [self.view addSubview:widgetWebView];
+                [backgroundImageView addSubview:widgetWebView];
                 
                 [mainTextView setFrame:CGRectMake(0, 0, 100, 100)];
                 mainTextView.text = @"";
@@ -988,10 +1006,16 @@
                 backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
                 backgroundImageView.delegate = self;
             }
-            if (![self.view.subviews containsObject:backgroundImageView]) {
+            for (UIView *subView in [backgroundImageView subviews]) {
+                if ([subView isKindOfClass:[UIWebView class]]) {
+                    [subView removeFromSuperview];
+                    break;
+                }
+            }
+            /*if (![self.view.subviews containsObject:backgroundImageView]) {
                 // Temporarily adding fixed image
                 [self.view addSubview:backgroundImageView];
-            }
+            }*/
             
             if ([backgroundImagesArray objectAtIndex:pageNumber]) {
                 backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
@@ -1104,8 +1128,7 @@
 
 - (void)createPageForSender:(UIButton *)sender {
     [self createPageWithPageNumber:sender.tag];
-    [self hidePageScrollView];
-    [self hidePaintPalletView];
+    //[self hidePageScrollView];
 }
 
 - (void)creatAddNewPageButton {
