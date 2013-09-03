@@ -17,6 +17,7 @@
 @interface SmoothDrawingView : UIView {
     UIImage *incrementalImage;
     UIImage *tempImage;
+    UIImage *originalImage;
 }
 
 @property (nonatomic, strong) UIImage *incrementalImage;
@@ -26,6 +27,8 @@
 @property (nonatomic, assign) CGFloat selectedBrush;
 @property (nonatomic, assign) CGFloat selectedEraserWidth;
 @property (nonatomic, strong) UIImage *tempImage;
+@property (nonatomic, strong) UIImage *originalImage;
 - (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle;
+- (void)refreshTempImage;
 
 @end

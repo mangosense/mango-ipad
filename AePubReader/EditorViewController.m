@@ -208,7 +208,7 @@
      animateWithDuration:0.2
      animations:^{
          drawerView.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-         //[showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
+         [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
          [backgroundImageView setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width + 20, self.view.frame.size.height/2 - 265, self.view.frame.size.width - 200 - 40, 531)];
          [[backgroundImageView layer] setMasksToBounds:NO];
          [[backgroundImageView layer] setShadowColor:[[UIColor blackColor] CGColor]];
@@ -217,6 +217,7 @@
          [[backgroundImageView layer] setShadowRadius:5];
          [[backgroundImageView layer] setShouldRasterize:YES];
      }];
+    [backgroundImageView refreshTempImage];
     showScrollViewButton.tag = 1;
 }
 
@@ -226,8 +227,9 @@
      animations:^{
          drawerView.frame = CGRectMake(-200, 0, 200, self.view.frame.size.height);
          [showScrollViewButton setFrame:CGRectMake(drawerView.frame.origin.x + drawerView.frame.size.width, 0, 44, 44)];
-         //[backgroundImageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+         [backgroundImageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
      }];
+    [backgroundImageView refreshTempImage];
     showScrollViewButton.tag = 0;
 }
 
@@ -992,7 +994,7 @@
             
             if ([backgroundImagesArray objectAtIndex:pageNumber]) {
                 backgroundImageView.incrementalImage = [backgroundImagesArray objectAtIndex:pageNumber];
-                backgroundImageView.tempImage = [backgroundImagesArray objectAtIndex:pageNumber];
+                backgroundImageView.originalImage = [backgroundImagesArray objectAtIndex:pageNumber];
                 [backgroundImageView setNeedsDisplay];
                 //[backgroundImageView setImage:[backgroundImagesArray objectAtIndex:pageNumber]];
                 backgroundImageView.indexOfThisImage = pageNumber;

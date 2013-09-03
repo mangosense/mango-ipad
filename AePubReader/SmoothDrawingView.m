@@ -35,6 +35,7 @@ uint ctr;
 @synthesize selectedColor;
 @synthesize selectedBrush;
 @synthesize selectedEraserWidth;
+@synthesize originalImage;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -60,10 +61,23 @@ uint ctr;
     return self;
 }
 
+- (void)refreshTempImage {
+    [self setTempImage:originalImage];
+}
+
+- (void)setOriginalImage:(UIImage *)originalImageFromStory {
+    UIGraphicsBeginImageContext(self.bounds.size);
+    UIImage *image = originalImageFromStory;
+    [image drawInRect:self.bounds];
+    originalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [self refreshTempImage];
+}
+
 - (void)setTempImage:(UIImage *)tempImageFromStory {
     UIGraphicsBeginImageContext(self.bounds.size);
     UIImage *image = tempImageFromStory;
-    [image drawInRect:self.frame];
+    [image drawInRect:self.bounds];
     tempImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 }
@@ -176,15 +190,15 @@ uint ctr;
 #pragma mark - Drawing Methods
 
 - (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle {
-    UIGraphicsBeginImageContextWithOptions(self.frame.size, YES, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
     if (!incrementalImage) // first time; paint background clear
     {
-        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.frame];
+        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.bounds];
         [[UIColor clearColor] setFill];
         [rectpath fill];
     }
     
-    [incrementalImage drawInRect:self.frame];
+    [incrementalImage drawInRect:self.bounds];
     
     stickerImage = [stickerImage imageRotatedByRadians:-angle];
     CGContextTranslateCTM(UIGraphicsGetCurrentContext(), tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20*(frame.size.height/120) - frame.size.height/2);
@@ -199,14 +213,14 @@ uint ctr;
 
 - (void)drawBitmap
 {
-    UIGraphicsBeginImageContextWithOptions(self.frame.size, YES, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
     if (!incrementalImage) // first time; paint background clear
     {
-        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.frame];
+        UIBezierPath *rectpath = [UIBezierPath bezierPathWithRect:self.bounds];
         [[UIColor clearColor] setFill];
         [rectpath fill];
     }
-    [incrementalImage drawInRect:self.frame];
+    [incrementalImage drawInRect:self.bounds];
     
     [path setLineWidth:selectedBrush];
     
