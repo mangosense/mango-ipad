@@ -909,6 +909,7 @@
     [accordion setNeedsLayout];
     // Set this if you want to allow multiple selection
     [accordion setAllowsMultipleSelection:NO];
+    [accordion setSelectedIndex:1];
 
     [drawerView addSubview:accordion];
     
