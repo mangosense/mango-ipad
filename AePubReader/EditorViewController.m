@@ -63,6 +63,7 @@
 @property (nonatomic, strong) UIButton *nextPageButton;
 @property (nonatomic, strong) UIButton *previousPageButton;
 @property (nonatomic, assign) int currentPage;
+@property (nonatomic, strong) NSArray *arrayOfImageNames;
 
 - (void)getBookJson;
 
@@ -107,6 +108,7 @@
 @synthesize nextPageButton;
 @synthesize previousPageButton;
 @synthesize currentPage;
+@synthesize arrayOfImageNames;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -680,12 +682,10 @@
 }
 
 - (void)addImageForButton:(UIButton *)button {
-    if ([[self.view subviews] containsObject:stickerView]) {
+    if ([[backgroundImageView subviews] containsObject:stickerView]) {
         [self addAssetToView];
     }
-    
     [assetPopoverController dismissPopoverAnimated:YES];
-    NSArray *arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
     
     stickerView = [[UIView alloc] initWithFrame:CGRectMake(backgroundImageView.center.x - 90, backgroundImageView.center.y - 90, 140, 180)];
     [stickerView setUserInteractionEnabled:YES];
@@ -708,18 +708,70 @@
     translatePoint = stickerView.center;
 }
 
+- (void)assetTypeSelected:(id)sender {
+    for (UIView *subview in [assetPopoverController.contentViewController.view subviews]) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            [subview removeFromSuperview];
+            break;
+        }
+    }
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
+    assetsScrollView.backgroundColor = [UIColor whiteColor];
+    [assetsScrollView setUserInteractionEnabled:YES];
+    
+    UISegmentedControl *control = (UISegmentedControl *)sender;
+    int selectedIndex = control.selectedSegmentIndex;
+    switch (selectedIndex) {
+        case 0: {
+            arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+        }
+            break;
+            
+        case 1: {
+            arrayOfImageNames = [NSArray arrayWithObjects:@"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    for (NSString *imageName in arrayOfImageNames) {
+        UIImage *image = [UIImage imageNamed:imageName];
+        UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [imageButton setImage:image forState:UIControlStateNormal];
+        [imageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
+        imageButton.tag = [arrayOfImageNames indexOfObject:imageName];
+        [imageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
+        [assetsScrollView addSubview:imageButton];
+    }
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, [arrayOfImageNames count]*150 + 50);
+    assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
+    
+    [assetPopoverController.contentViewController.view addSubview:assetsScrollView];
+}
+
 - (void)showAssets {
     NSLog(@"Show Assets");
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 250, 500)];
+    
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor whiteColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37*150);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
+    
+    UISegmentedControl *assetTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All", @"Story", nil]];
+    [assetTypeSegmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+    [assetTypeSegmentedControl setSelectedSegmentIndex:0];
+    [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
+    [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 44)];
+
     UIViewController *scrollViewController = [[UIViewController alloc] init];
     [scrollViewController.view setFrame:CGRectMake(0, 0, 250, 500)];
     [scrollViewController.view addSubview:assetsScrollView];
-    
-    NSArray *arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+    [scrollViewController.view addSubview:assetTypeSegmentedControl];
+        
+    arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
         UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
