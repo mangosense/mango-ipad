@@ -96,6 +96,7 @@
 		833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */; };
 		83417AA217CE137100D48BC3 /* new_page.png in Resources */ = {isa = PBXBuildFile; fileRef = 83417AA017CE137100D48BC3 /* new_page.png */; };
 		83417AA317CE137100D48BC3 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 83417AA117CE137100D48BC3 /* white_page.jpeg */; };
+		8350204F17D707F600C86326 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8350204E17D707F600C86326 /* iCarousel.m */; };
 		83603C5317CB7D39000DA2CE /* AwesomeMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 83603C4F17CB776B000DA2CE /* AwesomeMenu.h */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5517CB7D39000DA2CE /* AwesomeMenuItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */; };
@@ -559,6 +560,8 @@
 		833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecordingViewController.xib; sourceTree = "<group>"; };
 		83417AA017CE137100D48BC3 /* new_page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new_page.png; sourceTree = "<group>"; };
 		83417AA117CE137100D48BC3 /* white_page.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white_page.jpeg; sourceTree = "<group>"; };
+		8350204D17D707F600C86326 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		8350204E17D707F600C86326 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
@@ -1335,6 +1338,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				8350204C17D707E600C86326 /* iCarousel */,
 				833765CC17D09BC000262C26 /* Accordion View */,
 				8393E08517CF7A940080EB0C /* insert_image.png */,
 				83603C4E17CB7756000DA2CE /* Paint Menu */,
@@ -1441,6 +1445,15 @@
 				833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */,
 			);
 			name = "Audio Recorder";
+			sourceTree = "<group>";
+		};
+		8350204C17D707E600C86326 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				8350204D17D707F600C86326 /* iCarousel.h */,
+				8350204E17D707F600C86326 /* iCarousel.m */,
+			);
+			name = iCarousel;
 			sourceTree = "<group>";
 		};
 		83603C4E17CB7756000DA2CE /* Paint Menu */ = {
@@ -2479,6 +2492,7 @@
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,
+				8350204F17D707F600C86326 /* iCarousel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

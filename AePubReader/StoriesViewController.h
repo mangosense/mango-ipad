@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iCarousel.h"
 
-@interface StoriesViewController : UIViewController {
+@interface StoriesViewController : UIViewController <iCarouselDataSource, iCarouselDelegate> {
     
 }
 
+@property (nonatomic, strong) IBOutlet iCarousel *carousel;
 @property (nonatomic, strong) IBOutlet UIButton *englishLanguageButton;
 @property (nonatomic, strong) IBOutlet UIButton *tamilLanguageButton;
 - (IBAction)languageButtonTapped:(id)sender;

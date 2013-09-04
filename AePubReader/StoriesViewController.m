@@ -9,6 +9,11 @@
 #import "StoriesViewController.h"
 #import "EditorViewController.h"
 
+#define ENGLISH_TAG 9
+#define TAMIL_TAG 10
+#define MALAY_TAG 12
+#define CHINESE_TAG 11
+
 @interface StoriesViewController ()
 
 @end
@@ -17,6 +22,7 @@
 
 @synthesize englishLanguageButton;
 @synthesize tamilLanguageButton;
+@synthesize carousel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,23 +44,65 @@
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     
-    [[tamilLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[tamilLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
-    [[tamilLanguageButton layer] setShadowOpacity:0.7f];
-    [[tamilLanguageButton layer] setShadowRadius:5];
-    [[tamilLanguageButton layer] setShouldRasterize:YES];
-    
-    [[englishLanguageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[englishLanguageButton layer] setShadowOffset:CGSizeMake(5, 5)];
-    [[englishLanguageButton layer] setShadowOpacity:0.7f];
-    [[englishLanguageButton layer] setShadowRadius:5];
-    [[englishLanguageButton layer] setShouldRasterize:YES];
+    carousel.type = iCarouselTypeCoverFlow2;
+    [carousel setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - iCarousel Datasource and Delegate Methods
+
+- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
+    return 20;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
+    UIImageView *storyImageView = nil;
+    
+    if (view == nil) {
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 360, 270)];
+        storyImageView = [[UIImageView alloc] initWithFrame:view.bounds];
+        storyImageView.tag = 1;
+        [view addSubview:storyImageView];
+    } else {
+        storyImageView = (UIImageView *)[view viewWithTag:1];
+    }
+    
+    switch (index%2) {
+        case 0:
+            [storyImageView setImage:[UIImage imageNamed:@"abad124338.jpg"]];
+            break;
+            
+        case 1:
+            [storyImageView setImage:[UIImage imageNamed:@"8517823664.jpg"]];
+            break;
+            
+        default:
+            break;
+    }
+    
+    return view;
+}
+
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
+    NSLog(@"Selected Story: %d", index);
+    
+    switch (index%2) {
+        case 0:
+            [self chooseLanguage:TAMIL_TAG];
+            break;
+            
+        case 1:
+            [self chooseLanguage:ENGLISH_TAG];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - Action Methods
