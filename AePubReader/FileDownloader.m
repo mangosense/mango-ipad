@@ -44,7 +44,7 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.addControlEvents=YES;
     [delegate.dataModel saveData:_book];
-    UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[1];
+    UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[2];
     StoreViewController *store=(StoreViewController *)[nav topViewController];
     [(_libViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
     //[store BuildButtons];
