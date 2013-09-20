@@ -255,7 +255,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1063"
             endingLineNumber = "1063"
-            landmarkName = "-didPresentAlertView:"
+            landmarkName = "-getRootFilePath"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -271,7 +271,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1042"
             endingLineNumber = "1042"
-            landmarkName = "-didPresentAlertView:"
+            landmarkName = "-showBookButton:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
