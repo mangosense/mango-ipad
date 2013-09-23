@@ -12,6 +12,7 @@
 #import "AwesomeMenuItem.h"
 #import "AccordionView.h"
 #import "DrawingToolsView.h"
+#import "PublishViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -800,6 +801,29 @@
     }
 }
 
+#pragma mark - Share Story
+
+- (void)showPublishDetailsView {
+    PublishViewController *publishDetailsViewController = [[PublishViewController alloc] initWithNibName:@"PublishViewController" bundle:nil];
+    
+    UINavigationController *publishNavigationController = [[UINavigationController alloc] initWithRootViewController:publishDetailsViewController];
+    publishNavigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    publishNavigationController.navigationBar.tintColor = [UIColor blackColor];
+    [publishNavigationController setTitle:@"Enter Book Details"];
+    
+    UIBarButtonItem *cancelItem=[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:nil];
+    cancelItem.tintColor=[UIColor blackColor];
+    UIBarButtonItem *publishItem=[[UIBarButtonItem alloc]initWithTitle:@"Publish" style:UIBarButtonItemStyleBordered target:self action:nil];
+    publishItem.tintColor=[UIColor blackColor];
+    
+    publishNavigationController.navigationItem.leftBarButtonItem = cancelItem;
+    publishNavigationController.navigationItem.rightBarButtonItem = publishItem;
+    
+    [self presentViewController:publishNavigationController animated:YES completion:^{
+        
+    }];
+}
+
 #pragma mark - Prepare UI
 
 - (void)showAudioControl {
@@ -952,6 +976,7 @@
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self setupButton:shareButton withImage:[UIImage imageNamed:@"sharebutton.png"] belowButton:recordAudioButton];
     [shareButton setFrame:CGRectMake(28, 104, 44, 44)];
+    //[shareButton addTarget:self action:@selector(showPublishDetailsView) forControlEvents:UIControlEventTouchUpInside];
     [staticToolsView addSubview:shareButton];
 }
 

@@ -164,6 +164,8 @@
 		839DD8E517B4F6A2003B62C8 /* brush-medium.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E217B4F6A2003B62C8 /* brush-medium.png */; };
 		839DD8E617B4F6A2003B62C8 /* brush-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E317B4F6A2003B62C8 /* brush-small.png */; };
 		839DD8E817B50320003B62C8 /* topdot.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E717B50320003B62C8 /* topdot.png */; };
+		839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839F907817E6D37C00BD1412 /* PublishViewController.m */; };
+		839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839F907917E6D37C00BD1412 /* PublishViewController.xib */; };
 		83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E723CD17BA058D0083DBD6 /* camera_gray_round.png */; };
 		83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
@@ -632,6 +634,9 @@
 		839DD8E217B4F6A2003B62C8 /* brush-medium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brush-medium.png"; sourceTree = "<group>"; };
 		839DD8E317B4F6A2003B62C8 /* brush-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brush-small.png"; sourceTree = "<group>"; };
 		839DD8E717B50320003B62C8 /* topdot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topdot.png; sourceTree = "<group>"; };
+		839F907717E6D37C00BD1412 /* PublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishViewController.h; sourceTree = "<group>"; };
+		839F907817E6D37C00BD1412 /* PublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishViewController.m; sourceTree = "<group>"; };
+		839F907917E6D37C00BD1412 /* PublishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishViewController.xib; sourceTree = "<group>"; };
 		83E723CD17BA058D0083DBD6 /* camera_gray_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_gray_round.png; sourceTree = "<group>"; };
 		83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -1365,6 +1370,9 @@
 				8393E08317CF45280080EB0C /* UIImage-Extensions.m */,
 				830DE2A417D471E300399146 /* DrawingToolsView.h */,
 				830DE2A517D471E300399146 /* DrawingToolsView.m */,
+				839F907717E6D37C00BD1412 /* PublishViewController.h */,
+				839F907817E6D37C00BD1412 /* PublishViewController.m */,
+				839F907917E6D37C00BD1412 /* PublishViewController.xib */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2353,6 +2361,7 @@
 				83417AA317CE137100D48BC3 /* white_page.jpeg in Resources */,
 				8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */,
 				8393E08617CF7A940080EB0C /* insert_image.png in Resources */,
+				839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2493,6 +2502,7 @@
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,
 				8350204F17D707F600C86326 /* iCarousel.m in Sources */,
+				839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2557,8 +2567,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "2AB7C119-F728-489A-A02C-C274E80DD01F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2AB7C119-F728-489A-A02C-C274E80DD01F";
+				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2591,8 +2601,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "2AB7C119-F728-489A-A02C-C274E80DD01F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2AB7C119-F728-489A-A02C-C274E80DD01F";
+				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2678,8 +2688,8 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "2AB7C119-F728-489A-A02C-C274E80DD01F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2AB7C119-F728-489A-A02C-C274E80DD01F";
+				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2701,8 +2711,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "2AB7C119-F728-489A-A02C-C274E80DD01F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2AB7C119-F728-489A-A02C-C274E80DD01F";
+				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
