@@ -335,6 +335,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     UIBarButtonItem *rightRefresh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     rightRefresh.tintColor=[UIColor grayColor];
     UIBarButtonItem *rightBarButton=[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(next)];

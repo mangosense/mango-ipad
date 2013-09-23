@@ -146,6 +146,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
            self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)]; 
     }else{

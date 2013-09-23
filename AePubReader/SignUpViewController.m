@@ -37,6 +37,11 @@
 //    self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
 //    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 - (void)didReceiveMemoryWarning

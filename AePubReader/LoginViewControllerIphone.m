@@ -157,6 +157,12 @@
         [_faceBookId removeFromSuperview];
         [_orImage removeFromSuperview];
     }
+//    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+//    {
+//        // iOS 7 code here
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
+  //  self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png" ]];
      CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height;
     if (screenHeight>500.0) {

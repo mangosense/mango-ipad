@@ -102,7 +102,11 @@
         }
     }
     _freeSpace.text=[NSString stringWithFormat:@"Free Space : %lld",[self getFreeDiskspace]];
-   
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here 
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 -(uint64_t)getFreeDiskspace {
     uint64_t totalSpace = 0;

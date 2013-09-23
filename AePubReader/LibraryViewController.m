@@ -245,6 +245,11 @@
     }
     _correctNavigation=NO;
     _nav=NO;
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+    // iOS 7 code here
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 -(void)openStats:(id)sender{
     StatsViewController *stats=[[StatsViewController alloc]initWithNibName:@"StatsViewController" bundle:nil];

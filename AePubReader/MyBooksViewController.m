@@ -80,6 +80,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];

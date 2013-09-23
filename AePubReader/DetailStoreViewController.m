@@ -178,7 +178,12 @@
 //    UIBarButtonItem *purchaseButton=[[UIBarButtonItem alloc]initWithTitle:@"Purchase" style:UIBarButtonItemStyleBordered target:self action:@selector(purchase:)];
 //    self.navigationItem.rightBarButtonItem=purchaseButton;
 //    [purchaseButton release];
-    
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
 
 
      //  [[SKPaymentQueue defaultQueue]addTransactionObserver:_live];

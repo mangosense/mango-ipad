@@ -116,6 +116,12 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
     }
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
     
 }
 -(void)transactionFailed{

@@ -63,6 +63,18 @@
            // [url release];
         }
     }
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        
+        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+        
+        self.window.clipsToBounds =YES;
+        
+        //self.window.frame =  CGRectMake(20,0,self.window.frame.size.width,self.window.frame.size.height-20);
+        
+      //  //added on 19th Sep
+    //    self.window.bounds = CGRectMake(20, 20, self.window.frame.size.width, self.window.frame.size.height);
+    }
+
     moonCapId=@49;
     
     if(![_dataModel checkIfIdExists:moonCapId]){
