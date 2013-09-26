@@ -12,7 +12,7 @@
 #import "FileDownloader.h"
 #import "ShareButton.h"
 #import "ViewControllerMailCustom.h"
-#import "ShowViewController.h"
+#import "ShowMangoViewController.h"
 #import "ViewController.h"
 #import "ZipArchive.h"
 #import "CustomNavViewController.h"
@@ -1000,7 +1000,7 @@
 -(void)RecordButtonClicked:(id)sender{
     UIButton *button=(UIButton *)sender;
 
-    ShowViewController *showViewController=[[ShowViewController alloc]initWithNibName:@"ShowViewController" bundle:nil with:button.tag ];
+    ShowMangoViewController *showViewController=[[ShowMangoViewController alloc]initWithNibName:@"ShowViewController" bundle:nil with:button.tag ];
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:showViewController];
    _popRecording=[[UIPopoverController alloc]initWithContentViewController:nav];
     showViewController.pop=_popRecording;

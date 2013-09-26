@@ -70,6 +70,18 @@
 				<string>szYOURAPPID</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fphandlerMANGOSENSEREADER</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb110706139004475MANGOSENSEREADER</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.4</string>
@@ -95,5 +107,7 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>UIApplicationExitsOnSuspend</key>
+	<false/>
 </dict>
 </plist>

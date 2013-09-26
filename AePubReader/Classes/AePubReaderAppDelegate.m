@@ -14,6 +14,8 @@
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 #import "Base64.h"
+#import "Fingerprint.h"
+
 @implementation AePubReaderAppDelegate
 
 @synthesize window;
@@ -284,6 +286,26 @@
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
     [Appirater appLaunched:YES];
+    
+    //FingerPrintPlay SDK
+    NSMutableDictionary* fpOptions = [NSMutableDictionary dictionaryWithCapacity:1];
+    [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bMultiplayer"];
+    [fpOptions setObject:[NSNumber numberWithBool:YES] forKey:@"bLandscape"];
+    [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bPracticeRound"];
+    [fpOptions setObject:[NSNumber numberWithBool:YES] forKey:@"bSuppressPauseScreen"];
+    
+    // Startup the Fingerprint API.
+    
+    // fpDelegate is an object which implements the FingerprintDelegate protocol.
+    [Fingerprint startup:launchOptions fpOptions:fpOptions fpDelegate:self.window.rootViewController];
+    
+    // Establish Account and Child
+    // (Or you can also wait to call after your splash sequence)
+    // Note the API Delegate onLoginComplete method will let you know when child is ready to play
+    [Fingerprint login];
+    
+    [Fingerprint showHubButton:YES];
+    
     return YES;
 }
 -(void)addSkipAttribute:(NSString *) string{
@@ -329,9 +351,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     //    NSLog(@"responseData %@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
     }
     // send device token
+    
+    //FingerPrintPlay SDK
+    [Fingerprint storePushNotificationToken:deviceToken];
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    
+    [Fingerprint receivedRemoteNotification:userInfo];
 }
 
 -(void)removeBackDirectory{
@@ -713,6 +738,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 [self.loginViewControllerIphone dismissStoreViewController];
 }
+
 -(uint64_t)getFreeDiskspace {
     uint64_t totalSpace = 0;
     uint64_t totalFreeSpace = 0;
@@ -742,7 +768,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 -(void)applicationDidEnterBackground:(UIApplication *)application{
     [Flurry logEvent:@"Application went to background thus downloads and connection request will close"];
-
+    [Fingerprint suspend];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -757,6 +783,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive.
      */
+    [Fingerprint resume];
 }
 
 
@@ -768,6 +795,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if ([[NSFileManager defaultManager] fileExistsAtPath:loc]) {
         [[NSFileManager defaultManager] removeItemAtPath:loc error:nil];
     }
+    [Fingerprint shutdown];
 }
 
 

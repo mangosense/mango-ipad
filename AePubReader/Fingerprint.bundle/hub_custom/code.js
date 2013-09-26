@@ -1,0 +1,4 @@
+function FPCustomGetName()
+{
+    return "generic";
+}

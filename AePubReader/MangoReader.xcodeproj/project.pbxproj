@@ -141,6 +141,18 @@
 		8374AF2917CC69DD009DA792 /* asset_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AF2717CC69DD009DA792 /* asset_icon.png */; };
 		8374AF2A17CC69DD009DA792 /* pictures_icon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8374AF2817CC69DD009DA792 /* pictures_icon.jpeg */; };
 		8374AF2C17CC76B4009DA792 /* image_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AF2B17CC76B4009DA792 /* image_icon.png */; };
+		837E16AE17F3FCA700C6FBAC /* FingerprintHint.mm in Sources */ = {isa = PBXBuildFile; fileRef = 837E168D17F3FCA700C6FBAC /* FingerprintHint.mm */; };
+		837E16AF17F3FCA700C6FBAC /* libFingerprintClientSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 837E168E17F3FCA700C6FBAC /* libFingerprintClientSDK.a */; };
+		837E16B017F3FCA700C6FBAC /* facebook_ios_SDK_license.html in Resources */ = {isa = PBXBuildFile; fileRef = 837E16A917F3FCA700C6FBAC /* facebook_ios_SDK_license.html */; };
+		837E16B117F3FCA700C6FBAC /* gekitz_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 837E16AA17F3FCA700C6FBAC /* gekitz_license.txt */; };
+		837E16B217F3FCA700C6FBAC /* libjson_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 837E16AB17F3FCA700C6FBAC /* libjson_license.txt */; };
+		837E16B317F3FCA700C6FBAC /* Localytics_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 837E16AC17F3FCA700C6FBAC /* Localytics_license.txt */; };
+		837E16B417F3FCA700C6FBAC /* minizip_licenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = 837E16AD17F3FCA700C6FBAC /* minizip_licenses.txt */; };
+		837E16B617F3FCD800C6FBAC /* Fingerprint.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 837E16B517F3FCD800C6FBAC /* Fingerprint.bundle */; };
+		837E16B817F3FD2E00C6FBAC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 837E16B717F3FD2E00C6FBAC /* libsqlite3.dylib */; };
+		837E16BA17F3FD6600C6FBAC /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837E16B917F3FD6600C6FBAC /* MediaPlayer.framework */; };
+		837E16BC17F3FD7F00C6FBAC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837E16BB17F3FD7F00C6FBAC /* AddressBook.framework */; };
+		837E16BE17F3FD8F00C6FBAC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837E16BD17F3FD8F00C6FBAC /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E07D17CF12FE0080EB0C /* Checkmark.png */; };
 		8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8393E08317CF45280080EB0C /* UIImage-Extensions.m */; };
 		8393E08617CF7A940080EB0C /* insert_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E08517CF7A940080EB0C /* insert_image.png */; };
@@ -366,8 +378,8 @@
 		AEC9B12116B65202008CD1F5 /* TableOfContentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC9B12016B65202008CD1F5 /* TableOfContentsViewController.m */; };
 		AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC9B12416B6535B008CD1F5 /* TableOfContentsHandler.m */; };
 		AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC9B12816B665A5008CD1F5 /* EachCellOfTOC.m */; };
-		AECA3EBA1690BB5D002D97D4 /* ShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AECA3EB81690BB5C002D97D4 /* ShowViewController.m */; };
-		AECA3EBB1690BB5D002D97D4 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AECA3EB91690BB5D002D97D4 /* ShowViewController.xib */; };
+		AECA3EBA1690BB5D002D97D4 /* ShowMangoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AECA3EB81690BB5C002D97D4 /* ShowMangoViewController.m */; };
+		AECA3EBB1690BB5D002D97D4 /* ShowMangoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AECA3EB91690BB5D002D97D4 /* ShowMangoViewController.xib */; };
 		AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AECC0ACA1754D2FA00CA5EEC /* StatsViewController.m */; };
 		AECC0ACD1754D2FA00CA5EEC /* StatsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AECC0ACB1754D2FA00CA5EEC /* StatsViewController.xib */; };
 		AED05F98168CBC1700D27EF3 /* side.png in Resources */ = {isa = PBXBuildFile; fileRef = AED05F97168CBC1700D27EF3 /* side.png */; };
@@ -608,6 +620,42 @@
 		8374AF2717CC69DD009DA792 /* asset_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asset_icon.png; sourceTree = "<group>"; };
 		8374AF2817CC69DD009DA792 /* pictures_icon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pictures_icon.jpeg; sourceTree = "<group>"; };
 		8374AF2B17CC76B4009DA792 /* image_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_icon.png; sourceTree = "<group>"; };
+		837E168B17F3FCA700C6FBAC /* Fingerprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fingerprint.h; sourceTree = "<group>"; };
+		837E168C17F3FCA700C6FBAC /* FingerprintAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FingerprintAPI.h; sourceTree = "<group>"; };
+		837E168D17F3FCA700C6FBAC /* FingerprintHint.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FingerprintHint.mm; sourceTree = "<group>"; };
+		837E168E17F3FCA700C6FBAC /* libFingerprintClientSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFingerprintClientSDK.a; sourceTree = "<group>"; };
+		837E169017F3FCA700C6FBAC /* JSONOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONOptions.h; sourceTree = "<group>"; };
+		837E169117F3FCA700C6FBAC /* libjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libjson.h; sourceTree = "<group>"; };
+		837E169317F3FCA700C6FBAC /* internalJSONNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internalJSONNode.h; sourceTree = "<group>"; };
+		837E169417F3FCA700C6FBAC /* JSON_Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_Base64.h; sourceTree = "<group>"; };
+		837E169517F3FCA700C6FBAC /* JSONAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONAllocator.h; sourceTree = "<group>"; };
+		837E169617F3FCA700C6FBAC /* JSONChildren.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONChildren.h; sourceTree = "<group>"; };
+		837E169717F3FCA700C6FBAC /* JSONDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONDebug.h; sourceTree = "<group>"; };
+		837E169917F3FCA700C6FBAC /* GNU_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNU_C.h; sourceTree = "<group>"; };
+		837E169A17F3FCA700C6FBAC /* Strings_Defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings_Defs.h; sourceTree = "<group>"; };
+		837E169B17F3FCA700C6FBAC /* Unknown_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unknown_C.h; sourceTree = "<group>"; };
+		837E169C17F3FCA700C6FBAC /* Visual_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visual_C.h; sourceTree = "<group>"; };
+		837E169D17F3FCA700C6FBAC /* JSONDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONDefs.h; sourceTree = "<group>"; };
+		837E169E17F3FCA700C6FBAC /* JSONGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONGlobals.h; sourceTree = "<group>"; };
+		837E169F17F3FCA700C6FBAC /* JSONMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONMemory.h; sourceTree = "<group>"; };
+		837E16A017F3FCA700C6FBAC /* JSONMemoryPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONMemoryPool.h; sourceTree = "<group>"; };
+		837E16A117F3FCA700C6FBAC /* JSONNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONNode.h; sourceTree = "<group>"; };
+		837E16A217F3FCA700C6FBAC /* JSONPreparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONPreparse.h; sourceTree = "<group>"; };
+		837E16A317F3FCA700C6FBAC /* JSONSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSingleton.h; sourceTree = "<group>"; };
+		837E16A417F3FCA700C6FBAC /* JSONStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONStream.h; sourceTree = "<group>"; };
+		837E16A517F3FCA700C6FBAC /* JSONValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValidator.h; sourceTree = "<group>"; };
+		837E16A617F3FCA700C6FBAC /* JSONWorker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONWorker.h; sourceTree = "<group>"; };
+		837E16A717F3FCA700C6FBAC /* NumberToString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumberToString.h; sourceTree = "<group>"; };
+		837E16A917F3FCA700C6FBAC /* facebook_ios_SDK_license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = facebook_ios_SDK_license.html; sourceTree = "<group>"; };
+		837E16AA17F3FCA700C6FBAC /* gekitz_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gekitz_license.txt; sourceTree = "<group>"; };
+		837E16AB17F3FCA700C6FBAC /* libjson_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libjson_license.txt; sourceTree = "<group>"; };
+		837E16AC17F3FCA700C6FBAC /* Localytics_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Localytics_license.txt; sourceTree = "<group>"; };
+		837E16AD17F3FCA700C6FBAC /* minizip_licenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = minizip_licenses.txt; sourceTree = "<group>"; };
+		837E16B517F3FCD800C6FBAC /* Fingerprint.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Fingerprint.bundle; sourceTree = "<group>"; };
+		837E16B717F3FD2E00C6FBAC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		837E16B917F3FD6600C6FBAC /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		837E16BB17F3FD7F00C6FBAC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		837E16BD17F3FD8F00C6FBAC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		8393E07D17CF12FE0080EB0C /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checkmark.png; sourceTree = "<group>"; };
 		8393E08217CF45280080EB0C /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
 		8393E08317CF45280080EB0C /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
@@ -929,9 +977,9 @@
 		AEC9B12416B6535B008CD1F5 /* TableOfContentsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableOfContentsHandler.m; sourceTree = "<group>"; };
 		AEC9B12716B665A5008CD1F5 /* EachCellOfTOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EachCellOfTOC.h; sourceTree = "<group>"; };
 		AEC9B12816B665A5008CD1F5 /* EachCellOfTOC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EachCellOfTOC.m; sourceTree = "<group>"; };
-		AECA3EB71690BB5C002D97D4 /* ShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowViewController.h; sourceTree = "<group>"; };
-		AECA3EB81690BB5C002D97D4 /* ShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowViewController.m; sourceTree = "<group>"; };
-		AECA3EB91690BB5D002D97D4 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowViewController.xib; sourceTree = "<group>"; };
+		AECA3EB71690BB5C002D97D4 /* ShowMangoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMangoViewController.h; sourceTree = "<group>"; };
+		AECA3EB81690BB5C002D97D4 /* ShowMangoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMangoViewController.m; sourceTree = "<group>"; };
+		AECA3EB91690BB5D002D97D4 /* ShowMangoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowMangoViewController.xib; sourceTree = "<group>"; };
 		AECC0AC91754D2FA00CA5EEC /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		AECC0ACA1754D2FA00CA5EEC /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		AECC0ACB1754D2FA00CA5EEC /* StatsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatsViewController.xib; sourceTree = "<group>"; };
@@ -1067,17 +1115,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				837E16BE17F3FD8F00C6FBAC /* AdSupport.framework in Frameworks */,
+				837E16BC17F3FD7F00C6FBAC /* AddressBook.framework in Frameworks */,
+				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
+				837E16BA17F3FD6600C6FBAC /* MediaPlayer.framework in Frameworks */,
+				837E16B817F3FD2E00C6FBAC /* libsqlite3.dylib in Frameworks */,
 				83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */,
 				AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */,
 				AEC70E1A16D4C35E00A191D2 /* OpenGLES.framework in Frameworks */,
 				AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */,
 				AEC70E1616D4C34700A191D2 /* CoreMedia.framework in Frameworks */,
 				AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */,
+				837E16AF17F3FCA700C6FBAC /* libFingerprintClientSDK.a in Frameworks */,
 				AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */,
 				AE5FC01C167701DC00BB9AED /* Social.framework in Frameworks */,
 				AE43C744161057DA00970739 /* Security.framework in Frameworks */,
 				AEC08DC21656B3D00067C47B /* StoreKit.framework in Frameworks */,
-				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
 				AE525E8B161D8B0200CDB400 /* Accounts.framework in Frameworks */,
 				AE525E77161D748700CDB400 /* MapKit.framework in Frameworks */,
 				AE525E75161D747B00CDB400 /* CoreLocation.framework in Frameworks */,
@@ -1120,6 +1173,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				837E16B517F3FCD800C6FBAC /* Fingerprint.bundle */,
+				837E168A17F3FCA700C6FBAC /* FingerprintClientSDK */,
 				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
 				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
 				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
@@ -1319,6 +1374,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				837E16BD17F3FD8F00C6FBAC /* AdSupport.framework */,
+				837E16BB17F3FD7F00C6FBAC /* AddressBook.framework */,
+				837E16B917F3FD6600C6FBAC /* MediaPlayer.framework */,
+				837E16B717F3FD2E00C6FBAC /* libsqlite3.dylib */,
 				AEC08DC11656B3D00067C47B /* StoreKit.framework */,
 				AE525E8A161D8B0200CDB400 /* Accounts.framework */,
 				AE525E88161D8AD400CDB400 /* AdSupport.framework */,
@@ -1519,6 +1578,76 @@
 			name = EditorStoryAssets;
 			sourceTree = "<group>";
 		};
+		837E168A17F3FCA700C6FBAC /* FingerprintClientSDK */ = {
+			isa = PBXGroup;
+			children = (
+				837E168B17F3FCA700C6FBAC /* Fingerprint.h */,
+				837E168C17F3FCA700C6FBAC /* FingerprintAPI.h */,
+				837E168D17F3FCA700C6FBAC /* FingerprintHint.mm */,
+				837E168E17F3FCA700C6FBAC /* libFingerprintClientSDK.a */,
+				837E168F17F3FCA700C6FBAC /* libjson */,
+				837E16A817F3FCA700C6FBAC /* licenses */,
+			);
+			path = FingerprintClientSDK;
+			sourceTree = "<group>";
+		};
+		837E168F17F3FCA700C6FBAC /* libjson */ = {
+			isa = PBXGroup;
+			children = (
+				837E169017F3FCA700C6FBAC /* JSONOptions.h */,
+				837E169117F3FCA700C6FBAC /* libjson.h */,
+				837E169217F3FCA700C6FBAC /* Source */,
+			);
+			path = libjson;
+			sourceTree = "<group>";
+		};
+		837E169217F3FCA700C6FBAC /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				837E169317F3FCA700C6FBAC /* internalJSONNode.h */,
+				837E169417F3FCA700C6FBAC /* JSON_Base64.h */,
+				837E169517F3FCA700C6FBAC /* JSONAllocator.h */,
+				837E169617F3FCA700C6FBAC /* JSONChildren.h */,
+				837E169717F3FCA700C6FBAC /* JSONDebug.h */,
+				837E169817F3FCA700C6FBAC /* JSONDefs */,
+				837E169D17F3FCA700C6FBAC /* JSONDefs.h */,
+				837E169E17F3FCA700C6FBAC /* JSONGlobals.h */,
+				837E169F17F3FCA700C6FBAC /* JSONMemory.h */,
+				837E16A017F3FCA700C6FBAC /* JSONMemoryPool.h */,
+				837E16A117F3FCA700C6FBAC /* JSONNode.h */,
+				837E16A217F3FCA700C6FBAC /* JSONPreparse.h */,
+				837E16A317F3FCA700C6FBAC /* JSONSingleton.h */,
+				837E16A417F3FCA700C6FBAC /* JSONStream.h */,
+				837E16A517F3FCA700C6FBAC /* JSONValidator.h */,
+				837E16A617F3FCA700C6FBAC /* JSONWorker.h */,
+				837E16A717F3FCA700C6FBAC /* NumberToString.h */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		837E169817F3FCA700C6FBAC /* JSONDefs */ = {
+			isa = PBXGroup;
+			children = (
+				837E169917F3FCA700C6FBAC /* GNU_C.h */,
+				837E169A17F3FCA700C6FBAC /* Strings_Defs.h */,
+				837E169B17F3FCA700C6FBAC /* Unknown_C.h */,
+				837E169C17F3FCA700C6FBAC /* Visual_C.h */,
+			);
+			path = JSONDefs;
+			sourceTree = "<group>";
+		};
+		837E16A817F3FCA700C6FBAC /* licenses */ = {
+			isa = PBXGroup;
+			children = (
+				837E16A917F3FCA700C6FBAC /* facebook_ios_SDK_license.html */,
+				837E16AA17F3FCA700C6FBAC /* gekitz_license.txt */,
+				837E16AB17F3FCA700C6FBAC /* libjson_license.txt */,
+				837E16AC17F3FCA700C6FBAC /* Localytics_license.txt */,
+				837E16AD17F3FCA700C6FBAC /* minizip_licenses.txt */,
+			);
+			path = licenses;
+			sourceTree = "<group>";
+		};
 		AE1373721622D9D0006C2CA6 /* flurry */ = {
 			isa = PBXGroup;
 			children = (
@@ -1644,9 +1773,9 @@
 				AE9793F51650B01F00DBB5D1 /* SignUpViewController.h */,
 				AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */,
 				AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */,
-				AECA3EB71690BB5C002D97D4 /* ShowViewController.h */,
-				AECA3EB81690BB5C002D97D4 /* ShowViewController.m */,
-				AECA3EB91690BB5D002D97D4 /* ShowViewController.xib */,
+				AECA3EB71690BB5C002D97D4 /* ShowMangoViewController.h */,
+				AECA3EB81690BB5C002D97D4 /* ShowMangoViewController.m */,
+				AECA3EB91690BB5D002D97D4 /* ShowMangoViewController.xib */,
 				AED53B2616914AC30061A600 /* DetailsViewController.h */,
 				AED53B2716914AC30061A600 /* DetailsViewController.m */,
 				AED53B2816914AC30061A600 /* DetailsViewController.xib */,
@@ -2130,12 +2259,14 @@
 				AE1C6C3216721EBB0090DFDD /* download-button-iphone3.png in Resources */,
 				AE1C6C3316721EBB0090DFDD /* purchase-button-iphone3.png in Resources */,
 				AE731C581675C2DE00FE8F19 /* f-mangoreader-desktop-login-bg.png in Resources */,
+				837E16B617F3FCD800C6FBAC /* Fingerprint.bundle in Resources */,
 				AE731C5A1675C36200FE8F19 /* facebook-login-button.png in Resources */,
 				AE731C5C1675C3AF00FE8F19 /* or-button.png in Resources */,
 				AE731C6F1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png in Resources */,
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
 				AE731C781675FB6000FE8F19 /* mangoreader-logo.png in Resources */,
 				AE5FC02416772F6100BB9AED /* mangoreader-iphone4-login-bg.png in Resources */,
+				837E16B417F3FCA700C6FBAC /* minizip_licenses.txt in Resources */,
 				AEE3FB68169CAD82001034E4 /* HighlightedString.js in Resources */,
 				AE5FC0261677300B00BB9AED /* or-iphone5.png in Resources */,
 				AE5B19D9167F21B4000FFADA /* skip-button.png in Resources */,
@@ -2155,7 +2286,7 @@
 				AED05F98168CBC1700D27EF3 /* side.png in Resources */,
 				AED05F9B168CBCBA00D27EF3 /* stop-recording-control.png in Resources */,
 				AED05F9D168CBCBE00D27EF3 /* start-recording-control.png in Resources */,
-				AECA3EBB1690BB5D002D97D4 /* ShowViewController.xib in Resources */,
+				AECA3EBB1690BB5D002D97D4 /* ShowMangoViewController.xib in Resources */,
 				AED53B2A16914AC30061A600 /* DetailsViewController.xib in Resources */,
 				AED53B3116916CAF0061A600 /* icon.png in Resources */,
 				AED53B3316916DB60061A600 /* pattern.png in Resources */,
@@ -2187,6 +2318,7 @@
 				AE67FD4B16BA6BFC00E91A01 /* WebPageViewIphonebig.xib in Resources */,
 				AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */,
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
+				837E16B317F3FCA700C6FBAC /* Localytics_license.txt in Resources */,
 				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
 				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
 				AE6386561733BC6E009E372A /* recording-bg.png in Resources */,
@@ -2243,6 +2375,7 @@
 				832D54A517B3B9AA005B81FD /* 44221d038e.ogg in Resources */,
 				832D54A617B3B9AA005B81FD /* 14971183bb.jpg in Resources */,
 				832D54A717B3B9AA005B81FD /* a9457d95f7.jpg in Resources */,
+				837E16B017F3FCA700C6FBAC /* facebook_ios_SDK_license.html in Resources */,
 				832D54A817B3B9AA005B81FD /* b48ccde810.mp3 in Resources */,
 				832D54A917B3B9AA005B81FD /* b48ccde810.ogg in Resources */,
 				832D54AA17B3B9AA005B81FD /* b67787a76b.jpg in Resources */,
@@ -2272,6 +2405,7 @@
 				832D54C217B3B9AA005B81FD /* updown_14971183bb.jpg in Resources */,
 				832D54C317B3B9AA005B81FD /* updown_a9457d95f7.jpg in Resources */,
 				832D54C417B3B9AA005B81FD /* updown_b67787a76b.jpg in Resources */,
+				837E16B217F3FCA700C6FBAC /* libjson_license.txt in Resources */,
 				832D54C517B3B9AA005B81FD /* updown_c2dc01256e.jpg in Resources */,
 				832D54C617B3B9AA005B81FD /* updown_dfe6bef2ed.jpg in Resources */,
 				832D54C717B3B9AA005B81FD /* updown_e1e8d1ae58.jpg in Resources */,
@@ -2291,6 +2425,7 @@
 				839DD8E617B4F6A2003B62C8 /* brush-small.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
 				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
+				837E16B117F3FCA700C6FBAC /* gekitz_license.txt in Resources */,
 				83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */,
 				832CCD3217BB4EF600FC05E3 /* 50d0f84f99.jpg in Resources */,
 				832CCD3317BB4EF600FC05E3 /* 515c992c1b.mp3 in Resources */,
@@ -2413,6 +2548,7 @@
 				AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */,
 				314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */,
 				AEF8CDEF162EA8F000094C62 /* ShareButton.m in Sources */,
+				837E16AE17F3FCA700C6FBAC /* FingerprintHint.mm in Sources */,
 				AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */,
 				AE9BFBAB16537C12000DDEB1 /* LiveViewController.m in Sources */,
 				AE9BFBB016537F44000DDEB1 /* PopPurchaseViewController.m in Sources */,
@@ -2437,7 +2573,7 @@
 				AE5167301680781000DF5136 /* NotesHighlightViewController.m in Sources */,
 				AE5F71681682EE36004A7A37 /* SyncIpadConnection.m in Sources */,
 				AEDF184B168B62890087064A /* StoreBooks.m in Sources */,
-				AECA3EBA1690BB5D002D97D4 /* ShowViewController.m in Sources */,
+				AECA3EBA1690BB5D002D97D4 /* ShowMangoViewController.m in Sources */,
 				AED53B2916914AC30061A600 /* DetailsViewController.m in Sources */,
 				AEF6A154169596CE00ECAE7E /* WebPageViewController.m in Sources */,
 				AEF6A16316959B5E00ECAE7E /* ViewController.m in Sources */,
@@ -2558,7 +2694,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/kedark/Desktop/mango-ipad/AePubReader/FingerprintClientSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2592,7 +2729,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/kedark/Desktop/mango-ipad/AePubReader/FingerprintClientSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
