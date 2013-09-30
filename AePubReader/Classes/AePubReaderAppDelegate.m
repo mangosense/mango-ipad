@@ -32,8 +32,7 @@
     _wasFirstInPortrait=NO;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     if (![userDefaults objectForKey:@"baseurl"]) {
-        
-         [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
+        [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
     [userDefaults setBool:NO forKey:@"changed"];
     NSFileManager *fileManager=[NSFileManager defaultManager];
@@ -48,7 +47,6 @@
     [userDefaults setObject:recording forKey:@"recordingDirectory"];
     
     NSNumber *moonCapId;
-
 
     destPath=@"49.jpg";
     insPath=@"49.jpg";
@@ -279,7 +277,6 @@
     _location=[self applicationDocumentsDirectory];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"bkup"]) {
         [self performSelectorInBackground:@selector(removeBackDirectory) withObject:nil];
-
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
  [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
@@ -585,8 +582,6 @@ void uncaughtExceptionHandler(NSException *exception) {
                 alertView.tag=2000;
                 [alertView show];
                 //   [alertView release];
-                
-                
             }else{
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alertView show];
