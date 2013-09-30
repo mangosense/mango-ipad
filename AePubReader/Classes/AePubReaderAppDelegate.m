@@ -14,6 +14,9 @@
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 #import "Base64.h"
+
+#import <Parse/Parse.h>
+
 @implementation AePubReaderAppDelegate
 
 @synthesize window;
@@ -22,7 +25,13 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //Parse
+    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
     _LandscapeOrientation=YES;
     _PortraitOrientation=YES;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
@@ -302,6 +311,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"Error %@",error);
 }
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    //Parse
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    [currentInstallation saveInBackground];
+    
     NSString* newToken = [deviceToken description];
 	newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
 	newToken = [newToken stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -331,7 +346,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     // send device token
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    
+     [PFPush handlePush:userInfo];
 }
 
 -(void)removeBackDirectory{

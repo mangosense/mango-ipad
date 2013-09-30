@@ -90,6 +90,9 @@
 		832D54C717B3B9AA005B81FD /* updown_e1e8d1ae58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */; };
 		832D54C817B3B9AA005B81FD /* updown_fea8d05bf8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */; };
 		832D54C917B3B9AA005B81FD /* x.wav in Resources */ = {isa = PBXBuildFile; fileRef = 832D549817B3B9AA005B81FD /* x.wav */; };
+		833058A017F98E3E00F48427 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8330589F17F98E3E00F48427 /* Parse.framework */; };
+		833058A217F9901E00F48427 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A117F9901E00F48427 /* libz.1.1.3.dylib */; };
+		833058A417F9961A00F48427 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A317F9961A00F48427 /* Accounts.framework */; };
 		833765CF17D09BCE00262C26 /* AccordionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833765CE17D09BCE00262C26 /* AccordionView.m */; };
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
@@ -216,7 +219,6 @@
 		AE525E75161D747B00CDB400 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E74161D747B00CDB400 /* CoreLocation.framework */; };
 		AE525E77161D748700CDB400 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E76161D748700CDB400 /* MapKit.framework */; };
 		AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E78161D74BF00CDB400 /* MessageUI.framework */; };
-		AE525E8B161D8B0200CDB400 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE525E8A161D8B0200CDB400 /* Accounts.framework */; };
 		AE525E97161D8CD200CDB400 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE525E95161D8CD200CDB400 /* WebViewController.m */; };
 		AE525E98161D8CD200CDB400 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE525E96161D8CD200CDB400 /* WebViewController.xib */; };
 		AE576059161AF46D00C6EEC6 /* playvideo.js in Resources */ = {isa = PBXBuildFile; fileRef = AE576056161AF3F500C6EEC6 /* playvideo.js */; };
@@ -553,6 +555,9 @@
 		832D549617B3B9AA005B81FD /* updown_e1e8d1ae58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_e1e8d1ae58.jpg; path = "Temp Images/updown_e1e8d1ae58.jpg"; sourceTree = "<group>"; };
 		832D549717B3B9AA005B81FD /* updown_fea8d05bf8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = updown_fea8d05bf8.jpg; path = "Temp Images/updown_fea8d05bf8.jpg"; sourceTree = "<group>"; };
 		832D549817B3B9AA005B81FD /* x.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = x.wav; path = "Temp Images/x.wav"; sourceTree = "<group>"; };
+		8330589F17F98E3E00F48427 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		833058A117F9901E00F48427 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
+		833058A317F9961A00F48427 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		833765CD17D09BCE00262C26 /* AccordionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccordionView.h; sourceTree = "<group>"; };
 		833765CE17D09BCE00262C26 /* AccordionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccordionView.m; sourceTree = "<group>"; };
 		833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothDrawingView.h; sourceTree = "<group>"; };
@@ -708,7 +713,6 @@
 		AE525E76161D748700CDB400 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		AE525E78161D74BF00CDB400 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AE525E88161D8AD400CDB400 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdSupport.framework; sourceTree = "<group>"; };
-		AE525E8A161D8B0200CDB400 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AE525E94161D8CD200CDB400 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		AE525E95161D8CD200CDB400 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		AE525E96161D8CD200CDB400 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -1067,20 +1071,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				833058A417F9961A00F48427 /* Accounts.framework in Frameworks */,
+				833058A217F9901E00F48427 /* libz.1.1.3.dylib in Frameworks */,
+				AE525E75161D747B00CDB400 /* CoreLocation.framework in Frameworks */,
 				83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */,
 				AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */,
 				AEC70E1A16D4C35E00A191D2 /* OpenGLES.framework in Frameworks */,
 				AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */,
 				AEC70E1616D4C34700A191D2 /* CoreMedia.framework in Frameworks */,
 				AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */,
+				833058A017F98E3E00F48427 /* Parse.framework in Frameworks */,
 				AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */,
 				AE5FC01C167701DC00BB9AED /* Social.framework in Frameworks */,
 				AE43C744161057DA00970739 /* Security.framework in Frameworks */,
 				AEC08DC21656B3D00067C47B /* StoreKit.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
-				AE525E8B161D8B0200CDB400 /* Accounts.framework in Frameworks */,
 				AE525E77161D748700CDB400 /* MapKit.framework in Frameworks */,
-				AE525E75161D747B00CDB400 /* CoreLocation.framework in Frameworks */,
 				AE7FEDE71615ADC000C4B51D /* QuartzCore.framework in Frameworks */,
 				AEA7687616117357002B9FDC /* CoreData.framework in Frameworks */,
 				AE43C742161057CB00970739 /* MobileCoreServices.framework in Frameworks */,
@@ -1122,6 +1128,7 @@
 			children = (
 				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
 				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
+				8330589F17F98E3E00F48427 /* Parse.framework */,
 				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
 				AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */,
 				AEC70E1716D4C35100A191D2 /* CoreVideo.framework */,
@@ -1319,8 +1326,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				833058A317F9961A00F48427 /* Accounts.framework */,
+				833058A117F9901E00F48427 /* libz.1.1.3.dylib */,
 				AEC08DC11656B3D00067C47B /* StoreKit.framework */,
-				AE525E8A161D8B0200CDB400 /* Accounts.framework */,
 				AE525E88161D8AD400CDB400 /* AdSupport.framework */,
 				AE525E74161D747B00CDB400 /* CoreLocation.framework */,
 				AE525E76161D748700CDB400 /* MapKit.framework */,
@@ -2546,6 +2554,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/kedark/Desktop/mango-ipad/AePubReader",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2563,12 +2575,11 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
-					"-ObjC",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				PROVISIONING_PROFILE = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2582,6 +2593,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/kedark/Desktop/mango-ipad/AePubReader",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -2597,12 +2612,11 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
-					"-ObjC",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				PROVISIONING_PROFILE = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2688,8 +2702,8 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				PROVISIONING_PROFILE = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2711,8 +2725,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1D5227C-0FEF-4FB5-A4A3-D681CA8D2501";
+				PROVISIONING_PROFILE = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B7638B8-ED57-442E-A51D-38A6B5F1A5A8";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
