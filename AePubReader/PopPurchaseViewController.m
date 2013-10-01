@@ -45,9 +45,10 @@
 -(void)viewWillDisappear:(BOOL)animated{
  
         
-    if (_alertView) {
+    /*if (_alertView) {
          [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    }
+    }*/
+    [AePubReaderAppDelegate showAlertViewiPad];
     NSString * string=[NSString stringWithFormat: @"In the store details for particular book existed" ];
     [Flurry logEvent:string];
 }
@@ -264,8 +265,9 @@
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : Free "];
         _isFree=true;
     }
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    _alertView=nil;
+    [AePubReaderAppDelegate hideAlertView];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    //_alertView=nil;
     [_purchaseButton setEnabled:YES];
         
 }

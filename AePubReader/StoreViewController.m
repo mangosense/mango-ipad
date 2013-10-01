@@ -339,6 +339,7 @@
 }
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 
 }
 - (void)signOut:(id)sender {
@@ -653,7 +654,7 @@
     if (_alert) {
           [ _alert dismissWithClickedButtonIndex:0 animated:YES];
     }
- 
+    [AePubReaderAppDelegate hideAlertView];
     
 }
 -(void)singleTap:(UIGestureRecognizer *)gesture{

@@ -9,6 +9,7 @@
 #import "SignUpViewControllerIphone.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Flurry.h"
+#import "AePubReaderAppDelegate.h"
 @interface SignUpViewControllerIphone ()
 
 @end
@@ -42,8 +43,7 @@
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-
-}
+    }
 
 - (void)didReceiveMemoryWarning
 {
@@ -60,9 +60,20 @@
     [self setConfirmPassword:nil];
     [super viewDidUnload];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [AePubReaderAppDelegate adjustForIOS7:self.view];
+
+    
+
+}
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [Flurry logEvent:@"Iphone signup entered"];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+    CGRect frame= _toolBar.frame;
+    frame.size.width=screenBounds.size.height+50;
+    _toolBar.frame=frame;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
@@ -73,7 +84,8 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertVew dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
+  //  [_alertVew dismissWithClickedButtonIndex:0 animated:YES];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
  
     [alertView show];
@@ -87,8 +99,8 @@
     
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-     [_alertVew dismissWithClickedButtonIndex:0 animated:YES];
-    
+  //   [_alertVew dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     NSString *string=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSDictionary *dictionary= [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"json output %@",string);
@@ -148,13 +160,14 @@
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
 
     [connection start];
-    _alertVew =[[UIAlertView alloc]init];
+   /* _alertVew =[[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertVew addSubview:indicator];
     [_alertVew setTitle:@"Loading...."];
 
-    [_alertVew show];
+    [_alertVew show];*/
+    [AePubReaderAppDelegate showAlertView];
 
     _data=[[NSMutableData alloc]init];
 

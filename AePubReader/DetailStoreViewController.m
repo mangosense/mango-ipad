@@ -157,7 +157,7 @@
 //                [_alertView setTitle:@"Loading...."];
 //               // [_alertView setDelegate:self];
 //                [_alertView show];
-                
+                [AePubReaderAppDelegate showAlertView];
             }else{
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You are not authorsized to make payments" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alertView show];

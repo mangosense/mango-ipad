@@ -486,7 +486,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     if (_alertView) {
         [ _alertView dismissWithClickedButtonIndex:0 animated:YES];
     }
-
+    [AePubReaderAppDelegate hideAlertView];
     [self.view bringSubviewToFront:_previousButton];
     [self.view bringSubviewToFront:_nextButton];
 }

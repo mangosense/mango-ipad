@@ -50,4 +50,9 @@
 - (NSString *)applicationDocumentsDirectory;
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;
 -(void)insertInStore;
++(void)adjustForIOS7:(UIView *) view;
++(void)showAlertView;
++(UIAlertView *) getAlertView;
++(void)hideAlertView;
++(void)showAlertViewiPad;
 @end
