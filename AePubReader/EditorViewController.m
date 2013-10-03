@@ -15,6 +15,7 @@
 #import "PublishViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "Google_TTS_BySham.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -65,6 +66,7 @@
 @property (nonatomic, strong) UIButton *previousPageButton;
 @property (nonatomic, assign) int currentPage;
 @property (nonatomic, strong) NSArray *arrayOfImageNames;
+@property (nonatomic, strong) Google_TTS_BySham *google_tts_bysham;
 
 - (void)getBookJson;
 
@@ -1049,6 +1051,26 @@
     [self.view addSubview:drawerView];
 }
 
+- (void)wordTapped:(UITapGestureRecognizer *)recognizer {
+    NSLog(@"Clicked");
+    
+    CGPoint pos = [recognizer locationInView:mainTextView];
+    
+    NSLog(@"Tap Gesture Coordinates: %.2f %.2f", pos.x, pos.y);
+    
+    //get location in text from textposition at point
+    UITextPosition *tapPos = [mainTextView closestPositionToPoint:pos];
+    
+    //fetch the word at this position (or nil, if not available)
+    UITextRange * wr = [mainTextView.tokenizer rangeEnclosingPosition:tapPos withGranularity:UITextGranularityWord inDirection:UITextLayoutDirectionRight];
+    
+    NSLog(@"WORD: %@", [mainTextView textInRange:wr]);
+    
+    self.google_tts_bysham = [[Google_TTS_BySham alloc] init];
+    [self.google_tts_bysham speak:[mainTextView textInRange:wr]];
+    
+}
+
 - (void)createInitialUI {
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
@@ -1064,6 +1086,13 @@
     mainTextView.tag = MAIN_TEXTVIEW_TAG;
     mainTextView.textColor = [UIColor blackColor];
     mainTextView.font = [UIFont boldSystemFontOfSize:24];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wordTapped:)];
+    tapRecognizer.delegate = self;
+    tapRecognizer.numberOfTapsRequired = 1;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [mainTextView addGestureRecognizer:tapRecognizer];
+    
     [backgroundImageView addSubview:mainTextView];
     
     [self createToolView];
