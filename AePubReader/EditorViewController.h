@@ -44,6 +44,7 @@
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 
 @property (nonatomic, assign) int tagForLanguage;
+@property (nonatomic, strong) NSDictionary *jsonDict;
 
 - (IBAction)paintButtonPressed:(id)sender;
 - (IBAction)paintBrushButtonPressed:(id)sender;

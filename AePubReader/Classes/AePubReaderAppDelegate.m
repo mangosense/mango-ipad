@@ -40,7 +40,7 @@
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     if (![userDefaults objectForKey:@"baseurl"]) {
         
-         [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
+         [userDefaults setObject:@"http://www.staging.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
     [userDefaults setBool:NO forKey:@"changed"];
     NSFileManager *fileManager=[NSFileManager defaultManager];
