@@ -13,6 +13,8 @@
 #define TAMIL_TAG 10
 #define MALAY_TAG 12
 #define CHINESE_TAG 11
+#define GERMAN_TAG 13
+#define SPANISH_TAG 14
 
 @interface StoriesViewController ()
 
@@ -57,7 +59,7 @@
 #pragma mark - iCarousel Datasource and Delegate Methods
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return 20;
+    return 3;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
@@ -72,13 +74,17 @@
         storyImageView = (UIImageView *)[view viewWithTag:1];
     }
     
-    switch (index%2) {
+    switch (index) {
         case 0:
-            [storyImageView setImage:[UIImage imageNamed:@"abad124338.jpg"]];
+            [storyImageView setImage:[UIImage imageNamed:@"b62ef7c141.jpg"]];
             break;
             
         case 1:
-            [storyImageView setImage:[UIImage imageNamed:@"8517823664.jpg"]];
+            [storyImageView setImage:[UIImage imageNamed:@"2b9713c03f.jpg"]];
+            break;
+            
+        case 2:
+            [storyImageView setImage:[UIImage imageNamed:@"e1b23e9390.jpg"]];
             break;
             
         default:
@@ -91,14 +97,17 @@
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     NSLog(@"Selected Story: %d", index);
     
-    switch (index%2) {
+    switch (index) {
         case 0:
-            [self chooseLanguage:TAMIL_TAG];
+            [self chooseLanguage:ENGLISH_TAG];
             break;
             
         case 1:
-            [self chooseLanguage:ENGLISH_TAG];
+            [self chooseLanguage:GERMAN_TAG];
             break;
+            
+        case 2:
+            [self chooseLanguage:SPANISH_TAG];
             
         default:
             break;
