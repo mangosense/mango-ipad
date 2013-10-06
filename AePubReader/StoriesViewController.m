@@ -15,6 +15,7 @@
 #define CHINESE_TAG 11
 #define GERMAN_TAG 13
 #define SPANISH_TAG 14
+#define ANGRYBIRDS_ENGLISH_TAG 17
 
 @interface StoriesViewController ()
 
@@ -59,7 +60,7 @@
 #pragma mark - iCarousel Datasource and Delegate Methods
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return 3;
+    return 5;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
@@ -87,6 +88,14 @@
             [storyImageView setImage:[UIImage imageNamed:@"e1b23e9390.jpg"]];
             break;
             
+        case 3:
+            [storyImageView setImage:[UIImage imageNamed:@"8517823664.jpg"]];
+            break;
+            
+        case 4:
+            [storyImageView setImage:[UIImage imageNamed:@"abad124338.jpg"]];
+            break;
+            
         default:
             break;
     }
@@ -108,6 +117,15 @@
             
         case 2:
             [self chooseLanguage:SPANISH_TAG];
+            break;
+            
+        case 3:
+            [self chooseLanguage:ANGRYBIRDS_ENGLISH_TAG];
+            break;
+            
+        case 4:
+            [self chooseLanguage:TAMIL_TAG];
+            break;
             
         default:
             break;

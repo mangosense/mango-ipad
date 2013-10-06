@@ -139,7 +139,7 @@
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
     _libViewController.showDeleteButton=NO;
     
-    [_libViewController.tabBarController setSelectedIndex:0];
+    [_libViewController.tabBarController setSelectedIndex:1];
   //  [url release];
    [_progress setAlpha:0.0];  
 [_progress removeFromSuperview];

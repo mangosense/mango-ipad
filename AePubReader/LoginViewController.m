@@ -235,7 +235,11 @@
         /*EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
         UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
         
-        tabBarController.viewControllers=@[navigation , navigationPurchase, navigationStore];
+        storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+        UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
+
+        
+        tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore];
         [self.navigationController pushViewController:tabBarController animated:YES];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

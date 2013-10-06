@@ -32,6 +32,7 @@
 #define COLOR_MENU_TAG 2
 
 #define ENGLISH_TAG 9
+#define ANGRYBIRDS_ENGLISH_TAG 17
 #define TAMIL_TAG 10
 #define MALAY_TAG 12
 #define CHINESE_TAG 11
@@ -1101,7 +1102,7 @@
     tapRecognizer.delegate = self;
     tapRecognizer.numberOfTapsRequired = 1;
     tapRecognizer.numberOfTouchesRequired = 1;
-    //[mainTextView addGestureRecognizer:tapRecognizer];
+    [mainTextView addGestureRecognizer:tapRecognizer];
     
     [backgroundImageView addSubview:mainTextView];
     
@@ -1438,6 +1439,14 @@
             
         case SPANISH_TAG:
             jsonString = [frankfurtSpanishJson stringByReplacingOccurrencesOfString:@"res/" withString:@""];
+            break;
+            
+        case TAMIL_TAG:
+            jsonString = angryBirdsTamilJsonString;
+            break;
+            
+        case ANGRYBIRDS_ENGLISH_TAG:
+            jsonString = angryBirdsEnglishJsonString;
             break;
             
         default:
