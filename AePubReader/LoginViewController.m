@@ -26,6 +26,7 @@
 #import "RootViewController.h"
 #import "EditorViewController.h"
 #import "StoriesViewController.h"
+#import "PreKCategoriesViewController.h"
 
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
@@ -33,6 +34,7 @@
 @property(nonatomic,strong)LibraryViewController *library;
 @property (nonatomic, strong) EditorViewController *editorViewController;
 @property (nonatomic, strong) StoriesViewController *storiesViewController;
+@property (nonatomic, strong) PreKCategoriesViewController *preKBooksViewController;
 
 @end
 
@@ -40,6 +42,7 @@
 
 @synthesize editorViewController;
 @synthesize storiesViewController;
+@synthesize preKBooksViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -92,14 +95,16 @@
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
     editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+    preKBooksViewController = [[PreKCategoriesViewController alloc] initWithNibName:@"PreKCategoriesViewController" bundle:nil];
     
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
     UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
+    UINavigationController *prekBooksNavigationController = [[UINavigationController alloc] initWithRootViewController:preKBooksViewController];
     
-    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
+    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore, prekBooksNavigationController];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
 }
@@ -238,8 +243,10 @@
         storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
         UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
 
+        preKBooksViewController = [[PreKCategoriesViewController alloc] initWithNibName:@"PreKCategoriesViewController" bundle:nil];
+        UINavigationController *prekBooksNavigationController = [[UINavigationController alloc] initWithRootViewController:preKBooksViewController];
         
-        tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore];
+        tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore, prekBooksNavigationController];
         [self.navigationController pushViewController:tabBarController animated:YES];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

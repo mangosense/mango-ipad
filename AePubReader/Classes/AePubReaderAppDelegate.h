@@ -21,6 +21,8 @@
         
    
 }
+@property(assign,nonatomic) BOOL prek;
+
 @property(assign,nonatomic)BOOL addControlEvents;
 @property(assign,nonatomic)BOOL completedStorePopulation;
 @property (nonatomic, retain)  UIWindow *window;
