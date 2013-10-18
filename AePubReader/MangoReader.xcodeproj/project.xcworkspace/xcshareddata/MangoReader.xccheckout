@@ -5,11 +5,13 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>A5DD321D-0427-4506-9DD6-030C1886BB6D</string>
+	<string>4F949478-B930-41D4-9BCD-F059F2E7A8D9</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MangoReader</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>2FE403F3-FF77-4B4F-8D74-7650E413DA71</key>
+		<string>https://bitbucket.org/nwoolls/simpledrawing.git</string>
 		<key>EDA76EF8-DCEA-4292-B21F-0CC6FA5227F5</key>
 		<string>https://github.com/mangosense/mango-ipad.git</string>
 	</dict>
@@ -17,6 +19,8 @@
 	<string>AePubReader/MangoReader.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>2FE403F3-FF77-4B4F-8D74-7650E413DA71</key>
+		<string>../../../../simpledrawing</string>
 		<key>EDA76EF8-DCEA-4292-B21F-0CC6FA5227F5</key>
 		<string>../../..</string>
 	</dict>
@@ -35,6 +39,14 @@
 			<string>EDA76EF8-DCEA-4292-B21F-0CC6FA5227F5</string>
 			<key>IDESourceControlWCCName</key>
 			<string>mango-ipad</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2FE403F3-FF77-4B4F-8D74-7650E413DA71</string>
+			<key>IDESourceControlWCCName</key>
+			<string>simpledrawing</string>
 		</dict>
 	</array>
 </dict>
