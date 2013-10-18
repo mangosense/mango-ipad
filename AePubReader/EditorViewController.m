@@ -16,6 +16,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "Google_TTS_BySham.h"
+#import "StoryJsonProcessor.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -1407,6 +1408,10 @@
 }
 
 #pragma mark - Parsing Book Json
+
+- (void)processJson:(NSDictionary *)jsonDict {
+    NSDictionary *pageViewDict = [StoryJsonProcessor pageViewForJsonString:jsonDict];
+}
 
 - (void)getBookJson {
     // Temporarily adding hardcoded string

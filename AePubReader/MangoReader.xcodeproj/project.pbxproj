@@ -232,6 +232,10 @@
 		83A66965180D5CA900BA0D3D /* MangoEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A66963180D5CA900BA0D3D /* MangoEditorViewController.m */; };
 		83A66966180D5CA900BA0D3D /* MangoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83A66964180D5CA900BA0D3D /* MangoEditorViewController.xib */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
+		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
+		83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB618111662004C975F /* AsyncDataDownloader.m */; };
+		83DD9BBA18113027004C975F /* StoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB918113027004C975F /* StoryPageView.m */; };
+		83DD9BBD181133F9004C975F /* PageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BBC181133F9004C975F /* PageInfo.m */; };
 		83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E723CD17BA058D0083DBD6 /* camera_gray_round.png */; };
 		83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */; };
 		83F48672180162F900AE3AAE /* english_live_json_1500.json in Resources */ = {isa = PBXBuildFile; fileRef = 83F4866F180162F900AE3AAE /* english_live_json_1500.json */; };
@@ -931,6 +935,14 @@
 		83A66964180D5CA900BA0D3D /* MangoEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoEditorViewController.xib; sourceTree = "<group>"; };
 		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
+		83DD9BB118110D9D004C975F /* StoryJsonProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryJsonProcessor.h; sourceTree = "<group>"; };
+		83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryJsonProcessor.m; sourceTree = "<group>"; };
+		83DD9BB518111662004C975F /* AsyncDataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncDataDownloader.h; sourceTree = "<group>"; };
+		83DD9BB618111662004C975F /* AsyncDataDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncDataDownloader.m; sourceTree = "<group>"; };
+		83DD9BB818113027004C975F /* StoryPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryPageView.h; sourceTree = "<group>"; };
+		83DD9BB918113027004C975F /* StoryPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryPageView.m; sourceTree = "<group>"; };
+		83DD9BBB181133F9004C975F /* PageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageInfo.h; sourceTree = "<group>"; };
+		83DD9BBC181133F9004C975F /* PageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageInfo.m; sourceTree = "<group>"; };
 		83E723CD17BA058D0083DBD6 /* camera_gray_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_gray_round.png; sourceTree = "<group>"; };
 		83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		83F4866F180162F900AE3AAE /* english_live_json_1500.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = english_live_json_1500.json; sourceTree = "<group>"; };
@@ -1493,6 +1505,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				83DD9BB418111662004C975F /* ImageDownloader */,
 				83A6680F180D523700BA0D3D /* DrawingLib */,
 				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,
 				83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */,
@@ -1715,6 +1728,12 @@
 				839F907717E6D37C00BD1412 /* PublishViewController.h */,
 				839F907817E6D37C00BD1412 /* PublishViewController.m */,
 				839F907917E6D37C00BD1412 /* PublishViewController.xib */,
+				83DD9BB118110D9D004C975F /* StoryJsonProcessor.h */,
+				83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */,
+				83DD9BB818113027004C975F /* StoryPageView.h */,
+				83DD9BB918113027004C975F /* StoryPageView.m */,
+				83DD9BBB181133F9004C975F /* PageInfo.h */,
+				83DD9BBC181133F9004C975F /* PageInfo.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2287,6 +2306,15 @@
 				83A66964180D5CA900BA0D3D /* MangoEditorViewController.xib */,
 			);
 			name = "Editor View Controller";
+			sourceTree = "<group>";
+		};
+		83DD9BB418111662004C975F /* ImageDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				83DD9BB518111662004C975F /* AsyncDataDownloader.h */,
+				83DD9BB618111662004C975F /* AsyncDataDownloader.m */,
+			);
+			path = ImageDownloader;
 			sourceTree = "<group>";
 		};
 		83F4867518016CEE00AE3AAE /* FrankfurtEnglishAssets */ = {
@@ -3336,6 +3364,7 @@
 				83603C5517CB7D39000DA2CE /* AwesomeMenuItem.h in Sources */,
 				83A66913180D523800BA0D3D /* NSString+UUID.m in Sources */,
 				83A66903180D523800BA0D3D /* FSDirectoryViewController.m in Sources */,
+				83DD9BBD181133F9004C975F /* PageInfo.m in Sources */,
 				83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */,
 				AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */,
 				AE6860691659F70800A8C9E8 /* Base64.m in Sources */,
@@ -3348,6 +3377,7 @@
 				83A66910180D523800BA0D3D /* UIImage+Alpha.m in Sources */,
 				1D3623260D0F684500981E51 /* AePubReaderAppDelegate.m in Sources */,
 				FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */,
+				83DD9BBA18113027004C975F /* StoryPageView.m in Sources */,
 				83A668F8180D523800BA0D3D /* CGImageContainer.m in Sources */,
 				FAFA8EA8134A06D6000291E2 /* mztools.c in Sources */,
 				FAFA8EA9134A06D6000291E2 /* unzip.c in Sources */,
@@ -3375,6 +3405,7 @@
 				AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */,
 				83A66965180D5CA900BA0D3D /* MangoEditorViewController.m in Sources */,
 				83A66900180D523800BA0D3D /* RSColorPickerView.m in Sources */,
+				83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */,
 				AE9BFBAB16537C12000DDEB1 /* LiveViewController.m in Sources */,
 				AE9BFBB016537F44000DDEB1 /* PopPurchaseViewController.m in Sources */,
 				AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */,
@@ -3492,6 +3523,7 @@
 				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
+				83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */,
 				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
