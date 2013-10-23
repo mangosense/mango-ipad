@@ -7,6 +7,8 @@
 //
 
 #import "LoginDirectly.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
 
 @implementation LoginDirectly
 -(id)init{
@@ -53,6 +55,8 @@
         [_storeController requestBooksFromServer];
       
          //  [_storeController.alert dismissWithClickedButtonIndex:0 animated:YES];
+        
+        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL];
         return;
     }
    

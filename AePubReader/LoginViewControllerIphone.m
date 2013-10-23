@@ -17,6 +17,9 @@
 #import "DownloadViewController.h"
 #import "Flurry.h"
 #import "RootViewController.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
+
 @interface LoginViewControllerIphone ()
 @property(retain,nonatomic)DownloadViewController *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
@@ -62,6 +65,9 @@
         [userDefault setObject:temp forKey:@"auth_token"];
         [userDefault setObject:_email.text forKey:@"email"];
         [userDefault setObject:_password.text forKey:@"password"];
+        
+        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObjectsAndKeys:[userDefault objectForKey:@"email"], @"email", nil]];
+        
         [self goToNext];
     
         

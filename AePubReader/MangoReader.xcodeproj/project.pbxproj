@@ -103,6 +103,7 @@
 		839BC59C17BB9EB600F1E9C5 /* 9 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59917BB9EB600F1E9C5 /* 9 */; };
 		839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */; };
 		839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */; };
+		839CB4F31817B524001B5571 /* TimeRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 839CB4F21817B524001B5571 /* TimeRange.m */; };
 		839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */; };
 		839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */; };
 		839DD8D817B4F3F3003B62C8 /* green-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8D017B4F3F2003B62C8 /* green-splash.png */; };
@@ -717,6 +718,8 @@
 		839BC59D17BDEAA400F1E9C5 /* StoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoriesViewController.h; sourceTree = "<group>"; };
 		839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoriesViewController.m; sourceTree = "<group>"; };
 		839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoriesViewController.xib; sourceTree = "<group>"; };
+		839CB4F11817B524001B5571 /* TimeRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeRange.h; sourceTree = "<group>"; };
+		839CB4F21817B524001B5571 /* TimeRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeRange.m; sourceTree = "<group>"; };
 		839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageBackgroundImageView.h; sourceTree = "<group>"; };
 		839DD8CD17B4D7A3003B62C8 /* PageBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageBackgroundImageView.m; sourceTree = "<group>"; };
 		839DD8CF17B4F3F2003B62C8 /* bringle-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringle-splash.png"; sourceTree = "<group>"; };
@@ -943,6 +946,7 @@
 		83DD9BB918113027004C975F /* StoryPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryPageView.m; sourceTree = "<group>"; };
 		83DD9BBB181133F9004C975F /* PageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageInfo.h; sourceTree = "<group>"; };
 		83DD9BBC181133F9004C975F /* PageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageInfo.m; sourceTree = "<group>"; };
+		83E1CD4918168C9F00AC63FB /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		83E723CD17BA058D0083DBD6 /* camera_gray_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_gray_round.png; sourceTree = "<group>"; };
 		83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		83F4866F180162F900AE3AAE /* english_live_json_1500.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = english_live_json_1500.json; sourceTree = "<group>"; };
@@ -1505,6 +1509,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				83DD9BB418111662004C975F /* ImageDownloader */,
 				83A6680F180D523700BA0D3D /* DrawingLib */,
 				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,
@@ -2554,6 +2559,8 @@
 				AECC0AC91754D2FA00CA5EEC /* StatsViewController.h */,
 				AECC0ACA1754D2FA00CA5EEC /* StatsViewController.m */,
 				AECC0ACB1754D2FA00CA5EEC /* StatsViewController.xib */,
+				839CB4F11817B524001B5571 /* TimeRange.h */,
+				839CB4F21817B524001B5571 /* TimeRange.m */,
 			);
 			name = "MangoReader iPad";
 			sourceTree = "<group>";
@@ -3423,6 +3430,7 @@
 				AE8D261E166DF61100156F43 /* BookDownloaderIphone.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				83A668FA180D523800BA0D3D /* BitmapCropManipulator.m in Sources */,
+				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,
 				83A668FB180D523800BA0D3D /* BitmapRotationManipulator.m in Sources */,
 				83A66916180D523800BA0D3D /* SDDrawingLayer.m in Sources */,
 				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,

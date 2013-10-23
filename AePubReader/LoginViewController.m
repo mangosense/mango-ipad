@@ -26,6 +26,9 @@
 #import "RootViewController.h"
 #import "EditorViewController.h"
 #import "StoriesViewController.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
+#import "TimeRange.h"
 
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
@@ -33,6 +36,7 @@
 @property(nonatomic,strong)LibraryViewController *library;
 @property (nonatomic, strong) EditorViewController *editorViewController;
 @property (nonatomic, strong) StoriesViewController *storiesViewController;
+@property (nonatomic, strong) NSDate *currentTime;
 
 @end
 
@@ -40,6 +44,7 @@
 
 @synthesize editorViewController;
 @synthesize storiesViewController;
+@synthesize currentTime;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,6 +81,8 @@
         }];
     }
     [Flurry logEvent:@"Login entered"];
+    
+    currentTime = [NSDate date];
 
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -111,6 +118,7 @@
 {
     [super viewDidLoad];
   
+    currentTime = [NSDate date];
     
     [self.navigationController.navigationBar setHidden:YES];
     _password.secureTextEntry=YES;
@@ -162,15 +170,26 @@
     }
     return didCall;
 }
+
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [Flurry logEvent:@"Login exited"];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
+    NSDate *exitTime = [NSDate date];
+    NSTimeInterval timeOnLoginPage = [exitTime timeIntervalSinceDate:currentTime];
+    NSString *timeRange = [TimeRange getTimeRangeForTime:timeOnLoginPage];
+    NSLog(@"%f", timeOnLoginPage);
+    
+    NSDictionary *timeOnPageDict = [NSDictionary dictionaryWithObjectsAndKeys:timeRange, PARAMETER_TIME_RANGE, VIEW_LOGIN, PARAMETER_VIEW_NAME, nil];
+    [PFAnalytics trackEvent:EVENT_TIME_ON_VIEW dimensions:timeOnPageDict];
 
 }
+
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
-    [controller dismissModalViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:^(void) {
+        
+    }];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     switch (textField.tag) {
@@ -241,6 +260,8 @@
         
         tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore];
         [self.navigationController pushViewController:tabBarController animated:YES];
+        
+        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObjectsAndKeys:[userDefault objectForKey:@"email"], @"email", nil]];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
@@ -344,6 +365,7 @@
     [self presentViewController:signUp animated:YES completion:nil];
     [Flurry logEvent:@"Goto to signUp"];
     
+    [PFAnalytics trackEvent:EVENT_REDIRECT_TO_SIGNUP];
 }
 - (IBAction)showVideo:(id)sender {
      WebViewController *webView;
@@ -352,7 +374,8 @@
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     
     [self presentViewController:webView animated:YES completion:nil];
-
+    
+    [PFAnalytics trackEvent:EVENT_VIDEO];
 }
 -(void)facebookRequest{
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -379,7 +402,6 @@
     FacebookLogin *facebook=[[FacebookLogin alloc]initWithloginViewController:self];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
     [connection start];
-
 }
 
 - (void)getFacebookAccess {
@@ -418,6 +440,7 @@
                     [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
                 }
             }];
+            
         }else{
             [_alertView dismissWithClickedButtonIndex:0 animated:YES];
         }
@@ -452,5 +475,6 @@
 }
 - (IBAction)skipLogin:(id)sender {
     [self goToNext];
+    [PFAnalytics trackEvent:EVENT_SKIP_LOGIN];
 }
 @end

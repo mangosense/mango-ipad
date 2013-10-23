@@ -24,12 +24,19 @@
 #import "LibraryOldCell.h"
 #import "LibraryCell.h"
 #import "CoverViewController.h"
+#import "Constants.h"
+#import <Parse/Parse.h>
+#import "TimeRange.h"
+
 @interface LibraryViewController ()
 
+@property (nonatomic, strong) NSDate *openingTime;
 
 @end
 
 @implementation LibraryViewController
+
+@synthesize openingTime;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -127,6 +134,8 @@
 
 - (void)viewDidLoad
 {
+    openingTime = [NSDate date];
+    
     self.navigationController.navigationBar.translucent = NO;
 //    self.tabBarController.tabBar.translucent = NO;
     
@@ -733,7 +742,12 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     [Flurry logEvent:@"Library exited"];
-
+    NSDate *closingTime = [NSDate date];
+    NSTimeInterval timeOnView = [closingTime timeIntervalSinceDate:openingTime];
+    
+    NSString *timeRange = [TimeRange getTimeRangeForTime:timeOnView];
+    NSDictionary *dimesionsDict = [NSDictionary dictionaryWithObjectsAndKeys:timeRange, PARAMETER_TIME_RANGE, VIEW_MY_BOOKS_FOR_ANALYTICS, PARAMETER_VIEW_NAME, nil];
+    [PFAnalytics trackEvent:EVENT_TIME_ON_VIEW dimensions:dimesionsDict];
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
@@ -1034,7 +1048,7 @@
    
     UIImage *image=[UIImage imageNamed:@"loading.png"];
     
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
     imageView.layer.cornerRadius = 5.0;
     imageView.layer.masksToBounds = YES;
     
@@ -1049,7 +1063,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     _alertView.tag=2;
     Book *iden=_epubFiles[_buttonTapped.tag];
     _index=_buttonTapped.tag;
-[[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
+    [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
     _index=_buttonTapped.tag;
     
 }
@@ -1208,6 +1222,10 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
     NSLog(@"id %d",bk.textBook.integerValue);
     switch (bk.textBook.integerValue) {
         case 1://storyBooks
+        {
+            NSDictionary *bookTappedDimensions = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d", [bk.id intValue]], PARAMETER_BOOK_ID, bk.title, PARAMETER_BOOK_TITLE, VIEW_MY_BOOKS_FOR_ANALYTICS, PARAMETER_VIEW_NAME, nil];
+            [PFAnalytics trackEvent:EVENT_BOOK_TAPPED dimensions:bookTappedDimensions];
+            
             delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             delegate.PortraitOrientation=NO;
             delegate.LandscapeOrientation=YES;
@@ -1246,6 +1264,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 [alertView dismissWithClickedButtonIndex:0 animated:YES];
             }
+    }
 
             break;
         case 2://textBooks
