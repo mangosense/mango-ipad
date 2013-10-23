@@ -26,9 +26,13 @@
 #import "RootViewController.h"
 #import "EditorViewController.h"
 #import "StoriesViewController.h"
+<<<<<<< HEAD
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "TimeRange.h"
+=======
+#import "PreKCategoriesViewController.h"
+>>>>>>> 1f03253ac20aebf4113c3a1bb46f980073147a77
 
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
@@ -36,7 +40,11 @@
 @property(nonatomic,strong)LibraryViewController *library;
 @property (nonatomic, strong) EditorViewController *editorViewController;
 @property (nonatomic, strong) StoriesViewController *storiesViewController;
+<<<<<<< HEAD
 @property (nonatomic, strong) NSDate *currentTime;
+=======
+@property (nonatomic, strong) PreKCategoriesViewController *preKBooksViewController;
+>>>>>>> 1f03253ac20aebf4113c3a1bb46f980073147a77
 
 @end
 
@@ -44,7 +52,11 @@
 
 @synthesize editorViewController;
 @synthesize storiesViewController;
+<<<<<<< HEAD
 @synthesize currentTime;
+=======
+@synthesize preKBooksViewController;
+>>>>>>> 1f03253ac20aebf4113c3a1bb46f980073147a77
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -99,14 +111,16 @@
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
     editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+    preKBooksViewController = [[PreKCategoriesViewController alloc] initWithNibName:@"PreKCategoriesViewController" bundle:nil];
     
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
     UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
+    UINavigationController *prekBooksNavigationController = [[UINavigationController alloc] initWithRootViewController:preKBooksViewController];
     
-    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
+    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore, prekBooksNavigationController];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
 }
@@ -257,8 +271,10 @@
         storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
         UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
 
+        preKBooksViewController = [[PreKCategoriesViewController alloc] initWithNibName:@"PreKCategoriesViewController" bundle:nil];
+        UINavigationController *prekBooksNavigationController = [[UINavigationController alloc] initWithRootViewController:preKBooksViewController];
         
-        tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore];
+        tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore, prekBooksNavigationController];
         [self.navigationController pushViewController:tabBarController animated:YES];
         
         [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObjectsAndKeys:[userDefault objectForKey:@"email"], @"email", nil]];
