@@ -769,7 +769,7 @@
     if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
         frame.size.height=911;
         frame.size.width=768;
-    }else{
+    } else {
         frame.size.height=655;
         frame.size.width=1024;
     }
@@ -811,7 +811,6 @@
     NSString *title=[NSString stringWithFormat:@"%@.jpg",book.id];
     NSString  *value=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
-    
     title=[value stringByAppendingPathComponent:title];
     UIImage *image=[UIImage imageWithContentsOfFile:title];
     cell.button.imageLocalLocation=title;
