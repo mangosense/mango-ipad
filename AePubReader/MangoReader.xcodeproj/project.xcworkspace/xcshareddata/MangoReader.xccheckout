@@ -2,35 +2,37 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>15BB78BB-F3C6-41D9-9129-0D0651EB59EC</string>
+	<string>FA3D5903-8330-4295-8CBE-054726066532</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MangoReader</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>92931411-C18C-4090-8525-220EAF55D63A</key>
-		<string>ssh://github.com/mangosense/mango-ipad.git</string>
+		<key>A634DB28-9F27-471D-A1FE-4D2D55B75EFB</key>
+		<string>https://github.com/mangosense/mango-ipad.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>AePubReader/MangoReader.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>92931411-C18C-4090-8525-220EAF55D63A</key>
+		<key>A634DB28-9F27-471D-A1FE-4D2D55B75EFB</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/mangosense/mango-ipad.git</string>
+	<string>https://github.com/mangosense/mango-ipad.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>92931411-C18C-4090-8525-220EAF55D63A</string>
+	<string>A634DB28-9F27-471D-A1FE-4D2D55B75EFB</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>92931411-C18C-4090-8525-220EAF55D63A</string>
+			<string>A634DB28-9F27-471D-A1FE-4D2D55B75EFB</string>
 			<key>IDESourceControlWCCName</key>
 			<string>mango-ipad</string>
 		</dict>

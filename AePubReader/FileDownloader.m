@@ -44,7 +44,7 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.addControlEvents=YES;
     [delegate.dataModel saveData:_book];
-    UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[1];
+    UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[2];
     StoreViewController *store=(StoreViewController *)[nav topViewController];
     [(_libViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
     //[store BuildButtons];
@@ -139,7 +139,7 @@
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
     _libViewController.showDeleteButton=NO;
     
-    [_libViewController.tabBarController setSelectedIndex:0];
+    [_libViewController.tabBarController setSelectedIndex:1];
   //  [url release];
    [_progress setAlpha:0.0];  
 [_progress removeFromSuperview];

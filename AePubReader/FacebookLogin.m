@@ -7,6 +7,8 @@
 //
 
 #import "FacebookLogin.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
 
 @implementation FacebookLogin
 -(id)initWithloginViewController:(LoginViewController *)login{
@@ -45,6 +47,11 @@
     //    [userDefault setObject:_password.text forKey:@"password"];
       [_loginViewController.alertView dismissWithClickedButtonIndex:0 animated:YES];
     [_loginViewController goToNext];
+    
+    NSMutableDictionary *facebookLoginEventDictionary = [[NSMutableDictionary alloc] init];
+    [facebookLoginEventDictionary setObject:[diction objectForKey:@"email"] forKey:@"email"];
+    [facebookLoginEventDictionary setObject:[NSString stringWithFormat:@"%d", [[diction objectForKey:@"id"] intValue]] forKey:@"id"];
+    [PFAnalytics trackEvent:EVENT_LOGIN_FACEBOOK dimensions:facebookLoginEventDictionary];
     
 }
 /*-(void)dealloc{

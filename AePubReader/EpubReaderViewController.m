@@ -7,6 +7,8 @@
 #import <AudioToolbox/AudioServices.h>
 #import "UIWebView+SearchWebView.h"
 #import "CoverViewController.h"
+#import "PreKCategoriesViewController.h"
+
 @implementation EpubReaderViewController
 @synthesize _ePubContent;
 @synthesize _rootPath;
@@ -186,7 +188,9 @@
 	//[self unzipAndSaveFile];
 	_xmlHandler=[[XMLHandler alloc] init];
 	_xmlHandler.delegate=self;
-	[_xmlHandler parseXMLFileAt:[self getRootFilePath]];
+  
+        [_xmlHandler parseXMLFileAt:[self getRootFilePath]];
+    
     [_leftButton setAlpha:0.25f];
     [_rightButton setAlpha:0.25f];
    
@@ -802,6 +806,7 @@ avgTime=avgTime/2;
  *Purpose       : To find the path to container.xml.This file contains the file name which holds the epub informations
  */
 
+
 - (NSString*)getRootFilePath{
 	
 	//check whether root file path exists
@@ -872,7 +877,7 @@ avgTime=avgTime/2;
 - (void)foundRootPath:(NSString*)rootPath{
 	
 	//Found the path of *.opf file
-
+   
     NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
 
     NSString *strOpfFilePath=[NSString stringWithFormat:@"%@/%d/%@",[self applicationDocumentsDirectory],iden,rootPath];
@@ -896,7 +901,8 @@ avgTime=avgTime/2;
 											otherButtonTitles:nil];
 		[alert show];
 		alert=nil;
-	}
+        }
+   
 	
 }
 

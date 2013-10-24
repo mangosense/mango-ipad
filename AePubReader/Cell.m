@@ -17,7 +17,7 @@
         self.button=[ShadowButton buttonWithType:UIButtonTypeCustom];
         self.button.frame=CGRectMake(0.0, 0.0, frame.size.width, frame.size.height);
         
-        [self.contentView addSubview:self.button];;
+        [self.contentView addSubview:self.button];
     }
     return self;
 }
