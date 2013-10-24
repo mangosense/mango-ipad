@@ -1,0 +1,134 @@
+<html>
+
+	<head>
+		<link type="text/css" rel="stylesheet" href="wi1-asset/css/mcq-css.css"/>
+		<link type="text/css" rel="stylesheet" href="wi1-asset/css/foundation.min.css"/>
+	
+	</head>
+	
+	<body>
+		
+		<div id="mainMcqDiv">
+			<div id="upperBar" style="background-color:#666666;height:28px;width:1024px;"></div>
+			
+			<div id="outerbox" style="position:absolute;background-color:#E8E8E8;height:642px;width:956px;left:40px;top:53px;-moz-box-shadow: 0 0 5px #888;-webkit-box-shadow: 0 0 5px#888;box-shadow: 0 0 5px #888;">
+			<div id="outerbox1" style="position: absolute;background-color: white;height: 553px;width: 927px;left: 14px;top: 14px;">	
+			<div id="q1">
+				<div class="txt">
+					Q1   &nbsp;&nbsp; &#2970;&#3009;&#2984;&#3021;&#2980;&#2992;&#2990;&#3021;
+&#2958;&#2969;&#3021;&#2965;&#3015;
+&#2951;&#2992;&#3009;&#2984;&#3021;&#2980;&#3006;&#2985;&#3021;?
+					
+				</div>
+				<div id="q1answers"class="answers">
+				<ul class="lists" style="list-style-type:none; ">
+					<ul>
+						<li>
+							<div id="q1a1" class="aq1">
+							</div>
+							
+							<img src="wi1-asset/img/1.jpg" height="180" width="271" style="margin-left:49px;margin-top:-33px"></img>
+						</li>
+						<li class="leftAnswer">
+							<div id="q1a2" class="aq1">
+							</div>
+							<img src="wi1-asset/img/2.jpg" height="180" width="271" style="margin-left:49px;margin-top:-33px"></img>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<div id="q1a3" class="aq1">
+							</div>
+							<img src="wi1-asset/img/3.jpg" height="180" width="271" style="margin-left:49px;margin-top:-33px"></img>
+						</li>
+						<li  class="leftAnswer">
+							<div id="q1a4" class="aq1">
+							</div>
+							<img src="wi1-asset/img/4.jpg" height="180" width="271" style="margin-left:49px;margin-top:-33px"></img>
+						</li>
+				  </ul>
+				  </ul>
+					
+				
+			  </div>
+				<div id="q1cor" ></div>
+				<div id="q1incor" ></div>
+				
+			
+				
+				<p class="msg" id="loose">
+				&#2990;&#3008;&#2979;&#3021;&#2975;&#3009;&#2990;&#3021;
+&#2990;&#3009;&#2991;&#2993;&#3021;&#2970;&#3007;
+&#2970;&#3014;&#2991;&#3021;&#2991;&#2997;&#3009;&#2990;&#3021;...
+			</p>
+			<p class="msg" id="win">
+			  &#2997;&#3014;&#2993;&#3021;&#2993;&#3007;!&nbsp;	&#2986;&#3006;&#2992;&#3006;&#2975;&#3021;&#2975;&#3009;&#2965;&#3021;&#2965;&#2995;&#3021;
+			</p>
+				
+				<div id="check"></div>
+			
+				
+			</div>
+			
+
+		
+			
+				<div style=""></div>
+			</div>
+			</div>
+			<div id="lowerbar" style="background-color:#666666;height:28px;width:1024px;position:absolute;top:740px;"></div>
+		</div>		
+		<script type="text/javascript" src="wi1-asset/js/jquery.min.js"></script>
+		<script type="text/javascript" src="wi1-asset/js/jquery-ui.custom.min.js"></script>
+		<script type="text/javascript" src="wi1-asset/js/jquery.ui.touch-punch.min.js"></script>
+		<script>
+			
+			
+			var a1;
+			var correctAns1="q1a3";
+			var flag1;
+		
+			
+			$('.aq1').on("click",function(){
+				$(".aq1.white").removeClass('white');
+				$(this).addClass("white");
+				a1=$(this).attr("id");
+				if(a1 == correctAns1)
+				{
+					flag1="y";
+				}else
+				{
+					flag1="n"
+				}			
+				//alert(a1);
+			});
+			
+
+			
+			$('#check').on('click',function(){
+			
+				if(flag1 == "y")
+				{
+					$('#q1cor').fadeIn().delay(1000).fadeOut('slow');
+					$('#win').fadeIn().delay(1000).fadeOut('slow');
+				}else
+				{
+					$('#q1incor').fadeIn().delay(1000).fadeOut('slow');
+					$('#loose').fadeIn().delay(1000).fadeOut('slow');
+				}
+				
+				
+			});
+			
+				$("#retry").click(function() {
+
+		location.reload();
+	});
+			
+			
+			
+			
+		</script>
+		
+	</body>
+</html>

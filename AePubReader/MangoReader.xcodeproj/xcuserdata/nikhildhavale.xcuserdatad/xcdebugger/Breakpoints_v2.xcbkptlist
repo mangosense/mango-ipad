@@ -415,7 +415,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "937"
             endingLineNumber = "937"
-            landmarkName = "+hideAlertView"
+            landmarkName = "+showAlertViewiPad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -431,7 +431,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "939"
             endingLineNumber = "939"
-            landmarkName = "+hideAlertView"
+            landmarkName = "+showAlertViewiPad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -447,7 +447,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "940"
             endingLineNumber = "940"
-            landmarkName = "+hideAlertView"
+            landmarkName = "+showAlertViewiPad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

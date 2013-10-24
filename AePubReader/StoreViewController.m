@@ -155,11 +155,14 @@
         _data=[[NSMutableData alloc]initWithData:data];
         [delegate.dataModel insertIfNew:_data];
        // [self BuildButtons];
+        _listOfBooks=[delegate.dataModel getDataNotDownloaded];
     }
     [self performSelectorOnMainThread:@selector(hideActivityIndicator) withObject:nil waitUntilDone:NO];
     _purchase=YES;
-
- 
+    
+    [_collectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [_pstCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSLog(@"%@",error);
@@ -177,6 +180,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationController.navigationBar.translucent = NO;
+//    self.tabBarController.tabBar.translucent = NO;
+
      _ymax=768+80;
     self.scrollView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
@@ -257,7 +263,7 @@
         _gridView.contentInset=UIEdgeInsetsMake(20, 20.0, 20.0, 20.0);
         _gridView.layoutDirection=AQGridViewLayoutDirectionVertical;
 ////        _gridView.leftContentInset=30;
-////        _gridView.rightContentInset=30;
+////        _gridView.rightContentInset=30; 
 ////        [_gridView setTopContentInset:30];
 ////        [_gridView setButtomContentInset:30];
         _gridView.dataSource=self;

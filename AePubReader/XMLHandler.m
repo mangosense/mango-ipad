@@ -1,16 +1,21 @@
 
 
 #import "XMLHandler.h"
-
+#import "AePubReaderAppDelegate.h"
 
 @implementation XMLHandler
 @synthesize delegate;
 
 - (void)parseXMLFileAt:(NSString*)strPath{
-
-	_parser=[[NSXMLParser alloc] initWithContentsOfURL:[NSURL fileURLWithPath:strPath]];
+    NSLog(@"strPath %@",strPath);
+    
+    NSURL *url=[NSURL fileURLWithPath:strPath];
+        _parser=[[NSXMLParser alloc] initWithContentsOfURL:url];
+   
+	
 	_parser.delegate=self;
 	[_parser parse];
+
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
@@ -31,8 +36,8 @@
 	}
 	
 	if ([elementName isEqualToString:@"package"]){
-	
-		_epubContent=[[EpubContent alloc] init];
+	    _epubContent=[[EpubContent alloc] init];
+
 	}
 	
 	if ([elementName isEqualToString:@"manifest"]) {
@@ -69,7 +74,7 @@
 			
 			_epubContent._spine=_spinearray;
 		}
-	
+
 		if ([elementName isEqualToString:@"package"]) {
 		
 			if ((delegate!=nil)&&([delegate respondsToSelector:@selector(finishedParsing:)])) {
