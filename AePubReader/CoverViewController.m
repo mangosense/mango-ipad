@@ -120,8 +120,8 @@
     epubViewController.url=_url;
     self.tabBarController.hidesBottomBarWhenPushed=YES;
     epubViewController.hidesBottomBarWhenPushed=YES;
-    epubViewController.titleOfBook=_titleOfBook;    [self.navigationController popToViewController:epubViewController animated:NO];
-
+    epubViewController.titleOfBook=_titleOfBook;
+    [self.navigationController pushViewController:epubViewController animated:YES];
 }
 
 - (IBAction)shareTheBook:(id)sender {

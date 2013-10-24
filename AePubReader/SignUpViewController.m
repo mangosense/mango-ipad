@@ -9,6 +9,7 @@
 #import "SignUpViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Flurry.h"
+#import "AePubReaderAppDelegate.h"
 @interface SignUpViewController ()
 
 @end
@@ -37,6 +38,11 @@
 //    self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
 //    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     // Do any additional setup after loading the view from its nib.
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,7 +103,7 @@
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
 
-    _alertView =[[UIAlertView alloc]init];
+  /*  _alertView =[[UIAlertView alloc]init];
 
 //
     
@@ -115,11 +121,13 @@
     [_alertView addSubview:indicator];
     //[indicator release];
 
-    [_alertView show];
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertViewiPad];
    // [_alertView release];
  //[dictionary release];
   //    [stringJson release];
    // _data=nil;
+    
     _data=[[NSMutableData alloc]init];
 }
 
@@ -134,13 +142,15 @@
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     //[alert release];
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+ //    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     NSString *string=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
    NSDictionary *dictionary= [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"json output %@",string);

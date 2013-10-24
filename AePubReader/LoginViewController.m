@@ -116,6 +116,12 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
     }
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
     
 }
 -(void)transactionFailed{
@@ -180,7 +186,8 @@
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
  //   [alertView release];
@@ -194,8 +201,8 @@
    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
-   
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
+  //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
@@ -248,7 +255,7 @@
    // [_connection autorelease];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    _alertView =[[UIAlertView alloc]init];
+ /*   _alertView =[[UIAlertView alloc]init];
 
     
     UIImage *image=[UIImage imageNamed:@"loading.png"];
@@ -262,7 +269,8 @@
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
-    [_alertView addSubview:indicator];
+    [_alertView addSubview:indicator];*/
+    [AePubReaderAppDelegate showAlertViewiPad];
 
 
 }
@@ -397,7 +405,8 @@
                         if (renewresult != ACAccountCredentialRenewResultRejected) {
                             [self getFacebookAccess];
                         } else {
-                            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+                          //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+                            [AePubReaderAppDelegate hideAlertView];
                         }
                     }];
                 }else{
@@ -406,14 +415,15 @@
                 }
             }];
         }else{
-            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+          //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+            [AePubReaderAppDelegate hideAlertView];
         }
         
     }];
 }
 
 - (IBAction)facebookLogin:(id)sender {
-                _alertView =[[UIAlertView alloc]init];
+          /*      _alertView =[[UIAlertView alloc]init];
 
     UIImage *image=[UIImage imageNamed:@"loading.png"];
     
@@ -427,7 +437,8 @@
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-    [_alertView show];
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertViewiPad];
     
     [self getFacebookAccess];
 
@@ -435,7 +446,8 @@
 -(void)facebookError{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+  //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 }
 - (IBAction)skipLogin:(id)sender {
     [self goToNext];

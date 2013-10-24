@@ -47,8 +47,8 @@
     
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSONReadingAllowFragments error:nil];
     
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-   
+ //   [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
@@ -142,7 +142,8 @@
         return YES;
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+ //   [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
 //    [alertView release];
@@ -157,6 +158,12 @@
         [_faceBookId removeFromSuperview];
         [_orImage removeFromSuperview];
     }
+//    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+//    {
+//        // iOS 7 code here
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
+  //  self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png" ]];
      CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height;
     if (screenHeight>500.0) {
@@ -221,6 +228,10 @@
     [self setSignUp:nil];
     [super viewDidUnload];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [AePubReaderAppDelegate adjustForIOS7:self.view];
+}
 - (IBAction)signUp:(id)sender {
     SignUpViewControllerIphone *signUp=[[SignUpViewControllerIphone alloc]initWithNibName:@"SignUpViewControllerIphone" bundle:nil];
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
@@ -241,7 +252,7 @@
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
 
-    _alertView =[[UIAlertView alloc]init];
+  /*  _alertView =[[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
@@ -250,7 +261,8 @@
 
  
 
-    [_alertView show];
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertView];
 
 
 }
@@ -298,13 +310,14 @@
 }
 - (IBAction)faceBookLogin:(id)sender {
 
-                _alertView =[[UIAlertView alloc]init];
+          /*      _alertView =[[UIAlertView alloc]init];
                 UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
                 [indicator startAnimating];
                 [_alertView addSubview:indicator];
             //    [indicator autorelease];
                 [_alertView setTitle:@"Loading...."];
-               [_alertView show];
+               [_alertView show];*/
+    [AePubReaderAppDelegate showAlertView];
 
     ACAccountStore *accountStore=[[ACAccountStore alloc]init];
   
@@ -347,7 +360,8 @@
                     
                 }];
             }else{
-                [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+               // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+                [AePubReaderAppDelegate hideAlertView];
             }
             
         }];
@@ -360,8 +374,8 @@
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
 
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    
+    //[_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 }
 -(void)errorFacebook{
     
@@ -370,8 +384,8 @@
    
     
     _error=nil;
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-
+  //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 }
 -(void)transactionRestored{
     [_downloadView transactionRestored];

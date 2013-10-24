@@ -80,6 +80,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
@@ -266,7 +271,7 @@
         return;
     }
     // Navigation logic may go here. Create and push another view controller.
-    _alertView =[[UIAlertView alloc]init];
+  /*  _alertView =[[UIAlertView alloc]init];
 
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
@@ -274,8 +279,9 @@
     [_alertView setTitle:@"Loading...."];
     [_alertView setDelegate:self];
 
-    [_alertView show];
-
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertView];
+    [[AePubReaderAppDelegate getAlertView] setDelegate:self];
     Book *iden=_array[indexPath.row];
     _identity=indexPath.row;
     [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
@@ -356,8 +362,8 @@
 
             break;
     }
-
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {

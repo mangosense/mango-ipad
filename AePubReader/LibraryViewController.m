@@ -245,6 +245,11 @@
     }
     _correctNavigation=NO;
     _nav=NO;
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+    // iOS 7 code here
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 -(void)openStats:(id)sender{
     StatsViewController *stats=[[StatsViewController alloc]initWithNibName:@"StatsViewController" bundle:nil];
@@ -763,10 +768,11 @@
     }
 }
 -(void)viewDidDisappear:(BOOL)animated{
-    if (_alertView) {
+  /*  if (_alertView) {
         [_alertView dismissWithClickedButtonIndex:0 animated:YES];
         //_alertView=nil;
-    }
+    }*/
+    [AePubReaderAppDelegate hideAlertView];
    
 }
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
@@ -1024,7 +1030,7 @@
     if (_buttonTapped.tag==0&&delegate.addControlEvents==NO) {
         return;
     }
-    _alertView =[[UIAlertView alloc]init];
+   /* _alertView =[[UIAlertView alloc]init];
 
     delegate.alertView=_alertView;
     [_alertView setDelegate:self];
@@ -1043,7 +1049,10 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
        [_alertView addSubview:indicator];
 
     [_alertView show];
-    _alertView.tag=2;
+    _alertView.tag=2;*/
+    [AePubReaderAppDelegate showAlertViewiPad];
+    [AePubReaderAppDelegate getAlertView].tag=2;
+    [[AePubReaderAppDelegate getAlertView] setDelegate:self];
     Book *iden=_epubFiles[_buttonTapped.tag];
     _index=_buttonTapped.tag;
 [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
@@ -1287,6 +1296,8 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
         default:
             break;
     }
+    [AePubReaderAppDelegate hideAlertView];
+
   }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -1320,7 +1331,6 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160
   
     }
        
-    
 
 }
 

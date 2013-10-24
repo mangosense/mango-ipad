@@ -15,6 +15,7 @@
 #import "ZipArchive.h"
 #import "Base64.h"
 @implementation AePubReaderAppDelegate
+static UIAlertView *alertViewLoading;
 
 @synthesize window;
 @synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator;
@@ -63,6 +64,18 @@
            // [url release];
         }
     }
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        
+        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+        
+        self.window.clipsToBounds =YES;
+        
+        //self.window.frame =  CGRectMake(20,0,self.window.frame.size.width,self.window.frame.size.height-20);
+        
+      //  //added on 19th Sep
+    //    self.window.bounds = CGRectMake(20, 20, self.window.frame.size.width, self.window.frame.size.height);
+    }
+
     moonCapId=@49;
     
     if(![_dataModel checkIfIdExists:moonCapId]){
@@ -494,6 +507,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
         }
     }
+    [AePubReaderAppDelegate hideAlertView];
 
 }
 -(void)requestPrice:(SKPaymentTransaction *)transaction{
@@ -874,7 +888,55 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)insertInStore{
     [_loginViewController insertInStore];
 }
++(void)adjustForIOS7:(UIView *)view{
+    if(    [UIDevice currentDevice].systemVersion.integerValue>=7){
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect frame=view.frame;
+    frame.origin.y=20;
+        frame.size.height=screenBounds.size.height-20;
+        view.frame=frame;
+    }
+    
+}
++(void)showAlertView{
+   alertViewLoading= [[UIAlertView alloc]init];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+    [indicator startAnimating];
+    [alertViewLoading addSubview:indicator];
+    // [indicator release];
+    [alertViewLoading setTitle:@"Loading...."];
+    
+    
+    
+    [alertViewLoading show];
 
-
+}
++(void)showAlertViewiPad{
+    alertViewLoading =[[UIAlertView alloc]init];
+    
+    
+    UIImage *image=[UIImage imageNamed:@"loading.png"];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    imageView.layer.cornerRadius = 5.0;
+    imageView.layer.masksToBounds = YES;
+    
+    imageView.image=image;
+    [alertViewLoading addSubview:imageView];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
+    indicator.color=[UIColor blackColor];
+    [indicator startAnimating];
+    [alertViewLoading addSubview:indicator];
+    [alertViewLoading show];
+}
++(UIAlertView *) getAlertView{
+    return alertViewLoading;
+}
++(void)hideAlertView{
+    if(alertViewLoading){
+        [alertViewLoading dismissWithClickedButtonIndex:0 animated:YES];}
+    alertViewLoading =nil;
+    
+}
 @end
 

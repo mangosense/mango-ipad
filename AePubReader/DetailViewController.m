@@ -57,6 +57,11 @@
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:@(_identity) forKey:@"identity"];
     [Flurry logEvent:flurry withParameters:dictionary];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{

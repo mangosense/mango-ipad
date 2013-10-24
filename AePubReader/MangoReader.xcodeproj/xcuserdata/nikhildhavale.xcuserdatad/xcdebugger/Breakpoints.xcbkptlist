@@ -676,7 +676,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "402"
          endingLineNumber = "402"
-         landmarkName = "-facebookLogin:"
+         landmarkName = "-getFacebookAccess"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -689,7 +689,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "413"
          endingLineNumber = "413"
-         landmarkName = "-facebookLogin:"
+         landmarkName = "-getFacebookAccess"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

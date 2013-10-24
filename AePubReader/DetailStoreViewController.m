@@ -157,7 +157,7 @@
 //                [_alertView setTitle:@"Loading...."];
 //               // [_alertView setDelegate:self];
 //                [_alertView show];
-                
+                [AePubReaderAppDelegate showAlertView];
             }else{
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You are not authorsized to make payments" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alertView show];
@@ -178,7 +178,12 @@
 //    UIBarButtonItem *purchaseButton=[[UIBarButtonItem alloc]initWithTitle:@"Purchase" style:UIBarButtonItemStyleBordered target:self action:@selector(purchase:)];
 //    self.navigationItem.rightBarButtonItem=purchaseButton;
 //    [purchaseButton release];
-    
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
 
 
      //  [[SKPaymentQueue defaultQueue]addTransactionObserver:_live];

@@ -108,7 +108,11 @@
         _pstCollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
         [self.view addSubview:_pstCollectionView];
     }
-}
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }}
 
 -(void)refreshButton:(id)sender{
     _listOfBooks=nil;
@@ -241,7 +245,6 @@ _error=error;
     }
     else {
         
-  
         NSString *lengthTotal=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
         NSLog(@"%@",lengthTotal);
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -483,7 +486,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     if (_alertView) {
         [ _alertView dismissWithClickedButtonIndex:0 animated:YES];
     }
-
+    [AePubReaderAppDelegate hideAlertView];
     [self.view bringSubviewToFront:_previousButton];
     [self.view bringSubviewToFront:_nextButton];
 }

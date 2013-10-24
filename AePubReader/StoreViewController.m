@@ -281,7 +281,11 @@
         [_PsCollectionView reloadData];*/
     }
   //  [self BuildButtons];
-    
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 -(void)restore:(id)sender{
@@ -335,6 +339,7 @@
 }
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 
 }
 - (void)signOut:(id)sender {
@@ -649,7 +654,7 @@
     if (_alert) {
           [ _alert dismissWithClickedButtonIndex:0 animated:YES];
     }
- 
+    [AePubReaderAppDelegate hideAlertView];
     
 }
 -(void)singleTap:(UIGestureRecognizer *)gesture{
