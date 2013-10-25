@@ -1410,7 +1410,7 @@
 #pragma mark - Parsing Book Json
 
 - (void)processJson:(NSDictionary *)jsonDict {
-    NSDictionary *pageViewDict = [StoryJsonProcessor pageViewForJsonString:jsonDict];
+  //  NSDictionary *pageViewDict = [StoryJsonProcessor pageViewForJsonString:jsonDict];
 }
 
 - (void)getBookJson {

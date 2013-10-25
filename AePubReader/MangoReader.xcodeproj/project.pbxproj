@@ -19,12 +19,8 @@
 		832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832CB91F17B375D90073F9C2 /* EditorViewController.xib */; };
 		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
 		832CB92C17B3B1120073F9C2 /* story.json in Resources */ = {isa = PBXBuildFile; fileRef = 832CB92B17B3B1110073F9C2 /* story.json */; };
-		832CCD3217BB4EF600FC05E3 /* 50d0f84f99.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2817BB4EF600FC05E3 /* 50d0f84f99.jpg */; };
 		832CCD3317BB4EF600FC05E3 /* 515c992c1b.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2917BB4EF600FC05E3 /* 515c992c1b.mp3 */; };
 		832CCD3417BB4EF600FC05E3 /* 671db6ad7f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2A17BB4EF600FC05E3 /* 671db6ad7f.mp3 */; };
-		832CCD3517BB4EF600FC05E3 /* 685dcbd3db.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2B17BB4EF600FC05E3 /* 685dcbd3db.jpg */; };
-		832CCD3617BB4EF600FC05E3 /* 21833583e6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2C17BB4EF600FC05E3 /* 21833583e6.jpg */; };
-		832CCD3717BB4EF600FC05E3 /* a8fc0e26ef.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2D17BB4EF600FC05E3 /* a8fc0e26ef.jpg */; };
 		832CCD3817BB4EF600FC05E3 /* abad124338.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2E17BB4EF600FC05E3 /* abad124338.jpg */; };
 		832CCD3917BB4EF600FC05E3 /* angry_tamil.json in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2F17BB4EF600FC05E3 /* angry_tamil.json */; };
 		832CCD3A17BB4EF600FC05E3 /* bd026a2f3b.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD3017BB4EF600FC05E3 /* bd026a2f3b.mp3 */; };
@@ -108,7 +104,6 @@
 		83F486C318016CEE00AE3AAE /* 0eba11eaa5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867818016CEE00AE3AAE /* 0eba11eaa5.jpg */; };
 		83F486C418016CEE00AE3AAE /* 178cc3bdef.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867918016CEE00AE3AAE /* 178cc3bdef.jpg */; };
 		83F486C518016CEE00AE3AAE /* 26b90983f6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867A18016CEE00AE3AAE /* 26b90983f6.mp3 */; };
-		83F486C618016CEE00AE3AAE /* 35620b53a4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867B18016CEE00AE3AAE /* 35620b53a4.jpg */; };
 		83F486C718016CEE00AE3AAE /* 3f550b42a9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867C18016CEE00AE3AAE /* 3f550b42a9.mp3 */; };
 		83F486C818016CEE00AE3AAE /* 42894322b7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867D18016CEE00AE3AAE /* 42894322b7.mp3 */; };
 		83F486C918016CEE00AE3AAE /* 42dc5a4d20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867E18016CEE00AE3AAE /* 42dc5a4d20.mp3 */; };
@@ -126,9 +121,7 @@
 		83F486D518016CEE00AE3AAE /* 9f9e194728.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868A18016CEE00AE3AAE /* 9f9e194728.jpg */; };
 		83F486D618016CEE00AE3AAE /* a1cf4912c1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868B18016CEE00AE3AAE /* a1cf4912c1.mp3 */; };
 		83F486D718016CEE00AE3AAE /* a76a4575df.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868C18016CEE00AE3AAE /* a76a4575df.jpg */; };
-		83F486D818016CEE00AE3AAE /* b62ef7c141.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868D18016CEE00AE3AAE /* b62ef7c141.jpg */; };
 		83F486D918016CEE00AE3AAE /* bee3dac799.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868E18016CEE00AE3AAE /* bee3dac799.jpg */; };
-		83F486DA18016CEE00AE3AAE /* c0d5e63775.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868F18016CEE00AE3AAE /* c0d5e63775.jpg */; };
 		83F486DB18016CEE00AE3AAE /* da2b0bbd43.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869018016CEE00AE3AAE /* da2b0bbd43.jpg */; };
 		83F486DC18016CEE00AE3AAE /* e42f00ccde.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869118016CEE00AE3AAE /* e42f00ccde.jpg */; };
 		83F486DD18016CEE00AE3AAE /* e633a8bf89.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869218016CEE00AE3AAE /* e633a8bf89.mp3 */; };
@@ -138,7 +131,6 @@
 		83F486E118016CEE00AE3AAE /* f59528d677.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869618016CEE00AE3AAE /* f59528d677.jpg */; };
 		83F486E218016CEE00AE3AAE /* f833615fd0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869718016CEE00AE3AAE /* f833615fd0.jpg */; };
 		83F486E318016CEE00AE3AAE /* original_0dd7068ae5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869818016CEE00AE3AAE /* original_0dd7068ae5.jpg */; };
-		83F486E418016CEE00AE3AAE /* 008f003e2f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869A18016CEE00AE3AAE /* 008f003e2f.mp3 */; };
 		83F486E518016CEE00AE3AAE /* 228b977b62.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869B18016CEE00AE3AAE /* 228b977b62.mp3 */; };
 		83F486E618016CEE00AE3AAE /* 274f131337.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869C18016CEE00AE3AAE /* 274f131337.jpg */; };
 		83F486E718016CEE00AE3AAE /* 2b9713c03f.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869D18016CEE00AE3AAE /* 2b9713c03f.jpg */; };
@@ -2337,12 +2329,8 @@
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
 				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
 				83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */,
-				832CCD3217BB4EF600FC05E3 /* 50d0f84f99.jpg in Resources */,
 				832CCD3317BB4EF600FC05E3 /* 515c992c1b.mp3 in Resources */,
 				832CCD3417BB4EF600FC05E3 /* 671db6ad7f.mp3 in Resources */,
-				832CCD3517BB4EF600FC05E3 /* 685dcbd3db.jpg in Resources */,
-				832CCD3617BB4EF600FC05E3 /* 21833583e6.jpg in Resources */,
-				832CCD3717BB4EF600FC05E3 /* a8fc0e26ef.jpg in Resources */,
 				832CCD3817BB4EF600FC05E3 /* abad124338.jpg in Resources */,
 				83F4870418016CEE00AE3AAE /* e1b23e9390.jpg in Resources */,
 				832CCD3917BB4EF600FC05E3 /* angry_tamil.json in Resources */,
@@ -2374,12 +2362,9 @@
 				8374AF0917CC66AB009DA792 /* bamboo-01.png in Resources */,
 				8374AF0A17CC66AB009DA792 /* bamboo-02.png in Resources */,
 				8374AF0B17CC66AB009DA792 /* bambu-01.png in Resources */,
-				83F486DA18016CEE00AE3AAE /* c0d5e63775.jpg in Resources */,
 				8374AF0C17CC66AB009DA792 /* bambu-02.png in Resources */,
 				8374AF0D17CC66AB009DA792 /* bambu.png in Resources */,
 				8374AF0E17CC66AB009DA792 /* Branch_01.png in Resources */,
-				83F486C618016CEE00AE3AAE /* 35620b53a4.jpg in Resources */,
-				83F486E418016CEE00AE3AAE /* 008f003e2f.mp3 in Resources */,
 				8374AF0F17CC66AB009DA792 /* C.png in Resources */,
 				8374AF1017CC66AB009DA792 /* coconut tree.png in Resources */,
 				8374AF1117CC66AB009DA792 /* grass1.png in Resources */,
@@ -2392,19 +2377,14 @@
 				8374AF1817CC66AB009DA792 /* mushroom_03.png in Resources */,
 				8374AF1917CC66AB009DA792 /* mushroom_04.png in Resources */,
 				8374AF1A17CC66AB009DA792 /* rock_01.png in Resources */,
-				83F486DA18016CEE00AE3AAE /* c0d5e63775.jpg in Resources */,
-				83F486C618016CEE00AE3AAE /* 35620b53a4.jpg in Resources */,
-				83F486E418016CEE00AE3AAE /* 008f003e2f.mp3 in Resources */,
 				83F486DB18016CEE00AE3AAE /* da2b0bbd43.jpg in Resources */,
 				83F486D118016CEE00AE3AAE /* 8a0e1da6df.mp3 in Resources */,
 				8374AF1C17CC66AB009DA792 /* rock_03.png in Resources */,
 				8374AF1D17CC66AB009DA792 /* rock_04.png in Resources */,
-				83F486D818016CEE00AE3AAE /* b62ef7c141.jpg in Resources */,
 				8374AF1E17CC66AB009DA792 /* rock_05.png in Resources */,
 				8374AF1F17CC66AB009DA792 /* rock_06.png in Resources */,
 				8374AF2017CC66AB009DA792 /* rock_07.png in Resources */,
 				8374AF2117CC66AB009DA792 /* rock_08.png in Resources */,
-				83F486D818016CEE00AE3AAE /* b62ef7c141.jpg in Resources */,
 				83F486FA18016CEE00AE3AAE /* 20c73328a4.mp3 in Resources */,
 				83F486E218016CEE00AE3AAE /* f833615fd0.jpg in Resources */,
 				83F4870318016CEE00AE3AAE /* cb60777297.mp3 in Resources */,
@@ -2598,8 +2578,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2625,8 +2605,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "210D64DA-D196-4085-AAE7-326BE5A0AD2B";
+				PROVISIONING_PROFILE = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2637,8 +2617,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2662,8 +2642,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "210D64DA-D196-4085-AAE7-326BE5A0AD2B";
+				PROVISIONING_PROFILE = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

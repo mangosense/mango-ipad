@@ -103,7 +103,7 @@
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
     UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
-    UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
+   /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
     
     _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
