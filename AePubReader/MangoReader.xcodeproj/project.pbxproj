@@ -180,6 +180,8 @@
 		AE195E7D181E2E17008E4208 /* NewStoreCoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */; };
 		AE195E80181E2FD9008E4208 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = AE195E7E181E2FD9008E4208 /* background.png */; };
 		AE195E81181E2FD9008E4208 /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = AE195E7F181E2FD9008E4208 /* page.png */; };
+		AE195EF5181E6862008E4208 /* DataSourceForLinear.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195EF4181E6862008E4208 /* DataSourceForLinear.m */; };
+		AE195EF8181E68C5008E4208 /* StoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195EF7181E68C5008E4208 /* StoreCell.m */; };
 		AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1A9643170C2E15001A1344 /* stop-icon.png */; };
 		AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1A9646170C2E37001A1344 /* CircularProgressView.m */; };
 		AE1C6C1B167210BA0090DFDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C181672105B0090DFDD /* Default.png */; };
@@ -678,6 +680,10 @@
 		AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewStoreCoverViewController.xib; sourceTree = "<group>"; };
 		AE195E7E181E2FD9008E4208 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		AE195E7F181E2FD9008E4208 /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
+		AE195EF3181E6862008E4208 /* DataSourceForLinear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSourceForLinear.h; sourceTree = "<group>"; };
+		AE195EF4181E6862008E4208 /* DataSourceForLinear.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSourceForLinear.m; sourceTree = "<group>"; };
+		AE195EF6181E68C5008E4208 /* StoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreCell.h; sourceTree = "<group>"; };
+		AE195EF7181E68C5008E4208 /* StoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreCell.m; sourceTree = "<group>"; };
 		AE1A9643170C2E15001A1344 /* stop-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-icon.png"; sourceTree = "<group>"; };
 		AE1A9645170C2E37001A1344 /* CircularProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
 		AE1A9646170C2E37001A1344 /* CircularProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
@@ -1155,11 +1161,7 @@
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
 				AE195E7F181E2FD9008E4208 /* page.png */,
-				AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */,
-				AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */,
-				AE195E77181E2CBC008E4208 /* FeaturedStoreDelegate.h */,
-				AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */,
-				AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */,
+				AE195EF2181E67B3008E4208 /* New store */,
 				83DD9BB418111662004C975F /* ImageDownloader */,
 				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,
 				83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */,
@@ -1578,6 +1580,22 @@
 				AE9C3CAF171805D900ABAC86 /* libFlurry.a */,
 			);
 			name = flurry;
+			sourceTree = "<group>";
+		};
+		AE195EF2181E67B3008E4208 /* New store */ = {
+			isa = PBXGroup;
+			children = (
+				AE195EF6181E68C5008E4208 /* StoreCell.h */,
+				AE195EF7181E68C5008E4208 /* StoreCell.m */,
+				AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */,
+				AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */,
+				AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */,
+				AE195E77181E2CBC008E4208 /* FeaturedStoreDelegate.h */,
+				AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */,
+				AE195EF3181E6862008E4208 /* DataSourceForLinear.h */,
+				AE195EF4181E6862008E4208 /* DataSourceForLinear.m */,
+			);
+			name = "New store";
 			sourceTree = "<group>";
 		};
 		AE1D511B17525FED00D2F25E /* help */ = {
@@ -2483,6 +2501,7 @@
 				AE8D2610166DCA0400156F43 /* ListOfPurchasedBooks.m in Sources */,
 				AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */,
 				AE8D261E166DF61100156F43 /* BookDownloaderIphone.m in Sources */,
+				AE195EF8181E68C5008E4208 /* StoreCell.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,
 				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
@@ -2542,6 +2561,7 @@
 				AE5B84DA17AA535500EDC098 /* PSTGridLayoutInfo.m in Sources */,
 				AE5B84DB17AA535500EDC098 /* PSTGridLayoutItem.m in Sources */,
 				AE5B84DC17AA535500EDC098 /* PSTGridLayoutRow.m in Sources */,
+				AE195EF5181E6862008E4208 /* DataSourceForLinear.m in Sources */,
 				AE5B84DD17AA535500EDC098 /* PSTGridLayoutSection.m in Sources */,
 				AE5B84DE17AA535500EDC098 /* CollectionViewLayout.m in Sources */,
 				AE5B84E217AA546900EDC098 /* Cell.m in Sources */,

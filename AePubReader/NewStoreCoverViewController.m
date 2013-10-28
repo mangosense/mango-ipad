@@ -33,32 +33,36 @@
     FeaturedStoreDelegate *featuredDatasource=[[FeaturedStoreDelegate alloc]initPrefixString:@"featured"];
     _featured.dataSource=featuredDatasource;
     _featured.type=iCarouselTypeCoverFlow;
-  //  _featured.backgroundColor=[UIColor grayColor];
-    _newarrivals.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
-	_newarrivals.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _collectionViewFlowLayout= [[UICollectionViewFlowLayout alloc] init];
+	
+	[_collectionViewFlowLayout setItemSize:CGSizeMake(245, 250)];
+	//[collectionViewFlowLayout setHeaderReferenceSize:CGSizeMake(500, 30)];
+	//[collectionViewFlowLayout setFooterReferenceSize:CGSizeMake(500, 50)];
+	[_collectionViewFlowLayout setMinimumInteritemSpacing:10];
+	[_collectionViewFlowLayout setMinimumLineSpacing:10];
+	[_collectionViewFlowLayout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
+    
+    _collectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    CGRect frame=_newarrivals.frame;
+    frame.origin.x=0;
+    frame.origin.y=0;
+   _collectionView=[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:_collectionViewFlowLayout];
+    _linear=[[DataSourceForLinear alloc]initWithString:@"NR "];
+    [_collectionView registerClass:[StoreCell class] forCellWithReuseIdentifier:@"MY_CELL"];
 
-    FeaturedStoreDelegate *newarrivals=[[FeaturedStoreDelegate alloc]initPrefixString:@"new arrivals"];
-    _newarrivals.dataSource=newarrivals;
-    _newarrivals.backgroundColor=[UIColor grayColor];
-    _newarrivals.type=iCarouselTypeCoverFlow;
-
-   // [_newarrivals reloadData];
-      _mangopacks.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
-      FeaturedStoreDelegate *packs=[[FeaturedStoreDelegate alloc]initPrefixString:@"packs"];
-    _mangopacks.dataSource=packs;
-    _mangopacks.backgroundColor=[UIColor grayColor];
-    _mangopacks.type=iCarouselTypeCoverFlow;
-
-    _popularBooks.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    FeaturedStoreDelegate *popular=[[FeaturedStoreDelegate alloc]initPrefixString:@"popular"];
-    _popularBooks.dataSource=popular;
-    _popularBooks.backgroundColor=[UIColor grayColor];
-    _popularBooks.type=iCarouselTypeCoverFlow;
+    _collectionView.dataSource=_linear;
+    _collectionView.delegate=self;
+    [self.newarrivals addSubview:_collectionView];
 
     self.navigationController.navigationBarHidden=YES;
+   CGSize size= _scrollview.contentSize;
+    size.height=660;
+    [_scrollview setContentSize:size];
     // Do any additional setup after loading the view from its nib.
 }
-
+-(void)collectionView:(PSTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -193,7 +193,7 @@
 
 
 @interface PSTCollectionViewLayout () {
-    __unsafe_unretained PSTCollectionView *_collectionView;
+     PSTCollectionView *_collectionView;
     CGSize _collectionViewBoundsSize;
     NSMutableDictionary *_initialAnimationLayoutAttributesDict;
     NSMutableDictionary *_finalAnimationLayoutAttributesDict;
@@ -204,7 +204,7 @@
     NSMutableDictionary *_decorationViewExternalObjectsTables;
     char filler[200]; // [HACK] Our class needs to be larged than Apple's class for the superclass change to work
 }
-@property (nonatomic, unsafe_unretained) PSTCollectionView *collectionView;
+//@property (nonatomic, retain) PSTCollectionView *collectionView;
 @property (nonatomic, copy, readonly) NSDictionary *decorationViewClassDict;
 @property (nonatomic, copy, readonly) NSDictionary *decorationViewNibDict;
 @property (nonatomic, copy, readonly) NSDictionary *decorationViewExternalObjectsTables;

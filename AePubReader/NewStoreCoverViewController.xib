@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewStoreCoverViewController">
@@ -11,6 +11,7 @@
                 <outlet property="mangopacks" destination="yXc-gZ-8yZ" id="r53-T2-cml"/>
                 <outlet property="newarrivals" destination="jLU-U2-Nnn" id="liC-Vy-XfS"/>
                 <outlet property="popularBooks" destination="fjN-OK-GD2" id="Oz0-p6-1mN"/>
+                <outlet property="scrollview" destination="KId-g9-jIj" id="N82-R2-gxY"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -71,12 +72,9 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view tag="1" contentMode="scaleToFill" id="jLU-U2-Nnn" customClass="iCarousel">
+                        <view tag="1" contentMode="scaleToFill" id="jLU-U2-Nnn">
                             <rect key="frame" x="0.0" y="260" width="1024" height="133"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="wlj-ct-Cyi"/>
-                            </connections>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mango Packs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c6F-0j-UEY">
                             <rect key="frame" x="0.0" y="390" width="105" height="21"/>
@@ -84,12 +82,9 @@
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view tag="2" contentMode="scaleToFill" id="yXc-gZ-8yZ" customClass="iCarousel">
+                        <view tag="2" contentMode="scaleToFill" id="yXc-gZ-8yZ">
                             <rect key="frame" x="0.0" y="412" width="1024" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="xLi-no-phv"/>
-                            </connections>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular Books" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SIw-Rv-9Pf">
                             <rect key="frame" x="0.0" y="524" width="113" height="21"/>
@@ -97,12 +92,9 @@
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view tag="3" contentMode="scaleToFill" id="fjN-OK-GD2" customClass="iCarousel">
+                        <view tag="3" contentMode="scaleToFill" id="fjN-OK-GD2">
                             <rect key="frame" x="0.0" y="548" width="1024" height="123"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="GIe-8H-kjB"/>
-                            </connections>
                         </view>
                     </subviews>
                 </scrollView>

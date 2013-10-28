@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, PSTCollectionViewItemType) {
 
 // Methods in this class are meant to be overridden and will be called by its collection view to gather layout information.
 // To get the truth on the current state of the collection view, call methods on PSTCollectionView rather than these.
-@property (nonatomic, unsafe_unretained, readonly) PSTCollectionView *collectionView;
+@property (nonatomic, retain) PSTCollectionView *collectionView;
 
 // Call -invalidateLayout to indicate that the collection view needs to requery the layout information.
 // Subclasses must always call super if they override.

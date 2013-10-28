@@ -1069,7 +1069,14 @@ static void PSTCollectionViewCommonSetup(PSTCollectionView *_self) {
     if (CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
         _layout.collectionView = nil;
         _collectionViewData = [[PSTCollectionViewData alloc] initWithCollectionView:self layout:layout];
-        layout.collectionView = self;
+        @try {
+            layout.collectionView = self;
+
+        }
+        @catch (NSException *exception) {
+        }
+        @finally {
+        }
         _layout = layout;
 
         // originally the use method
