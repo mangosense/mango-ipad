@@ -41,7 +41,6 @@
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
 		833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */; };
-		8350204F17D707F600C86326 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8350204E17D707F600C86326 /* iCarousel.m */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		8374AF0917CC66AB009DA792 /* bamboo-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AEE417CC66AB009DA792 /* bamboo-01.png */; };
@@ -175,6 +174,12 @@
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
 		AE18942F166F5F67009F8361 /* DetailStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE18942D166F5F67009F8361 /* DetailStoreViewController.m */; };
 		AE189430166F5F67009F8361 /* DetailStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */; };
+		AE195E71181E2541008E4208 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE195E70181E2541008E4208 /* Parse.framework */; };
+		AE195E79181E2CBC008E4208 /* FeaturedStoreDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */; };
+		AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */; };
+		AE195E7D181E2E17008E4208 /* NewStoreCoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */; };
+		AE195E80181E2FD9008E4208 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = AE195E7E181E2FD9008E4208 /* background.png */; };
+		AE195E81181E2FD9008E4208 /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = AE195E7F181E2FD9008E4208 /* page.png */; };
 		AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1A9643170C2E15001A1344 /* stop-icon.png */; };
 		AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1A9646170C2E37001A1344 /* CircularProgressView.m */; };
 		AE1C6C1B167210BA0090DFDD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1C6C181672105B0090DFDD /* Default.png */; };
@@ -194,6 +199,7 @@
 		AE1D513F17526AF800D2F25E /* MyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE1D513E17526AF800D2F25E /* MyView.xib */; };
 		AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */; };
 		AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */; };
+		AE24BCDF181A92BA006CD354 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = AE24BCDE181A92BA006CD354 /* iCarousel.m */; };
 		AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */; };
 		AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2D35BA16B1562D009E99A7 /* NoteButton.m */; };
 		AE2D35BD16B15902009E99A7 /* not.png in Resources */ = {isa = PBXBuildFile; fileRef = AE2D35BC16B15902009E99A7 /* not.png */; };
@@ -306,7 +312,6 @@
 		AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF30161F1C7800181CE8 /* purchased@2x.png */; };
 		AE801341169AD24700EE536A /* CustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801340169AD24700EE536A /* CustomNavViewController.m */; };
 		AE801345169AEB8000EE536A /* CustomTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801344169AEB8000EE536A /* CustomTabViewController.m */; };
-		AE8A8D7D181942B000335292 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8A8D7C181942B000335292 /* Parse.framework */; };
 		AE8D260B166DBCAA00156F43 /* EpubReaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */; };
 		AE8D2610166DCA0400156F43 /* ListOfPurchasedBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8D260F166DCA0400156F43 /* ListOfPurchasedBooks.m */; };
 		AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8D2618166DD48800156F43 /* DetailViewController.m */; };
@@ -511,8 +516,6 @@
 		833DDD5F17B8EDA5009BCA5C /* AudioRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingViewController.h; sourceTree = "<group>"; };
 		833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordingViewController.m; sourceTree = "<group>"; };
 		833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecordingViewController.xib; sourceTree = "<group>"; };
-		8350204D17D707F600C86326 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
-		8350204E17D707F600C86326 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
@@ -667,6 +670,14 @@
 		AE18942C166F5F67009F8361 /* DetailStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailStoreViewController.h; sourceTree = "<group>"; };
 		AE18942D166F5F67009F8361 /* DetailStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailStoreViewController.m; sourceTree = "<group>"; };
 		AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailStoreViewController.xib; sourceTree = "<group>"; };
+		AE195E70181E2541008E4208 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../Downloads/Parse.framework; sourceTree = "<group>"; };
+		AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewStoreCoverViewController.h; sourceTree = "<group>"; };
+		AE195E77181E2CBC008E4208 /* FeaturedStoreDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturedStoreDelegate.h; sourceTree = "<group>"; };
+		AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeaturedStoreDelegate.m; sourceTree = "<group>"; };
+		AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreCoverViewController.m; sourceTree = "<group>"; };
+		AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewStoreCoverViewController.xib; sourceTree = "<group>"; };
+		AE195E7E181E2FD9008E4208 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		AE195E7F181E2FD9008E4208 /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
 		AE1A9643170C2E15001A1344 /* stop-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-icon.png"; sourceTree = "<group>"; };
 		AE1A9645170C2E37001A1344 /* CircularProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
 		AE1A9646170C2E37001A1344 /* CircularProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
@@ -690,6 +701,8 @@
 		AE21CAE51712A82A00A4877F /* ViewControllerBaseUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerBaseUrl.h; sourceTree = "<group>"; };
 		AE21CAE61712A82A00A4877F /* ViewControllerBaseUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerBaseUrl.m; sourceTree = "<group>"; };
 		AE21CAE71712A82A00A4877F /* ViewControllerBaseUrl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerBaseUrl.xib; sourceTree = "<group>"; };
+		AE24BCDD181A92BA006CD354 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		AE24BCDE181A92BA006CD354 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		AE2D35AD16B1348A009E99A7 /* Books 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 5.xcdatamodel"; sourceTree = "<group>"; };
 		AE2D35B516B150DF009E99A7 /* Books 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 6.xcdatamodel"; sourceTree = "<group>"; };
@@ -862,7 +875,6 @@
 		AE801340169AD24700EE536A /* CustomNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavViewController.m; sourceTree = "<group>"; };
 		AE801343169AEB8000EE536A /* CustomTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabViewController.h; sourceTree = "<group>"; };
 		AE801344169AEB8000EE536A /* CustomTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTabViewController.m; sourceTree = "<group>"; };
-		AE8A8D7C181942B000335292 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EpubReaderViewController.xib; sourceTree = "<group>"; };
 		AE8D260E166DCA0400156F43 /* ListOfPurchasedBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfPurchasedBooks.h; sourceTree = "<group>"; };
 		AE8D260F166DCA0400156F43 /* ListOfPurchasedBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfPurchasedBooks.m; sourceTree = "<group>"; };
@@ -1083,10 +1095,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE195E71181E2541008E4208 /* Parse.framework in Frameworks */,
 				837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
 				833058A417F9961A00F48427 /* Accounts.framework in Frameworks */,
-				AE8A8D7D181942B000335292 /* Parse.framework in Frameworks */,
 				833058A217F9901E00F48427 /* libz.1.1.3.dylib in Frameworks */,
 				AE525E75161D747B00CDB400 /* CoreLocation.framework in Frameworks */,
 				83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */,
@@ -1141,9 +1153,15 @@
 			isa = PBXGroup;
 			children = (
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
+				AE195E7E181E2FD9008E4208 /* background.png */,
+				AE195E7F181E2FD9008E4208 /* page.png */,
+				AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */,
+				AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */,
+				AE195E77181E2CBC008E4208 /* FeaturedStoreDelegate.h */,
+				AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */,
+				AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */,
 				83DD9BB418111662004C975F /* ImageDownloader */,
 				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,
-				AE8A8D7C181942B000335292 /* Parse.framework */,
 				83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */,
 				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
 				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
@@ -1291,6 +1309,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE195E70181E2541008E4208 /* Parse.framework */,
 				837D27F3180D3BC000469D1C /* Twitter.framework */,
 				833058A317F9961A00F48427 /* Accounts.framework */,
 				833058A117F9901E00F48427 /* libz.1.1.3.dylib */,
@@ -1317,6 +1336,8 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				AE24BCDD181A92BA006CD354 /* iCarousel.h */,
+				AE24BCDE181A92BA006CD354 /* iCarousel.m */,
 				83F4867518016CEE00AE3AAE /* FrankfurtEnglishAssets */,
 				83F4869918016CEE00AE3AAE /* FrankfurtFrenchAssets */,
 				83F486AD18016CEE00AE3AAE /* FrankfurtSpanishAssets */,
@@ -1425,8 +1446,6 @@
 		8350204C17D707E600C86326 /* iCarousel */ = {
 			isa = PBXGroup;
 			children = (
-				8350204D17D707F600C86326 /* iCarousel.h */,
-				8350204E17D707F600C86326 /* iCarousel.m */,
 			);
 			name = iCarousel;
 			sourceTree = "<group>";
@@ -1653,6 +1672,7 @@
 		AE75374916103A8300761697 /* MangoReader iPad */ = {
 			isa = PBXGroup;
 			children = (
+				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE9BFBAD16537F44000DDEB1 /* PopPurchaseViewController.h */,
 				AE9BFBAE16537F44000DDEB1 /* PopPurchaseViewController.m */,
 				AE9BFBAF16537F44000DDEB1 /* PopPurchaseViewController.xib */,
@@ -1660,7 +1680,6 @@
 				AE9BFBA916537C12000DDEB1 /* LiveViewController.m */,
 				AE9BFBAA16537C12000DDEB1 /* LiveViewController.xib */,
 				AE75372D1610340D00761697 /* LoginViewController.h */,
-				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE75372F1610340E00761697 /* LoginViewController.xib */,
 				AE75374A16103B5900761697 /* StoreViewController.h */,
 				AE75374B16103B5900761697 /* StoreViewController.m */,
@@ -2152,6 +2171,7 @@
 				AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */,
 				AE9D4C7C162C20E100352FF8 /* PopViewDetailsViewController.xib in Resources */,
 				AEF8CDE1162E709A00094C62 /* download-button.png in Resources */,
+				AE195E7D181E2E17008E4208 /* NewStoreCoverViewController.xib in Resources */,
 				AEF8CDE8162E99BF00094C62 /* Default-Landscape~ipad.png in Resources */,
 				AEF8CDEA162E99C800094C62 /* Default-Landscape@2x~ipad.png in Resources */,
 				AEF8CDF1162EAC6E00094C62 /* actions.png in Resources */,
@@ -2236,6 +2256,7 @@
 				AEF6A16416959B5E00ECAE7E /* ViewController.xib in Resources */,
 				83F486EF18016CEE00AE3AAE /* 890a2a0fae.mp3 in Resources */,
 				AED6A8781696B81400FADB3D /* ViewControllerIphone.xib in Resources */,
+				AE195E80181E2FD9008E4208 /* background.png in Resources */,
 				AED2B4F6169A8EF9001956CF /* Default-Portrait~ipad.png in Resources */,
 				AEFEB750169D72A5009B299D /* UIWebViewSearch.js in Resources */,
 				AED2B4F9169A8F12001956CF /* Default-Portrait@2x~ipad.png in Resources */,
@@ -2385,6 +2406,7 @@
 				8374AF1F17CC66AB009DA792 /* rock_06.png in Resources */,
 				8374AF2017CC66AB009DA792 /* rock_07.png in Resources */,
 				8374AF2117CC66AB009DA792 /* rock_08.png in Resources */,
+				AE195E81181E2FD9008E4208 /* page.png in Resources */,
 				83F486FA18016CEE00AE3AAE /* 20c73328a4.mp3 in Resources */,
 				83F486E218016CEE00AE3AAE /* f833615fd0.jpg in Resources */,
 				83F4870318016CEE00AE3AAE /* cb60777297.mp3 in Resources */,
@@ -2422,6 +2444,7 @@
 				AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */,
 				AE6860691659F70800A8C9E8 /* Base64.m in Sources */,
 				AE43C738161056DD00970739 /* Reachability.m in Sources */,
+				AE195E79181E2CBC008E4208 /* FeaturedStoreDelegate.m in Sources */,
 				AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AePubReaderAppDelegate.m in Sources */,
@@ -2500,9 +2523,11 @@
 				AEB7937F173B8E7900301057 /* Appirater.m in Sources */,
 				AEB7938A173BA61A00301057 /* ShowPopViewController.m in Sources */,
 				AE1D511E1752600000D2F25E /* RootViewController.m in Sources */,
+				AE24BCDF181A92BA006CD354 /* iCarousel.m in Sources */,
 				AE1D51251752625D00D2F25E /* MyViewController.m in Sources */,
 				AE37CD67175278D500EA8653 /* LandscapeTextBookViewController.m in Sources */,
 				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
+				AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */,
 				AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */,
 				AED7A3941769BD6D00A828E9 /* Book.m in Sources */,
 				AE5B84D117AA535500EDC098 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
@@ -2536,7 +2561,6 @@
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,
-				8350204F17D707F600C86326 /* iCarousel.m in Sources */,
 				839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2583,7 +2607,8 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/nikhildhavale/Mangoreader/mango-ipad/AePubReader",
+					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
+					/Users/nikhildhavale/Downloads,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2622,7 +2647,8 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/nikhildhavale/Mangoreader/mango-ipad/AePubReader",
+					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
+					/Users/nikhildhavale/Downloads,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;

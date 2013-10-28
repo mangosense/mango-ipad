@@ -20,7 +20,7 @@
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
 
-@synthesize window;
+//@synthesize window;
 @synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator;
 
 #pragma mark -
