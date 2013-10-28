@@ -102,10 +102,10 @@
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
     _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
-    UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_storeNewViewController];
+    UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
   /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
    /* NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];*/
-    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_store];
+    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_storeNewViewController];
    /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
     
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];

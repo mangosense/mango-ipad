@@ -39,7 +39,7 @@
         //don't do anything specific to the index within
         //this `if (view == nil) {...}` statement because the view will be
         //recycled and used with other index values later
-        view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 100.0f)];
+        view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 30.0f)];
         ((UIImageView *)view).image = [UIImage imageNamed:@"page.png"];
         view.contentMode = UIViewContentModeCenter;
         
