@@ -11,11 +11,8 @@
 
 @interface PSTCollectionView ()
 - (id)currentUpdate;
-
 - (NSDictionary *)visibleViewsDict;
-
 - (PSTCollectionViewData *)collectionViewData;
-
 - (CGRect)visibleBoundRects; // visibleBounds is flagged as private API (wtf)
 @end
 
@@ -33,6 +30,7 @@
         unsigned int isDecorationView:1;
         unsigned int isHidden:1;
     }_layoutFlags;
+    char filler[20]; // [HACK] Our class needs to be larger than Apple's class for the superclass change to work.
 }
 @property (nonatomic) PSTCollectionViewItemType elementCategory;
 @property (nonatomic, copy) NSString *elementKind;
@@ -193,7 +191,7 @@
 
 
 @interface PSTCollectionViewLayout () {
-     PSTCollectionView *_collectionView;
+    __unsafe_unretained PSTCollectionView *_collectionView;
     CGSize _collectionViewBoundsSize;
     NSMutableDictionary *_initialAnimationLayoutAttributesDict;
     NSMutableDictionary *_finalAnimationLayoutAttributesDict;
@@ -202,9 +200,9 @@
     NSMutableDictionary *_decorationViewClassDict;
     NSMutableDictionary *_decorationViewNibDict;
     NSMutableDictionary *_decorationViewExternalObjectsTables;
-    char filler[200]; // [HACK] Our class needs to be larged than Apple's class for the superclass change to work
+    char filler[200]; // [HACK] Our class needs to be larger than Apple's class for the superclass change to work.
 }
-//@property (nonatomic, retain) PSTCollectionView *collectionView;
+@property (nonatomic, unsafe_unretained) PSTCollectionView *collectionView;
 @property (nonatomic, copy, readonly) NSDictionary *decorationViewClassDict;
 @property (nonatomic, copy, readonly) NSDictionary *decorationViewNibDict;
 @property (nonatomic, copy, readonly) NSDictionary *decorationViewExternalObjectsTables;

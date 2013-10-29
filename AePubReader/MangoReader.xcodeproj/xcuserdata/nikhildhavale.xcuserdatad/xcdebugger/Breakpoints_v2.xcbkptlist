@@ -631,12 +631,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NewStoreCoverViewController.m"
-            timestampString = "404651673.844714"
+            filePath = "LibraryViewController.m"
+            timestampString = "404719477.067818"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>

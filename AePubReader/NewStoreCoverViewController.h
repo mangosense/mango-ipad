@@ -11,6 +11,7 @@
 #import "PSTCollectionView.h"
 #import "DataSourceForLinear.h"
 #import "StoreCell.h"
+#import "DataSourceForLinearOld.h"
 @interface NewStoreCoverViewController : UIViewController<UISearchBarDelegate,iCarouselDelegate,UICollectionViewDelegate>
 - (IBAction)changeCategory:(id)sender;
 @property (weak, nonatomic) IBOutlet iCarousel *featured;
@@ -21,4 +22,7 @@
 @property(retain,nonatomic) UICollectionViewFlowLayout *collectionViewFlowLayout;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property(retain,nonatomic) UICollectionView *collectionView;
+@property(retain,nonatomic) PSTCollectionView *pstCollectionView;
+@property(retain,nonatomic) PSTCollectionViewFlowLayout *pstLayout;
+@property(retain,nonatomic) DataSourceForLinearOld *dataSourceOld;
 @end

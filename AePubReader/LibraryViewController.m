@@ -209,7 +209,7 @@
         frame.size.width=1024;
     }
 
-    if([ver floatValue]>=6.0)
+    if([ver floatValue]>6.0)
     {
     CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
         _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
