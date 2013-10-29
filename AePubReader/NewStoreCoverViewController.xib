@@ -73,11 +73,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view tag="1" contentMode="scaleToFill" id="jLU-U2-Nnn">
-                            <rect key="frame" x="0.0" y="260" width="1024" height="133"/>
+                            <rect key="frame" x="0.0" y="260" width="1024" height="200"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mango Packs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c6F-0j-UEY">
-                            <rect key="frame" x="0.0" y="390" width="105" height="21"/>
+                            <rect key="frame" x="0.0" y="449" width="105" height="41"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>

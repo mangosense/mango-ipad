@@ -35,9 +35,13 @@
     FeaturedStoreDelegate *featuredDatasource=[[FeaturedStoreDelegate alloc]initPrefixString:@"featured"];
     _featured.dataSource=featuredDatasource;
     _featured.type=iCarouselTypeCoverFlow;
+    CGRect frame=_newarrivals.frame;
+    frame.origin.x=0;
+    frame.origin.y=0;
+
     if ([UIDevice currentDevice].systemVersion.integerValue>6) {
-        _collectionViewFlowLayout= [[UICollectionViewFlowLayout alloc] init];
-        
+                _collectionViewFlowLayout= [[UICollectionViewFlowLayout alloc] init];
+       
         [_collectionViewFlowLayout setItemSize:CGSizeMake(245, 250)];
         //[collectionViewFlowLayout setHeaderReferenceSize:CGSizeMake(500, 30)];
         //[collectionViewFlowLayout setFooterReferenceSize:CGSizeMake(500, 50)];
@@ -46,9 +50,7 @@
         [_collectionViewFlowLayout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
         
         _collectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        CGRect frame=_newarrivals.frame;
-        frame.origin.x=0;
-        frame.origin.y=0;
+      
         _collectionView=[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:_collectionViewFlowLayout];
         _linear=[[DataSourceForLinear alloc]initWithString:@"NR "];
         [_collectionView registerClass:[StoreCell class] forCellWithReuseIdentifier:@"MY_CELL"];
@@ -61,7 +63,8 @@
     else{
         _dataSourceOld=[[DataSourceForLinearOld alloc]initWithString:@"NR"];
         _pstLayout=[[PSTCollectionViewFlowLayout alloc]init];
-        [_pstLayout setItemSize:CGSizeMake(245, 250)];
+    
+        [_pstLayout setItemSize:CGSizeMake(245, 150)];
         [_pstLayout setMinimumInteritemSpacing:10];
         [_pstLayout setMinimumLineSpacing:10];
         [_pstLayout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
@@ -72,6 +75,8 @@
         
         _pstCollectionView=[[PSTCollectionView alloc]initWithFrame:frame collectionViewLayout:_pstLayout];
         [_pstCollectionView registerClass:[OldStoreCell class] forCellWithReuseIdentifier:@"MY_CELL"];
+    
+      //  _pstCollectionView.contentSize= CGSizeMake(_pstCollectionView.contentSize.width,100);
         _pstCollectionView.dataSource=_dataSourceOld;
         [self.newarrivals addSubview:_pstCollectionView];
     }
@@ -83,6 +88,10 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+ //   _pstCollectionView.contentSize= CGSizeMake(_pstCollectionView.contentSize.width,100);
 }
 - (void)didReceiveMemoryWarning
 {
