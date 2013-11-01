@@ -17,9 +17,11 @@
 - (IBAction)skipLogin:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *password;
 @property (retain, nonatomic) IBOutlet UIButton *facebookButton;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundimage;
 
 - (IBAction)facebookLogin:(id)sender;
 @property (retain, nonatomic) IBOutlet UIImageView *orImage;
+@property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
 
 @property(strong,nonatomic) NSURLConnection *connection;
 @property (retain, nonatomic) IBOutlet UIView *videoView;

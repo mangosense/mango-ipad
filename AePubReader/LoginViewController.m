@@ -145,6 +145,13 @@
     {
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }else{
+      CGRect frame=  _topToolbar.frame;
+        frame.origin.y=0;
+        _topToolbar.frame=frame;
+      frame=  _backgroundimage.frame;
+        frame.origin.y=_topToolbar.frame.size.height+1;
+        _backgroundimage.frame=frame;
     }
 
     
