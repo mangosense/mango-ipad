@@ -39,7 +39,7 @@
     frame.origin.x=0;
     frame.origin.y=0;
 
-    if ([UIDevice currentDevice].systemVersion.integerValue>6) {
+    if ([UIDevice currentDevice].systemVersion.integerValue>5) {
                 _collectionViewFlowLayout= [[UICollectionViewFlowLayout alloc] init];
        
         [_collectionViewFlowLayout setItemSize:CGSizeMake(245, 250)];
