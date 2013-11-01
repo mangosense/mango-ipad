@@ -168,12 +168,12 @@
 		83F4870818016CEE00AE3AAE /* fe3eb3df4c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BF18016CEE00AE3AAE /* fe3eb3df4c.jpg */; };
 		83F4870918016CEE00AE3AAE /* original_051d26889e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
+		AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0890A31823B3B70028035F /* DetailViewControllerStore.m */; };
+		AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
-		AE18942F166F5F67009F8361 /* DetailStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE18942D166F5F67009F8361 /* DetailStoreViewController.m */; };
-		AE189430166F5F67009F8361 /* DetailStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */; };
 		AE195E71181E2541008E4208 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE195E70181E2541008E4208 /* Parse.framework */; };
 		AE195E79181E2CBC008E4208 /* FeaturedStoreDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */; };
 		AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */; };
@@ -296,6 +296,8 @@
 		AE75374E16103B5900761697 /* StoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75374C16103B5900761697 /* StoreViewController.xib */; };
 		AE75375216103B6900761697 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75375016103B6900761697 /* LibraryViewController.m */; };
 		AE75375316103B6900761697 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75375116103B6900761697 /* LibraryViewController.xib */; };
+		AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */; };
+		AE7FD7F61823B2B800C8DD88 /* DetailStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE7FD7F41823B2B800C8DD88 /* DetailStoreViewController.xib */; };
 		AE7FEDD8161580DF00C4B51D /* EpubReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */; };
 		AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDA1615810900C4B51D /* XMLHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FEDDC1615813900C4B51D /* EpubContentR.m */; };
@@ -665,15 +667,15 @@
 		83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original_051d26889e.jpg; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
+		AE0890A21823B3B70028035F /* DetailViewControllerStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewControllerStore.h; sourceTree = "<group>"; };
+		AE0890A31823B3B70028035F /* DetailViewControllerStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewControllerStore.m; sourceTree = "<group>"; };
+		AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewControllerStore.xib; sourceTree = "<group>"; };
 		AE0B8F24162BEA4D00D16A02 /* LoginDirectly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginDirectly.h; sourceTree = "<group>"; };
 		AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginDirectly.m; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
 		AE189425166F4CBE009F8361 /* LiveViewControllerIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewControllerIphone.h; sourceTree = "<group>"; };
 		AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewControllerIphone.m; sourceTree = "<group>"; };
-		AE18942C166F5F67009F8361 /* DetailStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailStoreViewController.h; sourceTree = "<group>"; };
-		AE18942D166F5F67009F8361 /* DetailStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailStoreViewController.m; sourceTree = "<group>"; };
-		AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailStoreViewController.xib; sourceTree = "<group>"; };
 		AE195E70181E2541008E4208 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../Downloads/Parse.framework; sourceTree = "<group>"; };
 		AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewStoreCoverViewController.h; sourceTree = "<group>"; };
 		AE195E77181E2CBC008E4208 /* FeaturedStoreDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturedStoreDelegate.h; sourceTree = "<group>"; };
@@ -861,6 +863,9 @@
 		AE75374F16103B6900761697 /* LibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		AE75375016103B6900761697 /* LibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		AE75375116103B6900761697 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryViewController.xib; sourceTree = "<group>"; };
+		AE7FD7F21823B2B800C8DD88 /* DetailStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailStoreViewController.h; sourceTree = "<group>"; };
+		AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailStoreViewController.m; sourceTree = "<group>"; };
+		AE7FD7F41823B2B800C8DD88 /* DetailStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailStoreViewController.xib; sourceTree = "<group>"; };
 		AE7FEDD6161580DF00C4B51D /* EpubReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpubReaderViewController.h; sourceTree = "<group>"; };
 		AE7FEDD7161580DF00C4B51D /* EpubReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpubReaderViewController.m; sourceTree = "<group>"; };
 		AE7FEDD91615810900C4B51D /* XMLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLHandler.h; sourceTree = "<group>"; };
@@ -1604,6 +1609,9 @@
 				AE396BBF181F7F6F009C68E7 /* OldStoreCell.m */,
 				AE396BC1181F803F009C68E7 /* DataSourceForLinearOld.h */,
 				AE396BC2181F803F009C68E7 /* DataSourceForLinearOld.m */,
+				AE0890A21823B3B70028035F /* DetailViewControllerStore.h */,
+				AE0890A31823B3B70028035F /* DetailViewControllerStore.m */,
+				AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */,
 			);
 			name = "New store";
 			sourceTree = "<group>";
@@ -2045,12 +2053,12 @@
 				AE8D2619166DD48800156F43 /* DetailViewController.xib */,
 				AE189425166F4CBE009F8361 /* LiveViewControllerIphone.h */,
 				AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */,
-				AE18942C166F5F67009F8361 /* DetailStoreViewController.h */,
-				AE18942D166F5F67009F8361 /* DetailStoreViewController.m */,
-				AE18942E166F5F67009F8361 /* DetailStoreViewController.xib */,
 				AEB7937D173B8E7900301057 /* Appirater.h */,
 				AEB7937E173B8E7900301057 /* Appirater.m */,
 				AED53B381691B6410061A600 /* Sample.xib */,
+				AE7FD7F21823B2B800C8DD88 /* DetailStoreViewController.h */,
+				AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */,
+				AE7FD7F41823B2B800C8DD88 /* DetailStoreViewController.xib */,
 			);
 			name = "Mangoreader iphone";
 			sourceTree = "<group>";
@@ -2171,6 +2179,7 @@
 				83F486D018016CEE00AE3AAE /* 83e71d12cc.mp3 in Resources */,
 				FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */,
 				FA881E501372CA9200FBD25F /* yellowslide.png in Resources */,
+				AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */,
 				83F486CF18016CEE00AE3AAE /* 785280d20e.jpg in Resources */,
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
 				FA11956613BA93F100025A2B /* EPubView.xib in Resources */,
@@ -2191,6 +2200,7 @@
 				AE525E98161D8CD200CDB400 /* WebViewController.xib in Resources */,
 				AE7FEF18161EE4FF00181CE8 /* about-mango-icon.png in Resources */,
 				AE7FEF1B161EE52800181CE8 /* sign-in-button.png in Resources */,
+				AE7FD7F61823B2B800C8DD88 /* DetailStoreViewController.xib in Resources */,
 				AE7FEF1C161EE52800181CE8 /* sign-up-button.png in Resources */,
 				83F486FF18016CEE00AE3AAE /* 8716c8b1c3.jpg in Resources */,
 				AE7FEF25161F1A2C00181CE8 /* video image copy.png in Resources */,
@@ -2233,7 +2243,6 @@
 				AE8D260B166DBCAA00156F43 /* EpubReaderViewController.xib in Resources */,
 				AE8D261B166DD48800156F43 /* DetailViewController.xib in Resources */,
 				AE63ECDB166F135E0027CBB8 /* Default-568h@2x.png in Resources */,
-				AE189430166F5F67009F8361 /* DetailStoreViewController.xib in Resources */,
 				83F486C318016CEE00AE3AAE /* 0eba11eaa5.jpg in Resources */,
 				AE1C6C1B167210BA0090DFDD /* Default.png in Resources */,
 				83F486ED18016CEE00AE3AAE /* 6dc3c82fc8.jpg in Resources */,
@@ -2525,7 +2534,6 @@
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,
 				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
-				AE18942F166F5F67009F8361 /* DetailStoreViewController.m in Sources */,
 				AE396BB9181F7E3D009C68E7 /* PSTGridLayoutInfo.m in Sources */,
 				AE731C5316759D4500FE8F19 /* PurchaseFreeIphone.m in Sources */,
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
@@ -2560,6 +2568,7 @@
 				AEC9B12116B65202008CD1F5 /* TableOfContentsViewController.m in Sources */,
 				AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */,
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
+				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
@@ -2596,6 +2605,7 @@
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
 				83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */,
 				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,
+				AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */,
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,

@@ -10,6 +10,7 @@
 #import "FeaturedStoreDelegate.h"
 #import "DataSourceForLinearOld.h"
 #import "OldStoreCell.h"
+#import "DetailViewControllerStore.h"
 @interface NewStoreCoverViewController ()
 
 @end
@@ -26,6 +27,10 @@
 
     }
     return self;
+}
+- (IBAction)showCollectionView:(id)sender {
+    DetailViewControllerStore *controller=[[DetailViewControllerStore alloc]initWithNibName:@"DetailViewControllerStore" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)viewDidLoad

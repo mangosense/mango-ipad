@@ -17,7 +17,7 @@
 @implementation DetailStoreViewController
 
 - (IBAction)backButton:(id)sender {
-       AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -26,44 +26,44 @@
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"email"]){
         if (_isFree) {
             NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",_bookStore.title ];
-
+            
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:_live cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
             // [alertViewDelegate autorelease];
             [alertView show];
-          //  [alertView release];
+            //  [alertView release];
         }else{
             [_purchaseButton setEnabled:NO];
             
-       //     NSLog(@"Product %@",_product.localizedTitle);
+            //     NSLog(@"Product %@",_product.localizedTitle);
             SKPayment *payment=[SKPayment paymentWithProduct:_product];
             [[SKPaymentQueue defaultQueue] addPayment:payment];
         }
         // insert the book if free
         return;
     }
-   
-//    _alertView =[[UIAlertView alloc]init];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//  //  [indicator release];
-//    [_alertView setTitle:@"Loading...."];
-//    UIImage *image=[UIImage imageNamed:@"loading.png"];
-//    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
-//    
-//    
-//    imageView.image=image;
-//    [_alertView addSubview:imageView];
-//    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-//    indicator.color=[UIColor blackColor];
-//    [indicator startAnimating];
-//    [_alertView addSubview:indicator];
-//    [indicator release];
-
-//    [_alertView setDelegate:self];
-//    [_alertView show];
-
+    
+    //    _alertView =[[UIAlertView alloc]init];
+    //    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+    //    [indicator startAnimating];
+    //    [_alertView addSubview:indicator];
+    //  //  [indicator release];
+    //    [_alertView setTitle:@"Loading...."];
+    //    UIImage *image=[UIImage imageNamed:@"loading.png"];
+    //
+    //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    //
+    //
+    //    imageView.image=image;
+    //    [_alertView addSubview:imageView];
+    //    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
+    //    indicator.color=[UIColor blackColor];
+    //    [indicator startAnimating];
+    //    [_alertView addSubview:indicator];
+    //    [indicator release];
+    
+    //    [_alertView setDelegate:self];
+    //    [_alertView show];
+    
     if (_isFree) {
         
         [_purchaseButton setEnabled:NO];
@@ -80,15 +80,15 @@
         // [dictionary setValue:@"sxd4igWVyWAY6uzxgzRv" forKey:@"auth_token"];
         NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
         
-     //   NSString *valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    //    NSLog(@"value json request %@",valueJson);
+        //   NSString *valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        //    NSLog(@"value json request %@",valueJson);
         NSString *stringURL=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
         // NSString *stringURL=[NSString stringWithFormat:@"http://www.mangoreader.com/api/v1/register_a_purchase.json?amount=0&&user_id=%@&book_id=%d&&currency=INR",email,_identity ];
         // NSURL *url=[NSURL URLWithString:stringURL];
         //stringURL=@"http://192.168.2.29:3000/api/v1/";
         // stringURL=@"http://staging.mangoreader.com/api/v1/";
         stringURL=[stringURL stringByAppendingString:@"register_a_purchase.json"];
-     //   NSLog(@"register pur url %@",stringURL);
+        //   NSLog(@"register pur url %@",stringURL);
         NSURL *url=[NSURL URLWithString:stringURL];
         
         NSMutableURLRequest *mutableRequest=[[NSMutableURLRequest alloc]initWithURL:url];
@@ -98,21 +98,21 @@
         PurchaseFreeIphone *purchase=[[PurchaseFreeIphone alloc]initWithDetails:self live:_live identity:_identity];
         NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:mutableRequest delegate:purchase];
         [connection start];
-//        [connection autorelease];
-//        [dictionary release];
-//        [mutableRequest release];
-//        [purchase release];
-//        [valueJson release];
+        //        [connection autorelease];
+        //        [dictionary release];
+        //        [mutableRequest release];
+        //        [purchase release];
+        //        [valueJson release];
         
     }else{
-         [_purchaseButton setEnabled:NO];
+        [_purchaseButton setEnabled:NO];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         delegate.identity=_identity;
-     //   NSLog(@"Product %@",_product.localizedTitle);
-         SKPayment *payment=[SKPayment paymentWithProduct:_product];
+        //   NSLog(@"Product %@",_product.localizedTitle);
+        SKPayment *payment=[SKPayment paymentWithProduct:_product];
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     }
-
+    
     NSString *flurry=@"Purchasing book";
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:@(_identity) forKey:@"identity"];
@@ -124,9 +124,9 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
         [self backButton:nil];
-            [self.live.parentViewController.navigationController popToRootViewControllerAnimated:YES];
-            
-      
+        [self.live.parentViewController.navigationController popToRootViewControllerAnimated:YES];
+        
+        
     }else{
         
     }
@@ -140,7 +140,7 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         NSNumber *number=@(_identity);
         _bookStore =[delegate.dataModel getBookById:number];
-      //  [_bookStore retain];
+        //  [_bookStore retain];
         _isFree=[_bookStore.free boolValue];
         if (![_bookStore.free boolValue]) {
             if ([SKPaymentQueue canMakePayments]) {
@@ -149,23 +149,23 @@
                 SKProductsRequest *productRequest=[[SKProductsRequest alloc]initWithProductIdentifiers:prodIds];
                 productRequest.delegate=self;
                 [productRequest start];
-//                _alertView =[[UIAlertView alloc]init];
-//                UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
-//                [indicator startAnimating];
-//                [_alertView addSubview:indicator];
-//                [indicator release];
-//                [_alertView setTitle:@"Loading...."];
-//               // [_alertView setDelegate:self];
-//                [_alertView show];
+                //                _alertView =[[UIAlertView alloc]init];
+                //                UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+                //                [indicator startAnimating];
+                //                [_alertView addSubview:indicator];
+                //                [indicator release];
+                //                [_alertView setTitle:@"Loading...."];
+                //               // [_alertView setDelegate:self];
+                //                [_alertView show];
                 [AePubReaderAppDelegate showAlertView];
             }else{
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You are not authorsized to make payments" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alertView show];
-           //     [alertView release];
+                //     [alertView release];
                 [self backButton:nil];
             }
         }
-    //    [number release];
+        //    [number release];
     }
     return self;
 }
@@ -173,20 +173,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.tabBarController.view.frame = CGRectMake(0, 0, 480, 320);
-//    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
-//    UIBarButtonItem *purchaseButton=[[UIBarButtonItem alloc]initWithTitle:@"Purchase" style:UIBarButtonItemStyleBordered target:self action:@selector(purchase:)];
-//    self.navigationItem.rightBarButtonItem=purchaseButton;
-//    [purchaseButton release];
+    //    self.tabBarController.view.frame = CGRectMake(0, 0, 480, 320);
+    //    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+    //    UIBarButtonItem *purchaseButton=[[UIBarButtonItem alloc]initWithTitle:@"Purchase" style:UIBarButtonItemStyleBordered target:self action:@selector(purchase:)];
+    //    self.navigationItem.rightBarButtonItem=purchaseButton;
+    //    [purchaseButton release];
     if([UIDevice currentDevice].systemVersion.integerValue>=7)
     {
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-
-
-
-     //  [[SKPaymentQueue defaultQueue]addTransactionObserver:_live];
+    
+    
+    
+    //  [[SKPaymentQueue defaultQueue]addTransactionObserver:_live];
     _toolBar.tintColor=[UIColor grayColor];
     _imageView.image=[[UIImage alloc]initWithContentsOfFile:_bookStore.localImage];
     _titleLabel.text=_bookStore.title;
@@ -200,7 +200,7 @@
     //NSLog(@"%@",[NSNumber numberWithLongLong:size] );
     size=size/1024.0f;
     //NSLog(@"%@",[NSNumber numberWithLongLong:size] );
- _priceLabel.text=@"Please wait....";
+    _priceLabel.text=@"Please wait....";
     
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -209,7 +209,7 @@
     // CGFloat screenWidht=screenRect.size.width;
     
     if (screenHeight>500.0&& [[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone){
-      CGRect frame=  _webView.frame;
+        CGRect frame=  _webView.frame;
         frame.origin.x=frame.origin.x+30;
         _webView.frame=frame;
     }
@@ -220,7 +220,7 @@
         _priceLabel.text=@"Price : Free";
     }else{
         [_purchaseButton setEnabled:NO];
-      //  _priceLabel.text=@"Price : Paid";
+        //  _priceLabel.text=@"Price : Paid";
     }
     
     
@@ -250,22 +250,22 @@
         // _value=[[NSString alloc]initWithString:[formatter stringFromNumber:_number]];
         _priceLabel.text=[NSString stringWithFormat:@"Price : %@",[formatter stringFromNumber:_product.price]];
         _live.price=_product.price;
-      //  delegate.price=_product.price;
-    //    [_live.price retain];
-     //   [formatter release];
-     
+        //  delegate.price=_product.price;
+        //    [_live.price retain];
+        //   [formatter release];
+        
     }else{
         _isFree=YES;
-       _priceLabel.text= [NSString stringWithFormat:@"Price : Free "];
+        _priceLabel.text= [NSString stringWithFormat:@"Price : Free "];
         NSNumber *numbr=@0;
         booksStore.amount=numbr;
         [delegate.dataModel saveStoreBookData:booksStore];
         
         
     }
- //   [identity release];
+    //   [identity release];
     [_purchaseButton setEnabled:YES];
-   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 
@@ -273,16 +273,16 @@
     
     [super viewDidAppear:YES];
     [self.tabBarController.tabBar setHidden:YES];
-
-  //  [self.view bringSubviewToFront:self.view];
+    
+    //  [self.view bringSubviewToFront:self.view];
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [self.tabBarController.tabBar setHidden:NO];
-//    if (_alertView) {
-//        [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-//    }
-//[ self.view bringSubviewToFront:self.tabBarController.tabBar];
+    //    if (_alertView) {
+    //        [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    //    }
+    //[ self.view bringSubviewToFront:self.tabBarController.tabBar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -292,21 +292,21 @@
 }
 
 /*- (void)dealloc {
-    [_titleLabel release];
-    [_imageView release];
-    [_desc release];
-    [_sizeLabel release];
-    [_priceLabel release];
-    _bookStore=nil;
-    [_toolBar release];
-    [_toolBarTop release];
-    [_purchaseButton release];
-    [super dealloc];
-}*/
+ [_titleLabel release];
+ [_imageView release];
+ [_desc release];
+ [_sizeLabel release];
+ [_priceLabel release];
+ _bookStore=nil;
+ [_toolBar release];
+ [_toolBarTop release];
+ [_purchaseButton release];
+ [super dealloc];
+ }*/
 - (void)viewDidUnload {
     [self setTitleLabel:nil];
     [self setImageView:nil];
-   
+    
     [self setSizeLabel:nil];
     [self setPriceLabel:nil];
     [self setToolBar:nil];
