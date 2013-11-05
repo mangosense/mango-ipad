@@ -25,6 +25,10 @@
 {
     OldStoreCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     cell.label.text = [NSString stringWithFormat:@"%@ %d",_prefix,indexPath.item];
+   
     return cell;
+}
+-(NSInteger)numberOfSectionsInCollectionView:(PSTCollectionView *)collectionView{
+    return 1;
 }
 @end

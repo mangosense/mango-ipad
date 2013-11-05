@@ -19,12 +19,12 @@
 #import "RootViewController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
-
+#import "NewStoreViewControlleriPhone.h"
 @interface LoginViewControllerIphone ()
 @property(retain,nonatomic)DownloadViewController *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
 @property(retain,nonatomic) MyBooksViewController *myBook;
-
+@property(retain,nonatomic) NewStoreViewControlleriPhone *storeNew;
 @end
 
 @implementation LoginViewControllerIphone
@@ -120,8 +120,10 @@
     _downloadView.myBook=_myBook;
     
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
-    _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_liveController];
+  //  _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
+    _storeNew=[[NewStoreViewControlleriPhone alloc]initWithStyle:UITableViewStylePlain];
+    UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_storeNew];
+    
     _liveController.myBooks=_myBook;
     _liveController.downloadViewController=_downloadView;
     tabBarController.viewControllers=@[navLib,nav,navigationLive];

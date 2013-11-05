@@ -190,10 +190,11 @@
     else{
         cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+   
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
+     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (indexPath.row==0&&delegate.downloadBook) {
       
         [cell addSubview:_progress];

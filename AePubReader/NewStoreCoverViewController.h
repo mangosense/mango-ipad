@@ -20,9 +20,10 @@
 @property (weak, nonatomic) IBOutlet UIView *popularBooks;
 @property(retain,nonatomic) DataSourceForLinear *linear;
 @property(retain,nonatomic) UICollectionViewFlowLayout *collectionViewFlowLayout;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property(retain,nonatomic) UICollectionView *collectionView;
 @property(retain,nonatomic) PSTCollectionView *pstCollectionView;
 @property(retain,nonatomic) PSTCollectionViewFlowLayout *pstLayout;
 @property(retain,nonatomic) DataSourceForLinearOld *dataSourceOld;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
+
 @end

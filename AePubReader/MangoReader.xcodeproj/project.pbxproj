@@ -270,6 +270,8 @@
 		AE5FC0221677250900BB9AED /* FacebookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5FC0211677250900BB9AED /* FacebookLogin.m */; };
 		AE5FC02416772F6100BB9AED /* mangoreader-iphone4-login-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5FC02316772F6100BB9AED /* mangoreader-iphone4-login-bg.png */; };
 		AE5FC0261677300B00BB9AED /* or-iphone5.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5FC0251677300B00BB9AED /* or-iphone5.png */; };
+		AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */; };
+		AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE61CB121828D1F1006956BE /* AFTableViewCell.m */; };
 		AE6386561733BC6E009E372A /* recording-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386551733BC6E009E372A /* recording-bg.png */; };
 		AE6386581733D54F009E372A /* recordbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386571733D54F009E372A /* recordbutton.png */; };
 		AE63865B1733D571009E372A /* stopbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386591733D571009E372A /* stopbutton.png */; };
@@ -826,6 +828,10 @@
 		AE5FC0211677250900BB9AED /* FacebookLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLogin.m; sourceTree = "<group>"; };
 		AE5FC02316772F6100BB9AED /* mangoreader-iphone4-login-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-iphone4-login-bg.png"; sourceTree = "<group>"; };
 		AE5FC0251677300B00BB9AED /* or-iphone5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "or-iphone5.png"; sourceTree = "<group>"; };
+		AE61CB0E1828C9DE006956BE /* NewStoreViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewStoreViewControlleriPhone.h; sourceTree = "<group>"; };
+		AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreViewControlleriPhone.m; sourceTree = "<group>"; };
+		AE61CB111828D1F1006956BE /* AFTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFTableViewCell.h; sourceTree = "<group>"; };
+		AE61CB121828D1F1006956BE /* AFTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFTableViewCell.m; sourceTree = "<group>"; };
 		AE6386551733BC6E009E372A /* recording-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recording-bg.png"; sourceTree = "<group>"; };
 		AE6386571733D54F009E372A /* recordbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recordbutton.png; sourceTree = "<group>"; };
 		AE6386591733D571009E372A /* stopbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopbutton.png; sourceTree = "<group>"; };
@@ -1596,11 +1602,10 @@
 		AE195EF2181E67B3008E4208 /* New store */ = {
 			isa = PBXGroup;
 			children = (
+				AE61CB111828D1F1006956BE /* AFTableViewCell.h */,
+				AE61CB121828D1F1006956BE /* AFTableViewCell.m */,
 				AE195EF6181E68C5008E4208 /* StoreCell.h */,
 				AE195EF7181E68C5008E4208 /* StoreCell.m */,
-				AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */,
-				AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */,
-				AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */,
 				AE195E77181E2CBC008E4208 /* FeaturedStoreDelegate.h */,
 				AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */,
 				AE195EF3181E6862008E4208 /* DataSourceForLinear.h */,
@@ -1609,9 +1614,14 @@
 				AE396BBF181F7F6F009C68E7 /* OldStoreCell.m */,
 				AE396BC1181F803F009C68E7 /* DataSourceForLinearOld.h */,
 				AE396BC2181F803F009C68E7 /* DataSourceForLinearOld.m */,
+				AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */,
+				AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */,
+				AE195E7B181E2E17008E4208 /* NewStoreCoverViewController.xib */,
 				AE0890A21823B3B70028035F /* DetailViewControllerStore.h */,
 				AE0890A31823B3B70028035F /* DetailViewControllerStore.m */,
 				AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */,
+				AE61CB0E1828C9DE006956BE /* NewStoreViewControlleriPhone.h */,
+				AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */,
 			);
 			name = "New store";
 			sourceTree = "<group>";
@@ -2569,6 +2579,7 @@
 				AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */,
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
+				AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
@@ -2600,6 +2611,7 @@
 				AE396BB1181F7E3D009C68E7 /* PSTCollectionView.m in Sources */,
 				AE5B84F117AA54E000EDC098 /* FooterView.m in Sources */,
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
+				AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */,
 				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,

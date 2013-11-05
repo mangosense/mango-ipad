@@ -9,6 +9,7 @@
 #import "DetailViewControllerStore.h"
 #import "CollectionViewLayout.h"
 #import "StoreCell.h"
+#import "OldStoreCell.h"
 @interface DetailViewControllerStore ()
 
 @end
@@ -28,6 +29,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    if ([UIDevice currentDevice].systemVersion.integerValue<7) {
+        PSTCollectionViewFlowLayout *flowLayout=[[PSTCollectionViewFlowLayout alloc]init];
+        _OldDatasource=[[DataSourceForLinearOld alloc]initWithString:@"Det"];
+        _oldCollectionView=[[PSTCollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+        [_oldCollectionView registerClass:[OldStoreCell class] forCellWithReuseIdentifier:@"MY_CELL"];
+        _oldCollectionView.backgroundColor=[UIColor whiteColor];
+        _oldCollectionView.dataSource=_OldDatasource;
+        [self.view addSubview:_oldCollectionView];
+        [self.view bringSubviewToFront:_back];
+    }else{
     CollectionViewLayout *collectionLayout=[[CollectionViewLayout alloc]init];
     _collectionView=[[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:collectionLayout];
     _datasource=[[DataSourceForLinear alloc]initWithString:@"Det"];
@@ -36,6 +47,7 @@
     _collectionView.dataSource=_datasource;
     [self.view addSubview:_collectionView];
     [self.view bringSubviewToFront:_back];
+    }
 }
 
 - (void)didReceiveMemoryWarning

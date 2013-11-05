@@ -73,6 +73,7 @@
         [_pstLayout setMinimumInteritemSpacing:10];
         [_pstLayout setMinimumLineSpacing:10];
         [_pstLayout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
+        [_pstLayout setMinimumInteritemSpacing:10];
         _pstLayout.scrollDirection=PSTCollectionViewScrollDirectionHorizontal;
         CGRect frame=_newarrivals.frame;
         frame.origin.x=0;

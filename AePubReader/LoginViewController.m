@@ -97,7 +97,7 @@
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
     _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
-   // _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
+    _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
     editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
     _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
