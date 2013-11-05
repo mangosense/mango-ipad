@@ -22,6 +22,10 @@
 
 #define EVENT_BOOK_TAPPED @"tappedOnBook"
 
+#define EVENT_BOOK_PURCHASE_INITIATED @"initiatedBookPurchase"
+#define EVENT_BOOK_PURCHASE_COMPLETED @"completedBookPurchase"
+#define EVENT_BOOK_PURCHASE_CANCELLED @"cancelledBookPurchase"
+
 #define PARAMETER_TIME_RANGE @"timeRange"
 #define PARAMETER_VIEW_NAME @"viewName"
 #define PARAMETER_BOOK_ID @"bookId"
@@ -44,5 +48,7 @@
 #define VIEW_LOGIN @"LoginViewController"
 #define VIEW_MY_BOOKS_FOR_ANALYTICS @"MyBooks"
 #define VIEW_MY_BOOKS @"LibraryViewController"
+#define VIEW_STORE_FOR_ANALYTICS @"Store"
+#define VIEW_STORE @"LiveViewController"
 
 @end

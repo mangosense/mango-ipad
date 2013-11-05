@@ -21,11 +21,20 @@
 #import "CollectionViewLayout.h"
 #import "Cell.h"
 #import "OldCell.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
+#import "TimeRange.h"
+
 @interface StoreViewController ()
+
+@property (nonatomic, strong) NSDate *openingTime;
 
 @end
 
 @implementation StoreViewController
+
+@synthesize openingTime;
+
 -(void)setListOfBooks:(NSArray *)listOfBooks{
     _listOfBooks=[[NSMutableArray alloc]initWithArray:listOfBooks];
 }
@@ -179,6 +188,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    openingTime = [NSDate date];
+    
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBar.translucent = NO;
 //    self.tabBarController.tabBar.translucent = NO;
@@ -435,6 +447,12 @@
     [super viewDidDisappear:YES];
     [Flurry logEvent:@"Downloads exited"];
 
+    NSDate *closingTime = [NSDate date];
+    NSTimeInterval timeOnView = [closingTime timeIntervalSinceDate:openingTime];
+    NSString *timeOnViewString = [TimeRange getTimeRangeForTime:timeOnView];
+    
+    NSDictionary *dimensionDict = [NSDictionary dictionaryWithObjectsAndKeys:timeOnViewString, PARAMETER_TIME_RANGE, VIEW_STORE_FOR_ANALYTICS, PARAMETER_VIEW_NAME, nil];
+    [PFAnalytics trackEvent:EVENT_TIME_ON_VIEW dimensions:dimensionDict];
 }
 
 -(void)DrawShelf{

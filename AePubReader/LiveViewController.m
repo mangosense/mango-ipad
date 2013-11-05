@@ -17,11 +17,19 @@
 #import "RecieptValidation.h"
 #import "Cell.h"
 #import "CollectionViewLayout.h"
+#import "Constants.h"
+#import <Parse/Parse.h>
+#import "TimeRange.h"
+
 @interface LiveViewController ()
+
+@property (nonatomic, strong) NSDate *openingTime;
 
 @end
 
 @implementation LiveViewController
+
+@synthesize openingTime;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +50,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    openingTime = [NSDate date];
     
     self.navigationController.navigationBar.translucent = NO;
 //    self.tabBarController.tabBar.translucent = NO;
@@ -373,6 +383,9 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
         [alertView show];
     }
     else{
+        NSDictionary *dimensionsDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d", cell.button.tag], PARAMETER_BOOK_ID, nil];
+        [PFAnalytics trackEvent:EVENT_BOOK_PURCHASE_INITIATED dimensions:dimensionsDict];
+        
         _identity=cell.button.tag;
         delegate.identity=cell.button.tag;
         PopPurchaseViewController *popPurchaseController=[[PopPurchaseViewController alloc]initWithNibName:@"PopPurchaseViewController" bundle:nil Identity:cell.button.tag live:self ];
@@ -385,6 +398,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     }
 
 }
+
 -(void)buildButtons{
        // add all views if any
     int xmin=65,ymin=50;
@@ -796,6 +810,14 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     [self setNetworkIndicator:nil];
     [self setPreviousButton:nil];
     [self setNextButton:nil];
+    
+    NSDate *closingTime = [NSDate date];
+    NSTimeInterval timeOnView = [closingTime timeIntervalSinceDate:openingTime];
+    NSString *timeOnViewString = [TimeRange getTimeRangeForTime:timeOnView];
+    
+    NSDictionary *dimensionsDict = [NSDictionary dictionaryWithObjectsAndKeys:timeOnViewString, PARAMETER_TIME_RANGE, VIEW_STORE_FOR_ANALYTICS, PARAMETER_VIEW_NAME, nil];
+    [PFAnalytics trackEvent:EVENT_TIME_ON_VIEW dimensions:dimensionsDict];
+    
     [super viewDidUnload];
 }
 -(void)loadMore:(id)sender{
