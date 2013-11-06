@@ -18,14 +18,17 @@
         
         PSTCollectionViewFlowLayout *layout=[[PSTCollectionViewFlowLayout alloc]init];
         layout.sectionInset = UIEdgeInsetsMake(10, 10, 9, 10);
-        layout.itemSize = CGSizeMake(44, 44);
+        layout.itemSize = CGSizeMake(200, 100);
         [layout setMinimumInteritemSpacing:10];
         [layout setMinimumLineSpacing:10];
         [layout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
         layout.scrollDirection = PSTCollectionViewScrollDirectionHorizontal;
         CGRect fr=self.frame;
         fr.origin=CGPointMake(0, 0);
+       
         fr.size.height=150;
+        float max=MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+        fr.size.width=max;
         self.oldCollectionView=[[PSTCollectionView alloc]initWithFrame:fr collectionViewLayout:layout];
         [self.oldCollectionView registerClass:[OldStoreCell class] forCellWithReuseIdentifier:@"MY_CELL"];
         self.oldCollectionView.backgroundColor = [UIColor whiteColor];
@@ -37,7 +40,7 @@
     
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.sectionInset = UIEdgeInsetsMake(10, 10, 9, 10);
-        layout.itemSize = CGSizeMake(44, 44);
+        layout.itemSize = CGSizeMake(44, 100);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self.collectionView registerClass:[StoreCell class] forCellWithReuseIdentifier:@"MY_CELL"];
@@ -70,13 +73,13 @@
     self.oldCollectionView.tag=index;
     [self.oldCollectionView reloadData];
     
-    PSTCollectionViewFlowLayout *layout=[[PSTCollectionViewFlowLayout alloc]init];
-    layout.sectionInset = UIEdgeInsetsMake(10, 10, 9, 10);
-    layout.itemSize = CGSizeMake(44, 44);
-    [layout setMinimumInteritemSpacing:10];
-    [layout setMinimumLineSpacing:10];
-    [layout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
-    layout.scrollDirection = PSTCollectionViewScrollDirectionHorizontal;
-    [self.oldCollectionView setCollectionViewLayout:layout animated:YES];
+//    PSTCollectionViewFlowLayout *layout=[[PSTCollectionViewFlowLayout alloc]init];
+//    layout.sectionInset = UIEdgeInsetsMake(10, 10, 9, 10);
+//    layout.itemSize = CGSizeMake(44, 44);
+//    [layout setMinimumInteritemSpacing:10];
+//    [layout setMinimumLineSpacing:10];
+//    [layout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
+//    layout.scrollDirection = PSTCollectionViewScrollDirectionHorizontal;
+//    [self.oldCollectionView setCollectionViewLayout:layout animated:YES];
 }
 @end

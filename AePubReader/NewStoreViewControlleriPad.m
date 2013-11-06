@@ -1,19 +1,18 @@
 //
-//  NewStoreViewController.m
+//  NewStoreViewControlleriPad.m
 //  MangoReader
 //
-//  Created by Nikhil Dhavale on 05/11/13.
+//  Created by Nikhil Dhavale on 06/11/13.
 //
 //
 
-#import "NewStoreViewControlleriPhone.h"
-#import "DataSourceForLinear.h"
-#import "AFTableViewCell.h"
-#import "CategoryViewController.h"
-@interface NewStoreViewControlleriPhone ()
+#import "NewStoreViewControlleriPad.h"
+
+@interface NewStoreViewControlleriPad ()
+
 @end
 
-@implementation NewStoreViewControlleriPhone
+@implementation NewStoreViewControlleriPad
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,71 +30,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Category" style:UIBarButtonItemStyleBordered target:self action:@selector(showCategoryChoice)];
-    
 }
--(void)showCategoryChoice{
-    CategoryViewController *viewController=[[CategoryViewController alloc]initWithStyle:UITableViewStylePlain];
-    viewController.delegate=self;
-    [self presentViewController:viewController animated:YES completion:nil];
-}
-/*-(void)loadView{
-    const NSInteger numberOfTableViewRows = 20;
-    const NSInteger numberOfCollectionViewCells = 15;
-    
-    NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:numberOfTableViewRows];
-    
-    for (NSInteger tableViewRow = 0; tableViewRow < numberOfTableViewRows; tableViewRow++)
-    {
-        NSMutableArray *colorArray = [NSMutableArray arrayWithCapacity:numberOfCollectionViewCells];
-        
-        for (NSInteger collectionViewItem = 0; collectionViewItem < numberOfCollectionViewCells; collectionViewItem++)
-        {
-            
-            CGFloat red = arc4random() % 255;
-            CGFloat green = arc4random() % 255;
-            CGFloat blue = arc4random() % 255;
-            UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0f];
-            
-            [colorArray addObject:color];
-        }
-        
-        [mutableArray addObject:colorArray];
-    }
-    
-    self.colorArray = [NSArray arrayWithArray:mutableArray];
-    
-    self.contentOffsetDictionary = [NSMutableDictionary dictionary];
 
-}*/
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)chosenCategory:(NSString *)category{
-    
-    self.navigationController.title=category;
-    
-}
+
 #pragma mark - Table view data source
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    switch (section) {
-        case 0:
-            NSLog(@"Section 0");
-            break;
-            
-        default:
-            break;
-    }
-    return nil;
-}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -107,9 +57,7 @@
     // Return the number of rows in the section.
     return 4;
 }
--(float)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
-}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CellIdentifier";
@@ -120,19 +68,19 @@
     {
         cell = [[AFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+    return cell;
+}
 
-       return cell;
+-(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 500;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(AFTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([UIDevice currentDevice].systemVersion.integerValue<7) {
         [cell setCollectionViewOldDataSourceDelegate:_oldLinear Delegate:nil index:indexPath.row];
     }else{
-    [cell setCollectionViewDataSourceDelegate:_linear Delegate:nil index:indexPath.row];
+        [cell setCollectionViewDataSourceDelegate:_linear Delegate:nil index:indexPath.row];
     }
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 150;
 }
 /*
 // Override to support conditional editing of the table view.

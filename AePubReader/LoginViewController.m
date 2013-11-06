@@ -30,6 +30,7 @@
 #import "Constants.h"
 #import "TimeRange.h"
 #import "NewStoreCoverViewController.h"
+#import "NewStoreViewControlleriPad.h"
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
@@ -38,7 +39,7 @@
 @property (nonatomic, strong) StoriesViewController *storiesViewController;
 @property (nonatomic, strong) NSDate *currentTime;
 //@property(nonatomic,strong)NewStoreCoverViewController *storeNewViewController;
-
+@property(nonatomic,strong) NewStoreViewControlleriPad *storeViewControlleriPad;
 @end
 
 @implementation LoginViewController
@@ -100,12 +101,13 @@
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
     editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-    _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+   // _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+    _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
   /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
-   /* NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];*/
-    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_storeNewViewController];
+    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:controller];
    /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
     
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];

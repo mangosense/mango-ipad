@@ -171,6 +171,8 @@
 		AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0890A31823B3B70028035F /* DetailViewControllerStore.m */; };
 		AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
+		AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C57521829F5F700A923CF /* NewStoreViewControlleriPad.m */; };
+		AE0C5756182A0E0500A923CF /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C5755182A0E0500A923CF /* CategoryViewController.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
@@ -674,6 +676,10 @@
 		AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewControllerStore.xib; sourceTree = "<group>"; };
 		AE0B8F24162BEA4D00D16A02 /* LoginDirectly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginDirectly.h; sourceTree = "<group>"; };
 		AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginDirectly.m; sourceTree = "<group>"; };
+		AE0C57511829F5F700A923CF /* NewStoreViewControlleriPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewStoreViewControlleriPad.h; sourceTree = "<group>"; };
+		AE0C57521829F5F700A923CF /* NewStoreViewControlleriPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreViewControlleriPad.m; sourceTree = "<group>"; };
+		AE0C5754182A0E0500A923CF /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
+		AE0C5755182A0E0500A923CF /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
 		AE189425166F4CBE009F8361 /* LiveViewControllerIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewControllerIphone.h; sourceTree = "<group>"; };
@@ -1622,6 +1628,10 @@
 				AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */,
 				AE61CB0E1828C9DE006956BE /* NewStoreViewControlleriPhone.h */,
 				AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */,
+				AE0C57511829F5F700A923CF /* NewStoreViewControlleriPad.h */,
+				AE0C57521829F5F700A923CF /* NewStoreViewControlleriPad.m */,
+				AE0C5754182A0E0500A923CF /* CategoryViewController.h */,
+				AE0C5755182A0E0500A923CF /* CategoryViewController.m */,
 			);
 			name = "New store";
 			sourceTree = "<group>";
@@ -1753,7 +1763,6 @@
 		AE75374916103A8300761697 /* MangoReader iPad */ = {
 			isa = PBXGroup;
 			children = (
-				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE9BFBAD16537F44000DDEB1 /* PopPurchaseViewController.h */,
 				AE9BFBAE16537F44000DDEB1 /* PopPurchaseViewController.m */,
 				AE9BFBAF16537F44000DDEB1 /* PopPurchaseViewController.xib */,
@@ -1761,6 +1770,7 @@
 				AE9BFBA916537C12000DDEB1 /* LiveViewController.m */,
 				AE9BFBAA16537C12000DDEB1 /* LiveViewController.xib */,
 				AE75372D1610340D00761697 /* LoginViewController.h */,
+				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE75372F1610340E00761697 /* LoginViewController.xib */,
 				AE75374A16103B5900761697 /* StoreViewController.h */,
 				AE75374B16103B5900761697 /* StoreViewController.m */,
@@ -2532,6 +2542,7 @@
 				AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */,
 				AE68606C165A245400A8C9E8 /* PruchaseFree.m in Sources */,
 				AE6C8310165C918200881F82 /* FileDownloaderFromStore.m in Sources */,
+				AE0C5756182A0E0500A923CF /* CategoryViewController.m in Sources */,
 				AE5BA1291667427100143BE8 /* ViewControllerMailCustom.m in Sources */,
 				AEEF8472166C90FB0098BAA2 /* LoginViewControllerIphone.m in Sources */,
 				AEFA9BF5166CC44200A60A12 /* SignUpViewControllerIphone.m in Sources */,
@@ -2580,6 +2591,7 @@
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
 				AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */,
+				AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,

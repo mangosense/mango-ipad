@@ -44,7 +44,7 @@
     frame.origin.x=0;
     frame.origin.y=0;
 
-    if ([UIDevice currentDevice].systemVersion.integerValue>5) {
+    if ([UIDevice currentDevice].systemVersion.integerValue>6) {
                 _collectionViewFlowLayout= [[UICollectionViewFlowLayout alloc] init];
        
         [_collectionViewFlowLayout setItemSize:CGSizeMake(245, 250)];
@@ -84,6 +84,7 @@
     
       //  _pstCollectionView.contentSize= CGSizeMake(_pstCollectionView.contentSize.width,100);
         _pstCollectionView.dataSource=_dataSourceOld;
+        _pstCollectionView.backgroundColor=[UIColor whiteColor];
         [self.newarrivals addSubview:_pstCollectionView];
     }
     self.navigationController.navigationBarHidden=YES;
