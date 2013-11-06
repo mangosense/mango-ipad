@@ -38,7 +38,18 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Category" style:UIBarButtonItemStyleBordered target:self action:@selector(showCategoryChoice)];
-    
+    self.tabBarController.tabBar.hidden=YES;
+}
+-(void)libraryView:(id) sender{
+    self.tabBarController.tabBar.hidden=NO;
+
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.75];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
+    [UIView commitAnimations];
+    [self.navigationController popViewControllerAnimated:NO];
+
 }
 -(void)showCategoryChoice{
     CategoryViewController *viewController=[[CategoryViewController alloc]initWithStyle:UITableViewStylePlain];
@@ -82,10 +93,26 @@
 -(void)chosenCategory:(NSString *)category{
     
     self.navigationController.title=category;
+    self.label.text=category;
     
 }
 #pragma mark - Table view data source
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
+    view.autoresizingMask= UIViewAutoresizingFlexibleWidth;
+    //   view.backgroundColor=[UIColor blueColor];
+    view.backgroundColor=[UIColor grayColor];
+    UIButton *anotherButton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [anotherButton setTitle:@"Library" forState:UIControlStateNormal];
+    [anotherButton addTarget:self action:@selector(libraryView:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:anotherButton];
+    UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-150, 5, 150, 100)];
+    [button setTitle:@"Category" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(showCategoryChoice) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    _label=[[UILabel alloc]initWithFrame:CGRectMake(300, 0, 300, 100)];
+    [view addSubview:_label];
+    _label.text=@"All";
     switch (section) {
         case 0:
             NSLog(@"Section 0");
@@ -94,7 +121,10 @@
         default:
             break;
     }
-    return nil;
+    return view;
+}
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 100;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

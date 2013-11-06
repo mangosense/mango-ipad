@@ -93,6 +93,16 @@
     [_scrollview setContentSize:size];
     // Do any additional setup after loading the view from its nib.
 }
+- (IBAction)libraryView:(id)sender {
+  //  [self dismissViewControllerAnimated:YES completion:nil];
+  //  [self.navigationController popViewControllerAnimated:YES];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.75];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
+    [UIView commitAnimations];
+    [self.navigationController popViewControllerAnimated:NO];
+}
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
 }

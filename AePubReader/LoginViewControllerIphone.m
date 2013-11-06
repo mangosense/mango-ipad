@@ -121,12 +121,11 @@
     
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
   //  _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
-    _storeNew=[[NewStoreViewControlleriPhone alloc]initWithStyle:UITableViewStylePlain];
-    UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_storeNew];
+  
     
     _liveController.myBooks=_myBook;
     _liveController.downloadViewController=_downloadView;
-    tabBarController.viewControllers=@[navLib,nav,navigationLive];
+    tabBarController.viewControllers=@[navLib,nav];//,navigationLive];
     [self.navigationController pushViewController:tabBarController animated:YES];
 
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

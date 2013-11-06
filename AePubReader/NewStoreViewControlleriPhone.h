@@ -17,4 +17,5 @@
 @interface NewStoreViewControlleriPhone : UITableViewController<CategoryDelegate>
 @property(retain,nonatomic) DataSourceForLinear *linear;
 @property(retain,nonatomic) DataSourceForLinearOld *oldLinear;
+@property(retain,nonatomic) UILabel *label;
 @end

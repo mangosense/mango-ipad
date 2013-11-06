@@ -13,6 +13,7 @@
 #import "ViewController.h"
 #import "RootViewController.h"
 #import "LandscapeTextBookViewController.h"
+#import "NewStoreViewControlleriPhone.h"
 @interface MyBooksViewController ()
 
 @end
@@ -103,6 +104,40 @@
         delegate.LandscapeOrientation=YES;
 
     }
+    self.navigationController.navigationBarHidden=YES;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
+    view.autoresizingMask= UIViewAutoresizingFlexibleWidth;
+ //   view.backgroundColor=[UIColor blueColor];
+   
+    UIButton *anotherButton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [anotherButton setTitle:@"Store" forState:UIControlStateNormal];
+    [anotherButton addTarget:self action:@selector(showStore:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:anotherButton];
+
+    UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-150, 5, 150, 100)];
+    [button setTitle:@"Feedback" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(feedback:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+   
+    return view;
+}
+-(void)showStore:(id)sender{
+    NewStoreViewControlleriPhone *storeNew=[[NewStoreViewControlleriPhone alloc]initWithStyle:UITableViewStylePlain];
+    [UIView beginAnimations:@"View Flip" context:nil];
+    [UIView setAnimationDuration:0.80];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                           forView:self.navigationController.view cache:NO];
+    
+    [self.navigationController pushViewController:storeNew animated:YES];
+    [UIView commitAnimations];
+
+}
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 150;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];

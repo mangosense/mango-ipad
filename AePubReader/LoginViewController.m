@@ -35,7 +35,7 @@
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
-@property (nonatomic, strong) EditorViewController *editorViewController;
+//@property (nonatomic, strong) EditorViewController *editorViewController;
 @property (nonatomic, strong) StoriesViewController *storiesViewController;
 @property (nonatomic, strong) NSDate *currentTime;
 //@property(nonatomic,strong)NewStoreCoverViewController *storeNewViewController;
@@ -44,7 +44,7 @@
 
 @implementation LoginViewController
 
-@synthesize editorViewController;
+//@synthesize editorViewController;
 @synthesize storiesViewController;
 @synthesize currentTime;
 
@@ -99,22 +99,23 @@
     _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-    editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+   /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
    // _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
     _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
   /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
-    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
-    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:controller];
-   /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
+      /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
     
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
     
-    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
+    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
+    self.navigationController.navigationBarHidden=YES;
+ 
+
 }
 -(void)insertInStore{
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
