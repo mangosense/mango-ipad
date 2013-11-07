@@ -175,6 +175,12 @@
 		AE0C5756182A0E0500A923CF /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C5755182A0E0500A923CF /* CategoryViewController.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
+		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
+		AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */; };
+		AE138F35182B5F4200F36C99 /* DownloadViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */; };
+		AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */; };
+		AE138F3A182B783200F36C99 /* NewStoreControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */; };
+		AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */; };
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
 		AE195E71181E2541008E4208 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE195E70181E2541008E4208 /* Parse.framework */; };
 		AE195E79181E2CBC008E4208 /* FeaturedStoreDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */; };
@@ -682,6 +688,15 @@
 		AE0C5755182A0E0500A923CF /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
+		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
+		AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBooksViewControlleriPhone.m; sourceTree = "<group>"; };
+		AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBooksViewControlleriPhone.xib; sourceTree = "<group>"; };
+		AE138F32182B5F4200F36C99 /* DownloadViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewControlleriPhone.h; sourceTree = "<group>"; };
+		AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewControlleriPhone.m; sourceTree = "<group>"; };
+		AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadViewControlleriPhone.xib; sourceTree = "<group>"; };
+		AE138F37182B783200F36C99 /* NewStoreControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewStoreControlleriPhone.h; sourceTree = "<group>"; };
+		AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreControlleriPhone.m; sourceTree = "<group>"; };
+		AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewStoreControlleriPhone.xib; sourceTree = "<group>"; };
 		AE189425166F4CBE009F8361 /* LiveViewControllerIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewControllerIphone.h; sourceTree = "<group>"; };
 		AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewControllerIphone.m; sourceTree = "<group>"; };
 		AE195E70181E2541008E4208 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../Downloads/Parse.framework; sourceTree = "<group>"; };
@@ -1632,6 +1647,9 @@
 				AE0C57521829F5F700A923CF /* NewStoreViewControlleriPad.m */,
 				AE0C5754182A0E0500A923CF /* CategoryViewController.h */,
 				AE0C5755182A0E0500A923CF /* CategoryViewController.m */,
+				AE138F37182B783200F36C99 /* NewStoreControlleriPhone.h */,
+				AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */,
+				AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */,
 			);
 			name = "New store";
 			sourceTree = "<group>";
@@ -2066,8 +2084,6 @@
 				AEEF8470166C90FB0098BAA2 /* LoginViewControllerIphone.m */,
 				AEFA9BF7166CC80900A60A12 /* MyBooksViewController.h */,
 				AEFA9BF8166CC80900A60A12 /* MyBooksViewController.m */,
-				AEFA9BFA166CC84700A60A12 /* DownloadViewController.h */,
-				AEFA9BFB166CC84700A60A12 /* DownloadViewController.m */,
 				AE8D2617166DD48800156F43 /* DetailViewController.h */,
 				AE8D2618166DD48800156F43 /* DetailViewController.m */,
 				AE8D2619166DD48800156F43 /* DetailViewController.xib */,
@@ -2079,6 +2095,14 @@
 				AE7FD7F21823B2B800C8DD88 /* DetailStoreViewController.h */,
 				AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */,
 				AE7FD7F41823B2B800C8DD88 /* DetailStoreViewController.xib */,
+				AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */,
+				AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */,
+				AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */,
+				AE138F32182B5F4200F36C99 /* DownloadViewControlleriPhone.h */,
+				AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */,
+				AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */,
+				AEFA9BFA166CC84700A60A12 /* DownloadViewController.h */,
+				AEFA9BFB166CC84700A60A12 /* DownloadViewController.m */,
 			);
 			name = "Mangoreader iphone";
 			sourceTree = "<group>";
@@ -2224,6 +2248,7 @@
 				AE7FEF1C161EE52800181CE8 /* sign-up-button.png in Resources */,
 				83F486FF18016CEE00AE3AAE /* 8716c8b1c3.jpg in Resources */,
 				AE7FEF25161F1A2C00181CE8 /* video image copy.png in Resources */,
+				AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */,
 				AE7FEF28161F1AC400181CE8 /* library.png in Resources */,
 				AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */,
 				AE7FEF2B161F1B1700181CE8 /* purchased.png in Resources */,
@@ -2254,6 +2279,7 @@
 				AE9A1869165E583600B5E594 /* dropdown.png in Resources */,
 				AEE26AD7165F8EE70021B4AA /* purchase-button.png in Resources */,
 				AEAC09D51664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png in Resources */,
+				AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */,
 				83F486DD18016CEE00AE3AAE /* e633a8bf89.mp3 in Resources */,
 				83F4870518016CEE00AE3AAE /* e6d62b1da8.jpg in Resources */,
 				AEEF8473166C90FB0098BAA2 /* LoginViewControllerIphone.xib in Resources */,
@@ -2346,6 +2372,7 @@
 				AE67FD4B16BA6BFC00E91A01 /* WebPageViewIphonebig.xib in Resources */,
 				83F486E318016CEE00AE3AAE /* original_0dd7068ae5.jpg in Resources */,
 				83F486FB18016CEE00AE3AAE /* 2b97f929e6.mp3 in Resources */,
+				AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */,
 				AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */,
 				83F4870018016CEE00AE3AAE /* a2dcf21fd0.jpg in Resources */,
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
@@ -2594,6 +2621,7 @@
 				AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
+				AE138F35182B5F4200F36C99 /* DownloadViewControlleriPhone.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
 				AE63865F1733D8CA009E372A /* PuttyView.m in Sources */,
 				AEFB1C47173A2F3D00C7A081 /* CoverViewController.m in Sources */,
@@ -2623,6 +2651,7 @@
 				AE396BB1181F7E3D009C68E7 /* PSTCollectionView.m in Sources */,
 				AE5B84F117AA54E000EDC098 /* FooterView.m in Sources */,
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
+				AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */,
 				AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */,
 				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
@@ -2632,6 +2661,7 @@
 				AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */,
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
+				AE138F3A182B783200F36C99 /* NewStoreControlleriPhone.m in Sources */,
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,

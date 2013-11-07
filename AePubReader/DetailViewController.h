@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MyBooksViewController.h"
+#import "MyBooksViewControlleriPhone.h"
 @interface DetailViewController : UIViewController
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;
@@ -20,5 +20,5 @@
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *bckButton;
 @property (retain, nonatomic) IBOutlet UILabel *fileSizeLabel;
 @property (retain, nonatomic) IBOutlet UIToolbar *topToolbar;
-@property(assign,nonatomic)MyBooksViewController *booksMy;
+@property(assign,nonatomic)MyBooksViewControlleriPhone *booksMy;
 @end

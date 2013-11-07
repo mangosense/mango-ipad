@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewStoreViewControlleriPhone.h"
+#import "NewStoreControlleriPhone.h"
 @interface CategoryViewController : UITableViewController
 @property(retain,nonatomic) NSArray *array;
 @property(assign,nonatomic) id<CategoryDelegate> delegate;

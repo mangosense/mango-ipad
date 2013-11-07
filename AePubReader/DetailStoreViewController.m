@@ -278,7 +278,7 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
-    [self.tabBarController.tabBar setHidden:NO];
+  //  [self.tabBarController.tabBar setHidden:NO];
     //    if (_alertView) {
     //        [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     //    }

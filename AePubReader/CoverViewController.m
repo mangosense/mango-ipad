@@ -105,7 +105,7 @@
     
     self.navigationController.navigationBarHidden=NO;
     [self.navigationController popViewControllerAnimated:YES];
-    [self.tabBarController.tabBar setHidden:NO];
+   // [self.tabBarController.tabBar setHidden:NO];
 
     
 }

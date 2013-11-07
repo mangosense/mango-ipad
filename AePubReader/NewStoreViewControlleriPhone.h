@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DataSourceForLinear.h"
 #import "DataSourceForLinearOld.h"
-@protocol CategoryDelegate <NSObject>
-
--(void)chosenCategory:(NSString *)category;
-
-@end
+#import "NewStoreControlleriPhone.h"
 @interface NewStoreViewControlleriPhone : UITableViewController<CategoryDelegate>
 @property(retain,nonatomic) DataSourceForLinear *linear;
 @property(retain,nonatomic) DataSourceForLinearOld *oldLinear;

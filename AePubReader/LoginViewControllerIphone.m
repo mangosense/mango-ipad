@@ -8,23 +8,22 @@
 
 #import "LoginViewControllerIphone.h"
 #import "SignUpViewControllerIphone.h"
-#import "MyBooksViewController.h"
+#import "MyBooksViewControlleriPhone.h"
 #import "LiveViewControllerIphone.h"
 #import <Accounts/Accounts.h>
 #import <Social/Social.h>
 #import "FacebookIphoneLogin.h"
 #import <QuartzCore/QuartzCore.h>
-#import "DownloadViewController.h"
+#import "DownloadViewControlleriPhone.h"
 #import "Flurry.h"
 #import "RootViewController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
-#import "NewStoreViewControlleriPhone.h"
+#import "NewStoreControlleriPhone.h"
 @interface LoginViewControllerIphone ()
-@property(retain,nonatomic)DownloadViewController *downloadView;
+@property(retain,nonatomic)DownloadViewControlleriPhone *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
-@property(retain,nonatomic) MyBooksViewController *myBook;
-@property(retain,nonatomic) NewStoreViewControlleriPhone *storeNew;
+@property(retain,nonatomic) MyBooksViewControlleriPhone *myBook;
 @end
 
 @implementation LoginViewControllerIphone
@@ -113,12 +112,14 @@
 
 -(void)goToNext{
     UITabBarController *tabBarController=[[UITabBarController alloc]init];
-    _myBook=[[MyBooksViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    _myBook=[[MyBooksViewControlleriPhone alloc]initWithNibName:@"MyBooksViewControlleriPhone" bundle:nil];
     UINavigationController *navLib=[[UINavigationController alloc]initWithRootViewController:_myBook];
    
-    _downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    _downloadView.myBook=_myBook;
+    _downloadView=[[DownloadViewControlleriPhone alloc]initWithNibName:@"DownloadViewControlleriPhone" bundle:nil];
     
+    _downloadView.myBook=_myBook;
+    _downloadView.hidesBottomBarWhenPushed=YES;
+    _myBook.hidesBottomBarWhenPushed=YES;
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
   //  _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
   
@@ -126,6 +127,7 @@
     _liveController.myBooks=_myBook;
     _liveController.downloadViewController=_downloadView;
     tabBarController.viewControllers=@[navLib,nav];//,navigationLive];
+    tabBarController.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:tabBarController animated:YES];
 
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -214,6 +216,8 @@
 
     }
     // Do any additional setup after loading the view from its nib.
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+
 }
 
 - (void)didReceiveMemoryWarning
