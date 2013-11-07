@@ -1410,7 +1410,8 @@
 #pragma mark - Parsing Book Json
 
 - (void)processJson:(NSDictionary *)jsonDict {
-  //  NSDictionary *pageViewDict = [StoryJsonProcessor pageViewForJsonString:jsonDict];
+    NSDictionary *pageViewDict = [StoryJsonProcessor pageViewForJsonString:jsonDict];
+    NSLog(@"%@", pageViewDict);
 }
 
 - (void)getBookJson {
@@ -1450,8 +1451,9 @@
             jsonString = angryBirdsTamilJsonString;
             break;
             
-        case ANGRYBIRDS_ENGLISH_TAG:
+        case ANGRYBIRDS_ENGLISH_TAG: {
             jsonString = angryBirdsEnglishJsonString;
+        }
             break;
             
         default:
@@ -1466,8 +1468,7 @@
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     arrayOfPages = [[NSMutableArray alloc] initWithArray:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"number of pages: %d", [arrayOfPages count]);
-    
-    
+    [self processJson:[arrayOfPages objectAtIndex:1]];
     
     [self createScrollView];
     [self createPageWithPageNumber:0];
