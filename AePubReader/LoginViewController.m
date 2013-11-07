@@ -109,6 +109,7 @@
     _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
+    [_tabBarController.tabBar setHidden:YES];
 }
 -(void)insertInStore{
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
