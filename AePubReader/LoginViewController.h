@@ -10,15 +10,18 @@
 #import <MessageUI/MessageUI.h>
 #import <StoreKit/StoreKit.h>
 #import "Book.h"
+#import "NewStoreCoverViewController.h"
 @interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate>
 - (IBAction)Check:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *userName;
 - (IBAction)skipLogin:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *password;
 @property (retain, nonatomic) IBOutlet UIButton *facebookButton;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundimage;
 
 - (IBAction)facebookLogin:(id)sender;
 @property (retain, nonatomic) IBOutlet UIImageView *orImage;
+@property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
 
 @property(strong,nonatomic) NSURLConnection *connection;
 @property (retain, nonatomic) IBOutlet UIView *videoView;
@@ -36,6 +39,7 @@
 @property(strong,nonatomic)NSMutableData *data;
 @property(strong,nonatomic)UIAlertView *alertView;
 @property(strong,nonatomic)UITabBarController *tabBarController;
+@property(strong,nonatomic)NewStoreCoverViewController *storeNewViewController;
 -(void)goToNext;
 -(void)transactionRestored;
 -(void)transactionFailed;

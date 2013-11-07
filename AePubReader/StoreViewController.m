@@ -397,7 +397,9 @@
        
         NSString *auth_token=[defaults objectForKey:@"auth_token"];
         [diction setValue:auth_token forKey:@"auth_token"];
-        
+        /*
+         Can used books schema
+         */
         for (StoreBooks *books in stor) {
             NSNumber *bookId=books.productIdentity;
             NSNumber *amount=books.amount;

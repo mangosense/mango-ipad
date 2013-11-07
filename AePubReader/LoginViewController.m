@@ -29,20 +29,22 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "TimeRange.h"
-
+#import "NewStoreCoverViewController.h"
+#import "NewStoreViewControlleriPad.h"
 @interface LoginViewController ()
 @property(strong,nonatomic)StoreViewController *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
-@property (nonatomic, strong) EditorViewController *editorViewController;
+//@property (nonatomic, strong) EditorViewController *editorViewController;
 @property (nonatomic, strong) StoriesViewController *storiesViewController;
 @property (nonatomic, strong) NSDate *currentTime;
-
+//@property(nonatomic,strong)NewStoreCoverViewController *storeNewViewController;
+@property(nonatomic,strong) NewStoreViewControlleriPad *storeViewControlleriPad;
 @end
 
 @implementation LoginViewController
 
-@synthesize editorViewController;
+//@synthesize editorViewController;
 @synthesize storiesViewController;
 @synthesize currentTime;
 
@@ -97,19 +99,22 @@
     _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-    editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+   /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-    
+   // _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+    _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
     UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
     UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
-    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
-    UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
+  /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
+      /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
+    
     UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
     
-    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase, navigationStore];
+    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
     [_tabBarController.tabBar setHidden:YES];
+    self.navigationController.navigationBarHidden=YES;
 }
 -(void)insertInStore{
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
@@ -142,6 +147,13 @@
     {
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }else{
+      CGRect frame=  _topToolbar.frame;
+        frame.origin.y=0;
+        _topToolbar.frame=frame;
+      frame=  _backgroundimage.frame;
+        frame.origin.y=_topToolbar.frame.size.height+1;
+        _backgroundimage.frame=frame;
     }
 
     

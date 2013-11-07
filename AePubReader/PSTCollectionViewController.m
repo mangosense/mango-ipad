@@ -13,9 +13,9 @@
     PSTCollectionView *_collectionView;
     struct {
         unsigned int clearsSelectionOnViewWillAppear : 1;
-        unsigned int appearsFirstTime : 1; // PST exension!
+        unsigned int appearsFirstTime : 1; // PST extension!
     }_collectionViewControllerFlags;
-    char filler[100]; // [HACK] Our class needs to be larged than Apple's class for the superclass change to work
+    char filler[100]; // [HACK] Our class needs to be larger than Apple's class for the superclass change to work.
 }
 @property (nonatomic, strong) PSTCollectionViewLayout *layout;
 @end
@@ -73,7 +73,7 @@
 
     // This seems like a hack, but is needed for real compatibility
     // There can be implementations of loadView that don't call super and don't set the view, yet it works in UICollectionViewController.
-    if (![self isViewLoaded]) {
+    if (!self.isViewLoaded) {
         self.view = [[UIView alloc] initWithFrame:CGRectZero];
     }
 

@@ -20,7 +20,7 @@
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
 
-@synthesize window;
+//@synthesize window;
 @synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator;
 
 #pragma mark -
@@ -44,6 +44,9 @@ static UIAlertView *alertViewLoading;
          [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
     [userDefaults setBool:NO forKey:@"changed"];
+    if (![userDefaults boolForKey:@"didadd" ])
+    {
+        [userDefaults setBool:YES forKey:@"didadd"];
     NSFileManager *fileManager=[NSFileManager defaultManager];
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *destPath;/*=@"780.jpg";*/
@@ -276,7 +279,7 @@ static UIAlertView *alertViewLoading;
         }
     }*/
    // [vayuTheWind release];
-  
+}
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];

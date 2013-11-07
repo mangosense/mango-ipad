@@ -136,7 +136,7 @@
 {
     openingTime = [NSDate date];
     
-    self.navigationController.navigationBar.translucent = NO;
+  //  self.navigationController.navigationBar.translucent = NO;
 //    self.tabBarController.tabBar.translucent = NO;
     
     _emptyCellIndex=NSNotFound;
@@ -148,6 +148,7 @@
     optionsItem.tintColor=[UIColor grayColor];
     UIBarButtonItem *recordButton=[[UIBarButtonItem alloc]initWithTitle:@"recording" style:UIBarButtonItemStyleBordered target:self action:@selector(showRecordButton:)];
     recordButton.tintColor=[UIColor grayColor];
+    
     /*UIBarButtonItem *bookItem=[[UIBarButtonItem alloc]initWithTitle:@"stats" style:UIBarButtonItemStyleBordered target:self action:@selector(openStats:)];
     bookItem.tintColor=[UIColor grayColor];*/
    // NSLog(@"options retainCount %d",optionsItem.retainCount);
@@ -157,7 +158,7 @@
     [editBarButtonItem release];
     [optionsItem release];*/
     self.navigationItem.rightBarButtonItems=_array;
-    
+
     //[_array release];
      if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
          
@@ -198,7 +199,7 @@
     
     _epubFiles=[[NSArray alloc]initWithArray:temp];
     NSString *ver= [UIDevice currentDevice].systemVersion;
-    CGRect frame=self.view.bounds;
+    CGRect frame=self.storeView.bounds;
     
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
         frame.size.height=911;
@@ -208,8 +209,9 @@
         frame.size.height=655;
         frame.size.width=1024;
     }
-
-    if([ver floatValue]>=6.0)
+   // frame.size.height-=65;
+    //frame.origin.y=65;
+    if([ver floatValue]>6.0)
     {
     CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
         _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
@@ -221,7 +223,7 @@
         _collectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
 
   //  _collectionView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
-    [self.view addSubview:_collectionView];
+    [self.storeView addSubview:_collectionView];
     }else{
 
         PSUICollectionViewFlowLayout *collectionViewFlowLayout=[[PSUICollectionViewFlowLayout alloc]init];
@@ -239,12 +241,12 @@
         
         _pstcollectionView.dataSource=_dataSource;
         _pstcollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
-        [self.view addSubview:_pstcollectionView];
+        [self.storeView addSubview:_pstcollectionView];
    
        
 
        }
-
+    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"help"]){
         NSArray *array=@[@"large_one.png",@"large_two.png",@"large_three.png", @"large_four"];
 
@@ -278,6 +280,22 @@
     [mail setToRecipients:@[@"ios@mangosense.com"]];
    // [mail setMessageBody:body isHTML:NO];
     [self presentModalViewController:mail animated:YES];
+
+    
+}
+- (IBAction)showStoreViewController:(id)sender {
+    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+  //  UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:controller];
+    //navigationStore.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
+   // [self presentViewController:navigationStore animated:YES completion:nil];
+    [UIView beginAnimations:@"View Flip" context:nil];
+    [UIView setAnimationDuration:0.80];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                           forView:self.navigationController.view cache:NO];
+    
+    [self.navigationController pushViewController:controller animated:YES];
+    [UIView commitAnimations];
 
     
 }
@@ -734,7 +752,8 @@
     _collectionView.frame=frame;
     _pstcollectionView.frame=frame;
     [self.tabBarController.tabBar setHidden:NO];
-
+    self.navigationController.navigationBarHidden=YES;
+    self.navigationController.navigationBar.hidden=YES;
 
 }
 -(void)viewDidAppear:(BOOL)animated{

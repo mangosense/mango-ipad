@@ -369,6 +369,8 @@
         _pageNumber--;
         [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
  
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 - (void)didReceiveMemoryWarning
