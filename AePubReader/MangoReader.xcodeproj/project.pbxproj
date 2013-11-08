@@ -302,8 +302,8 @@
 		AE7537301610340E00761697 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75372E1610340E00761697 /* LoginViewController.m */; };
 		AE7537311610340E00761697 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75372F1610340E00761697 /* LoginViewController.xib */; };
 		AE75374416103A7C00761697 /* Book.png in Resources */ = {isa = PBXBuildFile; fileRef = AE75373F16103A7B00761697 /* Book.png */; };
-		AE75374D16103B5900761697 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75374B16103B5900761697 /* StoreViewController.m */; };
-		AE75374E16103B5900761697 /* StoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75374C16103B5900761697 /* StoreViewController.xib */; };
+		AE75374D16103B5900761697 /* DownloadViewControlleriPad.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75374B16103B5900761697 /* DownloadViewControlleriPad.m */; };
+		AE75374E16103B5900761697 /* DownloadViewControlleriPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75374C16103B5900761697 /* DownloadViewControlleriPad.xib */; };
 		AE75375216103B6900761697 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75375016103B6900761697 /* LibraryViewController.m */; };
 		AE75375316103B6900761697 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75375116103B6900761697 /* LibraryViewController.xib */; };
 		AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */; };
@@ -884,9 +884,9 @@
 		AE75372E1610340E00761697 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		AE75372F1610340E00761697 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		AE75373F16103A7B00761697 /* Book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Book.png; sourceTree = "<group>"; };
-		AE75374A16103B5900761697 /* StoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
-		AE75374B16103B5900761697 /* StoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreViewController.m; sourceTree = "<group>"; };
-		AE75374C16103B5900761697 /* StoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreViewController.xib; sourceTree = "<group>"; };
+		AE75374A16103B5900761697 /* DownloadViewControlleriPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewControlleriPad.h; sourceTree = "<group>"; };
+		AE75374B16103B5900761697 /* DownloadViewControlleriPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewControlleriPad.m; sourceTree = "<group>"; };
+		AE75374C16103B5900761697 /* DownloadViewControlleriPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadViewControlleriPad.xib; sourceTree = "<group>"; };
 		AE75374F16103B6900761697 /* LibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		AE75375016103B6900761697 /* LibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		AE75375116103B6900761697 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryViewController.xib; sourceTree = "<group>"; };
@@ -1790,9 +1790,9 @@
 				AE75372D1610340D00761697 /* LoginViewController.h */,
 				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE75372F1610340E00761697 /* LoginViewController.xib */,
-				AE75374A16103B5900761697 /* StoreViewController.h */,
-				AE75374B16103B5900761697 /* StoreViewController.m */,
-				AE75374C16103B5900761697 /* StoreViewController.xib */,
+				AE75374A16103B5900761697 /* DownloadViewControlleriPad.h */,
+				AE75374B16103B5900761697 /* DownloadViewControlleriPad.m */,
+				AE75374C16103B5900761697 /* DownloadViewControlleriPad.xib */,
 				AE75374F16103B6900761697 /* LibraryViewController.h */,
 				AE75375016103B6900761697 /* LibraryViewController.m */,
 				AE75375116103B6900761697 /* LibraryViewController.xib */,
@@ -2232,7 +2232,7 @@
 				83F486CC18016CEE00AE3AAE /* 5f638a921a.jpg in Resources */,
 				AE7537311610340E00761697 /* LoginViewController.xib in Resources */,
 				AE75374416103A7C00761697 /* Book.png in Resources */,
-				AE75374E16103B5900761697 /* StoreViewController.xib in Resources */,
+				AE75374E16103B5900761697 /* DownloadViewControlleriPad.xib in Resources */,
 				AE75375316103B6900761697 /* LibraryViewController.xib in Resources */,
 				AEA768E61611E5C5002B9FDC /* wood_pattern.png in Resources */,
 				AEB78AF8169EF31A00750218 /* select.js in Resources */,
@@ -2581,7 +2581,7 @@
 				AE195EF8181E68C5008E4208 /* StoreCell.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,
-				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
+				AE75374D16103B5900761697 /* DownloadViewControlleriPad.m in Sources */,
 				AE396BB9181F7E3D009C68E7 /* PSTGridLayoutInfo.m in Sources */,
 				AE731C5316759D4500FE8F19 /* PurchaseFreeIphone.m in Sources */,
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
@@ -2713,7 +2713,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2754,7 +2753,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;

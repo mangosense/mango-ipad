@@ -10,13 +10,13 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MFMessageComposeViewController.h>
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import "Book.h"
 @interface PopViewDetailsViewController : UIViewController<MFMailComposeViewControllerDelegate>
 
 @property(retain,nonatomic)NSString *imageLocation;
 @property(retain,nonatomic)Book *bookTapped;
-@property(assign,nonatomic)StoreViewController *store;
+@property(assign,nonatomic)DownloadViewControlleriPad *store;
 @property (retain, nonatomic) IBOutlet UILabel *titleBook;
 @property (retain, nonatomic) IBOutlet UIWebView *detailsWebView;
 

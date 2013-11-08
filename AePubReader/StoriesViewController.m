@@ -49,6 +49,7 @@
     
     carousel.type = iCarouselTypeCoverFlow2;
     [carousel setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
+    self.navigationController.navigationBarHidden=YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,11 +139,19 @@
     UIButton *languageButton = (UIButton *)sender;
     [self chooseLanguage:languageButton.tag];
 }
+- (IBAction)switchTabs:(id)sender {
+    UISegmentedControl *control=(UISegmentedControl *) sender;
+    [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
+}
 
 - (void)chooseLanguage:(NSInteger)tagForChosenLanguage {
     EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
     editorViewController.tagForLanguage = tagForChosenLanguage;
     [self.navigationController pushViewController:editorViewController animated:YES];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _segmentedcontrol.selectedSegmentIndex=0;
+    
+}
 @end

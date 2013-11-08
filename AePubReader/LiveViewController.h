@@ -42,6 +42,7 @@
 @property(strong,nonatomic) PSUICollectionView *pstCollectionView;
 @property(strong,nonatomic)PSTCollectionDataSource *dataSource;
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction;
+@property (weak, nonatomic) IBOutlet UIView *storeview;
 -(void)transactionFailed;
 -(void)requestBooksWithoutUIChange;
 @end

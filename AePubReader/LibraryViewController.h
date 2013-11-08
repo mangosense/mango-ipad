@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import <Foundation/Foundation.h>
 #import <CoreFoundation/CFURL.h>
 #import "EpubReaderViewController.h"
@@ -18,6 +18,8 @@
 #import "PSTCollectionDataSource.h"
 @interface LibraryViewController : UIViewController<StoreControllerDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,XMLHandlerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIButton *signoutOrLogin;
+- (IBAction)loginOrSignout:(id)sender;
 @property(nonatomic,retain)NSArray *epubFiles;
 @property(assign,nonatomic)NSInteger ymax;
 @property(retain,nonatomic)UIAlertView *alertView;
@@ -43,7 +45,9 @@
 @property(assign,nonatomic)BOOL correctNavigation;
 @property(assign,nonatomic) BOOL nav;
 @property (weak, nonatomic) IBOutlet UIView *storeView;
--(void)shareButtonClicked:(id)sender;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+- (IBAction)switchTabs:(id)sender;
+-(IBAction)shareButtonClicked:(id)sender;
 - (void)showBookButton:(UIButton *)sender;
 -(void)AddShareButton:(id)sender;
 @end

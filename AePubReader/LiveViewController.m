@@ -566,7 +566,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
             UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alertView show];
             UINavigationController *nav=self.tabBarController.viewControllers[1];
-            StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
+            DownloadViewControlleriPad *storeViewController=(DownloadViewControlleriPad *)nav.topViewController;
             [delegate.dataModel insertBookWithNo:books];
             [storeViewController BuildButtons];
             
@@ -593,7 +593,7 @@ _totalNumberOfBooks=[delegate.dataModel insertStoreBooks:_data withPageNumber:_c
     }else{
         [delegate.dataModel insertBookWithNo:books];
         UINavigationController *nav=self.tabBarController.viewControllers[1];
-        StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
+        DownloadViewControlleriPad *storeViewController=(DownloadViewControlleriPad *)nav.topViewController;
         [storeViewController BuildButtons];
          [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     }

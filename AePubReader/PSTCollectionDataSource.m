@@ -119,7 +119,7 @@
         case 1:
             cell=(OldCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
            book=_array[indexPath.row];
-            cell.button.storeViewController=(StoreViewController *)_controller;
+            cell.button.storeViewController=(DownloadViewControlleriPad *)_controller;
             cell.button.stringLink=book.link;
             cell.button.tag=[book.id integerValue];
             image=[UIImage imageWithContentsOfFile:book.localPathImageFile];
@@ -128,7 +128,7 @@
             [ cell.button setAlpha:0.7];
 
             [cell.button addTarget:_controller action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
-            cell.button.storeViewController=(StoreViewController *)_controller;
+            cell.button.storeViewController=(DownloadViewControlleriPad *)_controller;
             break;
         case 2:
             cell=(OldCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];

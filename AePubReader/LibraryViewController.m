@@ -164,19 +164,20 @@
          
          UIBarButtonItem *leftLoginItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
          leftLoginItem.tintColor=[UIColor grayColor];
-         UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
-         settings.tintColor=[UIColor grayColor];
+        /* UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
+         settings.tintColor=[UIColor grayColor];*/
          UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
          feedback.tintColor=[UIColor grayColor];
-         NSArray *aray=@[leftLoginItem,settings,feedback];
+         NSArray *aray=@[leftLoginItem/*,settings,*/,feedback];
          self.navigationItem.leftBarButtonItems=aray;
-         
+         [_signoutOrLogin setTitle:@"Sign out" forState:UIControlStateNormal];
      }else{
        /*  UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
          settings.tintColor=[UIColor grayColor];*/
          UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
          feedback.tintColor=[UIColor grayColor];
          self.navigationItem.leftBarButtonItems=@[feedback];
+         [_signoutOrLogin setTitle:@"Login" forState:UIControlStateNormal];
      }
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
@@ -191,7 +192,7 @@
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
   ///  [imageView release];
-    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
+    self.navigationController.navigationBar.hidden=YES;
     // Do any additional setup after loading the view from its nib.
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     [delegate.dataModel displayAllData];
@@ -200,17 +201,19 @@
     _epubFiles=[[NSArray alloc]initWithArray:temp];
     NSString *ver= [UIDevice currentDevice].systemVersion;
     CGRect frame=self.storeView.bounds;
-    
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-        frame.size.height=911;
-        frame.size.width=768;
+    frame.size.height=880;
+  //  frame.size.height=1024;
+   /* if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        frame.size.height=900;
+        frame.size.width=1024;
         
     }else{
-        frame.size.height=655;
-        frame.size.width=1024;
-    }
+        frame.size.height=1024;
+        frame.size.width=900;
+    }*/
    // frame.size.height-=65;
     //frame.origin.y=65;
+  //  self.storeView.autoresizesSubviews=YES;
     if([ver floatValue]>6.0)
     {
     CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
@@ -221,8 +224,10 @@
     _collectionView.dataSource=self;
     _collectionView.delegate=self;
         _collectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
-
+        _collectionView.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _collectionView.frame=frame;
   //  _collectionView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
+        
     [self.storeView addSubview:_collectionView];
     }else{
 
@@ -241,7 +246,8 @@
         
         _pstcollectionView.dataSource=_dataSource;
         _pstcollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
-        [self.storeView addSubview:_pstcollectionView];
+        _pstcollectionView.autoresizingMask=self.storeView.autoresizingMask;
+        [self.view addSubview:_pstcollectionView];
    
        
 
@@ -270,7 +276,7 @@
     [self presentViewController:stats animated:YES completion:nil];
     
 }
--(void)feedback:(id)sender{
+-(IBAction)feedback:(id)sender{
     MFMailComposeViewController *mail;
     mail=[[MFMailComposeViewController alloc]init];
     [mail setSubject:@"Feed back for the App"];
@@ -306,7 +312,7 @@
 -(void)login:(id)sender{
         [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];
 }
--(void)showRecordButton:(id)sender{
+-(IBAction)showRecordButton:(id)sender{
     NSLog(@"record Button");
     
     if (!_recordButtonShow) {// if not shown
@@ -336,6 +342,10 @@
                 
             }
         }
+        if ([sender isMemberOfClass:[UIButton class]]) {
+            UIButton *button=(UIButton *)sender;
+            [button setTitle:@"Done" forState:UIControlStateNormal];
+        }
     }else{ // if shown
         /*
         
@@ -357,6 +367,10 @@
                 [[view.subviews lastObject ] setHidden:YES];
             }
         }*/
+        if ([sender isMemberOfClass:[UIButton class]]) {
+            UIButton *button=(UIButton *)sender;
+            [button setTitle:@"Recording" forState:UIControlStateNormal];
+        }
     }
     _recordButton=YES;
     _recordButtonShow=!_recordButtonShow;
@@ -415,7 +429,12 @@
     
 }
 
--(void)shareButtonClicked:(id)sender{
+- (IBAction)switchTabs:(id)sender {
+    UISegmentedControl *control=(UISegmentedControl *)sender;
+    [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
+}
+
+-(IBAction)shareButtonClicked:(id)sender{
     NSString *ver= [UIDevice currentDevice].systemVersion;
   
     ShareButton *buttonShadow=(ShareButton *)sender;
@@ -455,7 +474,7 @@
     [controller dismissModalViewControllerAnimated:YES];
     
 }
--(void)DeleteButton:(id)sender{
+-(IBAction)DeleteButton:(id)sender{
     NSLog(@"Edit Button clicked");
     if (_showDeleteButton) {
       /*  for (UIView *view in self.scrollView.subviews) {
@@ -732,14 +751,13 @@
         }];
         _correctNavigation=NO;
     }
-    
+    [_segmentedControl setSelectedSegmentIndex:1];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=YES;
     delegate.LandscapeOrientation=YES;
   //  [UIViewController attemptRotationToDeviceOrientation];
   
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    [self.navigationController.navigationBar setHidden:NO];
 
     CGRect frame=self.view.bounds;
     if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
@@ -751,7 +769,7 @@
     }
     _collectionView.frame=frame;
     _pstcollectionView.frame=frame;
-    [self.tabBarController.tabBar setHidden:NO];
+    [self.tabBarController.tabBar setHidden:YES];
     self.navigationController.navigationBarHidden=YES;
     self.navigationController.navigationBar.hidden=YES;
 
@@ -788,7 +806,7 @@
 
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    CGRect frame=self.view.bounds;
+    /*CGRect frame=self.view.bounds;
 
     if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
         frame.size.height=911;
@@ -798,7 +816,7 @@
         frame.size.width=1024;
     }
     _collectionView.frame=frame;
-    _pstcollectionView.frame=frame;
+    _pstcollectionView.frame=frame;*/
     if (_showDeleteButton) {
         [self addDeleteButton];
     }
@@ -1377,5 +1395,12 @@
 - (void)viewDidUnload {
     [self setScrollView:nil];
     [super viewDidUnload];
+}
+- (IBAction)loginOrSignout:(id)sender {
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
+        [self login:sender];
+    }else{
+        [self sigOut:nil];
+    }
 }
 @end

@@ -267,7 +267,7 @@
     
 }
 
-- (void)signOut:(id)sender {
+- (IBAction)signOut:(id)sender {
     NSString *signout=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
     signout =[signout stringByAppendingPathComponent:@"users/sign_out"];
     signout =[signout stringByAppendingFormat:@"?user[email]=%@&auth_token=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"email"],[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"]];

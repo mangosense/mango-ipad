@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import <Foundation/Foundation.h>
 #import "AePubReaderAppDelegate.h"
 #import "WebViewController.h"
@@ -32,7 +32,7 @@
 #import "NewStoreCoverViewController.h"
 #import "NewStoreViewControlleriPad.h"
 @interface LoginViewController ()
-@property(strong,nonatomic)StoreViewController *store;
+@property(strong,nonatomic)DownloadViewControlleriPad *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
 //@property (nonatomic, strong) EditorViewController *editorViewController;
@@ -96,7 +96,7 @@
 
     _tabBarController=[[UITabBarController alloc]init];
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-    _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+    _store=[[DownloadViewControlleriPad alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
    /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
@@ -264,7 +264,7 @@
         [userDefault setObject:_password.text forKey:@"password"];
             UITabBarController *tabBarController=[[UITabBarController alloc]init];
             LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-            StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+            DownloadViewControlleriPad *store=[[DownloadViewControlleriPad alloc]initWithNibName:@"StoreViewController" bundle:nil];
             store.delegate=library;
             UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
         UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
