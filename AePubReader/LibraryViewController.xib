@@ -98,13 +98,13 @@
                     <color key="backgroundColor" red="0.71305582304611836" green="1" blue="0.96625088601638565" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="q5I-2X-JKY">
-                    <rect key="frame" x="0.0" y="74" width="1024" height="880"/>
+                    <rect key="frame" x="0.0" y="74" width="1024" height="674"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.62999331989830942" green="0.68464702424772717" blue="0.90372367527173914" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
     </objects>

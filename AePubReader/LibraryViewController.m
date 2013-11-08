@@ -201,7 +201,7 @@
     _epubFiles=[[NSArray alloc]initWithArray:temp];
     NSString *ver= [UIDevice currentDevice].systemVersion;
     CGRect frame=self.storeView.bounds;
-    frame.size.height=880;
+    
   //  frame.size.height=1024;
    /* if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
         frame.size.height=900;
@@ -214,7 +214,8 @@
    // frame.size.height-=65;
     //frame.origin.y=65;
   //  self.storeView.autoresizesSubviews=YES;
-    if([ver floatValue]>6.0)
+  //  frame.origin.y=65;
+    if([ver floatValue]>=6.0)
     {
     CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
         _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
@@ -247,7 +248,7 @@
         _pstcollectionView.dataSource=_dataSource;
         _pstcollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
         _pstcollectionView.autoresizingMask=self.storeView.autoresizingMask;
-        [self.view addSubview:_pstcollectionView];
+        [self.storeView addSubview:_pstcollectionView];
    
        
 
@@ -269,6 +270,8 @@
     {
     // iOS 7 code here
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    }else{
+        [[self.tabBarController.view.subviews objectAtIndex:0] setFrame:CGRectMake(0, 0, 1024, 768)];
     }
 }
 -(void)openStats:(id)sender{
@@ -759,7 +762,7 @@
   
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
-    CGRect frame=self.view.bounds;
+  /*  CGRect frame=self.view.bounds;
     if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         frame.size.height=911;
         frame.size.width=768;
@@ -768,7 +771,7 @@
         frame.size.width=1024;
     }
     _collectionView.frame=frame;
-    _pstcollectionView.frame=frame;
+    _pstcollectionView.frame=frame;*/
     [self.tabBarController.tabBar setHidden:YES];
     self.navigationController.navigationBarHidden=YES;
     self.navigationController.navigationBar.hidden=YES;

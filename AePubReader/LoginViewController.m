@@ -113,7 +113,9 @@
     _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
+    _tabBarController.hidesBottomBarWhenPushed=YES;
     [_tabBarController.tabBar setHidden:YES];
+    
     self.navigationController.navigationBarHidden=YES;
 }
 -(void)insertInStore{
@@ -156,8 +158,9 @@
         _backgroundimage.frame=frame;
     }
 
-    
+
 }
+
 -(void)transactionFailed{
     [_liveViewController transactionFailed];
     

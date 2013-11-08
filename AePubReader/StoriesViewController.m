@@ -50,6 +50,10 @@
     carousel.type = iCarouselTypeCoverFlow2;
     [carousel setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
     self.navigationController.navigationBarHidden=YES;
+    if ([UIDevice currentDevice].systemVersion.integerValue<7) {
+        
+            [[self.tabBarController.view.subviews objectAtIndex:0] setFrame:CGRectMake(0, 0, 1024, 768)];
+           }
 }
 
 - (void)didReceiveMemoryWarning

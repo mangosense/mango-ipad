@@ -233,7 +233,7 @@
           frame.size.height=655;
           frame.size.width=1024;
     }*/
-    if([ver floatValue]>=6.0){
+    if([ver floatValue]>6.0){
     _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
     
     
@@ -243,6 +243,7 @@
     _collectionView.dataSource=self;
     _collectionView.delegate=self;
         _collectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
+        _collectionView.frame=frame;
     [self.storeView addSubview:_collectionView];
     }else{
         PSUICollectionViewFlowLayout *collectionViewFlowLayout=[[PSUICollectionViewFlowLayout alloc]init];
@@ -260,6 +261,7 @@
 
         _pstCollectionView.dataSource=_dataSource;
         _pstCollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
+        _pstCollectionView.frame=frame;
         [self.storeView addSubview:_pstCollectionView];
         /*
          self.itemSize = CGSizeMake(140, 180);
@@ -303,6 +305,9 @@
     {
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }else{
+        [[self.tabBarController.view.subviews objectAtIndex:0] setFrame:CGRectMake(0, 0, 1024, 768)];
+
     }
     [self.segmentedControl setSelectedSegmentIndex:2];
 }
@@ -438,17 +443,7 @@
       //  [self BuildButtons];
     }
       [Flurry logEvent:@"Downloads entered"];
-    CGRect frame=self.view.bounds;
     
-    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-        frame.size.height=911;
-        frame.size.width=768;
-    }else{
-        frame.size.height=655;
-        frame.size.width=1024;
-    }
-    _collectionView.frame=frame;
-    _pstCollectionView.frame=frame;
     
     
 }
