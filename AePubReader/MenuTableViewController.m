@@ -45,21 +45,83 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 0;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    switch (section) {
+        case 0:
+            return 4;
+            break;
+            
+        case 1:
+            return 2;
+            break;
+            
+        default:
+            return 0;
+            break;
+    }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    switch (indexPath.section) {
+        case 0: {
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = @"Save & Close";
+                    break;
+                    
+                case 1:
+                    cell.textLabel.text = @"Publish This Story";
+                    break;
+                    
+                case 2:
+                    cell.textLabel.text = @"Open A Recent Story";
+                    break;
+                    
+                case 3:
+                    cell.textLabel.text = @"Create A New Story";
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+            
+        case 1: {
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = @"iPad    1024 X 768 px";
+                    break;
+                    
+                case 1:
+                    cell.textLabel.text = @"Android    1280 X 800 px";
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
     
     return cell;
 }

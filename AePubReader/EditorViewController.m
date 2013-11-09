@@ -18,6 +18,7 @@
 #import "Google_TTS_BySham.h"
 #import "StoryJsonProcessor.h"
 #import "Constants.h"
+#import "MenuTableViewController.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -89,6 +90,7 @@
 
 @property (nonatomic, strong) UIImageView *pagesListBackgroundView;
 @property (nonatomic, strong) iCarousel *pagesListCarousel;
+@property (nonatomic, strong) UIPopoverController *menuPopoverController;
 
 - (void)getBookJson;
 
@@ -151,6 +153,7 @@
 
 @synthesize pagesListBackgroundView;
 @synthesize pagesListCarousel;
+@synthesize menuPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -601,7 +604,7 @@
                 
                 photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
                 photoPopoverController.delegate = self;
-                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 44, 250, 44) inView:backgroundImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
             }
         }
             break;
@@ -615,7 +618,7 @@
 
 - (void)cameraButtonTapped {
     UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
-    [photoActionSheet showFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton animated:YES];
+    [photoActionSheet showFromRect:CGRectMake(0, 44, 250, 44) inView:backgroundImageView animated:YES];
 }
 
 #pragma mark - Awesome Menu Delegate
@@ -745,7 +748,7 @@
         }
     }
     UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
-    assetsScrollView.backgroundColor = [UIColor whiteColor];
+    assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     
     UISegmentedControl *control = (UISegmentedControl *)sender;
@@ -783,8 +786,13 @@
 - (void)showAssets {
     NSLog(@"Show Assets");
     
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
-    assetsScrollView.backgroundColor = [UIColor whiteColor];
+    UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [takePhotoButton setTitle:@"Upload / Take A Photo" forState:UIControlStateNormal];
+    [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [takePhotoButton setFrame:CGRectMake(0, 44, 250, 30)];
+    
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 88, 250, 500)];
+    assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37*150);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
@@ -798,6 +806,7 @@
     UIViewController *scrollViewController = [[UIViewController alloc] init];
     [scrollViewController.view setFrame:CGRectMake(0, 0, 250, 500)];
     [scrollViewController.view addSubview:assetsScrollView];
+    [scrollViewController.view addSubview:takePhotoButton];
     [scrollViewController.view addSubview:assetTypeSegmentedControl];
         
     arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
@@ -812,9 +821,12 @@
     }
     
     assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollViewController];
-    [assetPopoverController setPopoverContentSize:CGSizeMake(250, 500)];
+    [assetPopoverController setPopoverContentSize:CGSizeMake(250, backgroundImageView.frame.size.height)];
     assetPopoverController.delegate = self;
-    [assetPopoverController presentPopoverFromRect:CGRectMake(0, 100 + 2*200/3 + 150 + 10, 200, 45) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    [assetPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
+
+    [assetPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    
 }
 
 #pragma mark - Previous Next Page Methods
@@ -855,12 +867,15 @@
 #pragma mark - Menu Actions
 
 - (void)menuButtonTapped {
-    /*UIPopoverController *menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:nil];
-    [menuPopoverController presentPopoverFromRect:menuButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];*/
+    MenuTableViewController *menuTableViewController = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:menuTableViewController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 350) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
+    [menuPopoverController presentPopoverFromRect:menuButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
 - (void)imageButtonTapped {
-    
+    [self showAssets];
 }
 
 - (void)audioButtonTapped {
