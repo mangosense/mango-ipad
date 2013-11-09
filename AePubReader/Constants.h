@@ -64,6 +64,7 @@
 #define TEXT_FRAME @"style"
 #define IMAGE @"image"
 #define AUDIO @"audio"
+#define CAPTURED_IMAGE @"capturedImage"
 #define ASSET_URL @"url"
 
 #pragma mark - Colors
