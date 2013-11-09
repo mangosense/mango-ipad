@@ -66,4 +66,17 @@
 #define AUDIO @"audio"
 #define ASSET_URL @"url"
 
+#pragma mark - Colors
+
+//orange: #f04e23  (R:240 G:78 B:35)
+#define COLOR_ORANGE [UIColor colorWithRed:240.0/255.0 green:78.0/255.0 blue:35.0/255.0 alpha:1.0f]
+//Green: #84c54e  (R:132 G:197 B:78)
+#define COLOR_GREEN [UIColor colorWithRed:132.0/255.0 green:197.0/255.0 blue:78.0/255.0 alpha:1.0f]
+//Dark Grey: #353535  (R:53 G:53 B:53)
+#define COLOR_DARK_GREY [UIColor colorWithRed:53.0/255.0 green:53.0/255.0 blue:53.0/255.0 alpha:1.0f]
+//Grey:  #5b5b5c  (R:91 G:91 B:91)
+#define COLOR_GREY [UIColor colorWithRed:91.0/255.0 green:91.0/255.0 blue:91.0/255.0 alpha:1.0f]
+//Light Grey:  #f2f2f3  (R:242 G:242 B:242)
+#define COLOR_LIGHT_GREY [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1.0f]
+
 @end

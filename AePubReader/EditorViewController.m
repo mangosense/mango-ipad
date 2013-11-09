@@ -17,6 +17,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "Google_TTS_BySham.h"
 #import "StoryJsonProcessor.h"
+#import "Constants.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -76,6 +77,18 @@
 @property (nonatomic, strong) NSString *frankfurtSpanishJson;
 @property (nonatomic, strong) NSString *frankfurtGermanJson;
 
+@property (nonatomic, strong) UIButton *mangoButton;
+@property (nonatomic, strong) UIButton *menuButton;
+@property (nonatomic, strong) UIButton *imageButton;
+@property (nonatomic, strong) UIButton *textButton;
+@property (nonatomic, strong) UIButton *audioButton;
+@property (nonatomic, strong) UIButton *gamesButton;
+@property (nonatomic, strong) UIButton *collaborationButton;
+@property (nonatomic, strong) UIButton *playPreviewButton;
+@property (nonatomic, strong) UIButton *pagesButton;
+
+@property (nonatomic, strong) UIImageView *pagesListBackgroundView;
+
 - (void)getBookJson;
 
 @end
@@ -124,6 +137,18 @@
 @synthesize frankfurtEnglishJson;
 @synthesize frankfurtGermanJson;
 @synthesize frankfurtSpanishJson;
+
+@synthesize mangoButton;
+@synthesize menuButton;
+@synthesize imageButton;
+@synthesize textButton;
+@synthesize audioButton;
+@synthesize gamesButton;
+@synthesize collaborationButton;
+@synthesize playPreviewButton;
+@synthesize pagesButton;
+
+@synthesize pagesListBackgroundView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -838,6 +863,54 @@
     }];
 }
 
+#pragma mark - Menu Actions
+
+- (void)menuButtonTapped {
+    /*UIPopoverController *menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:nil];
+    [menuPopoverController presentPopoverFromRect:menuButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];*/
+}
+
+- (void)imageButtonTapped {
+    
+}
+
+- (void)audioButtonTapped {
+    
+}
+
+- (void)textButtonTapped {
+    
+}
+
+- (void)gamesButtonTapped {
+    
+}
+
+- (void)collaborationButtonTapped {
+    
+}
+
+- (void)playPreviewButtonTapped {
+    
+}
+
+#define PAGES_SELECTED_TAG 1
+#define PAGES_UNSELECTED_TAG 0
+- (void)pagesButtonTapped {
+    if (pagesButton.tag == PAGES_SELECTED_TAG) {
+        [pagesListBackgroundView removeFromSuperview];
+        [self setupButton:pagesButton withImage:[UIImage imageNamed:@"pagesbutton.png"] belowButton:playPreviewButton withShadow:NO andSelector:@selector(pagesButtonTapped)];
+        pagesButton.tag = PAGES_UNSELECTED_TAG;
+    } else {
+        pagesListBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(pagesButton.frame.origin.x + 5, pagesButton.frame.origin.y + 6, self.view.frame.size.width - 25, 108)];
+        [pagesListBackgroundView setImage:[[UIImage imageNamed:@"pagesbg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(75, 200, 15, 200) resizingMode:UIImageResizingModeStretch]];
+        [self.view addSubview:pagesListBackgroundView];
+        [self setupButton:pagesButton withImage:[UIImage imageNamed:@"pagesbutton_selected.png"] belowButton:playPreviewButton withShadow:NO andSelector:@selector(pagesButtonTapped)];
+        [self.view bringSubviewToFront:pagesButton];
+        pagesButton.tag = PAGES_SELECTED_TAG;
+    }
+}
+
 #pragma mark - Prepare UI
 
 - (void)showAudioControl {
@@ -918,21 +991,24 @@
     return paintMenu;
 }
 
-- (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton {
+- (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton withShadow:(BOOL)shadowEnabled andSelector:(SEL)selector {
     CGFloat originY = 0;
     if (upperButton) {
-        originY = upperButton.frame.origin.y + 30;
+        originY = upperButton.frame.origin.y + upperButton.frame.size.height;
     }
-    [button setFrame:CGRectMake(28, originY, 44, 44)];
+    [button setFrame:CGRectMake(upperButton.frame.origin.x, originY, upperButton.frame.size.width, upperButton.frame.size.height)];
     [button setImage:buttonImage forState:UIControlStateNormal];
     [[button layer] setCornerRadius:button.frame.size.height/20];
     [button setUserInteractionEnabled:YES];
     [[button layer] setMasksToBounds:NO];
-    [[button layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[button layer] setShadowOffset:CGSizeMake(3, 3)];
-    [[button layer] setShadowOpacity:0.3f];
-    [[button layer] setShadowRadius:5];
-    [[button layer] setShouldRasterize:YES];
+    if (shadowEnabled) {
+        [[button layer] setShadowColor:[[UIColor blackColor] CGColor]];
+        [[button layer] setShadowOffset:CGSizeMake(3, 3)];
+        [[button layer] setShadowOpacity:0.3f];
+        [[button layer] setShadowRadius:5];
+        [[button layer] setShouldRasterize:YES];
+    }
+    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setupScrollView:(UIView *)theView withImage:(UIImage *)image {
@@ -970,25 +1046,22 @@
     
     // Record Audio Button
     recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:header];
-    [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:header withShadow:YES andSelector:@selector(recordAudio)];
     [staticToolsView addSubview:recordAudioButton];
     
     playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:playButton withImage:[UIImage imageNamed:@"play-control.png"] belowButton:header];
-    [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:playButton withImage:[UIImage imageNamed:@"play-control.png"] belowButton:header withShadow:YES andSelector:@selector(playRecording)];
     [playButton setFrame:CGRectMake(128, playButton.frame.origin.y, 44, 44)];
     [staticToolsView addSubview:playButton];
     
     // Camera Button
     cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:playButton];
-    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:playButton withShadow:YES andSelector:@selector(cameraButtonTapped)];
     [cameraButton setFrame:CGRectMake(128, 104, 44, 44)];
     [staticToolsView addSubview:cameraButton];
     
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:shareButton withImage:[UIImage imageNamed:@"sharebutton.png"] belowButton:recordAudioButton];
+    [self setupButton:shareButton withImage:[UIImage imageNamed:@"sharebutton.png"] belowButton:recordAudioButton withShadow:YES andSelector:nil];
     [shareButton setFrame:CGRectMake(28, 104, 44, 44)];
     //[shareButton addTarget:self action:@selector(showPublishDetailsView) forControlEvents:UIControlEventTouchUpInside];
     [staticToolsView addSubview:shareButton];
@@ -1011,13 +1084,14 @@
     [self.view bringSubviewToFront:previousPageButton];
 }
 
+// Removing for new UI
+/*
 - (void)createToolView {
     // Show Scroll View Button
     [self createScrollViewButton];
         
-    drawerView = [[UIView alloc] initWithFrame:CGRectMake(-200, 0, 200, self.view.frame.size.height)];
-    [[drawerView layer] setBorderColor:[[UIColor blackColor] CGColor]];
-    [[drawerView layer] setBorderWidth:2.0f];
+    drawerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 80, self.view.frame.size.height)];
+    [drawerView setBackgroundColor:COLOR_GREY];
     
     accordion = [[AccordionView alloc] initWithFrame:CGRectMake(0, 0, 200, drawerView.frame.size.height - 180)];
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
@@ -1045,12 +1119,10 @@
     [self selectedColor:RED_BUTTON_TAG];
     [self widthOfBrush:5.0f];
     [self widthOfEraser:20.0f];
-    
     [accordion setNeedsLayout];
     // Set this if you want to allow multiple selection
     [accordion setAllowsMultipleSelection:NO];
     [accordion setSelectedIndex:1];
-
     [drawerView addSubview:accordion];
     
     staticToolsView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 180, 200, 180)];
@@ -1058,11 +1130,12 @@
     [self createStaticToolsView];
     [drawerView addSubview:staticToolsView];
     
-    [self createPreviousAndNextButtons];
-    
     [self.view addSubview:drawerView];
+    
+    [self createPreviousAndNextButtons];
 }
-
+*/
+ 
 - (void)wordTapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"Clicked");
     
@@ -1083,12 +1156,57 @@
     
 }
 
+- (void)createMenus {
+    [self.view setBackgroundColor:COLOR_GREY];
+    
+    mangoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [mangoButton setImage:[UIImage imageNamed:@"mangoicon.png"] forState:UIControlStateNormal];
+    [mangoButton setFrame:CGRectMake(10, backgroundImageView.frame.origin.y - 10, 60, 70)];
+    [self.view addSubview:mangoButton];
+    
+    menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:menuButton withImage:[UIImage imageNamed:@"menubutton.png"] belowButton:mangoButton withShadow:NO andSelector:@selector(menuButtonTapped)];
+    [self.view addSubview:menuButton];
+    
+    imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [imageButton setImage:[UIImage imageNamed:@"imagebutton.png"] forState:UIControlStateNormal];
+    [imageButton setFrame:CGRectMake(10, menuButton.frame.origin.y + menuButton.frame.size.height + 20, 60, 60)];
+    [imageButton addTarget:self action:@selector(imageButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imageButton];
+    
+    textButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:textButton withImage:[UIImage imageNamed:@"textbutton.png"] belowButton:imageButton withShadow:NO andSelector:@selector(textButtonTapped)];
+    [self.view addSubview:textButton];
+
+    audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:audioButton withImage:[UIImage imageNamed:@"audiobutton.png"] belowButton:textButton withShadow:NO andSelector:@selector(audioButtonTapped)];
+    [self.view addSubview:audioButton];
+
+    gamesButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:gamesButton withImage:[UIImage imageNamed:@"gamebutton.png"] belowButton:audioButton withShadow:NO andSelector:@selector(gamesButtonTapped)];
+    [self.view addSubview:gamesButton];
+
+    collaborationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:collaborationButton withImage:[UIImage imageNamed:@"collaborationbutton.png"] belowButton:gamesButton withShadow:NO andSelector:@selector(collaborationButtonTapped)];
+    [self.view addSubview:collaborationButton];
+    
+    playPreviewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [playPreviewButton setFrame:CGRectMake(10, backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height - 55, 60, 60)];
+    [playPreviewButton setImage:[UIImage imageNamed:@"playbuttonnew.png"] forState:UIControlStateNormal];
+    [playPreviewButton addTarget:self action:@selector(playPreviewButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:playPreviewButton];
+    
+    pagesButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:pagesButton withImage:[UIImage imageNamed:@"pagesbutton.png"] belowButton:playPreviewButton withShadow:NO andSelector:@selector(pagesButtonTapped)];
+    [self.view addSubview:pagesButton];
+}
+
 - (void)createInitialUI {
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
 
-    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
+    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:CGRectMake(80, 15, self.view.frame.size.width - 105, self.view.frame.size.height - 210)];
     backgroundImageView.delegate = self;
     // Temporarily adding fixed image
     [self.view addSubview:backgroundImageView];
@@ -1107,7 +1225,11 @@
     
     [backgroundImageView addSubview:mainTextView];
     
-    [self createToolView];
+    // Removing for new UI
+    //[self createToolView];
+    
+    // For new UI
+    [self createMenus];
 }
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
