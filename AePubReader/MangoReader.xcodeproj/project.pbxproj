@@ -44,8 +44,6 @@
 		834FCE11182D11F70000181B /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB5182D11F60000181B /* add_button.png */; };
 		834FCE12182D11F70000181B /* add_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB6182D11F60000181B /* add_button_pressed.png */; };
 		834FCE13182D11F70000181B /* addaudio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB7182D11F60000181B /* addaudio_button.png */; };
-		834FCE14182D11F70000181B /* addaudio_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB8182D11F60000181B /* addaudio_button_pressed.png */; };
-		834FCE15182D11F70000181B /* addnewpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB9182D11F60000181B /* addnewpage.png */; };
 		834FCE16182D11F70000181B /* addthisgame_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDBA182D11F60000181B /* addthisgame_button.png */; };
 		834FCE17182D11F70000181B /* addthisgame_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDBB182D11F60000181B /* addthisgame_button_pressed.png */; };
 		834FCE18182D11F70000181B /* addtopage_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDBC182D11F60000181B /* addtopage_button.png */; };
@@ -136,7 +134,6 @@
 		834FCE6F182D26BC0000181B /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 834FCE6E182D26BC0000181B /* MenuTableViewController.m */; };
 		834FCE73182E084E0000181B /* pages_bg_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE70182E084E0000181B /* pages_bg_left.png */; };
 		834FCE74182E084E0000181B /* pages_bg_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE71182E084E0000181B /* pages_bg_right.png */; };
-		834FCE75182E084E0000181B /* pagesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE72182E084E0000181B /* pagesbg.png */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		8374AF0917CC66AB009DA792 /* bamboo-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AEE417CC66AB009DA792 /* bamboo-01.png */; };
@@ -264,6 +261,12 @@
 		83F4870718016CEE00AE3AAE /* f904671842.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BE18016CEE00AE3AAE /* f904671842.jpg */; };
 		83F4870818016CEE00AE3AAE /* fe3eb3df4c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BF18016CEE00AE3AAE /* fe3eb3df4c.jpg */; };
 		83F4870918016CEE00AE3AAE /* original_051d26889e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */; };
+		AE031ABC1830D5FF0042236D /* lselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB61830D5FF0042236D /* lselected.png */; };
+		AE031ABD1830D5FF0042236D /* sselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB71830D5FF0042236D /* sselected.png */; };
+		AE031ABE1830D5FF0042236D /* eselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB81830D5FF0042236D /* eselected.png */; };
+		AE031AC51830D7140042236D /* eunselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AC21830D7130042236D /* eunselected.png */; };
+		AE031AC61830D7140042236D /* sunselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AC31830D7130042236D /* sunselected.png */; };
+		AE031AC71830D7140042236D /* lunselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AC41830D7130042236D /* lunselected.png */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
 		AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0890A31823B3B70028035F /* DetailViewControllerStore.m */; };
 		AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */; };
@@ -870,6 +873,12 @@
 		83F486BF18016CEE00AE3AAE /* fe3eb3df4c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fe3eb3df4c.jpg; sourceTree = "<group>"; };
 		83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original_051d26889e.jpg; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AE031AB61830D5FF0042236D /* lselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lselected.png; sourceTree = "<group>"; };
+		AE031AB71830D5FF0042236D /* sselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sselected.png; sourceTree = "<group>"; };
+		AE031AB81830D5FF0042236D /* eselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eselected.png; sourceTree = "<group>"; };
+		AE031AC21830D7130042236D /* eunselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eunselected.png; sourceTree = "<group>"; };
+		AE031AC31830D7130042236D /* sunselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sunselected.png; sourceTree = "<group>"; };
+		AE031AC41830D7130042236D /* lunselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunselected.png; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
 		AE0890A21823B3B70028035F /* DetailViewControllerStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewControllerStore.h; sourceTree = "<group>"; };
 		AE0890A31823B3B70028035F /* DetailViewControllerStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewControllerStore.m; sourceTree = "<group>"; };
@@ -1425,6 +1434,12 @@
 				AEDBB6941740D323003321E4 /* feedbackbutton.png */,
 				AE92809A1619AD4B001BCBB6 /* mangoLow.png */,
 				AE9280971619AC82001BCBB6 /* mango.png */,
+				AE031AC21830D7130042236D /* eunselected.png */,
+				AE031AC31830D7130042236D /* sunselected.png */,
+				AE031AC41830D7130042236D /* lunselected.png */,
+				AE031AB61830D5FF0042236D /* lselected.png */,
+				AE031AB71830D5FF0042236D /* sselected.png */,
+				AE031AB81830D5FF0042236D /* eselected.png */,
 				AE7FEDEB1615BA1B00C4B51D /* CustomViews */,
 				AE7FEDD4161580AD00C4B51D /* epubReader */,
 				AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */,
@@ -2539,6 +2554,7 @@
 				AE75374E16103B5900761697 /* DownloadViewControlleriPad.xib in Resources */,
 				AE75375316103B6900761697 /* LibraryViewController.xib in Resources */,
 				AEA768E61611E5C5002B9FDC /* wood_pattern.png in Resources */,
+				AE031ABC1830D5FF0042236D /* lselected.png in Resources */,
 				834FCE4E182D11F70000181B /* retake_button.png in Resources */,
 				AEB78AF8169EF31A00750218 /* select.js in Resources */,
 				AE7FEDE0161581EC00C4B51D /* View.xib in Resources */,
@@ -2580,6 +2596,7 @@
 				834FCE21182D11F70000181B /* close_big_button.png in Resources */,
 				834FCE33182D11F70000181B /* italic_button_selected.png in Resources */,
 				83F486F118016CEE00AE3AAE /* 9e6c7d9426.mp3 in Resources */,
+				AE031AC61830D7140042236D /* sunselected.png in Resources */,
 				AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */,
 				AEEBA8DC16354F800023AE51 /* mangoreader-app-icon-144X144.png in Resources */,
 				83F486C418016CEE00AE3AAE /* 178cc3bdef.jpg in Resources */,
@@ -2608,6 +2625,7 @@
 				AE63ECDB166F135E0027CBB8 /* Default-568h@2x.png in Resources */,
 				83F486C318016CEE00AE3AAE /* 0eba11eaa5.jpg in Resources */,
 				AE1C6C1B167210BA0090DFDD /* Default.png in Resources */,
+				AE031AC51830D7140042236D /* eunselected.png in Resources */,
 				83F486ED18016CEE00AE3AAE /* 6dc3c82fc8.jpg in Resources */,
 				AE1C6C1D167210CF0090DFDD /* Default@2x.png in Resources */,
 				AE1C6C24167217F20090DFDD /* sign-in-button-iphone4.png in Resources */,
@@ -2631,6 +2649,7 @@
 				83F486D618016CEE00AE3AAE /* a1cf4912c1.mp3 in Resources */,
 				AE731C5C1675C3AF00FE8F19 /* or-button.png in Resources */,
 				AE731C6F1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png in Resources */,
+				AE031ABD1830D5FF0042236D /* sselected.png in Resources */,
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
 				834FCE2C182D11F70000181B /* hitosync_active_button.png in Resources */,
 				AE731C781675FB6000FE8F19 /* mangoreader-logo.png in Resources */,
@@ -2742,6 +2761,7 @@
 				AEDAD4B01739033A002543DF /* playbuttonpressed.png in Resources */,
 				834FCE58182D11F70000181B /* searchicon.png in Resources */,
 				AEFB1C4A173A5F8700C7A081 /* ipadappcoverpgbg.png in Resources */,
+				AE031ABE1830D5FF0042236D /* eselected.png in Resources */,
 				AEFB1C4D173A5FC000C7A081 /* Readbymyselfbutton.png in Resources */,
 				AEFB1C4E173A5FC000C7A081 /* Readtomebutton.png in Resources */,
 				83F486F718016CEE00AE3AAE /* 051d26889e.jpg in Resources */,
@@ -2857,6 +2877,7 @@
 				8374AF1017CC66AB009DA792 /* coconut tree.png in Resources */,
 				834FCE56182D11F70000181B /* scaletool.png in Resources */,
 				8374AF1117CC66AB009DA792 /* grass1.png in Resources */,
+				AE031AC71830D7140042236D /* lunselected.png in Resources */,
 				8374AF1217CC66AB009DA792 /* hills-01.png in Resources */,
 				8374AF1317CC66AB009DA792 /* hills-02.png in Resources */,
 				834FCE35182D11F70000181B /* linespacing_button_selected.png in Resources */,

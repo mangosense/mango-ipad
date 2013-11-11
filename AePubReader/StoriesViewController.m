@@ -143,6 +143,11 @@
     UIButton *languageButton = (UIButton *)sender;
     [self chooseLanguage:languageButton.tag];
 }
+
+- (IBAction)switchTabButtonClicked:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    [self.tabBarController setSelectedIndex:button.tag];
+}
 - (IBAction)switchTabs:(id)sender {
     UISegmentedControl *control=(UISegmentedControl *) sender;
     [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
@@ -155,7 +160,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    _segmentedcontrol.selectedSegmentIndex=0;
+    _segmentedcontrol.selectedSegmentIndex=1;
     
 }
 @end

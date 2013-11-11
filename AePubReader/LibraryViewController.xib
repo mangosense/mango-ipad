@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LibraryViewController">
             <connections>
-                <outlet property="segmentedControl" destination="J4c-sl-m0E" id="rpT-7V-a4Q"/>
                 <outlet property="signoutOrLogin" destination="jby-zQ-v8b" id="GOI-aY-stA"/>
                 <outlet property="storeView" destination="q5I-2X-JKY" id="OnU-cA-bSw"/>
                 <outlet property="view" destination="2" id="3"/>
@@ -22,28 +21,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="75"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rkk-G7-1if">
-                            <rect key="frame" x="0.0" y="14" width="74" height="39"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Store">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="showStoreViewController:" destination="-1" eventType="touchUpInside" id="DXo-6W-cYO"/>
-                            </connections>
-                        </button>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="J4c-sl-m0E">
-                            <rect key="frame" x="410" y="27" width="272" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="EditedBooks"/>
-                                <segment title="My Books"/>
-                                <segment title="download"/>
-                            </segments>
-                            <connections>
-                                <action selector="switchTabs:" destination="-1" eventType="valueChanged" id="HbN-8k-Eol"/>
-                            </connections>
-                        </segmentedControl>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4xD-RH-GUB">
                             <rect key="frame" x="77" y="14" width="70" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -98,14 +75,52 @@
                     <color key="backgroundColor" red="0.71305582304611836" green="1" blue="0.96625088601638565" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="q5I-2X-JKY">
-                    <rect key="frame" x="0.0" y="74" width="1024" height="674"/>
+                    <rect key="frame" x="0.0" y="74" width="1024" height="614"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.62999331989830942" green="0.68464702424772717" blue="0.90372367527173914" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jOQ-8e-o9h">
+                    <rect key="frame" x="326" y="693" width="150" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" image="lselected.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="switchTabButtonClick:" destination="-1" eventType="touchUpInside" id="cKW-c4-xva"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0OR-vD-NXE">
+                    <rect key="frame" x="484" y="693" width="150" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" image="eunselected.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="switchTabButtonClick:" destination="-1" eventType="touchUpInside" id="FQ2-sD-lQr"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="l8A-Oc-QqH">
+                    <rect key="frame" x="642" y="693" width="150" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" image="sunselected.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="switchTabButtonClick:" destination="-1" eventType="touchUpInside" id="bed-W3-KcH"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
     </objects>
+    <resources>
+        <image name="eunselected.png" width="150" height="50"/>
+        <image name="lselected.png" width="150" height="50"/>
+        <image name="sunselected.png" width="150" height="50"/>
+    </resources>
 </document>

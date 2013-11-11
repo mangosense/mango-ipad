@@ -755,7 +755,7 @@
         }];
         _correctNavigation=NO;
     }
-    [_segmentedControl setSelectedSegmentIndex:1];
+    [_segmentedControl setSelectedSegmentIndex:0];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=NO;
     delegate.LandscapeOrientation=YES;
@@ -1115,6 +1115,12 @@
     [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
     _index=_buttonTapped.tag;
     
+}
+
+- (IBAction)switchTabButtonClick:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    [self.tabBarController setSelectedIndex:button.tag];
+
 }
 /*Function Name : getRootFilePath
  *Return Type   : NSString - Returns the path to container.xml

@@ -443,7 +443,7 @@
       //  [self BuildButtons];
     }
       [Flurry logEvent:@"Downloads entered"];
-    
+    [_segmentedControl setSelectedSegmentIndex:2];
     
     
 }

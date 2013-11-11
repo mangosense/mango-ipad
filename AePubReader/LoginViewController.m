@@ -103,16 +103,17 @@
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
    /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-   // _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+ _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
     _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
-    CustomNavViewController *navigation=[[CustomNavViewController alloc]initWithRootViewController:_library];
-    CustomNavViewController *navigationPurchase=[[CustomNavViewController alloc]initWithRootViewController:_store];
+    CustomNavViewController *navigationLibrary=[[CustomNavViewController alloc]initWithRootViewController:_library];
+   // CustomNavViewController *navigationPurchase=[[CustomNavViewController alloc]initWithRootViewController:_store];
+    
   /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
       /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
     
     CustomNavViewController *storiesNavigationController = [[CustomNavViewController alloc] initWithRootViewController:storiesViewController];
-    
-    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase];//, navigationStore];
+    CustomNavViewController *customNav=[[CustomNavViewController alloc]initWithRootViewController:_storeNewViewController];
+    _tabBarController.viewControllers=@[ navigationLibrary,storiesNavigationController,customNav];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
     _tabBarController.hidesBottomBarWhenPushed=YES;

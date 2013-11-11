@@ -109,6 +109,7 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
  //   _pstCollectionView.contentSize= CGSizeMake(_pstCollectionView.contentSize.width,100);
+    [_segmentedControl setSelectedSegmentIndex:2];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -177,4 +178,13 @@
      return transform;
 }
 */
+- (IBAction)switchTabs:(id)sender {
+    UISegmentedControl *control=(UISegmentedControl *)sender;
+    [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
+
+}
+- (IBAction)switchTabButtonClick:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    [self.tabBarController setSelectedIndex:button.tag];
+}
 @end

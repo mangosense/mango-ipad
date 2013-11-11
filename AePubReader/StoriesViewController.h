@@ -18,5 +18,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *tamilLanguageButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedcontrol;
 - (IBAction)languageButtonTapped:(id)sender;
+- (IBAction)switchTabButtonClicked:(id)sender;
 
 @end

@@ -49,5 +49,6 @@
 - (IBAction)switchTabs:(id)sender;
 -(IBAction)shareButtonClicked:(id)sender;
 - (void)showBookButton:(UIButton *)sender;
+- (IBAction)switchTabButtonClick:(id)sender;
 -(void)AddShareButton:(id)sender;
 @end

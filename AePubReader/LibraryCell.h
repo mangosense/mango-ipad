@@ -14,4 +14,5 @@
 @property (retain, nonatomic) ShadowButton *button;
 @property(retain,nonatomic) UIButton *showRecording;
 @property(retain,nonatomic)UIButton *buttonDelete;
+@property(assign,nonatomic) BOOL downloaded;
 @end
