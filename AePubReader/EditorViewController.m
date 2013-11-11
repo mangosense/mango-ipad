@@ -654,7 +654,8 @@
     UIRotationGestureRecognizer *rotateRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotate:)];
     rotateRecognizer.delegate = self;
     someView.multipleTouchEnabled = YES;
-    [someView addGestureRecognizer:rotateRecognizer];
+    // Removing temporarily for bug fix
+    //[someView addGestureRecognizer:rotateRecognizer];
     
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
     pinchRecognizer.delegate = self;
@@ -677,7 +678,7 @@
 - (void) rotate:(UIRotationGestureRecognizer *)recognizer{
     NSLog(@"Rotate");
     recognizer.view.transform = CGAffineTransformRotate(recognizer.view.transform, recognizer.rotation);
-    rotateAngle = atan2f(recognizer.view.transform.b, recognizer.view.transform.a);;
+    rotateAngle = atan2f(recognizer.view.transform.b, recognizer.view.transform.a);
     NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
     recognizer.rotation = 0;
 }
@@ -747,7 +748,7 @@
             break;
         }
     }
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     
@@ -786,12 +787,12 @@
 - (void)showAssets {
     NSLog(@"Show Assets");
     
-    UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [takePhotoButton setTitle:@"Upload / Take A Photo" forState:UIControlStateNormal];
+    UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [takePhotoButton setImage:[UIImage imageNamed:@"upload_button.png"] forState:UIControlStateNormal];
     [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [takePhotoButton setFrame:CGRectMake(0, 44, 250, 30)];
     
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 88, 250, 500)];
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37*150);
@@ -801,14 +802,14 @@
     [assetTypeSegmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
     [assetTypeSegmentedControl setSelectedSegmentIndex:0];
     [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
-    [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 44)];
+    [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 30)];
 
     UIViewController *scrollViewController = [[UIViewController alloc] init];
     [scrollViewController.view setFrame:CGRectMake(0, 0, 250, 500)];
     [scrollViewController.view addSubview:assetsScrollView];
-    [scrollViewController.view addSubview:takePhotoButton];
     [scrollViewController.view addSubview:assetTypeSegmentedControl];
-        
+    [scrollViewController.view addSubview:takePhotoButton];
+
     arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
