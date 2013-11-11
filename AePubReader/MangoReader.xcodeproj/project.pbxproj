@@ -37,6 +37,7 @@
 		832CCD4F17BB4F2100FC05E3 /* f3905b0506.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD4517BB4F2100FC05E3 /* f3905b0506.mp3 */; };
 		833058A217F9901E00F48427 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A117F9901E00F48427 /* libz.1.1.3.dylib */; };
 		833058A417F9961A00F48427 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A317F9961A00F48427 /* Accounts.framework */; };
+		83347A221830E9ED002891EA /* AudioRecordingsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */; };
 		833765CF17D09BCE00262C26 /* AccordionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833765CE17D09BCE00262C26 /* AccordionView.m */; };
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
@@ -615,6 +616,8 @@
 		832CCD4517BB4F2100FC05E3 /* f3905b0506.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = f3905b0506.mp3; path = AngryBirdsEnglish/f3905b0506.mp3; sourceTree = "<group>"; };
 		833058A117F9901E00F48427 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		833058A317F9961A00F48427 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		83347A201830E9ED002891EA /* AudioRecordingsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingsListViewController.h; sourceTree = "<group>"; };
+		83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordingsListViewController.m; sourceTree = "<group>"; };
 		833765CD17D09BCE00262C26 /* AccordionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccordionView.h; sourceTree = "<group>"; };
 		833765CE17D09BCE00262C26 /* AccordionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccordionView.m; sourceTree = "<group>"; };
 		833DDD5617B8B689009BCA5C /* SmoothDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothDrawingView.h; sourceTree = "<group>"; };
@@ -1598,6 +1601,8 @@
 				83DD9BBC181133F9004C975F /* PageInfo.m */,
 				834FCE6D182D26BC0000181B /* MenuTableViewController.h */,
 				834FCE6E182D26BC0000181B /* MenuTableViewController.m */,
+				83347A201830E9ED002891EA /* AudioRecordingsListViewController.h */,
+				83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2915,6 +2920,7 @@
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
 				AE396BB5181F7E3D009C68E7 /* PSTCollectionViewFlowLayout.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
+				83347A221830E9ED002891EA /* AudioRecordingsListViewController.m in Sources */,
 				AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */,
 				AEA768E01611DA82002B9FDC /* DataModelControl.m in Sources */,
 				AED0B6D7161419E800EE1FD7 /* FileDownloader.m in Sources */,

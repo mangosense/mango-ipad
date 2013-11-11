@@ -655,7 +655,7 @@
     rotateRecognizer.delegate = self;
     someView.multipleTouchEnabled = YES;
     // Removing temporarily for bug fix
-    //[someView addGestureRecognizer:rotateRecognizer];
+    [someView addGestureRecognizer:rotateRecognizer];
     
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
     pinchRecognizer.delegate = self;
@@ -705,9 +705,10 @@
             viewImage = subviewImageView.image;
             if (viewImage) {
                 NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
-                [backgroundImageView drawSticker:viewImage inRect:[stickerView convertRect:subview.frame toView:backgroundImageView] WithTranslation:translatePoint AndRotation:-rotateAngle];
+                [backgroundImageView drawSticker:viewImage inRect:[self.view convertRect:[stickerView convertRect:subview.frame toView:self.view] toView:backgroundImageView] WithTranslation:CGPointMake(translatePoint.x - backgroundImageView.frame.origin.x, translatePoint.y - backgroundImageView.frame.origin.y) AndRotation:-rotateAngle];
             }
             [stickerView removeFromSuperview];
+            
             break;
         }
     }
@@ -735,7 +736,7 @@
     [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
     [stickerView addSubview:doneButton];
     
-    [backgroundImageView addSubview:stickerView];
+    [self.view addSubview:stickerView];
     
     rotateAngle = 0;
     translatePoint = stickerView.center;
@@ -772,15 +773,24 @@
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
         UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [[assetImageButton layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+        [[assetImageButton layer] setBorderWidth:1.0f];
+        [assetImageButton setBackgroundColor:COLOR_LIGHT_GREY];
         [assetImageButton setImage:image forState:UIControlStateNormal];
-        [assetImageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
+        CGFloat originX = 10;
+        if ([arrayOfImageNames indexOfObject:imageName]%2 == 0) {
+            originX = 10 + 5 + 112;
+        }
+        int level = [arrayOfImageNames indexOfObject:imageName]/2;
+        [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
         assetImageButton.tag = [arrayOfImageNames indexOfObject:imageName];
         [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
         [assetsScrollView addSubview:assetImageButton];
     }
-    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, [arrayOfImageNames count]*150 + 50);
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, ([arrayOfImageNames count]/2)*140);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
-    
+    [assetPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+
     [assetPopoverController.contentViewController.view addSubview:assetsScrollView];
 }
 
@@ -795,7 +805,7 @@
     UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
-    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37*150);
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37/2*140);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
     
     UISegmentedControl *assetTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All", @"Story", nil]];
@@ -814,8 +824,16 @@
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
         UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [[assetImageButton layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+        [[assetImageButton layer] setBorderWidth:1.0f];
+        [assetImageButton setBackgroundColor:COLOR_LIGHT_GREY];
         [assetImageButton setImage:image forState:UIControlStateNormal];
-        [assetImageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
+        CGFloat originX = 10;
+        if ([arrayOfImageNames indexOfObject:imageName]%2 == 0) {
+            originX = 10 + 5 + 112;
+        }
+        int level = [arrayOfImageNames indexOfObject:imageName]/2;
+        [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
         assetImageButton.tag = [arrayOfImageNames indexOfObject:imageName];
         [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
         [assetsScrollView addSubview:assetImageButton];
@@ -825,9 +843,9 @@
     [assetPopoverController setPopoverContentSize:CGSizeMake(250, backgroundImageView.frame.size.height)];
     assetPopoverController.delegate = self;
     [assetPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
+    [assetPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
 
     [assetPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-    
 }
 
 #pragma mark - Previous Next Page Methods

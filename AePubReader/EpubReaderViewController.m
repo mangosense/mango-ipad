@@ -295,7 +295,6 @@
 
     }else{
         _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(34, 33, 95,95)];
- 
     }
     [_progressView setColourR:0.0 G:1.0 B:0.0 A:1.0];
     [_recordControlView addSubview:_progressView];
