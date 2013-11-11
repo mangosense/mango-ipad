@@ -126,6 +126,7 @@
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
+    
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
 

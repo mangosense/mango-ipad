@@ -34,7 +34,7 @@ static UIAlertView *alertViewLoading;
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     _LandscapeOrientation=YES;
-    _PortraitOrientation=YES;
+    _PortraitOrientation=NO;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
  //   NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
     _wasFirstInPortrait=NO;

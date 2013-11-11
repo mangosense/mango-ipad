@@ -745,8 +745,9 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    
-    if (_correctNavigation) {
+    UIInterfaceOrientation orientation=UIInterfaceOrientationIsPortrait(self.interfaceOrientation);
+    orientation=[UIApplication sharedApplication].statusBarOrientation;
+    if (_correctNavigation||UIInterfaceOrientationIsPortrait(self.interfaceOrientation)||UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         UIViewController *c=[[UIViewController alloc]init];
         c.view.backgroundColor=[UIColor clearColor];
         [self presentViewController:c animated:YES completion:^(void){
@@ -756,7 +757,7 @@
     }
     [_segmentedControl setSelectedSegmentIndex:1];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    delegate.PortraitOrientation=YES;
+    delegate.PortraitOrientation=NO;
     delegate.LandscapeOrientation=YES;
   //  [UIViewController attemptRotationToDeviceOrientation];
   
