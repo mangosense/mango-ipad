@@ -17,6 +17,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "Google_TTS_BySham.h"
 #import "StoryJsonProcessor.h"
+#import "Constants.h"
+#import "MenuTableViewController.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -76,6 +78,20 @@
 @property (nonatomic, strong) NSString *frankfurtSpanishJson;
 @property (nonatomic, strong) NSString *frankfurtGermanJson;
 
+@property (nonatomic, strong) UIButton *mangoButton;
+@property (nonatomic, strong) UIButton *menuButton;
+@property (nonatomic, strong) UIButton *imageButton;
+@property (nonatomic, strong) UIButton *textButton;
+@property (nonatomic, strong) UIButton *audioButton;
+@property (nonatomic, strong) UIButton *gamesButton;
+@property (nonatomic, strong) UIButton *collaborationButton;
+@property (nonatomic, strong) UIButton *playPreviewButton;
+@property (nonatomic, strong) UIButton *pagesButton;
+
+@property (nonatomic, strong) UIImageView *pagesListBackgroundView;
+@property (nonatomic, strong) iCarousel *pagesListCarousel;
+@property (nonatomic, strong) UIPopoverController *menuPopoverController;
+
 - (void)getBookJson;
 
 @end
@@ -124,6 +140,20 @@
 @synthesize frankfurtEnglishJson;
 @synthesize frankfurtGermanJson;
 @synthesize frankfurtSpanishJson;
+
+@synthesize mangoButton;
+@synthesize menuButton;
+@synthesize imageButton;
+@synthesize textButton;
+@synthesize audioButton;
+@synthesize gamesButton;
+@synthesize collaborationButton;
+@synthesize playPreviewButton;
+@synthesize pagesButton;
+
+@synthesize pagesListBackgroundView;
+@synthesize pagesListCarousel;
+@synthesize menuPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -482,10 +512,6 @@
     [arrayOfPages addObject:newPageDictionary];
     NSLog(@"arrayOfPages = %@", arrayOfPages);
     
-    //Create new page thumbnail in scroll view
-    CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, [arrayOfPages count]*150);
-    pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
-
     if (!backgroundImagesArray) {
         backgroundImagesArray = [[NSMutableArray alloc] init];
     }
@@ -512,17 +538,8 @@
             [[pageButton layer] setShadowRadius:2];
             [[pageButton layer] setShouldRasterize:YES];
             
-            [pageScrollView addSubview:pageButton];
-            
-            CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, ([arrayOfPages count]+1)*150);
-            pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
-            // Add New Page Button
-            if (addNewPageButton) {
-                [addNewPageButton removeFromSuperview];
-            }
-            [self creatAddNewPageButton];
-            //Display newly created page
-            [self createPageWithPageNumber:[arrayOfPages count]-1];
+            [pagesListCarousel reloadData];
+            [self carousel:pagesListCarousel didSelectItemAtIndex:[arrayOfPages count]-1];
         }
     } failureBlock:^(NSError *myerror) {
         NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
@@ -587,7 +604,7 @@
                 
                 photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
                 photoPopoverController.delegate = self;
-                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 44, 250, 44) inView:backgroundImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
             }
         }
             break;
@@ -601,7 +618,7 @@
 
 - (void)cameraButtonTapped {
     UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
-    [photoActionSheet showFromRect:CGRectMake(0, 0, 44, 44) inView:cameraButton animated:YES];
+    [photoActionSheet showFromRect:CGRectMake(0, 44, 250, 44) inView:backgroundImageView animated:YES];
 }
 
 #pragma mark - Awesome Menu Delegate
@@ -637,7 +654,8 @@
     UIRotationGestureRecognizer *rotateRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotate:)];
     rotateRecognizer.delegate = self;
     someView.multipleTouchEnabled = YES;
-    [someView addGestureRecognizer:rotateRecognizer];
+    // Removing temporarily for bug fix
+    //[someView addGestureRecognizer:rotateRecognizer];
     
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
     pinchRecognizer.delegate = self;
@@ -660,7 +678,7 @@
 - (void) rotate:(UIRotationGestureRecognizer *)recognizer{
     NSLog(@"Rotate");
     recognizer.view.transform = CGAffineTransformRotate(recognizer.view.transform, recognizer.rotation);
-    rotateAngle = atan2f(recognizer.view.transform.b, recognizer.view.transform.a);;
+    rotateAngle = atan2f(recognizer.view.transform.b, recognizer.view.transform.a);
     NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
     recognizer.rotation = 0;
 }
@@ -730,8 +748,8 @@
             break;
         }
     }
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
-    assetsScrollView.backgroundColor = [UIColor whiteColor];
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, 250, 500)];
+    assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     
     UISegmentedControl *control = (UISegmentedControl *)sender;
@@ -753,12 +771,12 @@
     
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
-        UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [imageButton setImage:image forState:UIControlStateNormal];
-        [imageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
-        imageButton.tag = [arrayOfImageNames indexOfObject:imageName];
-        [imageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
-        [assetsScrollView addSubview:imageButton];
+        UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [assetImageButton setImage:image forState:UIControlStateNormal];
+        [assetImageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
+        assetImageButton.tag = [arrayOfImageNames indexOfObject:imageName];
+        [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
+        [assetsScrollView addSubview:assetImageButton];
     }
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, [arrayOfImageNames count]*150 + 50);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
@@ -769,8 +787,13 @@
 - (void)showAssets {
     NSLog(@"Show Assets");
     
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 250, 500)];
-    assetsScrollView.backgroundColor = [UIColor whiteColor];
+    UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [takePhotoButton setImage:[UIImage imageNamed:@"upload_button.png"] forState:UIControlStateNormal];
+    [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [takePhotoButton setFrame:CGRectMake(0, 44, 250, 30)];
+    
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 250, 500)];
+    assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37*150);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
@@ -779,28 +802,32 @@
     [assetTypeSegmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
     [assetTypeSegmentedControl setSelectedSegmentIndex:0];
     [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
-    [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 44)];
+    [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 30)];
 
     UIViewController *scrollViewController = [[UIViewController alloc] init];
     [scrollViewController.view setFrame:CGRectMake(0, 0, 250, 500)];
     [scrollViewController.view addSubview:assetsScrollView];
     [scrollViewController.view addSubview:assetTypeSegmentedControl];
-        
+    [scrollViewController.view addSubview:takePhotoButton];
+
     arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
-        UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [imageButton setImage:image forState:UIControlStateNormal];
-        [imageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
-        imageButton.tag = [arrayOfImageNames indexOfObject:imageName];
-        [imageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
-        [assetsScrollView addSubview:imageButton];
+        UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [assetImageButton setImage:image forState:UIControlStateNormal];
+        [assetImageButton setFrame:CGRectMake(65, [arrayOfImageNames indexOfObject:imageName]*150 + 15, 120, 120)];
+        assetImageButton.tag = [arrayOfImageNames indexOfObject:imageName];
+        [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
+        [assetsScrollView addSubview:assetImageButton];
     }
     
     assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollViewController];
-    [assetPopoverController setPopoverContentSize:CGSizeMake(250, 500)];
+    [assetPopoverController setPopoverContentSize:CGSizeMake(250, backgroundImageView.frame.size.height)];
     assetPopoverController.delegate = self;
-    [assetPopoverController presentPopoverFromRect:CGRectMake(0, 100 + 2*200/3 + 150 + 10, 200, 45) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    [assetPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
+
+    [assetPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    
 }
 
 #pragma mark - Previous Next Page Methods
@@ -838,7 +865,193 @@
     }];
 }
 
+#pragma mark - Menu Actions
+
+- (void)menuButtonTapped {
+    MenuTableViewController *menuTableViewController = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:menuTableViewController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 350) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
+    [menuPopoverController presentPopoverFromRect:menuButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+}
+
+- (void)imageButtonTapped {
+    [self showAssets];
+}
+
+- (void)audioButtonTapped {
+    
+}
+
+- (void)textButtonTapped {
+    
+}
+
+- (void)gamesButtonTapped {
+    
+}
+
+- (void)collaborationButtonTapped {
+    
+}
+
+- (void)playPreviewButtonTapped {
+    
+}
+
+#define PAGES_SELECTED_TAG 1
+#define PAGES_UNSELECTED_TAG 0
+- (void)pagesButtonTapped {
+    if (pagesButton.tag == PAGES_SELECTED_TAG) {
+        [pagesListBackgroundView removeFromSuperview];
+        [self setupButton:pagesButton withImage:[UIImage imageNamed:@"pagesbutton.png"] belowButton:playPreviewButton withShadow:NO andSelector:@selector(pagesButtonTapped)];
+        [pagesListCarousel removeFromSuperview];
+        pagesButton.tag = PAGES_UNSELECTED_TAG;
+    } else {
+        pagesListBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(pagesButton.frame.origin.x + 5, pagesButton.frame.origin.y + 6, self.view.frame.size.width - 25, 108)];
+        [pagesListBackgroundView setImage:[[UIImage imageNamed:@"pagesbg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(75, 200, 15, 200) resizingMode:UIImageResizingModeStretch]];
+        [self.view addSubview:pagesListBackgroundView];
+        
+        [self createPagesListCarouselView];
+        
+        [self setupButton:pagesButton withImage:[UIImage imageNamed:@"pagesbutton_selected.png"] belowButton:playPreviewButton withShadow:NO andSelector:@selector(pagesButtonTapped)];
+        [self.view bringSubviewToFront:pagesButton];
+        pagesButton.tag = PAGES_SELECTED_TAG;
+    }
+}
+
+#pragma mark - Populate backgroundImagesArray
+
+- (void)populateBackgroundImagesArray {
+    if (!backgroundImagesArray) {
+        backgroundImagesArray = [[NSMutableArray alloc] init];
+    }
+
+    for (NSDictionary *dictionaryForPage in arrayOfPages) {
+        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:LAYERS]) {
+            if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+                NSURL *asseturl = [layerDict objectForKey:@"url"];
+                ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+                [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                    ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                    CGImageRef iref = [rep fullResolutionImage];
+                    if (iref) {
+                        UIImage *image = [UIImage imageWithCGImage:iref];
+                        [backgroundImagesArray addObject:image];
+                    }
+                } failureBlock:^(NSError *myerror) {
+                    NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+                }];
+                
+            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+                [backgroundImagesArray addObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
+            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"widget"]) {
+                [backgroundImagesArray addObject:[[UIImage alloc] init]];
+            }
+        }
+    }
+}
+
+#pragma mark - iCarousel Delegate/Datasource
+
+- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
+    return [arrayOfPages count] + 1;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
+    
+    UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [pageButton setFrame:CGRectMake(0, 0, 130, 90)];
+
+    if (index < [arrayOfPages count]) {
+        NSDictionary *dictionaryForPage = [arrayOfPages objectAtIndex:index];
+
+        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:LAYERS]) {
+            if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+                NSURL *asseturl = [layerDict objectForKey:@"url"];
+                ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+                [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                    ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                    CGImageRef iref = [rep fullResolutionImage];
+                    if (iref) {
+                        UIImage *image = [UIImage imageWithCGImage:iref];
+                        [pageButton setImage:image forState:UIControlStateNormal];
+                        pageButton.tag = [backgroundImagesArray indexOfObject:image];
+                    }
+                } failureBlock:^(NSError *myerror) {
+                    NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+                }];
+            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+                [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
+                pageButton.tag = [backgroundImagesArray indexOfObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
+            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"widget"]) {
+                pageButton.tag = [backgroundImagesArray count]-1;
+                
+                if ([[layerDict objectForKey:@"wid"] intValue] == 4 || [[layerDict objectForKey:@"wid"] intValue] == 7) {
+                    [pageButton setImage:[UIImage imageNamed:@"page1.jpg"] forState:UIControlStateNormal];
+                } else if ([[layerDict objectForKey:@"wid"] intValue] == 5 || [[layerDict objectForKey:@"wid"] intValue] == 8) {
+                    [pageButton setImage:[UIImage imageNamed:@"3.jpg"] forState:UIControlStateNormal];
+                } else if ([[layerDict objectForKey:@"wid"] intValue] == 6 || [[layerDict objectForKey:@"wid"] intValue] == 9) {
+                    [pageButton setImage:[UIImage imageNamed:@"q1.jpg"] forState:UIControlStateNormal];
+                }
+            }
+        }
+    } else {
+        [pageButton setImage:[UIImage imageNamed:@"addnewpage.png"] forState:UIControlStateNormal];
+        pageButton.tag = [arrayOfPages count];
+    }
+    
+    [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
+    return pageButton;
+}
+
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
+    [self createPageWithPageNumber:index];
+}
+
+- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
+{
+    //customize carousel display
+    switch (option)
+    {
+        case iCarouselOptionWrap:
+        {
+            //normally you would hard-code this to YES or NO
+            return NO;
+        }
+        case iCarouselOptionSpacing:
+        {
+            //add a bit of spacing between the item views
+            return value * 1.05f;
+        }
+        case iCarouselOptionFadeMax:
+        {
+            if (carousel.type == iCarouselTypeCustom)
+            {
+                //set opacity based on distance from camera
+                return 0.0f;
+            }
+            return value;
+        }
+        default:
+        {
+            return value;
+        }
+    }
+}
+
 #pragma mark - Prepare UI
+
+- (void)createPagesListCarouselView {
+    pagesListCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(pagesButton.frame.origin.x + 65, pagesButton.frame.origin.y + 6, self.view.frame.size.width - 110, 108)];
+    [pagesListCarousel setClipsToBounds:YES];
+    pagesListCarousel.type = iCarouselTypeLinear;
+    [pagesListCarousel setBackgroundColor:[UIColor clearColor]];
+    pagesListCarousel.delegate = self;
+    pagesListCarousel.dataSource = self;
+    
+    [self.view addSubview:pagesListCarousel];
+}
 
 - (void)showAudioControl {
     if (audioRecViewController.view.isHidden == YES) {
@@ -918,21 +1131,24 @@
     return paintMenu;
 }
 
-- (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton {
+- (void)setupButton:(UIButton *)button withImage:(UIImage *)buttonImage belowButton:(UIView *)upperButton withShadow:(BOOL)shadowEnabled andSelector:(SEL)selector {
     CGFloat originY = 0;
     if (upperButton) {
-        originY = upperButton.frame.origin.y + 30;
+        originY = upperButton.frame.origin.y + upperButton.frame.size.height;
     }
-    [button setFrame:CGRectMake(28, originY, 44, 44)];
+    [button setFrame:CGRectMake(upperButton.frame.origin.x, originY, upperButton.frame.size.width, upperButton.frame.size.height)];
     [button setImage:buttonImage forState:UIControlStateNormal];
     [[button layer] setCornerRadius:button.frame.size.height/20];
     [button setUserInteractionEnabled:YES];
     [[button layer] setMasksToBounds:NO];
-    [[button layer] setShadowColor:[[UIColor blackColor] CGColor]];
-    [[button layer] setShadowOffset:CGSizeMake(3, 3)];
-    [[button layer] setShadowOpacity:0.3f];
-    [[button layer] setShadowRadius:5];
-    [[button layer] setShouldRasterize:YES];
+    if (shadowEnabled) {
+        [[button layer] setShadowColor:[[UIColor blackColor] CGColor]];
+        [[button layer] setShadowOffset:CGSizeMake(3, 3)];
+        [[button layer] setShadowOpacity:0.3f];
+        [[button layer] setShadowRadius:5];
+        [[button layer] setShouldRasterize:YES];
+    }
+    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setupScrollView:(UIView *)theView withImage:(UIImage *)image {
@@ -970,25 +1186,22 @@
     
     // Record Audio Button
     recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:header];
-    [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:recordAudioButton withImage:[UIImage imageNamed:@"record-control.png"] belowButton:header withShadow:YES andSelector:@selector(recordAudio)];
     [staticToolsView addSubview:recordAudioButton];
     
     playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:playButton withImage:[UIImage imageNamed:@"play-control.png"] belowButton:header];
-    [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:playButton withImage:[UIImage imageNamed:@"play-control.png"] belowButton:header withShadow:YES andSelector:@selector(playRecording)];
     [playButton setFrame:CGRectMake(128, playButton.frame.origin.y, 44, 44)];
     [staticToolsView addSubview:playButton];
     
     // Camera Button
     cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:playButton];
-    [cameraButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self setupButton:cameraButton withImage:[UIImage imageNamed:@"camera_gray_round.png"] belowButton:playButton withShadow:YES andSelector:@selector(cameraButtonTapped)];
     [cameraButton setFrame:CGRectMake(128, 104, 44, 44)];
     [staticToolsView addSubview:cameraButton];
     
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self setupButton:shareButton withImage:[UIImage imageNamed:@"sharebutton.png"] belowButton:recordAudioButton];
+    [self setupButton:shareButton withImage:[UIImage imageNamed:@"sharebutton.png"] belowButton:recordAudioButton withShadow:YES andSelector:nil];
     [shareButton setFrame:CGRectMake(28, 104, 44, 44)];
     //[shareButton addTarget:self action:@selector(showPublishDetailsView) forControlEvents:UIControlEventTouchUpInside];
     [staticToolsView addSubview:shareButton];
@@ -1011,13 +1224,14 @@
     [self.view bringSubviewToFront:previousPageButton];
 }
 
+// Removing for new UI
+/*
 - (void)createToolView {
     // Show Scroll View Button
     [self createScrollViewButton];
         
-    drawerView = [[UIView alloc] initWithFrame:CGRectMake(-200, 0, 200, self.view.frame.size.height)];
-    [[drawerView layer] setBorderColor:[[UIColor blackColor] CGColor]];
-    [[drawerView layer] setBorderWidth:2.0f];
+    drawerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 80, self.view.frame.size.height)];
+    [drawerView setBackgroundColor:COLOR_GREY];
     
     accordion = [[AccordionView alloc] initWithFrame:CGRectMake(0, 0, 200, drawerView.frame.size.height - 180)];
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
@@ -1045,12 +1259,10 @@
     [self selectedColor:RED_BUTTON_TAG];
     [self widthOfBrush:5.0f];
     [self widthOfEraser:20.0f];
-    
     [accordion setNeedsLayout];
     // Set this if you want to allow multiple selection
     [accordion setAllowsMultipleSelection:NO];
     [accordion setSelectedIndex:1];
-
     [drawerView addSubview:accordion];
     
     staticToolsView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 180, 200, 180)];
@@ -1058,11 +1270,12 @@
     [self createStaticToolsView];
     [drawerView addSubview:staticToolsView];
     
-    [self createPreviousAndNextButtons];
-    
     [self.view addSubview:drawerView];
+    
+    [self createPreviousAndNextButtons];
 }
-
+*/
+ 
 - (void)wordTapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"Clicked");
     
@@ -1083,12 +1296,57 @@
     
 }
 
+- (void)createMenus {
+    [self.view setBackgroundColor:COLOR_GREY];
+    
+    mangoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [mangoButton setImage:[UIImage imageNamed:@"mangoicon.png"] forState:UIControlStateNormal];
+    [mangoButton setFrame:CGRectMake(10, backgroundImageView.frame.origin.y - 10, 60, 70)];
+    [self.view addSubview:mangoButton];
+    
+    menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:menuButton withImage:[UIImage imageNamed:@"menubutton.png"] belowButton:mangoButton withShadow:NO andSelector:@selector(menuButtonTapped)];
+    [self.view addSubview:menuButton];
+    
+    imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [imageButton setImage:[UIImage imageNamed:@"imagebutton.png"] forState:UIControlStateNormal];
+    [imageButton setFrame:CGRectMake(10, menuButton.frame.origin.y + menuButton.frame.size.height + 20, 60, 60)];
+    [imageButton addTarget:self action:@selector(imageButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imageButton];
+    
+    textButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:textButton withImage:[UIImage imageNamed:@"textbutton.png"] belowButton:imageButton withShadow:NO andSelector:@selector(textButtonTapped)];
+    [self.view addSubview:textButton];
+
+    audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:audioButton withImage:[UIImage imageNamed:@"audiobutton.png"] belowButton:textButton withShadow:NO andSelector:@selector(audioButtonTapped)];
+    [self.view addSubview:audioButton];
+
+    gamesButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:gamesButton withImage:[UIImage imageNamed:@"gamebutton.png"] belowButton:audioButton withShadow:NO andSelector:@selector(gamesButtonTapped)];
+    [self.view addSubview:gamesButton];
+
+    collaborationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:collaborationButton withImage:[UIImage imageNamed:@"collaborationbutton.png"] belowButton:gamesButton withShadow:NO andSelector:@selector(collaborationButtonTapped)];
+    [self.view addSubview:collaborationButton];
+    
+    playPreviewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [playPreviewButton setFrame:CGRectMake(10, backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height - 55, 60, 60)];
+    [playPreviewButton setImage:[UIImage imageNamed:@"playbuttonnew.png"] forState:UIControlStateNormal];
+    [playPreviewButton addTarget:self action:@selector(playPreviewButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:playPreviewButton];
+    
+    pagesButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setupButton:pagesButton withImage:[UIImage imageNamed:@"pagesbutton.png"] belowButton:playPreviewButton withShadow:NO andSelector:@selector(pagesButtonTapped)];
+    [self.view addSubview:pagesButton];
+}
+
 - (void)createInitialUI {
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo1.png"]];
     self.navigationItem.titleView=imageView;
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
 
-    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:self.view.frame];
+    backgroundImageView = [[SmoothDrawingView alloc] initWithFrame:CGRectMake(80, 15, self.view.frame.size.width - 105, self.view.frame.size.height - 210)];
     backgroundImageView.delegate = self;
     // Temporarily adding fixed image
     [self.view addSubview:backgroundImageView];
@@ -1107,7 +1365,11 @@
     
     [backgroundImageView addSubview:mainTextView];
     
-    [self createToolView];
+    // Removing for new UI
+    //[self createToolView];
+    
+    // For new UI
+    [self createMenus];
 }
 
 - (void)createPageWithPageNumber:(NSInteger)pageNumber {
@@ -1209,29 +1471,8 @@
             backgroundImagesArray = [[NSMutableArray alloc] init];
         }
         [backgroundImagesArray addObject:[UIImage imageNamed:[imageDict objectForKey:@"url"]]];
-        
-        UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [pageButton setImage:[UIImage imageNamed:[imageDict objectForKey:@"url"]] forState:UIControlStateNormal];
-        [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
-        CGFloat yOffsetForButton = [arrayOfPages indexOfObject:newPageDict]*150;
-        [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
-        pageButton.tag = [backgroundImagesArray count] - 1;
-        [[pageButton layer] setMasksToBounds:NO];
-        [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-        [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
-        [[pageButton layer] setShadowOpacity:0.3f];
-        [[pageButton layer] setShadowRadius:2];
-        [[pageButton layer] setShouldRasterize:YES];
-        [pageScrollView addSubview:pageButton];
-        
-        CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, ([arrayOfPages count]+1)*150);
-        pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
-        // Add New Page Button
-        if (addNewPageButton) {
-            [addNewPageButton removeFromSuperview];
-        }
-        [self creatAddNewPageButton];
-        [self createPageWithPageNumber:pageNumber];
+        [pagesListCarousel reloadData];
+        [self carousel:pagesListCarousel didSelectItemAtIndex:[arrayOfPages count] - 1];
     }
     
     if ([[self.view subviews] containsObject:playButton]) {
@@ -1308,105 +1549,6 @@
     [pageScrollView addSubview:addNewPageButton];
 }
 
-- (void)createScrollView {
-    CGFloat minContentHeight = MAX(pageScrollView.frame.size.height, ([arrayOfPages count]+1)*150);
-    pageScrollView.contentSize = CGSizeMake(pageScrollView.frame.size.width, minContentHeight);
-    for (NSDictionary *dictionaryForPage in arrayOfPages) {
-        for (NSDictionary *layerDict in [dictionaryForPage objectForKey:@"layers"]) {
-            if ([[layerDict objectForKey:@"type"] isEqualToString:@"capturedImage"]) {
-                if (!backgroundImagesArray) {
-                    backgroundImagesArray = [[NSMutableArray alloc] init];
-                }
-                
-                NSURL *asseturl = [layerDict objectForKey:@"url"];
-                ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
-                [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
-                     ALAssetRepresentation *rep = [myasset defaultRepresentation];
-                     CGImageRef iref = [rep fullResolutionImage];
-                     if (iref) {
-                         UIImage *image = [UIImage imageWithCGImage:iref];
-                         [backgroundImagesArray addObject:image];
-                         
-                         UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                         [pageButton setImage:image forState:UIControlStateNormal];
-                         [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
-                         CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                         [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
-                         pageButton.tag = [backgroundImagesArray indexOfObject:image];
-                         
-                         [[pageButton layer] setMasksToBounds:NO];
-                         [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-                         [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
-                         [[pageButton layer] setShadowOpacity:0.3f];
-                         [[pageButton layer] setShadowRadius:2];
-                         [[pageButton layer] setShouldRasterize:YES];
-                         
-                         [pageScrollView addSubview:pageButton];
-                     }
-                 } failureBlock:^(NSError *myerror) {
-                     NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
-                 }];
-
-            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
-                
-                if (!backgroundImagesArray) {
-                    backgroundImagesArray = [[NSMutableArray alloc] init];
-                }
-                [backgroundImagesArray addObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
-                
-                UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:@"url"]] forState:UIControlStateNormal];
-                [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
-                CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
-                pageButton.tag = [backgroundImagesArray indexOfObject:[UIImage imageNamed:[layerDict objectForKey:@"url"]]];
-                
-                [[pageButton layer] setMasksToBounds:NO];
-                [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-                [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
-                [[pageButton layer] setShadowOpacity:0.3f];
-                [[pageButton layer] setShadowRadius:2];
-                [[pageButton layer] setShouldRasterize:YES];
-                
-                [pageScrollView addSubview:pageButton];
-                
-            } else if ([[layerDict objectForKey:@"type"] isEqualToString:@"widget"]) {
-                if (!backgroundImagesArray) {
-                    backgroundImagesArray = [[NSMutableArray alloc] init];
-                }
-                [backgroundImagesArray addObject:[[UIImage alloc] init]];
-                
-                UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [pageButton addTarget:self action:@selector(createPageForSender:) forControlEvents:UIControlEventTouchUpInside];
-                CGFloat yOffsetForButton = [arrayOfPages indexOfObject:dictionaryForPage]*150;
-                [pageButton setFrame:CGRectMake(15, 15 + yOffsetForButton, 160, 120)];
-                pageButton.tag = [backgroundImagesArray count]-1;
-                
-                [[pageButton layer] setMasksToBounds:NO];
-                [[pageButton layer] setShadowColor:[[UIColor blackColor] CGColor]];
-                [[pageButton layer] setShadowOffset:CGSizeMake(10, 10)];
-                [[pageButton layer] setShadowOpacity:0.3f];
-                [[pageButton layer] setShadowRadius:2];
-                [[pageButton layer] setShouldRasterize:YES];
-                
-                if ([[layerDict objectForKey:@"wid"] intValue] == 4 || [[layerDict objectForKey:@"wid"] intValue] == 7) {
-                    [pageButton setImage:[UIImage imageNamed:@"page1.jpg"] forState:UIControlStateNormal];
-                } else if ([[layerDict objectForKey:@"wid"] intValue] == 5 || [[layerDict objectForKey:@"wid"] intValue] == 8) {
-                    [pageButton setImage:[UIImage imageNamed:@"3.jpg"] forState:UIControlStateNormal];
-                } else if ([[layerDict objectForKey:@"wid"] intValue] == 6 || [[layerDict objectForKey:@"wid"] intValue] == 9) {
-                    [pageButton setImage:[UIImage imageNamed:@"q1.jpg"] forState:UIControlStateNormal];
-                }
-                
-                [pageScrollView addSubview:pageButton];
-
-            }
-        }
-    }
-    
-    // Add New Page Button
-    [self creatAddNewPageButton];
-}
-
 #pragma mark - Parsing Book Json
 
 - (void)processJson:(NSDictionary *)jsonDict {
@@ -1470,7 +1612,7 @@
     NSLog(@"number of pages: %d", [arrayOfPages count]);
     [self processJson:[arrayOfPages objectAtIndex:1]];
     
-    [self createScrollView];
+    [self populateBackgroundImagesArray];
     [self createPageWithPageNumber:0];
 
 }
