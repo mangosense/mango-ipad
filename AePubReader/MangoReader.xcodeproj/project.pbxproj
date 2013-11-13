@@ -267,6 +267,7 @@
 		83F4870718016CEE00AE3AAE /* f904671842.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BE18016CEE00AE3AAE /* f904671842.jpg */; };
 		83F4870818016CEE00AE3AAE /* fe3eb3df4c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BF18016CEE00AE3AAE /* fe3eb3df4c.jpg */; };
 		83F4870918016CEE00AE3AAE /* original_051d26889e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */; };
+		83F4F36D1833498900732315 /* AudioRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4F36C1833498900732315 /* AudioRecord.m */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
 		AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0890A31823B3B70028035F /* DetailViewControllerStore.m */; };
 		AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */; };
@@ -872,6 +873,8 @@
 		83F486BE18016CEE00AE3AAE /* f904671842.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = f904671842.jpg; sourceTree = "<group>"; };
 		83F486BF18016CEE00AE3AAE /* fe3eb3df4c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fe3eb3df4c.jpg; sourceTree = "<group>"; };
 		83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original_051d26889e.jpg; sourceTree = "<group>"; };
+		83F4F36B1833498900732315 /* AudioRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecord.h; sourceTree = "<group>"; };
+		83F4F36C1833498900732315 /* AudioRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecord.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
 		AE0890A21823B3B70028035F /* DetailViewControllerStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewControllerStore.h; sourceTree = "<group>"; };
@@ -1610,6 +1613,8 @@
 				834FCE6E182D26BC0000181B /* MenuTableViewController.m */,
 				83347A201830E9ED002891EA /* AudioRecordingsListViewController.h */,
 				83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */,
+				83F4F36B1833498900732315 /* AudioRecord.h */,
+				83F4F36C1833498900732315 /* AudioRecord.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -2964,6 +2969,7 @@
 				AEEF8472166C90FB0098BAA2 /* LoginViewControllerIphone.m in Sources */,
 				AEFA9BF5166CC44200A60A12 /* SignUpViewControllerIphone.m in Sources */,
 				AEFA9BF9166CC80900A60A12 /* MyBooksViewController.m in Sources */,
+				83F4F36D1833498900732315 /* AudioRecord.m in Sources */,
 				AEFA9BFC166CC84700A60A12 /* DownloadViewController.m in Sources */,
 				AE8D2610166DCA0400156F43 /* ListOfPurchasedBooks.m in Sources */,
 				AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */,

@@ -21,6 +21,7 @@
 #import "MenuTableViewController.h"
 #import "Flickr.h"
 #import "FlickrPhoto.h"
+#import "AudioRecordingsListViewController.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -999,7 +1000,27 @@
 }
 
 - (void)audioButtonTapped {
+    UIButton *recordNewAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [recordNewAudioButton setImage:[UIImage imageNamed:@"recordaudio_button.png"] forState:UIControlStateNormal];
+    [recordNewAudioButton addTarget:self action:@selector(showAudioControl) forControlEvents:UIControlEventTouchUpInside];
+    [recordNewAudioButton setFrame:CGRectMake(0, 0, 250, 30)];
     
+    AudioRecordingsListViewController *audioListController = [[AudioRecordingsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [audioListController.view setFrame:CGRectMake(0, 35, 250, backgroundImageView.frame.size.height - 40)];
+    
+    UIViewController *containerViewController = [[UIViewController alloc] init];
+    [containerViewController.view setFrame:CGRectMake(0, 0, 250, backgroundImageView.frame.size.height)];
+    [containerViewController.view addSubview:audioListController.view];
+    [containerViewController.view addSubview:recordNewAudioButton];
+    
+    assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:containerViewController];
+    [assetPopoverController setPopoverContentSize:CGSizeMake(250, backgroundImageView.frame.size.height)];
+    assetPopoverController.delegate = self;
+    [assetPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
+    [assetPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+    
+    [assetPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+
 }
 
 - (void)textButtonTapped {
@@ -1623,11 +1644,12 @@
     
     if (!audioRecViewController) {
         audioRecViewController = [[AudioRecordingViewController alloc] initWithNibName:@"AudioRecordingViewController" bundle:nil];
-        [audioRecViewController.view setFrame:CGRectMake(self.view.frame.size.width - 205, self.view.frame.size.height - 205, 200, 200)];
+        [audioRecViewController.view setFrame:CGRectMake(backgroundImageView.center.x - 100, backgroundImageView.center.y - 100, 200, 200)];
         audioRecViewController.view.alpha = 0.0f;
         [audioRecViewController.view setHidden:YES];
         [self.view addSubview:audioRecViewController.view];
     }
+    [audioRecViewController.view setHidden:YES];
     audioRecViewController.audioUrl = url;
     [audioRecViewController stopPlaying];
     

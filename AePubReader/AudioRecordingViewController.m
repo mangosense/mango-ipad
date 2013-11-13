@@ -42,6 +42,7 @@ enum
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self.recordButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,8 +66,11 @@ enum
 }
 
 - (void)recordAudio {
-    [self.recordButton setImage:[UIImage imageNamed:@"recordbuttonpressed.png"] forState:UIControlStateNormal];
-
+    // Removing for new UI
+    //[self.recordButton setImage:[UIImage imageNamed:@"recordbuttonpressed.png"] forState:UIControlStateNormal];
+    [self.recordButton addTarget:self action:@selector(stopRecording) forControlEvents:UIControlEventTouchUpInside];
+    [self.recordButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
+    
     NSLog(@"startRecording");
     
     // Init audio with record capability
@@ -144,7 +148,10 @@ enum
 
 - (void)stopRecording
 {
-    [self.recordButton setImage:[UIImage imageNamed:@"recordbutton.png"] forState:UIControlStateNormal];
+    // Removing for new UI
+    //[self.recordButton setImage:[UIImage imageNamed:@"recordbutton.png"] forState:UIControlStateNormal];
+    [self.recordButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [self.recordButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
     NSLog(@"stopRecording");
     [audioRecorder stop];
     NSLog(@"stopped");

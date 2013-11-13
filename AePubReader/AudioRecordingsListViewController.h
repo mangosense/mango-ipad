@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AudioRecordingsListViewController : UITableViewController
+@interface AudioRecordingsListViewController : UITableViewController {
+    NSMutableArray *audioRecordingsListArray;
+}
+
+@property (nonatomic, strong) NSMutableArray *audioRecordingsListArray;
 
 @end

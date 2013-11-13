@@ -7,12 +7,15 @@
 //
 
 #import "AudioRecordingsListViewController.h"
+#import "AudioRecord.h"
 
 @interface AudioRecordingsListViewController ()
 
 @end
 
 @implementation AudioRecordingsListViewController
+
+@synthesize audioRecordingsListArray;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -45,21 +48,27 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 0;
+    return [audioRecordingsListArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 0;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    AudioRecord *audioRecord = [audioRecordingsListArray objectAtIndex:indexPath.section];
+    cell.textLabel.text = audioRecord.audioName;
     
     return cell;
 }
