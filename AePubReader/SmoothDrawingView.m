@@ -201,7 +201,7 @@ uint ctr;
     [incrementalImage drawInRect:self.bounds];
     
     stickerImage = [stickerImage imageRotatedByRadians:-angle];
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20*(frame.size.height/120) - frame.size.height/2);
+    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), tranlatePoint.x - frame.size.width/2, tranlatePoint.y - 20*(frame.size.height/120)/*120 = initial height*/ - frame.size.height/2);
     [stickerImage drawInRect:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     
     incrementalImage = UIGraphicsGetImageFromCurrentImageContext();

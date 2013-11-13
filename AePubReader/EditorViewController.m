@@ -19,6 +19,8 @@
 #import "StoryJsonProcessor.h"
 #import "Constants.h"
 #import "MenuTableViewController.h"
+#import "Flickr.h"
+#import "FlickrPhoto.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -91,6 +93,7 @@
 @property (nonatomic, strong) UIImageView *pagesListBackgroundView;
 @property (nonatomic, strong) iCarousel *pagesListCarousel;
 @property (nonatomic, strong) UIPopoverController *menuPopoverController;
+@property (nonatomic, strong) NSArray *flickerResultsArray;
 
 - (void)getBookJson;
 
@@ -154,6 +157,7 @@
 @synthesize pagesListBackgroundView;
 @synthesize pagesListCarousel;
 @synthesize menuPopoverController;
+@synthesize flickerResultsArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -695,7 +699,96 @@
     NSLog(@"Long Pressed");
 }
 
+#pragma mark - TextViewDelegate
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    Flickr *flickr = [[Flickr alloc] init];
+    UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [loadingView setFrame:CGRectMake(self.view.center.x - 20, self.view.center.y - 20, 40, 40)];
+    [loadingView setHidesWhenStopped:YES];
+    [self.view addSubview:loadingView];
+    [loadingView startAnimating];
+    [flickr searchFlickrForTerm:textView.text completionBlock:^(NSString *searchTerm, NSArray *results, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [loadingView stopAnimating];
+        });
+        if(results && [results count] > 0) {
+            NSLog(@"Found %d photos matching %@", [results count],searchTerm);
+            NSLog(@"Results: %@", results);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loadFlickrPhotos:results];
+            });
+        } else {
+            NSLog(@"Error searching Flickr: %@", error.localizedDescription);
+        }
+    }];
+}
+
 #pragma mark - Show Assets
+
+- (void)loadFlickrPhotos:(NSArray *)results {
+    flickerResultsArray = [NSArray arrayWithArray:results];
+    
+    for (UIView *subview in [assetPopoverController.contentViewController.view subviews]) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            [subview removeFromSuperview];
+            break;
+        }
+    }
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, 250, 500)];
+    assetsScrollView.backgroundColor = [UIColor clearColor];
+    [assetsScrollView setUserInteractionEnabled:YES];
+    for (FlickrPhoto *flickrPhoto in results) {
+        UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [[assetImageButton layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+        [[assetImageButton layer] setBorderWidth:1.0f];
+        [assetImageButton setBackgroundColor:COLOR_LIGHT_GREY];
+        [assetImageButton setImage:flickrPhoto.thumbnail forState:UIControlStateNormal];
+        CGFloat originX = 10;
+        if ([results indexOfObject:flickrPhoto]%2 == 0) {
+            originX = 10 + 5 + 112;
+        }
+        int level = [results indexOfObject:flickrPhoto]/2;
+        [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
+        assetImageButton.tag = [results indexOfObject:flickrPhoto];
+        [assetImageButton addTarget:self action:@selector(addFlickerPhotoForButton:) forControlEvents:UIControlEventTouchUpInside];
+        [assetsScrollView addSubview:assetImageButton];
+    }
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, ([arrayOfImageNames count]/2)*140);
+    assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
+    [assetPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+    
+    [assetPopoverController.contentViewController.view addSubview:assetsScrollView];
+}
+
+- (void)addFlickerPhotoForButton:(UIButton *)button {
+    if ([[backgroundImageView subviews] containsObject:stickerView]) {
+        [self addAssetToView];
+    }
+    [assetPopoverController dismissPopoverAnimated:YES];
+    
+    stickerView = [[UIView alloc] initWithFrame:CGRectMake(backgroundImageView.center.x - 90, backgroundImageView.center.y - 90, 140, 180)];
+    [stickerView setUserInteractionEnabled:YES];
+    [stickerView setMultipleTouchEnabled:YES];
+    [self addGestureRecognizersforView:stickerView];
+    
+    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 120, 120)];
+    FlickrPhoto *flickrPhoto = [flickerResultsArray objectAtIndex:button.tag];
+    
+    assetImageView.image = flickrPhoto.thumbnail;
+    [stickerView addSubview:assetImageView];
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setImage:[UIImage imageNamed:@"Checkmark.png"] forState:UIControlStateNormal];
+    [doneButton setFrame:CGRectMake(50, 130, 44, 44)];
+    [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
+    [stickerView addSubview:doneButton];
+    
+    [self.view addSubview:stickerView];
+    
+    rotateAngle = 0;
+    translatePoint = stickerView.center;
+}
 
 - (void)addAssetToView {
     UIImage *viewImage = nil;
@@ -749,7 +842,7 @@
             break;
         }
     }
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, 250, 500)];
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     
@@ -800,9 +893,9 @@
     UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [takePhotoButton setImage:[UIImage imageNamed:@"upload_button.png"] forState:UIControlStateNormal];
     [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [takePhotoButton setFrame:CGRectMake(0, 44, 250, 30)];
+    [takePhotoButton setFrame:CGRectMake(0, 75, 250, 30)];
     
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 250, 500)];
+    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37/2*140);
@@ -813,12 +906,20 @@
     [assetTypeSegmentedControl setSelectedSegmentIndex:0];
     [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
     [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 30)];
+    
+    UITextView *searchTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 44, 250, 30)];
+    searchTextView.delegate = self;
+    [searchTextView setReturnKeyType:UIReturnKeyGo];
+    [[searchTextView layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+    [[searchTextView layer] setBorderWidth:1.0f];
+    [[searchTextView layer] setCornerRadius:5.0f];
 
     UIViewController *scrollViewController = [[UIViewController alloc] init];
     [scrollViewController.view setFrame:CGRectMake(0, 0, 250, 500)];
     [scrollViewController.view addSubview:assetsScrollView];
     [scrollViewController.view addSubview:assetTypeSegmentedControl];
     [scrollViewController.view addSubview:takePhotoButton];
+    [scrollViewController.view addSubview:searchTextView];
 
     arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
     for (NSString *imageName in arrayOfImageNames) {
