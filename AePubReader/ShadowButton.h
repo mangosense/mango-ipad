@@ -18,6 +18,8 @@
 @property(nonatomic,assign)NSString *imageLocalLocation;
 @property(nonatomic,assign)DownloadViewControlleriPad *storeViewController;
 @property(nonatomic,assign)LibraryViewController *libraryViewController;
+@property(nonatomic,assign) NSInteger bookId;
+@property(nonatomic,assign)BOOL downloaded;
 -(void)share:(id)sender;
 -(void)DownloadBook:(id)storeBookButton;
 -(void)ViewBook:(id)ViewBookButton;

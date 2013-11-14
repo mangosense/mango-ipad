@@ -956,5 +956,28 @@ void uncaughtExceptionHandler(NSException *exception) {
     alertViewLoading =nil;
     
 }
++(void)hideTabBar:(UITabBarController *)tabbarcontroller
+{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    float fHeight = screenRect.size.height;
+    if(  UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) )
+    {
+        fHeight = screenRect.size.width;
+    }
+    
+    for(UIView *view in tabbarcontroller.view.subviews)
+    {
+        if([view isKindOfClass:[UITabBar class]])
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, fHeight, view.frame.size.width, view.frame.size.height)];
+        }
+        else
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, fHeight)];
+            view.backgroundColor = [UIColor blackColor];
+        }
+    }
+}
 @end
 

@@ -2,15 +2,13 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewStoreCoverViewController">
             <connections>
                 <outlet property="featured" destination="GFk-4S-v4l" id="BVJ-Ez-wtd"/>
-                <outlet property="mangopacks" destination="yXc-gZ-8yZ" id="r53-T2-cml"/>
                 <outlet property="newarrivals" destination="jLU-U2-Nnn" id="liC-Vy-XfS"/>
-                <outlet property="popularBooks" destination="fjN-OK-GD2" id="Oz0-p6-1mN"/>
                 <outlet property="scrollview" destination="KId-g9-jIj" id="N82-R2-gxY"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -83,8 +81,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view tag="1" contentMode="scaleToFill" id="jLU-U2-Nnn">
-                            <rect key="frame" x="0.0" y="260" width="1024" height="200"/>
+                            <rect key="frame" x="0.0" y="260" width="1024" height="500"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.61667582929999998" green="1" blue="0.97118789750000001" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mango Packs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c6F-0j-UEY">
                             <rect key="frame" x="0.0" y="449" width="105" height="41"/>
@@ -92,20 +91,12 @@
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view tag="2" contentMode="scaleToFill" id="yXc-gZ-8yZ">
-                            <rect key="frame" x="0.0" y="412" width="1024" height="100"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular Books" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SIw-Rv-9Pf">
                             <rect key="frame" x="0.0" y="524" width="113" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view tag="3" contentMode="scaleToFill" id="fjN-OK-GD2">
-                            <rect key="frame" x="0.0" y="548" width="1024" height="123"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="E14-3t-qci">
                             <rect key="frame" x="909" y="224" width="80" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -119,7 +110,7 @@
                     </subviews>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0ls-S5-fsk">
-                    <rect key="frame" x="312" y="668" width="150" height="50"/>
+                    <rect key="frame" x="312" y="678" width="150" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" image="lunselected.png">
@@ -130,7 +121,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5sY-O7-FQe">
-                    <rect key="frame" x="653" y="668" width="150" height="50"/>
+                    <rect key="frame" x="653" y="676" width="150" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="sselected.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -140,7 +131,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Iwj-fZ-TTb">
-                    <rect key="frame" x="481" y="668" width="150" height="50"/>
+                    <rect key="frame" x="481" y="677" width="150" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="eunselected.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

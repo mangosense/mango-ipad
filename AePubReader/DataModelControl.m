@@ -61,6 +61,24 @@
 //    }
 
 }
+-(NSArray *)getAllUserBooks{
+    
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription
+                                       entityForName:@"Book" inManagedObjectContext:_dataModelContext];
+        [fetchRequest setEntity:entity];
+       // NSPredicate *predicate = [NSPredicate predicateWithFormat:@"downloaded==%@",@YES];
+       // [fetchRequest setPredicate:predicate];
+        
+        NSSortDescriptor *desc=[[NSSortDescriptor alloc] initWithKey:@"downloadedDate" ascending:NO];
+        NSError *error;
+        NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *descp=@[desc];
+        array=[array sortedArrayUsingDescriptors:descp];
+        
+        return array;
+
+}
 -(void)insertNoteOFHighLight:(BOOL)highLight book:(NSInteger )bookid page:(NSInteger)pageNo string:(NSString *)text{
   //  [text retain];
     NoteHighlight *noteHighLight=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
@@ -542,7 +560,7 @@
                    book.textBook=num;
 
                }
-              
+               book.downloadedDate=[NSDate dateWithTimeIntervalSinceNow:NSTimeIntervalSince1970];
                NSNumber *numb=key[@"source_file_size"];
              if((id)[NSNull null]!=numb){
                book.size=@([numb floatValue]);

@@ -379,6 +379,8 @@
 		AE5FC0261677300B00BB9AED /* or-iphone5.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5FC0251677300B00BB9AED /* or-iphone5.png */; };
 		AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */; };
 		AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE61CB121828D1F1006956BE /* AFTableViewCell.m */; };
+		AE62B32B1832008E005C5EC9 /* storesamplejson.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE62B32A1832008E005C5EC9 /* storesamplejson.txt */; };
+		AE62B32E183201CB005C5EC9 /* NewBookStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62B32D183201CB005C5EC9 /* NewBookStore.m */; };
 		AE6386561733BC6E009E372A /* recording-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386551733BC6E009E372A /* recording-bg.png */; };
 		AE6386581733D54F009E372A /* recordbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386571733D54F009E372A /* recordbutton.png */; };
 		AE63865B1733D571009E372A /* stopbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386591733D571009E372A /* stopbutton.png */; };
@@ -1055,6 +1057,9 @@
 		AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreViewControlleriPhone.m; sourceTree = "<group>"; };
 		AE61CB111828D1F1006956BE /* AFTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFTableViewCell.h; sourceTree = "<group>"; };
 		AE61CB121828D1F1006956BE /* AFTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFTableViewCell.m; sourceTree = "<group>"; };
+		AE62B32A1832008E005C5EC9 /* storesamplejson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = storesamplejson.txt; sourceTree = "<group>"; };
+		AE62B32C183201CB005C5EC9 /* NewBookStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewBookStore.h; sourceTree = "<group>"; };
+		AE62B32D183201CB005C5EC9 /* NewBookStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewBookStore.m; sourceTree = "<group>"; };
 		AE6386551733BC6E009E372A /* recording-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recording-bg.png"; sourceTree = "<group>"; };
 		AE6386571733D54F009E372A /* recordbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recordbutton.png; sourceTree = "<group>"; };
 		AE6386591733D571009E372A /* stopbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopbutton.png; sourceTree = "<group>"; };
@@ -1936,6 +1941,9 @@
 		AE195EF2181E67B3008E4208 /* New store */ = {
 			isa = PBXGroup;
 			children = (
+				AE62B32A1832008E005C5EC9 /* storesamplejson.txt */,
+				AE62B32C183201CB005C5EC9 /* NewBookStore.h */,
+				AE62B32D183201CB005C5EC9 /* NewBookStore.m */,
 				AE61CB111828D1F1006956BE /* AFTableViewCell.h */,
 				AE61CB121828D1F1006956BE /* AFTableViewCell.m */,
 				AE195EF6181E68C5008E4208 /* StoreCell.h */,
@@ -2918,6 +2926,7 @@
 				8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */,
 				834FCE4B182D11F70000181B /* recording_stop_button.png in Resources */,
 				8393E08617CF7A940080EB0C /* insert_image.png in Resources */,
+				AE62B32B1832008E005C5EC9 /* storesamplejson.txt in Resources */,
 				839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3058,6 +3067,7 @@
 				AE5B84E717AA548A00EDC098 /* LibraryCell.m in Sources */,
 				AE5B84E817AA548A00EDC098 /* LibraryOldCell.m in Sources */,
 				AE5B84EB17AA54AF00EDC098 /* OldFooterView.m in Sources */,
+				AE62B32E183201CB005C5EC9 /* NewBookStore.m in Sources */,
 				AE396BBA181F7E3D009C68E7 /* PSTGridLayoutItem.m in Sources */,
 				AE5B84EE17AA54C600EDC098 /* OldCell.m in Sources */,
 				AE396BB1181F7E3D009C68E7 /* PSTCollectionView.m in Sources */,

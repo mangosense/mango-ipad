@@ -12,4 +12,6 @@
 @interface DataSourceForLinearOld : NSObject<PSTCollectionViewDataSource>
 @property(retain,nonatomic) NSString *prefix;
 -(id)initWithString:(NSString *) string;
+-(id)initWithArray:(NSArray *)array;
+@property(retain,nonatomic) NSArray *array;
 @end

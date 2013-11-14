@@ -97,5 +97,6 @@
 @interface StoreCell : UICollectionViewCell
 
 @property (strong, nonatomic) UILabel* label;
+@property(strong,nonatomic) UIImageView *imageView;
 
 @end

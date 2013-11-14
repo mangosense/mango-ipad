@@ -16,6 +16,7 @@
 #import <MessageUI/MFMessageComposeViewController.h>
 #import "RootViewController.h"
 #import "PSTCollectionDataSource.h"
+#import "LoginDirectly.h"
 @interface LibraryViewController : UIViewController<StoreControllerDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,XMLHandlerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIButton *signoutOrLogin;
@@ -46,9 +47,14 @@
 @property(assign,nonatomic) BOOL nav;
 @property (weak, nonatomic) IBOutlet UIView *storeView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property(strong,nonatomic)UIButton *buttonTappedToDownload;
+@property(assign,nonatomic) NSInteger tagToDownload;
+@property(assign,nonatomic) NSError *error;
+@property(retain,nonatomic) NSMutableData *data;
 - (IBAction)switchTabs:(id)sender;
 -(IBAction)shareButtonClicked:(id)sender;
 - (void)showBookButton:(UIButton *)sender;
 - (IBAction)switchTabButtonClick:(id)sender;
+- (IBAction)refreshWithLatest:(id)sender;
 -(void)AddShareButton:(id)sender;
 @end
