@@ -109,28 +109,50 @@
 #pragma mark - iCarousel Datasource And Delegate Methods
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return [pagesArray count];
+    return [pagesArray count] + 1;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
-    UIButton *pageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [pageButton setFrame:CGRectMake(0, 0, 130, 90)];
-    [pageButton setImage:[UIImage imageNamed:@"pagesbutton.png"] forState:UIControlStateNormal];
-
-    NSDictionary *pageDict = [pagesArray objectAtIndex:index];
-    NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
-    for (NSDictionary *layerDict in layersArray) {
-        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            [pageButton setImage:[UIImage imageNamed:[layerDict objectForKey:ASSET_URL]] forState:UIControlStateNormal];
-            break;
+    UIImageView *pageThumbnail = [[UIImageView alloc] init];
+    [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
+    [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
+    if (index < [pagesArray count]) {
+        NSDictionary *pageDict = [pagesArray objectAtIndex:index];
+        NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+        for (NSDictionary *layerDict in layersArray) {
+            if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+                [pageThumbnail setImage:[UIImage imageNamed:[layerDict objectForKey:ASSET_URL]]];
+                break;
+            }
         }
+    } else {
+        [pageThumbnail setImage:[UIImage imageNamed:@"addnewpage.png"]];
     }
     
-    return pageButton;
+    return pageThumbnail;
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    [self renderPage:index];
+    if (index < [pagesArray count]) {
+        [self renderPage:index];
+    } else {
+        NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
+        [newPageDict setObject:[NSNumber numberWithInt:[pagesArray count]] forKey:@"id"];
+        
+        NSMutableArray *layersArray = [[NSMutableArray alloc] init];
+        NSMutableDictionary *imageDict = [[NSMutableDictionary alloc] init];
+        [imageDict setObject:IMAGE forKey:TYPE];
+        [imageDict setObject:@"white_page.jpeg" forKey:ASSET_URL];
+        [layersArray addObject:imageDict];
+        
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithObjectsAndKeys:layersArray, LAYERS, nil];
+        [newPageDict setObject:jsonDict forKey:@"json"];
+        
+        [pagesArray addObject:newPageDict];
+        
+        [pagesCarousel reloadData];
+        [self carousel:pagesCarousel didSelectItemAtIndex:[pagesArray count] - 1];
+    }
 }
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
@@ -223,7 +245,7 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     
-    pagesArray = [jsonDict objectForKey:PAGES];
+    pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     [pagesCarousel reloadData];
     [self renderPage:1];
 }

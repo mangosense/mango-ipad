@@ -189,6 +189,11 @@ uint ctr;
 
 #pragma mark - Drawing Methods
 
+- (void)setIncrementalImage:(UIImage *)incrementalImg {
+    incrementalImage = incrementalImg;
+    [self setNeedsDisplay];
+}
+
 - (void)drawSticker:(UIImage *)stickerImage inRect:(CGRect)frame WithTranslation:(CGPoint)tranlatePoint AndRotation:(CGFloat)angle {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0.0f);
     if (!incrementalImage) // first time; paint background clear
