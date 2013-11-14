@@ -9,7 +9,6 @@
 #import "MangoEditorViewController.h"
 #import "Constants.h"
 #import "MovableTextView.h"
-#import <AVFoundation/AVFoundation.h>
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -26,6 +25,7 @@
 @property (nonatomic, assign) int currentPageNumber;
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
+@property (nonatomic, strong) UIButton *audioRecordingButton;
 
 @end
 
@@ -47,6 +47,7 @@
 @synthesize currentPageNumber;
 @synthesize audioRecorder;
 @synthesize audioPlayer;
+@synthesize audioRecordingButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -200,6 +201,17 @@
             [pageImageView addSubview:pageTextView];
         }
     }
+    
+    audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    if (!audioUrl) {
+        [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
+        [audioRecordingButton addTarget:self action:@selector(startRecordingAudio) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+        [audioRecordingButton addTarget:self action:@selector(startPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [audioRecordingButton setFrame:CGRectMake(0, pageImageView.frame.size.height - 60, 60, 60)];
+    [pageImageView addSubview:audioRecordingButton];
 }
 
 #pragma mark - Book JSON Methods
@@ -218,7 +230,21 @@
 
 #pragma mark - Audio Recording
 
+enum
+{
+    ENC_AAC = 1,
+    ENC_ALAC = 2,
+    ENC_IMA4 = 3,
+    ENC_ILBC = 4,
+    ENC_ULAW = 5,
+    ENC_PCM = 6,
+} encodingTypes;
+
+
 - (void)startRecordingAudio {
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
+    [audioRecordingButton addTarget:self action:@selector(stopRecordingAudio) forControlEvents:UIControlEventTouchUpInside];
+    
     // Init audio with record capability
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryRecord error:nil];
@@ -287,7 +313,10 @@
     NSLog(@"stopRecording");
     [audioRecorder stop];
     NSLog(@"stopped");
-    [self saveAudio];
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+    [audioRecordingButton addTarget:self action:@selector(startPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
+
+    //[self saveAudio];
 }
 
 - (void)saveAudio {
@@ -300,15 +329,19 @@
     
     NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    [[[[[jsonDict objectForKey:PAGES] objectAtIndex:currentPageNumber] objectForKey:@"json"] objectForKey:LAYERS] addObject:jsonDict];
+    //[[[[[jsonDict objectForKey:PAGES] objectAtIndex:currentPageNumber] objectForKey:@"json"] objectForKey:LAYERS] addObject:audioDict];
     
     NSData *newJsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONReadingAllowFragments error:nil];
     bookJsonString = [[NSString alloc] initWithData:newJsonData encoding:NSUTF8StringEncoding];
+    [self renderPage:currentPageNumber];
 }
 
 #pragma mark - Audio Playing
 
 - (void)startPlayingAudio {
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
+    [audioRecordingButton addTarget:self action:@selector(stopPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
+
     NSLog(@"playRecording");
     // Init audio with playback capability
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -320,13 +353,23 @@
     NSError *error;
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     audioPlayer.numberOfLoops = 0;
+    audioPlayer.delegate = self;
     [audioPlayer play];
 }
 
 - (void)stopPlayingAudio {
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+    [audioRecordingButton addTarget:self action:@selector(startPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
+
     NSLog(@"stopPlaying");
     [audioPlayer stop];
     NSLog(@"stopped");
+}
+
+#pragma mark - Audio Player Delegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    [self stopPlayingAudio];
 }
 
 @end

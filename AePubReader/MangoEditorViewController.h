@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 #import "SmoothDrawingView.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate> {
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;
@@ -25,15 +26,6 @@
     IBOutlet iCarousel *pagesCarousel;
     
     int recordEncoding;
-    enum
-    {
-        ENC_AAC = 1,
-        ENC_ALAC = 2,
-        ENC_IMA4 = 3,
-        ENC_ILBC = 4,
-        ENC_ULAW = 5,
-        ENC_PCM = 6,
-    } encodingTypes;
 }
 
 @property (nonatomic, strong) IBOutlet UIButton *mangoButton;
