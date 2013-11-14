@@ -8,6 +8,7 @@
 
 #import "MovableTextView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Constants.h"
 
 @interface MovableTextView()
 
@@ -27,6 +28,12 @@
     if (self) {
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
+        [[self layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+        [[self layer] setBorderWidth:1.0f];
+        
+        UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
+        pinchRecognizer.delegate = self;
+        [self addGestureRecognizer:pinchRecognizer];
     }
     return self;
 }
@@ -39,6 +46,13 @@
     // Drawing code
 }
 */
+
+#pragma mark - Gesture Handlers
+
+- (void) pinch:(UIPinchGestureRecognizer *)recognizer{
+    self.frame = CGRectMake(MAX(self.frame.origin.x - (recognizer.scale - 1)*self.frame.size.width/2, 0), MAX(self.frame.origin.y - (recognizer.scale - 1)*self.frame.size.height/2, 0), MIN(self.superview.frame.size.width, self.frame.size.width*recognizer.scale), MIN(self.superview.frame.size.height, self.frame.size.height*recognizer.scale));
+    recognizer.scale = 1;
+}
 
 #pragma mark - Touch Event Handler Methods
 
@@ -77,6 +91,7 @@
     [self resignFirstResponder];
 }
 
+/*
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesCancelled:touches withEvent:event];
     UITouch *touch = [[event allTouches] anyObject];
@@ -85,8 +100,8 @@
     [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
     self.alpha = 1.0f;
     
-    self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5/* - 150*/)));
+    self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5)));
     [self resignFirstResponder];
 }
-
+*/
 @end

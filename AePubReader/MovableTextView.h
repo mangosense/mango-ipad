@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MovableTextView : UITextView
+@interface MovableTextView : UITextView <UIGestureRecognizerDelegate>
 
 @end
