@@ -8,6 +8,7 @@
 
 #import "StoriesViewController.h"
 #import "EditorViewController.h"
+#import "MangoEditorViewController.h"
 
 #define ENGLISH_TAG 9
 #define TAMIL_TAG 10
@@ -140,9 +141,14 @@
 }
 
 - (void)chooseLanguage:(NSInteger)tagForChosenLanguage {
-    EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+    MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+    mangoEditorViewController.chosenBookTag = tagForChosenLanguage;
+    [self.navigationController.navigationBar setHidden:YES];
+    [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+    
+    /*EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
     editorViewController.tagForLanguage = tagForChosenLanguage;
-    [self.navigationController pushViewController:editorViewController animated:YES];
+    [self.navigationController pushViewController:editorViewController animated:YES];*/
 }
 
 @end

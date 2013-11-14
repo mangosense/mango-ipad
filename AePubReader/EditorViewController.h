@@ -15,7 +15,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "iCarousel.h"
 
-@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, AwesomeMenuDelegate, UIGestureRecognizerDelegate, DrawingToolsDelegate, iCarouselDelegate, iCarouselDataSource, UITextViewDelegate> {
+@interface EditorViewController : UIViewController <DoodleDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, AwesomeMenuDelegate, UIGestureRecognizerDelegate, DrawingToolsDelegate, iCarouselDelegate, iCarouselDataSource, UITextViewDelegate, AVAudioPlayerDelegate, AVAudioRecorderDelegate> {
     AVAudioPlayer *audioPlayer;
     AVAudioRecorder *audioRecorder;
     

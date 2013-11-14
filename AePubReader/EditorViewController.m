@@ -95,6 +95,7 @@
 @property (nonatomic, strong) iCarousel *pagesListCarousel;
 @property (nonatomic, strong) UIPopoverController *menuPopoverController;
 @property (nonatomic, strong) NSArray *flickerResultsArray;
+@property (nonatomic, strong) NSArray *textboxesArray;
 
 - (void)getBookJson;
 
@@ -159,6 +160,7 @@
 @synthesize pagesListCarousel;
 @synthesize menuPopoverController;
 @synthesize flickerResultsArray;
+@synthesize textboxesArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -355,11 +357,18 @@
     } completion:NULL];
 }
 
+#pragma mark - Audio Delegates
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    [self stopPlaying];
+}
+
 #pragma mark - Audio Recording
 
 - (void)startRecording
 {
     NSLog(@"startRecording");
+    [recordAudioButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
     
     // Init audio with record capability
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -429,6 +438,8 @@
     NSLog(@"stopRecording");
     [audioRecorder stop];
     NSLog(@"stopped");
+    [recordAudioButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
+
 }
 
 - (void)playRecording
@@ -445,9 +456,10 @@
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     audioPlayer.numberOfLoops = 0;
     [audioPlayer play];
+    audioPlayer.delegate = self;
     NSLog(@"playing");
     
-    [playButton setImage:[UIImage imageNamed:@"stop-recording-control.png"] forState:UIControlStateNormal];
+    [playButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
     [playButton addTarget:self action:@selector(stopPlaying) forControlEvents:UIControlEventTouchUpInside];
     [recordAudioButton setEnabled:NO];
 }
@@ -457,7 +469,7 @@
     NSLog(@"stopPlaying");
     [audioPlayer stop];
     NSLog(@"stopped");
-    [playButton setImage:[UIImage imageNamed:@"play-control.png"] forState:UIControlStateNormal];
+    [playButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
     [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
     [recordAudioButton setEnabled:YES];
 }
@@ -477,9 +489,6 @@
 
 - (void)recordAudio {
     [self stopPlaying];
-    
-    [recordAudioButton setImage:[UIImage imageNamed:@"start-recording-control.png"] forState:UIControlStateNormal];
-    //[self animateRecordButton];
     
     UIButton *stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [stopRecordingButton setFrame:CGRectMake(recordAudioButton.frame.origin.x, recordAudioButton.frame.origin.y, 44, 44)];
@@ -1000,20 +1009,10 @@
 }
 
 - (void)audioButtonTapped {
-    UIButton *recordNewAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [recordNewAudioButton setImage:[UIImage imageNamed:@"recordaudio_button.png"] forState:UIControlStateNormal];
-    [recordNewAudioButton addTarget:self action:@selector(showAudioControl) forControlEvents:UIControlEventTouchUpInside];
-    [recordNewAudioButton setFrame:CGRectMake(0, 0, 250, 30)];
-    
     AudioRecordingsListViewController *audioListController = [[AudioRecordingsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [audioListController.view setFrame:CGRectMake(0, 35, 250, backgroundImageView.frame.size.height - 40)];
+    [audioListController.view setFrame:CGRectMake(0, 0, 250, backgroundImageView.frame.size.height)];
     
-    UIViewController *containerViewController = [[UIViewController alloc] init];
-    [containerViewController.view setFrame:CGRectMake(0, 0, 250, backgroundImageView.frame.size.height)];
-    [containerViewController.view addSubview:audioListController.view];
-    [containerViewController.view addSubview:recordNewAudioButton];
-    
-    assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:containerViewController];
+    assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:audioListController];
     [assetPopoverController setPopoverContentSize:CGSizeMake(250, backgroundImageView.frame.size.height)];
     assetPopoverController.delegate = self;
     [assetPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(80, backgroundImageView.frame.origin.x, self.view.frame.size.height - (backgroundImageView.frame.origin.y + backgroundImageView.frame.size.height), self.view.frame.size.width - (backgroundImageView.frame.origin.x + backgroundImageView.frame.size.width))];
@@ -1642,16 +1641,26 @@
         [playButton removeFromSuperview];
     }*/
     
-    if (!audioRecViewController) {
+    /*if (!audioRecViewController) {
         audioRecViewController = [[AudioRecordingViewController alloc] initWithNibName:@"AudioRecordingViewController" bundle:nil];
-        [audioRecViewController.view setFrame:CGRectMake(backgroundImageView.center.x - 100, backgroundImageView.center.y - 100, 200, 200)];
-        audioRecViewController.view.alpha = 0.0f;
-        [audioRecViewController.view setHidden:YES];
-        [self.view addSubview:audioRecViewController.view];
+        audioRecViewController.view.alpha = 1.0f;
+        [audioRecViewController.view setHidden:NO];
+        [backgroundImageView addSubview:audioRecViewController.view];
     }
-    [audioRecViewController.view setHidden:YES];
-    audioRecViewController.audioUrl = url;
-    [audioRecViewController stopPlaying];
+    [audioRecViewController.view setFrame:CGRectMake(0, backgroundImageView.frame.size.height - 200, 200, 200)];
+    audioRecViewController.audioUrl = url;*/
+    
+    recordAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [recordAudioButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
+    [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    [recordAudioButton setFrame:CGRectMake(0, backgroundImageView.frame.size.height - 200, 200, 200)];
+    [backgroundImageView addSubview:recordAudioButton];
+    
+    playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [playButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+    [playButton addTarget:self action:@selector(playRecording) forControlEvents:UIControlEventTouchUpInside];
+    [playButton setFrame:CGRectMake(150, backgroundImageView.frame.size.height - 200, 200, 200)];
+    [backgroundImageView addSubview:playButton];
     
     [self.view bringSubviewToFront:mainTextView];
     [self.view bringSubviewToFront:showScrollViewButton];
@@ -1662,7 +1671,6 @@
     [self.view bringSubviewToFront:cameraButton];
     [self.view bringSubviewToFront:eraserButton];
     [self.view bringSubviewToFront:recordAudioButton];
-    [self.view bringSubviewToFront:audioRecViewController.view];
     [self.view bringSubviewToFront:pageScrollView];
     [self.view bringSubviewToFront:paintPalletView];
 }

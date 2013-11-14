@@ -66,6 +66,7 @@
 #define AUDIO @"audio"
 #define CAPTURED_IMAGE @"capturedImage"
 #define ASSET_URL @"url"
+#define PAGES @"pages"
 
 #pragma mark - Colors
 

@@ -188,6 +188,14 @@
 		839DD8DE17B4F3F3003B62C8 /* yellow-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8D617B4F3F3003B62C8 /* yellow-splash.png */; };
 		839DD8E017B4F457003B62C8 /* eraser.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8DF17B4F457003B62C8 /* eraser.png */; };
 		839DD8E817B50320003B62C8 /* topdot.png in Resources */ = {isa = PBXBuildFile; fileRef = 839DD8E717B50320003B62C8 /* topdot.png */; };
+		839E0CD51834A20A00436237 /* MangoEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839E0CD31834A20A00436237 /* MangoEditorViewController.m */; };
+		839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CD41834A20A00436237 /* MangoEditorViewController.xib */; };
+		839E0CDF1834D3D500436237 /* 91f501c53a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CD81834D3D400436237 /* 91f501c53a.jpg */; };
+		839E0CE01834D3D500436237 /* leftright_91f501c53a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CD91834D3D400436237 /* leftright_91f501c53a.jpg */; };
+		839E0CE11834D3D500436237 /* original_91f501c53a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CDA1834D3D400436237 /* original_91f501c53a.jpg */; };
+		839E0CE21834D3D500436237 /* story.json in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CDB1834D3D400436237 /* story.json */; };
+		839E0CE31834D3D500436237 /* thumb_91f501c53a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CDD1834D3D400436237 /* thumb_91f501c53a.jpg */; };
+		839E0CE41834D3D500436237 /* updown_91f501c53a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CDE1834D3D500436237 /* updown_91f501c53a.jpg */; };
 		839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839F907817E6D37C00BD1412 /* PublishViewController.m */; };
 		839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839F907917E6D37C00BD1412 /* PublishViewController.xib */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
@@ -783,6 +791,15 @@
 		839DD8D617B4F3F3003B62C8 /* yellow-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow-splash.png"; sourceTree = "<group>"; };
 		839DD8DF17B4F457003B62C8 /* eraser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eraser.png; sourceTree = "<group>"; };
 		839DD8E717B50320003B62C8 /* topdot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topdot.png; sourceTree = "<group>"; };
+		839E0CD21834A20A00436237 /* MangoEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoEditorViewController.h; sourceTree = "<group>"; };
+		839E0CD31834A20A00436237 /* MangoEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoEditorViewController.m; sourceTree = "<group>"; };
+		839E0CD41834A20A00436237 /* MangoEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoEditorViewController.xib; sourceTree = "<group>"; };
+		839E0CD81834D3D400436237 /* 91f501c53a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 91f501c53a.jpg; sourceTree = "<group>"; };
+		839E0CD91834D3D400436237 /* leftright_91f501c53a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = leftright_91f501c53a.jpg; sourceTree = "<group>"; };
+		839E0CDA1834D3D400436237 /* original_91f501c53a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original_91f501c53a.jpg; sourceTree = "<group>"; };
+		839E0CDB1834D3D400436237 /* story.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = story.json; sourceTree = "<group>"; };
+		839E0CDD1834D3D400436237 /* thumb_91f501c53a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thumb_91f501c53a.jpg; sourceTree = "<group>"; };
+		839E0CDE1834D3D500436237 /* updown_91f501c53a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = updown_91f501c53a.jpg; sourceTree = "<group>"; };
 		839F907717E6D37C00BD1412 /* PublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishViewController.h; sourceTree = "<group>"; };
 		839F907817E6D37C00BD1412 /* PublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishViewController.m; sourceTree = "<group>"; };
 		839F907917E6D37C00BD1412 /* PublishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishViewController.xib; sourceTree = "<group>"; };
@@ -1615,6 +1632,9 @@
 				83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */,
 				83F4F36B1833498900732315 /* AudioRecord.h */,
 				83F4F36C1833498900732315 /* AudioRecord.m */,
+				839E0CD21834A20A00436237 /* MangoEditorViewController.h */,
+				839E0CD31834A20A00436237 /* MangoEditorViewController.m */,
+				839E0CD41834A20A00436237 /* MangoEditorViewController.xib */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -1622,6 +1642,7 @@
 		832CCD2517BB4ECC00FC05E3 /* DemoStories */ = {
 			isa = PBXGroup;
 			children = (
+				839E0CD71834D3D400436237 /* 829 */,
 				832CCD2717BB4EE000FC05E3 /* AngryBirdsEnglish */,
 				832CCD2617BB4ED700FC05E3 /* AngryBirdsTamil */,
 			);
@@ -1817,6 +1838,27 @@
 			children = (
 			);
 			name = "PreK ViewControllers";
+			sourceTree = "<group>";
+		};
+		839E0CD71834D3D400436237 /* 829 */ = {
+			isa = PBXGroup;
+			children = (
+				839E0CD81834D3D400436237 /* 91f501c53a.jpg */,
+				839E0CD91834D3D400436237 /* leftright_91f501c53a.jpg */,
+				839E0CDA1834D3D400436237 /* original_91f501c53a.jpg */,
+				839E0CDB1834D3D400436237 /* story.json */,
+				839E0CDC1834D3D400436237 /* thumb */,
+				839E0CDE1834D3D500436237 /* updown_91f501c53a.jpg */,
+			);
+			path = 829;
+			sourceTree = "<group>";
+		};
+		839E0CDC1834D3D400436237 /* thumb */ = {
+			isa = PBXGroup;
+			children = (
+				839E0CDD1834D3D400436237 /* thumb_91f501c53a.jpg */,
+			);
+			path = thumb;
 			sourceTree = "<group>";
 		};
 		83DD9BB418111662004C975F /* ImageDownloader */ = {
@@ -2637,6 +2679,7 @@
 				AE731C5C1675C3AF00FE8F19 /* or-button.png in Resources */,
 				AE731C6F1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png in Resources */,
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
+				839E0CE41834D3D500436237 /* updown_91f501c53a.jpg in Resources */,
 				834FCE2C182D11F70000181B /* hitosync_active_button.png in Resources */,
 				AE731C781675FB6000FE8F19 /* mangoreader-logo.png in Resources */,
 				834FCE2A182D11F70000181B /* gamebutton.png in Resources */,
@@ -2656,6 +2699,7 @@
 				83F486FE18016CEE00AE3AAE /* 3494af995f.mp3 in Resources */,
 				AEDF1818168AC5020087064A /* next-button.png in Resources */,
 				AEDF1819168AC5020087064A /* pause-control.png in Resources */,
+				839E0CE11834D3D500436237 /* original_91f501c53a.jpg in Resources */,
 				AEDF181A168AC5020087064A /* play-control.png in Resources */,
 				AEDF181B168AC5020087064A /* previous-button.png in Resources */,
 				834FCE61182D11F70000181B /* take_picture_button.png in Resources */,
@@ -2719,6 +2763,7 @@
 				AEB7AE0A16B9499B009844B0 /* search.png in Resources */,
 				AEB7AE0C16B949A2009844B0 /* toc.png in Resources */,
 				AEB7AE0E16B95607009844B0 /* tmangot.png in Resources */,
+				839E0CDF1834D3D500436237 /* 91f501c53a.jpg in Resources */,
 				AEB7AE1016B95674009844B0 /* srbar.png in Resources */,
 				AE67FD4B16BA6BFC00E91A01 /* WebPageViewIphonebig.xib in Resources */,
 				83F486E318016CEE00AE3AAE /* original_0dd7068ae5.jpg in Resources */,
@@ -2787,6 +2832,7 @@
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
 				83F486EB18016CEE00AE3AAE /* 4757f7d9a2.jpg in Resources */,
 				AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */,
+				839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */,
 				834FCE41182D11F70000181B /* pause_button.png in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 				83F486C518016CEE00AE3AAE /* 26b90983f6.mp3 in Resources */,
@@ -2808,6 +2854,7 @@
 				83F486D518016CEE00AE3AAE /* 9f9e194728.jpg in Resources */,
 				83F486CD18016CEE00AE3AAE /* 62b596d92a.mp3 in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
+				839E0CE01834D3D500436237 /* leftright_91f501c53a.jpg in Resources */,
 				834FCE36182D11F70000181B /* mangoicon.png in Resources */,
 				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
 				83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */,
@@ -2872,6 +2919,7 @@
 				834FCE48182D11F70000181B /* recordaudio_button_pressed.png in Resources */,
 				834FCE3D182D11F70000181B /* no_button.png in Resources */,
 				834FCE3A182D11F70000181B /* moveicon.png in Resources */,
+				839E0CE31834D3D500436237 /* thumb_91f501c53a.jpg in Resources */,
 				8374AF1717CC66AB009DA792 /* mushroom_02.png in Resources */,
 				8374AF1817CC66AB009DA792 /* mushroom_03.png in Resources */,
 				8374AF1917CC66AB009DA792 /* mushroom_04.png in Resources */,
@@ -2881,6 +2929,7 @@
 				83F486D118016CEE00AE3AAE /* 8a0e1da6df.mp3 in Resources */,
 				8374AF1C17CC66AB009DA792 /* rock_03.png in Resources */,
 				8374AF1D17CC66AB009DA792 /* rock_04.png in Resources */,
+				839E0CE21834D3D500436237 /* story.json in Resources */,
 				834FCE28182D11F70000181B /* edittool.png in Resources */,
 				834FCE59182D11F70000181B /* start_button.png in Resources */,
 				8374AF1E17CC66AB009DA792 /* rock_05.png in Resources */,
@@ -2962,6 +3011,7 @@
 				AE9BFBAB16537C12000DDEB1 /* LiveViewController.m in Sources */,
 				AE9BFBB016537F44000DDEB1 /* PopPurchaseViewController.m in Sources */,
 				AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */,
+				839E0CD51834A20A00436237 /* MangoEditorViewController.m in Sources */,
 				AE68606C165A245400A8C9E8 /* PruchaseFree.m in Sources */,
 				AE6C8310165C918200881F82 /* FileDownloaderFromStore.m in Sources */,
 				AE0C5756182A0E0500A923CF /* CategoryViewController.m in Sources */,
