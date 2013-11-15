@@ -58,6 +58,8 @@
         bookStore.subcategory=d[@"sub_category"];
         bookStore.section=d[@"section"];
         bookStore.imageUrl=d[@"cover_image_url"];
+        NSNumber *number=d[@"id"];
+        bookStore.bookId=number.integerValue;
         if ([bookStore.section isEqualToString:@"featured"]) {
             [_featuredArray addObject:bookStore];
             
@@ -65,6 +67,7 @@
         if ([bookStore.section isEqualToString:@"newarrivals"]) {
             [_arrivalsNewArray addObject:bookStore];
         }
+    
     }
     NSArray* cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* cachePath = [cachePathArray lastObject];
@@ -100,6 +103,7 @@
     FeaturedStoreDelegate *featuredDatasource=[[FeaturedStoreDelegate alloc]initWithArray:_featuredArray];
     _featured.dataSource=featuredDatasource;
     _featured.type=iCarouselTypeCoverFlow;
+    _featured.delegate=self;
     CGRect frame=_newarrivals.frame;
     frame.origin.x=0;
     frame.origin.y=0;
@@ -152,6 +156,7 @@
     self.navigationController.navigationBarHidden=YES;
     CGSize size= _scrollview.contentSize;
     size.height=660;
+
     [_scrollview setContentSize:size];
 }
 - (IBAction)libraryView:(id)sender {
@@ -165,7 +170,8 @@
     [self.navigationController popViewControllerAnimated:NO];
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+    StoreCell *cell=(StoreCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    NSLog(@"%d",cell.tag);
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
@@ -181,7 +187,11 @@
 - (IBAction)changeCategory:(id)sender {
 }
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index{
-    
+  //UIView *view=  [_featured.dataSource carousel:carousel viewForItemAtIndex:index reusingView:nil];
+   // NSLog(@"%d",view.tag);
+  // FeaturedStoreDelegate *d=(FeaturedStoreDelegate *) _featured.dataSource;
+   NewBookStore *store=[_featuredArray objectAtIndex:index];
+    NSLog(@"%d",store.bookId);
 }
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
 {

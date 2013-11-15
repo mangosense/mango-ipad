@@ -66,6 +66,7 @@
         frame.size.width=size.width;
         imageView.frame=frame;*/
       
+        view.tag=store.bookId;
 
         //[view addSubview:label];
     }
@@ -81,7 +82,6 @@
     //you'll get weird issues with carousel item content appearing
     //in the wrong place in the carousel
     //label.text =[ NSString stringWithFormat:@"%@%@",_string,[_items[index] stringValue] ];
-    
     return view;
 }
 

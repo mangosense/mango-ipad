@@ -17,4 +17,5 @@
 @property(retain,nonatomic)NSString *subcategory;
 @property(retain,nonatomic) NSString *section;
 @property(retain,nonatomic) NSString *imageLocalLoc;
+@property(assign,nonatomic) NSInteger bookId;
 @end

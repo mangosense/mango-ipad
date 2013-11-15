@@ -35,12 +35,13 @@
     StoreCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     NewBookStore *store=[_array objectAtIndex:indexPath.row];
     
-    
+    cell.tag=store.bookId;
    // cell.imageView.image=[UIImage imageWithContentsOfFile:store.imageLocalLoc];
     cell.imageView.image=[UIImage imageWithContentsOfFile:store.imageLocalLoc];
     NSLog(@"%@",cell.imageView);
     NSLog(@"%@",store.imageLocalLoc);
     cell.backgroundColor=[UIColor greenColor];
+
   //  cell.label.text = [NSString stringWithFormat:@"%@ %d",_prefix,indexPath.item];
     return cell;
 }

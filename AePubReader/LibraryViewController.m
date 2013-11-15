@@ -177,14 +177,14 @@
          feedback.tintColor=[UIColor grayColor];
          NSArray *aray=@[leftLoginItem/*,settings,*/,feedback];
          self.navigationItem.leftBarButtonItems=aray;
-         [_signoutOrLogin setTitle:@"Sign out" forState:UIControlStateNormal];
+         [_signoutOrLogin setTitle:@"Login" forState:UIControlStateNormal];
      }else{
        /*  UIBarButtonItem *settings=[[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settings)];
          settings.tintColor=[UIColor grayColor];*/
          UIBarButtonItem *feedback=[[UIBarButtonItem alloc]initWithTitle:@"Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(feedback:)];
          feedback.tintColor=[UIColor grayColor];
          self.navigationItem.leftBarButtonItems=@[feedback];
-         [_signoutOrLogin setTitle:@"Login" forState:UIControlStateNormal];
+         [_signoutOrLogin setTitle:@"Sign Out" forState:UIControlStateNormal];
      }
   //  self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     _ymax=768+80;
@@ -1353,8 +1353,8 @@
                 
             }
             coverViewController.url=button.stringLink;
-                self.tabBarController.hidesBottomBarWhenPushed=YES;
-            coverViewController.hidesBottomBarWhenPushed=YES;
+          //      self.tabBarController.hidesBottomBarWhenPushed=YES;
+            //coverViewController.hidesBottomBarWhenPushed=YES;
             coverViewController.titleOfBook=bk.title;
             [self.navigationController pushViewController:coverViewController animated:YES];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {

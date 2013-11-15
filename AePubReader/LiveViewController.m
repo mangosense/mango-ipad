@@ -122,11 +122,9 @@
         _pstCollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
         [self.view addSubview:_pstCollectionView];
     }
-    if([UIDevice currentDevice].systemVersion.integerValue>=7)
-    {
-        // iOS 7 code here
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }}
+  
+
+}
 
 -(void)refreshButton:(id)sender{
     _listOfBooks=nil;
