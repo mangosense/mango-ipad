@@ -11,7 +11,7 @@
 #import "SmoothDrawingView.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate> {
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;

@@ -12,6 +12,8 @@
 #import "MenuTableViewController.h"
 #import "Flickr.h"
 #import "FlickrPhoto.h"
+#import "AudioRecordingsListViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -20,6 +22,11 @@
 #define CHINESE_TAG 11
 #define GERMAN_TAG 13
 #define SPANISH_TAG 14
+
+#define RECORD 1
+#define STOP_RECORDING 2
+#define PLAY 3
+#define STOP_PLAYING 4
 
 @interface MangoEditorViewController ()
 
@@ -36,6 +43,8 @@
 
 @property (nonatomic, assign) CGFloat rotateAngle;
 @property (nonatomic, assign) CGPoint translatePoint;
+
+@property (nonatomic, strong) UIPopoverController *photoPopoverController;
 
 @end
 
@@ -64,6 +73,7 @@
 @synthesize stickerView;
 @synthesize rotateAngle;
 @synthesize translatePoint;
+@synthesize photoPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -143,6 +153,63 @@
 
 - (void) longPressed:(UILongPressGestureRecognizer *)recognizer{
     NSLog(@"Long Pressed");
+}
+
+#pragma mark - Add New PhotoPage
+
+- (void)addNewPageWithImageUrl:(NSURL *)assetUrl {
+    NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
+    [newPageDict setObject:[NSNumber numberWithInt:[pagesArray count]] forKey:@"id"];
+    
+    NSMutableArray *layersArray = [[NSMutableArray alloc] init];
+    NSMutableDictionary *imageDict = [[NSMutableDictionary alloc] init];
+    
+    NSURL *asseturl = assetUrl;
+    ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+    [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+        ALAssetRepresentation *rep = [myasset defaultRepresentation];
+        CGImageRef iref = [rep fullResolutionImage];
+        if (iref) {
+            [imageDict setObject:CAPTURED_IMAGE forKey:TYPE];
+            [imageDict setObject:assetUrl forKey:ASSET_URL];
+            [layersArray addObject:imageDict];
+            
+            NSDictionary *jsonDict = [[NSDictionary alloc] initWithObjectsAndKeys:layersArray, LAYERS, nil];
+            [newPageDict setObject:jsonDict forKey:@"json"];
+            
+            [pagesArray addObject:newPageDict];
+            
+            [pagesCarousel reloadData];
+            [self carousel:pagesCarousel didSelectItemAtIndex:[pagesArray count] - 1];
+        }
+    } failureBlock:^(NSError *myerror) {
+        NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+    }];
+}
+
+#pragma mark - UIImagePickerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    if (photoPopoverController) {
+        if ([photoPopoverController isPopoverVisible]) {
+            [photoPopoverController dismissPopoverAnimated:true];
+        }
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"Dismissed");
+    }];
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    // Request to save the image to camera roll
+    [library writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
+        if (error) {
+            NSLog(@"error");
+        } else {
+            NSLog(@"url %@", assetURL);
+            [self addNewPageWithImageUrl:assetURL];
+        }
+    }];
 }
 
 #pragma mark - TextViewDelegate
@@ -421,7 +488,16 @@
 }
 
 - (IBAction)audioButtonTapped:(id)sender {
+    AudioRecordingsListViewController *audioListController = [[AudioRecordingsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
     
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:audioListController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, pageImageView.frame.size.height)];
+    menuPopoverController.delegate = self;
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
+    [menuPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+    
+    [menuPopoverController presentPopoverFromRect:audioButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
 - (IBAction)gamesButtonTapped:(id)sender {
@@ -453,6 +529,19 @@
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
                 [pageThumbnail setImage:[UIImage imageNamed:[layerDict objectForKey:ASSET_URL]]];
                 break;
+            } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+                NSURL *asseturl = [layerDict objectForKey:ASSET_URL];
+                ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+                [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                    ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                    CGImageRef iref = [rep fullResolutionImage];
+                    if (iref) {
+                        UIImage *image = [UIImage imageWithCGImage:iref];
+                        [pageThumbnail setImage:image];
+                    }
+                } failureBlock:^(NSError *myerror) {
+                    NSLog(@"Couldn't get image - %@",[myerror localizedDescription]);
+                }];
             }
         }
     } else {
@@ -551,17 +640,31 @@
             pageTextView.font = [UIFont boldSystemFontOfSize:24];
             pageTextView.text = textOnPage;
             [pageImageView addSubview:pageTextView];
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+            NSURL *asseturl = [layerDict objectForKey:@"url"];
+            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                CGImageRef iref = [rep fullResolutionImage];
+                if (iref) {
+                    UIImage *image = [UIImage imageWithCGImage:iref];
+                    pageImageView.incrementalImage = image;
+                }
+            } failureBlock:^(NSError *myerror) {
+                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+            }];
         }
     }
     
     audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     if (!audioUrl) {
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
-        [audioRecordingButton addTarget:self action:@selector(startRecordingAudio) forControlEvents:UIControlEventTouchUpInside];
+        audioRecordingButton.tag = RECORD;
     } else {
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
-        [audioRecordingButton addTarget:self action:@selector(startPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
+        audioRecordingButton.tag = PLAY;
     }
+    [audioRecordingButton addTarget:self action:@selector(audioRecButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [audioRecordingButton setFrame:CGRectMake(0, pageImageView.frame.size.height - 60, 60, 60)];
     [pageImageView addSubview:audioRecordingButton];
 }
@@ -592,10 +695,37 @@ enum
     ENC_PCM = 6,
 } encodingTypes;
 
+- (void)audioRecButtonTapped {
+    switch (audioRecordingButton.tag) {
+        case RECORD: {
+            [self startRecordingAudio];
+        }
+            break;
+            
+        case STOP_RECORDING: {
+            [self stopRecordingAudio];
+        }
+            break;
+            
+        case PLAY: {
+            [self startPlayingAudio];
+        }
+            break;
+            
+        case STOP_PLAYING: {
+            [self stopPlayingAudio];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 - (void)startRecordingAudio {
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
-    [audioRecordingButton addTarget:self action:@selector(stopRecordingAudio) forControlEvents:UIControlEventTouchUpInside];
+    audioRecordingButton.tag = STOP_RECORDING;
     
     // Init audio with record capability
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -662,11 +792,12 @@ enum
 
 - (void)stopRecordingAudio
 {
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+    audioRecordingButton.tag = PLAY;
+    
     NSLog(@"stopRecording");
     [audioRecorder stop];
     NSLog(@"stopped");
-    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
-    [audioRecordingButton addTarget:self action:@selector(startPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
 
     //[self saveAudio];
 }
@@ -691,8 +822,8 @@ enum
 #pragma mark - Audio Playing
 
 - (void)startPlayingAudio {
+    audioRecordingButton.tag = STOP_PLAYING;
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
-    [audioRecordingButton addTarget:self action:@selector(stopPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
 
     NSLog(@"playRecording");
     // Init audio with playback capability
@@ -711,8 +842,8 @@ enum
 
 - (void)stopPlayingAudio {
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
-    [audioRecordingButton addTarget:self action:@selector(startPlayingAudio) forControlEvents:UIControlEventTouchUpInside];
-
+    audioRecordingButton.tag = PLAY;
+    
     NSLog(@"stopPlaying");
     [audioPlayer stop];
     NSLog(@"stopped");
@@ -722,6 +853,55 @@ enum
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [self stopPlayingAudio];
+}
+
+#pragma mark - UIActionSheet Delegate Method
+
+#define CAMERA_INDEX 1
+#define LIBRARY_INDEX 0
+
+// Called when a button is clicked. The view will be automatically dismissed after this call returns
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case CAMERA_INDEX: {
+            if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera])
+            {
+                UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                imagePicker.delegate = self;
+                imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                imagePicker.allowsEditing = YES;
+                [self presentViewController:imagePicker animated:YES completion:^{
+                    NSLog(@"Completed");
+                }];
+            }
+        }
+            break;
+            
+        case LIBRARY_INDEX: {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+            {
+                UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                imagePicker.delegate = self;
+                imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                imagePicker.allowsEditing = YES;
+                
+                photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+                photoPopoverController.delegate = self;
+                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 44, 250, 44) inView:pageImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - Camera Methods
+
+- (void)cameraButtonTapped {
+    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
+    [photoActionSheet showFromRect:CGRectMake(0, 44, 250, 44) inView:pageImageView animated:YES];
 }
 
 @end

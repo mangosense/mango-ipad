@@ -1019,7 +1019,6 @@
     [assetPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
     
     [assetPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-
 }
 
 - (void)textButtonTapped {
