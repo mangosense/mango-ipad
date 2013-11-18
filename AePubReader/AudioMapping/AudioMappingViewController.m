@@ -251,7 +251,7 @@
             [self nextClick:nil];
         }
     }
-
+    NSLog(@"update in timer");
     [self showProgress];
 }
 -(void)showProgress{
@@ -314,8 +314,6 @@
         [button setTitle:@"stop" forState:UIControlStateNormal];
         [_recorder record];
     }
-    
-
 }
 
 - (IBAction)playMapped:(id)sender {
@@ -323,6 +321,7 @@
     NSString *string=[self applicationDocumentsDirectory];
     string=[string stringByAppendingPathComponent:@"temp.iam4"];
     _player=[[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:string] error:nil];
+    _player.delegate=self;
     [_player play];
     [_timer invalidate];
     _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateRecorded) userInfo:nil repeats:YES];
@@ -338,11 +337,13 @@
         }
     }
     [self showProgress];
+    
 }
 
 - (IBAction)playRecored:(id)sender {
     [self reset];
     _player=[[AVAudioPlayer alloc]initWithContentsOfURL:audioUrl error:nil];
+    _player.delegate=self;
     [_player play];
     [self sampleAudio];
 

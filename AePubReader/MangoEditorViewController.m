@@ -882,9 +882,10 @@ enum
     }
 
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+    [pageImageView addSubview:audioMappingViewController.view];
+
     audioMappingViewController.textForMapping = textOnPage;
     audioMappingViewController.audioUrl = url;
-    [pageImageView addSubview:audioMappingViewController.view];
 }
 
 #pragma mark - Audio Player Delegate
