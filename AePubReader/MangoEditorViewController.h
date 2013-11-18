@@ -22,6 +22,7 @@
     IBOutlet UIButton *gamesButton;
     IBOutlet UIButton *collaborationButton;
     IBOutlet UIButton *playStoryButton;
+    IBOutlet UIButton *doodleButton;
     
     IBOutlet iCarousel *pagesCarousel;
     
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *gamesButton;
 @property (nonatomic, strong) IBOutlet UIButton *collaborationButton;
 @property (nonatomic, strong) IBOutlet UIButton *playStoryButton;
+@property (nonatomic, strong) IBOutlet UIButton *doodleButton;
 @property (nonatomic, strong) IBOutlet iCarousel *pagesCarousel;
 @property (nonatomic, strong) IBOutlet SmoothDrawingView *pageImageView;
 @property (nonatomic, assign) int chosenBookTag;
@@ -48,5 +50,6 @@
 - (IBAction)gamesButtonTapped:(id)sender;
 - (IBAction)collaborationButtonTapped:(id)sender;
 - (IBAction)playStoryButtonTapped:(id)sender;
+- (IBAction)doodleButtonTapped:(id)sender;
 
 @end

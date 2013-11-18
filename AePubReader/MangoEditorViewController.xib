@@ -2,13 +2,14 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MangoEditorViewController">
             <connections>
                 <outlet property="audioButton" destination="Pw0-v7-MNt" id="3V0-bp-U2u"/>
                 <outlet property="collaborationButton" destination="0Bu-3e-Z6Z" id="Qgb-1d-g7p"/>
+                <outlet property="doodleButton" destination="fgK-UF-EpW" id="QsU-hm-6to"/>
                 <outlet property="gamesButton" destination="siD-9f-BIX" id="jyO-88-grg"/>
                 <outlet property="imageButton" destination="zYs-VD-HiA" id="qtF-ky-eR9"/>
                 <outlet property="mangoButton" destination="LwC-pB-q2q" id="L5j-8X-2mM"/>
@@ -140,8 +141,19 @@
                         <outlet property="delegate" destination="-1" id="IOS-KQ-3a6"/>
                     </connections>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fgK-UF-EpW">
+                    <rect key="frame" x="18" y="464" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="edittool.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="doodleButtonTapped:" destination="-1" eventType="touchUpInside" id="Ffi-JT-Cco"/>
+                    </connections>
+                </button>
             </subviews>
-            <color key="backgroundColor" red="0.20784313725490194" green="0.20784313725490194" blue="0.20784313725490194" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.35686274509803922" green="0.35686274509803922" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
@@ -149,6 +161,7 @@
     <resources>
         <image name="audiobutton.png" width="48" height="48"/>
         <image name="collaborationbutton.png" width="48" height="48"/>
+        <image name="edittool.png" width="42" height="42"/>
         <image name="gamebutton.png" width="48" height="48"/>
         <image name="imagebutton.png" width="48" height="48"/>
         <image name="mangoicon.png" width="38" height="50"/>

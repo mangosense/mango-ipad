@@ -59,6 +59,7 @@
 @synthesize gamesButton;
 @synthesize collaborationButton;
 @synthesize playStoryButton;
+@synthesize doodleButton;
 @synthesize pagesCarousel;
 @synthesize chosenBookTag;
 @synthesize bookJsonString;
@@ -90,6 +91,9 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
+    pageImageView.selectedColor = 7;
+    pageImageView.selectedBrush = 5.0f;
+    pageImageView.selectedEraserWidth = 20.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -509,6 +513,10 @@
 }
 
 - (IBAction)playStoryButtonTapped:(id)sender {
+    
+}
+
+- (IBAction)doodleButtonTapped:(id)sender {
     
 }
 
