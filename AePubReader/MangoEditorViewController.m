@@ -881,6 +881,9 @@ enum
         }
     }
 
+    if (audioMappingViewController) {
+        [audioMappingViewController.view removeFromSuperview];
+    }
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     [pageImageView addSubview:audioMappingViewController.view];
 

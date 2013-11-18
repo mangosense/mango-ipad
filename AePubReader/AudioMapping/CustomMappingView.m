@@ -31,11 +31,11 @@
     UIFont *font=[UIFont systemFontOfSize:14];
     CGRect rectangle = CGRectMake(_x-1, _y, _width+1 , _height);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, 1.0);
+    CGContextSetRGBFillColor(context, 132.0/255.0, 197.0/255.0, 78.0/255.0, 1.0);
     //  CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
     CGContextFillRect(context, rectangle);
     NSLog(@" rect %f %f",_x,_width);
-    CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, 1.0);
+    CGContextSetRGBFillColor(context, 240.0/255.0, 189.0/255.0, 35.0/255.0, 1.0);
 
     for (NSString *str in _text) {
         

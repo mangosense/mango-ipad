@@ -13,12 +13,17 @@
 
 @interface AudioMappingViewController ()
 
+@property (nonatomic, assign) CGFloat xDiffToCenter;
+@property (nonatomic, assign) CGFloat yDiffToCenter;
+
 @end
 
 @implementation AudioMappingViewController
 
 @synthesize audioUrl;
 @synthesize textForMapping;
+@synthesize xDiffToCenter, yDiffToCenter;
+@synthesize audioSpeedSlider;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +39,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _listOfViews=[[NSMutableArray alloc]init];
-
+    [_scrollView setBackgroundColor:COLOR_ORANGE];
+    [audioSpeedSlider setMaximumValue:1.0f];
+    [audioSpeedSlider setMinimumValue:0.5f];
+    [audioSpeedSlider setValue:1.0f];
 }
 
 - (void)setAudioUrl:(NSURL *)audioUrlForMapping {
@@ -114,6 +122,7 @@
         prevWidth=baseView.frame.size.width;
         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 50, 30)];
         label.text=[[NSString alloc]initWithFormat: @"%0.1f",initialValue];
+        [label setTextAlignment:NSTextAlignmentCenter];
         initialValue=label.text.floatValue;
         label.backgroundColor=[UIColor clearColor];
         [baseView addSubview:label];
@@ -299,7 +308,7 @@
         }else{
             _recorder=nil;
         }
-    }else{
+    } else {
         NSDictionary *recordSettings = @{AVFormatIDKey: @(kAudioFormatAppleIMA4),
                                          AVNumberOfChannelsKey: @1,
                                          AVSampleRateKey: @44100.0f};
@@ -344,6 +353,9 @@
     [self reset];
     _player=[[AVAudioPlayer alloc]initWithContentsOfURL:audioUrl error:nil];
     _player.delegate=self;
+    
+    [_player setEnableRate:YES];
+    _player.rate = audioSpeedSlider.value;
     [_player play];
     [self sampleAudio];
 
@@ -387,6 +399,50 @@
     [_timer invalidate];
     _scrollView.progress=0;
     [_scrollView setNeedsDisplay];
+}
+
+#pragma mark - Exit
+
+- (IBAction)exitButtonTapped:(id)sender {
+    [self.view removeFromSuperview];
+}
+
+#pragma mark - Audio Speed
+
+- (IBAction)audioSpeedSliderValueChanged:(id)sender {
+    [_player setRate:audioSpeedSlider.value];
+}
+
+#pragma mark - Touch Methods
+
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.view.superview];
+    xDiffToCenter = location.x - self.view.center.x;
+    yDiffToCenter = location.y - self.view.center.y;
+    
+    self.view.alpha = 0.7f;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesMoved:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.view.superview];
+    
+    self.view.center = CGPointMake(MAX(5 + self.view.frame.size.width/2, MIN(location.x - xDiffToCenter, self.view.superview.frame.size.width - self.view.frame.size.width/2 - 5)), MAX(5 + self.view.frame.size.height/2, MIN(location.y - yDiffToCenter, self.view.superview.frame.size.height - self.view.frame.size.height/2 - 5/* - 150*/)));
+    self.view.alpha = 0.7f;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint location = [touch locationInView:self.view.superview];
+    
+    self.view.alpha = 1.0f;
+    
+    self.view.center = CGPointMake(MAX(5 + self.view.frame.size.width/2, MIN(location.x - xDiffToCenter, self.view.superview.frame.size.width - self.view.frame.size.width/2 - 5)), MAX(5 + self.view.frame.size.height/2, MIN(location.y - yDiffToCenter, self.view.superview.frame.size.height - self.view.frame.size.height/2 - 5/* - 150*/)));
+    [self resignFirstResponder];
 }
 
 @end

@@ -25,11 +25,16 @@
 - (void)drawRect:(CGRect)rect
 {
     
-    CGRect rectangle = CGRectMake(0, 0,_progress  ,rect.size.height-10 );
+    CGRect rectangle = CGRectMake(0, 0,_progress  ,rect.size.height-10);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, 1.0);
+    CGContextSetRGBFillColor(context, 240.0/255.0, 189.0/255.0, 35.0/255.0, 1.0);
+    CGRect background=rect;
+    background.size.height-=10;
+    CGContextFillRect(context, background);
+    CGContextSetRGBFillColor(context, 132.0/255.0, 197.0/255.0, 78.0/255.0, 1.0);
+    
     CGContextFillRect(context, rectangle);
-
+    
 }
 
 

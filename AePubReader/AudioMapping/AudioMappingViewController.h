@@ -15,6 +15,8 @@
 @interface AudioMappingViewController : UIViewController<UITextFieldDelegate,AVAudioPlayerDelegate,CustomLabelDelegate> {
     NSURL *audioUrl;
     NSString *textForMapping;
+    
+    IBOutlet UISlider *audioSpeedSlider;
 }
 
 - (IBAction)nextClick:(id)sender;
@@ -24,6 +26,10 @@
 - (IBAction)record:(id)sender;
 - (IBAction)playMapped:(id)sender;
 - (IBAction)playRecored:(id)sender;
+- (IBAction)audioSpeedSliderValueChanged:(id)sender;
+- (IBAction)exitButtonTapped:(id)sender;
+
+@property (nonatomic, strong) IBOutlet UISlider *audioSpeedSlider;
 
 @property(assign,nonatomic) NSInteger index;
 @property(retain,nonatomic) NSMutableArray *cues;
