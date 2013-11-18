@@ -95,7 +95,6 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
-    pageImageView.selectedColor = 7;
     pageImageView.selectedBrush = 5.0f;
     pageImageView.selectedEraserWidth = 20.0f;
 }
@@ -626,6 +625,7 @@
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
 - (void)renderPage:(int)pageNumber {
+    pageImageView.selectedColor = 7;
     currentPageNumber = pageNumber;
     
     for (UIView *subview in [pageImageView subviews]) {
@@ -642,6 +642,7 @@
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
             pageImageView.incrementalImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+            pageImageView.tempImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
             audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
@@ -874,9 +875,11 @@ enum
     NSDictionary *pageDict = [pagesArray objectAtIndex:currentPageNumber];
     NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
     NSString *textOnPage;
+    CGRect textFrame;
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
+            textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
             break;
         }
     }
@@ -886,9 +889,23 @@ enum
     }
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     [pageImageView addSubview:audioMappingViewController.view];
+    
+    audioMappingViewController.customView.textFont = [UIFont boldSystemFontOfSize:24];
+    audioMappingViewController.customView.frame = textFrame;
+    [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+    [audioMappingViewController.view setExclusiveTouch:YES];
+    
+    [pageImageView addSubview:audioMappingViewController.customView];
 
     audioMappingViewController.textForMapping = textOnPage;
     audioMappingViewController.audioUrl = url;
+    
+    for (UIView *subview in [pageImageView subviews]) {
+        if ([subview isKindOfClass:[MovableTextView class]]) {
+            [subview setHidden:YES];
+        }
+    }
+    pageImageView.selectedColor = 8;
 }
 
 #pragma mark - Audio Player Delegate

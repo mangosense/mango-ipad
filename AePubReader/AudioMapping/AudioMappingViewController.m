@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "BaseViewSample.h"
 #import "Constants.h"
+#import "MovableTextView.h"
 
 @interface AudioMappingViewController ()
 
@@ -59,14 +60,14 @@
     _totalWordCount=_cues.count;
     
     if ([UIDevice currentDevice].systemVersion.integerValue<6) {
-        _customView.space=[@" " sizeWithFont:[UIFont systemFontOfSize:14]];
+        _customView.space=[@" " sizeWithFont:_customView.textFont];
     }else{
-        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14], NSFontAttributeName, nil];
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:_customView.textFont, NSFontAttributeName, nil];
         _customView.space=   [[[NSAttributedString alloc] initWithString:@" " attributes:attributes] size];
     }
     
     _index=0;
-    _customView.backgroundColor = COLOR_LIGHT_GREY;
+    _customView.backgroundColor = [UIColor clearColor];
 }
 
 -(void)completeTable{
@@ -206,9 +207,9 @@
         CGSize size;
         
         if ([UIDevice currentDevice].systemVersion.integerValue<6) {
-            size=[string sizeWithFont:[UIFont systemFontOfSize:14]];
+            size=[string sizeWithFont:_customView.textFont];
         } else {
-            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14], NSFontAttributeName, nil];
+            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:_customView.textFont, NSFontAttributeName, nil];
             size=   [[[NSAttributedString alloc] initWithString:string attributes:attributes] size];
         }
         
@@ -404,6 +405,13 @@
 #pragma mark - Exit
 
 - (IBAction)exitButtonTapped:(id)sender {
+    for (UIView *subview in [self.view.superview subviews]) {
+        if ([subview isKindOfClass:[MovableTextView class]]) {
+            [subview setHidden:NO];
+        }
+    }
+    
+    [_customView removeFromSuperview];
     [self.view removeFromSuperview];
 }
 

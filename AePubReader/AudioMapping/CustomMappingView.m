@@ -28,22 +28,22 @@
     pt.x=0;
     pt.y=0;
     CGSize size;
-    UIFont *font=[UIFont systemFontOfSize:14];
+    //_textFont=[UIFont systemFontOfSize:14];
     CGRect rectangle = CGRectMake(_x-1, _y, _width+1 , _height);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetRGBFillColor(context, 132.0/255.0, 197.0/255.0, 78.0/255.0, 1.0);
     //  CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
     CGContextFillRect(context, rectangle);
     NSLog(@" rect %f %f",_x,_width);
-    CGContextSetRGBFillColor(context, 240.0/255.0, 189.0/255.0, 35.0/255.0, 1.0);
+    CGContextSetRGBFillColor(context, 53.0/255.0, 53.0/255.0, 53.0/255.0, 1.0);
 
     for (NSString *str in _text) {
         
         if ([UIDevice currentDevice].systemVersion.integerValue<6) {
-            size=[str sizeWithFont:font];
+            size=[str sizeWithFont:_textFont];
             
         }else{
-            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14], NSFontAttributeName, nil];
+            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:_textFont, NSFontAttributeName, nil];
             size=   [[[NSAttributedString alloc] initWithString:str attributes:attributes] size];
 
             
@@ -53,7 +53,7 @@
             pt.y+=size.height;
         }
         
-        [str drawAtPoint:pt forWidth:size.width withFont:font fontSize:14 lineBreakMode:NSLineBreakByCharWrapping baselineAdjustment:UIBaselineAdjustmentNone];
+        [str drawAtPoint:pt forWidth:size.width withFont:_textFont fontSize:_textFont.pointSize lineBreakMode:NSLineBreakByCharWrapping baselineAdjustment:UIBaselineAdjustmentNone];
        // NSLog(@" char %@ %f %f",str ,pt.x,size.width);
 
         pt.x+=size.width+_space.width;

@@ -15,4 +15,5 @@
 @property(assign,nonatomic) float y;
 @property(assign,nonatomic) float width;
 @property(assign,nonatomic) float height;
+@property (nonatomic, strong) UIFont *textFont;
 @end
