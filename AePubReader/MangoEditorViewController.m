@@ -12,7 +12,6 @@
 #import "MenuTableViewController.h"
 #import "Flickr.h"
 #import "FlickrPhoto.h"
-#import "AudioRecordingsListViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AudioMappingViewController.h"
 
@@ -488,15 +487,25 @@
 }
 
 - (IBAction)textButtonTapped:(id)sender {
-    MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 400, 300)];
-    pageTextView.font = [UIFont boldSystemFontOfSize:24];
-    pageTextView.text = @"";
-    [pageImageView addSubview:pageTextView];
+    ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
+    [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
+    textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
+    textTemplatesListViewController.delegate = self;
+    
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, pageImageView.frame.size.height)];
+    menuPopoverController.delegate = self;
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
+    [menuPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+    [menuPopoverController presentPopoverFromRect:audioButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    
 }
 
 - (IBAction)audioButtonTapped:(id)sender {
-    AudioRecordingsListViewController *audioListController = [[AudioRecordingsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
+    audioListController.tableType = TABLE_TYPE_AUDIO_RECORDINGS;
     
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:audioListController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, pageImageView.frame.size.height)];
@@ -521,6 +530,30 @@
 
 - (IBAction)doodleButtonTapped:(id)sender {
     
+}
+
+#pragma mark - Items List Delegate
+
+- (void)itemType:(int)itemType tappedAtIndex:(int)index {
+    switch (itemType) {
+        case TABLE_TYPE_TEXT_TEMPLATES: {
+            // Move to delegate method
+            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 400, 300)];
+            pageTextView.font = [UIFont boldSystemFontOfSize:24];
+            NSArray *itemsArray = [NSArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
+            pageTextView.text = [itemsArray objectAtIndex:index];
+            [pageImageView addSubview:pageTextView];
+        }
+            break;
+            
+        case TABLE_TYPE_AUDIO_RECORDINGS:
+            
+            break;
+            
+        default:
+            break;
+    }
+    [menuPopoverController dismissPopoverAnimated:YES];
 }
 
 #pragma mark - iCarousel Datasource And Delegate Methods

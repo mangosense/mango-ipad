@@ -37,7 +37,7 @@
 		832CCD4F17BB4F2100FC05E3 /* f3905b0506.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD4517BB4F2100FC05E3 /* f3905b0506.mp3 */; };
 		833058A217F9901E00F48427 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A117F9901E00F48427 /* libz.1.1.3.dylib */; };
 		833058A417F9961A00F48427 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A317F9961A00F48427 /* Accounts.framework */; };
-		83347A221830E9ED002891EA /* AudioRecordingsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */; };
+		83347A221830E9ED002891EA /* ItemsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83347A211830E9ED002891EA /* ItemsListViewController.m */; };
 		83347A28183205BA002891EA /* Flickr.m in Sources */ = {isa = PBXBuildFile; fileRef = 83347A25183205BA002891EA /* Flickr.m */; };
 		83347A29183205BA002891EA /* FlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 83347A27183205BA002891EA /* FlickrPhoto.m */; };
 		833765CF17D09BCE00262C26 /* AccordionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833765CE17D09BCE00262C26 /* AccordionView.m */; };
@@ -633,8 +633,8 @@
 		832CCD4517BB4F2100FC05E3 /* f3905b0506.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = f3905b0506.mp3; path = AngryBirdsEnglish/f3905b0506.mp3; sourceTree = "<group>"; };
 		833058A117F9901E00F48427 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		833058A317F9961A00F48427 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		83347A201830E9ED002891EA /* AudioRecordingsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingsListViewController.h; sourceTree = "<group>"; };
-		83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordingsListViewController.m; sourceTree = "<group>"; };
+		83347A201830E9ED002891EA /* ItemsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsListViewController.h; sourceTree = "<group>"; };
+		83347A211830E9ED002891EA /* ItemsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsListViewController.m; sourceTree = "<group>"; };
 		83347A24183205BA002891EA /* Flickr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flickr.h; sourceTree = "<group>"; };
 		83347A25183205BA002891EA /* Flickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Flickr.m; sourceTree = "<group>"; };
 		83347A26183205BA002891EA /* FlickrPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhoto.h; sourceTree = "<group>"; };
@@ -1646,8 +1646,8 @@
 				83DD9BBC181133F9004C975F /* PageInfo.m */,
 				834FCE6D182D26BC0000181B /* MenuTableViewController.h */,
 				834FCE6E182D26BC0000181B /* MenuTableViewController.m */,
-				83347A201830E9ED002891EA /* AudioRecordingsListViewController.h */,
-				83347A211830E9ED002891EA /* AudioRecordingsListViewController.m */,
+				83347A201830E9ED002891EA /* ItemsListViewController.h */,
+				83347A211830E9ED002891EA /* ItemsListViewController.m */,
 				83F4F36B1833498900732315 /* AudioRecord.h */,
 				83F4F36C1833498900732315 /* AudioRecord.m */,
 				839E0CD21834A20A00436237 /* MangoEditorViewController.h */,
@@ -3030,7 +3030,7 @@
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
 				AE396BB5181F7E3D009C68E7 /* PSTCollectionViewFlowLayout.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
-				83347A221830E9ED002891EA /* AudioRecordingsListViewController.m in Sources */,
+				83347A221830E9ED002891EA /* ItemsListViewController.m in Sources */,
 				AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */,
 				AEA768E01611DA82002B9FDC /* DataModelControl.m in Sources */,
 				AED0B6D7161419E800EE1FD7 /* FileDownloader.m in Sources */,

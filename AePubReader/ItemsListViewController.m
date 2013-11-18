@@ -6,16 +6,18 @@
 //
 //
 
-#import "AudioRecordingsListViewController.h"
+#import "ItemsListViewController.h"
 #import "AudioRecord.h"
 
-@interface AudioRecordingsListViewController ()
+@interface ItemsListViewController ()
 
 @end
 
-@implementation AudioRecordingsListViewController
+@implementation ItemsListViewController
 
-@synthesize audioRecordingsListArray;
+@synthesize itemsListArray;
+@synthesize tableType;
+@synthesize delegate;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -48,7 +50,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [audioRecordingsListArray count];
+    return [itemsListArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -67,8 +69,23 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    AudioRecord *audioRecord = [audioRecordingsListArray objectAtIndex:indexPath.section];
-    cell.textLabel.text = audioRecord.audioName;
+    cell.textLabel.numberOfLines = 100;
+    
+    switch (tableType) {
+        case TABLE_TYPE_AUDIO_RECORDINGS: {
+            AudioRecord *audioRecord = [itemsListArray objectAtIndex:indexPath.section];
+            cell.textLabel.text = audioRecord.audioName;
+        }
+            break;
+            
+        case TABLE_TYPE_TEXT_TEMPLATES: {
+            cell.textLabel.text = [itemsListArray objectAtIndex:indexPath.section];
+        }
+            break;
+            
+        default:
+            break;
+    }
     
     return cell;
 }
@@ -123,5 +140,28 @@
 }
 
  */
+
+#pragma mark - Table View Delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (tableType) {
+        case TABLE_TYPE_AUDIO_RECORDINGS:
+            
+            break;
+            
+        case TABLE_TYPE_TEXT_TEMPLATES: {
+            return MAX(44, [[itemsListArray objectAtIndex:indexPath.section] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+        }
+            break;
+            
+        default:
+            break;
+    }
+    return 0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [delegate itemType:tableType tappedAtIndex:indexPath.section];
+}
 
 @end

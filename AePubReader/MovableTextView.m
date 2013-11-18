@@ -28,8 +28,8 @@
     if (self) {
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
-        //[[self layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
-        //[[self layer] setBorderWidth:1.0f];
+        [[self layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+        [[self layer] setBorderWidth:1.0f];
         
         UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
         pinchRecognizer.delegate = self;

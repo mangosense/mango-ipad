@@ -21,7 +21,7 @@
 #import "MenuTableViewController.h"
 #import "Flickr.h"
 #import "FlickrPhoto.h"
-#import "AudioRecordingsListViewController.h"
+#import "ItemsListViewController.h"
 
 #define MAIN_TEXTVIEW_TAG 100
 
@@ -1009,7 +1009,7 @@
 }
 
 - (void)audioButtonTapped {
-    AudioRecordingsListViewController *audioListController = [[AudioRecordingsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, backgroundImageView.frame.size.height)];
     
     assetPopoverController = [[UIPopoverController alloc] initWithContentViewController:audioListController];

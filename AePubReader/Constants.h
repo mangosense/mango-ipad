@@ -68,6 +68,11 @@
 #define ASSET_URL @"url"
 #define PAGES @"pages"
 
+#pragma mark - Table Types
+
+#define TABLE_TYPE_AUDIO_RECORDINGS 1
+#define TABLE_TYPE_TEXT_TEMPLATES 2
+
 #pragma mark - Colors
 
 //orange: #f04e23  (R:240 G:78 B:35)

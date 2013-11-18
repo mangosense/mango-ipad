@@ -10,8 +10,9 @@
 #import "iCarousel.h"
 #import "SmoothDrawingView.h"
 #import <AVFoundation/AVFoundation.h>
+#import "ItemsListViewController.h"
 
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate> {
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;
