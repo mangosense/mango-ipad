@@ -14,6 +14,7 @@
 #import "FlickrPhoto.h"
 #import "AudioRecordingsListViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "AudioMappingViewController.h"
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -46,6 +47,8 @@
 
 @property (nonatomic, strong) UIPopoverController *photoPopoverController;
 
+@property (nonatomic, strong) AudioMappingViewController *audioMappingViewController;
+
 @end
 
 @implementation MangoEditorViewController
@@ -75,6 +78,7 @@
 @synthesize rotateAngle;
 @synthesize translatePoint;
 @synthesize photoPopoverController;
+@synthesize audioMappingViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -846,6 +850,9 @@ enum
     audioPlayer.numberOfLoops = 0;
     audioPlayer.delegate = self;
     [audioPlayer play];
+    
+    // Temporary, for testing audio mapping UI
+    [self showAudioMappingScreen];
 }
 
 - (void)stopPlayingAudio {
@@ -855,6 +862,29 @@ enum
     NSLog(@"stopPlaying");
     [audioPlayer stop];
     NSLog(@"stopped");
+}
+
+#pragma mark - Audio Mapping
+
+- (void)showAudioMappingScreen {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+    
+    NSDictionary *pageDict = [pagesArray objectAtIndex:currentPageNumber];
+    NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+    NSString *textOnPage;
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
+            textOnPage = [layerDict objectForKey:TEXT];
+            break;
+        }
+    }
+
+    audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+    audioMappingViewController.textForMapping = textOnPage;
+    audioMappingViewController.audioUrl = url;
+    [pageImageView addSubview:audioMappingViewController.view];
 }
 
 #pragma mark - Audio Player Delegate

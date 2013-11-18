@@ -140,6 +140,12 @@
 		834FCE73182E084E0000181B /* pages_bg_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE70182E084E0000181B /* pages_bg_left.png */; };
 		834FCE74182E084E0000181B /* pages_bg_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE71182E084E0000181B /* pages_bg_right.png */; };
 		834FCE75182E084E0000181B /* pagesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE72182E084E0000181B /* pagesbg.png */; };
+		83539E3E1839F4AC0096DBF8 /* AudioMappingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E341839F4AC0096DBF8 /* AudioMappingViewController.m */; };
+		83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83539E351839F4AC0096DBF8 /* AudioMappingViewController.xib */; };
+		83539E401839F4AC0096DBF8 /* BaseViewSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E371839F4AC0096DBF8 /* BaseViewSample.m */; };
+		83539E411839F4AC0096DBF8 /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E391839F4AC0096DBF8 /* CustomLabel.m */; };
+		83539E421839F4AC0096DBF8 /* CustomMappingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */; };
+		83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		8374AF0917CC66AB009DA792 /* bamboo-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AEE417CC66AB009DA792 /* bamboo-01.png */; };
@@ -737,6 +743,17 @@
 		834FCE70182E084E0000181B /* pages_bg_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pages_bg_left.png; sourceTree = "<group>"; };
 		834FCE71182E084E0000181B /* pages_bg_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pages_bg_right.png; sourceTree = "<group>"; };
 		834FCE72182E084E0000181B /* pagesbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pagesbg.png; sourceTree = "<group>"; };
+		83539E331839F4AC0096DBF8 /* AudioMappingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMappingViewController.h; sourceTree = "<group>"; };
+		83539E341839F4AC0096DBF8 /* AudioMappingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMappingViewController.m; sourceTree = "<group>"; };
+		83539E351839F4AC0096DBF8 /* AudioMappingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioMappingViewController.xib; sourceTree = "<group>"; };
+		83539E361839F4AC0096DBF8 /* BaseViewSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewSample.h; sourceTree = "<group>"; };
+		83539E371839F4AC0096DBF8 /* BaseViewSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewSample.m; sourceTree = "<group>"; };
+		83539E381839F4AC0096DBF8 /* CustomLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLabel.h; sourceTree = "<group>"; };
+		83539E391839F4AC0096DBF8 /* CustomLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLabel.m; sourceTree = "<group>"; };
+		83539E3A1839F4AC0096DBF8 /* CustomMappingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMappingView.h; sourceTree = "<group>"; };
+		83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMappingView.m; sourceTree = "<group>"; };
+		83539E3C1839F4AC0096DBF8 /* CustomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomScrollView.h; sourceTree = "<group>"; };
+		83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomScrollView.m; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
@@ -1584,6 +1601,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				83539E321839F4AC0096DBF8 /* AudioMapping */,
 				83347A231832058D002891EA /* Flickr Search */,
 				AE24BCDD181A92BA006CD354 /* iCarousel.h */,
 				AE24BCDE181A92BA006CD354 /* iCarousel.m */,
@@ -1820,6 +1838,24 @@
 			children = (
 			);
 			name = iCarousel;
+			sourceTree = "<group>";
+		};
+		83539E321839F4AC0096DBF8 /* AudioMapping */ = {
+			isa = PBXGroup;
+			children = (
+				83539E331839F4AC0096DBF8 /* AudioMappingViewController.h */,
+				83539E341839F4AC0096DBF8 /* AudioMappingViewController.m */,
+				83539E351839F4AC0096DBF8 /* AudioMappingViewController.xib */,
+				83539E361839F4AC0096DBF8 /* BaseViewSample.h */,
+				83539E371839F4AC0096DBF8 /* BaseViewSample.m */,
+				83539E381839F4AC0096DBF8 /* CustomLabel.h */,
+				83539E391839F4AC0096DBF8 /* CustomLabel.m */,
+				83539E3A1839F4AC0096DBF8 /* CustomMappingView.h */,
+				83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */,
+				83539E3C1839F4AC0096DBF8 /* CustomScrollView.h */,
+				83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */,
+			);
+			path = AudioMapping;
 			sourceTree = "<group>";
 		};
 		83603C4E17CB7756000DA2CE /* Paint Menu */ = {
@@ -2872,6 +2908,7 @@
 				832CCD4917BB4F2100FC05E3 /* 685dcbd3db.jpg in Resources */,
 				832CCD4A17BB4F2100FC05E3 /* 21833583e6.jpg in Resources */,
 				832CCD4B17BB4F2100FC05E3 /* 8517823664.jpg in Resources */,
+				83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */,
 				834FCE38182D11F70000181B /* menubutton.png in Resources */,
 				834FCE49182D11F70000181B /* recording_button.png in Resources */,
 				83F486F518016CEE00AE3AAE /* c0de018411.mp3 in Resources */,
@@ -2974,6 +3011,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */,
+				83539E411839F4AC0096DBF8 /* CustomLabel.m in Sources */,
 				83DD9BBD181133F9004C975F /* PageInfo.m in Sources */,
 				83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */,
 				AE7FEDDE1615819900C4B51D /* EpubContentR.m in Sources */,
@@ -2999,6 +3037,7 @@
 				AE7FEDD8161580DF00C4B51D /* EpubReaderViewController.m in Sources */,
 				AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */,
 				AE7FEDE51615A6EF00C4B51D /* ShadowButton.m in Sources */,
+				83539E3E1839F4AC0096DBF8 /* AudioMappingViewController.m in Sources */,
 				AE396BBC181F7E3D009C68E7 /* PSTGridLayoutSection.m in Sources */,
 				AE92809416197E51001BCBB6 /* ListOfBooks.m in Sources */,
 				AE525E97161D8CD200CDB400 /* WebViewController.m in Sources */,
@@ -3013,6 +3052,7 @@
 				AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */,
 				839E0CD51834A20A00436237 /* MangoEditorViewController.m in Sources */,
 				AE68606C165A245400A8C9E8 /* PruchaseFree.m in Sources */,
+				83539E421839F4AC0096DBF8 /* CustomMappingView.m in Sources */,
 				AE6C8310165C918200881F82 /* FileDownloaderFromStore.m in Sources */,
 				AE0C5756182A0E0500A923CF /* CategoryViewController.m in Sources */,
 				AE5BA1291667427100143BE8 /* ViewControllerMailCustom.m in Sources */,
@@ -3020,6 +3060,7 @@
 				AEFA9BF5166CC44200A60A12 /* SignUpViewControllerIphone.m in Sources */,
 				AEFA9BF9166CC80900A60A12 /* MyBooksViewController.m in Sources */,
 				83F4F36D1833498900732315 /* AudioRecord.m in Sources */,
+				83539E401839F4AC0096DBF8 /* BaseViewSample.m in Sources */,
 				AEFA9BFC166CC84700A60A12 /* DownloadViewController.m in Sources */,
 				AE8D2610166DCA0400156F43 /* ListOfPurchasedBooks.m in Sources */,
 				AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */,
@@ -3067,6 +3108,7 @@
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
 				AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */,
 				AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */,
+				83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
