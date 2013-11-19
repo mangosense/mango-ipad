@@ -35,4 +35,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)backToLandingPage:(id)sender {
+    [self.navigationController popToViewController:_controller animated:YES];
+}
 @end

@@ -24,7 +24,6 @@
 #import "CustomTabViewController.h"
 #import "Flurry.h"
 #import "RootViewController.h"
-#import "EditorViewController.h"
 #import "StoriesViewController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"

@@ -9,6 +9,7 @@
 #import "LandPageChoiceViewController.h"
 #import "NewStoreCoverViewController.h"
 #import "CustomNavViewController.h"
+#import "CategoriesViewController.h"
 @interface LandPageChoiceViewController ()
 
 @end
@@ -42,6 +43,7 @@
 }
 
 - (IBAction)openFreeStories:(id)sender {
+ 
 }
 
 - (IBAction)store:(id)sender {
@@ -53,5 +55,8 @@
 }
 
 - (IBAction)myStories:(id)sender {
+    CategoriesViewController *categoryViewController=[[CategoriesViewController alloc]initWithNibName:@"CategoriesViewController" bundle:nil];
+    categoryViewController.controller=self;
+    [self.navigationController pushViewController:categoryViewController animated:YES];
 }
 @end

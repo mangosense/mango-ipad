@@ -7,7 +7,6 @@
 //
 
 #import "StoriesViewController.h"
-#import "EditorViewController.h"
 #import "MangoEditorViewController.h"
 
 #define ENGLISH_TAG 9

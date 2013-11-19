@@ -61,6 +61,16 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dVl-EK-qaD">
+                    <rect key="frame" x="8" y="6" width="78" height="77"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="icons_home.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backToLandingPage:" destination="-1" eventType="touchUpInside" id="Nda-h1-ZjS"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -72,6 +82,7 @@
         <image name="categoryscreen.png" width="1024" height="768"/>
         <image name="celebrations.png" width="201" height="213"/>
         <image name="classics.png" width="203" height="213"/>
+        <image name="icons_home.png" width="78" height="77"/>
         <image name="poems and rhymes.png" width="201" height="214"/>
         <image name="traditional.png" width="200" height="212"/>
         <image name="values.png" width="201" height="212"/>
