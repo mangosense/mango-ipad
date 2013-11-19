@@ -15,8 +15,6 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
-		832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB91E17B375D90073F9C2 /* EditorViewController.m */; };
-		832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832CB91F17B375D90073F9C2 /* EditorViewController.xib */; };
 		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
 		832CCD3317BB4EF600FC05E3 /* 515c992c1b.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2917BB4EF600FC05E3 /* 515c992c1b.mp3 */; };
 		832CCD3417BB4EF600FC05E3 /* 671db6ad7f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2A17BB4EF600FC05E3 /* 671db6ad7f.mp3 */; };
@@ -631,9 +629,6 @@
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		830DE2A417D471E300399146 /* DrawingToolsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingToolsView.h; sourceTree = "<group>"; };
 		830DE2A517D471E300399146 /* DrawingToolsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingToolsView.m; sourceTree = "<group>"; };
-		832CB91D17B375D90073F9C2 /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorViewController.h; sourceTree = "<group>"; };
-		832CB91E17B375D90073F9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
-		832CB91F17B375D90073F9C2 /* EditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditorViewController.xib; sourceTree = "<group>"; };
 		832CB92217B383EA0073F9C2 /* MovableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovableTextView.h; sourceTree = "<group>"; };
 		832CB92317B383EA0073F9C2 /* MovableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableTextView.m; sourceTree = "<group>"; };
 		832CB92B17B3B1110073F9C2 /* story.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = story.json; sourceTree = "<group>"; };
@@ -1695,9 +1690,6 @@
 				832CCD2517BB4ECC00FC05E3 /* DemoStories */,
 				83E723CD17BA058D0083DBD6 /* camera_gray_round.png */,
 				832CB92B17B3B1110073F9C2 /* story.json */,
-				832CB91D17B375D90073F9C2 /* EditorViewController.h */,
-				832CB91E17B375D90073F9C2 /* EditorViewController.m */,
-				832CB91F17B375D90073F9C2 /* EditorViewController.xib */,
 				832CB92217B383EA0073F9C2 /* MovableTextView.h */,
 				832CB92317B383EA0073F9C2 /* MovableTextView.m */,
 				839DD8CC17B4D7A3003B62C8 /* PageBackgroundImageView.h */,
@@ -2995,7 +2987,6 @@
 				834FCE41182D11F70000181B /* pause_button.png in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 				83F486C518016CEE00AE3AAE /* 26b90983f6.mp3 in Resources */,
-				832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */,
 				839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */,
 				83F486DF18016CEE00AE3AAE /* e797d86055.mp3 in Resources */,
 				83F486C818016CEE00AE3AAE /* 42894322b7.mp3 in Resources */,
@@ -3271,7 +3262,6 @@
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
 				AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */,
 				AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */,
-				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				83347A29183205BA002891EA /* FlickrPhoto.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
