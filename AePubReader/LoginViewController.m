@@ -32,7 +32,7 @@
 #import "NewStoreCoverViewController.h"
 #import "NewStoreViewControlleriPad.h"
 #import "CustomNavViewController.h"
-
+#import "LandPageChoiceViewController.h"
 @interface LoginViewController ()
 @property(strong,nonatomic)DownloadViewControlleriPad *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
@@ -93,6 +93,12 @@
     [super viewDidAppear:animated];
 }
 -(void)goToNext{
+    BOOL newUI=YES;
+    if (newUI) {
+        LandPageChoiceViewController *landingPageViewController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        [self.navigationController pushViewController:landingPageViewController animated:YES];
+        
+    }else{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=NO;
 
@@ -119,6 +125,7 @@
     [_tabBarController.tabBar setHidden:YES];
     
     self.navigationController.navigationBarHidden=YES;
+    }
 }
 -(void)insertInStore{
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
