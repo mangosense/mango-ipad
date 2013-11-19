@@ -43,10 +43,11 @@
                                 <outlet property="delegate" destination="-1" id="nVD-x0-Xd1"/>
                             </connections>
                         </searchBar>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fX8-RX-f76">
-                            <rect key="frame" x="20" y="14" width="113" height="47"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fX8-RX-f76">
+                            <rect key="frame" x="20" y="1" width="78" height="77"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Home">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="icons_home.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -148,6 +149,7 @@
     </objects>
     <resources>
         <image name="eunselected.png" width="150" height="50"/>
+        <image name="icons_home.png" width="78" height="77"/>
         <image name="lunselected.png" width="150" height="50"/>
         <image name="sselected.png" width="150" height="50"/>
     </resources>
