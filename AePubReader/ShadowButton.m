@@ -9,7 +9,7 @@
 #import "ShadowButton.h"
 #import <QuartzCore/QuartzCore.h>
 #import "LibraryViewController.h"
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 @implementation ShadowButton
 
 - (id)initWithFrame:(CGRect)frame

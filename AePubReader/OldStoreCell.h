@@ -9,6 +9,6 @@
 #import "PSTCollectionViewCell.h"
 
 @interface OldStoreCell : PSTCollectionViewCell
-@property (strong, nonatomic) UILabel* label;
+@property (strong, nonatomic) UIImageView *imageView;
 
 @end

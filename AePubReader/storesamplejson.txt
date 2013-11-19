@@ -1,0 +1,60 @@
+{
+
+    "books": [
+        {
+            "book": {
+                "booktype": 1,
+                "description": "An illustrated version of the traditional three little pigs tale. The three little pigs are hounded by a nasty wolf, but, of course, the third pig outsmarts the wolf. The story ends with a surprise twist. Three Little Pigs is a very famous story that tells us how laziness can cause us more troubles and teaches us not to shirk away our responsibilities to enjoy the moment.",
+                "id": 1,
+                "title": "The Three Little Pigs",
+                "image":"littlepigs.jpg"
+            }
+        },
+        {
+            "book": {
+                "booktype": 1,
+                "description": "Everyone knows that the Lion is the king of the jungle. But, when asked to perform a series of simple tasks, can he keep this important title? Read the story to find out!",
+                "id": 2,
+                "title": "The Lion Cannot Do Everything",
+                "image":"lion.jpg"
+                           }
+        },
+        {
+            "book": {
+                "booktype": 1,
+                "description": "Oh no! Rabbit has a loose tooth! Monty and his other friends help Rabbit to feel less anxious about this milestone in his life. Does your child have a loose tooth? Share this story to help ease them through this sometimes confusing time of life.",
+                "id": 3,
+                "title": "The Rabbit Loses A Tooth",
+                "image":"rabbit.jpg"
+                          }
+        },
+        {
+            "book": {
+                "booktype": 1,
+                "description": "Every animal and person has a special talent. From a long neck to reach tall leaves to nimble fingers with which to play marbles, each person has a skill. Crane finds out just how useful he is in this charming tale. ",
+                "id": 4,
+                "title": "The Crane, Too, Is Useful",
+                "image":"crane.jpg"
+                           }
+        },
+        {
+            "book": {
+                "booktype": 1,
+                "description": "Poor Bear has an itch he just can't scratch. Read along as his jungle friends try to help him. Will he be successful? ",
+                "id": 5,
+                "title": "The Bear's Back",
+                "image":"bears.jpg"
+                            }
+        },
+         {
+            "book": {
+                "booktype": 1,
+                "description": " Buy All",
+                "id": 6,
+                "title": "Buy All",
+                "image":"buyall.png"
+                            }
+        }
+
+    ]
+}

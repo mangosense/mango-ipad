@@ -10,7 +10,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "LoginDirectly.h"
 @implementation ListOfPurchasedBooks
--(id)initWithViewController:(DownloadViewController *)store{
+-(id)initWithViewController:(DownloadViewControlleriPhone *)store{
      self=[super init];
     if (self) {
         _store=store;

@@ -9,7 +9,7 @@
 #import "ListOfBooks.h"
 #import "LoginDirectly.h"
 @implementation ListOfBooks
--(id)initWithViewController:(StoreViewController *)store{
+-(id)initWithViewController:(DownloadViewControlleriPad *)store{
     self=[super init];
     if (self) {
         _store=store;

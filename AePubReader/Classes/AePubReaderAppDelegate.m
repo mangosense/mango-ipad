@@ -34,7 +34,7 @@ static UIAlertView *alertViewLoading;
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     _LandscapeOrientation=YES;
-    _PortraitOrientation=YES;
+    _PortraitOrientation=NO;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
  //   NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
     _wasFirstInPortrait=NO;
@@ -955,6 +955,29 @@ void uncaughtExceptionHandler(NSException *exception) {
         [alertViewLoading dismissWithClickedButtonIndex:0 animated:YES];}
     alertViewLoading =nil;
     
+}
++(void)hideTabBar:(UITabBarController *)tabbarcontroller
+{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    float fHeight = screenRect.size.height;
+    if(  UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) )
+    {
+        fHeight = screenRect.size.width;
+    }
+    
+    for(UIView *view in tabbarcontroller.view.subviews)
+    {
+        if([view isKindOfClass:[UITabBar class]])
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, fHeight, view.frame.size.width, view.frame.size.height)];
+        }
+        else
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, fHeight)];
+            view.backgroundColor = [UIColor blackColor];
+        }
+    }
 }
 @end
 

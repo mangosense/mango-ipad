@@ -12,6 +12,7 @@
 #import "DataSourceForLinear.h"
 #import "StoreCell.h"
 #import "DataSourceForLinearOld.h"
+#import "CollectionViewLayout.h"
 @interface NewStoreCoverViewController : UIViewController<UISearchBarDelegate,iCarouselDelegate,UICollectionViewDelegate>
 - (IBAction)changeCategory:(id)sender;
 @property (weak, nonatomic) IBOutlet iCarousel *featured;
@@ -25,5 +26,10 @@
 @property(retain,nonatomic) PSTCollectionViewFlowLayout *pstLayout;
 @property(retain,nonatomic) DataSourceForLinearOld *dataSourceOld;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
-
+- (IBAction)switchTabs:(id)sender;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+- (IBAction)switchTabButtonClick:(id)sender;
+@property(retain,nonatomic) NSData *sampleStoreJson;
+@property(retain,nonatomic) NSMutableArray *featuredArray;
+@property(retain,nonatomic) NSMutableArray *arrivalsNewArray;
 @end

@@ -38,6 +38,8 @@
         
     }else{
       [_store DownloadBook:_bookTapped];
+      
+        [_controller DownloadComplete:_bookTapped];
     }
     
     
@@ -76,6 +78,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     UIBarButtonItem *done=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeModal:)];
     self.navigationItem.leftBarButtonItem=done;
 

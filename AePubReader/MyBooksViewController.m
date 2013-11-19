@@ -47,7 +47,7 @@
    // [_array release];
     _array=[[NSMutableArray alloc]initWithArray:temp];
     [self.tableView reloadData];
-    BookDownloaderIphone *bookDownload=[[BookDownloaderIphone alloc]initWithViewController:self];
+    BookDownloaderIphone *bookDownload;//=[[BookDownloaderIphone alloc]initWithViewController:self];
    
     NSString *string=[[NSString alloc]initWithFormat:@"%d",index ];
     Book *book=[_delegate.dataModel getBookOfId:string];

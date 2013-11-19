@@ -79,7 +79,7 @@
     
 }
 -(void)requestBooksFromServer{
-    [_downloadViewController refreshButton:nil];
+    [_downloadViewController refresh:nil];
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     //http://staging.mangoreader.com/api/v1/page/:page/store_books.json
     NSString *stringUrl=[[NSString alloc]initWithFormat:@"%@page/%d/ipad_android_books.json",[defaults stringForKey:@"baseurl"],_pageNumber];
@@ -126,6 +126,7 @@
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
+    
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
 
@@ -502,7 +503,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:YES];
-    [self.tabBarController.tabBar setHidden:NO];
+   // [self.tabBarController.tabBar setHidden:NO];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSArray *array=  [delegate.dataModel getForPage:1];
     if (array.count==0) {

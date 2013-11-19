@@ -86,7 +86,7 @@
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    ListOfPurchasedBooks *books=[[ListOfPurchasedBooks alloc]initWithViewController:self];
+    ListOfPurchasedBooks *books;//=[[ListOfPurchasedBooks alloc]initWithViewController:self];
     books.shouldBuild=YES;
     _connection=[[NSURLConnection alloc]initWithRequest:request delegate:books];
     NSURLResponse *response;
@@ -151,6 +151,7 @@
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    self.navigationController.navigationBarHidden=YES;
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
            self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)]; 
     }else{
@@ -265,7 +266,8 @@
     [self hideIndicator];
     
 }
-- (void)signOut:(id)sender {
+
+- (IBAction)signOut:(id)sender {
     NSString *signout=[[NSUserDefaults standardUserDefaults] objectForKey:@"baseurl"];
     signout =[signout stringByAppendingPathComponent:@"users/sign_out"];
     signout =[signout stringByAppendingFormat:@"?user[email]=%@&auth_token=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"email"],[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"]];

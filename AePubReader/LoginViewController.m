@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import <Foundation/Foundation.h>
 #import "AePubReaderAppDelegate.h"
 #import "WebViewController.h"
@@ -31,8 +31,10 @@
 #import "TimeRange.h"
 #import "NewStoreCoverViewController.h"
 #import "NewStoreViewControlleriPad.h"
+#import "CustomNavViewController.h"
+
 @interface LoginViewController ()
-@property(strong,nonatomic)StoreViewController *store;
+@property(strong,nonatomic)DownloadViewControlleriPad *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
 //@property (nonatomic, strong) EditorViewController *editorViewController;
@@ -96,25 +98,27 @@
 
     _tabBarController=[[UITabBarController alloc]init];
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-    _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+    _store=[[DownloadViewControlleriPad alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
    /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-   // _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+ _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
     _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
-    UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
-    UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
+    CustomNavViewController *navigationLibrary=[[CustomNavViewController alloc]initWithRootViewController:_library];
+   // CustomNavViewController *navigationPurchase=[[CustomNavViewController alloc]initWithRootViewController:_store];
+    
   /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
       /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
     
-    UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
-    
-    _tabBarController.viewControllers=@[storiesNavigationController, navigation, navigationPurchase];//, navigationStore];
+    CustomNavViewController *storiesNavigationController = [[CustomNavViewController alloc] initWithRootViewController:storiesViewController];
+    CustomNavViewController *customNav=[[CustomNavViewController alloc]initWithRootViewController:_storeNewViewController];
+    _tabBarController.viewControllers=@[ navigationLibrary,storiesNavigationController,customNav];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
-    //[_tabBarController.tabBar setHidden:YES];
-    //self.navigationController.navigationBarHidden=YES;
+    [_tabBarController.tabBar setHidden:YES];
+    
+    self.navigationController.navigationBarHidden=YES;
 }
 -(void)insertInStore{
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
@@ -156,8 +160,9 @@
         _backgroundimage.frame=frame;
     }
 
-    
+
 }
+
 -(void)transactionFailed{
     [_liveViewController transactionFailed];
     
@@ -262,24 +267,24 @@
         [userDefault setObject:temp forKey:@"auth_token"];
         [userDefault setObject:_userName.text forKey:@"email"];
         [userDefault setObject:_password.text forKey:@"password"];
-            UITabBarController *tabBarController=[[UITabBarController alloc]init];
+         /*   UITabBarController *tabBarController=[[UITabBarController alloc]init];
             LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-            StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+            DownloadViewControlleriPad *store=[[DownloadViewControlleriPad alloc]initWithNibName:@"StoreViewController" bundle:nil];
             store.delegate=library;
             UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
         UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
          LiveViewController *liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
         UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:liveViewController];
         
-        /*EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
-        UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
+        EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+        UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
         
         storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
         UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
 
         tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore];
-        [self.navigationController pushViewController:tabBarController animated:YES];
-        
+        [self.navigationController pushViewController:tabBarController animated:YES];*/
+        [self goToNext];
         [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObjectsAndKeys:[userDefault objectForKey:@"email"], @"email", nil]];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

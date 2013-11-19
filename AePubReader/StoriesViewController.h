@@ -16,6 +16,8 @@
 @property (nonatomic, strong) IBOutlet iCarousel *carousel;
 @property (nonatomic, strong) IBOutlet UIButton *englishLanguageButton;
 @property (nonatomic, strong) IBOutlet UIButton *tamilLanguageButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedcontrol;
 - (IBAction)languageButtonTapped:(id)sender;
+- (IBAction)switchTabButtonClicked:(id)sender;
 
 @end

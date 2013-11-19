@@ -19,7 +19,7 @@
 -(void)DownloadComplete:(Book *)book;
 
 @end
-@interface StoreViewController : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>{
+@interface DownloadViewControlleriPad : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>{
    
 }
 @property(strong,nonatomic)UICollectionView *collectionView;
@@ -45,8 +45,11 @@
 @property(strong,nonatomic)NSMutableData *data;
 @property(strong,nonatomic)PSUICollectionView *pstCollectionView;
 @property(strong,nonatomic)PSTCollectionDataSource *dataSource;
+@property (weak, nonatomic) IBOutlet UIView *storeView;
 -(void)requestBooksFromServer;
 -(void)transactionRestore;
 -(void)transactionFailed;
+- (IBAction)switchTab:(id)sender;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @end

@@ -50,6 +50,11 @@
     
     carousel.type = iCarouselTypeCoverFlow2;
     [carousel setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
+    self.navigationController.navigationBarHidden=YES;
+    if ([UIDevice currentDevice].systemVersion.integerValue<7) {
+        
+            [[self.tabBarController.view.subviews objectAtIndex:0] setFrame:CGRectMake(0, 0, 1024, 768)];
+           }
 }
 
 - (void)didReceiveMemoryWarning
@@ -140,6 +145,15 @@
     [self chooseLanguage:languageButton.tag];
 }
 
+- (IBAction)switchTabButtonClicked:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    [self.tabBarController setSelectedIndex:button.tag];
+}
+- (IBAction)switchTabs:(id)sender {
+    UISegmentedControl *control=(UISegmentedControl *) sender;
+    [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
+}
+
 - (void)chooseLanguage:(NSInteger)tagForChosenLanguage {
     MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
     mangoEditorViewController.chosenBookTag = tagForChosenLanguage;
@@ -150,5 +164,9 @@
     editorViewController.tagForLanguage = tagForChosenLanguage;
     [self.navigationController pushViewController:editorViewController animated:YES];*/
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _segmentedcontrol.selectedSegmentIndex=1;
+    
+}
 @end

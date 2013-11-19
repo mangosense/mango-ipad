@@ -103,10 +103,10 @@
     //}else{
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     
-    self.navigationController.navigationBarHidden=NO;
-    [self.navigationController popViewControllerAnimated:YES];
-    [self.tabBarController.tabBar setHidden:NO];
-
+    self.navigationController.navigationBarHidden=YES;
+    //[self.navigationController popViewControllerAnimated:YES];
+   // [self.tabBarController.tabBar setHidden:NO];
+    [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 

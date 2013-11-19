@@ -1000,14 +1000,14 @@ avgTime=avgTime/2;
     }
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
-    self.navigationController.navigationBarHidden=NO;
+//    self.navigationController.navigationBarHidden=NO;
 
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
                            [_webview loadRequest:request];
 
 
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    [self.tabBarController.tabBar setHidden:NO];
+    [self.navigationController popViewControllerAnimated:YES];
+    //[self.tabBarController.tabBar setHidden:NO];
 
     NSLog(@"NSString %@",_strFileName);
 
@@ -1025,7 +1025,7 @@ avgTime=avgTime/2;
         NSString *string=@"iphone or ipod touch  Story Book closed ";
                 [Flurry logEvent:string withParameters:dictionary];
     }
-    [self.tabBarController.tabBar setHidden:NO];
+    //[self.tabBarController.tabBar setHidden:NO];
   
     double last=    [[NSUserDefaults standardUserDefaults]doubleForKey:@"timerCompleted"];
        double endStartTimer=[[NSDate date]timeIntervalSince1970];

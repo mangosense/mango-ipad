@@ -45,7 +45,7 @@
     delegate.addControlEvents=YES;
     [delegate.dataModel saveData:_book];
     UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[2];
-    StoreViewController *store=(StoreViewController *)[nav topViewController];
+    DownloadViewControlleriPad *store=(DownloadViewControlleriPad *)[nav topViewController];
     [(_libViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
     //[store BuildButtons];
   _libViewController.downloadFailed=YES;

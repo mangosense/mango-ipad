@@ -6,7 +6,7 @@
 //
 //
 
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import <Foundation/Foundation.h>
 #import "Book.h"
 #import "DataModelControl.h"
@@ -25,13 +25,13 @@
 #import "Constants.h"
 #import "TimeRange.h"
 
-@interface StoreViewController ()
+@interface DownloadViewControlleriPad ()
 
 @property (nonatomic, strong) NSDate *openingTime;
 
 @end
 
-@implementation StoreViewController
+@implementation DownloadViewControlleriPad
 
 @synthesize openingTime;
 
@@ -202,7 +202,7 @@
     }else{
         self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"Sign Out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOut:)];
     }
-
+    self.navigationController.navigationBarHidden=YES;
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor grayColor];
     UIBarButtonItem *barButtonRefresh=[[UIBarButtonItem alloc]initWithTitle:@"Refresh" style:UIBarButtonItemStyleBordered target:self action:@selector(refreshButton:)];
     UIBarButtonItem *restore=[[UIBarButtonItem alloc]initWithTitle:@"Restore" style:UIBarButtonItemStyleBordered target:self action:@selector(restore:)];
@@ -222,18 +222,18 @@
     _listOfBooks=[[NSArray alloc]initWithArray:temp];
     CollectionViewLayout *collectionViewLayout = [[CollectionViewLayout alloc] init];
     collectionViewLayout.footerReferenceSize=CGSizeMake(0, 0);
-    CGRect frame=self.view.bounds;
+    CGRect frame=self.storeView.bounds;
     NSString *ver= [UIDevice currentDevice].systemVersion;
 
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+    /*if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
         frame.size.height=911;
         frame.size.width=768;
 
       }else{
           frame.size.height=655;
           frame.size.width=1024;
-    }
-    if([ver floatValue]>=6.0){
+    }*/
+    if([ver floatValue]>6.0){
     _collectionView =[[UICollectionView alloc]initWithFrame:frame collectionViewLayout:collectionViewLayout];
     
     
@@ -243,7 +243,8 @@
     _collectionView.dataSource=self;
     _collectionView.delegate=self;
         _collectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
-    [self.view addSubview:_collectionView];
+        _collectionView.frame=frame;
+    [self.storeView addSubview:_collectionView];
     }else{
         PSUICollectionViewFlowLayout *collectionViewFlowLayout=[[PSUICollectionViewFlowLayout alloc]init];
         [collectionViewFlowLayout setScrollDirection:PSTCollectionViewScrollDirectionVertical];
@@ -260,7 +261,8 @@
 
         _pstCollectionView.dataSource=_dataSource;
         _pstCollectionView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
-        [self.view addSubview:_pstCollectionView];
+        _pstCollectionView.frame=frame;
+        [self.storeView addSubview:_pstCollectionView];
         /*
          self.itemSize = CGSizeMake(140, 180);
          self.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -303,10 +305,14 @@
     {
         // iOS 7 code here
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }else{
+        [[self.tabBarController.view.subviews objectAtIndex:0] setFrame:CGRectMake(0, 0, 1024, 768)];
+
     }
+    [self.segmentedControl setSelectedSegmentIndex:2];
 }
 
--(void)restore:(id)sender{
+-(IBAction)restore:(id)sender{
 
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (delegate.completedStorePopulation) {
@@ -355,6 +361,11 @@
 -(void)transactionFailed{
     [self hideActivityIndicator];
 }
+
+- (IBAction)switchTab:(id)sender {
+    UISegmentedControl *control=(UISegmentedControl *) sender;
+    [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
+}
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
     [_alert dismissWithClickedButtonIndex:0 animated:YES];
     [AePubReaderAppDelegate hideAlertView];
@@ -373,7 +384,7 @@
     [self.parentViewController.navigationController popToRootViewControllerAnimated:YES];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
 }
--(void)sync:(id)sender{
+-(IBAction)sync:(id)sender{
     if (![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Login" message:@"Do you wish to sign in or sign up to sync your books" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         alertView.tag=50;
@@ -432,18 +443,9 @@
       //  [self BuildButtons];
     }
       [Flurry logEvent:@"Downloads entered"];
-    CGRect frame=self.view.bounds;
+    [_segmentedControl setSelectedSegmentIndex:2];
     
-    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-        frame.size.height=911;
-        frame.size.width=768;
-    }else{
-        frame.size.height=655;
-        frame.size.width=1024;
-    }
-    _collectionView.frame=frame;
-    _pstCollectionView.frame=frame;
-
+    
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
@@ -488,9 +490,9 @@
       
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    CGRect frame=self.view.bounds;
+    CGRect frame=self.storeView.bounds;
 
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+   /* if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
         frame.size.height=911;
         frame.size.width=768;
       
@@ -498,7 +500,7 @@
         frame.size.height=655;
         frame.size.width=1024;
 
-    }
+    }*/
     _collectionView.frame=frame;
     _pstCollectionView.frame=frame;
 
@@ -760,7 +762,7 @@
     [self setNetworkActivityIndicator:nil];
     [super viewDidUnload];
 }
-- (void)refreshButton:(id)sender {
+- (IBAction)refreshButton:(id)sender {
     [self performSelectorInBackground:@selector(requestBooksFromServer) withObject:nil];
 
 }

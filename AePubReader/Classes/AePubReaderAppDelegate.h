@@ -57,4 +57,5 @@
 +(UIAlertView *) getAlertView;
 +(void)hideAlertView;
 +(void)showAlertViewiPad;
++(void)hideTabBar:(UITabBarController *)tabbarcontroller;
 @end

@@ -11,4 +11,6 @@
 @interface DataSourceForLinear : NSObject<UICollectionViewDataSource>
 @property(retain,nonatomic) NSString *prefix;
 -(id)initWithString:(NSString *) string;
+@property(retain,nonatomic) NSArray *array;
+-(id)initWithArray:(NSArray *) array;
 @end

@@ -121,7 +121,7 @@
         [library DownloadComplete:bookToDownload];
     }else{// no case
         UINavigationController *nav=(UINavigationController *)(_liveViewController.tabBarController.viewControllers)[1];
-        StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
+        DownloadViewControlleriPad *storeViewController=(DownloadViewControlleriPad *)nav.topViewController;
         [delegate.dataModel insertBookWithNo:books];
         [storeViewController BuildButtons];
         

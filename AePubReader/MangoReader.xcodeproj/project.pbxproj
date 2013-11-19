@@ -47,8 +47,6 @@
 		834FCE11182D11F70000181B /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB5182D11F60000181B /* add_button.png */; };
 		834FCE12182D11F70000181B /* add_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB6182D11F60000181B /* add_button_pressed.png */; };
 		834FCE13182D11F70000181B /* addaudio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB7182D11F60000181B /* addaudio_button.png */; };
-		834FCE14182D11F70000181B /* addaudio_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB8182D11F60000181B /* addaudio_button_pressed.png */; };
-		834FCE15182D11F70000181B /* addnewpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB9182D11F60000181B /* addnewpage.png */; };
 		834FCE16182D11F70000181B /* addthisgame_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDBA182D11F60000181B /* addthisgame_button.png */; };
 		834FCE17182D11F70000181B /* addthisgame_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDBB182D11F60000181B /* addthisgame_button_pressed.png */; };
 		834FCE18182D11F70000181B /* addtopage_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDBC182D11F60000181B /* addtopage_button.png */; };
@@ -139,13 +137,13 @@
 		834FCE6F182D26BC0000181B /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 834FCE6E182D26BC0000181B /* MenuTableViewController.m */; };
 		834FCE73182E084E0000181B /* pages_bg_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE70182E084E0000181B /* pages_bg_left.png */; };
 		834FCE74182E084E0000181B /* pages_bg_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE71182E084E0000181B /* pages_bg_right.png */; };
-		834FCE75182E084E0000181B /* pagesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCE72182E084E0000181B /* pagesbg.png */; };
 		83539E3E1839F4AC0096DBF8 /* AudioMappingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E341839F4AC0096DBF8 /* AudioMappingViewController.m */; };
 		83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83539E351839F4AC0096DBF8 /* AudioMappingViewController.xib */; };
 		83539E401839F4AC0096DBF8 /* BaseViewSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E371839F4AC0096DBF8 /* BaseViewSample.m */; };
 		83539E411839F4AC0096DBF8 /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E391839F4AC0096DBF8 /* CustomLabel.m */; };
 		83539E421839F4AC0096DBF8 /* CustomMappingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */; };
 		83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */; };
+		83539E45183B2DE50096DBF8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83539E44183B2DE50096DBF8 /* Parse.framework */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		8374AF0917CC66AB009DA792 /* bamboo-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8374AEE417CC66AB009DA792 /* bamboo-01.png */; };
@@ -209,7 +207,6 @@
 		83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB618111662004C975F /* AsyncDataDownloader.m */; };
 		83DD9BBA18113027004C975F /* StoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB918113027004C975F /* StoryPageView.m */; };
 		83DD9BBD181133F9004C975F /* PageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BBC181133F9004C975F /* PageInfo.m */; };
-		83E03E14182B6FBD00B64D1B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E03E13182B6FBD00B64D1B /* Parse.framework */; };
 		83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E723CD17BA058D0083DBD6 /* camera_gray_round.png */; };
 		83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */; };
 		83F486C118016CEE00AE3AAE /* 090617004f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867618016CEE00AE3AAE /* 090617004f.mp3 */; };
@@ -282,6 +279,12 @@
 		83F4870818016CEE00AE3AAE /* fe3eb3df4c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BF18016CEE00AE3AAE /* fe3eb3df4c.jpg */; };
 		83F4870918016CEE00AE3AAE /* original_051d26889e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486C018016CEE00AE3AAE /* original_051d26889e.jpg */; };
 		83F4F36D1833498900732315 /* AudioRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4F36C1833498900732315 /* AudioRecord.m */; };
+		AE031ABC1830D5FF0042236D /* lselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB61830D5FF0042236D /* lselected.png */; };
+		AE031ABD1830D5FF0042236D /* sselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB71830D5FF0042236D /* sselected.png */; };
+		AE031ABE1830D5FF0042236D /* eselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB81830D5FF0042236D /* eselected.png */; };
+		AE031AC51830D7140042236D /* eunselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AC21830D7130042236D /* eunselected.png */; };
+		AE031AC61830D7140042236D /* sunselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AC31830D7130042236D /* sunselected.png */; };
+		AE031AC71830D7140042236D /* lunselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AC41830D7130042236D /* lunselected.png */; };
 		AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE032C0B17674BCB00ABAD2C /* 1331.jpg */; };
 		AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0890A31823B3B70028035F /* DetailViewControllerStore.m */; };
 		AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */; };
@@ -290,6 +293,12 @@
 		AE0C5756182A0E0500A923CF /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C5755182A0E0500A923CF /* CategoryViewController.m */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
+		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
+		AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */; };
+		AE138F35182B5F4200F36C99 /* DownloadViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */; };
+		AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */; };
+		AE138F3A182B783200F36C99 /* NewStoreControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */; };
+		AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */; };
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
 		AE195E79181E2CBC008E4208 /* FeaturedStoreDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */; };
 		AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */; };
@@ -388,6 +397,8 @@
 		AE5FC0261677300B00BB9AED /* or-iphone5.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5FC0251677300B00BB9AED /* or-iphone5.png */; };
 		AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */; };
 		AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE61CB121828D1F1006956BE /* AFTableViewCell.m */; };
+		AE62B32B1832008E005C5EC9 /* storesamplejson.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE62B32A1832008E005C5EC9 /* storesamplejson.txt */; };
+		AE62B32E183201CB005C5EC9 /* NewBookStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62B32D183201CB005C5EC9 /* NewBookStore.m */; };
 		AE6386561733BC6E009E372A /* recording-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386551733BC6E009E372A /* recording-bg.png */; };
 		AE6386581733D54F009E372A /* recordbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386571733D54F009E372A /* recordbutton.png */; };
 		AE63865B1733D571009E372A /* stopbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6386591733D571009E372A /* stopbutton.png */; };
@@ -410,8 +421,8 @@
 		AE7537301610340E00761697 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75372E1610340E00761697 /* LoginViewController.m */; };
 		AE7537311610340E00761697 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75372F1610340E00761697 /* LoginViewController.xib */; };
 		AE75374416103A7C00761697 /* Book.png in Resources */ = {isa = PBXBuildFile; fileRef = AE75373F16103A7B00761697 /* Book.png */; };
-		AE75374D16103B5900761697 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75374B16103B5900761697 /* StoreViewController.m */; };
-		AE75374E16103B5900761697 /* StoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75374C16103B5900761697 /* StoreViewController.xib */; };
+		AE75374D16103B5900761697 /* DownloadViewControlleriPad.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75374B16103B5900761697 /* DownloadViewControlleriPad.m */; };
+		AE75374E16103B5900761697 /* DownloadViewControlleriPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75374C16103B5900761697 /* DownloadViewControlleriPad.xib */; };
 		AE75375216103B6900761697 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75375016103B6900761697 /* LibraryViewController.m */; };
 		AE75375316103B6900761697 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75375116103B6900761697 /* LibraryViewController.xib */; };
 		AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */; };
@@ -754,6 +765,7 @@
 		83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMappingView.m; sourceTree = "<group>"; };
 		83539E3C1839F4AC0096DBF8 /* CustomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomScrollView.h; sourceTree = "<group>"; };
 		83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomScrollView.m; sourceTree = "<group>"; };
+		83539E44183B2DE50096DBF8 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
@@ -830,7 +842,6 @@
 		83DD9BB918113027004C975F /* StoryPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryPageView.m; sourceTree = "<group>"; };
 		83DD9BBB181133F9004C975F /* PageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageInfo.h; sourceTree = "<group>"; };
 		83DD9BBC181133F9004C975F /* PageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageInfo.m; sourceTree = "<group>"; };
-		83E03E13182B6FBD00B64D1B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		83E1CD4918168C9F00AC63FB /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		83E723CD17BA058D0083DBD6 /* camera_gray_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_gray_round.png; sourceTree = "<group>"; };
 		83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -910,6 +921,12 @@
 		83F4F36B1833498900732315 /* AudioRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecord.h; sourceTree = "<group>"; };
 		83F4F36C1833498900732315 /* AudioRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecord.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AE031AB61830D5FF0042236D /* lselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lselected.png; sourceTree = "<group>"; };
+		AE031AB71830D5FF0042236D /* sselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sselected.png; sourceTree = "<group>"; };
+		AE031AB81830D5FF0042236D /* eselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eselected.png; sourceTree = "<group>"; };
+		AE031AC21830D7130042236D /* eunselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eunselected.png; sourceTree = "<group>"; };
+		AE031AC31830D7130042236D /* sunselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sunselected.png; sourceTree = "<group>"; };
+		AE031AC41830D7130042236D /* lunselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunselected.png; sourceTree = "<group>"; };
 		AE032C0B17674BCB00ABAD2C /* 1331.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1331.jpg; sourceTree = "<group>"; };
 		AE0890A21823B3B70028035F /* DetailViewControllerStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewControllerStore.h; sourceTree = "<group>"; };
 		AE0890A31823B3B70028035F /* DetailViewControllerStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewControllerStore.m; sourceTree = "<group>"; };
@@ -922,6 +939,15 @@
 		AE0C5755182A0E0500A923CF /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
+		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
+		AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBooksViewControlleriPhone.m; sourceTree = "<group>"; };
+		AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBooksViewControlleriPhone.xib; sourceTree = "<group>"; };
+		AE138F32182B5F4200F36C99 /* DownloadViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewControlleriPhone.h; sourceTree = "<group>"; };
+		AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewControlleriPhone.m; sourceTree = "<group>"; };
+		AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadViewControlleriPhone.xib; sourceTree = "<group>"; };
+		AE138F37182B783200F36C99 /* NewStoreControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewStoreControlleriPhone.h; sourceTree = "<group>"; };
+		AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreControlleriPhone.m; sourceTree = "<group>"; };
+		AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewStoreControlleriPhone.xib; sourceTree = "<group>"; };
 		AE189425166F4CBE009F8361 /* LiveViewControllerIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewControllerIphone.h; sourceTree = "<group>"; };
 		AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewControllerIphone.m; sourceTree = "<group>"; };
 		AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewStoreCoverViewController.h; sourceTree = "<group>"; };
@@ -1077,6 +1103,9 @@
 		AE61CB0F1828C9DE006956BE /* NewStoreViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreViewControlleriPhone.m; sourceTree = "<group>"; };
 		AE61CB111828D1F1006956BE /* AFTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFTableViewCell.h; sourceTree = "<group>"; };
 		AE61CB121828D1F1006956BE /* AFTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFTableViewCell.m; sourceTree = "<group>"; };
+		AE62B32A1832008E005C5EC9 /* storesamplejson.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = storesamplejson.txt; sourceTree = "<group>"; };
+		AE62B32C183201CB005C5EC9 /* NewBookStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewBookStore.h; sourceTree = "<group>"; };
+		AE62B32D183201CB005C5EC9 /* NewBookStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewBookStore.m; sourceTree = "<group>"; };
 		AE6386551733BC6E009E372A /* recording-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recording-bg.png"; sourceTree = "<group>"; };
 		AE6386571733D54F009E372A /* recordbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recordbutton.png; sourceTree = "<group>"; };
 		AE6386591733D571009E372A /* stopbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopbutton.png; sourceTree = "<group>"; };
@@ -1108,9 +1137,9 @@
 		AE75372E1610340E00761697 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		AE75372F1610340E00761697 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		AE75373F16103A7B00761697 /* Book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Book.png; sourceTree = "<group>"; };
-		AE75374A16103B5900761697 /* StoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
-		AE75374B16103B5900761697 /* StoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreViewController.m; sourceTree = "<group>"; };
-		AE75374C16103B5900761697 /* StoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreViewController.xib; sourceTree = "<group>"; };
+		AE75374A16103B5900761697 /* DownloadViewControlleriPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewControlleriPad.h; sourceTree = "<group>"; };
+		AE75374B16103B5900761697 /* DownloadViewControlleriPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewControlleriPad.m; sourceTree = "<group>"; };
+		AE75374C16103B5900761697 /* DownloadViewControlleriPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadViewControlleriPad.xib; sourceTree = "<group>"; };
 		AE75374F16103B6900761697 /* LibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		AE75375016103B6900761697 /* LibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		AE75375116103B6900761697 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryViewController.xib; sourceTree = "<group>"; };
@@ -1375,7 +1404,7 @@
 				AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */,
 				AEC70E1616D4C34700A191D2 /* CoreMedia.framework in Frameworks */,
 				AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */,
-				83E03E14182B6FBD00B64D1B /* Parse.framework in Frameworks */,
+				83539E45183B2DE50096DBF8 /* Parse.framework in Frameworks */,
 				AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */,
 				AE5FC01C167701DC00BB9AED /* Social.framework in Frameworks */,
 				AE43C744161057DA00970739 /* Security.framework in Frameworks */,
@@ -1420,7 +1449,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				83E03E13182B6FBD00B64D1B /* Parse.framework */,
+				83539E44183B2DE50096DBF8 /* Parse.framework */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
 				AE195E7F181E2FD9008E4208 /* page.png */,
@@ -1456,6 +1485,12 @@
 				AEDBB6941740D323003321E4 /* feedbackbutton.png */,
 				AE92809A1619AD4B001BCBB6 /* mangoLow.png */,
 				AE9280971619AC82001BCBB6 /* mango.png */,
+				AE031AC21830D7130042236D /* eunselected.png */,
+				AE031AC31830D7130042236D /* sunselected.png */,
+				AE031AC41830D7130042236D /* lunselected.png */,
+				AE031AB61830D5FF0042236D /* lselected.png */,
+				AE031AB71830D5FF0042236D /* sselected.png */,
+				AE031AB81830D5FF0042236D /* eselected.png */,
 				AE7FEDEB1615BA1B00C4B51D /* CustomViews */,
 				AE7FEDD4161580AD00C4B51D /* epubReader */,
 				AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */,
@@ -2012,6 +2047,9 @@
 		AE195EF2181E67B3008E4208 /* New store */ = {
 			isa = PBXGroup;
 			children = (
+				AE62B32A1832008E005C5EC9 /* storesamplejson.txt */,
+				AE62B32C183201CB005C5EC9 /* NewBookStore.h */,
+				AE62B32D183201CB005C5EC9 /* NewBookStore.m */,
 				AE61CB111828D1F1006956BE /* AFTableViewCell.h */,
 				AE61CB121828D1F1006956BE /* AFTableViewCell.m */,
 				AE195EF6181E68C5008E4208 /* StoreCell.h */,
@@ -2036,6 +2074,9 @@
 				AE0C57521829F5F700A923CF /* NewStoreViewControlleriPad.m */,
 				AE0C5754182A0E0500A923CF /* CategoryViewController.h */,
 				AE0C5755182A0E0500A923CF /* CategoryViewController.m */,
+				AE138F37182B783200F36C99 /* NewStoreControlleriPhone.h */,
+				AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */,
+				AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */,
 			);
 			name = "New store";
 			sourceTree = "<group>";
@@ -2176,9 +2217,9 @@
 				AE75372D1610340D00761697 /* LoginViewController.h */,
 				AE75372E1610340E00761697 /* LoginViewController.m */,
 				AE75372F1610340E00761697 /* LoginViewController.xib */,
-				AE75374A16103B5900761697 /* StoreViewController.h */,
-				AE75374B16103B5900761697 /* StoreViewController.m */,
-				AE75374C16103B5900761697 /* StoreViewController.xib */,
+				AE75374A16103B5900761697 /* DownloadViewControlleriPad.h */,
+				AE75374B16103B5900761697 /* DownloadViewControlleriPad.m */,
+				AE75374C16103B5900761697 /* DownloadViewControlleriPad.xib */,
 				AE75374F16103B6900761697 /* LibraryViewController.h */,
 				AE75375016103B6900761697 /* LibraryViewController.m */,
 				AE75375116103B6900761697 /* LibraryViewController.xib */,
@@ -2470,8 +2511,6 @@
 				AEEF8470166C90FB0098BAA2 /* LoginViewControllerIphone.m */,
 				AEFA9BF7166CC80900A60A12 /* MyBooksViewController.h */,
 				AEFA9BF8166CC80900A60A12 /* MyBooksViewController.m */,
-				AEFA9BFA166CC84700A60A12 /* DownloadViewController.h */,
-				AEFA9BFB166CC84700A60A12 /* DownloadViewController.m */,
 				AE8D2617166DD48800156F43 /* DetailViewController.h */,
 				AE8D2618166DD48800156F43 /* DetailViewController.m */,
 				AE8D2619166DD48800156F43 /* DetailViewController.xib */,
@@ -2483,6 +2522,14 @@
 				AE7FD7F21823B2B800C8DD88 /* DetailStoreViewController.h */,
 				AE7FD7F31823B2B800C8DD88 /* DetailStoreViewController.m */,
 				AE7FD7F41823B2B800C8DD88 /* DetailStoreViewController.xib */,
+				AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */,
+				AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */,
+				AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */,
+				AE138F32182B5F4200F36C99 /* DownloadViewControlleriPhone.h */,
+				AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */,
+				AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */,
+				AEFA9BFA166CC84700A60A12 /* DownloadViewController.h */,
+				AEFA9BFB166CC84700A60A12 /* DownloadViewController.m */,
 			);
 			name = "Mangoreader iphone";
 			sourceTree = "<group>";
@@ -2618,10 +2665,10 @@
 				83F486CC18016CEE00AE3AAE /* 5f638a921a.jpg in Resources */,
 				AE7537311610340E00761697 /* LoginViewController.xib in Resources */,
 				AE75374416103A7C00761697 /* Book.png in Resources */,
-				834FCE14182D11F70000181B /* addaudio_button_pressed.png in Resources */,
-				AE75374E16103B5900761697 /* StoreViewController.xib in Resources */,
+				AE75374E16103B5900761697 /* DownloadViewControlleriPad.xib in Resources */,
 				AE75375316103B6900761697 /* LibraryViewController.xib in Resources */,
 				AEA768E61611E5C5002B9FDC /* wood_pattern.png in Resources */,
+				AE031ABC1830D5FF0042236D /* lselected.png in Resources */,
 				834FCE4E182D11F70000181B /* retake_button.png in Resources */,
 				AEB78AF8169EF31A00750218 /* select.js in Resources */,
 				AE7FEDE0161581EC00C4B51D /* View.xib in Resources */,
@@ -2637,6 +2684,7 @@
 				AE7FEF1C161EE52800181CE8 /* sign-up-button.png in Resources */,
 				83F486FF18016CEE00AE3AAE /* 8716c8b1c3.jpg in Resources */,
 				AE7FEF25161F1A2C00181CE8 /* video image copy.png in Resources */,
+				AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */,
 				AE7FEF28161F1AC400181CE8 /* library.png in Resources */,
 				834FCE40182D11F70000181B /* pagesbutton_selected.png in Resources */,
 				AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */,
@@ -2662,6 +2710,7 @@
 				834FCE21182D11F70000181B /* close_big_button.png in Resources */,
 				834FCE33182D11F70000181B /* italic_button_selected.png in Resources */,
 				83F486F118016CEE00AE3AAE /* 9e6c7d9426.mp3 in Resources */,
+				AE031AC61830D7140042236D /* sunselected.png in Resources */,
 				AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */,
 				AEEBA8DC16354F800023AE51 /* mangoreader-app-icon-144X144.png in Resources */,
 				83F486C418016CEE00AE3AAE /* 178cc3bdef.jpg in Resources */,
@@ -2677,8 +2726,7 @@
 				AE9A1869165E583600B5E594 /* dropdown.png in Resources */,
 				AEE26AD7165F8EE70021B4AA /* purchase-button.png in Resources */,
 				AEAC09D51664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png in Resources */,
-				834FCE75182E084E0000181B /* pagesbg.png in Resources */,
-				834FCE15182D11F70000181B /* addnewpage.png in Resources */,
+				AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */,
 				83F486DD18016CEE00AE3AAE /* e633a8bf89.mp3 in Resources */,
 				83F4870518016CEE00AE3AAE /* e6d62b1da8.jpg in Resources */,
 				AEEF8473166C90FB0098BAA2 /* LoginViewControllerIphone.xib in Resources */,
@@ -2691,6 +2739,7 @@
 				AE63ECDB166F135E0027CBB8 /* Default-568h@2x.png in Resources */,
 				83F486C318016CEE00AE3AAE /* 0eba11eaa5.jpg in Resources */,
 				AE1C6C1B167210BA0090DFDD /* Default.png in Resources */,
+				AE031AC51830D7140042236D /* eunselected.png in Resources */,
 				83F486ED18016CEE00AE3AAE /* 6dc3c82fc8.jpg in Resources */,
 				AE1C6C1D167210CF0090DFDD /* Default@2x.png in Resources */,
 				AE1C6C24167217F20090DFDD /* sign-in-button-iphone4.png in Resources */,
@@ -2714,6 +2763,7 @@
 				83F486D618016CEE00AE3AAE /* a1cf4912c1.mp3 in Resources */,
 				AE731C5C1675C3AF00FE8F19 /* or-button.png in Resources */,
 				AE731C6F1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png in Resources */,
+				AE031ABD1830D5FF0042236D /* sselected.png in Resources */,
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
 				839E0CE41834D3D500436237 /* updown_91f501c53a.jpg in Resources */,
 				834FCE2C182D11F70000181B /* hitosync_active_button.png in Resources */,
@@ -2805,6 +2855,7 @@
 				83F486E318016CEE00AE3AAE /* original_0dd7068ae5.jpg in Resources */,
 				834FCE55182D11F70000181B /* saveandclose_button_pressed.png in Resources */,
 				83F486FB18016CEE00AE3AAE /* 2b97f929e6.mp3 in Resources */,
+				AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */,
 				AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */,
 				834FCE5B182D11F70000181B /* stopsync_button.png in Resources */,
 				834FCE12182D11F70000181B /* add_button_pressed.png in Resources */,
@@ -2827,6 +2878,7 @@
 				AEDAD4B01739033A002543DF /* playbuttonpressed.png in Resources */,
 				834FCE58182D11F70000181B /* searchicon.png in Resources */,
 				AEFB1C4A173A5F8700C7A081 /* ipadappcoverpgbg.png in Resources */,
+				AE031ABE1830D5FF0042236D /* eselected.png in Resources */,
 				AEFB1C4D173A5FC000C7A081 /* Readbymyselfbutton.png in Resources */,
 				AEFB1C4E173A5FC000C7A081 /* Readtomebutton.png in Resources */,
 				83F486F718016CEE00AE3AAE /* 051d26889e.jpg in Resources */,
@@ -2945,6 +2997,7 @@
 				8374AF1017CC66AB009DA792 /* coconut tree.png in Resources */,
 				834FCE56182D11F70000181B /* scaletool.png in Resources */,
 				8374AF1117CC66AB009DA792 /* grass1.png in Resources */,
+				AE031AC71830D7140042236D /* lunselected.png in Resources */,
 				8374AF1217CC66AB009DA792 /* hills-01.png in Resources */,
 				8374AF1317CC66AB009DA792 /* hills-02.png in Resources */,
 				834FCE35182D11F70000181B /* linespacing_button_selected.png in Resources */,
@@ -2987,6 +3040,7 @@
 				8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */,
 				834FCE4B182D11F70000181B /* recording_stop_button.png in Resources */,
 				8393E08617CF7A940080EB0C /* insert_image.png in Resources */,
+				AE62B32B1832008E005C5EC9 /* storesamplejson.txt in Resources */,
 				839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3068,7 +3122,7 @@
 				AE195EF8181E68C5008E4208 /* StoreCell.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,
-				AE75374D16103B5900761697 /* StoreViewController.m in Sources */,
+				AE75374D16103B5900761697 /* DownloadViewControlleriPad.m in Sources */,
 				AE396BB9181F7E3D009C68E7 /* PSTGridLayoutInfo.m in Sources */,
 				AE731C5316759D4500FE8F19 /* PurchaseFreeIphone.m in Sources */,
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
@@ -3111,6 +3165,7 @@
 				83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
+				AE138F35182B5F4200F36C99 /* DownloadViewControlleriPhone.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
 				AE63865F1733D8CA009E372A /* PuttyView.m in Sources */,
 				AEFB1C47173A2F3D00C7A081 /* CoverViewController.m in Sources */,
@@ -3135,11 +3190,13 @@
 				AE5B84E717AA548A00EDC098 /* LibraryCell.m in Sources */,
 				AE5B84E817AA548A00EDC098 /* LibraryOldCell.m in Sources */,
 				AE5B84EB17AA54AF00EDC098 /* OldFooterView.m in Sources */,
+				AE62B32E183201CB005C5EC9 /* NewBookStore.m in Sources */,
 				AE396BBA181F7E3D009C68E7 /* PSTGridLayoutItem.m in Sources */,
 				AE5B84EE17AA54C600EDC098 /* OldCell.m in Sources */,
 				AE396BB1181F7E3D009C68E7 /* PSTCollectionView.m in Sources */,
 				AE5B84F117AA54E000EDC098 /* FooterView.m in Sources */,
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
+				AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */,
 				AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */,
 				832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */,
 				83347A29183205BA002891EA /* FlickrPhoto.m in Sources */,
@@ -3150,6 +3207,7 @@
 				AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */,
 				833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */,
 				839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */,
+				AE138F3A182B783200F36C99 /* NewStoreControlleriPhone.m in Sources */,
 				8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */,
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,
