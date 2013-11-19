@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "StoriesViewController.h"
 @interface LandPageChoiceViewController : UIViewController
 - (IBAction)creatAStory:(id)sender;
 - (IBAction)openFreeStories:(id)sender;
 - (IBAction)store:(id)sender;
 - (IBAction)myStories:(id)sender;
-
+@property(retain,nonatomic)StoriesViewController *storiesViewController;
 @end

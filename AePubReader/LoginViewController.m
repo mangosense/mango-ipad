@@ -108,7 +108,7 @@
     _store.delegate=_library;
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
    /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
-    storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+   
  _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
     _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
     CustomNavViewController *navigationLibrary=[[CustomNavViewController alloc]initWithRootViewController:_library];
@@ -116,7 +116,7 @@
     
   /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
       /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
-    
+     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
     CustomNavViewController *storiesNavigationController = [[CustomNavViewController alloc] initWithRootViewController:storiesViewController];
     CustomNavViewController *customNav=[[CustomNavViewController alloc]initWithRootViewController:_storeNewViewController];
     _tabBarController.viewControllers=@[ navigationLibrary,storiesNavigationController,customNav];//, navigationStore];

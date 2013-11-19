@@ -18,7 +18,6 @@
 		832CB92017B375D90073F9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB91E17B375D90073F9C2 /* EditorViewController.m */; };
 		832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832CB91F17B375D90073F9C2 /* EditorViewController.xib */; };
 		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
-		832CB92C17B3B1120073F9C2 /* story.json in Resources */ = {isa = PBXBuildFile; fileRef = 832CB92B17B3B1110073F9C2 /* story.json */; };
 		832CCD3317BB4EF600FC05E3 /* 515c992c1b.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2917BB4EF600FC05E3 /* 515c992c1b.mp3 */; };
 		832CCD3417BB4EF600FC05E3 /* 671db6ad7f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2A17BB4EF600FC05E3 /* 671db6ad7f.mp3 */; };
 		832CCD3817BB4EF600FC05E3 /* abad124338.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 832CCD2E17BB4EF600FC05E3 /* abad124338.jpg */; };
@@ -2997,7 +2996,6 @@
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 				83F486C518016CEE00AE3AAE /* 26b90983f6.mp3 in Resources */,
 				832CB92117B375D90073F9C2 /* EditorViewController.xib in Resources */,
-				832CB92C17B3B1120073F9C2 /* story.json in Resources */,
 				839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */,
 				83F486DF18016CEE00AE3AAE /* e797d86055.mp3 in Resources */,
 				83F486C818016CEE00AE3AAE /* 42894322b7.mp3 in Resources */,

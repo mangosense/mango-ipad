@@ -149,6 +149,10 @@
     UIButton *button=(UIButton *)sender;
     [self.tabBarController setSelectedIndex:button.tag];
 }
+
+- (IBAction)backButtonClicked:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (IBAction)switchTabs:(id)sender {
     UISegmentedControl *control=(UISegmentedControl *) sender;
     [self.tabBarController setSelectedIndex:control.selectedSegmentIndex];
