@@ -7,7 +7,6 @@
 //
 
 #import "StoriesViewController.h"
-#import "EditorViewController.h"
 #import "MangoEditorViewController.h"
 
 #define ENGLISH_TAG 9
@@ -148,6 +147,10 @@
 - (IBAction)switchTabButtonClicked:(id)sender {
     UIButton *button=(UIButton *)sender;
     [self.tabBarController setSelectedIndex:button.tag];
+}
+
+- (IBAction)backButtonClicked:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)switchTabs:(id)sender {
     UISegmentedControl *control=(UISegmentedControl *) sender;

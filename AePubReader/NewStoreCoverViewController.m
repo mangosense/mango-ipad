@@ -162,12 +162,13 @@
 - (IBAction)libraryView:(id)sender {
   //  [self dismissViewControllerAnimated:YES completion:nil];
   //  [self.navigationController popViewControllerAnimated:YES];
-    [UIView beginAnimations:nil context:NULL];
+  /*  [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.75];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
     [UIView commitAnimations];
-    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];*/
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     StoreCell *cell=(StoreCell *)[collectionView cellForItemAtIndexPath:indexPath];

@@ -19,5 +19,6 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedcontrol;
 - (IBAction)languageButtonTapped:(id)sender;
 - (IBAction)switchTabButtonClicked:(id)sender;
+- (IBAction)backButtonClicked:(id)sender;
 
 @end
