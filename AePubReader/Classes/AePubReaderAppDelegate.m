@@ -280,6 +280,9 @@ static UIAlertView *alertViewLoading;
     }*/
    // [vayuTheWind release];
 }
+    BOOL uiNew=YES;
+    
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
@@ -288,9 +291,14 @@ static UIAlertView *alertViewLoading;
         //[nav release];
         [self.window makeKeyAndVisible];
     }else{
+        CustomNavViewController *nav;
+        if (uiNew) {
+            _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+            nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+        }else{
         _loginViewController=[[LoginViewController alloc]init];
-        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
-   
+        nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
+        }
         self.window.rootViewController = nav;
  
         [self.window makeKeyAndVisible];

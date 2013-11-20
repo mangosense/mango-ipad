@@ -431,6 +431,11 @@
 		AE731C6F1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png in Resources */ = {isa = PBXBuildFile; fileRef = AE731C6E1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png */; };
 		AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */ = {isa = PBXBuildFile; fileRef = AE731C711675FB4500FE8F19 /* mangoreader-app-icon-57X57.png */; };
 		AE731C781675FB6000FE8F19 /* mangoreader-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AE731C771675FB6000FE8F19 /* mangoreader-logo.png */; };
+		AE73704A183C686B00054115 /* LoginNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737048183C686B00054115 /* LoginNewViewController.m */; };
+		AE73704B183C686B00054115 /* LoginNewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE737049183C686B00054115 /* LoginNewViewController.xib */; };
+		AE73704D183C69D900054115 /* login page_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AE73704C183C69D900054115 /* login page_bg.png */; };
+		AE73704F183C6B9100054115 /* icon_skip_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = AE73704E183C6B9100054115 /* icon_skip_signin.png */; };
+		AE737051183C6D1700054115 /* icon_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = AE737050183C6D1700054115 /* icon_signin.png */; };
 		AE7537301610340E00761697 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE75372E1610340E00761697 /* LoginViewController.m */; };
 		AE7537311610340E00761697 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE75372F1610340E00761697 /* LoginViewController.xib */; };
 		AE75374416103A7C00761697 /* Book.png in Resources */ = {isa = PBXBuildFile; fileRef = AE75373F16103A7B00761697 /* Book.png */; };
@@ -1162,6 +1167,12 @@
 		AE731C6E1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-114X114.png"; sourceTree = "<group>"; };
 		AE731C711675FB4500FE8F19 /* mangoreader-app-icon-57X57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-57X57.png"; sourceTree = "<group>"; };
 		AE731C771675FB6000FE8F19 /* mangoreader-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-logo.png"; sourceTree = "<group>"; };
+		AE737047183C686B00054115 /* LoginNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginNewViewController.h; sourceTree = "<group>"; };
+		AE737048183C686B00054115 /* LoginNewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginNewViewController.m; sourceTree = "<group>"; };
+		AE737049183C686B00054115 /* LoginNewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginNewViewController.xib; sourceTree = "<group>"; };
+		AE73704C183C69D900054115 /* login page_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login page_bg.png"; sourceTree = "<group>"; };
+		AE73704E183C6B9100054115 /* icon_skip_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_skip_signin.png; sourceTree = "<group>"; };
+		AE737050183C6D1700054115 /* icon_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_signin.png; sourceTree = "<group>"; };
 		AE75372D1610340D00761697 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AE75372E1610340E00761697 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		AE75372F1610340E00761697 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -1536,7 +1547,7 @@
 				AEB79381173B99F600301057 /* recordinmyvoicebutton.png */,
 				AEB79383173BA48E00301057 /* bookinfobutton.png */,
 				AEB79385173BA50A00301057 /* sharebutton.png */,
-				AE266FCB183B488B001A8CB8 /* LandingPage */,
+				AE266FCB183B488B001A8CB8 /* LandingPage UI */,
 				AE43C735161056DD00970739 /* Reachability */,
 				AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */,
 				833DDD5E17B8ECD1009BCA5C /* Audio Recorder */,
@@ -2130,9 +2141,12 @@
 			name = help;
 			sourceTree = "<group>";
 		};
-		AE266FCB183B488B001A8CB8 /* LandingPage */ = {
+		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				AE737050183C6D1700054115 /* icon_signin.png */,
+				AE73704E183C6B9100054115 /* icon_skip_signin.png */,
+				AE73704C183C69D900054115 /* login page_bg.png */,
 				AEE30E45183B96AB00C89BFF /* icons_home.png */,
 				AE266FC3183B4881001A8CB8 /* button_create story.png */,
 				AE266FC4183B4881001A8CB8 /* button_my stories.png */,
@@ -2145,8 +2159,11 @@
 				AE266FDA183B4EBE001A8CB8 /* CategoriesViewController.h */,
 				AE266FDB183B4EBE001A8CB8 /* CategoriesViewController.m */,
 				AE266FDC183B4EBE001A8CB8 /* CategoriesViewController.xib */,
+				AE737047183C686B00054115 /* LoginNewViewController.h */,
+				AE737048183C686B00054115 /* LoginNewViewController.m */,
+				AE737049183C686B00054115 /* LoginNewViewController.xib */,
 			);
-			name = LandingPage;
+			name = "LandingPage UI";
 			sourceTree = "<group>";
 		};
 		AE37CD62175278A700EA8653 /* TextBook */ = {
@@ -2719,6 +2736,7 @@
 				83F486D718016CEE00AE3AAE /* a76a4575df.jpg in Resources */,
 				83F486E018016CEE00AE3AAE /* f0dfbbe45a.jpg in Resources */,
 				83F486CC18016CEE00AE3AAE /* 5f638a921a.jpg in Resources */,
+				AE737051183C6D1700054115 /* icon_signin.png in Resources */,
 				AE7537311610340E00761697 /* LoginViewController.xib in Resources */,
 				AE75374416103A7C00761697 /* Book.png in Resources */,
 				AE75374E16103B5900761697 /* DownloadViewControlleriPad.xib in Resources */,
@@ -2743,6 +2761,7 @@
 				AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */,
 				AE7FEF28161F1AC400181CE8 /* library.png in Resources */,
 				834FCE40182D11F70000181B /* pagesbutton_selected.png in Resources */,
+				AE73704B183C686B00054115 /* LoginNewViewController.xib in Resources */,
 				AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */,
 				834FCE3B182D11F70000181B /* movetool.png in Resources */,
 				834FCE5F182D11F70000181B /* syncpause.png in Resources */,
@@ -2868,6 +2887,7 @@
 				AED53B3316916DB60061A600 /* pattern.png in Resources */,
 				AED53B391691B6410061A600 /* Sample.xib in Resources */,
 				AED77757169431200043E3D4 /* header-toolbar-slider.png in Resources */,
+				AE73704F183C6B9100054115 /* icon_skip_signin.png in Resources */,
 				AE266FDE183B4EBE001A8CB8 /* CategoriesViewController.xib in Resources */,
 				AE6B855116945DD300E17358 /* loading.png in Resources */,
 				AEF6A155169596CE00ECAE7E /* WebPageViewController.xib in Resources */,
@@ -2956,6 +2976,7 @@
 				AEB79386173BA50A00301057 /* sharebutton.png in Resources */,
 				834FCE26182D11F70000181B /* discard_button.png in Resources */,
 				AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */,
+				AE73704D183C69D900054115 /* login page_bg.png in Resources */,
 				834FCE5E182D11F70000181B /* syncdone_button_pressed.png in Resources */,
 				AEDBB6951740D323003321E4 /* feedbackbutton.png in Resources */,
 				AEDBB6971740D418003321E4 /* playmyrecordingbutton.png in Resources */,
@@ -3244,6 +3265,7 @@
 				AE24BCDF181A92BA006CD354 /* iCarousel.m in Sources */,
 				AE1D51251752625D00D2F25E /* MyViewController.m in Sources */,
 				AE37CD67175278D500EA8653 /* LandscapeTextBookViewController.m in Sources */,
+				AE73704A183C686B00054115 /* LoginNewViewController.m in Sources */,
 				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
 				AE396BB3181F7E3D009C68E7 /* PSTCollectionViewController.m in Sources */,
 				AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */,
