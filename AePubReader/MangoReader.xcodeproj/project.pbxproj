@@ -567,6 +567,7 @@
 		AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEDF1850168B72CF0087064A /* AVFoundation.framework */; };
 		AEE103BE169C023400AEEEFB /* librarytext.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE103BD169C023400AEEEFB /* librarytext.png */; };
 		AEE26AD7165F8EE70021B4AA /* purchase-button.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE26AD6165F8EE70021B4AA /* purchase-button.png */; };
+		AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE30E45183B96AB00C89BFF /* icons_home.png */; };
 		AEE3FB68169CAD82001034E4 /* HighlightedString.js in Resources */ = {isa = PBXBuildFile; fileRef = AE6F271A16803AC900355BCC /* HighlightedString.js */; };
 		AEE3FB90169CBBEC001034E4 /* CustomWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE3FB8F169CBBEC001034E4 /* CustomWebView.m */; };
 		AEEB9B8616A3D23100E91603 /* highlightXpath.js in Resources */ = {isa = PBXBuildFile; fileRef = AEEB9B8216A3CED200E91603 /* highlightXpath.js */; };
@@ -1345,6 +1346,7 @@
 		AEDF1850168B72CF0087064A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AEE103BD169C023400AEEEFB /* librarytext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = librarytext.png; sourceTree = "<group>"; };
 		AEE26AD6165F8EE70021B4AA /* purchase-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchase-button.png"; sourceTree = "<group>"; };
+		AEE30E45183B96AB00C89BFF /* icons_home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_home.png; sourceTree = "<group>"; };
 		AEE3FB8E169CBBEC001034E4 /* CustomWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomWebView.h; sourceTree = "<group>"; };
 		AEE3FB8F169CBBEC001034E4 /* CustomWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomWebView.m; sourceTree = "<group>"; };
 		AEEB9B8216A3CED200E91603 /* highlightXpath.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = highlightXpath.js; sourceTree = "<group>"; };
@@ -2131,6 +2133,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage */ = {
 			isa = PBXGroup;
 			children = (
+				AEE30E45183B96AB00C89BFF /* icons_home.png */,
 				AE266FC3183B4881001A8CB8 /* button_create story.png */,
 				AE266FC4183B4881001A8CB8 /* button_my stories.png */,
 				AE266FC5183B4881001A8CB8 /* button_free stories.png */,
@@ -2923,6 +2926,7 @@
 				834FCE12182D11F70000181B /* add_button_pressed.png in Resources */,
 				834FCE3F182D11F70000181B /* pagesbutton.png in Resources */,
 				83F4870018016CEE00AE3AAE /* a2dcf21fd0.jpg in Resources */,
+				AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */,
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
 				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
 				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
