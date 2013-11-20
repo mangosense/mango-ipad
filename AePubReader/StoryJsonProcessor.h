@@ -13,6 +13,6 @@
     
 }
 
-+ (NSDictionary *)pageViewForJsonString:(NSDictionary *)jsonDict;
++ (StoryPageView *)pageViewForJsonString:(NSDictionary *)jsonDict;
 
 @end

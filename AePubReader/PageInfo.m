@@ -11,8 +11,8 @@
 @implementation PageInfo
 
 @synthesize pageNumber;
-@synthesize pageAudioData;
+@synthesize textArray;
+@synthesize audioArray;
 @synthesize backgroundImage;
-@synthesize pageText;
 
 @end

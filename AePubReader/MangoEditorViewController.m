@@ -14,6 +14,7 @@
 #import "FlickrPhoto.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AudioMappingViewController.h"
+#import "StoryJsonProcessor.h"
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -94,8 +95,8 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
-    pageImageView.selectedBrush = 5.0f;
-    pageImageView.selectedEraserWidth = 20.0f;
+    pageImageView.backgroundImageView.selectedBrush = 5.0f;
+    pageImageView.backgroundImageView.selectedEraserWidth = 20.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -317,7 +318,7 @@
             viewImage = subviewImageView.image;
             if (viewImage) {
                 NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
-                [pageImageView drawSticker:viewImage inRect:[self.view convertRect:[stickerView convertRect:subview.frame toView:self.view] toView:pageImageView] WithTranslation:CGPointMake(translatePoint.x - pageImageView.frame.origin.x, translatePoint.y - pageImageView.frame.origin.y) AndRotation:-rotateAngle];
+                [pageImageView.backgroundImageView drawSticker:viewImage inRect:[self.view convertRect:[stickerView convertRect:subview.frame toView:self.view] toView:pageImageView] WithTranslation:CGPointMake(translatePoint.x - pageImageView.frame.origin.x, translatePoint.y - pageImageView.frame.origin.y) AndRotation:-rotateAngle];
             }
             [stickerView removeFromSuperview];
             
@@ -658,6 +659,10 @@
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
 - (void)renderPage:(int)pageNumber {
+    pageImageView = [StoryJsonProcessor pageViewForJsonString:[pagesArray objectAtIndex:pageNumber]];
+    pageImageView.backgroundImageView.selectedColor = 7;
+    
+    /*
     pageImageView.selectedColor = 7;
     currentPageNumber = pageNumber;
     
@@ -713,20 +718,23 @@
     [audioRecordingButton addTarget:self action:@selector(audioRecButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [audioRecordingButton setFrame:CGRectMake(0, pageImageView.frame.size.height - 60, 60, 60)];
     [pageImageView addSubview:audioRecordingButton];
+     */
 }
 
 #pragma mark - Book JSON Methods
 
 - (void)getBookJson {
-    bookJsonString = @"{\"id\":829,\"title\":\"rahul\",\"language\":\"English\",\"pages\":[{\"id\":584,\"json\":{\"id\":\"Cover\",\"name\":\"Cover\",\"layers\":[{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":584}},{\"id\":585,\"json\":{\"id\":1,\"name\":1,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text-1\",\"alignment\":\"left\",\"order\":0,\"style\":{\"top\":253,\"left\":401,\"width\":431,\"height\":173},\"text\":\"testing the tex box for json attributes\",\"words\":[{\"index\":0,\"text\":\"testing\"},{\"index\":1,\"text\":\"the\"},{\"index\":2,\"text\":\"tex\"},{\"index\":3,\"text\":\"box\"},{\"index\":4,\"text\":\"for\"},{\"index\":5,\"text\":\"json\"},{\"index\":6,\"text\":\"attributes\"}]},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"middle\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":585}},{\"id\":586,\"json\":{\"id\":3,\"name\":3,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text\",\"alignment\":\"left\",\"order\":0,\"style\":{}},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":586}},{\"id\":587,\"json\":{\"id\":2,\"name\":2,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text\",\"alignment\":\"left\",\"order\":0,\"style\":{}},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":587}},{\"id\":588,\"json\":{\"id\":4,\"name\":4,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1}},{\"id\":589,\"json\":{\"id\":4,\"name\":4,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text-1\",\"alignment\":\"left\",\"order\":0,\"style\":{\"top\":156,\"left\":112},\"text\":\"Mysql create user and grant privileges.\",\"words\":[{\"index\":0,\"text\":\"Mysql\"},{\"index\":1,\"text\":\"create\"},{\"index\":2,\"text\":\"user\"},{\"index\":3,\"text\":\"and\"},{\"index\":4,\"text\":\"grant\"},{\"index\":5,\"text\":\"privileges.\"}]},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":589}}]}";
-    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"json"];
+    bookJsonString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: NULL];
+    NSLog(@"%@", bookJsonString);
+        
     NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     
     pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     [pagesCarousel reloadData];
-    [self renderPage:0];
+    [self renderPage:2];
 }
 
 #pragma mark - Audio Recording
@@ -938,7 +946,7 @@ enum
             [subview setHidden:YES];
         }
     }
-    pageImageView.selectedColor = 8;
+    pageImageView.backgroundImageView.selectedColor = 8;
 }
 
 #pragma mark - Audio Player Delegate
