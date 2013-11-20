@@ -32,23 +32,25 @@ static UIAlertView *alertViewLoading;
     [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
                   clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
+    NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+
     _LandscapeOrientation=YES;
     _PortraitOrientation=NO;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
  //   NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
     _wasFirstInPortrait=NO;
+         BOOL uiNew=YES;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+
     if (![userDefaults objectForKey:@"baseurl"]) {
         
          [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
     }
     [userDefaults setBool:NO forKey:@"changed"];
-    if (![userDefaults boolForKey:@"didadd" ])
+    if (![userDefaults boolForKey:@"didadd" ]&&!uiNew)
     {
         [userDefaults setBool:YES forKey:@"didadd"];
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *destPath;/*=@"780.jpg";*/
     NSString *insPath;/* = @"780.jpg";*/
     NSString *srcPath; /*= [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
@@ -60,6 +62,7 @@ static UIAlertView *alertViewLoading;
     
     NSNumber *moonCapId;
 
+   
 
     destPath=@"49.jpg";
     insPath=@"49.jpg";
@@ -279,10 +282,35 @@ static UIAlertView *alertViewLoading;
         }
     }*/
    // [vayuTheWind release];
-}
-    BOOL uiNew=YES;
+        [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
+
+    }
+#pragma mark -
     
-    
+#pragma mark Copying json based books
+    else if (uiNew&&![userDefaults boolForKey:@"didaddWithNewUI"]) {
+        //[userDefaults setBool:YES forKey:@"didaddWithNewUI"];
+        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"zip"];
+        NSString *destinationFolder=[sourceLocation lastPathComponent];
+     //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
+        NSLog(@"Destination Folder %@",destinationFolder);
+        
+        if (![fileManager fileExistsAtPath:destinationFolder]) {
+            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+                           NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+                //NSURLIsExcludedFromBackupKey
+                [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+        }
+        
+        sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"zip"];
+        
+        
+        
+        [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
+
+        
+    }
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
@@ -305,7 +333,6 @@ static UIAlertView *alertViewLoading;
     }
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     [self addSkipBackupAttribute];
-    [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
     // convert all directories out of backup
     _location=[self applicationDocumentsDirectory];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"bkup"]) {
@@ -406,6 +433,50 @@ void uncaughtExceptionHandler(NSException *exception) {
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
         
     }
+}
+-(void)unzipExistingJsonBooks{
+    NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
+    NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
+    
+    for (NSString *string in epubFles) {
+        //location
+        NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+        NSString *value=[string stringByDeletingPathExtension];
+            // unzip the file
+        [self unzipAndSaveFile:epubLocation withString:value];
+        // provide do not backup attribute to folder itself
+        [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
+        // delete the zip since it is unzipped
+        [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
+        
+    }
+
+}
+-(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{
+    ZipArchive* za = [[ZipArchive alloc] init];
+    NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
+    NSFileManager *filemanager=[[NSFileManager alloc] init];
+    if ([filemanager fileExistsAtPath:strPath]) {
+        
+        NSError *error;
+        [filemanager removeItemAtPath:strPath error:&error];
+    }
+    filemanager=nil;
+    //start unzip
+    BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
+    if( NO==ret ){
+        // error handler here
+      /*  UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:@"An unknown error occured"
+                                                     delegate:self
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+        [alert show];*/
+        //		[alert release];
+       // alert=nil;
+    }
+    [za UnzipCloseFile];
+
 }
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity {
 	

@@ -465,6 +465,10 @@
 		AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF30161F1C7800181CE8 /* purchased@2x.png */; };
 		AE801341169AD24700EE536A /* CustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801340169AD24700EE536A /* CustomNavViewController.m */; };
 		AE801345169AEB8000EE536A /* CustomTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801344169AEB8000EE536A /* CustomTabViewController.m */; };
+		AE8CA749183C758B006BA6BA /* hungry.zip in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA747183C758B006BA6BA /* hungry.zip */; };
+		AE8CA74A183C758B006BA6BA /* kokku.zip in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA748183C758B006BA6BA /* kokku.zip */; };
+		AE8CA74C183C9C68006BA6BA /* icons_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA74B183C9C68006BA6BA /* icons_settings.png */; };
+		AE8CA74F183C9E0F006BA6BA /* SettingOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8CA74E183C9E0F006BA6BA /* SettingOptionViewController.m */; };
 		AE8D260B166DBCAA00156F43 /* EpubReaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */; };
 		AE8D2610166DCA0400156F43 /* ListOfPurchasedBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8D260F166DCA0400156F43 /* ListOfPurchasedBooks.m */; };
 		AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8D2618166DD48800156F43 /* DetailViewController.m */; };
@@ -1212,6 +1216,12 @@
 		AE801340169AD24700EE536A /* CustomNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavViewController.m; sourceTree = "<group>"; };
 		AE801343169AEB8000EE536A /* CustomTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabViewController.h; sourceTree = "<group>"; };
 		AE801344169AEB8000EE536A /* CustomTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTabViewController.m; sourceTree = "<group>"; };
+		AE8CA747183C758B006BA6BA /* hungry.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = hungry.zip; sourceTree = "<group>"; };
+		AE8CA748183C758B006BA6BA /* kokku.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = kokku.zip; sourceTree = "<group>"; };
+		AE8CA74B183C9C68006BA6BA /* icons_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_settings.png; sourceTree = "<group>"; };
+		AE8CA74D183C9E0F006BA6BA /* SettingOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingOptionViewController.h; sourceTree = "<group>"; };
+		AE8CA74E183C9E0F006BA6BA /* SettingOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingOptionViewController.m; sourceTree = "<group>"; };
+		AE8CA750183CA2DD006BA6BA /* DismissPopOver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DismissPopOver.h; sourceTree = "<group>"; };
 		AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EpubReaderViewController.xib; sourceTree = "<group>"; };
 		AE8D260E166DCA0400156F43 /* ListOfPurchasedBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfPurchasedBooks.h; sourceTree = "<group>"; };
 		AE8D260F166DCA0400156F43 /* ListOfPurchasedBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfPurchasedBooks.m; sourceTree = "<group>"; };
@@ -2144,6 +2154,9 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				AE8CA74B183C9C68006BA6BA /* icons_settings.png */,
+				AE8CA747183C758B006BA6BA /* hungry.zip */,
+				AE8CA748183C758B006BA6BA /* kokku.zip */,
 				AE737050183C6D1700054115 /* icon_signin.png */,
 				AE73704E183C6B9100054115 /* icon_skip_signin.png */,
 				AE73704C183C69D900054115 /* login page_bg.png */,
@@ -2162,6 +2175,9 @@
 				AE737047183C686B00054115 /* LoginNewViewController.h */,
 				AE737048183C686B00054115 /* LoginNewViewController.m */,
 				AE737049183C686B00054115 /* LoginNewViewController.xib */,
+				AE8CA74D183C9E0F006BA6BA /* SettingOptionViewController.h */,
+				AE8CA74E183C9E0F006BA6BA /* SettingOptionViewController.m */,
+				AE8CA750183CA2DD006BA6BA /* DismissPopOver.h */,
 			);
 			name = "LandingPage UI";
 			sourceTree = "<group>";
@@ -2811,6 +2827,7 @@
 				83F486C718016CEE00AE3AAE /* 3f550b42a9.mp3 in Resources */,
 				834FCE27182D11F70000181B /* discard_button_pressed.png in Resources */,
 				AE266FC0183B45D7001A8CB8 /* LandPageChoiceViewController.xib in Resources */,
+				AE8CA74A183C758B006BA6BA /* kokku.zip in Resources */,
 				83F4870918016CEE00AE3AAE /* original_051d26889e.jpg in Resources */,
 				AE8D260B166DBCAA00156F43 /* EpubReaderViewController.xib in Resources */,
 				AE8D261B166DD48800156F43 /* DetailViewController.xib in Resources */,
@@ -2997,6 +3014,7 @@
 				AEBD469C1755B4AC0060692A /* large_one.png in Resources */,
 				83F486F618016CEE00AE3AAE /* original_5d6b329ad8.jpg in Resources */,
 				AEBD469E1755B4D40060692A /* large_four.png in Resources */,
+				AE8CA749183C758B006BA6BA /* hungry.zip in Resources */,
 				834FCE73182E084E0000181B /* pages_bg_left.png in Resources */,
 				834FCE16182D11F70000181B /* addthisgame_button.png in Resources */,
 				AEBD46A01755B4E70060692A /* large_six.png in Resources */,
@@ -3008,6 +3026,7 @@
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
 				83F486EB18016CEE00AE3AAE /* 4757f7d9a2.jpg in Resources */,
 				AE032C0C17674BCB00ABAD2C /* 1331.jpg in Resources */,
+				AE8CA74C183C9C68006BA6BA /* icons_settings.png in Resources */,
 				839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */,
 				834FCE41182D11F70000181B /* pause_button.png in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
@@ -3163,6 +3182,7 @@
 				AE1A9647170C2E42001A1344 /* CircularProgressView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AePubReaderAppDelegate.m in Sources */,
+				AE8CA74F183C9E0F006BA6BA /* SettingOptionViewController.m in Sources */,
 				FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */,
 				83DD9BBA18113027004C975F /* StoryPageView.m in Sources */,
 				FAFA8EA8134A06D6000291E2 /* mztools.c in Sources */,
@@ -3495,8 +3515,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
+				PROVISIONING_PROFILE = "82E4D488-FC7F-4470-BDF8-96D266E71B5F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "82E4D488-FC7F-4470-BDF8-96D266E71B5F";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3517,8 +3537,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4F5683F8-7581-4B69-BAA9-BC1E5010BD3D";
+				PROVISIONING_PROFILE = "82E4D488-FC7F-4470-BDF8-96D266E71B5F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "82E4D488-FC7F-4470-BDF8-96D266E71B5F";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
