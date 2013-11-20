@@ -1,0 +1,2314 @@
+{
+    "audios": [
+        {
+            "created_at": "2013-11-19T18:26:41.731Z",
+            "media_filename": "805d210b8c.mp3",
+            "original_filename": "680e64ec48.mp3",
+            "updated_at": "2013-11-19T18:26:41.731Z",
+            "id": "528bad616a756d1b97a10000"
+        },
+        {
+            "created_at": "2013-11-19T18:26:42.506Z",
+            "media_filename": "d266c80bb5.mp3",
+            "original_filename": "f55b1e3687.mp3",
+            "updated_at": "2013-11-19T18:26:42.506Z",
+            "id": "528bad626a756d1b97a20000"
+        },
+        {
+            "created_at": "2013-11-19T18:26:43.787Z",
+            "media_filename": "3bd609c374.mp3",
+            "original_filename": "1337ea9db5.mp3",
+            "updated_at": "2013-11-19T18:26:43.787Z",
+            "id": "528bad636a756d1b97a30000"
+        },
+        {
+            "created_at": "2013-11-19T18:26:44.549Z",
+            "media_filename": "6d31495625.mp3",
+            "original_filename": "b48ccde810.mp3",
+            "updated_at": "2013-11-19T18:26:44.549Z",
+            "id": "528bad646a756d1b97a40000"
+        },
+        {
+            "created_at": "2013-11-19T18:26:45.278Z",
+            "media_filename": "dbfb30531b.mp3",
+            "original_filename": "98fc5f1bbf.mp3",
+            "updated_at": "2013-11-19T18:26:45.278Z",
+            "id": "528bad656a756d1b97a50000"
+        },
+        {
+            "created_at": "2013-11-19T18:26:46.427Z",
+            "media_filename": "e123e798f4.mp3",
+            "original_filename": "44221d038e.mp3",
+            "updated_at": "2013-11-19T18:26:46.427Z",
+            "id": "528bad666a756d1b97a60000"
+        },
+        {
+            "created_at": "2013-11-19T18:26:47.840Z",
+            "media_filename": "f57805964d.mp3",
+            "original_filename": "51d029a922.mp3",
+            "updated_at": "2013-11-19T18:26:47.840Z",
+            "id": "528bad676a756d1b97a70000"
+        }
+    ],
+    "created_at": "2013-11-19T18:12:01.769Z",
+    "creator_id": "526f83e76a756d25ee000000",
+    "creator_type": "User",
+    "deleted_at": null,
+    "title" : "The hungry caterpillar",
+    "images": [
+        {
+            "created_at": "2013-11-19T18:12:36.502Z",
+            "media_filename": "528baa146a756d1b97870000.jpg",
+            "original_filename": "c6b0182fc1.jpg",
+            "updated_at": "2013-11-19T18:12:36.502Z",
+            "id": "528baa146a756d1b97870000"
+        },
+        {
+            "created_at": "2013-11-19T18:12:40.867Z",
+            "media_filename": "528baa186a756d1b97880000.jpg",
+            "original_filename": "a9457d95f7.jpg",
+            "updated_at": "2013-11-19T18:12:40.867Z",
+            "id": "528baa186a756d1b97880000"
+        },
+        {
+            "created_at": "2013-11-19T18:12:45.928Z",
+            "media_filename": "528baa1d6a756d1b97890000.jpg",
+            "original_filename": "c2dc01256e.jpg",
+            "updated_at": "2013-11-19T18:12:45.928Z",
+            "id": "528baa1d6a756d1b97890000"
+        },
+        {
+            "created_at": "2013-11-19T18:12:50.798Z",
+            "media_filename": "528baa226a756d1b978a0000.jpg",
+            "original_filename": "e1e8d1ae58.jpg",
+            "updated_at": "2013-11-19T18:12:50.798Z",
+            "id": "528baa226a756d1b978a0000"
+        },
+        {
+            "created_at": "2013-11-19T18:12:55.313Z",
+            "media_filename": "528baa276a756d1b978b0000.jpg",
+            "original_filename": "14971183bb.jpg",
+            "updated_at": "2013-11-19T18:12:55.313Z",
+            "id": "528baa276a756d1b978b0000"
+        },
+        {
+            "created_at": "2013-11-19T18:12:59.763Z",
+            "media_filename": "528baa2b6a756d1b978c0000.jpg",
+            "original_filename": "dfe6bef2ed.jpg",
+            "updated_at": "2013-11-19T18:12:59.763Z",
+            "id": "528baa2b6a756d1b978c0000"
+        },
+        {
+            "created_at": "2013-11-19T18:13:04.580Z",
+            "media_filename": "528baa306a756d1b978d0000.jpg",
+            "original_filename": "b67787a76b.jpg",
+            "updated_at": "2013-11-19T18:13:04.580Z",
+            "id": "528baa306a756d1b978d0000"
+        },
+        {
+            "created_at": "2013-11-19T18:13:09.840Z",
+            "media_filename": "528baa356a756d1b978e0000.jpg",
+            "original_filename": "fea8d05bf8.jpg",
+            "updated_at": "2013-11-19T18:13:09.840Z",
+            "id": "528baa356a756d1b978e0000"
+        },
+        {
+            "created_at": "2013-11-19T18:13:15.678Z",
+            "media_filename": "528baa3b6a756d1b978f0000.jpg",
+            "original_filename": "71b1a3e2b0.jpg",
+            "updated_at": "2013-11-19T18:13:15.678Z",
+            "id": "528baa3b6a756d1b978f0000"
+        }
+    ],
+    "updated_at": "2013-11-19T18:12:01.878Z",
+    "id": "528ba9f16a756d1b97850000",
+    "pages": [
+        {
+            "created_at": "2013-11-19T18:12:01.800Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:13:21.623Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528baa466a756d1b97920000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:13:26.300Z",
+                    "url": "res/images/528baa186a756d1b97880000.jpg",
+                    "id": "528baa416a756d1b97900000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:13:21.830Z",
+                    "name": "text",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528baa466a756d1b97930000"
+                    },
+                    "text": "",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:13:26.394Z",
+                    "id": "528baa416a756d1b97910000"
+                }
+            ],
+            "name": "Cover",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "updated_at": "2013-11-19T18:22:40.313Z",
+            "id": "528ba9f16a756d1b97860000"
+        },
+        {
+            "created_at": "2013-11-19T18:22:40.375Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "middle",
+                    "created_at": "2013-11-19T18:22:49.971Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bac816a756d1b979f0000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:22:57.525Z",
+                    "url": "res/images/528baa3b6a756d1b978f0000.jpg",
+                    "id": "528bac796a756d1b979d0000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:22:50.383Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(0, 51, 0)",
+                        "font-size": 0,
+                        "font-style": "italic",
+                        "font-weight": "normal",
+                        "height": 302,
+                        "left": 476,
+                        "left_ratio": 2.15,
+                        "line-height": "1.5",
+                        "text-decoration": "none",
+                        "top": 87,
+                        "top_ratio": 8.8,
+                        "width": 520,
+                        "id": "528bac816a756d1b97a00000"
+                    },
+                    "text": "Neelu the butterfly was scolding her son Katty, the caterpillar, \"Why did you eat all the leaves of the plants? Why do you overeat? The gardener is angry. He is looking for you. Why? don't yath'ever use your brain?\n\"What can I do mother? My brain is in my tummy, so I do what my tummy tells me to do,\" replied Katty.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:25:56.733Z",
+                    "id": "528bac7a6a756d1b979e0000"
+                },
+                {
+                    "created_at": "2013-11-19T18:27:04.648Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bada66a756d1b97a90000"
+                    },
+                    "text": "",
+                    "text_id": "528bac7a6a756d1b979e0000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:27:50.064Z",
+                    "url": "res/audios/f57805964d.mp3",
+                    "wordMap": [
+                        {
+                            "word": "Neelu",
+                            "step": 20,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": "the",
+                            "step": 25,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "butterfly",
+                            "step": 27,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "was",
+                            "step": 35,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "scolding",
+                            "step": 37,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "her",
+                            "step": 42,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "son",
+                            "step": 45,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "Katty,",
+                            "step": 47,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "the",
+                            "step": 57,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "caterpillar,",
+                            "step": 60,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "\"Why",
+                            "step": 73,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "did",
+                            "step": 78,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "you",
+                            "step": 80,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "eat",
+                            "step": 83,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "all",
+                            "step": 85,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "the",
+                            "step": 88,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "leaves",
+                            "step": 90,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "of",
+                            "step": 93,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "the",
+                            "step": 95,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "plants?",
+                            "step": 100,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "Why",
+                            "step": 113,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "do",
+                            "step": 115,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "you",
+                            "step": 118,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "overeat?",
+                            "step": 120,
+                            "wordIdx": 24
+                        },
+                        {
+                            "word": "The",
+                            "step": 135,
+                            "wordIdx": 25
+                        },
+                        {
+                            "word": "gardener",
+                            "step": 138,
+                            "wordIdx": 26
+                        },
+                        {
+                            "word": "is",
+                            "step": 138,
+                            "wordIdx": 27
+                        },
+                        {
+                            "word": "angry.",
+                            "step": 140,
+                            "wordIdx": 28
+                        },
+                        {
+                            "word": "He",
+                            "step": 153,
+                            "wordIdx": 29
+                        },
+                        {
+                            "word": "is",
+                            "step": 155,
+                            "wordIdx": 30
+                        },
+                        {
+                            "word": "looking",
+                            "step": 158,
+                            "wordIdx": 31
+                        },
+                        {
+                            "word": "for",
+                            "step": 158,
+                            "wordIdx": 32
+                        },
+                        {
+                            "word": "you.",
+                            "step": 163,
+                            "wordIdx": 33
+                        },
+                        {
+                            "word": "Why?",
+                            "step": 171,
+                            "wordIdx": 34
+                        },
+                        {
+                            "word": "don't",
+                            "step": 176,
+                            "wordIdx": 35
+                        },
+                        {
+                            "word": "yath'ever",
+                            "step": 178,
+                            "wordIdx": 36
+                        },
+                        {
+                            "word": "use",
+                            "step": 181,
+                            "wordIdx": 37
+                        },
+                        {
+                            "word": "your",
+                            "step": 186,
+                            "wordIdx": 38
+                        },
+                        {
+                            "word": "brain?\n\"What",
+                            "step": 188,
+                            "wordIdx": 39
+                        },
+                        {
+                            "word": "can",
+                            "step": 196,
+                            "wordIdx": 40
+                        },
+                        {
+                            "word": "I",
+                            "step": 226,
+                            "wordIdx": 41
+                        },
+                        {
+                            "word": "do",
+                            "step": 228,
+                            "wordIdx": 42
+                        },
+                        {
+                            "word": "mother?",
+                            "step": 231,
+                            "wordIdx": 43
+                        },
+                        {
+                            "word": "My",
+                            "step": 239,
+                            "wordIdx": 44
+                        },
+                        {
+                            "word": "brain",
+                            "step": 241,
+                            "wordIdx": 45
+                        },
+                        {
+                            "word": "is",
+                            "step": 244,
+                            "wordIdx": 46
+                        },
+                        {
+                            "word": "in",
+                            "step": 249,
+                            "wordIdx": 47
+                        },
+                        {
+                            "word": "my",
+                            "step": 251,
+                            "wordIdx": 48
+                        },
+                        {
+                            "word": "tummy,",
+                            "step": 256,
+                            "wordIdx": 49
+                        },
+                        {
+                            "word": "so",
+                            "step": 264,
+                            "wordIdx": 50
+                        },
+                        {
+                            "word": "I",
+                            "step": 271,
+                            "wordIdx": 51
+                        },
+                        {
+                            "word": "do",
+                            "step": 274,
+                            "wordIdx": 52
+                        },
+                        {
+                            "word": "what",
+                            "step": 276,
+                            "wordIdx": 53
+                        },
+                        {
+                            "word": "my",
+                            "step": 279,
+                            "wordIdx": 54
+                        },
+                        {
+                            "word": "tummy",
+                            "step": 284,
+                            "wordIdx": 55
+                        },
+                        {
+                            "word": "tells",
+                            "step": 286,
+                            "wordIdx": 56
+                        },
+                        {
+                            "word": "me",
+                            "step": 289,
+                            "wordIdx": 57
+                        },
+                        {
+                            "word": "to",
+                            "step": 291,
+                            "wordIdx": 58
+                        },
+                        {
+                            "word": "do,\"",
+                            "step": 294,
+                            "wordIdx": 59
+                        },
+                        {
+                            "word": "replied",
+                            "step": 301,
+                            "wordIdx": 60
+                        },
+                        {
+                            "word": "Katty.",
+                            "step": 306,
+                            "wordIdx": 61
+                        }
+                    ],
+                    "wordTimes": [
+                        1.970303,
+                        2.47235,
+                        2.722968,
+                        3.477127,
+                        3.728489,
+                        4.229993,
+                        4.479796,
+                        4.729679,
+                        5.745842,
+                        5.9975439999999995,
+                        7.268589,
+                        7.771073,
+                        8.020978,
+                        8.27249,
+                        8.523361,
+                        8.771866,
+                        9.024015,
+                        9.27457,
+                        9.52577,
+                        10.026735,
+                        11.281305,
+                        11.530387,
+                        11.78426,
+                        12.037102,
+                        13.54178,
+                        13.792857,
+                        13.792857,
+                        14.04391,
+                        15.295696,
+                        15.546892,
+                        15.796887,
+                        15.796887,
+                        16.317464,
+                        17.070229,
+                        17.580825,
+                        17.831661,
+                        18.081724,
+                        18.584757,
+                        18.83412,
+                        19.586466,
+                        22.597587,
+                        22.848705,
+                        23.098686,
+                        23.852055,
+                        24.10142,
+                        24.351947,
+                        24.858742,
+                        25.110103,
+                        25.611566,
+                        26.364095,
+                        27.116873,
+                        27.367191,
+                        27.615912,
+                        27.864898,
+                        28.369471,
+                        28.621164,
+                        28.871717,
+                        29.123555,
+                        29.369241,
+                        30.124339,
+                        30.630624
+                    ],
+                    "id": "528bad786a756d1b97a80000"
+                }
+            ],
+            "name": "1",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:28:53.531Z",
+            "id": "528bac706a756d1b979c0000"
+        },
+        {
+            "created_at": "2013-11-19T18:28:53.588Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:29:08.730Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bae026a756d1b97ad0000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:29:22.399Z",
+                    "url": "res/images/528baa356a756d1b978e0000.jpg",
+                    "id": "528badf46a756d1b97ab0000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:29:08.945Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(0, 51, 0)",
+                        "font-size": 0,
+                        "left": null,
+                        "line-height": "1.6",
+                        "top": null,
+                        "id": "528bae026a756d1b97ae0000"
+                    },
+                    "text": "\"Dont give me excuses. Just stay here. Let me go and see where that angry gardener is. Sit here quietly till I come back,\" said Neelu, and flew away.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:30:39.213Z",
+                    "id": "528badf46a756d1b97ac0000"
+                },
+                {
+                    "created_at": "2013-11-19T18:29:56.793Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bae4f6a756d1b97b00000"
+                    },
+                    "text": "",
+                    "text_id": "528badf46a756d1b97ac0000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:31:15.375Z",
+                    "url": "res/audios/3bd609c374.mp3",
+                    "wordMap": [
+                        {
+                            "word": "\"Dont",
+                            "step": 22,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": "give",
+                            "step": 27,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "me",
+                            "step": 30,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "excuses.",
+                            "step": 32,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "Just",
+                            "step": 42,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "stay",
+                            "step": 45,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "here.",
+                            "step": 50,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "Let",
+                            "step": 60,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "me",
+                            "step": 62,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "go",
+                            "step": 65,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "and",
+                            "step": 67,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "see",
+                            "step": 70,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "where",
+                            "step": 75,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "that",
+                            "step": 80,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "angry",
+                            "step": 82,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "gardener",
+                            "step": 85,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "is.",
+                            "step": 90,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "Sit",
+                            "step": 102,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "here",
+                            "step": 102,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "quietly",
+                            "step": 110,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "till",
+                            "step": 115,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "I",
+                            "step": 118,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "come",
+                            "step": 120,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "back,\"",
+                            "step": 123,
+                            "wordIdx": 24
+                        },
+                        {
+                            "word": "said",
+                            "step": 130,
+                            "wordIdx": 25
+                        },
+                        {
+                            "word": "Neelu,",
+                            "step": 133,
+                            "wordIdx": 26
+                        },
+                        {
+                            "word": "and",
+                            "step": 145,
+                            "wordIdx": 27
+                        },
+                        {
+                            "word": "flew",
+                            "step": 145,
+                            "wordIdx": 28
+                        },
+                        {
+                            "word": "away.",
+                            "step": 148,
+                            "wordIdx": 29
+                        }
+                    ],
+                    "wordTimes": [
+                        2.208777,
+                        2.709686,
+                        2.96056,
+                        3.210797,
+                        4.214264,
+                        4.464552,
+                        4.96832,
+                        5.970374,
+                        6.22056,
+                        6.471278,
+                        6.721472,
+                        6.970255,
+                        7.487465,
+                        7.987675,
+                        8.23867,
+                        8.489457,
+                        8.989796,
+                        10.242959,
+                        10.242959,
+                        11.002856,
+                        11.505526,
+                        11.756512,
+                        12.007309,
+                        12.258354,
+                        13.008036,
+                        13.261432,
+                        14.512921,
+                        14.512921,
+                        14.763367
+                    ],
+                    "id": "528bae246a756d1b97af0000"
+                }
+            ],
+            "name": "2",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:31:21.654Z",
+            "id": "528bade56a756d1b97aa0000"
+        },
+        {
+            "created_at": "2013-11-19T18:34:04.587Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "middle",
+                    "created_at": "2013-11-19T18:34:52.159Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528baf536a756d1b97bb0000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:34:59.734Z",
+                    "url": "res/images/528baa306a756d1b978d0000.jpg",
+                    "id": "528baf4c6a756d1b97b90000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:34:52.415Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(51, 0, 51)",
+                        "font-size": 0,
+                        "height": 254,
+                        "left": 396,
+                        "left_ratio": 2.58,
+                        "line-height": "1.7",
+                        "text-shadow": "2px 0 0 rgb(255, 255, 255), -1px 0 0 rgb(255, 255, 255), 0px 2px 0 rgb(255, 255, 255), 0px -2px 0 rgb(255, 255, 255), 1px 2px rgb(255, 255, 255), -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255), -1px 1px 0 rgb(255, 255, 255)",
+                        "top": 63,
+                        "top_ratio": 12.16,
+                        "width": 626,
+                        "id": "528baf546a756d1b97bc0000"
+                    },
+                    "text": "Katty. the caterpillar huffed and puffed while crawling because he had overeaten. He felt tired, so he rested on the leaves of the plant.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:36:54.191Z",
+                    "id": "528baf4c6a756d1b97ba0000"
+                },
+                {
+                    "created_at": "2013-11-19T18:36:11.171Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bafa36a756d1b97be0000"
+                    },
+                    "text": "",
+                    "text_id": "528baf4c6a756d1b97ba0000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:37:16.842Z",
+                    "url": "res/audios/805d210b8c.mp3",
+                    "wordMap": [
+                        {
+                            "word": "Katty",
+                            "step": 11,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": "the",
+                            "step": 16,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "caterpillar",
+                            "step": 19,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "huffed",
+                            "step": 29,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "and",
+                            "step": 37,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "puffed",
+                            "step": 39,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "while",
+                            "step": 44,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "crawling",
+                            "step": 49,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "because",
+                            "step": 57,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "he",
+                            "step": 59,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "had",
+                            "step": 62,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "overeaten.",
+                            "step": 72,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "He",
+                            "step": 92,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "felt",
+                            "step": 94,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "tired,",
+                            "step": 99,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "so",
+                            "step": 104,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "he",
+                            "step": 107,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "rested",
+                            "step": 109,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "on",
+                            "step": 114,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "the",
+                            "step": 117,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "leaves",
+                            "step": 119,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "of",
+                            "step": 125,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "the",
+                            "step": 127,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "plant.",
+                            "step": 130,
+                            "wordIdx": 24
+                        }
+                    ],
+                    "wordTimes": [
+                        1.149402,
+                        1.648011,
+                        1.900684,
+                        2.9084060000000003,
+                        3.66594,
+                        3.9188169999999998,
+                        4.419337,
+                        4.920533,
+                        5.672283,
+                        5.922959,
+                        6.174183,
+                        7.177347,
+                        9.18284,
+                        9.433116,
+                        9.93395,
+                        10.43553,
+                        10.685281,
+                        10.936175,
+                        11.436751,
+                        11.687673,
+                        11.937744,
+                        12.452731,
+                        12.705375,
+                        12.954438
+                    ],
+                    "id": "528baf9b6a756d1b97bd0000"
+                }
+            ],
+            "name": "4",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:37:23.335Z",
+            "id": "528baf1c6a756d1b97b80000"
+        },
+        {
+            "created_at": "2013-11-19T18:31:21.727Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "right",
+                    "created_at": "2013-11-19T18:31:38.963Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bae8e6a756d1b97b40000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:31:42.187Z",
+                    "url": "res/images/leftright_528baa2b6a756d1b978c0000.jpg",
+                    "id": "528bae8a6a756d1b97b20000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:31:39.187Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(0, 51, 0)",
+                        "font-size": 0,
+                        "left": null,
+                        "line-height": "1.7",
+                        "top": null,
+                        "id": "528bae8e6a756d1b97b50000"
+                    },
+                    "text": "Katty  the caterpillar quietly sat on a leaf. But soon he felt hungry. I will go back to the garden and eat some more leaves. I shall come back before mother comes,'  thought the hungry caterpillar,\nand left for the garden.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:33:38.973Z",
+                    "id": "528bae8b6a756d1b97b30000"
+                },
+                {
+                    "created_at": "2013-11-19T18:32:34.369Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528baee46a756d1b97b70000"
+                    },
+                    "text": "",
+                    "text_id": "528bae8b6a756d1b97b30000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:33:59.553Z",
+                    "url": "res/audios/dbfb30531b.mp3",
+                    "wordMap": [
+                        {
+                            "word": "Katty",
+                            "step": 18,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": " the",
+                            "step": 23,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "caterpillar",
+                            "step": 26,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "quietly",
+                            "step": 31,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "sat",
+                            "step": 36,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "on",
+                            "step": 39,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "a",
+                            "step": 41,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "leaf.",
+                            "step": 44,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "But",
+                            "step": 56,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "soon",
+                            "step": 59,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "he",
+                            "step": 61,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "felt",
+                            "step": 64,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "hungry.",
+                            "step": 66,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "I",
+                            "step": 79,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "will",
+                            "step": 81,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "go",
+                            "step": 84,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "back",
+                            "step": 86,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "to",
+                            "step": 89,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "the",
+                            "step": 91,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "garden",
+                            "step": 94,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "and",
+                            "step": 99,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "eat",
+                            "step": 101,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "some",
+                            "step": 104,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "more",
+                            "step": 106,
+                            "wordIdx": 24
+                        },
+                        {
+                            "word": "leaves.",
+                            "step": 109,
+                            "wordIdx": 25
+                        },
+                        {
+                            "word": "I",
+                            "step": 121,
+                            "wordIdx": 26
+                        },
+                        {
+                            "word": "shall",
+                            "step": 124,
+                            "wordIdx": 27
+                        },
+                        {
+                            "word": "come",
+                            "step": 126,
+                            "wordIdx": 28
+                        },
+                        {
+                            "word": "back",
+                            "step": 129,
+                            "wordIdx": 29
+                        },
+                        {
+                            "word": "before",
+                            "step": 134,
+                            "wordIdx": 30
+                        },
+                        {
+                            "word": "mother",
+                            "step": 136,
+                            "wordIdx": 31
+                        },
+                        {
+                            "word": "comes,'",
+                            "step": 139,
+                            "wordIdx": 32
+                        },
+                        {
+                            "word": "",
+                            "step": 151,
+                            "wordIdx": 33
+                        },
+                        {
+                            "word": "thought",
+                            "step": 154,
+                            "wordIdx": 34
+                        },
+                        {
+                            "word": "the",
+                            "step": 157,
+                            "wordIdx": 35
+                        },
+                        {
+                            "word": "hungry",
+                            "step": 159,
+                            "wordIdx": 36
+                        },
+                        {
+                            "word": "caterpillar,\nand",
+                            "step": 164,
+                            "wordIdx": 37
+                        },
+                        {
+                            "word": "left",
+                            "step": 174,
+                            "wordIdx": 38
+                        },
+                        {
+                            "word": "for",
+                            "step": 177,
+                            "wordIdx": 39
+                        },
+                        {
+                            "word": "the",
+                            "step": 179,
+                            "wordIdx": 40
+                        },
+                        {
+                            "word": "garden.",
+                            "step": 182,
+                            "wordIdx": 41
+                        }
+                    ],
+                    "wordTimes": [
+                        1.840929,
+                        2.342563,
+                        2.59349,
+                        3.095847,
+                        3.610429,
+                        3.863184,
+                        4.111221,
+                        4.361385,
+                        5.617445,
+                        5.867804,
+                        6.11952,
+                        6.370088,
+                        6.620133,
+                        7.8746030000000005,
+                        8.125571,
+                        8.376051,
+                        8.624463,
+                        8.895351,
+                        9.127835,
+                        9.378059,
+                        9.881996000000001,
+                        10.1314,
+                        10.38334,
+                        10.634422,
+                        10.88433,
+                        12.136892,
+                        12.389715,
+                        12.639364,
+                        12.889988,
+                        13.391588,
+                        13.642756,
+                        13.892811,
+                        15.147863,
+                        15.416762,
+                        15.667403,
+                        15.919893,
+                        16.422325,
+                        17.424652,
+                        17.673088,
+                        17.92615,
+                        18.17449
+                    ],
+                    "id": "528baec26a756d1b97b60000"
+                }
+            ],
+            "name": "3",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:34:04.496Z",
+            "id": "528bae796a756d1b97b10000"
+        },
+        {
+            "created_at": "2013-11-19T18:37:23.402Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:37:37.422Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528baff56a756d1b97c20000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:37:41.672Z",
+                    "url": "res/images/528baa276a756d1b978b0000.jpg",
+                    "id": "528baff16a756d1b97c00000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:37:37.672Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(0, 51, 0)",
+                        "font-family": "Helvetica Neue, Helvetica",
+                        "font-size": 0,
+                        "font-style": "italic",
+                        "font-weight": "bold",
+                        "left": null,
+                        "line-height": "1.7",
+                        "text-decoration": "underline",
+                        "top": null,
+                        "id": "528baffc6a756d1b97c30000"
+                    },
+                    "text": "The gardener who had been searching for him caught him there. \"You greedy caterpillar, how dare you eat the leaves of my plants! I shall not leave you,\" shouted the gardener.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:38:22.445Z",
+                    "id": "528baff16a756d1b97c10000"
+                },
+                {
+                    "created_at": "2013-11-19T18:38:48.569Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bb04b6a756d1b97c50000"
+                    },
+                    "text": "",
+                    "text_id": "528baff16a756d1b97c10000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:39:07.277Z",
+                    "url": "res/audios/d266c80bb5.mp3",
+                    "wordMap": [
+                        {
+                            "word": "The",
+                            "step": 15,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": "gardener",
+                            "step": 17,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "who",
+                            "step": 22,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "had",
+                            "step": 25,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "been",
+                            "step": 27,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "searching",
+                            "step": 30,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "for",
+                            "step": 35,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "him",
+                            "step": 37,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "caught",
+                            "step": 45,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "him",
+                            "step": 47,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "there.",
+                            "step": 50,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "\"You",
+                            "step": 60,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "greedy",
+                            "step": 62,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "caterpillar,",
+                            "step": 65,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "how",
+                            "step": 77,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "dare",
+                            "step": 80,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "you",
+                            "step": 82,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "eat",
+                            "step": 85,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "the",
+                            "step": 87,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "leaves",
+                            "step": 90,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "of",
+                            "step": 92,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "my",
+                            "step": 97,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "plants!",
+                            "step": 100,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "I",
+                            "step": 110,
+                            "wordIdx": 24
+                        },
+                        {
+                            "word": "shall",
+                            "step": 112,
+                            "wordIdx": 25
+                        },
+                        {
+                            "word": "not",
+                            "step": 115,
+                            "wordIdx": 26
+                        },
+                        {
+                            "word": "leave",
+                            "step": 117,
+                            "wordIdx": 27
+                        },
+                        {
+                            "word": "you,\"",
+                            "step": 122,
+                            "wordIdx": 28
+                        },
+                        {
+                            "word": "shouted",
+                            "step": 127,
+                            "wordIdx": 29
+                        },
+                        {
+                            "word": "the",
+                            "step": 130,
+                            "wordIdx": 30
+                        },
+                        {
+                            "word": "gardener.",
+                            "step": 132,
+                            "wordIdx": 31
+                        }
+                    ],
+                    "wordTimes": [
+                        1.4616959999999999,
+                        1.712488,
+                        2.213104,
+                        2.463315,
+                        2.7157999999999998,
+                        2.966629,
+                        3.468808,
+                        3.719474,
+                        4.4726,
+                        4.7229980000000005,
+                        4.973667,
+                        5.976966,
+                        6.227688,
+                        6.478231,
+                        7.731555,
+                        7.981262,
+                        8.232323,
+                        8.483844,
+                        8.734031,
+                        8.9856,
+                        9.233664,
+                        9.737169,
+                        9.987693,
+                        10.989203,
+                        11.243039,
+                        11.491151,
+                        11.742281,
+                        12.243374,
+                        12.745544,
+                        12.99542,
+                        13.24649
+                    ],
+                    "id": "528bb0386a756d1b97c40000"
+                }
+            ],
+            "name": "5",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:39:10.813Z",
+            "id": "528bafe36a756d1b97bf0000"
+        },
+        {
+            "created_at": "2013-11-19T18:39:10.859Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "top",
+                    "created_at": "2013-11-19T18:39:24.290Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bb05f6a756d1b97c90000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:39:30.590Z",
+                    "url": "res/images/updown_528baa1d6a756d1b97890000.jpg",
+                    "id": "528bb05c6a756d1b97c70000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:39:24.401Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(0, 51, 0)",
+                        "font-family": "'Times New Roman', Times",
+                        "font-size": 0,
+                        "font-weight": "normal",
+                        "left": null,
+                        "line-height": "1.7",
+                        "text-decoration": "underline",
+                        "top": null,
+                        "id": "528bb05f6a756d1b97ca0000"
+                    },
+                    "text": "Katty started crying and called out, \"Mom! Where are you? Please help me!\" Neelu, the butterfly heard Katty's voice and came flying to him. The butterfly politely requested the gardener to free the caterpillar.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:40:15.656Z",
+                    "id": "528bb05c6a756d1b97c80000"
+                },
+                {
+                    "created_at": "2013-11-19T18:40:30.830Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bb0ba6a756d1b97cc0000"
+                    },
+                    "text": "",
+                    "text_id": "528bb05c6a756d1b97c80000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:40:58.318Z",
+                    "url": "res/audios/6d31495625.mp3",
+                    "wordMap": [
+                        {
+                            "word": "Katty",
+                            "step": 17,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": "started",
+                            "step": 22,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "crying",
+                            "step": 25,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "and",
+                            "step": 32,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "called",
+                            "step": 35,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "out,",
+                            "step": 37,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "\"Mom!",
+                            "step": 45,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "Where",
+                            "step": 52,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "are",
+                            "step": 52,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "you?",
+                            "step": 57,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "Please",
+                            "step": 65,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "help",
+                            "step": 67,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "me!\"",
+                            "step": 70,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "Neelu,",
+                            "step": 77,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "the",
+                            "step": 85,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "butterfly",
+                            "step": 87,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "heard",
+                            "step": 92,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "Katty's",
+                            "step": 95,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "voice",
+                            "step": 97,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "and",
+                            "step": 105,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "came",
+                            "step": 110,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "flying",
+                            "step": 113,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "to",
+                            "step": 118,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "him.",
+                            "step": 120,
+                            "wordIdx": 24
+                        },
+                        {
+                            "word": "The",
+                            "step": 133,
+                            "wordIdx": 25
+                        },
+                        {
+                            "word": "butterfly",
+                            "step": 135,
+                            "wordIdx": 26
+                        },
+                        {
+                            "word": "politely",
+                            "step": 138,
+                            "wordIdx": 27
+                        },
+                        {
+                            "word": "requested",
+                            "step": 143,
+                            "wordIdx": 28
+                        },
+                        {
+                            "word": "the",
+                            "step": 155,
+                            "wordIdx": 29
+                        },
+                        {
+                            "word": "gardener",
+                            "step": 158,
+                            "wordIdx": 30
+                        },
+                        {
+                            "word": "to",
+                            "step": 160,
+                            "wordIdx": 31
+                        },
+                        {
+                            "word": "free",
+                            "step": 165,
+                            "wordIdx": 32
+                        },
+                        {
+                            "word": "the",
+                            "step": 168,
+                            "wordIdx": 33
+                        },
+                        {
+                            "word": "caterpillar.",
+                            "step": 173,
+                            "wordIdx": 34
+                        }
+                    ],
+                    "wordTimes": [
+                        1.719189,
+                        2.22134,
+                        2.472214,
+                        3.224319,
+                        3.474966,
+                        3.725332,
+                        4.477964,
+                        5.229788,
+                        5.229788,
+                        5.733813,
+                        6.486431,
+                        6.73601,
+                        6.986923,
+                        7.74021,
+                        8.49229,
+                        8.744713,
+                        9.245211,
+                        9.496269999999999,
+                        9.746371,
+                        10.498756,
+                        10.999272,
+                        11.251229,
+                        11.751478,
+                        12.0001,
+                        13.25462,
+                        13.50559,
+                        13.756379,
+                        14.257247,
+                        15.51802,
+                        15.776827,
+                        16.040553,
+                        16.547671,
+                        16.819301,
+                        17.317665
+                    ],
+                    "id": "528bb09e6a756d1b97cb0000"
+                }
+            ],
+            "name": "6",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:41:03.706Z",
+            "id": "528bb04e6a756d1b97c60000"
+        },
+        {
+            "created_at": "2013-11-19T18:41:03.766Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "bottom",
+                    "created_at": "2013-11-19T18:41:08.681Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bb0c96a756d1b97d00000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:41:13.793Z",
+                    "url": "res/images/updown_528baa226a756d1b978a0000.jpg",
+                    "id": "528bb0c46a756d1b97ce0000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:41:09.190Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(255, 255, 255)",
+                        "font-family": "Tahoma, Verdana, Segoe",
+                        "font-size": 0,
+                        "font-weight": "bold",
+                        "left": null,
+                        "line-height": "1.9",
+                        "text-shadow": "2px 0 0 rgb(0, 51, 0), -1px 0 0 rgb(0, 51, 0), 0px 2px 0 rgb(0, 51, 0), 0px -2px 0 rgb(0, 51, 0), 1px 2px rgb(0, 51, 0), -1px -1px 0 rgb(0, 51, 0), 1px -1px 0 rgb(0, 51, 0), -1px 1px 0 rgb(0, 51, 0)",
+                        "top": null,
+                        "id": "528bb0c96a756d1b97d10000"
+                    },
+                    "text": "Tears were rolling down Katty's face. Seeing this, the gardener's heart melted. He told the caterpillar to be careful next time. Neelu thanked the gardener. Katty quickly got off the plant and went away with his mother. He promised her that he would not be greedy in future.",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:42:01.157Z",
+                    "id": "528bb0c56a756d1b97cf0000"
+                },
+                {
+                    "created_at": "2013-11-19T18:42:26.084Z",
+                    "name": "",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bb12f6a756d1b97d30000"
+                    },
+                    "text": "",
+                    "text_id": "528bb0c56a756d1b97cf0000",
+                    "type": "audio",
+                    "updated_at": "2013-11-19T18:42:55.112Z",
+                    "url": "res/audios/e123e798f4.mp3",
+                    "wordMap": [
+                        {
+                            "word": "Tears",
+                            "step": 20,
+                            "wordIdx": 1
+                        },
+                        {
+                            "word": "were",
+                            "step": 25,
+                            "wordIdx": 2
+                        },
+                        {
+                            "word": "rolling",
+                            "step": 27,
+                            "wordIdx": 3
+                        },
+                        {
+                            "word": "down",
+                            "step": 32,
+                            "wordIdx": 4
+                        },
+                        {
+                            "word": "Katty's",
+                            "step": 35,
+                            "wordIdx": 5
+                        },
+                        {
+                            "word": "face.",
+                            "step": 37,
+                            "wordIdx": 6
+                        },
+                        {
+                            "word": "Seeing",
+                            "step": 47,
+                            "wordIdx": 7
+                        },
+                        {
+                            "word": "this,",
+                            "step": 50,
+                            "wordIdx": 8
+                        },
+                        {
+                            "word": "the",
+                            "step": 60,
+                            "wordIdx": 9
+                        },
+                        {
+                            "word": "gardener's",
+                            "step": 65,
+                            "wordIdx": 10
+                        },
+                        {
+                            "word": "heart",
+                            "step": 70,
+                            "wordIdx": 11
+                        },
+                        {
+                            "word": "melted.",
+                            "step": 73,
+                            "wordIdx": 12
+                        },
+                        {
+                            "word": "He",
+                            "step": 83,
+                            "wordIdx": 13
+                        },
+                        {
+                            "word": "told",
+                            "step": 85,
+                            "wordIdx": 14
+                        },
+                        {
+                            "word": "the",
+                            "step": 88,
+                            "wordIdx": 15
+                        },
+                        {
+                            "word": "caterpillar",
+                            "step": 93,
+                            "wordIdx": 16
+                        },
+                        {
+                            "word": "to",
+                            "step": 100,
+                            "wordIdx": 17
+                        },
+                        {
+                            "word": "be",
+                            "step": 103,
+                            "wordIdx": 18
+                        },
+                        {
+                            "word": "careful",
+                            "step": 108,
+                            "wordIdx": 19
+                        },
+                        {
+                            "word": "next",
+                            "step": 115,
+                            "wordIdx": 20
+                        },
+                        {
+                            "word": "time.",
+                            "step": 118,
+                            "wordIdx": 21
+                        },
+                        {
+                            "word": "Neelu",
+                            "step": 128,
+                            "wordIdx": 22
+                        },
+                        {
+                            "word": "thanked",
+                            "step": 130,
+                            "wordIdx": 23
+                        },
+                        {
+                            "word": "the",
+                            "step": 133,
+                            "wordIdx": 24
+                        },
+                        {
+                            "word": "gardener.",
+                            "step": 135,
+                            "wordIdx": 25
+                        },
+                        {
+                            "word": "Katty",
+                            "step": 145,
+                            "wordIdx": 26
+                        },
+                        {
+                            "word": "quickly",
+                            "step": 155,
+                            "wordIdx": 27
+                        },
+                        {
+                            "word": "got",
+                            "step": 160,
+                            "wordIdx": 28
+                        },
+                        {
+                            "word": "off",
+                            "step": 163,
+                            "wordIdx": 29
+                        },
+                        {
+                            "word": "the",
+                            "step": 166,
+                            "wordIdx": 30
+                        },
+                        {
+                            "word": "plant",
+                            "step": 168,
+                            "wordIdx": 31
+                        },
+                        {
+                            "word": "and",
+                            "step": 176,
+                            "wordIdx": 32
+                        },
+                        {
+                            "word": "went",
+                            "step": 178,
+                            "wordIdx": 33
+                        },
+                        {
+                            "word": "away",
+                            "step": 183,
+                            "wordIdx": 34
+                        },
+                        {
+                            "word": "with",
+                            "step": 191,
+                            "wordIdx": 35
+                        },
+                        {
+                            "word": "his",
+                            "step": 193,
+                            "wordIdx": 36
+                        },
+                        {
+                            "word": "mother.",
+                            "step": 196,
+                            "wordIdx": 37
+                        },
+                        {
+                            "word": "He",
+                            "step": 213,
+                            "wordIdx": 38
+                        },
+                        {
+                            "word": "promised",
+                            "step": 216,
+                            "wordIdx": 39
+                        },
+                        {
+                            "word": "her",
+                            "step": 218,
+                            "wordIdx": 40
+                        },
+                        {
+                            "word": "that",
+                            "step": 221,
+                            "wordIdx": 41
+                        },
+                        {
+                            "word": "he",
+                            "step": 226,
+                            "wordIdx": 42
+                        },
+                        {
+                            "word": "would",
+                            "step": 229,
+                            "wordIdx": 43
+                        },
+                        {
+                            "word": "not",
+                            "step": 231,
+                            "wordIdx": 44
+                        },
+                        {
+                            "word": "be",
+                            "step": 236,
+                            "wordIdx": 45
+                        },
+                        {
+                            "word": "greedy",
+                            "step": 241,
+                            "wordIdx": 46
+                        },
+                        {
+                            "word": "in",
+                            "step": 244,
+                            "wordIdx": 47
+                        },
+                        {
+                            "word": "future.",
+                            "step": 246,
+                            "wordIdx": 48
+                        }
+                    ],
+                    "wordTimes": [
+                        1.965459,
+                        2.489075,
+                        2.739762,
+                        3.240637,
+                        3.492241,
+                        3.742479,
+                        4.746483,
+                        4.996218,
+                        6.000309,
+                        6.505385,
+                        7.003285,
+                        7.254536,
+                        8.257925,
+                        8.509463,
+                        8.759838,
+                        9.262594,
+                        10.016014,
+                        10.265906,
+                        10.77393,
+                        11.525547,
+                        11.776703,
+                        12.779973,
+                        13.030214,
+                        13.2812,
+                        13.532266,
+                        14.534213,
+                        15.537554,
+                        16.039579,
+                        16.289714,
+                        16.555713,
+                        16.808264,
+                        17.561774,
+                        17.813259,
+                        18.314864,
+                        19.067385,
+                        19.31721,
+                        19.567855,
+                        21.336503,
+                        21.587589,
+                        21.837007,
+                        22.088809,
+                        22.603282,
+                        22.855261,
+                        23.104009,
+                        23.606265,
+                        24.105915,
+                        24.355086,
+                        24.608394
+                    ],
+                    "id": "528bb1126a756d1b97d20000"
+                }
+            ],
+            "name": "7",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:43:10.270Z",
+            "id": "528bb0bf6a756d1b97cd0000"
+        },
+        {
+            "created_at": "2013-11-19T18:43:10.355Z",
+            "deleted_at": null,
+            "is_avail": true,
+            "layers": [
+                {
+                    "alignment": "middle",
+                    "created_at": "2013-11-19T18:43:12.740Z",
+                    "name": "image",
+                    "style": {
+                        "left": null,
+                        "top": null,
+                        "id": "528bb1426a756d1b97d70000"
+                    },
+                    "text": "",
+                    "type": "image",
+                    "updated_at": "2013-11-19T18:43:14.248Z",
+                    "url": "res/images/528baa146a756d1b97870000.jpg",
+                    "id": "528bb1406a756d1b97d50000"
+                },
+                {
+                    "alignment": "left",
+                    "created_at": "2013-11-19T18:43:12.918Z",
+                    "name": "text",
+                    "style": {
+                        "color": "rgb(255, 0, 0)",
+                        "font-family": "'Times New Roman', Times",
+                        "font-weight": "bold",
+                        "height": 268,
+                        "left": 0,
+                        "left_ratio": 0,
+                        "line-height": "1.8",
+                        "text-decoration": "underline",
+                        "top": 199.03125,
+                        "top_ratio": 3.85,
+                        "width": 1022,
+                        "id": "528bb1426a756d1b97d80000"
+                    },
+                    "text": "First Text Box",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:45:34.364Z",
+                    "id": "528bb1406a756d1b97d60000"
+                },
+                {
+                    "created_at": "2013-11-19T18:43:23.353Z",
+                    "name": "",
+                    "style": {
+                        "height": 100,
+                        "left": 241,
+                        "left_ratio": 4.24,
+                        "top": 78,
+                        "top_ratio": 9.82,
+                        "width": 300,
+                        "id": "528bb14e6a756d1b97da0000"
+                    },
+                    "text": "Bye Bye Reader",
+                    "type": "text",
+                    "updated_at": "2013-11-19T18:43:44.291Z",
+                    "id": "528bb14b6a756d1b97d90000"
+                }
+            ],
+            "name": "8",
+            "pageNo": 1,
+            "story_id": "528ba9f16a756d1b97850000",
+            "type": "page",
+            "updated_at": "2013-11-19T18:44:51.882Z",
+            "id": "528bb13e6a756d1b97d40000"
+        }
+    ]
+}
