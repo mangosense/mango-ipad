@@ -304,7 +304,15 @@ static UIAlertView *alertViewLoading;
         }
         
         sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"zip"];
-        
+        destinationFolder=[sourceLocation lastPathComponent];
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
+        if (![fileManager fileExistsAtPath:destinationFolder]) {
+            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+            //NSURLIsExcludedFromBackupKey
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+        }
+
         
         
         [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];

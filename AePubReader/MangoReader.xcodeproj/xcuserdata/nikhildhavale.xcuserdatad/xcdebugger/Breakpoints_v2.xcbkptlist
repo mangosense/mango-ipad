@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/AePubReaderAppDelegate.m"
-            timestampString = "406620884.608485"
+            timestampString = "406632088.263688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1019"
-            endingLineNumber = "1019"
+            startingLineNumber = "1027"
+            endingLineNumber = "1027"
             landmarkName = "+showAlertViewiPad"
             landmarkType = "5">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/AePubReaderAppDelegate.m"
-            timestampString = "406620884.608485"
+            timestampString = "406632088.263688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1021"
-            endingLineNumber = "1021"
+            startingLineNumber = "1029"
+            endingLineNumber = "1029"
             landmarkName = "+showAlertViewiPad"
             landmarkType = "5">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/AePubReaderAppDelegate.m"
-            timestampString = "406620884.608485"
+            timestampString = "406632088.263688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1022"
-            endingLineNumber = "1022"
+            startingLineNumber = "1030"
+            endingLineNumber = "1030"
             landmarkName = "+showAlertViewiPad"
             landmarkType = "5">
          </BreakpointContent>
