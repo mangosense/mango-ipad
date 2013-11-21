@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
-
-@interface PageNewBookTypeViewController : UIViewController
+#import "DismissPopOver.h"
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver>
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
 - (IBAction)closeButton:(id)sender;
@@ -31,4 +31,5 @@
 @property(retain,nonatomic)UIView *pageView;
 @property(retain,nonatomic) NSString *jsonContent;
 @property(assign,nonatomic) NSInteger pageNo;
+@property(retain,nonatomic) UIPopoverController *pop;
 @end
