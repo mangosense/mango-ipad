@@ -567,7 +567,7 @@
     [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
     [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
     if (index < [pagesArray count]) {
-        NSDictionary *pageDict = [pagesArray objectAtIndex:index];
+        NSDictionary *pageDict = [pagesArray objectAtIndex:[pagesArray count] - index - 1];
         NSArray *layersArray = [pageDict objectForKey:LAYERS];
         for (NSDictionary *layerDict in layersArray) {
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
@@ -710,7 +710,6 @@
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
-    NSURL *audioUrl;
     NSString *textOnPage;
     CGRect textFrame;
     
@@ -728,9 +727,10 @@
             [readerAudioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [readerAudioMappingViewController.view setExclusiveTouch:YES];
             readerAudioMappingViewController.textForMapping = textOnPage;
+            [readerAudioMappingViewController.customView setNeedsDisplay];
             
             [readerAudioMappingViewController playAudioForReaderWithData:audioData];
-
+            
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
@@ -794,6 +794,9 @@
     NSDictionary *pageDict;
     for (NSDictionary *readerPageDict in readerPagesArray) {
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        } else if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"]) {
             pageDict = readerPageDict;
             break;
         }
@@ -1060,12 +1063,17 @@ enum
     NSDictionary *pageDict = [pagesArray objectAtIndex:currentPageNumber];
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSString *textOnPage;
-    CGRect textFrame;
+    CGRect textFrame = CGRectMake(100, 100, 600, 400);
+    
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
-            textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
-            break;
+            if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
+                if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
+                    textFrame = CGRectMake(MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                    break;
+                }
+            }
         }
     }
 
