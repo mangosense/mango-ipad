@@ -51,7 +51,6 @@
 @end
 
 @implementation MangoEditorViewController
-
 @synthesize pageImageView;
 @synthesize mangoButton;
 @synthesize menuButton;
@@ -79,6 +78,7 @@
 @synthesize photoPopoverController;
 @synthesize audioMappingViewController;
 @synthesize storyBook;
+static AudioMappingViewController *audioMappingViewcontroller;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -691,7 +691,9 @@
     
     return coverPageImage;
 }
-
++(void)stopPlaying{
+    [audioMappingViewcontroller.player stop];
+}
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -712,24 +714,55 @@
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSString *textOnPage;
     CGRect textFrame;
-    
+    NSData *audioData;
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
             backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]);
             [pageView addSubview:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            NSData *audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+           audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            AudioMappingViewController *readerAudioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
-            readerAudioMappingViewController.customView.textFont = [UIFont boldSystemFontOfSize:24];
-            readerAudioMappingViewController.customView.frame = textFrame;
-            [readerAudioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
-            [readerAudioMappingViewController.view setExclusiveTouch:YES];
-            readerAudioMappingViewController.textForMapping = textOnPage;
-            [readerAudioMappingViewController.customView setNeedsDisplay];
+            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+            audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
+            audioMappingViewcontroller.customView.frame = textFrame;
+            [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewcontroller.view setExclusiveTouch:YES];
+        //    readerAudioMappingViewController.textForMapping = textOnPage;
+            [audioMappingViewcontroller.customView setNeedsDisplay];
+            NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
+            NSMutableArray *wordMap=[[NSMutableArray alloc]init];
+            for (NSDictionary *temp in wordMapDict ) {
+                NSString *word=temp[@"word"];
+                [wordMap addObject:word];
+            }
+            wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
+            NSArray *cues=[layerDict objectForKey:CUES];
+            [wordMap removeAllObjects];
+            for (NSNumber *number in cues) { /* converting cues to miliseconds*/
+                float time=number.floatValue;
+                time*=1000;
+                NSInteger integerTime=roundf(time);
+                NSNumber *numberIntTimer=[NSNumber numberWithInteger:integerTime];
+                [wordMap addObject:numberIntTimer];
+                
+            }
+         //   cues=[[NSArray alloc]initWithArray:wordMap];
+            //NSLog(@"wordmap %@ %@",wordMap[0],cues[0]);
+            audioMappingViewcontroller.customView.text=wordMapDict;
+            audioMappingViewcontroller.cues=wordMap;
+            if ([UIDevice currentDevice].systemVersion.integerValue<6) {
+                audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
+            }else{
+                NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewcontroller.customView.textFont, NSFontAttributeName, nil];
+                audioMappingViewcontroller.customView.space=   [[[NSAttributedString alloc] initWithString:@" " attributes:attributes] size];
+            }
             
-            [readerAudioMappingViewController playAudioForReaderWithData:audioData];
+            audioMappingViewcontroller.index=0;
+            audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
+
+            [audioMappingViewcontroller playAudioForReaderWithData:audioData];
+            [audioMappingViewcontroller.customView setNeedsDisplay];
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
@@ -745,17 +778,17 @@
             }
             
             
-            AudioMappingViewController *readerAudioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
-            [pageView addSubview:readerAudioMappingViewController.view];
-            [readerAudioMappingViewController.view setHidden:YES];
-            readerAudioMappingViewController.customView.textFont = [UIFont boldSystemFontOfSize:24];
-            readerAudioMappingViewController.customView.frame = textFrame;
-            [readerAudioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
-            [readerAudioMappingViewController.view setExclusiveTouch:YES];
+            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+            [pageView addSubview:audioMappingViewcontroller.view];
+            [audioMappingViewcontroller.view setHidden:YES];
+            audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
+            audioMappingViewcontroller.customView.frame = textFrame;
+            [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
-            [pageView addSubview:readerAudioMappingViewController.customView];
+            [pageView addSubview:audioMappingViewcontroller.customView];
             
-            readerAudioMappingViewController.textForMapping = textOnPage;
+            audioMappingViewcontroller.textForMapping = textOnPage;
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
@@ -772,6 +805,10 @@
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];
         }
+       
+        
+     
+      //  else if([layerDict objectForKey:WORDMAP])
     }
     
     return pageView;

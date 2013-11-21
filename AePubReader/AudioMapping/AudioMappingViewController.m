@@ -45,6 +45,14 @@
     [audioSpeedSlider setMinimumValue:0.5f];
     [audioSpeedSlider setValue:1.0f];
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    if (_player) {
+        [_player stop];
+        
+    }
+
+}
 
 - (void)setAudioUrl:(NSURL *)audioUrlForMapping {
     audioUrl = audioUrlForMapping;
@@ -228,6 +236,7 @@
         [_customView setNeedsDisplay];
         _index++;
     }
+    
 }
 
 - (IBAction)previous:(id)sender {

@@ -7,9 +7,10 @@
 //
 
 #import "PageNewBookTypeViewController.h"
-#import "MangoEditorViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "LanguageChoiceViewController.h"
+#import "CustomMappingView.h"
+#import "AudioMappingViewController.h"
 @interface PageNewBookTypeViewController ()
 
 @end
@@ -58,7 +59,6 @@
     _pageNo=numberOfPages.integerValue;
     
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -76,8 +76,11 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
     [self.navigationController popToViewController:delegate.pageViewController animated:YES];
+    
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [MangoEditorViewController stopPlaying];
+}
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;
     _showOptionButton.hidden=NO;

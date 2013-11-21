@@ -71,7 +71,8 @@
 #define TOP_RATIO @"top_ratio"
 #define PAGE_NAME @"name"
 #define GAME @"game"
-
+#define CUES @"wordTimes"
+#define WORDMAP @"wordMap"
 #pragma mark - Table Types
 
 #define TABLE_TYPE_AUDIO_RECORDINGS 1

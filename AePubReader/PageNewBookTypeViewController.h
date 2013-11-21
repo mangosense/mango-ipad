@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
+#import "MangoEditorViewController.h"
+
 #import "DismissPopOver.h"
 @interface PageNewBookTypeViewController : UIViewController<DismissPopOver>
 - (IBAction)ShowOptions:(id)sender;
