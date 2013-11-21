@@ -687,7 +687,14 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
-    NSDictionary *pageDict = [readerPagesArray objectAtIndex:pageNumber];
+    
+    NSDictionary *pageDict;
+    for (NSDictionary *readerPageDict in readerPagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        }
+    }
 
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
@@ -700,9 +707,10 @@
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
             backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]);
             [pageView addSubview:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
+            audioUrl = [NSURL URLWithString:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {

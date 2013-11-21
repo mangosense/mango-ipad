@@ -42,9 +42,9 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    UIView *view=[MangoEditorViewController readerPage:0 ForStory:jsonContents WithFolderLocation:jsonLocation];
+    UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
     view.frame=self.view.bounds;
-   // [self.view addSubview:view];
+   [self.view addSubview:view];
  //  [self.viewBase addSubview:view]
     
     
