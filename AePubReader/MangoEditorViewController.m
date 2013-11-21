@@ -655,6 +655,15 @@
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
++ (NSNumber *)numberOfPagesInStory:(NSString *)jsonString {
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+
+    return [NSNumber numberWithInt:[readerPagesArray count]];
+}
+
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     UIImage *coverPageImage;
     
@@ -718,6 +727,12 @@
              } else {*/
             textFrame = CGRectMake(0, 0, 600, 400);
             /*}*/
+            if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
+                if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
+                    textFrame = CGRectMake(1024/[[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 768/[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                }
+            }
+            
             
             UITextView *pageTextView = [[UITextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont boldSystemFontOfSize:24];
