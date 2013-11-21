@@ -53,7 +53,7 @@
 - (IBAction)playStoryButtonTapped:(id)sender;
 - (IBAction)doodleButtonTapped:(id)sender;
 
-+ (UIImage *)coverPageImageForStory:(NSString *)jsonString;
++ (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation;
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString;
 
 @end
