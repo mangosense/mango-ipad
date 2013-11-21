@@ -46,7 +46,7 @@
 }
 
 - (IBAction)openFreeStories:(id)sender {
- 
+    [self store:nil];
 }
 
 - (IBAction)store:(id)sender {
