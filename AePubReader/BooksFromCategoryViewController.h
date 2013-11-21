@@ -39,5 +39,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelThree;
 @property (weak, nonatomic) IBOutlet UILabel *labelFour;
 @property (weak, nonatomic) IBOutlet UILabel *labelFive;
+@property(assign,nonatomic) BOOL toEdit;
 
 @end
