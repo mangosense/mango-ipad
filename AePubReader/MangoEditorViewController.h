@@ -11,10 +11,9 @@
 #import "SmoothDrawingView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "ItemsListViewController.h"
-#import "StoryPageView.h"
 
 @interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate> {
-    IBOutlet StoryPageView *pageImageView;
+    IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;
     IBOutlet UIButton *menuButton;
@@ -41,7 +40,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *playStoryButton;
 @property (nonatomic, strong) IBOutlet UIButton *doodleButton;
 @property (nonatomic, strong) IBOutlet iCarousel *pagesCarousel;
-@property (nonatomic, strong) IBOutlet StoryPageView *pageImageView;
+@property (nonatomic, strong) IBOutlet SmoothDrawingView *pageImageView;
 @property (nonatomic, assign) int chosenBookTag;
 
 - (IBAction)mangoButtonTapped:(id)sender;

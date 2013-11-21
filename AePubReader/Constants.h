@@ -67,6 +67,8 @@
 #define CAPTURED_IMAGE @"capturedImage"
 #define ASSET_URL @"url"
 #define PAGES @"pages"
+#define LEFT_RATIO @"left_ratio"
+#define TOP_RATIO @"top_ratio"
 
 #pragma mark - Table Types
 

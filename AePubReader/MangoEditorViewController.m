@@ -14,7 +14,6 @@
 #import "FlickrPhoto.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AudioMappingViewController.h"
-#import "StoryJsonProcessor.h"
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -95,8 +94,8 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
-    pageImageView.backgroundImageView.selectedBrush = 5.0f;
-    pageImageView.backgroundImageView.selectedEraserWidth = 20.0f;
+    pageImageView.selectedBrush = 5.0f;
+    pageImageView.selectedEraserWidth = 20.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -181,8 +180,7 @@
             [imageDict setObject:assetUrl forKey:ASSET_URL];
             [layersArray addObject:imageDict];
             
-            NSDictionary *jsonDict = [[NSDictionary alloc] initWithObjectsAndKeys:layersArray, LAYERS, nil];
-            [newPageDict setObject:jsonDict forKey:@"json"];
+            [newPageDict setObject:layersArray forKey:LAYERS];
             
             [pagesArray addObject:newPageDict];
             
@@ -318,7 +316,7 @@
             viewImage = subviewImageView.image;
             if (viewImage) {
                 NSLog(@"Rotate Angle = %f \n Translate Point = (%f, %f)", rotateAngle, translatePoint.x, translatePoint.y);
-                [pageImageView.backgroundImageView drawSticker:viewImage inRect:[self.view convertRect:[stickerView convertRect:subview.frame toView:self.view] toView:pageImageView] WithTranslation:CGPointMake(translatePoint.x - pageImageView.frame.origin.x, translatePoint.y - pageImageView.frame.origin.y) AndRotation:-rotateAngle];
+                [pageImageView drawSticker:viewImage inRect:[self.view convertRect:[stickerView convertRect:subview.frame toView:self.view] toView:pageImageView] WithTranslation:CGPointMake(translatePoint.x - pageImageView.frame.origin.x, translatePoint.y - pageImageView.frame.origin.y) AndRotation:-rotateAngle];
             }
             [stickerView removeFromSuperview];
             
@@ -569,7 +567,7 @@
     [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
     if (index < [pagesArray count]) {
         NSDictionary *pageDict = [pagesArray objectAtIndex:index];
-        NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+        NSArray *layersArray = [pageDict objectForKey:LAYERS];
         for (NSDictionary *layerDict in layersArray) {
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
                 [pageThumbnail setImage:[UIImage imageNamed:[layerDict objectForKey:ASSET_URL]]];
@@ -609,8 +607,7 @@
         [imageDict setObject:@"white_page.jpeg" forKey:ASSET_URL];
         [layersArray addObject:imageDict];
         
-        NSDictionary *jsonDict = [[NSDictionary alloc] initWithObjectsAndKeys:layersArray, LAYERS, nil];
-        [newPageDict setObject:jsonDict forKey:@"json"];
+        [newPageDict setObject:layersArray forKey:LAYERS];
         
         [pagesArray addObject:newPageDict];
         
@@ -659,10 +656,6 @@
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
 - (void)renderPage:(int)pageNumber {
-    pageImageView = [StoryJsonProcessor pageViewForJsonString:[pagesArray objectAtIndex:pageNumber]];
-    pageImageView.backgroundImageView.selectedColor = 7;
-    
-    /*
     pageImageView.selectedColor = 7;
     currentPageNumber = pageNumber;
     
@@ -672,7 +665,7 @@
     pageImageView.incrementalImage = nil;
     
     NSDictionary *pageDict = [pagesArray objectAtIndex:pageNumber];
-    NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSURL *audioUrl;
     NSString *textOnPage;
     CGRect textFrame;
@@ -685,7 +678,11 @@
             audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
-            textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+            /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
+                textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+            } else {*/
+                textFrame = CGRectMake(0, 0, 600, 400);
+            /*}*/
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont boldSystemFontOfSize:24];
@@ -718,7 +715,6 @@
     [audioRecordingButton addTarget:self action:@selector(audioRecButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [audioRecordingButton setFrame:CGRectMake(0, pageImageView.frame.size.height - 60, 60, 60)];
     [pageImageView addSubview:audioRecordingButton];
-     */
 }
 
 #pragma mark - Book JSON Methods
@@ -734,7 +730,7 @@
     
     pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     [pagesCarousel reloadData];
-    [self renderPage:2];
+    [self renderPage:0];
 }
 
 #pragma mark - Audio Recording
@@ -914,7 +910,7 @@ enum
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
     
     NSDictionary *pageDict = [pagesArray objectAtIndex:currentPageNumber];
-    NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSString *textOnPage;
     CGRect textFrame;
     for (NSDictionary *layerDict in layersArray) {
@@ -946,7 +942,7 @@ enum
             [subview setHidden:YES];
         }
     }
-    pageImageView.backgroundImageView.selectedColor = 8;
+    pageImageView.selectedColor = 8;
 }
 
 #pragma mark - Audio Player Delegate
