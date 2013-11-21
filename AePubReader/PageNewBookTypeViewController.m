@@ -85,6 +85,7 @@
     if (_pageNumber==1) {
         [self BackButton:nil];
     }else{
+        _pageNumber--;
         
     }
 }
