@@ -42,10 +42,11 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    UIView *view=[MangoEditorViewController readerPage:0 ForStory:jsonContents WithFolderLocation:jsonLocation];
-    view.frame=self.view.bounds;
-   // [self.view addSubview:view];
- //  [self.viewBase addSubview:view]
+    UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
+ //   view.frame=self.view.bounds;
+  //  [self.view addSubview:view];
+    view.backgroundColor=[UIColor grayColor];
+    [self.viewBase addSubview:view];
     
     
 }
@@ -58,13 +59,17 @@
 
 - (IBAction)ShowOptions:(id)sender {
     _rightView.hidden=NO;
+    CGRect oldFrame=_rightView.frame;
     CGRect frame= _rightView.frame;
-    _rightView.frame=CGRectZero;
-    [UIView animateWithDuration:0.3 animations:^{
-        _rightView.frame=frame;
+    frame.size=CGSizeZero;
+    _rightView.frame=frame;
+    [UIView animateWithDuration:20 animations:^{
+        _rightView.frame=oldFrame;
     } completion: ^(BOOL finished){
         
     }];
+    UIButton *button=(UIButton *)sender;
+    button.hidden=YES;
 }
 
 - (IBAction)BackButton:(id)sender {
@@ -72,6 +77,8 @@
 }
 
 - (IBAction)closeButton:(id)sender {
+    _rightView.hidden=YES;
+    _showOptionButton.hidden=NO;
 }
 
 - (IBAction)shareButton:(id)sender {
