@@ -719,9 +719,10 @@
             textFrame = CGRectMake(0, 0, 600, 400);
             /*}*/
             
-            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
+            UITextView *pageTextView = [[UITextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont boldSystemFontOfSize:24];
             pageTextView.text = textOnPage;
+            [[pageTextView layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
             [pageView addSubview:pageTextView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
