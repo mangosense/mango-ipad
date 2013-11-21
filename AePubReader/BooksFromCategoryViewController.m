@@ -65,12 +65,14 @@
 }
 
 - (IBAction)homeButton:(id)sender {
+    
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     UIViewController *contoller=(UIViewController *)delegate.controller;
     [self.navigationController popToViewController:contoller animated:YES];
 }
 
 - (IBAction)libraryButton:(id)sender {
+   
     [self.navigationController popViewControllerAnimated:YES];
 }
 

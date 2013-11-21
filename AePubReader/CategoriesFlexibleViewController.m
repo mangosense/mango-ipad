@@ -25,7 +25,7 @@
     return self;
 }
 - (IBAction)previousController:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+       [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad
@@ -46,6 +46,7 @@
 }
 
 - (IBAction)homeButton:(id)sender {
+   
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     UIViewController *controller=(UIViewController *)delegate.controller;
     [self.navigationController popToViewController:controller animated:YES];
