@@ -44,6 +44,11 @@
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
     view.frame=self.view.bounds;
+    for (UIView *subview in [view subviews]) {
+        if ([subview isKindOfClass:[UIImageView class]]) {
+            subview.frame = self.view.bounds;
+        }
+    }
     view.backgroundColor=[UIColor grayColor];
    [self.viewBase addSubview:view];
  //  [self.viewBase addSubview:view]
