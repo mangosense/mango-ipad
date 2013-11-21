@@ -29,6 +29,8 @@
 - (IBAction)audioSpeedSliderValueChanged:(id)sender;
 - (IBAction)exitButtonTapped:(id)sender;
 
+- (void)playAudioForReaderWithData:(NSData *)audioData;
+
 @property (nonatomic, strong) IBOutlet UISlider *audioSpeedSlider;
 
 @property(assign,nonatomic) NSInteger index;

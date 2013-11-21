@@ -720,7 +720,17 @@
             NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]);
             [pageView addSubview:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            audioUrl = [NSURL URLWithString:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            NSData *audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            
+            AudioMappingViewController *readerAudioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+            readerAudioMappingViewController.customView.textFont = [UIFont boldSystemFontOfSize:24];
+            readerAudioMappingViewController.customView.frame = textFrame;
+            [readerAudioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+            [readerAudioMappingViewController.view setExclusiveTouch:YES];
+            readerAudioMappingViewController.textForMapping = textOnPage;
+            
+            [readerAudioMappingViewController playAudioForReaderWithData:audioData];
+
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
@@ -735,11 +745,18 @@
             }
             
             
-            UITextView *pageTextView = [[UITextView alloc] initWithFrame:textFrame];
-            pageTextView.font = [UIFont boldSystemFontOfSize:24];
-            pageTextView.text = textOnPage;
-            [[pageTextView layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
-            [pageView addSubview:pageTextView];
+            AudioMappingViewController *readerAudioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+            [pageView addSubview:readerAudioMappingViewController.view];
+            [readerAudioMappingViewController.view setHidden:YES];
+            readerAudioMappingViewController.customView.textFont = [UIFont boldSystemFontOfSize:24];
+            readerAudioMappingViewController.customView.frame = textFrame;
+            [readerAudioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+            [readerAudioMappingViewController.view setExclusiveTouch:YES];
+            
+            [pageView addSubview:readerAudioMappingViewController.customView];
+            
+            readerAudioMappingViewController.textForMapping = textOnPage;
+            
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
             ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
@@ -859,13 +876,7 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     
-    pagesArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dict in [jsonDict objectForKey:PAGES]) {
-        if (![[dict objectForKey:TYPE] isEqualToString:GAME]) {
-            [pagesArray addObject:dict];
-        }
-    }
-    
+    pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     [pagesCarousel reloadData];
     [self renderEditorPage:0];
 }

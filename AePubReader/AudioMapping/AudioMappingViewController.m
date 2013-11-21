@@ -239,6 +239,26 @@
     }
 }
 
+- (void)playAudioForReaderWithData:(NSData *)audioData {
+    [self reset];
+    [self nextClick:nil];
+    
+    _index--;
+    
+    _player=[[AVAudioPlayer alloc] initWithData:audioData error:nil];
+    _player.delegate=self;
+    [_player play];
+    
+    _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+    
+    [self sampleAudio];
+    
+    CGRect frame=CGRectMake(0, 0, _scrollView.frame.size.width, _scrollView.frame.size.height);
+    _scrollView.progress=0;
+    [_scrollView setNeedsDisplay];
+    [ _scrollView scrollRectToVisible:frame animated:NO];
+}
+
 - (IBAction)playOriginal:(id)sender {
     [self reset];
     [self nextClick:nil];
