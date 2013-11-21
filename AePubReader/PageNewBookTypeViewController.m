@@ -44,7 +44,7 @@
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     UIView *view=[MangoEditorViewController readerPage:0 ForStory:jsonContents WithFolderLocation:jsonLocation];
     view.frame=self.view.bounds;
-    [self.view addSubview:view];
+   // [self.view addSubview:view];
  //  [self.viewBase addSubview:view]
     
     
