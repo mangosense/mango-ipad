@@ -655,6 +655,19 @@
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
++ (UIImage *)coverPageImage:(NSDictionary *)pageDict {
+    UIImage *coverPageImage;
+    
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            coverPageImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+        }
+    }
+    
+    return coverPageImage;
+}
+
 + (UIView *)readerPage:(NSDictionary *)pageDict {
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];

@@ -54,5 +54,6 @@
 - (IBAction)doodleButtonTapped:(id)sender;
 
 + (UIView *)readerPage:(NSDictionary *)pageDict;
++ (UIImage *)coverPageImage:(NSDictionary *)pageDict;
 
 @end
