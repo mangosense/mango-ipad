@@ -596,7 +596,7 @@
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (index < [pagesArray count]) {
-        [self renderPage:index];
+        [self renderEditorPage:index];
     } else {
         NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
         [newPageDict setObject:[NSNumber numberWithInt:[pagesArray count]] forKey:@"id"];
@@ -655,7 +655,67 @@
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
-- (void)renderPage:(int)pageNumber {
++ (UIImage *)coverPageImage:(NSDictionary *)pageDict {
+    UIImage *coverPageImage;
+    
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            coverPageImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+        }
+    }
+    
+    return coverPageImage;
+}
+
++ (UIView *)readerPage:(NSDictionary *)pageDict {
+    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
+    
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    NSURL *audioUrl;
+    NSString *textOnPage;
+    CGRect textFrame;
+    
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            backgroundImageView.image = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+            [pageView addSubview:backgroundImageView];
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
+            audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
+            textOnPage = [layerDict objectForKey:TEXT];
+            /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
+             textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+             } else {*/
+            textFrame = CGRectMake(0, 0, 600, 400);
+            /*}*/
+            
+            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
+            pageTextView.font = [UIFont boldSystemFontOfSize:24];
+            pageTextView.text = textOnPage;
+            [pageView addSubview:pageTextView];
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+            NSURL *asseturl = [layerDict objectForKey:@"url"];
+            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                CGImageRef iref = [rep fullResolutionImage];
+                if (iref) {
+                    UIImage *image = [UIImage imageWithCGImage:iref];
+                    backgroundImageView.image = image;
+                    [pageView addSubview:backgroundImageView];
+                }
+            } failureBlock:^(NSError *myerror) {
+                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+            }];
+        }
+    }
+    
+    return pageView;
+}
+
+- (void)renderEditorPage:(int)pageNumber {
     pageImageView.selectedColor = 7;
     currentPageNumber = pageNumber;
     
@@ -730,7 +790,7 @@
     
     pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     [pagesCarousel reloadData];
-    [self renderPage:0];
+    [self renderEditorPage:0];
 }
 
 #pragma mark - Audio Recording
@@ -866,7 +926,7 @@ enum
     
     NSData *newJsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONReadingAllowFragments error:nil];
     bookJsonString = [[NSString alloc] initWithData:newJsonData encoding:NSUTF8StringEncoding];
-    [self renderPage:currentPageNumber];
+    [self renderEditorPage:currentPageNumber];
 }
 
 #pragma mark - Audio Playing
