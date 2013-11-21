@@ -753,10 +753,6 @@
             } failureBlock:^(NSError *myerror) {
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];
-        } else if ([[layerDict objectForKey:TYPE] isEqualToString:GAME]) {
-            UIWebView *gameWebView = [[UIWebView alloc] initWithFrame:pageView.frame];
-            [gameWebView loadHTMLString:[NSString stringWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/games/%@", [layerDict objectForKey:PAGE_NAME]] encoding:NSUTF8StringEncoding error:nil] baseURL:nil];
-            return gameWebView;
         }
     }
     
