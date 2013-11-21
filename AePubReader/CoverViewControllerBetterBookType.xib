@@ -9,7 +9,6 @@
             <connections>
                 <outlet property="coverImageView" destination="T7N-ts-TeL" id="Gmv-EL-Y4D"/>
                 <outlet property="games" destination="8T9-Og-cmm" id="gQ9-1R-Fkl"/>
-                <outlet property="imageView" destination="pzE-QS-AoM" id="yVY-jU-TDe"/>
                 <outlet property="titleLabel" destination="0n3-SY-7K6" id="HbJ-jP-lwi"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
