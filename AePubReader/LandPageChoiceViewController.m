@@ -42,8 +42,12 @@
 }
 
 - (IBAction)creatAStory:(id)sender {
-  //  _storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-  //  [self.navigationController pushViewController:_storiesViewController animated:YES];
+    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    booksCategoryViewController.toEdit=YES;
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+    
+//    _storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+//    [self.navigationController pushViewController:_storiesViewController animated:YES];
 }
 
 - (IBAction)openFreeStories:(id)sender {
