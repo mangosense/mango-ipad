@@ -29,6 +29,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.controller=self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,7 +50,7 @@
 }
 
 - (IBAction)store:(id)sender {
-    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:NO];
     [self.navigationController pushViewController:controller animated:YES];
     
     
@@ -56,7 +59,6 @@
 
 - (IBAction)myStories:(id)sender {
     CategoriesViewController *categoryViewController=[[CategoriesViewController alloc]initWithNibName:@"CategoriesViewController" bundle:nil];
-    categoryViewController.controller=self;
     [self.navigationController pushViewController:categoryViewController animated:YES];
 }
 @end

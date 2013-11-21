@@ -13,8 +13,10 @@
 #import "LoginViewControllerIphone.h"
 #import "LoginViewController.h"
 #import "Appirater.h"
+#import "LoginNewViewController.h"
 @class EPubViewController;
 @class LoginViewController;
+@class LandPageChoiceViewController;
 @interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate,SKProductsRequestDelegate> {
     
    
@@ -48,6 +50,7 @@
 @property(assign,nonatomic)UIAlertView *dismissAlertView;
 @property(strong,nonatomic)SKProduct *product;
 @property(strong,nonatomic)SKPaymentTransaction *transaction;
+@property(strong,nonatomic) LoginNewViewController *loginController;
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;
@@ -58,4 +61,5 @@
 +(void)hideAlertView;
 +(void)showAlertViewiPad;
 +(void)hideTabBar:(UITabBarController *)tabbarcontroller;
+@property(assign,nonatomic) LandPageChoiceViewController *controller;
 @end

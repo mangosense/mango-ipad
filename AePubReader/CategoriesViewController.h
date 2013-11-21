@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CategoriesViewController : UIViewController
+#import "DismissPopOver.h"
+@interface CategoriesViewController : UIViewController<DismissPopOver>
 - (IBAction)backToLandingPage:(id)sender;
-@property(assign,nonatomic) UIViewController *controller;
+- (IBAction)settingsOption:(id)sender;
+@property(retain,nonatomic) UIPopoverController *popOverController;
+- (IBAction)openBooks:(id)sender;
+- (IBAction)nextButton:(id)sender;
+
 @end

@@ -12,13 +12,14 @@
 #import "OldStoreCell.h"
 #import "DetailViewControllerStore.h"
 #import "NewBookStore.h"
+#import "AePubReaderAppDelegate.h"
 @interface NewStoreCoverViewController ()
 
 @end
 
 @implementation NewStoreCoverViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil shouldShowLibraryButton:(BOOL)show
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -29,6 +30,7 @@
         _sampleStoreJson=[[NSData alloc]initWithContentsOfFile:sampleJsonLoc];
         _featuredArray=[[NSMutableArray alloc]init];
         _arrivalsNewArray=[[NSMutableArray alloc]init];
+        _libraryButtonVisiblity=show;
     }
     return self;
 }
@@ -36,12 +38,17 @@
     DetailViewControllerStore *controller=[[DetailViewControllerStore alloc]initWithNibName:@"DetailViewControllerStore" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
 }
+- (IBAction)goBackToStoryPage:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self performSelectorInBackground:@selector(DownloadInBackground) withObject:nil];
+    _libraryButton.hidden=!_libraryButtonVisiblity;
+
 }
 -(void)DownloadInBackground{
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_sampleStoreJson options:NSJSONReadingAllowFragments error:nil];
@@ -168,7 +175,9 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
     [UIView commitAnimations];
     [self.navigationController popViewControllerAnimated:NO];*/
-    [self.navigationController popViewControllerAnimated:YES];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    UIViewController *controller=(UIViewController *)delegate.controller;
+    [self.navigationController popToViewController:controller animated:YES];
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     StoreCell *cell=(StoreCell *)[collectionView cellForItemAtIndexPath:indexPath];

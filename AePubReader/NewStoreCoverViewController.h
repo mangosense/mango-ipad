@@ -32,4 +32,7 @@
 @property(retain,nonatomic) NSData *sampleStoreJson;
 @property(retain,nonatomic) NSMutableArray *featuredArray;
 @property(retain,nonatomic) NSMutableArray *arrivalsNewArray;
+@property(assign,nonatomic) BOOL libraryButtonVisiblity;
+@property (weak, nonatomic) IBOutlet UIButton *libraryButton;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil shouldShowLibraryButton:(BOOL)show;
 @end

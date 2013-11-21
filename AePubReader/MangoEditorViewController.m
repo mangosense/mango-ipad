@@ -470,7 +470,7 @@
 #pragma mark - Action Methods
 
 - (IBAction)mangoButtonTapped:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)menuButtonTapped:(id)sender {
