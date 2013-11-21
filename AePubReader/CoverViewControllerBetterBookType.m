@@ -43,8 +43,9 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
   //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"json contents %@",jsonContents);
-    UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents];
+  //  NSLog(@"json contents %@",jsonContents);
+    UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
+
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
 }

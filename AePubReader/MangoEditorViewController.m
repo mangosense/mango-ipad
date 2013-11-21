@@ -655,7 +655,7 @@
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
-+ (UIImage *)coverPageImageForStory:(NSString *)jsonString {
++ (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     UIImage *coverPageImage;
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -667,6 +667,7 @@
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            NSLog(@"%@",[layerDict objectForKey:ASSET_URL]);
             coverPageImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
         }
     }
