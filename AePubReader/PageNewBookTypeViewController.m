@@ -103,7 +103,9 @@
 }
 - (IBAction)previousButton:(id)sender {
     if (_pageNumber==1) {
-        [self BackButton:nil];
+        //[self BackButton:nil];
+        [self.navigationController popViewControllerAnimated:YES];
+
     }else{
         [_pageView removeFromSuperview];
         

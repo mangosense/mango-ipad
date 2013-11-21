@@ -41,8 +41,8 @@
 }
 
 - (IBAction)creatAStory:(id)sender {
-    _storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-    [self.navigationController pushViewController:_storiesViewController animated:YES];
+  //  _storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+  //  [self.navigationController pushViewController:_storiesViewController animated:YES];
 }
 
 - (IBAction)openFreeStories:(id)sender {
