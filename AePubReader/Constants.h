@@ -69,6 +69,7 @@
 #define PAGES @"pages"
 #define LEFT_RATIO @"left_ratio"
 #define TOP_RATIO @"top_ratio"
+#define PAGE_NAME @"name"
 
 #pragma mark - Table Types
 

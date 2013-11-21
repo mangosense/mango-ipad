@@ -662,20 +662,27 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
-    NSDictionary *pageDict = [readerPagesArray objectAtIndex:0];
     
-    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    NSDictionary *coverPageDict;
+    for (NSDictionary *pageDict in readerPagesArray) {
+        if ([[pageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"]) {
+            coverPageDict = pageDict;
+            break;
+        }
+    }
+    
+    NSArray *layersArray = [coverPageDict objectForKey:LAYERS];
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
             NSLog(@"%@",[layerDict objectForKey:ASSET_URL]);
-            coverPageImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+            coverPageImage = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         }
     }
     
     return coverPageImage;
 }
 
-+ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString {
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
@@ -692,7 +699,7 @@
     
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            backgroundImageView.image = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+            backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             [pageView addSubview:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
             audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
