@@ -53,4 +53,6 @@
 - (IBAction)playStoryButtonTapped:(id)sender;
 - (IBAction)doodleButtonTapped:(id)sender;
 
++ (UIView *)readerPage:(NSDictionary *)pageDict;
+
 @end
