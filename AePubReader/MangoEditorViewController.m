@@ -796,7 +796,7 @@
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
             pageDict = readerPageDict;
             break;
-        } else if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"]) {
+        } else if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"] && pageNumber == 0) {
             pageDict = readerPageDict;
             break;
         }
