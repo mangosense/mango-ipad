@@ -655,8 +655,14 @@
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
 
-+ (UIImage *)coverPageImage:(NSDictionary *)pageDict {
++ (UIImage *)coverPageImageForStory:(NSString *)jsonString {
     UIImage *coverPageImage;
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    NSDictionary *pageDict = [readerPagesArray objectAtIndex:0];
     
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     for (NSDictionary *layerDict in layersArray) {
@@ -668,7 +674,13 @@
     return coverPageImage;
 }
 
-+ (UIView *)readerPage:(NSDictionary *)pageDict {
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString {
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    NSDictionary *pageDict = [readerPagesArray objectAtIndex:pageNumber];
+
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
