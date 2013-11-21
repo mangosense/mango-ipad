@@ -21,6 +21,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger )option BookId:(NSString *)bookId;
 @property(assign,nonatomic) NSInteger bookId;
 @property (weak, nonatomic) IBOutlet UIView *viewBase;
+@property (weak, nonatomic) IBOutlet UIView *rightView;
 
 @property(strong,nonatomic) Book *book;
 @end

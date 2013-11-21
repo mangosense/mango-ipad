@@ -46,6 +46,8 @@
     view.frame=self.view.bounds;
     [self.view addSubview:view];
  //  [self.viewBase addSubview:view]
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,6 +57,14 @@
 }
 
 - (IBAction)ShowOptions:(id)sender {
+    _rightView.hidden=NO;
+    CGRect frame= _rightView.frame;
+    _rightView.frame=CGRectZero;
+    [UIView animateWithDuration:0.3 animations:^{
+        _rightView.frame=frame;
+    } completion: ^(BOOL finished){
+        
+    }];
 }
 
 - (IBAction)BackButton:(id)sender {
