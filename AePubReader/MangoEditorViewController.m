@@ -682,7 +682,7 @@
     return coverPageImage;
 }
 
-+ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString {
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
@@ -699,7 +699,7 @@
     
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            backgroundImageView.image = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+            backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             [pageView addSubview:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
             audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
