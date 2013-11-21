@@ -29,4 +29,5 @@
 @property(strong,nonatomic) Book *book;
 @property(assign,nonatomic) NSInteger pageNumber;
 @property(retain,nonatomic)UIView *pageView;
+@property(retain,nonatomic) NSString *jsonContent;
 @end

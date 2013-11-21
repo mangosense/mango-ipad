@@ -41,9 +41,14 @@
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
-    NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:jsonContents WithFolderLocation:_book.localPathFile];
+    _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
     _pageView.frame=self.view.bounds;
+    for (UIView *subview in [_pageView subviews]) {
+        if ([subview isKindOfClass:[UIImageView class]]) {
+            subview.frame = self.view.bounds;
+        }
+    }
     _pageView.backgroundColor=[UIColor grayColor];
    [self.viewBase addSubview:_pageView];
  //  [self.viewBase addSubview:view]
@@ -85,11 +90,31 @@
     if (_pageNumber==1) {
         [self BackButton:nil];
     }else{
-        _pageNumber--;
+        [_pageView removeFromSuperview];
         
+        _pageNumber--;
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+        for (UIView *subview in [_pageView subviews]) {
+            if ([subview isKindOfClass:[UIImageView class]]) {
+                subview.frame = self.view.bounds;
+            }
+        }
+
+        [self.viewBase addSubview:_pageView];
+
     }
 }
 
 - (IBAction)nextButton:(id)sender {
+    _pageNumber++;
+    [_pageView removeFromSuperview];
+    _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+    for (UIView *subview in [_pageView subviews]) {
+        if ([subview isKindOfClass:[UIImageView class]]) {
+            subview.frame = self.view.bounds;
+        }
+    }
+
+    [self.viewBase addSubview:_pageView];
 }
 @end
