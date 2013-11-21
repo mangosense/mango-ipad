@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewStoreCoverViewController">
             <connections>
                 <outlet property="featured" destination="GFk-4S-v4l" id="BVJ-Ez-wtd"/>
+                <outlet property="libraryButton" destination="jYQ-iv-tos" id="Fy1-q3-SEz"/>
                 <outlet property="newarrivals" destination="jLU-U2-Nnn" id="liC-Vy-XfS"/>
                 <outlet property="scrollview" destination="KId-g9-jIj" id="N82-R2-gxY"/>
                 <outlet property="view" destination="2" id="3"/>
@@ -52,6 +53,17 @@
                             </state>
                             <connections>
                                 <action selector="libraryView:" destination="-1" eventType="touchUpInside" id="6z5-AB-bPq"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jYQ-iv-tos">
+                            <rect key="frame" x="119" y="0.0" width="78" height="77"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" image="icons_library.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="goBackToStoryPage:" destination="-1" eventType="touchUpInside" id="A7G-jD-cJX"/>
                             </connections>
                         </button>
                     </subviews>
@@ -150,6 +162,7 @@
     <resources>
         <image name="eunselected.png" width="150" height="50"/>
         <image name="icons_home.png" width="78" height="77"/>
+        <image name="icons_library.png" width="78" height="77"/>
         <image name="lunselected.png" width="150" height="50"/>
         <image name="sselected.png" width="150" height="50"/>
     </resources>

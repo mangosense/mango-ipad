@@ -16,6 +16,7 @@
 #import "LoginNewViewController.h"
 @class EPubViewController;
 @class LoginViewController;
+@class LandPageChoiceViewController;
 @interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate,SKProductsRequestDelegate> {
     
    
@@ -60,4 +61,5 @@
 +(void)hideAlertView;
 +(void)showAlertViewiPad;
 +(void)hideTabBar:(UITabBarController *)tabbarcontroller;
+@property(assign,nonatomic) LandPageChoiceViewController *controller;
 @end

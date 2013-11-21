@@ -11,7 +11,8 @@
 @interface CategoriesViewController : UIViewController<DismissPopOver>
 - (IBAction)backToLandingPage:(id)sender;
 - (IBAction)settingsOption:(id)sender;
-@property(assign,nonatomic) UIViewController *controller;
 @property(retain,nonatomic) UIPopoverController *popOverController;
+- (IBAction)openBooks:(id)sender;
+- (IBAction)nextButton:(id)sender;
 
 @end

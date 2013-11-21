@@ -289,7 +289,11 @@ static UIAlertView *alertViewLoading;
     
 #pragma mark Copying json based books
     else if (uiNew&&![userDefaults boolForKey:@"didaddWithNewUI"]) {
-        //[userDefaults setBool:YES forKey:@"didaddWithNewUI"];
+        NSString *zipDestination;
+        [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
+        /* book one --- The Crane in Tamil
+         */
+        NSNumber *identity;
         NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"zip"];
         NSString *destinationFolder=[sourceLocation lastPathComponent];
      //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
@@ -302,10 +306,47 @@ static UIAlertView *alertViewLoading;
                 //NSURLIsExcludedFromBackupKey
                 [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
         }
+        zipDestination=destinationFolder;
+        sourceLocation=[[NSBundle mainBundle]pathForResource:@"kokku" ofType:@"jpg"];
+        destinationFolder=[sourceLocation lastPathComponent];
+        //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
+        if (![fileManager fileExistsAtPath:destinationFolder]) {
+            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+            
+        }
         
+        // adding to database
+        identity=@1;
+        if (![_dataModel checkIfIdExists:identity]) {
+            Book *book= [_dataModel getBookInstance];
+            book.title=@"The Crane (Tamil)";
+            book.desc=@"Every animal and person has a special talent. From a long neck to reach tall leaves to nimble fingers with which to play marbles, each person has a skill. Crane finds out just how useful he is in this charming tale. <br/> <br/><br /><br /> <br/><strong> <br/>Age Group <br/></strong> 3.5 -4.5 <br/><br /><br /> <br/><strong>Grade</strong> <br/>J. KG <br/><br /><br /> <br/><strong>Includes:</strong> Interactive audio with highlighting, puzzle game, word game, memory game <br/>";
+            book.link=nil;
+            book.imageUrl=@"http://www.mangoreader.com/uploads/books/954/cover_image/big/crane.jpg";
+            book.sourceFileUrl=@"";
+            book.localPathImageFile=destinationFolder;
+            book.localPathFile=zipDestination;
+            book.id=identity;
+            book.size=@15415067;
+            book.date=[NSDate date];
+            book.textBook=@4;
+            book.downloadedDate=[NSDate date];
+            book.downloaded=@YES;
+            NSError *error=nil;
+            if (![managedObjectContext save:&error]) {
+                NSLog(@"%@",error);
+            }
+        }
+        
+        /*book two - Hungry Caterpillar
+         */
         sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"zip"];
         destinationFolder=[sourceLocation lastPathComponent];
         destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
+        zipDestination=destinationFolder;
         if (![fileManager fileExistsAtPath:destinationFolder]) {
             [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
@@ -314,7 +355,39 @@ static UIAlertView *alertViewLoading;
         }
 
         
-        
+        sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"jpg"];
+        destinationFolder=[sourceLocation lastPathComponent];
+        //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
+        if (![fileManager fileExistsAtPath:destinationFolder]) {
+            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+            
+        }
+       
+        identity=@2;
+        if (![_dataModel checkIfIdExists:identity]) {
+            Book *book= [_dataModel getBookInstance];
+            book.title=@"Hungry Caterpillar";
+            book.desc=@"The Hungry Caterpillar is the story of a Caterpillar who eats in a garden without his mother's permission and gets caught. The butterfly apologizes for the caterpillar and rescues him from the gardener. Enjoy the story with animations and voice over and play games to learn more...";
+            book.link=nil;
+            book.imageUrl=@"http://www.mangoreader.com/uploads/books/826/cover_image/big/stanging_image.jpg?2012";
+            book.sourceFileUrl=@"";
+            book.localPathImageFile=destinationFolder;
+            book.localPathFile=zipDestination;
+            book.id=identity;
+            book.size=@23068672;
+            book.date=[NSDate date];
+            book.textBook=@4;
+            book.downloadedDate=[NSDate date];
+            book.downloaded=@YES;
+            NSError *error=nil;
+            if (![managedObjectContext save:&error]) {
+                NSLog(@"%@",error);
+            }
+        }
+      
         [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
 
         
@@ -462,32 +535,37 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{
     ZipArchive* za = [[ZipArchive alloc] init];
-    NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
-    NSFileManager *filemanager=[[NSFileManager alloc] init];
-    if ([filemanager fileExistsAtPath:strPath]) {
+   // NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
+    NSLog(@"zip %@",location);
+    if( [za UnzipOpenFile:location] ){
         
-        NSError *error;
-        [filemanager removeItemAtPath:strPath error:&error];
-    }
-    filemanager=nil;
-    //start unzip
-    BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",strPath] overWrite:YES];
-    if( NO==ret ){
-        // error handler here
-      /*  UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:@"An unknown error occured"
-                                                     delegate:self
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-        [alert show];*/
-        //		[alert release];
-       // alert=nil;
-    }
-    [za UnzipCloseFile];
+		//NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
+		NSFileManager *filemanager=[[NSFileManager alloc] init];
+		
+        //	[filemanager release];
+	//	filemanager=nil;
+		//start unzip
+		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",[self applicationDocumentsDirectory]] overWrite:YES];
+		if( NO==ret ){
+			// error handler here
+			UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
+														  message:@"An unknown error occured"
+														 delegate:self
+												cancelButtonTitle:@"OK"
+												otherButtonTitles:nil];
+			[alert show];
+            //		[alert release];
+			alert=nil;
+		}else{
+            
+        }
+        [filemanager removeItemAtPath:location error:nil];
+		[za UnzipCloseFile];
+	}
 
 }
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity {
-	
+	NSLog(@"location %@",location);
 	ZipArchive* za = [[ZipArchive alloc] init];
 	if( [za UnzipOpenFile:location] ){
  
@@ -1065,6 +1143,28 @@ void uncaughtExceptionHandler(NSException *exception) {
             view.backgroundColor = [UIColor blackColor];
         }
     }
+}
++ (UIColor *) colorFromHexString:(NSString *)hexString {
+    NSString *cleanString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    if([cleanString length] == 3) {
+        cleanString = [NSString stringWithFormat:@"%@%@%@%@%@%@",
+                       [cleanString substringWithRange:NSMakeRange(0, 1)],[cleanString substringWithRange:NSMakeRange(0, 1)],
+                       [cleanString substringWithRange:NSMakeRange(1, 1)],[cleanString substringWithRange:NSMakeRange(1, 1)],
+                       [cleanString substringWithRange:NSMakeRange(2, 1)],[cleanString substringWithRange:NSMakeRange(2, 1)]];
+    }
+    if([cleanString length] == 6) {
+        cleanString = [cleanString stringByAppendingString:@"ff"];
+    }
+    
+    unsigned int baseValue;
+    [[NSScanner scannerWithString:cleanString] scanHexInt:&baseValue];
+    
+    float red = ((baseValue >> 24) & 0xFF)/255.0f;
+    float green = ((baseValue >> 16) & 0xFF)/255.0f;
+    float blue = ((baseValue >> 8) & 0xFF)/255.0f;
+    float alpha = ((baseValue >> 0) & 0xFF)/255.0f;
+    
+    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 @end
 
