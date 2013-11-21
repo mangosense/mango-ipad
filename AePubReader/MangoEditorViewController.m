@@ -180,8 +180,7 @@
             [imageDict setObject:assetUrl forKey:ASSET_URL];
             [layersArray addObject:imageDict];
             
-            NSDictionary *jsonDict = [[NSDictionary alloc] initWithObjectsAndKeys:layersArray, LAYERS, nil];
-            [newPageDict setObject:jsonDict forKey:@"json"];
+            [newPageDict setObject:layersArray forKey:LAYERS];
             
             [pagesArray addObject:newPageDict];
             
@@ -568,7 +567,7 @@
     [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
     if (index < [pagesArray count]) {
         NSDictionary *pageDict = [pagesArray objectAtIndex:index];
-        NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+        NSArray *layersArray = [pageDict objectForKey:LAYERS];
         for (NSDictionary *layerDict in layersArray) {
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
                 [pageThumbnail setImage:[UIImage imageNamed:[layerDict objectForKey:ASSET_URL]]];
@@ -608,8 +607,7 @@
         [imageDict setObject:@"white_page.jpeg" forKey:ASSET_URL];
         [layersArray addObject:imageDict];
         
-        NSDictionary *jsonDict = [[NSDictionary alloc] initWithObjectsAndKeys:layersArray, LAYERS, nil];
-        [newPageDict setObject:jsonDict forKey:@"json"];
+        [newPageDict setObject:layersArray forKey:LAYERS];
         
         [pagesArray addObject:newPageDict];
         
@@ -667,7 +665,7 @@
     pageImageView.incrementalImage = nil;
     
     NSDictionary *pageDict = [pagesArray objectAtIndex:pageNumber];
-    NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSURL *audioUrl;
     NSString *textOnPage;
     CGRect textFrame;
@@ -680,7 +678,11 @@
             audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
-            textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+            /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
+                textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+            } else {*/
+                textFrame = CGRectMake(0, 0, 600, 400);
+            /*}*/
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont boldSystemFontOfSize:24];
@@ -718,8 +720,10 @@
 #pragma mark - Book JSON Methods
 
 - (void)getBookJson {
-    bookJsonString = @"{\"id\":829,\"title\":\"rahul\",\"language\":\"English\",\"pages\":[{\"id\":584,\"json\":{\"id\":\"Cover\",\"name\":\"Cover\",\"layers\":[{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":584}},{\"id\":585,\"json\":{\"id\":1,\"name\":1,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text-1\",\"alignment\":\"left\",\"order\":0,\"style\":{\"top\":253,\"left\":401,\"width\":431,\"height\":173},\"text\":\"testing the tex box for json attributes\",\"words\":[{\"index\":0,\"text\":\"testing\"},{\"index\":1,\"text\":\"the\"},{\"index\":2,\"text\":\"tex\"},{\"index\":3,\"text\":\"box\"},{\"index\":4,\"text\":\"for\"},{\"index\":5,\"text\":\"json\"},{\"index\":6,\"text\":\"attributes\"}]},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"middle\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":585}},{\"id\":586,\"json\":{\"id\":3,\"name\":3,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text\",\"alignment\":\"left\",\"order\":0,\"style\":{}},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":586}},{\"id\":587,\"json\":{\"id\":2,\"name\":2,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text\",\"alignment\":\"left\",\"order\":0,\"style\":{}},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":587}},{\"id\":588,\"json\":{\"id\":4,\"name\":4,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1}},{\"id\":589,\"json\":{\"id\":4,\"name\":4,\"type\":\"page\",\"layers\":[{\"type\":\"text\",\"name\":\"text-1\",\"alignment\":\"left\",\"order\":0,\"style\":{\"top\":156,\"left\":112},\"text\":\"Mysql create user and grant privileges.\",\"words\":[{\"index\":0,\"text\":\"Mysql\"},{\"index\":1,\"text\":\"create\"},{\"index\":2,\"text\":\"user\"},{\"index\":3,\"text\":\"and\"},{\"index\":4,\"text\":\"grant\"},{\"index\":5,\"text\":\"privileges.\"}]},{\"type\":\"image\",\"name\":\"image\",\"url\":\"91f501c53a.jpg\",\"alignment\":\"left\",\"order\":0,\"style\":{}}],\"order\":0,\"pageNo\":1,\"original_id\":589}}]}";
-    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"json"];
+    bookJsonString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: NULL];
+    NSLog(@"%@", bookJsonString);
+        
     NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
@@ -906,7 +910,7 @@ enum
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
     
     NSDictionary *pageDict = [pagesArray objectAtIndex:currentPageNumber];
-    NSArray *layersArray = [[pageDict objectForKey:@"json"] objectForKey:LAYERS];
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSString *textOnPage;
     CGRect textFrame;
     for (NSDictionary *layerDict in layersArray) {

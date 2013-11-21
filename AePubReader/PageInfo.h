@@ -10,14 +10,14 @@
 
 @interface PageInfo : NSObject {
     NSNumber *pageNumber;
-    NSData *pageAudioData;
+    NSMutableArray *textArray;
+    NSMutableArray *audioArray;
     UIImage *backgroundImage;
-    NSString *pageText;
 }
 
 @property (nonatomic, strong) NSNumber *pageNumber;
-@property (nonatomic, strong) NSData *pageAudioData;
+@property (nonatomic, strong) NSMutableArray *textArray;
+@property (nonatomic, strong) NSMutableArray *audioArray;
 @property (nonatomic, strong) UIImage *backgroundImage;
-@property (nonatomic, strong) NSString *pageText;
 
 @end

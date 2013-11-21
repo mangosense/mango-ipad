@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "StoryPageView.h"
+#import "PageInfo.h"
 
 @interface StoryJsonProcessor : NSObject {
     
 }
 
-+ (NSDictionary *)pageViewForJsonString:(NSDictionary *)jsonDict;
++ (PageInfo *)pageInfoForJsonString:(NSDictionary *)jsonDict;
 
 @end

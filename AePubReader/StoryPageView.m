@@ -11,7 +11,8 @@
 @implementation StoryPageView
 
 @synthesize backgroundImageView;
-@synthesize pageTextView;
+@synthesize pageTextViewArray;
+@synthesize audioArray;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -35,10 +36,8 @@
 #pragma mark - Create UI
 
 - (void)createUI {
-    backgroundImageView = [[UIImageView alloc] initWithFrame:self.frame];
-    pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 500, 300)];
+    backgroundImageView.frame = self.frame;
     [self addSubview:backgroundImageView];
-    [self addSubview:pageTextView];
 }
 
 @end

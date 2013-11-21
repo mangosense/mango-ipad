@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "MovableTextView.h"
+#import "SmoothDrawingView.h"
 
 @interface StoryPageView : UIView {
-    UIImageView *backgroundImageView;
-    MovableTextView *pageTextView;
+    SmoothDrawingView *backgroundImageView;
+    NSMutableArray *pageTextViewArray;
+    NSMutableArray *audioArray;
 }
 
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, strong) MovableTextView *pageTextView;
+@property (nonatomic, strong) SmoothDrawingView *backgroundImageView;
+@property (nonatomic, strong) NSMutableArray *pageTextViewArray;
+@property (nonatomic, strong) NSMutableArray *audioArray;
 
 @end

@@ -14,7 +14,7 @@
                 <outlet property="imageButton" destination="zYs-VD-HiA" id="qtF-ky-eR9"/>
                 <outlet property="mangoButton" destination="LwC-pB-q2q" id="L5j-8X-2mM"/>
                 <outlet property="menuButton" destination="jcB-c5-eNq" id="H5R-4k-4vg"/>
-                <outlet property="pageImageView" destination="Qhn-XV-U8e" id="SOZ-Tp-Hqa"/>
+                <outlet property="pageImageView" destination="Qhn-XV-U8e" id="9t4-OW-yir"/>
                 <outlet property="pagesCarousel" destination="Nzg-k0-Q4d" id="ezy-Qr-0ZS"/>
                 <outlet property="playStoryButton" destination="Z0t-ok-2K0" id="rUU-1X-GPz"/>
                 <outlet property="textButton" destination="Kbz-OK-Q3T" id="GaO-F1-DQW"/>
