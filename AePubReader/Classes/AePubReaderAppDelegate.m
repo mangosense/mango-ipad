@@ -295,7 +295,7 @@ static UIAlertView *alertViewLoading;
          */
         NSNumber *identity;
         NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"zip"];
-        NSString *destinationFolder=[sourceLocation lastPathComponent];
+        NSString *destinationFolder=[sourceLocation lastPathComponent] ;
      //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
         destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
         NSLog(@"Destination Folder %@",destinationFolder);
@@ -328,7 +328,7 @@ static UIAlertView *alertViewLoading;
             book.imageUrl=@"http://www.mangoreader.com/uploads/books/954/cover_image/big/crane.jpg";
             book.sourceFileUrl=@"";
             book.localPathImageFile=destinationFolder;
-            book.localPathFile=zipDestination;
+            book.localPathFile=[zipDestination stringByDeletingPathExtension];
             book.id=identity;
             book.size=@15415067;
             book.date=[NSDate date];
@@ -344,7 +344,7 @@ static UIAlertView *alertViewLoading;
         /*book two - Hungry Caterpillar
          */
         sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"zip"];
-        destinationFolder=[sourceLocation lastPathComponent];
+        destinationFolder=[sourceLocation lastPathComponent] ;
         destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
         zipDestination=destinationFolder;
         if (![fileManager fileExistsAtPath:destinationFolder]) {
@@ -375,7 +375,7 @@ static UIAlertView *alertViewLoading;
             book.imageUrl=@"http://www.mangoreader.com/uploads/books/826/cover_image/big/stanging_image.jpg?2012";
             book.sourceFileUrl=@"";
             book.localPathImageFile=destinationFolder;
-            book.localPathFile=zipDestination;
+            book.localPathFile=[zipDestination stringByDeletingPathExtension];
             book.id=identity;
             book.size=@23068672;
             book.date=[NSDate date];

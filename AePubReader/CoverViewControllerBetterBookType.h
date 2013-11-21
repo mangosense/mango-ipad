@@ -17,6 +17,7 @@
 @property(strong,nonatomic)UIPopoverController *popOverController;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property(strong,nonatomic) NSString *identity;
 @property(strong,nonatomic) Book *book;
 @end
