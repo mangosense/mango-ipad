@@ -11,6 +11,8 @@
 #import "SettingOptionViewController.h"
 #import "DataModelControl.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoEditorViewController.h"
+
 @interface BooksFromCategoryViewController ()
 
 @end
@@ -98,15 +100,28 @@
     switch (button.tag) {
         case 0:
             controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:YES];
+            
             [self.navigationController pushViewController:controller animated:YES];
             break;
         default:
-            index=button.tag;
-            index--;
-            Book *book=_books[index];
-            identity=[NSString stringWithFormat:@"%@",book.id];
-            coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
-            [self.navigationController pushViewController:coverController animated:YES];
+            if (_toEdit) {
+                index=button.tag;
+                index--;
+                Book *book=_books[index];
+                identity=[NSString stringWithFormat:@"%@",book.id];
+                
+                MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                mangoEditorViewController.storyBook = book;
+                [self.navigationController.navigationBar setHidden:YES];
+                [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+            } else {
+                index=button.tag;
+                index--;
+                Book *book=_books[index];
+                identity=[NSString stringWithFormat:@"%@",book.id];
+                coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+                [self.navigationController pushViewController:coverController animated:YES];
+            }
             
             break;
     }

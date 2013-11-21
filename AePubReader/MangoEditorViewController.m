@@ -78,6 +78,7 @@
 @synthesize translatePoint;
 @synthesize photoPopoverController;
 @synthesize audioMappingViewController;
+@synthesize storyBook;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -570,7 +571,7 @@
         NSArray *layersArray = [pageDict objectForKey:LAYERS];
         for (NSDictionary *layerDict in layersArray) {
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-                [pageThumbnail setImage:[UIImage imageNamed:[layerDict objectForKey:ASSET_URL]]];
+                [pageThumbnail setImage:[UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]];
                 break;
             } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
                 NSURL *asseturl = [layerDict objectForKey:ASSET_URL];
@@ -768,7 +769,19 @@
     }
     pageImageView.incrementalImage = nil;
     
-    NSDictionary *pageDict = [pagesArray objectAtIndex:pageNumber];
+    NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    NSDictionary *pageDict;
+    for (NSDictionary *readerPageDict in readerPagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        }
+    }
+    
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSURL *audioUrl;
     NSString *textOnPage;
@@ -776,10 +789,10 @@
     
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            pageImageView.incrementalImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
-            pageImageView.tempImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];
+            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            audioUrl = [NSURL URLWithString:[layerDict objectForKey:AUDIO]];
+            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
@@ -787,6 +800,11 @@
             } else {*/
                 textFrame = CGRectMake(0, 0, 600, 400);
             /*}*/
+            if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
+                if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
+                    textFrame = CGRectMake(MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                }
+            }
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont boldSystemFontOfSize:24];
@@ -823,9 +841,18 @@
 
 #pragma mark - Book JSON Methods
 
+- (void)setStoryBook:(Book *)storyBookChosen {
+    storyBook = storyBookChosen;
+    NSString *jsonLocation=storyBook.localPathFile;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    bookJsonString = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+}
+
 - (void)getBookJson {
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"json"];
-    bookJsonString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: NULL];
     NSLog(@"%@", bookJsonString);
         
     NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
