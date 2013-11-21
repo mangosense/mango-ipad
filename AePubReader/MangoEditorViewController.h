@@ -55,5 +55,6 @@
 
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation;
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation;
++ (NSNumber *)numberOfPagesInStory:(NSString *)jsonString;
 
 @end

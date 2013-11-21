@@ -42,6 +42,11 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    
+    //Get Number Of Pages
+    NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:jsonContents];
+    NSLog(@"%d", [numberOfPages intValue]);
+    
     UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
     view.frame=self.view.bounds;
     for (UIView *subview in [view subviews]) {
