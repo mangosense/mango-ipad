@@ -44,7 +44,8 @@
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
     view.frame=self.view.bounds;
-   [self.view addSubview:view];
+    view.backgroundColor=[UIColor grayColor];
+   [self.viewBase addSubview:view];
  //  [self.viewBase addSubview:view]
     
     
@@ -58,13 +59,9 @@
 
 - (IBAction)ShowOptions:(id)sender {
     _rightView.hidden=NO;
-    CGRect frame= _rightView.frame;
-    _rightView.frame=CGRectZero;
-    [UIView animateWithDuration:0.3 animations:^{
-        _rightView.frame=frame;
-    } completion: ^(BOOL finished){
-        
-    }];
+
+    UIButton *button=(UIButton *)sender;
+    button.hidden=YES;
 }
 
 - (IBAction)BackButton:(id)sender {
@@ -72,6 +69,8 @@
 }
 
 - (IBAction)closeButton:(id)sender {
+    _rightView.hidden=YES;
+    _showOptionButton.hidden=NO;
 }
 
 - (IBAction)shareButton:(id)sender {

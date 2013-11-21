@@ -22,6 +22,7 @@
 @property(assign,nonatomic) NSInteger bookId;
 @property (weak, nonatomic) IBOutlet UIView *viewBase;
 @property (weak, nonatomic) IBOutlet UIView *rightView;
+@property (weak, nonatomic) IBOutlet UIButton *showOptionButton;
 
 @property(strong,nonatomic) Book *book;
 @end
