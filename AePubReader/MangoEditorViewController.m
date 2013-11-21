@@ -1060,7 +1060,16 @@ enum
     NSString *recDir = [paths objectAtIndex:0];
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
     
-    NSDictionary *pageDict = [pagesArray objectAtIndex:currentPageNumber];
+    NSDictionary *pageDict;
+    for (NSDictionary *readerPageDict in pagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", currentPageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        } else if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"] && currentPageNumber == 0) {
+            pageDict = readerPageDict;
+            break;
+        }
+    }
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSString *textOnPage;
     CGRect textFrame = CGRectMake(100, 100, 600, 400);
