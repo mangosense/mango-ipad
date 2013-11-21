@@ -48,7 +48,7 @@
     view.backgroundColor=[UIColor grayColor];
     [self.viewBase addSubview:view];
     
-    
+    _rightView.backgroundColor=[UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,15 +59,7 @@
 
 - (IBAction)ShowOptions:(id)sender {
     _rightView.hidden=NO;
-    CGRect oldFrame=_rightView.frame;
-    CGRect frame= _rightView.frame;
-    frame.size=CGSizeZero;
-    _rightView.frame=frame;
-    [UIView animateWithDuration:20 animations:^{
-        _rightView.frame=oldFrame;
-    } completion: ^(BOOL finished){
-        
-    }];
+
     UIButton *button=(UIButton *)sender;
     button.hidden=YES;
 }
