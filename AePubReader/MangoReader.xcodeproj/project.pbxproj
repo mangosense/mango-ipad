@@ -294,7 +294,7 @@
 		839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839F907817E6D37C00BD1412 /* PublishViewController.m */; };
 		839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839F907917E6D37C00BD1412 /* PublishViewController.xib */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
-		83D1A8FC183DE82D0000356B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83D1A8FB183DE82D0000356B /* Parse.framework */; };
+		83D1A8FE183E1EC60000356B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83D1A8FD183E1EC60000356B /* Parse.framework */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
 		83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB618111662004C975F /* AsyncDataDownloader.m */; };
 		83DD9BBA18113027004C975F /* StoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB918113027004C975F /* StoryPageView.m */; };
@@ -1076,7 +1076,7 @@
 		839F907917E6D37C00BD1412 /* PublishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishViewController.xib; sourceTree = "<group>"; };
 		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
-		83D1A8FB183DE82D0000356B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		83D1A8FD183E1EC60000356B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		83DD9BB118110D9D004C975F /* StoryJsonProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryJsonProcessor.h; sourceTree = "<group>"; };
 		83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryJsonProcessor.m; sourceTree = "<group>"; };
 		83DD9BB518111662004C975F /* AsyncDataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncDataDownloader.h; sourceTree = "<group>"; };
@@ -1720,7 +1720,7 @@
 				AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */,
 				AEC70E1616D4C34700A191D2 /* CoreMedia.framework in Frameworks */,
 				AE2BDEB616A438DA009A2D9B /* AudioToolbox.framework in Frameworks */,
-				83D1A8FC183DE82D0000356B /* Parse.framework in Frameworks */,
+				83D1A8FE183E1EC60000356B /* Parse.framework in Frameworks */,
 				AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */,
 				AE5FC01C167701DC00BB9AED /* Social.framework in Frameworks */,
 				AE43C744161057DA00970739 /* Security.framework in Frameworks */,
@@ -1765,7 +1765,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				83D1A8FB183DE82D0000356B /* Parse.framework */,
+				83D1A8FD183E1EC60000356B /* Parse.framework */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
 				AE195E7F181E2FD9008E4208 /* page.png */,
@@ -3939,6 +3939,7 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
+					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3979,6 +3980,7 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
+					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
