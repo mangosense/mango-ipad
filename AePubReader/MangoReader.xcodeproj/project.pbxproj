@@ -414,6 +414,7 @@
 		AE0C9390183E21EF008E4D54 /* storeipadapp_categories.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0C938F183E21EF008E4D54 /* storeipadapp_categories.jpg */; };
 		AE0C9393183E22BA008E4D54 /* store_library_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9391183E22BA008E4D54 /* store_library_button.png */; };
 		AE0C9394183E22BA008E4D54 /* store_home_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9392183E22BA008E4D54 /* store_home_button.png */; };
+		AE0C9396183E3C60008E4D54 /* icon_my existing books.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9395183E3C60008E4D54 /* icon_my existing books.png */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
 		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
@@ -1218,6 +1219,7 @@
 		AE0C938F183E21EF008E4D54 /* storeipadapp_categories.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = storeipadapp_categories.jpg; sourceTree = "<group>"; };
 		AE0C9391183E22BA008E4D54 /* store_library_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store_library_button.png; sourceTree = "<group>"; };
 		AE0C9392183E22BA008E4D54 /* store_home_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store_home_button.png; sourceTree = "<group>"; };
+		AE0C9395183E3C60008E4D54 /* icon_my existing books.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_my existing books.png"; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
 		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
@@ -2564,6 +2566,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				AE0C9395183E3C60008E4D54 /* icon_my existing books.png */,
 				AE0C938B183E0B58008E4D54 /* icons_text.png */,
 				AE0C9387183E098B008E4D54 /* icons_replay.png */,
 				AE0C9385183E096D008E4D54 /* icons_editimage.png */,
@@ -3461,6 +3464,7 @@
 				AEE103BE169C023400AEEEFB /* librarytext.png in Resources */,
 				AEFEB756169D9089009B299D /* backimageiphonen.png in Resources */,
 				AED4C88616A82DF8009F462E /* TextViewViewController.xib in Resources */,
+				AE0C9396183E3C60008E4D54 /* icon_my existing books.png in Resources */,
 				834FCE74182E084E0000181B /* pages_bg_right.png in Resources */,
 				AE0C9394183E22BA008E4D54 /* store_home_button.png in Resources */,
 				AEC85BB216AE86710094843B /* DetailHighlightViewController.xib in Resources */,

@@ -36,7 +36,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fzz-Ob-jxi">
                     <rect key="frame" x="119" y="107" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="traditional.png">
+                    <state key="normal" backgroundImage="icon_my existing books.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -81,9 +81,9 @@
     </objects>
     <resources>
         <image name="categoryscreen_bg.png" width="1024" height="768"/>
+        <image name="icon_my existing books.png" width="215" height="225"/>
         <image name="icons_back2.png" width="83" height="167"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_settings.png" width="78" height="77"/>
-        <image name="traditional.png" width="200" height="212"/>
     </resources>
 </document>

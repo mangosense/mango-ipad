@@ -49,8 +49,10 @@
             subview.frame = self.view.bounds;
         }
     }
-    _pageView.backgroundColor=[UIColor grayColor];
+    _rightView.backgroundColor=[UIColor clearColor];
+   // _pageView.backgroundColor=[UIColor grayColor];
    [self.viewBase addSubview:_pageView];
+    
  //  [self.viewBase addSubview:view]
     
     
