@@ -52,9 +52,8 @@
     _rightView.backgroundColor=[UIColor clearColor];
    // _pageView.backgroundColor=[UIColor grayColor];
    [self.viewBase addSubview:_pageView];
-    
- //  [self.viewBase addSubview:view]
-    
+    NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
+    _pageNo=numberOfPages.integerValue;
     
 }
 
@@ -109,14 +108,17 @@
 
 - (IBAction)nextButton:(id)sender {
     _pageNumber++;
-    [_pageView removeFromSuperview];
-    _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
-    for (UIView *subview in [_pageView subviews]) {
-        if ([subview isKindOfClass:[UIImageView class]]) {
-            subview.frame = self.view.bounds;
+    if (_pageNumber<(_pageNo-1)) {
+        [_pageView removeFromSuperview];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+        for (UIView *subview in [_pageView subviews]) {
+            if ([subview isKindOfClass:[UIImageView class]]) {
+                subview.frame = self.view.bounds;
+            }
         }
+        
+        [self.viewBase addSubview:_pageView];
     }
-
-    [self.viewBase addSubview:_pageView];
+   
 }
 @end

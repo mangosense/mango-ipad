@@ -30,4 +30,5 @@
 @property(assign,nonatomic) NSInteger pageNumber;
 @property(retain,nonatomic)UIView *pageView;
 @property(retain,nonatomic) NSString *jsonContent;
+@property(assign,nonatomic) NSInteger pageNo;
 @end
