@@ -15,5 +15,8 @@
 - (IBAction)shareButton:(id)sender;
 - (IBAction)editButton:(id)sender;
 - (IBAction)changeLanguage:(id)sender;
+@property(assign,nonatomic) NSInteger option;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger )option;
+
 
 @end
