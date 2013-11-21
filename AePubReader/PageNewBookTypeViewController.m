@@ -23,7 +23,7 @@
         _bookId=bookID;
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book= [delegate.dataModel getBookOfId:bookID];
-
+        _pageNumber=1;
         
     }
     return self;
@@ -42,10 +42,10 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
-    view.frame=self.view.bounds;
-    view.backgroundColor=[UIColor grayColor];
-   [self.viewBase addSubview:view];
+    _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:jsonContents WithFolderLocation:_book.localPathFile];
+    _pageView.frame=self.view.bounds;
+    _pageView.backgroundColor=[UIColor grayColor];
+   [self.viewBase addSubview:_pageView];
  //  [self.viewBase addSubview:view]
     
     
@@ -80,5 +80,15 @@
 }
 
 - (IBAction)changeLanguage:(id)sender {
+}
+- (IBAction)previousButton:(id)sender {
+    if (_pageNumber==1) {
+        [self BackButton:nil];
+    }else{
+        
+    }
+}
+
+- (IBAction)nextButton:(id)sender {
 }
 @end
