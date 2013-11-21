@@ -859,7 +859,13 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     
-    pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    pagesArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dict in [jsonDict objectForKey:PAGES]) {
+        if (![[dict objectForKey:TYPE] isEqualToString:GAME]) {
+            [pagesArray addObject:dict];
+        }
+    }
+    
     [pagesCarousel reloadData];
     [self renderEditorPage:0];
 }
