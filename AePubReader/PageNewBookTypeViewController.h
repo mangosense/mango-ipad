@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AePubReaderAppDelegate.h"
+#import "DataModelControl.h"
 
 @interface PageNewBookTypeViewController : UIViewController
 - (IBAction)ShowOptions:(id)sender;
@@ -16,7 +18,9 @@
 - (IBAction)editButton:(id)sender;
 - (IBAction)changeLanguage:(id)sender;
 @property(assign,nonatomic) NSInteger option;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger )option;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger )option BookId:(NSString *)bookId;
+@property(assign,nonatomic) NSInteger bookId;
+@property (weak, nonatomic) IBOutlet UIView *viewBase;
 
-
+@property(strong,nonatomic) Book *book;
 @end

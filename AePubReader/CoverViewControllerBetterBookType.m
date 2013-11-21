@@ -71,7 +71,7 @@
 
 - (IBAction)optionsToReader:(id)sender {
     UIButton *button=(UIButton *)sender;
-    PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag];
+    PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
