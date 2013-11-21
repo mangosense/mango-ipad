@@ -397,6 +397,19 @@
 		AE0C936A183DEA8E008E4D54 /* icons_play games.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9369183DEA8E008E4D54 /* icons_play games.png */; };
 		AE0C936C183DEB59008E4D54 /* rectangle_books.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C936B183DEB59008E4D54 /* rectangle_books.png */; };
 		AE0C936F183DEE8C008E4D54 /* LanguageChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C936E183DEE8C008E4D54 /* LanguageChoiceViewController.m */; };
+		AE0C9373183E06AC008E4D54 /* PageNewBookTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C9371183E06AC008E4D54 /* PageNewBookTypeViewController.m */; };
+		AE0C9374183E06AC008E4D54 /* PageNewBookTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9372183E06AC008E4D54 /* PageNewBookTypeViewController.xib */; };
+		AE0C9377183E0743008E4D54 /* icons_back.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9375183E0743008E4D54 /* icons_back.png */; };
+		AE0C9378183E0743008E4D54 /* icons_next.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9376183E0743008E4D54 /* icons_next.png */; };
+		AE0C937A183E07AF008E4D54 /* icons_close.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9379183E07AF008E4D54 /* icons_close.png */; };
+		AE0C937C183E07E1008E4D54 /* icons_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C937B183E07E1008E4D54 /* icons_menu.png */; };
+		AE0C937E183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C937D183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png */; };
+		AE0C9380183E0924008E4D54 /* icons_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C937F183E0924008E4D54 /* icons_pause.png */; };
+		AE0C9382183E0933008E4D54 /* icons_play.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9381183E0933008E4D54 /* icons_play.png */; };
+		AE0C9384183E0944008E4D54 /* icons_game.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9383183E0944008E4D54 /* icons_game.png */; };
+		AE0C9386183E096D008E4D54 /* icons_editimage.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9385183E096D008E4D54 /* icons_editimage.png */; };
+		AE0C9388183E098B008E4D54 /* icons_replay.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9387183E098B008E4D54 /* icons_replay.png */; };
+		AE0C938C183E0B58008E4D54 /* icons_text.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C938B183E0B58008E4D54 /* icons_text.png */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
 		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
@@ -1183,6 +1196,20 @@
 		AE0C936B183DEB59008E4D54 /* rectangle_books.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rectangle_books.png; sourceTree = "<group>"; };
 		AE0C936D183DEE8C008E4D54 /* LanguageChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageChoiceViewController.h; sourceTree = "<group>"; };
 		AE0C936E183DEE8C008E4D54 /* LanguageChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageChoiceViewController.m; sourceTree = "<group>"; };
+		AE0C9370183E06AC008E4D54 /* PageNewBookTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageNewBookTypeViewController.h; sourceTree = "<group>"; };
+		AE0C9371183E06AC008E4D54 /* PageNewBookTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageNewBookTypeViewController.m; sourceTree = "<group>"; };
+		AE0C9372183E06AC008E4D54 /* PageNewBookTypeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageNewBookTypeViewController.xib; sourceTree = "<group>"; };
+		AE0C9375183E0743008E4D54 /* icons_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_back.png; sourceTree = "<group>"; };
+		AE0C9376183E0743008E4D54 /* icons_next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_next.png; sourceTree = "<group>"; };
+		AE0C9379183E07AF008E4D54 /* icons_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_close.png; sourceTree = "<group>"; };
+		AE0C937B183E07E1008E4D54 /* icons_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_menu.png; sourceTree = "<group>"; };
+		AE0C937D183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluepatch_for_reader_interface_menu3.png; sourceTree = "<group>"; };
+		AE0C937F183E0924008E4D54 /* icons_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_pause.png; sourceTree = "<group>"; };
+		AE0C9381183E0933008E4D54 /* icons_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_play.png; sourceTree = "<group>"; };
+		AE0C9383183E0944008E4D54 /* icons_game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_game.png; sourceTree = "<group>"; };
+		AE0C9385183E096D008E4D54 /* icons_editimage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_editimage.png; sourceTree = "<group>"; };
+		AE0C9387183E098B008E4D54 /* icons_replay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_replay.png; sourceTree = "<group>"; };
+		AE0C938B183E0B58008E4D54 /* icons_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_text.png; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
 		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
@@ -2525,6 +2552,17 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				AE0C938B183E0B58008E4D54 /* icons_text.png */,
+				AE0C9387183E098B008E4D54 /* icons_replay.png */,
+				AE0C9385183E096D008E4D54 /* icons_editimage.png */,
+				AE0C9383183E0944008E4D54 /* icons_game.png */,
+				AE0C9381183E0933008E4D54 /* icons_play.png */,
+				AE0C937F183E0924008E4D54 /* icons_pause.png */,
+				AE0C937D183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png */,
+				AE0C937B183E07E1008E4D54 /* icons_menu.png */,
+				AE0C9379183E07AF008E4D54 /* icons_close.png */,
+				AE0C9375183E0743008E4D54 /* icons_back.png */,
+				AE0C9376183E0743008E4D54 /* icons_next.png */,
 				AE0C936B183DEB59008E4D54 /* rectangle_books.png */,
 				AE0C9369183DEA8E008E4D54 /* icons_play games.png */,
 				AE0C9365183DEA73008E4D54 /* icons_readbymyself.png */,
@@ -2575,6 +2613,9 @@
 				AE0C935E183DE5F4008E4D54 /* CoverViewControllerBetterBookType.xib */,
 				AE0C936D183DEE8C008E4D54 /* LanguageChoiceViewController.h */,
 				AE0C936E183DEE8C008E4D54 /* LanguageChoiceViewController.m */,
+				AE0C9370183E06AC008E4D54 /* PageNewBookTypeViewController.h */,
+				AE0C9371183E06AC008E4D54 /* PageNewBookTypeViewController.m */,
+				AE0C9372183E06AC008E4D54 /* PageNewBookTypeViewController.xib */,
 			);
 			name = "LandingPage UI";
 			sourceTree = "<group>";
@@ -3162,6 +3203,7 @@
 				83722AA5183C811E0007678E /* 3bd609c374.mp3 in Resources */,
 				83F486D718016CEE00AE3AAE /* a76a4575df.jpg in Resources */,
 				83F486E018016CEE00AE3AAE /* f0dfbbe45a.jpg in Resources */,
+				AE0C938C183E0B58008E4D54 /* icons_text.png in Resources */,
 				83F486CC18016CEE00AE3AAE /* 5f638a921a.jpg in Resources */,
 				AE737051183C6D1700054115 /* icon_signin.png in Resources */,
 				AE7537311610340E00761697 /* LoginViewController.xib in Resources */,
@@ -3239,6 +3281,7 @@
 				AE9BFBAC16537C12000DDEB1 /* LiveViewController.xib in Resources */,
 				83F486F218016CEE00AE3AAE /* 9f71525717.mp3 in Resources */,
 				AE9BFBB116537F44000DDEB1 /* PopPurchaseViewController.xib in Resources */,
+				AE0C9386183E096D008E4D54 /* icons_editimage.png in Resources */,
 				AE3E0F281653F4B800625CEB /* cart@2x.png in Resources */,
 				AE3E0F2B1653F4E300625CEB /* cart.png in Resources */,
 				83722AD3183C811E0007678E /* thumb_528baa2b6a756d1b978c0000.jpg in Resources */,
@@ -3339,7 +3382,6 @@
 				AEDF1818168AC5020087064A /* next-button.png in Resources */,
 				AEDF1819168AC5020087064A /* pause-control.png in Resources */,
 				AE0C9360183DE5F4008E4D54 /* CoverViewControllerBetterBookType.xib in Resources */,
-				839E0CE11834D3D500436237 /* original_91f501c53a.jpg in Resources */,
 				AEDF181A168AC5020087064A /* play-control.png in Resources */,
 				AEDF181B168AC5020087064A /* previous-button.png in Resources */,
 				83722AF5183C811E0007678E /* 528bb7866a756d1b97e10000.jpg in Resources */,
@@ -3362,6 +3404,7 @@
 				AED53B2A16914AC30061A600 /* DetailsViewController.xib in Resources */,
 				834FCE1A182D11F70000181B /* audiobutton.png in Resources */,
 				AED53B3116916CAF0061A600 /* icon.png in Resources */,
+				AE0C9388183E098B008E4D54 /* icons_replay.png in Resources */,
 				AE4BB72B183CD743004F20C5 /* BooksFromCategoryViewController.xib in Resources */,
 				AED53B3316916DB60061A600 /* pattern.png in Resources */,
 				AED53B391691B6410061A600 /* Sample.xib in Resources */,
@@ -3443,6 +3486,7 @@
 				AE0C936A183DEA8E008E4D54 /* icons_play games.png in Resources */,
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
 				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
+				AE0C9380183E0924008E4D54 /* icons_pause.png in Resources */,
 				AE4BB724183CCD2D004F20C5 /* hungry.jpg in Resources */,
 				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
 				83722AB8183C811E0007678E /* 528baa2b6a756d1b978c0000.jpg in Resources */,
@@ -3460,7 +3504,9 @@
 				AED5E3A817377A4300914590 /* recordbuttonpressed.png in Resources */,
 				83F486E618016CEE00AE3AAE /* 274f131337.jpg in Resources */,
 				83722ABC183C811E0007678E /* leftright_528baa146a756d1b97870000.jpg in Resources */,
+				AE0C937C183E07E1008E4D54 /* icons_menu.png in Resources */,
 				83722AC3183C811E0007678E /* leftright_528baa356a756d1b978e0000.jpg in Resources */,
+				AE0C937A183E07AF008E4D54 /* icons_close.png in Resources */,
 				AED5E3AA17377A4300914590 /* stopbuttonpressed.png in Resources */,
 				834FCE57182D11F70000181B /* scaletool_selected.png in Resources */,
 				AEDAD4B01739033A002543DF /* playbuttonpressed.png in Resources */,
@@ -3493,6 +3539,7 @@
 				83722AC6183C811E0007678E /* original_528baa186a756d1b97880000.jpg in Resources */,
 				83F486F418016CEE00AE3AAE /* bf09a6c1f0.mp3 in Resources */,
 				83722ACA183C811E0007678E /* original_528baa2b6a756d1b978c0000.jpg in Resources */,
+				AE0C9374183E06AC008E4D54 /* PageNewBookTypeViewController.xib in Resources */,
 				AE1D51221752606600D2F25E /* padContent.xib in Resources */,
 				83722AC0183C811E0007678E /* leftright_528baa276a756d1b978b0000.jpg in Resources */,
 				AE1D513F17526AF800D2F25E /* MyView.xib in Resources */,
@@ -3557,11 +3604,13 @@
 				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
 				83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */,
 				83722B16183C811E0007678E /* updown_528bb78b6a756d1b97e20000.jpg in Resources */,
+				AE0C937E183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png in Resources */,
 				83F4870418016CEE00AE3AAE /* e1b23e9390.jpg in Resources */,
 				83722B0C183C811E0007678E /* thumb_528bb7816a756d1b97e00000.jpg in Resources */,
 				83722AE9183C811E0007678E /* 7b42bbe5f5.mp3 in Resources */,
 				83722AB7183C811E0007678E /* 528baa276a756d1b978b0000.jpg in Resources */,
 				83722AE8183C811E0007678E /* 4f11bba7c5.ogg in Resources */,
+				AE0C9377183E0743008E4D54 /* icons_back.png in Resources */,
 				83722B07183C811E0007678E /* original_528bb78f6a756d1b97e30000.jpg in Resources */,
 				83722ABE183C811E0007678E /* leftright_528baa1d6a756d1b97890000.jpg in Resources */,
 				83F486CB18016CEE00AE3AAE /* 513f317f3a.mp3 in Resources */,
@@ -3586,6 +3635,7 @@
 				AE266FD8183B4E7E001A8CB8 /* poems and rhymes.png in Resources */,
 				83722AB3183C811E0007678E /* 528baa146a756d1b97870000.jpg in Resources */,
 				83F486E518016CEE00AE3AAE /* 228b977b62.mp3 in Resources */,
+				AE0C9384183E0944008E4D54 /* icons_game.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
 				839BC59617BB9DF100F1E9C5 /* widgets in Resources */,
 				839BC59A17BB9EB600F1E9C5 /* 7 in Resources */,
@@ -3608,6 +3658,7 @@
 				83722AFB183C811E0007678E /* leftright_528bb77d6a756d1b97df0000.jpg in Resources */,
 				834FCE4A182D11F70000181B /* recording_play_button.png in Resources */,
 				834FCE64182D11F70000181B /* textbutton_selected.png in Resources */,
+				AE0C9378183E0743008E4D54 /* icons_next.png in Resources */,
 				8374AF1017CC66AB009DA792 /* coconut tree.png in Resources */,
 				83722AAA183C811E0007678E /* 805d210b8c.ogg in Resources */,
 				83722AAF183C811E0007678E /* e123e798f4.mp3 in Resources */,
@@ -3657,6 +3708,7 @@
 				83722ADD183C811E0007678E /* updown_528baa306a756d1b978d0000.jpg in Resources */,
 				83F486E118016CEE00AE3AAE /* f59528d677.jpg in Resources */,
 				83F486DC18016CEE00AE3AAE /* e42f00ccde.jpg in Resources */,
+				AE0C9382183E0933008E4D54 /* icons_play.png in Resources */,
 				834FCE17182D11F70000181B /* addthisgame_button_pressed.png in Resources */,
 				8393E07E17CF12FE0080EB0C /* Checkmark.png in Resources */,
 				834FCE4B182D11F70000181B /* recording_stop_button.png in Resources */,
@@ -3821,6 +3873,7 @@
 				AE396BBA181F7E3D009C68E7 /* PSTGridLayoutItem.m in Sources */,
 				AE5B84EE17AA54C600EDC098 /* OldCell.m in Sources */,
 				AE396BB1181F7E3D009C68E7 /* PSTCollectionView.m in Sources */,
+				AE0C9373183E06AC008E4D54 /* PageNewBookTypeViewController.m in Sources */,
 				AE5B84F117AA54E000EDC098 /* FooterView.m in Sources */,
 				AE5B84F417AA550900EDC098 /* PSTCollectionDataSource.m in Sources */,
 				AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */,
@@ -3886,7 +3939,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3927,7 +3979,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;

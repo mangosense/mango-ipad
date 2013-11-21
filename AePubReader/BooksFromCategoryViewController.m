@@ -10,6 +10,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "SettingOptionViewController.h"
 #import "DataModelControl.h"
+#import "CoverViewControllerBetterBookType.h"
 @interface BooksFromCategoryViewController ()
 
 @end
@@ -89,19 +90,22 @@
 - (IBAction)booksButtonclicked:(id)sender {
     UIButton *button=(UIButton *)sender;
     NewStoreCoverViewController *controller;
+    CoverViewControllerBetterBookType *coverController;
+    NSInteger index;
+    NSString *identity;
     switch (button.tag) {
         case 0:
             controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:YES];
             [self.navigationController pushViewController:controller animated:YES];
             break;
-        case 1:
-            
-            break;
-        case 2:
-            
-            break;
-            
         default:
+            index=button.tag;
+            index--;
+            Book *book=_books[index];
+            identity=[NSString stringWithFormat:@"%@",book.id];
+            coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+            [self.navigationController pushViewController:coverController animated:YES];
+            
             break;
     }
 }
