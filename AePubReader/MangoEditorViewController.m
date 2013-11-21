@@ -708,12 +708,6 @@
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
-    if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
-        UIWebView *gameWebView = [[UIWebView alloc] initWithFrame:pageView.frame];
-        [gameWebView loadHTMLString:[NSString stringWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/games/%@", [pageDict objectForKey:PAGE_NAME]] encoding:NSUTF8StringEncoding error:nil] baseURL:nil];
-        return gameWebView;
-    }
-    
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
     NSURL *audioUrl;
     NSString *textOnPage;
