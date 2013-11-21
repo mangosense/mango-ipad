@@ -93,6 +93,8 @@
     CoverViewControllerBetterBookType *coverController;
     NSInteger index;
     NSString *identity;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.pageViewController=self;
     switch (button.tag) {
         case 0:
             controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:YES];

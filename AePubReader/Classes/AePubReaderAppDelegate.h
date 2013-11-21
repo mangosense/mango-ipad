@@ -62,4 +62,5 @@
 +(void)showAlertViewiPad;
 +(void)hideTabBar:(UITabBarController *)tabbarcontroller;
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
+@property(retain,nonatomic) UIViewController *pageViewController;
 @end
