@@ -409,6 +409,7 @@
 		AE0C9355183DB401008E4D54 /* icons_library.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9354183DB401008E4D54 /* icons_library.png */; };
 		AE0C9358183DBC31008E4D54 /* circle1.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9356183DBC30008E4D54 /* circle1.png */; };
 		AE0C9359183DBC31008E4D54 /* circle2.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9357183DBC31008E4D54 /* circle2.png */; };
+		AE0C935B183DE117008E4D54 /* hungry.zip in Resources */ = {isa = PBXBuildFile; fileRef = AE0C935A183DE117008E4D54 /* hungry.zip */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
 		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
@@ -597,7 +598,6 @@
 		AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF30161F1C7800181CE8 /* purchased@2x.png */; };
 		AE801341169AD24700EE536A /* CustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801340169AD24700EE536A /* CustomNavViewController.m */; };
 		AE801345169AEB8000EE536A /* CustomTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801344169AEB8000EE536A /* CustomTabViewController.m */; };
-		AE8CA749183C758B006BA6BA /* hungry.zip in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA747183C758B006BA6BA /* hungry.zip */; };
 		AE8CA74A183C758B006BA6BA /* kokku.zip in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA748183C758B006BA6BA /* kokku.zip */; };
 		AE8CA74C183C9C68006BA6BA /* icons_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA74B183C9C68006BA6BA /* icons_settings.png */; };
 		AE8CA74F183C9E0F006BA6BA /* SettingOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8CA74E183C9E0F006BA6BA /* SettingOptionViewController.m */; };
@@ -1210,6 +1210,7 @@
 		AE0C9354183DB401008E4D54 /* icons_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_library.png; sourceTree = "<group>"; };
 		AE0C9356183DBC30008E4D54 /* circle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle1.png; sourceTree = "<group>"; };
 		AE0C9357183DBC31008E4D54 /* circle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle2.png; sourceTree = "<group>"; };
+		AE0C935A183DE117008E4D54 /* hungry.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = hungry.zip; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
 		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
@@ -1482,7 +1483,6 @@
 		AE801340169AD24700EE536A /* CustomNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavViewController.m; sourceTree = "<group>"; };
 		AE801343169AEB8000EE536A /* CustomTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabViewController.h; sourceTree = "<group>"; };
 		AE801344169AEB8000EE536A /* CustomTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTabViewController.m; sourceTree = "<group>"; };
-		AE8CA747183C758B006BA6BA /* hungry.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = hungry.zip; sourceTree = "<group>"; };
 		AE8CA748183C758B006BA6BA /* kokku.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = kokku.zip; sourceTree = "<group>"; };
 		AE8CA74B183C9C68006BA6BA /* icons_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_settings.png; sourceTree = "<group>"; };
 		AE8CA74D183C9E0F006BA6BA /* SettingOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingOptionViewController.h; sourceTree = "<group>"; };
@@ -2603,6 +2603,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				AE0C935A183DE117008E4D54 /* hungry.zip */,
 				AE0C9356183DBC30008E4D54 /* circle1.png */,
 				AE0C9357183DBC31008E4D54 /* circle2.png */,
 				AE0C9354183DB401008E4D54 /* icons_library.png */,
@@ -2613,7 +2614,6 @@
 				AE4BB72E183CD796004F20C5 /* icons_next2.png */,
 				AE4BB725183CD5B5004F20C5 /* nav.png */,
 				AE8CA74B183C9C68006BA6BA /* icons_settings.png */,
-				AE8CA747183C758B006BA6BA /* hungry.zip */,
 				AE8CA748183C758B006BA6BA /* kokku.zip */,
 				AE737050183C6D1700054115 /* icon_signin.png */,
 				AE73704E183C6B9100054115 /* icon_skip_signin.png */,
@@ -3243,6 +3243,7 @@
 				AEB78AF8169EF31A00750218 /* select.js in Resources */,
 				AE7FEDE0161581EC00C4B51D /* View.xib in Resources */,
 				AE7FEDE21615A16100C4B51D /* book-shelf.png in Resources */,
+				AE0C935B183DE117008E4D54 /* hungry.zip in Resources */,
 				AE7FEE061615CF7000C4B51D /* logo.png in Resources */,
 				83F4870118016CEE00AE3AAE /* abf21d4c90.mp3 in Resources */,
 				AE576060161B0E1E00C6EEC6 /* closebutton.png in Resources */,
@@ -3569,7 +3570,6 @@
 				AEBD469C1755B4AC0060692A /* large_one.png in Resources */,
 				83F486F618016CEE00AE3AAE /* original_5d6b329ad8.jpg in Resources */,
 				AEBD469E1755B4D40060692A /* large_four.png in Resources */,
-				AE8CA749183C758B006BA6BA /* hungry.zip in Resources */,
 				834FCE73182E084E0000181B /* pages_bg_left.png in Resources */,
 				834FCE16182D11F70000181B /* addthisgame_button.png in Resources */,
 				AEBD46A01755B4E70060692A /* large_six.png in Resources */,
