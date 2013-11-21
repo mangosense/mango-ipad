@@ -47,8 +47,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self performSelectorInBackground:@selector(DownloadInBackground) withObject:nil];
-    _libraryButton.hidden=!_libraryButtonVisiblity;
+    NSString *imageName;
+    if (_libraryButtonVisiblity) {
+      imageName =@"store_library_button.png";
 
+    }else{
+        imageName=@"store_home_button.png";
+    }
+    [_buttonTemp setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
 -(void)DownloadInBackground{
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_sampleStoreJson options:NSJSONReadingAllowFragments error:nil];

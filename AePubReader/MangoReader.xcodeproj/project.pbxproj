@@ -410,6 +410,10 @@
 		AE0C9386183E096D008E4D54 /* icons_editimage.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9385183E096D008E4D54 /* icons_editimage.png */; };
 		AE0C9388183E098B008E4D54 /* icons_replay.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9387183E098B008E4D54 /* icons_replay.png */; };
 		AE0C938C183E0B58008E4D54 /* icons_text.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C938B183E0B58008E4D54 /* icons_text.png */; };
+		AE0C938E183E218D008E4D54 /* storeipadapp_final.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0C938D183E218D008E4D54 /* storeipadapp_final.jpg */; };
+		AE0C9390183E21EF008E4D54 /* storeipadapp_categories.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0C938F183E21EF008E4D54 /* storeipadapp_categories.jpg */; };
+		AE0C9393183E22BA008E4D54 /* store_library_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9391183E22BA008E4D54 /* store_library_button.png */; };
+		AE0C9394183E22BA008E4D54 /* store_home_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9392183E22BA008E4D54 /* store_home_button.png */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
 		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
@@ -1210,6 +1214,10 @@
 		AE0C9385183E096D008E4D54 /* icons_editimage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_editimage.png; sourceTree = "<group>"; };
 		AE0C9387183E098B008E4D54 /* icons_replay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_replay.png; sourceTree = "<group>"; };
 		AE0C938B183E0B58008E4D54 /* icons_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_text.png; sourceTree = "<group>"; };
+		AE0C938D183E218D008E4D54 /* storeipadapp_final.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = storeipadapp_final.jpg; sourceTree = "<group>"; };
+		AE0C938F183E21EF008E4D54 /* storeipadapp_categories.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = storeipadapp_categories.jpg; sourceTree = "<group>"; };
+		AE0C9391183E22BA008E4D54 /* store_library_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store_library_button.png; sourceTree = "<group>"; };
+		AE0C9392183E22BA008E4D54 /* store_home_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store_home_button.png; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
 		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
@@ -2501,6 +2509,10 @@
 		AE195EF2181E67B3008E4208 /* New store */ = {
 			isa = PBXGroup;
 			children = (
+				AE0C9391183E22BA008E4D54 /* store_library_button.png */,
+				AE0C9392183E22BA008E4D54 /* store_home_button.png */,
+				AE0C938F183E21EF008E4D54 /* storeipadapp_categories.jpg */,
+				AE0C938D183E218D008E4D54 /* storeipadapp_final.jpg */,
 				AE62B32A1832008E005C5EC9 /* storesamplejson.txt */,
 				AE62B32C183201CB005C5EC9 /* NewBookStore.h */,
 				AE62B32D183201CB005C5EC9 /* NewBookStore.m */,
@@ -3450,6 +3462,7 @@
 				AEFEB756169D9089009B299D /* backimageiphonen.png in Resources */,
 				AED4C88616A82DF8009F462E /* TextViewViewController.xib in Resources */,
 				834FCE74182E084E0000181B /* pages_bg_right.png in Resources */,
+				AE0C9394183E22BA008E4D54 /* store_home_button.png in Resources */,
 				AEC85BB216AE86710094843B /* DetailHighlightViewController.xib in Resources */,
 				AE2D35BD16B15902009E99A7 /* not.png in Resources */,
 				83722AEA183C811E0007678E /* 7b42bbe5f5.ogg in Resources */,
@@ -3505,6 +3518,7 @@
 				83F486E618016CEE00AE3AAE /* 274f131337.jpg in Resources */,
 				83722ABC183C811E0007678E /* leftright_528baa146a756d1b97870000.jpg in Resources */,
 				AE0C937C183E07E1008E4D54 /* icons_menu.png in Resources */,
+				AE0C9393183E22BA008E4D54 /* store_library_button.png in Resources */,
 				83722AC3183C811E0007678E /* leftright_528baa356a756d1b978e0000.jpg in Resources */,
 				AE0C937A183E07AF008E4D54 /* icons_close.png in Resources */,
 				AED5E3AA17377A4300914590 /* stopbuttonpressed.png in Resources */,
@@ -3562,6 +3576,7 @@
 				834FCE6B182D11F70000181B /* yes_button.png in Resources */,
 				834FCE2B182D11F70000181B /* gamebutton_selected.png in Resources */,
 				834FCE4D182D11F70000181B /* refresh_pressed.png in Resources */,
+				AE0C938E183E218D008E4D54 /* storeipadapp_final.jpg in Resources */,
 				AE4BB736183CD8D9004F20C5 /* CategoriesFlexibleViewController.xib in Resources */,
 				83722AF7183C811E0007678E /* 528bb78f6a756d1b97e30000.jpg in Resources */,
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
@@ -3572,6 +3587,7 @@
 				83722AF0183C811E0007678E /* c3278892c6.ogg in Resources */,
 				83722AE1183C811E0007678E /* 2eb9ab9ed1.mp3 in Resources */,
 				83722ACF183C811E0007678E /* thumb_528baa186a756d1b97880000.jpg in Resources */,
+				AE0C9390183E21EF008E4D54 /* storeipadapp_categories.jpg in Resources */,
 				834FCE41182D11F70000181B /* pause_button.png in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 				AE0C9358183DBC31008E4D54 /* circle1.png in Resources */,

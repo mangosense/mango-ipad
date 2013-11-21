@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewStoreCoverViewController">
             <connections>
+                <outlet property="buttonTemp" destination="bn2-ia-R8X" id="71z-F8-TfY"/>
                 <outlet property="featured" destination="GFk-4S-v4l" id="BVJ-Ez-wtd"/>
                 <outlet property="libraryButton" destination="jYQ-iv-tos" id="Fy1-q3-SEz"/>
                 <outlet property="newarrivals" destination="jLU-U2-Nnn" id="liC-Vy-XfS"/>
@@ -153,6 +154,21 @@
                         <action selector="switchTabButtonClick:" destination="-1" eventType="touchUpInside" id="v9v-cq-SPG"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="storeipadapp_categories.jpg" id="EnD-HH-hdL">
+                    <rect key="frame" x="0.0" y="0.0" width="1034" height="768"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bn2-ia-R8X">
+                    <rect key="frame" x="28" y="10" width="100" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" backgroundImage="store_home_button.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="goBackToStoryPage:" destination="-1" eventType="touchUpInside" id="eGi-pp-Fp6"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -165,5 +181,7 @@
         <image name="icons_library.png" width="78" height="77"/>
         <image name="lunselected.png" width="150" height="50"/>
         <image name="sselected.png" width="150" height="50"/>
+        <image name="store_home_button.png" width="100" height="60"/>
+        <image name="storeipadapp_categories.jpg" width="1024" height="768"/>
     </resources>
 </document>

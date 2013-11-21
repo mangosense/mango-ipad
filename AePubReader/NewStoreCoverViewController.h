@@ -34,5 +34,6 @@
 @property(retain,nonatomic) NSMutableArray *arrivalsNewArray;
 @property(assign,nonatomic) BOOL libraryButtonVisiblity;
 @property (weak, nonatomic) IBOutlet UIButton *libraryButton;
+@property (weak, nonatomic) IBOutlet UIButton *buttonTemp;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil shouldShowLibraryButton:(BOOL)show;
 @end
