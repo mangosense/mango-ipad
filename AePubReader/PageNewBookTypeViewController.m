@@ -23,7 +23,7 @@
         _bookId=bookID;
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book= [delegate.dataModel getBookOfId:bookID];
-
+        _pageNumber=1;
         
     }
     return self;
@@ -41,23 +41,19 @@
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
-    NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    
-    //Get Number Of Pages
-    NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:jsonContents];
-    NSLog(@"%d", [numberOfPages intValue]);
-    
-    UIView *view=[MangoEditorViewController readerPage:1 ForStory:jsonContents WithFolderLocation:_book.localPathFile];
-    view.frame=self.view.bounds;
-    for (UIView *subview in [view subviews]) {
+    _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+    _pageView.frame=self.view.bounds;
+    for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
             subview.frame = self.view.bounds;
         }
     }
-    view.backgroundColor=[UIColor grayColor];
-   [self.viewBase addSubview:view];
- //  [self.viewBase addSubview:view]
-    
+    _rightView.backgroundColor=[UIColor clearColor];
+   // _pageView.backgroundColor=[UIColor grayColor];
+   [self.viewBase addSubview:_pageView];
+    NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
+    _pageNo=numberOfPages.integerValue;
     
 }
 
@@ -90,5 +86,39 @@
 }
 
 - (IBAction)changeLanguage:(id)sender {
+}
+- (IBAction)previousButton:(id)sender {
+    if (_pageNumber==1) {
+        [self BackButton:nil];
+    }else{
+        [_pageView removeFromSuperview];
+        
+        _pageNumber--;
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+        for (UIView *subview in [_pageView subviews]) {
+            if ([subview isKindOfClass:[UIImageView class]]) {
+                subview.frame = self.view.bounds;
+            }
+        }
+
+        [self.viewBase addSubview:_pageView];
+
+    }
+}
+
+- (IBAction)nextButton:(id)sender {
+    _pageNumber++;
+    if (_pageNumber<(_pageNo-1)) {
+        [_pageView removeFromSuperview];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+        for (UIView *subview in [_pageView subviews]) {
+            if ([subview isKindOfClass:[UIImageView class]]) {
+                subview.frame = self.view.bounds;
+            }
+        }
+        
+        [self.viewBase addSubview:_pageView];
+    }
+   
 }
 @end

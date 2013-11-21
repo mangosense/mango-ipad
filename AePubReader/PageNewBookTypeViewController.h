@@ -23,6 +23,12 @@
 @property (weak, nonatomic) IBOutlet UIView *viewBase;
 @property (weak, nonatomic) IBOutlet UIView *rightView;
 @property (weak, nonatomic) IBOutlet UIButton *showOptionButton;
+- (IBAction)previousButton:(id)sender;
+- (IBAction)nextButton:(id)sender;
 
 @property(strong,nonatomic) Book *book;
+@property(assign,nonatomic) NSInteger pageNumber;
+@property(retain,nonatomic)UIView *pageView;
+@property(retain,nonatomic) NSString *jsonContent;
+@property(assign,nonatomic) NSInteger pageNo;
 @end

@@ -94,6 +94,9 @@
                     <state key="normal" backgroundImage="icons_back.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="previousButton:" destination="-1" eventType="touchUpInside" id="zct-bK-FOa"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qUg-c9-QZ7">
                     <rect key="frame" x="926" y="23" width="77" height="78"/>
@@ -112,6 +115,9 @@
                     <state key="normal" backgroundImage="icons_next.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="nextButton:" destination="-1" eventType="touchUpInside" id="48W-4Z-IFa"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZgY-BU-pe6">
                     <rect key="frame" x="20" y="20" width="77" height="78"/>
