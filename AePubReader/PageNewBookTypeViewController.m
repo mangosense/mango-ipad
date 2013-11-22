@@ -162,7 +162,7 @@
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     [_audioMappingViewController.timer invalidate];
-
+    _audioMappingViewController.timer=nil;
     _audioMappingViewController.player=nil;
 
     if (_option==0) {
@@ -174,6 +174,8 @@
 
 }
 -(void)loadPageWithOption:(NSInteger)option{
+    [_audioMappingViewController.timer invalidate];
+    _audioMappingViewController.timer=nil;
     [_pageView removeFromSuperview];
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     
