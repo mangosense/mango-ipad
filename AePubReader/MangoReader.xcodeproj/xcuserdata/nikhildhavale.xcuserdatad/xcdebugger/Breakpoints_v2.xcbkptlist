@@ -14,9 +14,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "-nextClick:"
-            landmarkType = "5">
+            endingLineNumber = "212">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -74,12 +72,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MangoEditorViewController.m"
-            timestampString = "406752475.239742"
+            timestampString = "406795012.173211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "809"
-            endingLineNumber = "809"
-            landmarkName = "+readerPage:ForStory:WithFolderLocation:"
+            startingLineNumber = "808"
+            endingLineNumber = "808"
+            landmarkName = "+readerPage:ForStory:WithFolderLocation:AndAudioMappingViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +93,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "714"
             endingLineNumber = "714"
-            landmarkName = "+readerPage:ForStory:WithFolderLocation:"
+            landmarkName = "+readerPage:ForStory:WithFolderLocation:AndAudioMappingViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,7 +109,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "724"
             endingLineNumber = "724"
-            landmarkName = "+readerPage:ForStory:WithFolderLocation:"
+            landmarkName = "+readerPage:ForStory:WithFolderLocation:AndAudioMappingViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +125,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "741"
             endingLineNumber = "741"
-            landmarkName = "+readerPage:ForStory:WithFolderLocation:"
+            landmarkName = "+readerPage:ForStory:WithFolderLocation:AndAudioMappingViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,7 +141,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "715"
             endingLineNumber = "715"
-            landmarkName = "+readerPage:ForStory:WithFolderLocation:"
+            landmarkName = "+readerPage:ForStory:WithFolderLocation:AndAudioMappingViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +157,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "745"
             endingLineNumber = "745"
-            landmarkName = "+readerPage:ForStory:WithFolderLocation:"
+            landmarkName = "+readerPage:ForStory:WithFolderLocation:AndAudioMappingViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -174,9 +172,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "253"
-            endingLineNumber = "253"
-            landmarkName = "-playAudioForReaderWithData:"
-            landmarkType = "5">
+            endingLineNumber = "253">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -190,9 +186,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "287"
-            endingLineNumber = "287"
-            landmarkName = "-update"
-            landmarkType = "5">
+            endingLineNumber = "287">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -206,9 +200,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-viewWillDisappear:"
-            landmarkType = "5">
+            endingLineNumber = "51">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

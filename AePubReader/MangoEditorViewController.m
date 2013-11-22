@@ -690,12 +690,9 @@
     
     return coverPageImage;
 }
-+(void)stopPlaying{
-    [audioMappingViewcontroller.player stop];
-  //  [AudioMappingViewController.t]
+
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller {
     
-}
-+ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
@@ -776,7 +773,6 @@
             }
             
             
-            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
             audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
