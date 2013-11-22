@@ -29,7 +29,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *showOptionButton;
 - (IBAction)previousButton:(id)sender;
 - (IBAction)nextButton:(id)sender;
+- (IBAction)playOrPauseButton:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *playOrPauseButton;
 @property(strong,nonatomic) Book *book;
 @property(assign,nonatomic) NSInteger pageNumber;
 @property(retain,nonatomic)UIView *pageView;

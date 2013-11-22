@@ -46,7 +46,7 @@
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
 
-    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController ];
+    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self];
     _pageView.frame=self.view.bounds;
     for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
@@ -117,7 +117,7 @@
         _pageNumber--;
         _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
         
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self];
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
                 subview.frame = self.view.bounds;
@@ -135,7 +135,7 @@
         [_pageView removeFromSuperview];
         _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
 
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self];
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
                 subview.frame = self.view.bounds;
@@ -146,14 +146,22 @@
     }
    
 }
+
+- (IBAction)playOrPauseButton:(id)sender {
+    
+    
+}
 -(void)dismissPopOver{
     [_pop dismissPopoverAnimated:YES];
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     if (_option==0) {
-        
+     /* Read By readToMe */
+        [self nextButton:nil];
+    }else{
+        _audioMappingViewController.player=nil;
     }
-    
+    [_audioMappingViewController.timer invalidate];
 }
 
 @end
