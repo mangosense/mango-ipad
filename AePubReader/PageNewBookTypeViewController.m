@@ -46,7 +46,7 @@
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
 
-    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self];
+    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
     _pageView.frame=self.view.bounds;
     for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
@@ -117,7 +117,7 @@
         _pageNumber--;
         _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
         
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
                 subview.frame = self.view.bounds;
@@ -135,7 +135,14 @@
         [_pageView removeFromSuperview];
         _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
 
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
+        
+        /// default is icons_play.png
+        if (_option==0) {
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+        }else{
+            
+        }
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
                 subview.frame = self.view.bounds;
@@ -148,7 +155,17 @@
 }
 
 - (IBAction)playOrPauseButton:(id)sender {
-    
+    if (_audioMappingViewController.player) {
+        if ([_audioMappingViewController.player isPlaying]) {
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+            [_audioMappingViewController.player pause];
+        }else{
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+            [_audioMappingViewController.player play];
+        }
+    }else{
+        
+    }
     
 }
 -(void)dismissPopOver{
@@ -163,5 +180,6 @@
     }
     [_audioMappingViewController.timer invalidate];
 }
+
 
 @end
