@@ -691,7 +691,10 @@
     return coverPageImage;
 }
 
-+ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate {
+#define READ_TO_ME 0
+#define READ_BY_MYSELF 1
+
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -756,7 +759,9 @@
             audioMappingViewcontroller.index=0;
             audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
 
-            [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
+            if (readingOption == READ_TO_ME) {
+                [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
+            }
             
             [audioMappingViewcontroller.customView setNeedsDisplay];
             
