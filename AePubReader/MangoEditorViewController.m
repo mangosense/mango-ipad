@@ -599,6 +599,7 @@
         }
     } else {
         [pageThumbnail setImage:[UIImage imageNamed:@"addnewpage.png"]];
+        [pageThumbnail setBackgroundColor:COLOR_LIGHT_GREY];
     }
     
     return pageThumbnail;
