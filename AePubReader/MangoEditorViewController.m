@@ -566,7 +566,17 @@
     [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
     [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
     if (index < [pagesArray count]) {
-        NSDictionary *pageDict = [pagesArray objectAtIndex:[pagesArray count] - index - 1];
+        NSDictionary *pageDict;
+        for (NSDictionary *currentPageDict in pagesArray) {
+            if ([[currentPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", index]]) {
+                pageDict = currentPageDict;
+                break;
+            } else if ([[currentPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"] && index == 0) {
+                pageDict = currentPageDict;
+                break;
+            }
+        }
+        
         NSArray *layersArray = [pageDict objectForKey:LAYERS];
         for (NSDictionary *layerDict in layersArray) {
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
@@ -600,11 +610,26 @@
     } else {
         NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
         [newPageDict setObject:[NSNumber numberWithInt:[pagesArray count]] forKey:@"id"];
+        [newPageDict setObject:[NSString stringWithFormat:@"%d", [pagesArray count]] forKey:PAGE_NAME];
         
         NSMutableArray *layersArray = [[NSMutableArray alloc] init];
         NSMutableDictionary *imageDict = [[NSMutableDictionary alloc] init];
         [imageDict setObject:IMAGE forKey:TYPE];
-        [imageDict setObject:@"white_page.jpeg" forKey:ASSET_URL];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
+        NSString *destinationFolder=[sourceLocation lastPathComponent] ;
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/images"],destinationFolder];
+        
+        NSLog(@"%@ - %@", sourceLocation, destinationFolder);
+        
+        if (![fileManager fileExistsAtPath:destinationFolder]) {
+            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+        }
+        
+        [imageDict setObject:@"/res/images/white_page.jpeg" forKey:ASSET_URL];
         [layersArray addObject:imageDict];
         
         [newPageDict setObject:layersArray forKey:LAYERS];
@@ -823,13 +848,8 @@
     }
     pageImageView.incrementalImage = nil;
     
-    NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    NSLog(@"%@", jsonDict);
-    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
-    
     NSDictionary *pageDict;
-    for (NSDictionary *readerPageDict in readerPagesArray) {
+    for (NSDictionary *readerPageDict in pagesArray) {
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
             pageDict = readerPageDict;
             break;
