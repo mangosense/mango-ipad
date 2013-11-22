@@ -538,7 +538,7 @@
         case TABLE_TYPE_TEXT_TEMPLATES: {
             // Move to delegate method
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 400, 300)];
-            pageTextView.font = [UIFont boldSystemFontOfSize:24];
+            pageTextView.font = [UIFont systemFontOfSize:30];
             NSArray *itemsArray = [NSArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
             pageTextView.text = [itemsArray objectAtIndex:index];
             [pageImageView addSubview:pageTextView];
@@ -724,7 +724,7 @@
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
+            audioMappingViewcontroller.customView.textFont = [UIFont systemFontOfSize:30];
             audioMappingViewcontroller.customView.frame = textFrame;
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
@@ -781,7 +781,7 @@
             
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
-            audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
+            audioMappingViewcontroller.customView.textFont = [UIFont systemFontOfSize:30];
             audioMappingViewcontroller.customView.frame = textFrame;
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
@@ -864,7 +864,7 @@
             }
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
-            pageTextView.font = [UIFont boldSystemFontOfSize:24];
+            pageTextView.font = [UIFont systemFontOfSize:30];
             pageTextView.text = textOnPage;
             [pageImageView addSubview:pageTextView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
@@ -1129,7 +1129,7 @@ enum
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     [pageImageView addSubview:audioMappingViewController.view];
     
-    audioMappingViewController.customView.textFont = [UIFont boldSystemFontOfSize:24];
+    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
     audioMappingViewController.customView.frame = textFrame;
     [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
     [audioMappingViewController.view setExclusiveTouch:YES];
