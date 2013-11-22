@@ -671,6 +671,7 @@
 		AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE30E45183B96AB00C89BFF /* icons_home.png */; };
 		AEE3FB68169CAD82001034E4 /* HighlightedString.js in Resources */ = {isa = PBXBuildFile; fileRef = AE6F271A16803AC900355BCC /* HighlightedString.js */; };
 		AEE3FB90169CBBEC001034E4 /* CustomWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE3FB8F169CBBEC001034E4 /* CustomWebView.m */; };
+		AEE67088183F72410056AB29 /* addnewpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB9182D11F60000181B /* addnewpage.png */; };
 		AEEB9B8616A3D23100E91603 /* highlightXpath.js in Resources */ = {isa = PBXBuildFile; fileRef = AEEB9B8216A3CED200E91603 /* highlightXpath.js */; };
 		AEEB9B8716A40FAA00E91603 /* rangy.js in Resources */ = {isa = PBXBuildFile; fileRef = AE4CB1D41684683D00814F81 /* rangy.js */; };
 		AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */ = {isa = PBXBuildFile; fileRef = AEEBA8D916354E160023AE51 /* mangoreader-app-icon-72X72-7.png */; };
@@ -3135,6 +3136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83722AF2183C811E0007678E /* 528bb7786a756d1b97de0000.jpg in Resources */,
+				AEE67088183F72410056AB29 /* addnewpage.png in Resources */,
 				83722AD4183C811E0007678E /* thumb_528baa306a756d1b978d0000.jpg in Resources */,
 				AE576059161AF46D00C6EEC6 /* playvideo.js in Resources */,
 				AEEB9B8716A40FAA00E91603 /* rangy.js in Resources */,
