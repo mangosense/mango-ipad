@@ -78,7 +78,6 @@
 @synthesize photoPopoverController;
 @synthesize audioMappingViewController;
 @synthesize storyBook;
-static AudioMappingViewController *audioMappingViewcontroller;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -725,12 +724,10 @@ static AudioMappingViewController *audioMappingViewcontroller;
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
             audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
             audioMappingViewcontroller.customView.frame = textFrame;
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
-        //    readerAudioMappingViewController.textForMapping = textOnPage;
             [audioMappingViewcontroller.customView setNeedsDisplay];
             NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
             NSMutableArray *wordMap=[[NSMutableArray alloc]init];
@@ -749,8 +746,7 @@ static AudioMappingViewController *audioMappingViewcontroller;
                 [wordMap addObject:numberIntTimer];
                 
             }
-         //   cues=[[NSArray alloc]initWithArray:wordMap];
-            //NSLog(@"wordmap %@ %@",wordMap[0],cues[0]);
+
             audioMappingViewcontroller.customView.text=wordMapDict;
             audioMappingViewcontroller.cues=wordMap;
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {

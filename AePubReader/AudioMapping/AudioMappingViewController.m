@@ -429,6 +429,7 @@
     [_timer invalidate];
     _scrollView.progress=0;
     [_scrollView setNeedsDisplay];
+    _player = nil;
 }
 
 #pragma mark - Exit

@@ -12,6 +12,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ItemsListViewController.h"
 #import "Book.h"
+#import "AudioMappingViewController.h"
 
 @interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
@@ -58,7 +59,7 @@
 - (IBAction)doodleButtonTapped:(id)sender;
 
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation;
-+ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation;
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller;
 + (NSNumber *)numberOfPagesInStory:(NSString *)jsonString;
-+(void)stopPlaying;
+
 @end
