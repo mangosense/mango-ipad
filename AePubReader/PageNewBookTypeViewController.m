@@ -187,7 +187,7 @@
         }
     }
     [self.viewBase addSubview:_pageView];
-    if (_option==0) {
+    if (option==0) {
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
 
     }else{
