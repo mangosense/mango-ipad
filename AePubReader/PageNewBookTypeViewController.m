@@ -132,13 +132,8 @@
         }else{
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
         }
-        for (UIView *subview in [_pageView subviews]) {
-            if ([subview isKindOfClass:[UIImageView class]]) {
-                subview.frame = self.view.bounds;
-            }
-        }
+      
         
-        [self.viewBase addSubview:_pageView];
     }
    
 }
@@ -166,15 +161,17 @@
     [_pop dismissPopoverAnimated:YES];
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+    [_audioMappingViewController.timer invalidate];
+
+    _audioMappingViewController.player=nil;
+
     if (_option==0) {
      /* Read By readToMe */
         [self nextButton:nil];
     }else{
-        _audioMappingViewController.player=nil;
     }
     [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 
-    [_audioMappingViewController.timer invalidate];
 }
 -(void)loadPageWithOption:(NSInteger)option{
     [_pageView removeFromSuperview];
