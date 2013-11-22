@@ -39,4 +39,5 @@
 @property(assign,nonatomic) NSInteger pageNo;
 @property(retain,nonatomic) UIPopoverController *pop;
 @property(retain,nonatomic) AudioMappingViewController *audioMappingViewController;
+-(void)loadPageWithOption:(NSInteger)option;
 @end

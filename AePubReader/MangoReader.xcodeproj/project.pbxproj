@@ -3867,7 +3867,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3908,7 +3907,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
