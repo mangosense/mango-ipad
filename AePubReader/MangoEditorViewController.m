@@ -598,8 +598,8 @@
             }
         }
     } else {
-        [pageThumbnail setImage:[UIImage imageNamed:@"addnewpage.png"]];
-        [pageThumbnail setBackgroundColor:COLOR_LIGHT_GREY];
+        UIImage *image = [UIImage imageNamed:@"addnewpage.png"];
+        [pageThumbnail setImage:image];
     }
     
     return pageThumbnail;
