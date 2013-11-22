@@ -773,7 +773,6 @@
             }
             
             
-            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
             audioMappingViewcontroller.customView.textFont = [UIFont boldSystemFontOfSize:24];
