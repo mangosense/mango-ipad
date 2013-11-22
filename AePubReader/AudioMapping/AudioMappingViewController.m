@@ -248,14 +248,14 @@
     }
 }
 
-- (void)playAudioForReaderWithData:(NSData *)audioData {
+- (void)playAudioForReaderWithData:(NSData *)audioData AndDelegate:(id <AVAudioPlayerDelegate>)delegate {
     [self reset];
     [self nextClick:nil];
     
     _index--;
     
     _player=[[AVAudioPlayer alloc] initWithData:audioData error:nil];
-    _player.delegate=self;
+    _player.delegate=delegate;
     [_player play];
     
     _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];

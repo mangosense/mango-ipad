@@ -29,7 +29,7 @@
 - (IBAction)audioSpeedSliderValueChanged:(id)sender;
 - (IBAction)exitButtonTapped:(id)sender;
 
-- (void)playAudioForReaderWithData:(NSData *)audioData;
+- (void)playAudioForReaderWithData:(NSData *)audioData AndDelegate:(id <AVAudioPlayerDelegate>)delegate;
 
 @property (nonatomic, strong) IBOutlet UISlider *audioSpeedSlider;
 
