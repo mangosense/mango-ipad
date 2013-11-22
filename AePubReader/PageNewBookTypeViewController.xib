@@ -42,10 +42,10 @@
                                 <action selector="closeButton:" destination="-1" eventType="touchUpInside" id="CZN-LS-XfZ"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cgX-74-zFh">
-                            <rect key="frame" x="82" y="124" width="90" height="94"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cgX-74-zFh">
+                            <rect key="frame" x="80" y="126" width="94" height="90"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="icons_play.png">
+                            <state key="normal" image="icons_play.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>

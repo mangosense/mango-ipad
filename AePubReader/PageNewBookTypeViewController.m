@@ -44,7 +44,7 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+    /*_audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
 
     _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
     _pageView.frame=self.view.bounds;
@@ -53,9 +53,12 @@
             subview.frame = self.view.bounds;
         }
     }
+     [self.viewBase addSubview:_pageView];
+
+     */
+    [self loadPageWithOption:_option];
     _rightView.backgroundColor=[UIColor clearColor];
    // _pageView.backgroundColor=[UIColor grayColor];
-   [self.viewBase addSubview:_pageView];
     NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
     _pageNo=numberOfPages.integerValue;
     
@@ -112,19 +115,8 @@
         [self.navigationController popViewControllerAnimated:YES];
 
     }else{
-        [_pageView removeFromSuperview];
-        
-        _pageNumber--;
-        _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
-        
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
-        for (UIView *subview in [_pageView subviews]) {
-            if ([subview isKindOfClass:[UIImageView class]]) {
-                subview.frame = self.view.bounds;
-            }
-        }
-
-        [self.viewBase addSubview:_pageView];
+         _pageNumber--;
+             [self loadPageWithOption:_option];
 
     }
 }
@@ -132,16 +124,13 @@
 - (IBAction)nextButton:(id)sender {
     _pageNumber++;
     if (_pageNumber<(_pageNo)) {
-        [_pageView removeFromSuperview];
-        _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
-
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
+        [self loadPageWithOption:_option];
         
         /// default is icons_play.png
         if (_option==0) {
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         }else{
-            
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
         }
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
@@ -162,8 +151,13 @@
         }else{
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
+            [self closeButton:nil];
         }
     }else{
+        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+        [self loadPageWithOption:0];
+        [self closeButton:nil];
+
         
     }
     
@@ -178,8 +172,29 @@
     }else{
         _audioMappingViewController.player=nil;
     }
+    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+
     [_audioMappingViewController.timer invalidate];
 }
+-(void)loadPageWithOption:(NSInteger)option{
+    [_pageView removeFromSuperview];
+    _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+    
+    _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
+    _pageView.frame=self.view.bounds;
+    for (UIView *subview in [_pageView subviews]) {
+        if ([subview isKindOfClass:[UIImageView class]]) {
+            subview.frame = self.view.bounds;
+        }
+    }
+    [self.viewBase addSubview:_pageView];
+    if (_option==0) {
+        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
 
+    }else{
+        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+
+    }
+}
 
 @end
