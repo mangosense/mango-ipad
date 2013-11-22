@@ -78,7 +78,6 @@
 @synthesize photoPopoverController;
 @synthesize audioMappingViewController;
 @synthesize storyBook;
-static AudioMappingViewController *audioMappingViewcontroller;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -691,10 +690,8 @@ static AudioMappingViewController *audioMappingViewcontroller;
     
     return coverPageImage;
 }
-+(void)stopPlaying{
-    [audioMappingViewcontroller.player stop];
-}
-+ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
+
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
@@ -728,7 +725,6 @@ static AudioMappingViewController *audioMappingViewcontroller;
             audioMappingViewcontroller.customView.frame = textFrame;
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
-        //    readerAudioMappingViewController.textForMapping = textOnPage;
             [audioMappingViewcontroller.customView setNeedsDisplay];
             NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
             NSMutableArray *wordMap=[[NSMutableArray alloc]init];
@@ -747,8 +743,7 @@ static AudioMappingViewController *audioMappingViewcontroller;
                 [wordMap addObject:numberIntTimer];
                 
             }
-         //   cues=[[NSArray alloc]initWithArray:wordMap];
-            //NSLog(@"wordmap %@ %@",wordMap[0],cues[0]);
+
             audioMappingViewcontroller.customView.text=wordMapDict;
             audioMappingViewcontroller.cues=wordMap;
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
