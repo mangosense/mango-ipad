@@ -365,7 +365,8 @@ static UIAlertView *alertViewLoading;
             [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
             
         }
-       
+        // adding to database
+
         identity=@2;
         if (![_dataModel checkIfIdExists:identity]) {
             Book *book= [_dataModel getBookInstance];

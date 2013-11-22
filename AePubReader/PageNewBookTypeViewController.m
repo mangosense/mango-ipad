@@ -10,7 +10,6 @@
 #import "AePubReaderAppDelegate.h"
 #import "LanguageChoiceViewController.h"
 #import "CustomMappingView.h"
-#import "AudioMappingViewController.h"
 @interface PageNewBookTypeViewController ()
 
 @end
@@ -79,7 +78,8 @@
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [MangoEditorViewController stopPlaying];
+    [_audioMappingViewController.timer invalidate];
+    [_audioMappingViewController.player stop];
 }
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;

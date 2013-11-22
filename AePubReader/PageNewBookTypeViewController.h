@@ -10,6 +10,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "MangoEditorViewController.h"
+#import "AudioMappingViewController.h"
 
 #import "DismissPopOver.h"
 @interface PageNewBookTypeViewController : UIViewController<DismissPopOver>
@@ -34,4 +35,5 @@
 @property(retain,nonatomic) NSString *jsonContent;
 @property(assign,nonatomic) NSInteger pageNo;
 @property(retain,nonatomic) UIPopoverController *pop;
+@property(retain,nonatomic) AudioMappingViewController *audioMappingViewController;
 @end

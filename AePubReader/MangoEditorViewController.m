@@ -693,6 +693,8 @@ static AudioMappingViewController *audioMappingViewcontroller;
 }
 +(void)stopPlaying{
     [audioMappingViewcontroller.player stop];
+  //  [AudioMappingViewController.t]
+    
 }
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
