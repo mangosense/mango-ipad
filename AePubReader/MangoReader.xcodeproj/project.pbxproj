@@ -127,19 +127,12 @@
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		83722AA4183C811E0007678E /* hungry.json in Resources */ = {isa = PBXBuildFile; fileRef = 83722A28183C811E0007678E /* hungry.json */; };
-		83722AA5183C811E0007678E /* 3bd609c374.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A2B183C811E0007678E /* 3bd609c374.mp3 */; };
 		83722AA6183C811E0007678E /* 3bd609c374.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A2C183C811E0007678E /* 3bd609c374.ogg */; };
-		83722AA7183C811E0007678E /* 6d31495625.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A2D183C811E0007678E /* 6d31495625.mp3 */; };
 		83722AA8183C811E0007678E /* 6d31495625.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A2E183C811E0007678E /* 6d31495625.ogg */; };
-		83722AA9183C811E0007678E /* 805d210b8c.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A2F183C811E0007678E /* 805d210b8c.mp3 */; };
 		83722AAA183C811E0007678E /* 805d210b8c.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A30183C811E0007678E /* 805d210b8c.ogg */; };
-		83722AAB183C811E0007678E /* d266c80bb5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A31183C811E0007678E /* d266c80bb5.mp3 */; };
 		83722AAC183C811E0007678E /* d266c80bb5.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A32183C811E0007678E /* d266c80bb5.ogg */; };
-		83722AAD183C811E0007678E /* dbfb30531b.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A33183C811E0007678E /* dbfb30531b.mp3 */; };
 		83722AAE183C811E0007678E /* dbfb30531b.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A34183C811E0007678E /* dbfb30531b.ogg */; };
-		83722AAF183C811E0007678E /* e123e798f4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A35183C811E0007678E /* e123e798f4.mp3 */; };
 		83722AB0183C811E0007678E /* e123e798f4.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A36183C811E0007678E /* e123e798f4.ogg */; };
-		83722AB1183C811E0007678E /* f57805964d.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A37183C811E0007678E /* f57805964d.mp3 */; };
 		83722AB2183C811E0007678E /* f57805964d.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A38183C811E0007678E /* f57805964d.ogg */; };
 		83722AB3183C811E0007678E /* 528baa146a756d1b97870000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A3A183C811E0007678E /* 528baa146a756d1b97870000.jpg */; };
 		83722AB4183C811E0007678E /* 528baa186a756d1b97880000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A3B183C811E0007678E /* 528baa186a756d1b97880000.jpg */; };
@@ -187,21 +180,13 @@
 		83722ADE183C811E0007678E /* updown_528baa356a756d1b978e0000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A65183C811E0007678E /* updown_528baa356a756d1b978e0000.jpg */; };
 		83722ADF183C811E0007678E /* updown_528baa3b6a756d1b978f0000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A66183C811E0007678E /* updown_528baa3b6a756d1b978f0000.jpg */; };
 		83722AE0183C811E0007678E /* kokku.json in Resources */ = {isa = PBXBuildFile; fileRef = 83722A68183C811E0007678E /* kokku.json */; };
-		83722AE1183C811E0007678E /* 2eb9ab9ed1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A6B183C811E0007678E /* 2eb9ab9ed1.mp3 */; };
 		83722AE2183C811E0007678E /* 2eb9ab9ed1.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A6C183C811E0007678E /* 2eb9ab9ed1.ogg */; };
-		83722AE3183C811E0007678E /* 33106db91e.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A6D183C811E0007678E /* 33106db91e.mp3 */; };
 		83722AE4183C811E0007678E /* 33106db91e.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A6E183C811E0007678E /* 33106db91e.ogg */; };
-		83722AE5183C811E0007678E /* 4574fe5e16.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A6F183C811E0007678E /* 4574fe5e16.mp3 */; };
 		83722AE6183C811E0007678E /* 4574fe5e16.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A70183C811E0007678E /* 4574fe5e16.ogg */; };
-		83722AE7183C811E0007678E /* 4f11bba7c5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A71183C811E0007678E /* 4f11bba7c5.mp3 */; };
 		83722AE8183C811E0007678E /* 4f11bba7c5.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A72183C811E0007678E /* 4f11bba7c5.ogg */; };
-		83722AE9183C811E0007678E /* 7b42bbe5f5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A73183C811E0007678E /* 7b42bbe5f5.mp3 */; };
 		83722AEA183C811E0007678E /* 7b42bbe5f5.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A74183C811E0007678E /* 7b42bbe5f5.ogg */; };
-		83722AEB183C811E0007678E /* 9a912f63fc.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A75183C811E0007678E /* 9a912f63fc.mp3 */; };
 		83722AEC183C811E0007678E /* 9a912f63fc.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A76183C811E0007678E /* 9a912f63fc.ogg */; };
-		83722AED183C811E0007678E /* b44bf0ff28.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A77183C811E0007678E /* b44bf0ff28.mp3 */; };
 		83722AEE183C811E0007678E /* b44bf0ff28.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A78183C811E0007678E /* b44bf0ff28.ogg */; };
-		83722AEF183C811E0007678E /* c3278892c6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83722A79183C811E0007678E /* c3278892c6.mp3 */; };
 		83722AF0183C811E0007678E /* c3278892c6.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A7A183C811E0007678E /* c3278892c6.ogg */; };
 		83722AF1183C811E0007678E /* 528bb7746a756d1b97dd0000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A7C183C811E0007678E /* 528bb7746a756d1b97dd0000.jpg */; };
 		83722AF2183C811E0007678E /* 528bb7786a756d1b97de0000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83722A7D183C811E0007678E /* 528bb7786a756d1b97de0000.jpg */; };
@@ -301,39 +286,22 @@
 		83DD9BBD181133F9004C975F /* PageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BBC181133F9004C975F /* PageInfo.m */; };
 		83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E723CD17BA058D0083DBD6 /* camera_gray_round.png */; };
 		83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */; };
-		83F486C118016CEE00AE3AAE /* 090617004f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867618016CEE00AE3AAE /* 090617004f.mp3 */; };
 		83F486C218016CEE00AE3AAE /* 0dd7068ae5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867718016CEE00AE3AAE /* 0dd7068ae5.jpg */; };
 		83F486C318016CEE00AE3AAE /* 0eba11eaa5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867818016CEE00AE3AAE /* 0eba11eaa5.jpg */; };
 		83F486C418016CEE00AE3AAE /* 178cc3bdef.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867918016CEE00AE3AAE /* 178cc3bdef.jpg */; };
-		83F486C518016CEE00AE3AAE /* 26b90983f6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867A18016CEE00AE3AAE /* 26b90983f6.mp3 */; };
-		83F486C718016CEE00AE3AAE /* 3f550b42a9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867C18016CEE00AE3AAE /* 3f550b42a9.mp3 */; };
-		83F486C818016CEE00AE3AAE /* 42894322b7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867D18016CEE00AE3AAE /* 42894322b7.mp3 */; };
-		83F486C918016CEE00AE3AAE /* 42dc5a4d20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867E18016CEE00AE3AAE /* 42dc5a4d20.mp3 */; };
-		83F486CA18016CEE00AE3AAE /* 46cd30fcc6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4867F18016CEE00AE3AAE /* 46cd30fcc6.mp3 */; };
-		83F486CB18016CEE00AE3AAE /* 513f317f3a.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868018016CEE00AE3AAE /* 513f317f3a.mp3 */; };
 		83F486CC18016CEE00AE3AAE /* 5f638a921a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868118016CEE00AE3AAE /* 5f638a921a.jpg */; };
-		83F486CD18016CEE00AE3AAE /* 62b596d92a.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868218016CEE00AE3AAE /* 62b596d92a.mp3 */; };
-		83F486CE18016CEE00AE3AAE /* 682d512a22.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868318016CEE00AE3AAE /* 682d512a22.mp3 */; };
 		83F486CF18016CEE00AE3AAE /* 785280d20e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868418016CEE00AE3AAE /* 785280d20e.jpg */; };
-		83F486D018016CEE00AE3AAE /* 83e71d12cc.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868518016CEE00AE3AAE /* 83e71d12cc.mp3 */; };
-		83F486D118016CEE00AE3AAE /* 8a0e1da6df.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868618016CEE00AE3AAE /* 8a0e1da6df.mp3 */; };
 		83F486D218016CEE00AE3AAE /* 94cca8b708.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868718016CEE00AE3AAE /* 94cca8b708.jpg */; };
-		83F486D318016CEE00AE3AAE /* 9baf392191.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868818016CEE00AE3AAE /* 9baf392191.mp3 */; };
 		83F486D418016CEE00AE3AAE /* 9ca7241270.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868918016CEE00AE3AAE /* 9ca7241270.jpg */; };
 		83F486D518016CEE00AE3AAE /* 9f9e194728.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868A18016CEE00AE3AAE /* 9f9e194728.jpg */; };
-		83F486D618016CEE00AE3AAE /* a1cf4912c1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868B18016CEE00AE3AAE /* a1cf4912c1.mp3 */; };
 		83F486D718016CEE00AE3AAE /* a76a4575df.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868C18016CEE00AE3AAE /* a76a4575df.jpg */; };
 		83F486D918016CEE00AE3AAE /* bee3dac799.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4868E18016CEE00AE3AAE /* bee3dac799.jpg */; };
 		83F486DB18016CEE00AE3AAE /* da2b0bbd43.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869018016CEE00AE3AAE /* da2b0bbd43.jpg */; };
 		83F486DC18016CEE00AE3AAE /* e42f00ccde.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869118016CEE00AE3AAE /* e42f00ccde.jpg */; };
-		83F486DD18016CEE00AE3AAE /* e633a8bf89.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869218016CEE00AE3AAE /* e633a8bf89.mp3 */; };
-		83F486DE18016CEE00AE3AAE /* e6ff2f1229.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869318016CEE00AE3AAE /* e6ff2f1229.mp3 */; };
-		83F486DF18016CEE00AE3AAE /* e797d86055.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869418016CEE00AE3AAE /* e797d86055.mp3 */; };
 		83F486E018016CEE00AE3AAE /* f0dfbbe45a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869518016CEE00AE3AAE /* f0dfbbe45a.jpg */; };
 		83F486E118016CEE00AE3AAE /* f59528d677.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869618016CEE00AE3AAE /* f59528d677.jpg */; };
 		83F486E218016CEE00AE3AAE /* f833615fd0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869718016CEE00AE3AAE /* f833615fd0.jpg */; };
 		83F486E318016CEE00AE3AAE /* original_0dd7068ae5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869818016CEE00AE3AAE /* original_0dd7068ae5.jpg */; };
-		83F486E518016CEE00AE3AAE /* 228b977b62.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869B18016CEE00AE3AAE /* 228b977b62.mp3 */; };
 		83F486E618016CEE00AE3AAE /* 274f131337.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869C18016CEE00AE3AAE /* 274f131337.jpg */; };
 		83F486E718016CEE00AE3AAE /* 2b9713c03f.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869D18016CEE00AE3AAE /* 2b9713c03f.jpg */; };
 		83F486E818016CEE00AE3AAE /* 2ea13ac167.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F4869E18016CEE00AE3AAE /* 2ea13ac167.jpg */; };
@@ -342,28 +310,14 @@
 		83F486EB18016CEE00AE3AAE /* 4757f7d9a2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A118016CEE00AE3AAE /* 4757f7d9a2.jpg */; };
 		83F486EC18016CEE00AE3AAE /* 4c2596ad16.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A218016CEE00AE3AAE /* 4c2596ad16.jpg */; };
 		83F486ED18016CEE00AE3AAE /* 6dc3c82fc8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A318016CEE00AE3AAE /* 6dc3c82fc8.jpg */; };
-		83F486EE18016CEE00AE3AAE /* 85b81b5cf9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A418016CEE00AE3AAE /* 85b81b5cf9.mp3 */; };
-		83F486EF18016CEE00AE3AAE /* 890a2a0fae.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A518016CEE00AE3AAE /* 890a2a0fae.mp3 */; };
 		83F486F018016CEE00AE3AAE /* 9c1da94ceb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A618016CEE00AE3AAE /* 9c1da94ceb.jpg */; };
-		83F486F118016CEE00AE3AAE /* 9e6c7d9426.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A718016CEE00AE3AAE /* 9e6c7d9426.mp3 */; };
-		83F486F218016CEE00AE3AAE /* 9f71525717.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A818016CEE00AE3AAE /* 9f71525717.mp3 */; };
 		83F486F318016CEE00AE3AAE /* a234d6c933.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486A918016CEE00AE3AAE /* a234d6c933.jpg */; };
-		83F486F418016CEE00AE3AAE /* bf09a6c1f0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486AA18016CEE00AE3AAE /* bf09a6c1f0.mp3 */; };
-		83F486F518016CEE00AE3AAE /* c0de018411.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486AB18016CEE00AE3AAE /* c0de018411.mp3 */; };
 		83F486F618016CEE00AE3AAE /* original_5d6b329ad8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486AC18016CEE00AE3AAE /* original_5d6b329ad8.jpg */; };
 		83F486F718016CEE00AE3AAE /* 051d26889e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486AE18016CEE00AE3AAE /* 051d26889e.jpg */; };
-		83F486F818016CEE00AE3AAE /* 1029a58ea9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486AF18016CEE00AE3AAE /* 1029a58ea9.mp3 */; };
 		83F486F918016CEE00AE3AAE /* 13e2afef9e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B018016CEE00AE3AAE /* 13e2afef9e.jpg */; };
-		83F486FA18016CEE00AE3AAE /* 20c73328a4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B118016CEE00AE3AAE /* 20c73328a4.mp3 */; };
-		83F486FB18016CEE00AE3AAE /* 2b97f929e6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B218016CEE00AE3AAE /* 2b97f929e6.mp3 */; };
-		83F486FC18016CEE00AE3AAE /* 2e460f9356.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B318016CEE00AE3AAE /* 2e460f9356.mp3 */; };
-		83F486FD18016CEE00AE3AAE /* 340accb841.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B418016CEE00AE3AAE /* 340accb841.mp3 */; };
-		83F486FE18016CEE00AE3AAE /* 3494af995f.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B518016CEE00AE3AAE /* 3494af995f.mp3 */; };
 		83F486FF18016CEE00AE3AAE /* 8716c8b1c3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B618016CEE00AE3AAE /* 8716c8b1c3.jpg */; };
 		83F4870018016CEE00AE3AAE /* a2dcf21fd0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B718016CEE00AE3AAE /* a2dcf21fd0.jpg */; };
-		83F4870118016CEE00AE3AAE /* abf21d4c90.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B818016CEE00AE3AAE /* abf21d4c90.mp3 */; };
 		83F4870218016CEE00AE3AAE /* b392a58a49.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486B918016CEE00AE3AAE /* b392a58a49.jpg */; };
-		83F4870318016CEE00AE3AAE /* cb60777297.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BA18016CEE00AE3AAE /* cb60777297.mp3 */; };
 		83F4870418016CEE00AE3AAE /* e1b23e9390.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BB18016CEE00AE3AAE /* e1b23e9390.jpg */; };
 		83F4870518016CEE00AE3AAE /* e6d62b1da8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BC18016CEE00AE3AAE /* e6d62b1da8.jpg */; };
 		83F4870618016CEE00AE3AAE /* e7a279edd3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83F486BD18016CEE00AE3AAE /* e7a279edd3.jpg */; };
@@ -3178,7 +3132,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				83722AF2183C811E0007678E /* 528bb7786a756d1b97de0000.jpg in Resources */,
-				83722AAB183C811E0007678E /* d266c80bb5.mp3 in Resources */,
 				83722AD4183C811E0007678E /* thumb_528baa306a756d1b978d0000.jpg in Resources */,
 				AE576059161AF46D00C6EEC6 /* playvideo.js in Resources */,
 				AEEB9B8716A40FAA00E91603 /* rangy.js in Resources */,
@@ -3196,7 +3149,6 @@
 				FA307A3D1371E2B000959622 /* ChapterListViewController.xib in Resources */,
 				834FCE31182D11F70000181B /* imagebutton_selected.png in Resources */,
 				FA881E4E1372CA9200FBD25F /* orangeslide.png in Resources */,
-				83F486D018016CEE00AE3AAE /* 83e71d12cc.mp3 in Resources */,
 				83722AD8183C811E0007678E /* updown_528baa186a756d1b97880000.jpg in Resources */,
 				FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */,
 				FA881E501372CA9200FBD25F /* yellowslide.png in Resources */,
@@ -3215,7 +3167,6 @@
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
 				FA11956613BA93F100025A2B /* EPubView.xib in Resources */,
 				83722AEC183C811E0007678E /* 9a912f63fc.ogg in Resources */,
-				83722AA5183C811E0007678E /* 3bd609c374.mp3 in Resources */,
 				83F486D718016CEE00AE3AAE /* a76a4575df.jpg in Resources */,
 				83F486E018016CEE00AE3AAE /* f0dfbbe45a.jpg in Resources */,
 				AE0C938C183E0B58008E4D54 /* icons_text.png in Resources */,
@@ -3235,7 +3186,6 @@
 				AE7FEDE21615A16100C4B51D /* book-shelf.png in Resources */,
 				AE0C935B183DE117008E4D54 /* hungry.zip in Resources */,
 				AE7FEE061615CF7000C4B51D /* logo.png in Resources */,
-				83F4870118016CEE00AE3AAE /* abf21d4c90.mp3 in Resources */,
 				AE576060161B0E1E00C6EEC6 /* closebutton.png in Resources */,
 				834FCE3E182D11F70000181B /* no_button_pressed.png in Resources */,
 				83722B14183C811E0007678E /* updown_528bb7816a756d1b97e00000.jpg in Resources */,
@@ -3260,12 +3210,10 @@
 				AE7FEF2D161F1B4C00181CE8 /* logo1.png in Resources */,
 				83F486E918016CEE00AE3AAE /* 30c01b67e6.jpg in Resources */,
 				AE7FEF2F161F1BAB00181CE8 /* bookshadow.png in Resources */,
-				83F486FD18016CEE00AE3AAE /* 340accb841.mp3 in Resources */,
 				83722AC7183C811E0007678E /* original_528baa1d6a756d1b97890000.jpg in Resources */,
 				83722AE2183C811E0007678E /* 2eb9ab9ed1.ogg in Resources */,
 				AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */,
 				AE9D4C70162C198700352FF8 /* arrow next.png in Resources */,
-				83F486C918016CEE00AE3AAE /* 42dc5a4d20.mp3 in Resources */,
 				AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */,
 				83722AA4183C811E0007678E /* hungry.json in Resources */,
 				AE0C936C183DEB59008E4D54 /* rectangle_books.png in Resources */,
@@ -3273,7 +3221,6 @@
 				83722AB5183C811E0007678E /* 528baa1d6a756d1b97890000.jpg in Resources */,
 				AEF8CDE1162E709A00094C62 /* download-button.png in Resources */,
 				AE195E7D181E2E17008E4208 /* NewStoreCoverViewController.xib in Resources */,
-				83722AA9183C811E0007678E /* 805d210b8c.mp3 in Resources */,
 				AEF8CDE8162E99BF00094C62 /* Default-Landscape~ipad.png in Resources */,
 				834FCE24182D11F70000181B /* collaborationbutton_selected.png in Resources */,
 				83722B15183C811E0007678E /* updown_528bb7866a756d1b97e10000.jpg in Resources */,
@@ -3284,7 +3231,6 @@
 				AEF8CDF1162EAC6E00094C62 /* actions.png in Resources */,
 				834FCE21182D11F70000181B /* close_big_button.png in Resources */,
 				834FCE33182D11F70000181B /* italic_button_selected.png in Resources */,
-				83F486F118016CEE00AE3AAE /* 9e6c7d9426.mp3 in Resources */,
 				AE031AC61830D7140042236D /* sunselected.png in Resources */,
 				83722AD2183C811E0007678E /* thumb_528baa276a756d1b978b0000.jpg in Resources */,
 				AEEBA8DA16354E160023AE51 /* mangoreader-app-icon-72X72-7.png in Resources */,
@@ -3294,7 +3240,6 @@
 				834FCE39182D11F70000181B /* menubutton_selected.png in Resources */,
 				AE9793F91650B01F00DBB5D1 /* SignUpViewController.xib in Resources */,
 				AE9BFBAC16537C12000DDEB1 /* LiveViewController.xib in Resources */,
-				83F486F218016CEE00AE3AAE /* 9f71525717.mp3 in Resources */,
 				AE9BFBB116537F44000DDEB1 /* PopPurchaseViewController.xib in Resources */,
 				AE0C9386183E096D008E4D54 /* icons_editimage.png in Resources */,
 				AE3E0F281653F4B800625CEB /* cart@2x.png in Resources */,
@@ -3306,17 +3251,14 @@
 				AE9A1869165E583600B5E594 /* dropdown.png in Resources */,
 				83722ABF183C811E0007678E /* leftright_528baa226a756d1b978a0000.jpg in Resources */,
 				AEE26AD7165F8EE70021B4AA /* purchase-button.png in Resources */,
-				83722AAD183C811E0007678E /* dbfb30531b.mp3 in Resources */,
 				AEAC09D51664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png in Resources */,
 				AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */,
 				83722AD9183C811E0007678E /* updown_528baa1d6a756d1b97890000.jpg in Resources */,
-				83F486DD18016CEE00AE3AAE /* e633a8bf89.mp3 in Resources */,
 				AE266FCA183B4881001A8CB8 /* button_store.png in Resources */,
 				83F4870518016CEE00AE3AAE /* e6d62b1da8.jpg in Resources */,
 				83722ACB183C811E0007678E /* original_528baa306a756d1b978d0000.jpg in Resources */,
 				AEEF8473166C90FB0098BAA2 /* LoginViewControllerIphone.xib in Resources */,
 				AEFA9BF6166CC44200A60A12 /* SignUpViewControllerIphone.xib in Resources */,
-				83F486C718016CEE00AE3AAE /* 3f550b42a9.mp3 in Resources */,
 				834FCE27182D11F70000181B /* discard_button_pressed.png in Resources */,
 				AE266FC0183B45D7001A8CB8 /* LandPageChoiceViewController.xib in Resources */,
 				AE8CA74A183C758B006BA6BA /* kokku.zip in Resources */,
@@ -3334,7 +3276,6 @@
 				AE4BB731183CD7AB004F20C5 /* icons_back2.png in Resources */,
 				AE1C6C24167217F20090DFDD /* sign-in-button-iphone4.png in Resources */,
 				AE1C6C25167217F20090DFDD /* sign-up-button-iphone4.png in Resources */,
-				83F486C118016CEE00AE3AAE /* 090617004f.mp3 in Resources */,
 				83722AB2183C811E0007678E /* f57805964d.ogg in Resources */,
 				83722AD1183C811E0007678E /* thumb_528baa226a756d1b978a0000.jpg in Resources */,
 				AE1C6C27167219320090DFDD /* facebook-login-button-iphone3.png in Resources */,
@@ -3345,16 +3286,13 @@
 				AE1C6C2D16721A6D0090DFDD /* sign-up-button-iphone3.png in Resources */,
 				AE1C6C2F16721DD00090DFDD /* mangoreader-iphone5-signup.png in Resources */,
 				834FCE20182D11F70000181B /* bold_button_selected.png in Resources */,
-				83722AEF183C811E0007678E /* c3278892c6.mp3 in Resources */,
 				83722AFF183C811E0007678E /* leftright_528bb78f6a756d1b97e30000.jpg in Resources */,
-				83722AEB183C811E0007678E /* 9a912f63fc.mp3 in Resources */,
 				83722AF8183C811E0007678E /* 528bb7936a756d1b97e40000.jpg in Resources */,
 				834FCE13182D11F70000181B /* addaudio_button.png in Resources */,
 				834FCE44182D11F70000181B /* playbutton_selected.png in Resources */,
 				834FCE1F182D11F70000181B /* bold_button.png in Resources */,
 				AE1C6C3216721EBB0090DFDD /* download-button-iphone3.png in Resources */,
 				834FCE1C182D11F70000181B /* audioicon.png in Resources */,
-				83722AB1183C811E0007678E /* f57805964d.mp3 in Resources */,
 				AE0C9364183DE78C008E4D54 /* icon_language_reference.png in Resources */,
 				AE1C6C3316721EBB0090DFDD /* purchase-button-iphone3.png in Resources */,
 				AE731C581675C2DE00FE8F19 /* f-mangoreader-desktop-login-bg.png in Resources */,
@@ -3363,12 +3301,9 @@
 				834FCE37182D11F70000181B /* mangoicon_orange.png in Resources */,
 				83722AF4183C811E0007678E /* 528bb7816a756d1b97e00000.jpg in Resources */,
 				AE731C5A1675C36200FE8F19 /* facebook-login-button.png in Resources */,
-				83F486D618016CEE00AE3AAE /* a1cf4912c1.mp3 in Resources */,
 				AE731C5C1675C3AF00FE8F19 /* or-button.png in Resources */,
 				AE731C6F1675FB4100FE8F19 /* mangoreader-app-icon-114X114.png in Resources */,
 				83722ADB183C811E0007678E /* updown_528baa276a756d1b978b0000.jpg in Resources */,
-				83722AE5183C811E0007678E /* 4574fe5e16.mp3 in Resources */,
-				83722AA7183C811E0007678E /* 6d31495625.mp3 in Resources */,
 				AE031ABD1830D5FF0042236D /* sselected.png in Resources */,
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
 				834FCE2C182D11F70000181B /* hitosync_active_button.png in Resources */,
@@ -3379,20 +3314,17 @@
 				AE5FC0261677300B00BB9AED /* or-iphone5.png in Resources */,
 				83722AB0183C811E0007678E /* e123e798f4.ogg in Resources */,
 				AE5B19D9167F21B4000FFADA /* skip-button.png in Resources */,
-				83F486F818016CEE00AE3AAE /* 1029a58ea9.mp3 in Resources */,
 				83722AE4183C811E0007678E /* 33106db91e.ogg in Resources */,
 				AEDF1810168AC5020087064A /* Draw-control.png in Resources */,
 				83722AFC183C811E0007678E /* leftright_528bb7816a756d1b97e00000.jpg in Resources */,
 				AEDF1812168AC5020087064A /* game-control.png in Resources */,
 				83722AEE183C811E0007678E /* b44bf0ff28.ogg in Resources */,
-				83F486FC18016CEE00AE3AAE /* 2e460f9356.mp3 in Resources */,
 				83722B03183C811E0007678E /* original_528bb77d6a756d1b97df0000.jpg in Resources */,
 				AEDF1816168AC5020087064A /* library-icon.png in Resources */,
 				834FCE62182D11F70000181B /* take_picture_button_pressed.png in Resources */,
 				AEDF1817168AC5020087064A /* mango-icon.png in Resources */,
 				834FCE65182D11F70000181B /* translate_button.png in Resources */,
 				834FCE5A182D11F70000181B /* start_button_pressed.png in Resources */,
-				83F486FE18016CEE00AE3AAE /* 3494af995f.mp3 in Resources */,
 				83722ABD183C811E0007678E /* leftright_528baa186a756d1b97880000.jpg in Resources */,
 				AEDF1818168AC5020087064A /* next-button.png in Resources */,
 				AEDF1819168AC5020087064A /* pause-control.png in Resources */,
@@ -3415,7 +3347,6 @@
 				AED05F9B168CBCBA00D27EF3 /* stop-recording-control.png in Resources */,
 				AED05F9D168CBCBE00D27EF3 /* start-recording-control.png in Resources */,
 				AECA3EBB1690BB5D002D97D4 /* ShowViewController.xib in Resources */,
-				83F486D318016CEE00AE3AAE /* 9baf392191.mp3 in Resources */,
 				AED53B2A16914AC30061A600 /* DetailsViewController.xib in Resources */,
 				834FCE1A182D11F70000181B /* audiobutton.png in Resources */,
 				AED53B3116916CAF0061A600 /* icon.png in Resources */,
@@ -3434,10 +3365,8 @@
 				834FCE6A182D11F70000181B /* upload_button_pressed.png in Resources */,
 				834FCE1B182D11F70000181B /* audiobutton_selected.png in Resources */,
 				834FCE52182D11F70000181B /* save_button.png in Resources */,
-				83F486EE18016CEE00AE3AAE /* 85b81b5cf9.mp3 in Resources */,
 				834FCE6C182D11F70000181B /* yes_button_pressed.png in Resources */,
 				AEF6A16416959B5E00ECAE7E /* ViewController.xib in Resources */,
-				83F486EF18016CEE00AE3AAE /* 890a2a0fae.mp3 in Resources */,
 				834FCE54182D11F70000181B /* saveandclose_button.png in Resources */,
 				834FCE66182D11F70000181B /* translate_button_pressed.png in Resources */,
 				AE4BB73A183CDC55004F20C5 /* libraryscreen_loading_bg.png in Resources */,
@@ -3459,7 +3388,6 @@
 				83722B18183C811E0007678E /* updown_528bb7936a756d1b97e40000.jpg in Resources */,
 				83F486F318016CEE00AE3AAE /* a234d6c933.jpg in Resources */,
 				834FCE18182D11F70000181B /* addtopage_button.png in Resources */,
-				83722AE7183C811E0007678E /* 4f11bba7c5.mp3 in Resources */,
 				83F486F918016CEE00AE3AAE /* 13e2afef9e.jpg in Resources */,
 				AEE103BE169C023400AEEEFB /* librarytext.png in Resources */,
 				AEFEB756169D9089009B299D /* backimageiphonen.png in Resources */,
@@ -3480,7 +3408,6 @@
 				834FCE50182D11F70000181B /* rightmark.png in Resources */,
 				AEB7AE0816B94994009844B0 /* nh.png in Resources */,
 				834FCE47182D11F70000181B /* recordaudio_button.png in Resources */,
-				83F486DE18016CEE00AE3AAE /* e6ff2f1229.mp3 in Resources */,
 				AE266FD5183B4E7E001A8CB8 /* traditional.png in Resources */,
 				AEB7AE0A16B9499B009844B0 /* search.png in Resources */,
 				AEB7AE0C16B949A2009844B0 /* toc.png in Resources */,
@@ -3491,7 +3418,6 @@
 				AE67FD4B16BA6BFC00E91A01 /* WebPageViewIphonebig.xib in Resources */,
 				83F486E318016CEE00AE3AAE /* original_0dd7068ae5.jpg in Resources */,
 				834FCE55182D11F70000181B /* saveandclose_button_pressed.png in Resources */,
-				83F486FB18016CEE00AE3AAE /* 2b97f929e6.mp3 in Resources */,
 				AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */,
 				AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */,
 				834FCE5B182D11F70000181B /* stopsync_button.png in Resources */,
@@ -3555,7 +3481,6 @@
 				AE1D51201752600900D2F25E /* PhoneContent.xib in Resources */,
 				834FCE1D182D11F70000181B /* back_button.png in Resources */,
 				83722AC6183C811E0007678E /* original_528baa186a756d1b97880000.jpg in Resources */,
-				83F486F418016CEE00AE3AAE /* bf09a6c1f0.mp3 in Resources */,
 				83722ACA183C811E0007678E /* original_528baa2b6a756d1b978c0000.jpg in Resources */,
 				AE0C9374183E06AC008E4D54 /* PageNewBookTypeViewController.xib in Resources */,
 				AE1D51221752606600D2F25E /* padContent.xib in Resources */,
@@ -3589,22 +3514,17 @@
 				AE8CA74C183C9C68006BA6BA /* icons_settings.png in Resources */,
 				839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */,
 				83722AF0183C811E0007678E /* c3278892c6.ogg in Resources */,
-				83722AE1183C811E0007678E /* 2eb9ab9ed1.mp3 in Resources */,
 				83722ACF183C811E0007678E /* thumb_528baa186a756d1b97880000.jpg in Resources */,
 				AE0C9390183E21EF008E4D54 /* storeipadapp_categories.jpg in Resources */,
 				834FCE41182D11F70000181B /* pause_button.png in Resources */,
 				AEDDF5D31768502100A4E194 /* 1094.epub in Resources */,
 				AE0C9358183DBC31008E4D54 /* circle1.png in Resources */,
-				83F486C518016CEE00AE3AAE /* 26b90983f6.mp3 in Resources */,
 				839DD8D717B4F3F3003B62C8 /* bringle-splash.png in Resources */,
-				83F486DF18016CEE00AE3AAE /* e797d86055.mp3 in Resources */,
-				83F486C818016CEE00AE3AAE /* 42894322b7.mp3 in Resources */,
 				839DD8D817B4F3F3003B62C8 /* green-splash.png in Resources */,
 				839DD8D917B4F3F3003B62C8 /* orange-splash.png in Resources */,
 				839DD8DA17B4F3F3003B62C8 /* peasgreen-splash.png in Resources */,
 				83722ABB183C811E0007678E /* 528baa3b6a756d1b978f0000.jpg in Resources */,
 				83722B0E183C811E0007678E /* thumb_528bb78b6a756d1b97e20000.jpg in Resources */,
-				83722AED183C811E0007678E /* b44bf0ff28.mp3 in Resources */,
 				839DD8DB17B4F3F3003B62C8 /* purple-splash.png in Resources */,
 				834FCE5D182D11F70000181B /* syncdone_button.png in Resources */,
 				83722AD0183C811E0007678E /* thumb_528baa1d6a756d1b97890000.jpg in Resources */,
@@ -3617,7 +3537,6 @@
 				83F486D418016CEE00AE3AAE /* 9ca7241270.jpg in Resources */,
 				83F486D518016CEE00AE3AAE /* 9f9e194728.jpg in Resources */,
 				83722ADE183C811E0007678E /* updown_528baa356a756d1b978e0000.jpg in Resources */,
-				83F486CD18016CEE00AE3AAE /* 62b596d92a.mp3 in Resources */,
 				83722ACE183C811E0007678E /* thumb_528baa146a756d1b97870000.jpg in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
 				834FCE36182D11F70000181B /* mangoicon.png in Resources */,
@@ -3627,13 +3546,11 @@
 				AE0C937E183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png in Resources */,
 				83F4870418016CEE00AE3AAE /* e1b23e9390.jpg in Resources */,
 				83722B0C183C811E0007678E /* thumb_528bb7816a756d1b97e00000.jpg in Resources */,
-				83722AE9183C811E0007678E /* 7b42bbe5f5.mp3 in Resources */,
 				83722AB7183C811E0007678E /* 528baa276a756d1b978b0000.jpg in Resources */,
 				83722AE8183C811E0007678E /* 4f11bba7c5.ogg in Resources */,
 				AE0C9377183E0743008E4D54 /* icons_back.png in Resources */,
 				83722B07183C811E0007678E /* original_528bb78f6a756d1b97e30000.jpg in Resources */,
 				83722ABE183C811E0007678E /* leftright_528baa1d6a756d1b97890000.jpg in Resources */,
-				83F486CB18016CEE00AE3AAE /* 513f317f3a.mp3 in Resources */,
 				83722AC4183C811E0007678E /* leftright_528baa3b6a756d1b978f0000.jpg in Resources */,
 				AE266FCF183B4E67001A8CB8 /* bedtime stories.png in Resources */,
 				83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */,
@@ -3641,11 +3558,8 @@
 				83722AA8183C811E0007678E /* 6d31495625.ogg in Resources */,
 				834FCE38182D11F70000181B /* menubutton.png in Resources */,
 				834FCE49182D11F70000181B /* recording_button.png in Resources */,
-				83F486F518016CEE00AE3AAE /* c0de018411.mp3 in Resources */,
 				83F486F018016CEE00AE3AAE /* 9c1da94ceb.jpg in Resources */,
 				834FCE5C182D11F70000181B /* stopsync_button_pressed.png in Resources */,
-				83F486CE18016CEE00AE3AAE /* 682d512a22.mp3 in Resources */,
-				83F486CA18016CEE00AE3AAE /* 46cd30fcc6.mp3 in Resources */,
 				83722B12183C811E0007678E /* updown_528bb7786a756d1b97de0000.jpg in Resources */,
 				83722AFA183C811E0007678E /* leftright_528bb7786a756d1b97de0000.jpg in Resources */,
 				834FCE4C182D11F70000181B /* refresh.png in Resources */,
@@ -3654,7 +3568,6 @@
 				83722AF6183C811E0007678E /* 528bb78b6a756d1b97e20000.jpg in Resources */,
 				AE266FD8183B4E7E001A8CB8 /* poems and rhymes.png in Resources */,
 				83722AB3183C811E0007678E /* 528baa146a756d1b97870000.jpg in Resources */,
-				83F486E518016CEE00AE3AAE /* 228b977b62.mp3 in Resources */,
 				AE0C9384183E0944008E4D54 /* icons_game.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
 				839BC59617BB9DF100F1E9C5 /* widgets in Resources */,
@@ -3681,11 +3594,9 @@
 				AE0C9378183E0743008E4D54 /* icons_next.png in Resources */,
 				8374AF1017CC66AB009DA792 /* coconut tree.png in Resources */,
 				83722AAA183C811E0007678E /* 805d210b8c.ogg in Resources */,
-				83722AAF183C811E0007678E /* e123e798f4.mp3 in Resources */,
 				AE0C9362183DE653008E4D54 /* reader_bookcover_bg.png in Resources */,
 				834FCE56182D11F70000181B /* scaletool.png in Resources */,
 				8374AF1117CC66AB009DA792 /* grass1.png in Resources */,
-				83722AE3183C811E0007678E /* 33106db91e.mp3 in Resources */,
 				AE031AC71830D7140042236D /* lunselected.png in Resources */,
 				8374AF1217CC66AB009DA792 /* hills-01.png in Resources */,
 				8374AF1317CC66AB009DA792 /* hills-02.png in Resources */,
@@ -3708,7 +3619,6 @@
 				83722AFE183C811E0007678E /* leftright_528bb78b6a756d1b97e20000.jpg in Resources */,
 				8374AF1A17CC66AB009DA792 /* rock_01.png in Resources */,
 				83F486DB18016CEE00AE3AAE /* da2b0bbd43.jpg in Resources */,
-				83F486D118016CEE00AE3AAE /* 8a0e1da6df.mp3 in Resources */,
 				8374AF1C17CC66AB009DA792 /* rock_03.png in Resources */,
 				8374AF1D17CC66AB009DA792 /* rock_04.png in Resources */,
 				834FCE28182D11F70000181B /* edittool.png in Resources */,
@@ -3719,9 +3629,7 @@
 				8374AF2117CC66AB009DA792 /* rock_08.png in Resources */,
 				834FCE53182D11F70000181B /* save_button_pressed.png in Resources */,
 				AE195E81181E2FD9008E4208 /* page.png in Resources */,
-				83F486FA18016CEE00AE3AAE /* 20c73328a4.mp3 in Resources */,
 				83F486E218016CEE00AE3AAE /* f833615fd0.jpg in Resources */,
-				83F4870318016CEE00AE3AAE /* cb60777297.mp3 in Resources */,
 				834FCE19182D11F70000181B /* addtopage_button_pressed.png in Resources */,
 				83F486C218016CEE00AE3AAE /* 0dd7068ae5.jpg in Resources */,
 				834FCE2D182D11F70000181B /* hitosync_active_button_pressed.png in Resources */,
@@ -3952,7 +3860,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3993,7 +3901,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (

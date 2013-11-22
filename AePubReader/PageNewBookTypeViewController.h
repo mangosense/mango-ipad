@@ -10,9 +10,11 @@
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "MangoEditorViewController.h"
+#import "AudioMappingViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 #import "DismissPopOver.h"
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver>
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate>
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
 - (IBAction)closeButton:(id)sender;
@@ -27,11 +29,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *showOptionButton;
 - (IBAction)previousButton:(id)sender;
 - (IBAction)nextButton:(id)sender;
+- (IBAction)playOrPauseButton:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *playOrPauseButton;
 @property(strong,nonatomic) Book *book;
 @property(assign,nonatomic) NSInteger pageNumber;
 @property(retain,nonatomic)UIView *pageView;
 @property(retain,nonatomic) NSString *jsonContent;
 @property(assign,nonatomic) NSInteger pageNo;
 @property(retain,nonatomic) UIPopoverController *pop;
+@property(retain,nonatomic) AudioMappingViewController *audioMappingViewController;
 @end

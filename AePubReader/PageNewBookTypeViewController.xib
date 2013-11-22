@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageNewBookTypeViewController">
             <connections>
+                <outlet property="playOrPauseButton" destination="cgX-74-zFh" id="fkW-W3-gwR"/>
                 <outlet property="rightView" destination="byr-W0-FeH" id="PSn-Mw-P6u"/>
                 <outlet property="showOptionButton" destination="qUg-c9-QZ7" id="hLM-s5-gzz"/>
                 <outlet property="view" destination="2" id="3"/>
@@ -47,6 +48,9 @@
                             <state key="normal" backgroundImage="icons_play.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="playOrPauseButton:" destination="-1" eventType="touchUpInside" id="JFC-Jr-ryK"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8dT-is-hLD">
                             <rect key="frame" x="38" y="355" width="90" height="94"/>

@@ -10,7 +10,6 @@
 #import "AePubReaderAppDelegate.h"
 #import "LanguageChoiceViewController.h"
 #import "CustomMappingView.h"
-#import "AudioMappingViewController.h"
 @interface PageNewBookTypeViewController ()
 
 @end
@@ -45,7 +44,9 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+    _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+
+    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
     _pageView.frame=self.view.bounds;
     for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
@@ -79,7 +80,8 @@
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [MangoEditorViewController stopPlaying];
+    [_audioMappingViewController.timer invalidate];
+    [_audioMappingViewController.player stop];
 }
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;
@@ -113,7 +115,9 @@
         [_pageView removeFromSuperview];
         
         _pageNumber--;
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+        _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+        
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
                 subview.frame = self.view.bounds;
@@ -129,7 +133,16 @@
     _pageNumber++;
     if (_pageNumber<(_pageNo)) {
         [_pageView removeFromSuperview];
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile];
+        _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
+        
+        /// default is icons_play.png
+        if (_option==0) {
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+        }else{
+            
+        }
         for (UIView *subview in [_pageView subviews]) {
             if ([subview isKindOfClass:[UIImageView class]]) {
                 subview.frame = self.view.bounds;
@@ -140,7 +153,33 @@
     }
    
 }
+
+- (IBAction)playOrPauseButton:(id)sender {
+    if (_audioMappingViewController.player) {
+        if ([_audioMappingViewController.player isPlaying]) {
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+            [_audioMappingViewController.player pause];
+        }else{
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+            [_audioMappingViewController.player play];
+        }
+    }else{
+        
+    }
+    
+}
 -(void)dismissPopOver{
     [_pop dismissPopoverAnimated:YES];
 }
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+    if (_option==0) {
+     /* Read By readToMe */
+        [self nextButton:nil];
+    }else{
+        _audioMappingViewController.player=nil;
+    }
+    [_audioMappingViewController.timer invalidate];
+}
+
+
 @end
