@@ -542,6 +542,18 @@
             NSArray *itemsArray = [NSArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
             pageTextView.text = [itemsArray objectAtIndex:index];
             [pageImageView addSubview:pageTextView];
+            
+            NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
+            NSMutableArray *layersArray = [pageDict objectForKey:LAYERS];
+            
+            NSMutableDictionary *textDict = [[NSMutableDictionary alloc] init];
+            [textDict setObject:pageTextView.text forKey:TEXT];
+            [textDict setObject:TEXT forKey:TYPE];
+            
+            [layersArray addObject:textDict];
+            
+            [pageDict setObject:layersArray forKey:LAYERS];
+            [pagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
         }
             break;
             
@@ -1058,23 +1070,40 @@ enum
     [audioRecorder stop];
     NSLog(@"stopped");
 
-    //[self saveAudio];
+    [self saveAudio];
 }
 
 - (void)saveAudio {
-    NSMutableDictionary *audioDict = [[NSMutableDictionary alloc] init];
-    [audioDict setObject:AUDIO forKey:TYPE];
+    NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
+    NSMutableArray *layersArray = [pageDict objectForKey:LAYERS];
+    
+    NSMutableDictionary *newAudioDict = [[NSMutableDictionary alloc] init];
+    [newAudioDict setObject:AUDIO forKey:TYPE];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
-    [audioDict setObject:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber] forKey:ASSET_URL];
+    NSString *sourceLocation=[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber];
+    NSString *destinationFolder=[sourceLocation lastPathComponent] ;
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/audios"],destinationFolder];
     
-    NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    //[[[[[jsonDict objectForKey:PAGES] objectAtIndex:currentPageNumber] objectForKey:@"json"] objectForKey:LAYERS] addObject:audioDict];
+    NSLog(@"%@ - %@", sourceLocation, destinationFolder);
+    NSError *error;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:destinationFolder]) {
+        [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:&error];
+        if (error) {
+            NSLog(@"%@",error);
+        }
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
     
-    NSData *newJsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONReadingAllowFragments error:nil];
-    bookJsonString = [[NSString alloc] initWithData:newJsonData encoding:NSUTF8StringEncoding];
+    [newAudioDict setObject:[NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber] forKey:ASSET_URL];
+    [layersArray addObject:newAudioDict];
+    
+    [pageDict setObject:layersArray forKey:LAYERS];
+    [pagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
+    
     [self renderEditorPage:currentPageNumber];
 }
 
@@ -1089,9 +1118,36 @@ enum
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
     
+    NSDictionary *pageDict;
+    for (NSDictionary *readerPageDict in pagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", currentPageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        } else if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"] && currentPageNumber == 0) {
+            pageDict = readerPageDict;
+            break;
+        }
+    }
+    
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    NSURL *audioUrl;
+    
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
+            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            break;
+        }
+    }
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
-    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+    NSURL *url;
+    if (audioUrl) {
+        url = audioUrl;
+    } else {
+        url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+    }
+    
     NSError *error;
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     audioPlayer.numberOfLoops = 0;
@@ -1138,9 +1194,10 @@ enum
             if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
                 if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
                     textFrame = CGRectMake(MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
-                    break;
                 }
             }
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
+            url = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         }
     }
 
