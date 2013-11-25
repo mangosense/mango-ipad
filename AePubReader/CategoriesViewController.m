@@ -10,6 +10,7 @@
 #import "SettingOptionViewController.h"
 #import "CategoriesFlexibleViewController.h"
 #import "AePubReaderAppDelegate.h"
+#import "BooksFromCategoryViewController.h"
 @interface CategoriesViewController ()
 
 @end
@@ -56,16 +57,9 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
     [_popOverController dismissPopoverAnimated:YES];
 }
 - (IBAction)openBooks:(id)sender {
-    UIButton *button=(UIButton *)sender;
-    switch (button.tag) {
-        case 0:
-
-        break;
-        
-        default:
-        break;
-    }
-}
+    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    booksCategoryViewController.toEdit=NO;
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];}
     
 - (IBAction)nextButton:(id)sender {
     CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
