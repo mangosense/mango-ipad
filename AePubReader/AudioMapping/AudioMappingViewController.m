@@ -76,7 +76,7 @@
     }
     
     _index=0;
-    _customView.backgroundColor = [UIColor clearColor];
+    [_customView setBackgroundColor:[UIColor clearColor]];
 }
 
 -(void)completeTable{
