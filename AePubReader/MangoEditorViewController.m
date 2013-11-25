@@ -94,6 +94,7 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
+    pageImageView.delegate = self;
     //pageImageView.selectedBrush = 5.0f;
     //pageImageView.selectedEraserWidth = 20.0f;
 }
@@ -708,7 +709,20 @@
 #pragma mark - DoodleDelegate Method
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
-    
+    NSMutableDictionary *pageDict = [[NSMutableDictionary alloc] initWithDictionary:[pagesArray objectAtIndex:index]];
+    NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]];
+            NSFileManager *defaultFileManager = [NSFileManager defaultManager];
+            if ([defaultFileManager fileExistsAtPath:destinationString]) {
+                [defaultFileManager removeItemAtPath:destinationString error:nil];
+            }
+            NSData *imageData = UIImagePNGRepresentation(image);
+            [imageData writeToFile:destinationString atomically:YES];
+            break;
+        }
+    }
 }
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
@@ -879,6 +893,7 @@
         [subview removeFromSuperview];
     }
     pageImageView.incrementalImage = nil;
+    pageImageView.indexOfThisImage = currentPageNumber;
     
     NSDictionary *pageDict;
     for (NSDictionary *readerPageDict in pagesArray) {
@@ -946,6 +961,17 @@
     [audioRecordingButton addTarget:self action:@selector(audioRecButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [audioRecordingButton setFrame:CGRectMake(0, pageImageView.frame.size.height - 60, 60, 60)];
     [pageImageView addSubview:audioRecordingButton];
+    
+    //Game
+    if (!pageDict) {
+        UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, pageImageView.frame.size.width, pageImageView.frame.size.height)];
+        comingSoonLabel.text = @"Coming Soon...";
+        comingSoonLabel.textAlignment = NSTextAlignmentCenter;
+        comingSoonLabel.textColor = COLOR_GREY;
+        comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+        [pageImageView addSubview:comingSoonLabel];
+        return;
+    }
 }
 
 #pragma mark - Book JSON Methods
