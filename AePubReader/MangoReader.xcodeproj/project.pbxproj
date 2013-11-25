@@ -150,6 +150,7 @@
 		839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839F907917E6D37C00BD1412 /* PublishViewController.xib */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
 		83CFB6C018432B530003E875 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83CFB6BF18432B530003E875 /* Parse.framework */; };
+		83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
 		83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB618111662004C975F /* AsyncDataDownloader.m */; };
 		83DD9BBA18113027004C975F /* StoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB918113027004C975F /* StoryPageView.m */; };
@@ -723,6 +724,8 @@
 		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
 		83CFB6BF18432B530003E875 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		83CFB6C1184333AF0003E875 /* BaseViewAudoMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewAudoMapping.h; sourceTree = "<group>"; };
+		83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewAudoMapping.m; sourceTree = "<group>"; };
 		83DD9BB118110D9D004C975F /* StoryJsonProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryJsonProcessor.h; sourceTree = "<group>"; };
 		83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryJsonProcessor.m; sourceTree = "<group>"; };
 		83DD9BB518111662004C975F /* AsyncDataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncDataDownloader.h; sourceTree = "<group>"; };
@@ -1737,6 +1740,8 @@
 				83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */,
 				83539E3C1839F4AC0096DBF8 /* CustomScrollView.h */,
 				83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */,
+				83CFB6C1184333AF0003E875 /* BaseViewAudoMapping.h */,
+				83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */,
 			);
 			path = AudioMapping;
 			sourceTree = "<group>";
@@ -2833,6 +2838,7 @@
 				FAFA8EAB134A06D6000291E2 /* ZipArchive.mm in Sources */,
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
 				AE396BB5181F7E3D009C68E7 /* PSTCollectionViewFlowLayout.m in Sources */,
+				83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
 				83347A221830E9ED002891EA /* ItemsListViewController.m in Sources */,
 				AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */,

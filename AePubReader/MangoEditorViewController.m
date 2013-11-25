@@ -94,8 +94,8 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
-    pageImageView.selectedBrush = 5.0f;
-    pageImageView.selectedEraserWidth = 20.0f;
+    //pageImageView.selectedBrush = 5.0f;
+    //pageImageView.selectedEraserWidth = 20.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -853,7 +853,6 @@
 }
 
 - (void)renderEditorPage:(int)pageNumber {
-    pageImageView.selectedColor = 7;
     currentPageNumber = pageNumber;
     
     for (UIView *subview in [pageImageView subviews]) {
@@ -1210,7 +1209,6 @@ enum
     audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
     audioMappingViewController.customView.frame = textFrame;
     [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
-    [audioMappingViewController.view setExclusiveTouch:YES];
     
     [pageImageView addSubview:audioMappingViewController.customView];
 
@@ -1222,7 +1220,6 @@ enum
             [subview setHidden:YES];
         }
     }
-    pageImageView.selectedColor = 8;
 }
 
 #pragma mark - Audio Player Delegate
