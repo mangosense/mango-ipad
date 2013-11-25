@@ -41,6 +41,7 @@
     // Do any additional setup after loading the view from its nib.
     _listOfViews=[[NSMutableArray alloc]init];
     [_scrollView setBackgroundColor:COLOR_ORANGE];
+    NSLog(@"%@", NSStringFromCGRect(_scrollView.frame));
     [audioSpeedSlider setMaximumValue:1.0f];
     [audioSpeedSlider setMinimumValue:0.5f];
     [audioSpeedSlider setValue:1.0f];
@@ -296,14 +297,14 @@
 -(void)showProgress{
     float progress=_player.currentTime*_scrollView.total;
     progress/=_player.duration;
-    float factor=_scrollView.progress/1024.0f;
+    float factor=_scrollView.progress/_scrollView.frame.size.width;
     factor=ceilf(factor);
     if (factor>=2) {
         factor-=1;
     }else{
         factor=0;
     }
-    factor*=1024;
+    factor*=_scrollView.frame.size.width;
     CGRect frame=CGRectMake(factor, 0, _scrollView.frame.size.width, _scrollView.frame.size.height);
     [ _scrollView scrollRectToVisible:frame animated:NO];
     if (progress>_scrollView.progress) {
