@@ -130,10 +130,6 @@
 		837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837D27F3180D3BC000469D1C /* Twitter.framework */; };
 		8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8393E08317CF45280080EB0C /* UIImage-Extensions.m */; };
 		8393E08617CF7A940080EB0C /* insert_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E08517CF7A940080EB0C /* insert_image.png */; };
-		839BC59617BB9DF100F1E9C5 /* widgets in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59517BB9DF100F1E9C5 /* widgets */; };
-		839BC59A17BB9EB600F1E9C5 /* 7 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59717BB9EB600F1E9C5 /* 7 */; };
-		839BC59B17BB9EB600F1E9C5 /* 8 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59817BB9EB600F1E9C5 /* 8 */; };
-		839BC59C17BB9EB600F1E9C5 /* 9 in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59917BB9EB600F1E9C5 /* 9 */; };
 		839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */; };
 		839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */; };
 		839CB4F31817B524001B5571 /* TimeRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 839CB4F21817B524001B5571 /* TimeRange.m */; };
@@ -701,10 +697,6 @@
 		8393E08217CF45280080EB0C /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
 		8393E08317CF45280080EB0C /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
 		8393E08517CF7A940080EB0C /* insert_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert_image.png; sourceTree = "<group>"; };
-		839BC59517BB9DF100F1E9C5 /* widgets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = widgets; sourceTree = "<group>"; };
-		839BC59717BB9EB600F1E9C5 /* 7 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 7; sourceTree = "<group>"; };
-		839BC59817BB9EB600F1E9C5 /* 8 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 8; sourceTree = "<group>"; };
-		839BC59917BB9EB600F1E9C5 /* 9 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 9; sourceTree = "<group>"; };
 		839BC59D17BDEAA400F1E9C5 /* StoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoriesViewController.h; sourceTree = "<group>"; };
 		839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoriesViewController.m; sourceTree = "<group>"; };
 		839BC59F17BDEAA400F1E9C5 /* StoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoriesViewController.xib; sourceTree = "<group>"; };
@@ -1555,10 +1547,6 @@
 				833765CC17D09BC000262C26 /* Accordion View */,
 				8393E08517CF7A940080EB0C /* insert_image.png */,
 				83603C4E17CB7756000DA2CE /* Paint Menu */,
-				839BC59717BB9EB600F1E9C5 /* 7 */,
-				839BC59817BB9EB600F1E9C5 /* 8 */,
-				839BC59917BB9EB600F1E9C5 /* 9 */,
-				839BC59517BB9DF100F1E9C5 /* widgets */,
 				83E723CD17BA058D0083DBD6 /* camera_gray_round.png */,
 				832CB92B17B3B1110073F9C2 /* story.json */,
 				832CB92217B383EA0073F9C2 /* MovableTextView.h */,
@@ -2772,12 +2760,8 @@
 				AE266FD8183B4E7E001A8CB8 /* poems and rhymes.png in Resources */,
 				AE0C9384183E0944008E4D54 /* icons_game.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
-				839BC59617BB9DF100F1E9C5 /* widgets in Resources */,
-				839BC59A17BB9EB600F1E9C5 /* 7 in Resources */,
 				834FCE23182D11F70000181B /* collaborationbutton.png in Resources */,
 				834FCE29182D11F70000181B /* edittool_selected.png in Resources */,
-				839BC59B17BB9EB600F1E9C5 /* 8 in Resources */,
-				839BC59C17BB9EB600F1E9C5 /* 9 in Resources */,
 				839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */,
 				834FCE46182D11F70000181B /* publishthisbook_button_pressed.png in Resources */,
 				834FCE4A182D11F70000181B /* recording_play_button.png in Resources */,
