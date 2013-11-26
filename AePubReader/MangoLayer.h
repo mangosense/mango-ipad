@@ -20,5 +20,7 @@
 @property (nonatomic, strong) NSString *updated_at;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSString *id;
+@property (nonatomic, strong) NSArray *wordMap;
+@property (nonatomic, strong) NSArray *wordTimes;
 
 @end

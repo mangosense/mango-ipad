@@ -14,6 +14,8 @@
 #import "LoginViewController.h"
 #import "Appirater.h"
 #import "LoginNewViewController.h"
+#import "EJDBController.h"
+
 @class EPubViewController;
 @class LoginViewController;
 @class LandPageChoiceViewController;
@@ -63,4 +65,7 @@
 +(void)hideTabBar:(UITabBarController *)tabbarcontroller;
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;
+
+@property (nonatomic, strong) EJDBController *ejdbController;
+
 @end

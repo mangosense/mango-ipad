@@ -27,6 +27,10 @@ static UIAlertView *alertViewLoading;
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //EJDB
+    _ejdbController = [[EJDBController alloc] initWithCollectionName:@"MangoCollection" andDatabaseName:@"MangoDb.db"];
+    
     _prek=NO;
     //Parse
     [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
@@ -290,7 +294,7 @@ static UIAlertView *alertViewLoading;
 #pragma mark Copying json based books
     else if (uiNew&&![userDefaults boolForKey:@"didaddWithNewUI"]) {
         NSString *zipDestination;
-        [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
+        //[userDefaults setBool:YES forKey:@"didaddWithNewUI"];
         /* book one --- The Crane in Tamil
          */
         NSNumber *identity;
@@ -524,15 +528,28 @@ void uncaughtExceptionHandler(NSException *exception) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
         NSString *value=[string stringByDeletingPathExtension];
+        
+        NSLog(@"EpubLocation: %@, Value: %@", epubLocation, value);
             // unzip the file
         [self unzipAndSaveFile:epubLocation withString:value];
         // provide do not backup attribute to folder itself
         [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
         // delete the zip since it is unzipped
+        [self SendToEJDB:[epubLocation stringByDeletingPathExtension]];
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
         
     }
 
+}
+-(void)SendToEJDB:(NSString *)locationDirectory{
+    NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
+    NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
+    
+    NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles lastObject]];
+    NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
+    
+    [_ejdbController parseBookJson:jsonData];
+    
 }
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{
     ZipArchive* za = [[ZipArchive alloc] init];

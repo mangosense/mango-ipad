@@ -29,13 +29,16 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, created_at, updated_at, deleted_at, story_id, is_avail, name, layers, pageNo);
+    return NSDictionaryOfVariableBindings(id, story_id, name, layers);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    for (NSString *key in [dictionary keyEnumerator])
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id", @"story_id", @"name", @"layers", nil];
+    for (NSString *key in keysArray)
     {
-        [self setValue:[dictionary objectForKey:key] forKey:key];
+        if ([[dictionary allKeys] containsObject:key]) {
+            [self setValue:[dictionary objectForKey:key] forKey:key];
+        }
     }
 }
 
