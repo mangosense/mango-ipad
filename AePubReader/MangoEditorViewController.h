@@ -13,8 +13,9 @@
 #import "ItemsListViewController.h"
 #import "Book.h"
 #import "AudioMappingViewController.h"
-
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate> {
+#import "AssetCell.h"
+#import "AssetDatasource.h"
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;
@@ -33,7 +34,7 @@
     
     Book *storyBook;
 }
-
+@property(nonatomic,strong) AssetDatasource *dataSource;
 @property (nonatomic, strong) IBOutlet UIButton *mangoButton;
 @property (nonatomic, strong) IBOutlet UIButton *menuButton;
 @property (nonatomic, strong) IBOutlet UIButton *imageButton;
