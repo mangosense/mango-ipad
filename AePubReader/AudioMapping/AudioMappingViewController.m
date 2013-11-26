@@ -76,7 +76,7 @@
     }
     
     _index=0;
-    _customView.backgroundColor = [UIColor clearColor];
+    [_customView setBackgroundColor:[UIColor clearColor]];
 }
 
 -(void)completeTable{
@@ -250,6 +250,13 @@
 }
 
 - (void)playAudioForReaderWithData:(NSData *)audioData AndDelegate:(id <AVAudioPlayerDelegate>)delegate {
+    if (_timer) {
+        [_timer invalidate];
+    }
+    if (_player) {
+        _player = nil;
+    }
+    
     [self reset];
     [self nextClick:nil];
     
@@ -270,6 +277,13 @@
 }
 
 - (IBAction)playOriginal:(id)sender {
+    if (_timer) {
+        [_timer invalidate];
+    }
+    if (_player) {
+        _player = nil;
+    }
+    
     [self reset];
     [self nextClick:nil];
     _index--;
@@ -357,6 +371,11 @@
 }
 
 - (IBAction)playMapped:(id)sender {
+
+    if (_player) {
+        _player = nil;
+    }
+    
     [self reset];
     NSString *string=[self applicationDocumentsDirectory];
     string=[string stringByAppendingPathComponent:@"temp.iam4"];
@@ -381,6 +400,11 @@
 }
 
 - (IBAction)playRecored:(id)sender {
+
+    if (_player) {
+        _player = nil;
+    }
+    
     [self reset];
     _player=[[AVAudioPlayer alloc]initWithContentsOfURL:audioUrl error:nil];
     _player.delegate=self;
@@ -454,7 +478,7 @@
 
 #pragma mark - Touch Methods
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+/*-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint location = [touch locationInView:self.view.superview];
@@ -462,26 +486,26 @@
     yDiffToCenter = location.y - self.view.center.y;
     
     self.view.alpha = 0.7f;
-}
+}*/
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    [super touchesMoved:touches withEvent:event];
-    UITouch *touch = [[event allTouches] anyObject];
-    CGPoint location = [touch locationInView:self.view.superview];
-    
-    self.view.center = CGPointMake(MAX(5 + self.view.frame.size.width/2, MIN(location.x - xDiffToCenter, self.view.superview.frame.size.width - self.view.frame.size.width/2 - 5)), MAX(5 + self.view.frame.size.height/2, MIN(location.y - yDiffToCenter, self.view.superview.frame.size.height - self.view.frame.size.height/2 - 5/* - 150*/)));
-    self.view.alpha = 0.7f;
-}
+//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+//    [super touchesMoved:touches withEvent:event];
+//    UITouch *touch = [[event allTouches] anyObject];
+//    CGPoint location = [touch locationInView:self.view.superview];
+//    
+//    self.view.center = CGPointMake(MAX(5 + self.view.frame.size.width/2, MIN(location.x - xDiffToCenter, self.view.superview.frame.size.width - self.view.frame.size.width/2 - 5)), MAX(5 + self.view.frame.size.height/2, MIN(location.y - yDiffToCenter, self.view.superview.frame.size.height - self.view.frame.size.height/2 - 5/* - 150*/)));
+//    self.view.alpha = 0.7f;
+//}
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesEnded:touches withEvent:event];
-    UITouch *touch = [[event allTouches] anyObject];
-    CGPoint location = [touch locationInView:self.view.superview];
-    
-    self.view.alpha = 1.0f;
-    
-    self.view.center = CGPointMake(MAX(5 + self.view.frame.size.width/2, MIN(location.x - xDiffToCenter, self.view.superview.frame.size.width - self.view.frame.size.width/2 - 5)), MAX(5 + self.view.frame.size.height/2, MIN(location.y - yDiffToCenter, self.view.superview.frame.size.height - self.view.frame.size.height/2 - 5/* - 150*/)));
-    [self resignFirstResponder];
-}
+//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+//    [super touchesEnded:touches withEvent:event];
+//    UITouch *touch = [[event allTouches] anyObject];
+//    CGPoint location = [touch locationInView:self.view.superview];
+//    
+//    self.view.alpha = 1.0f;
+//    
+//    self.view.center = CGPointMake(MAX(5 + self.view.frame.size.width/2, MIN(location.x - xDiffToCenter, self.view.superview.frame.size.width - self.view.frame.size.width/2 - 5)), MAX(5 + self.view.frame.size.height/2, MIN(location.y - yDiffToCenter, self.view.superview.frame.size.height - self.view.frame.size.height/2 - 5/* - 150*/)));
+//    [self resignFirstResponder];
+//}
 
 @end

@@ -94,8 +94,9 @@
     // Do any additional setup after loading the view from its nib.
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
-    pageImageView.selectedBrush = 5.0f;
-    pageImageView.selectedEraserWidth = 20.0f;
+    pageImageView.delegate = self;
+    //pageImageView.selectedBrush = 5.0f;
+    //pageImageView.selectedEraserWidth = 20.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -467,6 +468,26 @@
     [menuPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
+#pragma mark - Coming Soon Popover
+
+- (void)showComingSoonPopover:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    
+    UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 250)];
+    comingSoonLabel.text = @"Coming Soon...";
+    comingSoonLabel.textAlignment = NSTextAlignmentCenter;
+    comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+    comingSoonLabel.textColor = COLOR_GREY;
+    
+    UIViewController *comingSoonController = [[UIViewController alloc] init];
+    [comingSoonController.view addSubview:comingSoonLabel];
+    
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:comingSoonController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
+    [menuPopoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)mangoButtonTapped:(id)sender {
@@ -497,7 +518,7 @@
     menuPopoverController.delegate = self;
     [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
     [menuPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
-    [menuPopoverController presentPopoverFromRect:audioButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    [menuPopoverController presentPopoverFromRect:textButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
     
 }
 
@@ -516,11 +537,11 @@
 }
 
 - (IBAction)gamesButtonTapped:(id)sender {
-    
+    [self showComingSoonPopover:sender];
 }
 
 - (IBAction)collaborationButtonTapped:(id)sender {
-    
+    [self showComingSoonPopover:sender];
 }
 
 - (IBAction)playStoryButtonTapped:(id)sender {
@@ -528,7 +549,7 @@
 }
 
 - (IBAction)doodleButtonTapped:(id)sender {
-    
+    [self showComingSoonPopover:sender];
 }
 
 #pragma mark - Items List Delegate
@@ -688,7 +709,20 @@
 #pragma mark - DoodleDelegate Method
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
-    
+    NSMutableDictionary *pageDict = [[NSMutableDictionary alloc] initWithDictionary:[pagesArray objectAtIndex:index]];
+    NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
+    for (NSDictionary *layerDict in layersArray) {
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]];
+            NSFileManager *defaultFileManager = [NSFileManager defaultManager];
+            if ([defaultFileManager fileExistsAtPath:destinationString]) {
+                [defaultFileManager removeItemAtPath:destinationString error:nil];
+            }
+            NSData *imageData = UIImagePNGRepresentation(image);
+            [imageData writeToFile:destinationString atomically:YES];
+            break;
+        }
+    }
 }
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
@@ -853,13 +887,13 @@
 }
 
 - (void)renderEditorPage:(int)pageNumber {
-    pageImageView.selectedColor = 7;
     currentPageNumber = pageNumber;
     
     for (UIView *subview in [pageImageView subviews]) {
         [subview removeFromSuperview];
     }
     pageImageView.incrementalImage = nil;
+    pageImageView.indexOfThisImage = currentPageNumber;
     
     NSDictionary *pageDict;
     for (NSDictionary *readerPageDict in pagesArray) {
@@ -927,6 +961,17 @@
     [audioRecordingButton addTarget:self action:@selector(audioRecButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [audioRecordingButton setFrame:CGRectMake(0, pageImageView.frame.size.height - 60, 60, 60)];
     [pageImageView addSubview:audioRecordingButton];
+    
+    //Game
+    if (!pageDict) {
+        UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, pageImageView.frame.size.width, pageImageView.frame.size.height)];
+        comingSoonLabel.text = @"Coming Soon...";
+        comingSoonLabel.textAlignment = NSTextAlignmentCenter;
+        comingSoonLabel.textColor = COLOR_GREY;
+        comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+        [pageImageView addSubview:comingSoonLabel];
+        return;
+    }
 }
 
 #pragma mark - Book JSON Methods
@@ -1075,7 +1120,7 @@ enum
 
 - (void)saveAudio {
     NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
-    NSMutableArray *layersArray = [pageDict objectForKey:LAYERS];
+    NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
     
     NSMutableDictionary *newAudioDict = [[NSMutableDictionary alloc] init];
     [newAudioDict setObject:AUDIO forKey:TYPE];
@@ -1193,7 +1238,7 @@ enum
             textOnPage = [layerDict objectForKey:TEXT];
             if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
                 if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
-                    textFrame = CGRectMake(MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                    textFrame = CGRectMake(MAX(924/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(600/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
                 }
             }
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
@@ -1209,20 +1254,22 @@ enum
     
     audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
     audioMappingViewController.customView.frame = textFrame;
-    [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
-    [audioMappingViewController.view setExclusiveTouch:YES];
     
     [pageImageView addSubview:audioMappingViewController.customView];
 
     audioMappingViewController.textForMapping = textOnPage;
+    [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+
     audioMappingViewController.audioUrl = url;
+    [pageImageView bringSubviewToFront:audioMappingViewController.view];
     
     for (UIView *subview in [pageImageView subviews]) {
         if ([subview isKindOfClass:[MovableTextView class]]) {
             [subview setHidden:YES];
         }
     }
-    pageImageView.selectedColor = 8;
+    
+
 }
 
 #pragma mark - Audio Player Delegate
