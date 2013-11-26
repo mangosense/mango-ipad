@@ -124,6 +124,11 @@
 		83539E411839F4AC0096DBF8 /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E391839F4AC0096DBF8 /* CustomLabel.m */; };
 		83539E421839F4AC0096DBF8 /* CustomMappingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */; };
 		83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */; };
+		8358146D184479C700670D71 /* EJDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358146C184479C700670D71 /* EJDBController.m */; };
+		8358147D18447F8400670D71 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8358147618447F4C00670D71 /* libEJDBKit.a */; };
+		835814841844833600670D71 /* MangoBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 835814831844833600670D71 /* MangoBook.m */; };
+		8358148B184487FB00670D71 /* MangoPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148A184487FB00670D71 /* MangoPage.m */; };
+		83581490184489D100670D71 /* MangoLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148F184489D100670D71 /* MangoLayer.m */; };
 		835DAD8A183F63C6005A7AA8 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 835DAD89183F63C6005A7AA8 /* white_page.jpeg */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
@@ -910,6 +915,37 @@
 		FAFA8EAB134A06D6000291E2 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAFA8EA6134A06D6000291E2 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8358147518447F4C00670D71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
+		8358147718447F4C00670D71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
+			remoteInfo = EJDBKitTests;
+		};
+		8358147918447F4C00670D71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
+			remoteInfo = EJDBKitTests64;
+		};
+		8358147B18447F6A00670D71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AePubReaderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AePubReaderAppDelegate.h; path = Classes/AePubReaderAppDelegate.h; sourceTree = "<group>"; };
@@ -1049,6 +1085,15 @@
 		83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMappingView.m; sourceTree = "<group>"; };
 		83539E3C1839F4AC0096DBF8 /* CustomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomScrollView.h; sourceTree = "<group>"; };
 		83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomScrollView.m; sourceTree = "<group>"; };
+		8358146B184479C700670D71 /* EJDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBController.h; sourceTree = "<group>"; };
+		8358146C184479C700670D71 /* EJDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBController.m; sourceTree = "<group>"; };
+		8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
+		835814821844833600670D71 /* MangoBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoBook.h; sourceTree = "<group>"; };
+		835814831844833600670D71 /* MangoBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoBook.m; sourceTree = "<group>"; };
+		83581489184487FB00670D71 /* MangoPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoPage.h; sourceTree = "<group>"; };
+		8358148A184487FB00670D71 /* MangoPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoPage.m; sourceTree = "<group>"; };
+		8358148E184489D100670D71 /* MangoLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoLayer.h; sourceTree = "<group>"; };
+		8358148F184489D100670D71 /* MangoLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoLayer.m; sourceTree = "<group>"; };
 		835DAD89183F63C6005A7AA8 /* white_page.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white_page.jpeg; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
@@ -2011,6 +2056,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA7E023515E388F3001F520B /* libz.dylib in Frameworks */,
+				8358147D18447F8400670D71 /* libEJDBKit.a in Frameworks */,
 				837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
 				833058A417F9961A00F48427 /* Accounts.framework in Frameworks */,
@@ -2036,7 +2083,6 @@
 				AE43C712161054B900970739 /* CFNetwork.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				AE43C70F1610548900970739 /* libxml2.dylib in Frameworks */,
-				CA7E023515E388F3001F520B /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				AE9C3CB0171805D900ABAC86 /* libFlurry.a in Frameworks */,
@@ -2068,6 +2114,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */,
+				8358146A1844799A00670D71 /* EJDB */,
 				83CFB6BF18432B530003E875 /* Parse.framework */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
@@ -2469,6 +2517,31 @@
 				83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */,
 			);
 			path = AudioMapping;
+			sourceTree = "<group>";
+		};
+		8358146A1844799A00670D71 /* EJDB */ = {
+			isa = PBXGroup;
+			children = (
+				8358146B184479C700670D71 /* EJDBController.h */,
+				8358146C184479C700670D71 /* EJDBController.m */,
+				835814821844833600670D71 /* MangoBook.h */,
+				835814831844833600670D71 /* MangoBook.m */,
+				83581489184487FB00670D71 /* MangoPage.h */,
+				8358148A184487FB00670D71 /* MangoPage.m */,
+				8358148E184489D100670D71 /* MangoLayer.h */,
+				8358148F184489D100670D71 /* MangoLayer.m */,
+			);
+			name = EJDB;
+			sourceTree = "<group>";
+		};
+		8358147018447F4C00670D71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8358147618447F4C00670D71 /* libEJDBKit.a */,
+				8358147818447F4C00670D71 /* EJDBKitTests.xctest */,
+				8358147A18447F4C00670D71 /* EJDBKitTests64.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		83603C4E17CB7756000DA2CE /* Paint Menu */ = {
@@ -3490,6 +3563,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8358147C18447F6A00670D71 /* PBXTargetDependency */,
 			);
 			name = MangoReader;
 			productName = AePubReader;
@@ -3540,6 +3614,12 @@
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			productRefGroup = AE43C7051610530B00970739 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8358147018447F4C00670D71 /* Products */;
+					ProjectRef = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* MangoReader */,
@@ -3547,6 +3627,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8358147618447F4C00670D71 /* libEJDBKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libEJDBKit.a;
+			remoteRef = 8358147518447F4C00670D71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8358147818447F4C00670D71 /* EJDBKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests.xctest;
+			remoteRef = 8358147718447F4C00670D71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8358147A18447F4C00670D71 /* EJDBKitTests64.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests64.xctest;
+			remoteRef = 8358147918447F4C00670D71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -4309,12 +4413,14 @@
 				83539E3E1839F4AC0096DBF8 /* AudioMappingViewController.m in Sources */,
 				AE396BBC181F7E3D009C68E7 /* PSTGridLayoutSection.m in Sources */,
 				AE92809416197E51001BCBB6 /* ListOfBooks.m in Sources */,
+				8358148B184487FB00670D71 /* MangoPage.m in Sources */,
 				AE525E97161D8CD200CDB400 /* WebViewController.m in Sources */,
 				AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */,
 				AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */,
 				314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */,
 				AEF8CDEF162EA8F000094C62 /* ShareButton.m in Sources */,
 				AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */,
+				8358146D184479C700670D71 /* EJDBController.m in Sources */,
 				83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */,
 				AE9BFBAB16537C12000DDEB1 /* LiveViewController.m in Sources */,
 				AE9BFBB016537F44000DDEB1 /* PopPurchaseViewController.m in Sources */,
@@ -4339,6 +4445,7 @@
 				AE195EF8181E68C5008E4208 /* StoreCell.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,
+				83581490184489D100670D71 /* MangoLayer.m in Sources */,
 				AE75374D16103B5900761697 /* DownloadViewControlleriPad.m in Sources */,
 				AE396BB9181F7E3D009C68E7 /* PSTGridLayoutInfo.m in Sources */,
 				AE731C5316759D4500FE8F19 /* PurchaseFreeIphone.m in Sources */,
@@ -4379,6 +4486,7 @@
 				AEC9B12116B65202008CD1F5 /* TableOfContentsViewController.m in Sources */,
 				AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */,
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
+				835814841844833600670D71 /* MangoBook.m in Sources */,
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
 				AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */,
 				AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */,
@@ -4449,6 +4557,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8358147C18447F6A00670D71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EJDBKit;
+			targetProxy = 8358147B18447F6A00670D71 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AE59B53216817B7600DC55EC /* InfoPlist.strings */ = {
