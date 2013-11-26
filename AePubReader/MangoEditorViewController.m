@@ -14,7 +14,7 @@
 #import "FlickrPhoto.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AudioMappingViewController.h"
-
+#import "AssetCollectionViewLayout.h"
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
 #define TAMIL_TAG 10
@@ -414,12 +414,35 @@
     [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [takePhotoButton setFrame:CGRectMake(0, 75, 250, 30)];
     
-    UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, 250, 500)];
+  /*  UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, 250, 500)];
     assetsScrollView.backgroundColor = [UIColor clearColor];
     [assetsScrollView setUserInteractionEnabled:YES];
     CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37/2*140);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
-    
+    */
+    NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
+    for (int i = 1; i < 358; i++) {
+       // if ([UIImage imageNamed:[NSString stringWithFormat:@"editor_%d", i]]) {
+            [imagesArray addObject:[NSString stringWithFormat:@"editor_%d", i]];
+       // }
+    }
+    arrayOfImageNames = [NSArray arrayWithArray:imagesArray];
+
+    AssetCollectionViewLayout *layout=[[AssetCollectionViewLayout alloc]init];
+    UICollectionView *collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 105, 250, 500) collectionViewLayout:layout];
+    [collectionView registerClass:[AssetCell class] forCellWithReuseIdentifier:@"Cell"];
+    _dataSource=[[AssetDatasource alloc]initWithArray:arrayOfImageNames];
+    collectionView.dataSource=_dataSource;
+    collectionView.delegate=self;
+    collectionView.backgroundColor=[UIColor whiteColor];
+    /*[layout.sc UICollectionViewScrollDirectionHorizontal];
+    [layout setItemSize:CGSizeMake(140, 180)];
+    [layout setSectionInset:UIEdgeInsetsMake(30, 30, 30, 30)];
+    [layout setMinimumInteritemSpacing:50];
+    [layout setMinimumLineSpacing:50];*/
+    UIViewController *scrollController=[[UIViewController alloc]init];
+    scrollController.view.frame=CGRectMake(0, 0, 250, 500);
+    [scrollController.view addSubview:collectionView];
     UISegmentedControl *assetTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All", @"Story", nil]];
     [assetTypeSegmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
     [assetTypeSegmentedControl setSelectedSegmentIndex:0];
@@ -433,14 +456,14 @@
     [[searchTextView layer] setBorderWidth:1.0f];
     [[searchTextView layer] setCornerRadius:5.0f];
     
-    UIViewController *scrollViewController = [[UIViewController alloc] init];
-    [scrollViewController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
-    [scrollViewController.view addSubview:assetsScrollView];
-    [scrollViewController.view addSubview:assetTypeSegmentedControl];
-    [scrollViewController.view addSubview:takePhotoButton];
-    [scrollViewController.view addSubview:searchTextView];
+   /* UIViewController *scrollViewController = [[UIViewController alloc] init];
+    [scrollController.view  setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
+    [scrollViewController.view addSubview:assetsScrollView];*/
+    [scrollController.view  addSubview:assetTypeSegmentedControl];
+    [scrollController.view  addSubview:takePhotoButton];
+    [scrollController.view  addSubview:searchTextView];
     
-    arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+   
     for (NSString *imageName in arrayOfImageNames) {
         UIImage *image = [UIImage imageNamed:imageName];
         UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -456,10 +479,10 @@
         [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
         assetImageButton.tag = [arrayOfImageNames indexOfObject:imageName];
         [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
-        [assetsScrollView addSubview:assetImageButton];
+       // [assetsScrollView addSubview:assetImageButton];
     }
     
-    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollViewController];
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, pageImageView.frame.size.height)];
     menuPopoverController.delegate = self;
     [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
@@ -467,7 +490,12 @@
     
     [menuPopoverController presentPopoverFromRect:imageButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
-
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    UIButton *button=[UIButton buttonWithType:UIButtonTypeCustom];
+    button.tag=indexPath.row;
+    [self addImageForButton:button];
+    
+}
 #pragma mark - Coming Soon Popover
 
 - (void)showComingSoonPopover:(id)sender {
@@ -711,9 +739,16 @@
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
     NSMutableDictionary *pageDict = [[NSMutableDictionary alloc] initWithDictionary:[pagesArray objectAtIndex:index]];
     NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
+    
+    NSMutableDictionary *newLayerDict = [[NSMutableDictionary alloc] init];
+    int layerIndex = 0;
     for (NSDictionary *layerDict in layersArray) {
+        layerIndex = [layersArray indexOfObject:layerDict];
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]];
+            [newLayerDict addEntriesFromDictionary:layerDict];
+            [newLayerDict setObject:[NSString stringWithFormat:@"res/images/white_page_%d", currentPageNumber] forKey:ASSET_URL];
+            
+            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", [newLayerDict objectForKey:ASSET_URL]];
             NSFileManager *defaultFileManager = [NSFileManager defaultManager];
             if ([defaultFileManager fileExistsAtPath:destinationString]) {
                 [defaultFileManager removeItemAtPath:destinationString error:nil];
@@ -723,6 +758,9 @@
             break;
         }
     }
+    [layersArray replaceObjectAtIndex:layerIndex withObject:newLayerDict];
+    [pageDict setObject:layersArray forKey:LAYERS];
+    [pagesArray replaceObjectAtIndex:index withObject:pageDict];
 }
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
