@@ -5,11 +5,13 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>4A1227AC-6317-4DE3-AC2D-5E732581C27E</string>
+	<string>B5F04B11-1389-4F20-B8D6-9922D4AAF52F</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MangoReader</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>2F394478-FC98-46A6-B26E-C89F84ABFC6E</key>
+		<string>https://github.com/johnnyd/EJDBKit.git</string>
 		<key>EDA76EF8-DCEA-4292-B21F-0CC6FA5227F5</key>
 		<string>https://github.com/mangosense/mango-ipad.git</string>
 	</dict>
@@ -17,6 +19,8 @@
 	<string>AePubReader/MangoReader.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>2F394478-FC98-46A6-B26E-C89F84ABFC6E</key>
+		<string>../../../../EJDBKit</string>
 		<key>EDA76EF8-DCEA-4292-B21F-0CC6FA5227F5</key>
 		<string>../../..</string>
 	</dict>
@@ -28,6 +32,14 @@
 	<string>EDA76EF8-DCEA-4292-B21F-0CC6FA5227F5</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2F394478-FC98-46A6-B26E-C89F84ABFC6E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>EJDBKit</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
