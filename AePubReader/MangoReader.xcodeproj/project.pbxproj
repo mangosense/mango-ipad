@@ -125,7 +125,6 @@
 		83539E421839F4AC0096DBF8 /* CustomMappingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3B1839F4AC0096DBF8 /* CustomMappingView.m */; };
 		83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */; };
 		8358146D184479C700670D71 /* EJDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358146C184479C700670D71 /* EJDBController.m */; };
-		8358147D18447F8400670D71 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8358147618447F4C00670D71 /* libEJDBKit.a */; };
 		835814841844833600670D71 /* MangoBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 835814831844833600670D71 /* MangoBook.m */; };
 		8358148B184487FB00670D71 /* MangoPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148A184487FB00670D71 /* MangoPage.m */; };
 		83581490184489D100670D71 /* MangoLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148F184489D100670D71 /* MangoLayer.m */; };
@@ -575,6 +574,7 @@
 		AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F34182B5F4200F36C99 /* DownloadViewControlleriPhone.xib */; };
 		AE138F3A182B783200F36C99 /* NewStoreControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */; };
 		AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */; };
+		AE16B8BB18449F8100EA094A /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE16B8B618449F7100EA094A /* libEJDBKit.a */; };
 		AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */; };
 		AE195E79181E2CBC008E4208 /* FeaturedStoreDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E78181E2CBC008E4208 /* FeaturedStoreDelegate.m */; };
 		AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE195E7A181E2E17008E4208 /* NewStoreCoverViewController.m */; };
@@ -916,30 +916,30 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8358147518447F4C00670D71 /* PBXContainerItemProxy */ = {
+		AE16B8B518449F7100EA094A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			containerPortal = AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
 			remoteInfo = EJDBKit;
 		};
-		8358147718447F4C00670D71 /* PBXContainerItemProxy */ = {
+		AE16B8B718449F7100EA094A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			containerPortal = AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		8358147918447F4C00670D71 /* PBXContainerItemProxy */ = {
+		AE16B8B918449F7100EA094A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			containerPortal = AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
 			remoteInfo = EJDBKitTests64;
 		};
-		8358147B18447F6A00670D71 /* PBXContainerItemProxy */ = {
+		AE16B8BC18449F8600EA094A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+			containerPortal = AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
 			remoteInfo = EJDBKit;
@@ -1087,7 +1087,6 @@
 		83539E3D1839F4AC0096DBF8 /* CustomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomScrollView.m; sourceTree = "<group>"; };
 		8358146B184479C700670D71 /* EJDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBController.h; sourceTree = "<group>"; };
 		8358146C184479C700670D71 /* EJDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBController.m; sourceTree = "<group>"; };
-		8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		835814821844833600670D71 /* MangoBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoBook.h; sourceTree = "<group>"; };
 		835814831844833600670D71 /* MangoBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoBook.m; sourceTree = "<group>"; };
 		83581489184487FB00670D71 /* MangoPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoPage.h; sourceTree = "<group>"; };
@@ -1570,6 +1569,7 @@
 		AE138F37182B783200F36C99 /* NewStoreControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewStoreControlleriPhone.h; sourceTree = "<group>"; };
 		AE138F38182B783200F36C99 /* NewStoreControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewStoreControlleriPhone.m; sourceTree = "<group>"; };
 		AE138F39182B783200F36C99 /* NewStoreControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewStoreControlleriPhone.xib; sourceTree = "<group>"; };
+		AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../../Downloads/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		AE189425166F4CBE009F8361 /* LiveViewControllerIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewControllerIphone.h; sourceTree = "<group>"; };
 		AE189426166F4CBE009F8361 /* LiveViewControllerIphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewControllerIphone.m; sourceTree = "<group>"; };
 		AE195E76181E2C2B008E4208 /* NewStoreCoverViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewStoreCoverViewController.h; sourceTree = "<group>"; };
@@ -2056,8 +2056,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE16B8BB18449F8100EA094A /* libEJDBKit.a in Frameworks */,
 				CA7E023515E388F3001F520B /* libz.dylib in Frameworks */,
-				8358147D18447F8400670D71 /* libEJDBKit.a in Frameworks */,
 				837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
 				833058A417F9961A00F48427 /* Accounts.framework in Frameworks */,
@@ -2114,7 +2114,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */,
+				AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */,
 				8358146A1844799A00670D71 /* EJDB */,
 				83CFB6BF18432B530003E875 /* Parse.framework */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
@@ -2534,16 +2534,6 @@
 			name = EJDB;
 			sourceTree = "<group>";
 		};
-		8358147018447F4C00670D71 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8358147618447F4C00670D71 /* libEJDBKit.a */,
-				8358147818447F4C00670D71 /* EJDBKitTests.xctest */,
-				8358147A18447F4C00670D71 /* EJDBKitTests64.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		83603C4E17CB7756000DA2CE /* Paint Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -2955,6 +2945,16 @@
 				AE9C3CAF171805D900ABAC86 /* libFlurry.a */,
 			);
 			name = flurry;
+			sourceTree = "<group>";
+		};
+		AE16B8B018449F7100EA094A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE16B8B618449F7100EA094A /* libEJDBKit.a */,
+				AE16B8B818449F7100EA094A /* EJDBKitTests.xctest */,
+				AE16B8BA18449F7100EA094A /* EJDBKitTests64.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AE195EF2181E67B3008E4208 /* New store */ = {
@@ -3563,7 +3563,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				8358147C18447F6A00670D71 /* PBXTargetDependency */,
+				AE16B8BD18449F8600EA094A /* PBXTargetDependency */,
 			);
 			name = MangoReader;
 			productName = AePubReader;
@@ -3616,8 +3616,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 8358147018447F4C00670D71 /* Products */;
-					ProjectRef = 8358146F18447F4C00670D71 /* EJDBKit.xcodeproj */;
+					ProductGroup = AE16B8B018449F7100EA094A /* Products */;
+					ProjectRef = AE16B8AF18449F7100EA094A /* EJDBKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -3629,25 +3629,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8358147618447F4C00670D71 /* libEJDBKit.a */ = {
+		AE16B8B618449F7100EA094A /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libEJDBKit.a;
-			remoteRef = 8358147518447F4C00670D71 /* PBXContainerItemProxy */;
+			remoteRef = AE16B8B518449F7100EA094A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		8358147818447F4C00670D71 /* EJDBKitTests.xctest */ = {
+		AE16B8B818449F7100EA094A /* EJDBKitTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
-			remoteRef = 8358147718447F4C00670D71 /* PBXContainerItemProxy */;
+			remoteRef = AE16B8B718449F7100EA094A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		8358147A18447F4C00670D71 /* EJDBKitTests64.xctest */ = {
+		AE16B8BA18449F7100EA094A /* EJDBKitTests64.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests64.xctest;
-			remoteRef = 8358147918447F4C00670D71 /* PBXContainerItemProxy */;
+			remoteRef = AE16B8B918449F7100EA094A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4559,10 +4559,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8358147C18447F6A00670D71 /* PBXTargetDependency */ = {
+		AE16B8BD18449F8600EA094A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = EJDBKit;
-			targetProxy = 8358147B18447F6A00670D71 /* PBXContainerItemProxy */;
+			targetProxy = AE16B8BC18449F8600EA094A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
