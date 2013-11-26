@@ -25,14 +25,19 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, title, pages, created_at, updated_at);
+ //   NSLog(@"todictionary");
+    return NSDictionaryOfVariableBindings(id, title, pages);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    for (NSString *key in [dictionary keyEnumerator])
+    NSArray *array=[NSArray arrayWithObjects:@"id",@"title", @"pages", nil];
+    for (NSString *key in array)
     {
-        [self setValue:[dictionary objectForKey:key] forKey:key];
+        if ([[dictionary allKeys] containsObject:key]) {
+            [self setValue:[dictionary objectForKey:key] forKey:key];
+        }
     }
+   // NSLog(@"fromDictionary");
 }
 
 - (id)copyWithZone:(NSZone *)zone {

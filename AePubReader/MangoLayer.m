@@ -19,6 +19,8 @@
 @synthesize updated_at;
 @synthesize url;
 @synthesize id;
+@synthesize wordMap;
+@synthesize wordTimes;
 
 - (NSString *)type {
     return NSStringFromClass([self class]);
@@ -29,13 +31,16 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, alignment, created_at, name, style, text, type, updated_at, url, id);
+    return NSDictionaryOfVariableBindings(id, name, style);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    for (NSString *key in [dictionary keyEnumerator])
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id", @"name", @"style", nil];
+    for (NSString *key in keysArray)
     {
-        [self setValue:[dictionary objectForKey:key] forKey:key];
+        if ([[dictionary allKeys] containsObject:key]) {
+            [self setValue:[dictionary objectForKey:key] forKey:key];
+        }
     }
 }
 
@@ -50,6 +55,8 @@
     [mangoLayer setText:text];
     [mangoLayer setType:type];
     [mangoLayer setUrl:url];
+    [mangoLayer setWordMap:wordMap];
+    [mangoLayer setWordTimes:wordTimes];
     return mangoLayer;
 }
 
