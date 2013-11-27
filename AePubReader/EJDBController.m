@@ -8,6 +8,9 @@
 
 #import "EJDBController.h"
 #import "Constants.h"
+#import "AePubReaderAppDelegate.h"
+#import "DataModelControl.h"
+#import "Book.h"
 @implementation EJDBController
 
 - (id)initWithCollectionName:(NSString *)collectionName andDatabaseName:(NSString *)databaseName {
@@ -38,14 +41,14 @@
     return page;
 }
 
-- (MangoLayer *)getLayerForLayerId:(NSString *)layerId {
-    MangoLayer *layer = [_collection fetchObjectWithOID:layerId];
+- (id)getLayerForLayerId:(NSString *)layerId {
+    id layer = [_collection fetchObjectWithOID:layerId];
     return layer;
 }
 
 #pragma mark - Parse JSON
 
-- (void)parseBookJson:(NSData *)bookJsonData {
+- (void)parseBookJson:(NSData *)bookJsonData WithId:(int)numberId{
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:bookJsonData options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"%@", jsonDict);
     
@@ -88,6 +91,7 @@
             if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
                 MangoImageLayer *imageLayer=[[MangoImageLayer alloc]init];
                 imageLayer.id=layerDict[@"id"];
+                NSLog(@"for %@ %@",[layerDict objectForKey:TYPE],layerDict[@"url"]);
                 imageLayer.url=layerDict[@"url"];
                 imageLayer.alignment=layerDict[@"alignment"];
                 if ([self insertOrUpdateObject:imageLayer]) {
@@ -168,7 +172,7 @@
     [pageIdArray removeObject:[NSNull null]];
     
     book.pages = pageIdArray;
-    if ([self insertOrUpdateObject:book]) {
+    if ([self insertOrUpdateObject:book]) {// insertion done
         MangoBook *fetchedBook = [self getBookForBookId:book.id];
         NSLog(@"%@", fetchedBook.pages);
         
@@ -178,7 +182,12 @@
             NSLog(@"id - %@   name-%@ ",pageFetched.id,pageFetched.name);
         }
         NSLog(@"%@",fetchedPage.layers);
-
+        NSString *iden=[NSString stringWithFormat:@"%d",numberId ];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        Book *bk=[delegate.dataModel getBookOfId:iden];
+        bk.bookId=book.id;
+        [delegate.dataModel saveData:bk];
+        [delegate.dataModel displayAllData];
         
     }
     

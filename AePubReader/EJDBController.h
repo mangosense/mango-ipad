@@ -21,6 +21,10 @@
 
 - (id)initWithCollectionName:(NSString *)collectionName andDatabaseName:(NSString *)databaseName;
 - (BOOL)insertOrUpdateObject:(id)object;
-- (void)parseBookJson:(NSData *)bookJsonData;
+- (void)parseBookJson:(NSData *)bookJsonData WithId:(int)numberId;
+
+- (MangoBook *)getBookForBookId:(NSString *)bookId;
+- (MangoPage *)getPageForPageId:(NSString *)pageId;
+- (id)getLayerForLayerId:(NSString *)layerId;
 
 @end

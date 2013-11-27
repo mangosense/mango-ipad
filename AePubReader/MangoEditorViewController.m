@@ -15,6 +15,12 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AudioMappingViewController.h"
 #import "AssetCollectionViewLayout.h"
+#import "AePubReaderAppDelegate.h"
+#import "MangoPage.h"
+#import "MangoImageLayer.h"
+#import "MangoTextLayer.h"
+#import "MangoAudioLayer.h"
+
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
 #define TAMIL_TAG 10
@@ -933,46 +939,41 @@
     pageImageView.incrementalImage = nil;
     pageImageView.indexOfThisImage = currentPageNumber;
     
-    NSDictionary *pageDict;
-    for (NSDictionary *readerPageDict in pagesArray) {
-        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
-            pageDict = readerPageDict;
-            break;
-        } else if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"] && pageNumber == 0) {
-            pageDict = readerPageDict;
-            break;
-        }
-    }
     
-    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    MangoPage *mangoStoryPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:pageNumber]];
+    
+    
+    NSArray *layersArray = mangoStoryPage.layers;
     NSURL *audioUrl;
     NSString *textOnPage;
     CGRect textFrame;
     
-    for (NSDictionary *layerDict in layersArray) {
-        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
-            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
-        } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
-        } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
-            textOnPage = [layerDict objectForKey:TEXT];
-            /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
-                textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
-            } else {*/
-                textFrame = CGRectMake(0, 0, 600, 400);
-            /*}*/
-            if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
-                if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
-                    textFrame = CGRectMake(MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
-                }
-            }
+    for (NSString *layerId in layersArray) {
+        id mangoStoryLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+        
+        if ([mangoStoryLayer isKindOfClass:[MangoImageLayer class]]) {
+            MangoImageLayer *imageLayer = (MangoImageLayer *)mangoStoryLayer;
+            
+            NSLog(@"%@", [storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]);
+            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]];
+            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]];
+        } else if ([mangoStoryLayer isKindOfClass:[MangoTextLayer class]]) {
+            MangoTextLayer *textLayer = (MangoTextLayer *)mangoStoryLayer;
+            
+            textOnPage = textLayer.actualText;
+            textFrame = CGRectMake(0, 0, 600, 400);
+            textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 1), 100), MAX(768/MAX([textLayer.topRatio floatValue], 1), 100), [textLayer.width floatValue], [textLayer.height floatValue]);
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont systemFontOfSize:30];
             pageTextView.text = textOnPage;
             [pageImageView addSubview:pageTextView];
-        } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+        } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
+            MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
+            
+            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]];
+        } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
             ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
             [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
@@ -985,7 +986,7 @@
             } failureBlock:^(NSError *myerror) {
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];
-        }
+        }*/
     }
     
     audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1001,7 +1002,7 @@
     [pageImageView addSubview:audioRecordingButton];
     
     //Game
-    if (!pageDict) {
+    if (!mangoStoryPage) {
         UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, pageImageView.frame.size.width, pageImageView.frame.size.height)];
         comingSoonLabel.text = @"Coming Soon...";
         comingSoonLabel.textAlignment = NSTextAlignmentCenter;
@@ -1015,6 +1016,9 @@
 #pragma mark - Book JSON Methods
 
 - (void)setStoryBook:(Book *)storyBookChosen {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.bookId];
+    
     storyBook = storyBookChosen;
     NSString *jsonLocation=storyBook.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -1027,7 +1031,7 @@
 
 - (void)getBookJson {
     NSLog(@"%@", bookJsonString);
-        
+    
     NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
