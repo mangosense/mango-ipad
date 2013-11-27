@@ -2,7 +2,7 @@
 //  Book.h
 //  MangoReader
 //
-//  Created by Nikhil Dhavale on 13/06/13.
+//  Created by Nikhil Dhavale on 27/11/13.
 //
 //
 
@@ -12,6 +12,7 @@
 
 @interface Book : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * bookCount;
 @property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSNumber * downloaded;
@@ -25,6 +26,6 @@
 @property (nonatomic, retain) NSString * sourceFileUrl;
 @property (nonatomic, retain) NSNumber * textBook;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSNumber * bookCount;
+@property (nonatomic, retain) NSString * bookId;
 
 @end
