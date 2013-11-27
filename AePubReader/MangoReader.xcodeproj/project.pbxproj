@@ -568,6 +568,9 @@
 		AE0C9396183E3C60008E4D54 /* icon_my existing books.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C9395183E3C60008E4D54 /* icon_my existing books.png */; };
 		AE0FF3EC16BB912C006258E1 /* 445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3EB16BB912C006258E1 /* 445.jpg */; };
 		AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */; };
+		AE1039C71845CE99008D122B /* MangoImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1039C61845CE99008D122B /* MangoImageLayer.m */; };
+		AE1039CA1845D22D008D122B /* MangoTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1039C91845D22D008D122B /* MangoTextLayer.m */; };
+		AE1039CD1845EAC6008D122B /* MangoAudioLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1039CC1845EAC6008D122B /* MangoAudioLayer.m */; };
 		AE138F30182B49A700F36C99 /* MyBooksViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */; };
 		AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */; };
 		AE138F35182B5F4200F36C99 /* DownloadViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = AE138F33182B5F4200F36C99 /* DownloadViewControlleriPhone.m */; };
@@ -1560,6 +1563,12 @@
 		AE0C9395183E3C60008E4D54 /* icon_my existing books.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_my existing books.png"; sourceTree = "<group>"; };
 		AE0FF3EB16BB912C006258E1 /* 445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 445.jpg; sourceTree = "<group>"; };
 		AE0FF3ED16BB9480006258E1 /* WebViewControllerIphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewControllerIphone.xib; sourceTree = "<group>"; };
+		AE1039C51845CE99008D122B /* MangoImageLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoImageLayer.h; sourceTree = "<group>"; };
+		AE1039C61845CE99008D122B /* MangoImageLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoImageLayer.m; sourceTree = "<group>"; };
+		AE1039C81845D22D008D122B /* MangoTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoTextLayer.h; sourceTree = "<group>"; };
+		AE1039C91845D22D008D122B /* MangoTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoTextLayer.m; sourceTree = "<group>"; };
+		AE1039CB1845EAC6008D122B /* MangoAudioLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAudioLayer.h; sourceTree = "<group>"; };
+		AE1039CC1845EAC6008D122B /* MangoAudioLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAudioLayer.m; sourceTree = "<group>"; };
 		AE138F2D182B49A700F36C99 /* MyBooksViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBooksViewControlleriPhone.h; sourceTree = "<group>"; };
 		AE138F2E182B49A700F36C99 /* MyBooksViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBooksViewControlleriPhone.m; sourceTree = "<group>"; };
 		AE138F2F182B49A700F36C99 /* MyBooksViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBooksViewControlleriPhone.xib; sourceTree = "<group>"; };
@@ -2530,6 +2539,12 @@
 				8358148A184487FB00670D71 /* MangoPage.m */,
 				8358148E184489D100670D71 /* MangoLayer.h */,
 				8358148F184489D100670D71 /* MangoLayer.m */,
+				AE1039C51845CE99008D122B /* MangoImageLayer.h */,
+				AE1039C61845CE99008D122B /* MangoImageLayer.m */,
+				AE1039C81845D22D008D122B /* MangoTextLayer.h */,
+				AE1039C91845D22D008D122B /* MangoTextLayer.m */,
+				AE1039CB1845EAC6008D122B /* MangoAudioLayer.h */,
+				AE1039CC1845EAC6008D122B /* MangoAudioLayer.m */,
 			);
 			name = EJDB;
 			sourceTree = "<group>";
@@ -4435,6 +4450,7 @@
 				AEFA9BF5166CC44200A60A12 /* SignUpViewControllerIphone.m in Sources */,
 				AEFA9BF9166CC80900A60A12 /* MyBooksViewController.m in Sources */,
 				83E2D23F184368C600F8CDB6 /* AssetDatasource.m in Sources */,
+				AE1039CD1845EAC6008D122B /* MangoAudioLayer.m in Sources */,
 				83F4F36D1833498900732315 /* AudioRecord.m in Sources */,
 				AE0C935F183DE5F4008E4D54 /* CoverViewControllerBetterBookType.m in Sources */,
 				83539E401839F4AC0096DBF8 /* BaseViewSample.m in Sources */,
@@ -4452,6 +4468,7 @@
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
 				AE4BB735183CD8D9004F20C5 /* CategoriesFlexibleViewController.m in Sources */,
 				AE5FC01F1677036900BB9AED /* FacebookIphoneLogin.m in Sources */,
+				AE1039C71845CE99008D122B /* MangoImageLayer.m in Sources */,
 				AE5FC0221677250900BB9AED /* FacebookLogin.m in Sources */,
 				AE5167301680781000DF5136 /* NotesHighlightViewController.m in Sources */,
 				AE5F71681682EE36004A7A37 /* SyncIpadConnection.m in Sources */,
@@ -4481,6 +4498,7 @@
 				AEC85BB116AE86710094843B /* DetailHighlightViewController.m in Sources */,
 				AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */,
 				AE396BB6181F7E3D009C68E7 /* PSTCollectionViewItemKey.m in Sources */,
+				AE1039CA1845D22D008D122B /* MangoTextLayer.m in Sources */,
 				AE0C936F183DEE8C008E4D54 /* LanguageChoiceViewController.m in Sources */,
 				AEDA55B816B266C300530478 /* NoteHighlight.m in Sources */,
 				AEC9B12116B65202008CD1F5 /* TableOfContentsViewController.m in Sources */,

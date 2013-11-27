@@ -8,7 +8,6 @@
 
 #import "EJDBController.h"
 #import "Constants.h"
-
 @implementation EJDBController
 
 - (id)initWithCollectionName:(NSString *)collectionName andDatabaseName:(NSString *)databaseName {
@@ -56,34 +55,115 @@
     
     NSArray *pagesArray = [jsonDict objectForKey:PAGES];
     
-    NSMutableArray *pageIdArray = [[NSMutableArray alloc] init];
+    NSMutableArray *pageIdArray = [[NSMutableArray alloc] initWithCapacity:pagesArray.count];
+    /*populating pageIdArray so that insert at object will not throw Exception*/
+    for (int i=0;i<pagesArray.count;i++) {
+        [pageIdArray addObject:[NSNull null]];
+    }
     for (NSDictionary *pageDict in pagesArray) {
         MangoPage *page = [[MangoPage alloc] init];
         page.id = [pageDict objectForKey:@"id"];
         page.story_id = [pageDict objectForKey:@"story_id"];
         page.name = [pageDict objectForKey:@"name"];
         
+        NSArray *pageArray=[pageDict objectForKey:LAYERS];
         NSMutableArray *layerIdArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *layerDict in [pageDict objectForKey:LAYERS]) {
-            MangoLayer *layer = [[MangoLayer alloc] init];
+
+        for (NSDictionary *layerDict in pageArray) {
+           /* MangoLayer *layer = [[MangoLayer alloc] init];
             layer.id = [layerDict objectForKey:@"id"];
             layer.name = [layerDict objectForKey:@"name"];
             layer.style = [layerDict objectForKey:@"style"];
             layer.text = [layerDict objectForKey:@"text"];
             layer.type = [layerDict objectForKey:@"type"];
-            layer.url = [layerDict objectForKey:@"url"];
+          
             
-            if ([self insertOrUpdateObject:layer]) {
-                [layerIdArray addObject:layer.id];
+            
+            layer.url = [layerDict objectForKey:@"url"];
+            */
+            // Instance should be based on type.
+            /*
+             When the layer is Image
+             */
+            if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+                MangoImageLayer *imageLayer=[[MangoImageLayer alloc]init];
+                imageLayer.id=layerDict[@"id"];
+                imageLayer.url=layerDict[@"url"];
+                imageLayer.alignment=layerDict[@"alignment"];
+                if ([self insertOrUpdateObject:imageLayer]) {
+                    [layerIdArray addObject:imageLayer.id];
+                }
             }
+            /*
+             When the layer is text
+             */
+            else if([[layerDict objectForKey:@"type"] isEqualToString:@"text"]){
+                MangoTextLayer *textLayer=[[MangoTextLayer alloc]init];
+                textLayer.id=layerDict[@"id"];
+                textLayer.actualText=layerDict[@"text"];
+                NSDictionary *style=layerDict[@"style"];
+                NSLog(@"%@",[style allKeys]);
+
+                textLayer.colour=style[@"color"];
+                NSNumber *fontSize=style[@"font-size"];
+                NSInteger font=MAX(fontSize.integerValue, 30);
+                textLayer.fontSize=[NSNumber numberWithInteger:font];
+                textLayer.fontWeight=style[@"font-weight"];
+                textLayer.fontStyle=style[@"font-family"];
+                NSString *lineHeight=style[@"line-height"];
+                NSNumber *numberLineHeight=[NSNumber numberWithFloat:lineHeight.floatValue];
+                textLayer.lineHeight=numberLineHeight;
+                NSLog(@"%@ %@",style[@"top_ratio"],style[@"left_ratio"]);
+                textLayer.topRatio=style[@"top_ratio"];
+                textLayer.leftRatio=style[@"left_ratio"];
+                textLayer.height=style[@"height"];
+                textLayer.width=style[@"width"];
+                
+                if ([self insertOrUpdateObject:textLayer]) {
+                    [layerIdArray addObject:textLayer.id];
+                }
+            }
+            /*
+             When the layer is audio
+             */
+            else if([[layerDict objectForKey:@"type"] isEqualToString:@"audio"]){
+                MangoAudioLayer *audioLayer=[[MangoAudioLayer alloc]init];
+                audioLayer.id=layerDict[@"id"];
+                audioLayer.url=layerDict[@"url"];
+                audioLayer.wordTimes=layerDict[@"wordTimes"];
+                NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
+                for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
+                    NSString *word=wordMap[@"word"];
+                    [mutableWordMap addObject:word];
+                    
+                }
+                audioLayer.wordMap=mutableWordMap;
+                if ([self insertOrUpdateObject:audioLayer]) {
+                    [layerIdArray addObject:audioLayer.id];
+                }
+            }
+           
         }
-        
+       
         page.layers = layerIdArray;
         
         if ([self insertOrUpdateObject:page]) {
-            [pageIdArray addObject:page.id];
+            /*done so that page ids are saved in order*/
+            NSString *name=page.name;
+            if ([name isEqualToString:@"Cover"]) {
+                [pageIdArray insertObject:page.id atIndex:0];
+            }else{
+                NSInteger pageNumber=name.integerValue;
+                if (pageNumber==0) {
+                    [pageIdArray addObject:page.id];
+
+                }else{
+                    [pageIdArray insertObject:page.id atIndex:pageNumber];
+                }
+            }
         }
     }
+    [pageIdArray removeObject:[NSNull null]];
     
     book.pages = pageIdArray;
     if ([self insertOrUpdateObject:book]) {
@@ -91,9 +171,13 @@
         NSLog(@"%@", fetchedBook.pages);
         
         MangoPage *fetchedPage = [self getPageForPageId:fetchedBook.pages[5]];
+        for (NSString *page in fetchedBook.pages) {
+            MangoPage *pageFetched=[self getPageForPageId:page];
+            NSLog(@"id - %@   name-%@ ",pageFetched.id,pageFetched.name);
+        }
         NSLog(@"%@",fetchedPage.layers);
-        MangoLayer *fetchedLayer=[self getLayerForLayerId:fetchedPage.layers[0]];
-        NSLog(@"%@ %@",fetchedLayer.id,fetchedLayer.name);
+
+        
     }
     
 }

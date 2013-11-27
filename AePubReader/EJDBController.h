@@ -11,7 +11,9 @@
 #import "MangoBook.h"
 #import "MangoPage.h"
 #import "MangoLayer.h"
-
+#import "MangoImageLayer.h"
+#import "MangoTextLayer.h"
+#import "MangoAudioLayer.h"
 @interface EJDBController : NSObject
 
 @property (nonatomic, strong) EJDBCollection *collection;
