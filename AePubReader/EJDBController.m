@@ -85,7 +85,7 @@
             /*
              When the layer is Image
              */
-            if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+            if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
                 MangoImageLayer *imageLayer=[[MangoImageLayer alloc]init];
                 imageLayer.id=layerDict[@"id"];
                 imageLayer.url=layerDict[@"url"];
@@ -97,7 +97,7 @@
             /*
              When the layer is text
              */
-            else if([[layerDict objectForKey:@"type"] isEqualToString:@"text"]){
+            else if([[layerDict objectForKey:TYPE] isEqualToString:TEXT]){
                 MangoTextLayer *textLayer=[[MangoTextLayer alloc]init];
                 textLayer.id=layerDict[@"id"];
                 textLayer.actualText=layerDict[@"text"];
@@ -128,7 +128,7 @@
             /*
              When the layer is audio
              */
-            else if([[layerDict objectForKey:@"type"] isEqualToString:@"audio"]){
+            else if([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]){
                 MangoAudioLayer *audioLayer=[[MangoAudioLayer alloc]init];
                 audioLayer.id=layerDict[@"id"];
                 audioLayer.url=layerDict[@"url"];
