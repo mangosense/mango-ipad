@@ -646,6 +646,7 @@
 		AE396BBC181F7E3D009C68E7 /* PSTGridLayoutSection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE396BAF181F7E3D009C68E7 /* PSTGridLayoutSection.m */; };
 		AE396BC0181F7F6F009C68E7 /* OldStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE396BBF181F7F6F009C68E7 /* OldStoreCell.m */; };
 		AE396BC3181F803F009C68E7 /* DataSourceForLinearOld.m in Sources */ = {isa = PBXBuildFile; fileRef = AE396BC2181F803F009C68E7 /* DataSourceForLinearOld.m */; };
+		AE3BB3461845FFB90091BDEA /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3BB3451845FFB90091BDEA /* Book.m */; };
 		AE3E0F281653F4B800625CEB /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE3E0F271653F4B800625CEB /* cart@2x.png */; };
 		AE3E0F2B1653F4E300625CEB /* cart.png in Resources */ = {isa = PBXBuildFile; fileRef = AE3E0F2A1653F4E300625CEB /* cart.png */; };
 		AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3F981A16D637C70052C85C /* CoreFoundation.framework */; };
@@ -842,7 +843,6 @@
 		AED5E3AA17377A4300914590 /* stopbuttonpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = AED5E3A717377A4300914590 /* stopbuttonpressed.png */; };
 		AED6A8781696B81400FADB3D /* ViewControllerIphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED6A8771696B81400FADB3D /* ViewControllerIphone.xib */; };
 		AED77757169431200043E3D4 /* header-toolbar-slider.png in Resources */ = {isa = PBXBuildFile; fileRef = AED77756169431200043E3D4 /* header-toolbar-slider.png */; };
-		AED7A3941769BD6D00A828E9 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AED7A3931769BD6D00A828E9 /* Book.m */; };
 		AEDA4856169E7F9C00116C23 /* HighlightedStringOld.js in Resources */ = {isa = PBXBuildFile; fileRef = AEDA4853169E7F8E00116C23 /* HighlightedStringOld.js */; };
 		AEDA4859169E9C6800116C23 /* SimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDA4858169E9C6800116C23 /* SimpleView.m */; };
 		AEDA55B816B266C300530478 /* NoteHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDA55B716B266C200530478 /* NoteHighlight.m */; };
@@ -1682,6 +1682,9 @@
 		AE396BBF181F7F6F009C68E7 /* OldStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldStoreCell.m; sourceTree = "<group>"; };
 		AE396BC1181F803F009C68E7 /* DataSourceForLinearOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSourceForLinearOld.h; sourceTree = "<group>"; };
 		AE396BC2181F803F009C68E7 /* DataSourceForLinearOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSourceForLinearOld.m; sourceTree = "<group>"; };
+		AE3BB33E1845FF200091BDEA /* Books 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Books 11.xcdatamodel"; sourceTree = "<group>"; };
+		AE3BB3441845FFB90091BDEA /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		AE3BB3451845FFB90091BDEA /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AE3E0F271653F4B800625CEB /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		AE3E0F2A1653F4E300625CEB /* cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cart.png; sourceTree = "<group>"; };
 		AE3F981A16D637C70052C85C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -1957,8 +1960,6 @@
 		AED7028016A68BA40073811C /* Books 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 8.xcdatamodel"; sourceTree = "<group>"; };
 		AED77756169431200043E3D4 /* header-toolbar-slider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header-toolbar-slider.png"; sourceTree = "<group>"; };
 		AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 10.xcdatamodel"; sourceTree = "<group>"; };
-		AED7A3921769BD6D00A828E9 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		AED7A3931769BD6D00A828E9 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AEDA4853169E7F8E00116C23 /* HighlightedStringOld.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = HighlightedStringOld.js; sourceTree = "<group>"; };
 		AEDA4857169E9C6800116C23 /* SimpleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleView.h; sourceTree = "<group>"; };
 		AEDA4858169E9C6800116C23 /* SimpleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleView.m; sourceTree = "<group>"; };
@@ -3399,14 +3400,14 @@
 				AE6860661659F4DF00A8C9E8 /* Base64.h */,
 				AE6860671659F4DF00A8C9E8 /* Base64.m */,
 				AEA7687816117CF7002B9FDC /* Books.xcdatamodeld */,
+				AE3BB3441845FFB90091BDEA /* Book.h */,
+				AE3BB3451845FFB90091BDEA /* Book.m */,
 				AEA768DE1611DA81002B9FDC /* DataModelControl.h */,
 				AEA768DF1611DA81002B9FDC /* DataModelControl.m */,
 				AEDF1849168B62890087064A /* StoreBooks.h */,
 				AEDF184A168B62890087064A /* StoreBooks.m */,
 				AEDA55B616B266C200530478 /* NoteHighlight.h */,
 				AEDA55B716B266C200530478 /* NoteHighlight.m */,
-				AED7A3921769BD6D00A828E9 /* Book.h */,
-				AED7A3931769BD6D00A828E9 /* Book.m */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -4511,6 +4512,7 @@
 				83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,
 				AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */,
+				AE3BB3461845FFB90091BDEA /* Book.m in Sources */,
 				AE138F35182B5F4200F36C99 /* DownloadViewControlleriPhone.m in Sources */,
 				AE21CAE81712A82A00A4877F /* ViewControllerBaseUrl.m in Sources */,
 				AE63865F1733D8CA009E372A /* PuttyView.m in Sources */,
@@ -4529,7 +4531,6 @@
 				AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */,
 				AE396BBB181F7E3D009C68E7 /* PSTGridLayoutRow.m in Sources */,
 				AE396BB4181F7E3D009C68E7 /* PSTCollectionViewData.m in Sources */,
-				AED7A3941769BD6D00A828E9 /* Book.m in Sources */,
 				AE195EF5181E6862008E4208 /* DataSourceForLinear.m in Sources */,
 				AE5B84DE17AA535500EDC098 /* CollectionViewLayout.m in Sources */,
 				AE396BB0181F7E3D009C68E7 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
@@ -4829,6 +4830,7 @@
 		AEA7687816117CF7002B9FDC /* Books.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AE3BB33E1845FF200091BDEA /* Books 11.xcdatamodel */,
 				AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */,
 				AE2D35BE16B15FF4009E99A7 /* Books 7.xcdatamodel */,
 				AEDA55B416B265BE00530478 /* Books 9.xcdatamodel */,
@@ -4840,7 +4842,7 @@
 				AE4346B616662A8300D4E5F7 /* Books 2.xcdatamodel */,
 				AEA7687916117CF7002B9FDC /* Books.xcdatamodel */,
 			);
-			currentVersion = AED7A38E1769BC7100A828E9 /* Books 10.xcdatamodel */;
+			currentVersion = AE3BB33E1845FF200091BDEA /* Books 11.xcdatamodel */;
 			path = Books.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
