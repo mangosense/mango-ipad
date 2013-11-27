@@ -963,7 +963,7 @@
             
             textOnPage = textLayer.actualText;
             textFrame = CGRectMake(0, 0, 600, 400);
-            textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 1), 100), MAX(768/MAX([textLayer.topRatio floatValue], 1), 100), [textLayer.width floatValue], [textLayer.height floatValue]);
+            textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 3), 100), MAX(768/MAX([textLayer.topRatio floatValue], 3), 100), MAX(600, [textLayer.width floatValue]), MAX([textLayer.height floatValue], 400));
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
             pageTextView.font = [UIFont systemFontOfSize:30];
@@ -971,7 +971,7 @@
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
-            
+            NSLog(@"%@", [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]);
             audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]];
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];

@@ -105,6 +105,8 @@
                 MangoTextLayer *textLayer=[[MangoTextLayer alloc]init];
                 textLayer.id=layerDict[@"id"];
                 textLayer.actualText=layerDict[@"text"];
+                NSLog(@"%@", textLayer.actualText);
+                
                 NSDictionary *style=layerDict[@"style"];
                 NSLog(@"%@",[style allKeys]);
 
@@ -118,14 +120,12 @@
                 NSNumber *numberLineHeight=[NSNumber numberWithFloat:lineHeight.floatValue];
                 textLayer.lineHeight=numberLineHeight;
                 NSLog(@"%@ %@",style[@"top_ratio"],style[@"left_ratio"]);
-                textLayer.topRatio=style[@"top_ratio"];
-                textLayer.leftRatio=style[@"left_ratio"];
-                textLayer.height=style[@"height"];
-                textLayer.width=style[@"width"];
-                if (textLayer.height!=nil) {
-                    if ([self insertOrUpdateObject:textLayer]) {
-                        [layerIdArray addObject:textLayer.id];
-                    }
+                textLayer.topRatio=[NSNumber numberWithFloat:MAX([style[@"top_ratio"] floatValue], 1)];
+                textLayer.leftRatio=[NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
+                textLayer.height=[NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
+                textLayer.width=[NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
+                if ([self insertOrUpdateObject:textLayer]) {
+                    [layerIdArray addObject:textLayer.id];
                 }
                
             }
