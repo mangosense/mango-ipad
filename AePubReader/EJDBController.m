@@ -118,10 +118,12 @@
                 textLayer.leftRatio=style[@"left_ratio"];
                 textLayer.height=style[@"height"];
                 textLayer.width=style[@"width"];
-                
-                if ([self insertOrUpdateObject:textLayer]) {
-                    [layerIdArray addObject:textLayer.id];
+                if (textLayer.height!=nil) {
+                    if ([self insertOrUpdateObject:textLayer]) {
+                        [layerIdArray addObject:textLayer.id];
+                    }
                 }
+               
             }
             /*
              When the layer is audio

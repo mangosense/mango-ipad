@@ -29,12 +29,13 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, actualText,colour,fontSize,fontStyle,
-                                          fontWeight,height,width,leftRatio,topRatio,lineHeight);
+    
+    return NSDictionaryOfVariableBindings(id, actualText,fontSize,
+                                          height,width,leftRatio,topRatio,lineHeight);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *keysArray = [NSArray arrayWithObjects:@"id",@"actualText",@"colour",@"fontSize"
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id",@"actualText",@"fontSize"
                           @"height",@"width",@"leftRatio",@"topRatio",@"lineHeight", nil];
     for (NSString *key in keysArray)
     {

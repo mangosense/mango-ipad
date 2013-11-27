@@ -292,15 +292,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EJDBController.m"
-            timestampString = "407237570.92568"
+            timestampString = "407238405.195369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "-parseBookJson:"
             landmarkType = "5">
          </BreakpointContent>
