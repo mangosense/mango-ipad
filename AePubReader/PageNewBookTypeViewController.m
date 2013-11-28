@@ -15,7 +15,7 @@
 @end
 
 @implementation PageNewBookTypeViewController
-
+@synthesize menuPopoverController;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger)option BookId:(NSString *)bookID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -193,6 +193,28 @@
         
     }
     
+}
+
+- (IBAction)openGameCentre:(id)sender {
+    [self showComingSoonPopover:sender];
+    
+}
+- (void)showComingSoonPopover:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    
+    UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 250)];
+    comingSoonLabel.text = @"Coming Soon...";
+    comingSoonLabel.textAlignment = NSTextAlignmentCenter;
+    comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+    comingSoonLabel.textColor = COLOR_GREY;
+    
+    UIViewController *comingSoonController = [[UIViewController alloc] init];
+    [comingSoonController.view addSubview:comingSoonLabel];
+    
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:comingSoonController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(0, 0, 100, 100)];
+    [menuPopoverController presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 -(void)dismissPopOver{
     [_pop dismissPopoverAnimated:YES];
