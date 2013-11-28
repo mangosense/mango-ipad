@@ -1378,10 +1378,20 @@ enum
     audioMappingViewController.customView.frame = CGRectMake(100, 100, 600, 400);;
     
     [pageImageView addSubview:audioMappingViewController.customView];
-    
-    audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:_audioLayer.wordTimes];
+    NSMutableArray *arrayOfCues=[[NSMutableArray alloc]init];
+    for (NSNumber *num in _audioLayer.wordTimes) {
+        double d=num.doubleValue;
+        d*=1000;
+        NSNumber *changedNumber=[NSNumber numberWithDouble:d];
+        [arrayOfCues addObject:changedNumber];
+        
+    }
     audioMappingViewController.textForMapping=@"";
+    audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:arrayOfCues];
+
     audioMappingViewController.customView.text=_audioLayer.wordMap;
+    NSLog(@"%@",audioMappingViewController.customView.text);
+    NSLog(@"%@",audioMappingViewController.cues);
     [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
     
     audioMappingViewController.audioUrl = _audioUrl;
