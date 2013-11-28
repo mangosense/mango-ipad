@@ -12,7 +12,7 @@
 #import "MangoEditorViewController.h"
 #import "AudioMappingViewController.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "MangoEditorViewController.h"
 #import "DismissPopOver.h"
 @interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate>
 - (IBAction)ShowOptions:(id)sender;

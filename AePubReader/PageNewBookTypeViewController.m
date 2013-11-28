@@ -95,6 +95,12 @@
 }
 
 - (IBAction)editButton:(id)sender {
+    
+    MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+    mangoEditorViewController.storyBook=_book;
+    [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+
+    
 }
 
 - (IBAction)changeLanguage:(id)sender {
