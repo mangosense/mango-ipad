@@ -1003,12 +1003,13 @@
     [pageImageView addSubview:audioRecordingButton];
     
     //Game
-    if (!mangoStoryPage) {
+    if (mangoStoryPage.layers.count==0) {
         UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, pageImageView.frame.size.width, pageImageView.frame.size.height)];
         comingSoonLabel.text = @"Coming Soon...";
         comingSoonLabel.textAlignment = NSTextAlignmentCenter;
         comingSoonLabel.textColor = COLOR_GREY;
         comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+        comingSoonLabel.backgroundColor=[UIColor whiteColor];
         [pageImageView addSubview:comingSoonLabel];
         return;
     }
