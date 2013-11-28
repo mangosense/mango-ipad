@@ -523,7 +523,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)unzipExistingJsonBooks{
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
-    
+    int i=2;
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
@@ -535,20 +535,21 @@ void uncaughtExceptionHandler(NSException *exception) {
         // provide do not backup attribute to folder itself
         [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
         // delete the zip since it is unzipped
-        [self SendToEJDB:[epubLocation stringByDeletingPathExtension]];
+        [self SendToEJDB:[epubLocation stringByDeletingPathExtension] WithId:i];
+        i--;
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
         
     }
 
 }
--(void)SendToEJDB:(NSString *)locationDirectory{
+-(void)SendToEJDB:(NSString *)locationDirectory WithId:(int)numberId {
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
     
     NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles lastObject]];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
-    [_ejdbController parseBookJson:jsonData];
+    [_ejdbController parseBookJson:jsonData WithId:numberId];
     
 }
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{

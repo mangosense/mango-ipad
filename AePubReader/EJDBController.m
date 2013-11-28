@@ -8,6 +8,9 @@
 
 #import "EJDBController.h"
 #import "Constants.h"
+#import "AePubReaderAppDelegate.h"
+#import "DataModelControl.h"
+#import "Book.h"
 @implementation EJDBController
 
 - (id)initWithCollectionName:(NSString *)collectionName andDatabaseName:(NSString *)databaseName {
@@ -38,14 +41,14 @@
     return page;
 }
 
-- (MangoLayer *)getLayerForLayerId:(NSString *)layerId {
-    MangoLayer *layer = [_collection fetchObjectWithOID:layerId];
+- (id)getLayerForLayerId:(NSString *)layerId {
+    id layer = [_collection fetchObjectWithOID:layerId];
     return layer;
 }
 
 #pragma mark - Parse JSON
 
-- (void)parseBookJson:(NSData *)bookJsonData {
+- (void)parseBookJson:(NSData *)bookJsonData WithId:(int)numberId{
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:bookJsonData options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"%@", jsonDict);
     
@@ -85,9 +88,10 @@
             /*
              When the layer is Image
              */
-            if ([[layerDict objectForKey:@"type"] isEqualToString:@"image"]) {
+            if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
                 MangoImageLayer *imageLayer=[[MangoImageLayer alloc]init];
                 imageLayer.id=layerDict[@"id"];
+                NSLog(@"for %@ %@",[layerDict objectForKey:TYPE],layerDict[@"url"]);
                 imageLayer.url=layerDict[@"url"];
                 imageLayer.alignment=layerDict[@"alignment"];
                 if ([self insertOrUpdateObject:imageLayer]) {
@@ -97,10 +101,12 @@
             /*
              When the layer is text
              */
-            else if([[layerDict objectForKey:@"type"] isEqualToString:@"text"]){
+            else if([[layerDict objectForKey:TYPE] isEqualToString:TEXT]){
                 MangoTextLayer *textLayer=[[MangoTextLayer alloc]init];
                 textLayer.id=layerDict[@"id"];
                 textLayer.actualText=layerDict[@"text"];
+                NSLog(@"%@", textLayer.actualText);
+                
                 NSDictionary *style=layerDict[@"style"];
                 NSLog(@"%@",[style allKeys]);
 
@@ -114,21 +120,19 @@
                 NSNumber *numberLineHeight=[NSNumber numberWithFloat:lineHeight.floatValue];
                 textLayer.lineHeight=numberLineHeight;
                 NSLog(@"%@ %@",style[@"top_ratio"],style[@"left_ratio"]);
-                textLayer.topRatio=style[@"top_ratio"];
-                textLayer.leftRatio=style[@"left_ratio"];
-                textLayer.height=style[@"height"];
-                textLayer.width=style[@"width"];
-                if (textLayer.height!=nil) {
-                    if ([self insertOrUpdateObject:textLayer]) {
-                        [layerIdArray addObject:textLayer.id];
-                    }
+                textLayer.topRatio=[NSNumber numberWithFloat:MAX([style[@"top_ratio"] floatValue], 1)];
+                textLayer.leftRatio=[NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
+                textLayer.height=[NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
+                textLayer.width=[NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
+                if ([self insertOrUpdateObject:textLayer]) {
+                    [layerIdArray addObject:textLayer.id];
                 }
                
             }
             /*
              When the layer is audio
              */
-            else if([[layerDict objectForKey:@"type"] isEqualToString:@"audio"]){
+            else if([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]){
                 MangoAudioLayer *audioLayer=[[MangoAudioLayer alloc]init];
                 audioLayer.id=layerDict[@"id"];
                 audioLayer.url=layerDict[@"url"];
@@ -168,7 +172,7 @@
     [pageIdArray removeObject:[NSNull null]];
     
     book.pages = pageIdArray;
-    if ([self insertOrUpdateObject:book]) {
+    if ([self insertOrUpdateObject:book]) {// insertion done
         MangoBook *fetchedBook = [self getBookForBookId:book.id];
         NSLog(@"%@", fetchedBook.pages);
         
@@ -178,7 +182,12 @@
             NSLog(@"id - %@   name-%@ ",pageFetched.id,pageFetched.name);
         }
         NSLog(@"%@",fetchedPage.layers);
-
+        NSString *iden=[NSString stringWithFormat:@"%d",numberId ];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        Book *bk=[delegate.dataModel getBookOfId:iden];
+        bk.bookId=book.id;
+        [delegate.dataModel saveData:bk];
+        [delegate.dataModel displayAllData];
         
     }
     

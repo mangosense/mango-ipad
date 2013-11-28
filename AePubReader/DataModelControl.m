@@ -30,15 +30,15 @@
 
 }
 -(void)displayAllData{
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    NSEntityDescription *entity = [NSEntityDescription
-//                                   entityForName:@"Book" inManagedObjectContext:_dataModelContext];
-//    [fetchRequest setEntity:entity];
-//NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
-////    for (Book *bok in array) {
-////        NSLog(@"Book to be displayed %@,%@,%@",bok.id,bok.title,bok.downloaded);
-////    }
-//    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Book" inManagedObjectContext:_dataModelContext];
+    [fetchRequest setEntity:entity];
+NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
+    for (Book *bok in array) {
+        NSLog(@"Book to be displayed %@,%@,%@ %@",bok.id,bok.title,bok.downloaded,bok.bookId);
+    }
+    
 }
 /*
  @property (nonatomic, retain) NSNumber * highlight;
