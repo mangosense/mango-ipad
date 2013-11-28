@@ -1068,7 +1068,8 @@ enum
             break;
             
         case PLAY: {
-            [self startPlayingAudio];
+          //  [self startPlayingAudio];
+            [self startPlayingAudioFromDb];
         }
             break;
             
