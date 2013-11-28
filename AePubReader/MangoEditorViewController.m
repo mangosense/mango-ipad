@@ -945,10 +945,10 @@
     
     
     NSArray *layersArray = mangoStoryPage.layers;
-    NSURL *audioUrl;
+    //NSURL *audioUrl;
     NSString *textOnPage;
     CGRect textFrame;
-    
+    _audioUrl=nil;
     for (NSString *layerId in layersArray) {
         id mangoStoryLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
         
@@ -972,8 +972,8 @@
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
             NSString *audioString= [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url];
-            audioUrl = [NSURL fileURLWithPath:audioString];
-            
+            _audioUrl = [NSURL fileURLWithPath:audioString];
+            _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
             ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
@@ -991,7 +991,7 @@
     }
     
     audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    if (!audioUrl) {
+    if (!_audioUrl) {
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
         audioRecordingButton.tag = RECORD;
     } else {
@@ -1246,7 +1246,26 @@ enum
     // Temporary, for testing audio mapping UI
     [self showAudioMappingScreen];
 }
+-(void)startPlayingAudioFromDb{
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url;
+    if (_audioUrl) {
+        url = _audioUrl;
+    } else {
+        url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+    }
+    NSError *error;
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    audioPlayer.numberOfLoops = 0;
+    audioPlayer.delegate = self;
+    [audioPlayer play];
+    [self showAudioMappingScreenDb];
 
+    
+}
 - (void)stopPlayingAudio {
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
     audioRecordingButton.tag = PLAY;
@@ -1315,7 +1334,19 @@ enum
     
 
 }
-
+-(void)showAudioMappingScreenDb{
+    NSURL *urlAudio;
+    if (!_audioUrl) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *recDir = [paths objectAtIndex:0];
+        NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+        urlAudio=url;
+    }else{
+        urlAudio=_audioUrl;
+    }
+  
+    
+}
 #pragma mark - Audio Player Delegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
