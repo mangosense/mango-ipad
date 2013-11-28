@@ -14,7 +14,6 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
-		830412C31845F9B300EE617F /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83506E4A1845F97D005F6EA4 /* libEJDBKit.a */; };
 		830412C81846049B00EE617F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 830412C71846049B00EE617F /* Parse.framework */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
 		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
@@ -901,6 +900,7 @@
 		AEFB1C4A173A5F8700C7A081 /* ipadappcoverpgbg.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */; };
 		AEFB1C4D173A5FC000C7A081 /* Readbymyselfbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */; };
 		AEFB1C4E173A5FC000C7A081 /* Readtomebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFB1C4C173A5FC000C7A081 /* Readtomebutton.png */; };
+		AEFE48F11846F13B00739BB2 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEFE48EA1846F0DE00739BB2 /* libEJDBKit.a */; };
 		AEFEB750169D72A5009B299D /* UIWebViewSearch.js in Resources */ = {isa = PBXBuildFile; fileRef = AE6F271916803AC900355BCC /* UIWebViewSearch.js */; };
 		AEFEB756169D9089009B299D /* backimageiphonen.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFEB755169D9089009B299D /* backimageiphonen.png */; };
 		CA7E023515E388F3001F520B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7E023415E388F3001F520B /* libz.dylib */; };
@@ -919,33 +919,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		830412BE1845F9A800EE617F /* PBXContainerItemProxy */ = {
+		AEFE48E91846F0DE00739BB2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
-			remoteInfo = EJDBKit;
-		};
-		83506E491845F97D005F6EA4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */;
+			containerPortal = AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
 			remoteInfo = EJDBKit;
 		};
-		83506E4B1845F97D005F6EA4 /* PBXContainerItemProxy */ = {
+		AEFE48EB1846F0DE00739BB2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */;
+			containerPortal = AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		83506E4D1845F97D005F6EA4 /* PBXContainerItemProxy */ = {
+		AEFE48ED1846F0DE00739BB2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */;
+			containerPortal = AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
 			remoteInfo = EJDBKitTests64;
+		};
+		AEFE48EF1846F13200739BB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
+			remoteInfo = EJDBKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1078,7 +1078,6 @@
 		834FCE70182E084E0000181B /* pages_bg_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pages_bg_left.png; sourceTree = "<group>"; };
 		834FCE71182E084E0000181B /* pages_bg_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pages_bg_right.png; sourceTree = "<group>"; };
 		834FCE72182E084E0000181B /* pagesbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pagesbg.png; sourceTree = "<group>"; };
-		83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		83539E331839F4AC0096DBF8 /* AudioMappingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMappingViewController.h; sourceTree = "<group>"; };
 		83539E341839F4AC0096DBF8 /* AudioMappingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMappingViewController.m; sourceTree = "<group>"; };
 		83539E351839F4AC0096DBF8 /* AudioMappingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioMappingViewController.xib; sourceTree = "<group>"; };
@@ -2039,6 +2038,7 @@
 		AEFB1C49173A5F8700C7A081 /* ipadappcoverpgbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipadappcoverpgbg.png; sourceTree = "<group>"; };
 		AEFB1C4B173A5FC000C7A081 /* Readbymyselfbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Readbymyselfbutton.png; sourceTree = "<group>"; };
 		AEFB1C4C173A5FC000C7A081 /* Readtomebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Readtomebutton.png; sourceTree = "<group>"; };
+		AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../../Downloads/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		AEFEB755169D9089009B299D /* backimageiphonen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backimageiphonen.png; sourceTree = "<group>"; };
 		CA7E023415E388F3001F520B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		FA11956513BA93F100025A2B /* EPubView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EPubView.xib; path = Classes/EPubView.xib; sourceTree = "<group>"; };
@@ -2066,7 +2066,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				830412C31845F9B300EE617F /* libEJDBKit.a in Frameworks */,
+				AEFE48F11846F13B00739BB2 /* libEJDBKit.a in Frameworks */,
 				CA7E023515E388F3001F520B /* libz.dylib in Frameworks */,
 				837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
@@ -2124,8 +2124,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */,
 				830412C71846049B00EE617F /* Parse.framework */,
-				83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */,
 				8358146A1844799A00670D71 /* EJDB */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
@@ -2507,16 +2507,6 @@
 			children = (
 			);
 			name = iCarousel;
-			sourceTree = "<group>";
-		};
-		83506E441845F97D005F6EA4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				83506E4A1845F97D005F6EA4 /* libEJDBKit.a */,
-				83506E4C1845F97D005F6EA4 /* EJDBKitTests.xctest */,
-				83506E4E1845F97D005F6EA4 /* EJDBKitTests64.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		83539E321839F4AC0096DBF8 /* AudioMapping */ = {
@@ -3539,6 +3529,16 @@
 			name = "Mangoreader iphone";
 			sourceTree = "<group>";
 		};
+		AEFE48E41846F0DE00739BB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AEFE48EA1846F0DE00739BB2 /* libEJDBKit.a */,
+				AEFE48EC1846F0DE00739BB2 /* EJDBKitTests.xctest */,
+				AEFE48EE1846F0DE00739BB2 /* EJDBKitTests64.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FAF4585B134B195500D4C0F9 /* ZipArchive */ = {
 			isa = PBXGroup;
 			children = (
@@ -3579,7 +3579,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				830412BF1845F9A800EE617F /* PBXTargetDependency */,
+				AEFE48F01846F13200739BB2 /* PBXTargetDependency */,
 			);
 			name = MangoReader;
 			productName = AePubReader;
@@ -3632,8 +3632,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 83506E441845F97D005F6EA4 /* Products */;
-					ProjectRef = 83506E431845F97D005F6EA4 /* EJDBKit.xcodeproj */;
+					ProductGroup = AEFE48E41846F0DE00739BB2 /* Products */;
+					ProjectRef = AEFE48E31846F0DE00739BB2 /* EJDBKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -3645,25 +3645,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		83506E4A1845F97D005F6EA4 /* libEJDBKit.a */ = {
+		AEFE48EA1846F0DE00739BB2 /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libEJDBKit.a;
-			remoteRef = 83506E491845F97D005F6EA4 /* PBXContainerItemProxy */;
+			remoteRef = AEFE48E91846F0DE00739BB2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		83506E4C1845F97D005F6EA4 /* EJDBKitTests.xctest */ = {
+		AEFE48EC1846F0DE00739BB2 /* EJDBKitTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
-			remoteRef = 83506E4B1845F97D005F6EA4 /* PBXContainerItemProxy */;
+			remoteRef = AEFE48EB1846F0DE00739BB2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		83506E4E1845F97D005F6EA4 /* EJDBKitTests64.xctest */ = {
+		AEFE48EE1846F0DE00739BB2 /* EJDBKitTests64.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests64.xctest;
-			remoteRef = 83506E4D1845F97D005F6EA4 /* PBXContainerItemProxy */;
+			remoteRef = AEFE48ED1846F0DE00739BB2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4578,10 +4578,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		830412BF1845F9A800EE617F /* PBXTargetDependency */ = {
+		AEFE48F01846F13200739BB2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = EJDBKit;
-			targetProxy = 830412BE1845F9A800EE617F /* PBXContainerItemProxy */;
+			targetProxy = AEFE48EF1846F13200739BB2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4617,7 +4617,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -4658,7 +4657,6 @@
 					"$(inherited)",
 					"/Users/nikhildhavale/Mangoreader_iphone/mango-ipad/AePubReader",
 					/Users/nikhildhavale/Downloads,
-					"/Users/kedark/Desktop/mango-ipad/AePubReader",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MangoReader_Prefix.pch;
