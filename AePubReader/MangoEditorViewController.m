@@ -971,8 +971,8 @@
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
-            NSLog(@"%@", [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]);
-            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]];
+            NSString *audioString= [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url];
+            audioUrl = [NSURL fileURLWithPath:audioString];
             
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
