@@ -973,6 +973,7 @@
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
             NSLog(@"%@", [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]);
             audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]];
+            
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
             ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
