@@ -92,6 +92,37 @@
 }
 
 - (IBAction)shareButton:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    NSString *ver=[UIDevice currentDevice].systemVersion;
+    if([ver floatValue]>5.1){
+        NSString *textToShare=[_book.title stringByAppendingString:@" great bk from MangoReader"];
+        
+        
+        UIImage *image=[UIImage imageWithContentsOfFile:_book.localPathImageFile];
+        NSArray *activityItems=@[textToShare,image];
+        
+        UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
+        _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
+        
+        //  [activity release];
+        [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        
+        return;
+    }
+    
+    /// for IOS 5 code below;
+   /* MFMailComposeViewController *mail;
+    
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [mail setMailComposeDelegate:self];
+    NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
+    body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+    [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];*/
+
 }
 
 - (IBAction)editButton:(id)sender {

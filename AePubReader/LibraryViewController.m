@@ -442,9 +442,10 @@
 }
 
 -(IBAction)shareButtonClicked:(id)sender{
+    ShareButton *buttonShadow=(ShareButton *)sender;
+
     NSString *ver= [UIDevice currentDevice].systemVersion;
   
-    ShareButton *buttonShadow=(ShareButton *)sender;
     if([ver floatValue]>5.1){
         NSString *textToShare=[buttonShadow.stringLink stringByAppendingString:@" great bk from MangoReader"];
         
