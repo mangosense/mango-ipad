@@ -54,6 +54,7 @@
 @property(nonatomic,strong) MangoAudioLayer *audioLayer;
 @property(nonatomic,strong) NSURL *audioUrl;
 @property(nonatomic,assign) CGRect textFrame;
+@property(nonatomic,strong) NSString *editedBookPath;
 - (IBAction)mangoButtonTapped:(id)sender;
 - (IBAction)menuButtonTapped:(id)sender;
 - (IBAction)imageButtonTapped:(id)sender;
