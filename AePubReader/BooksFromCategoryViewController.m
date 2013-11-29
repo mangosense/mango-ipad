@@ -37,11 +37,16 @@
     _imageArray=[NSArray arrayWithObjects:_imageOne,_imageTwo,_imageThree,_imageFour,_imageFive, nil];
     _titleLabelArray=[NSArray arrayWithObjects:_labelone,_labelTwo,_labelThree,_labelFour,_labelFive, nil];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if (_toEdit) {
+        _books=[delegate.dataModel getOriginalBooks];
+    }else{
     _books= [delegate.dataModel getAllUserBooks];
+    }
     NSInteger count=MIN(_books.count, 6);
     NSInteger finalIndex=_inital+count;
     UIImage *maskImage=[UIImage imageNamed:@"circle2.png"];
     UIImage *originalImage;
+    
     for (int i=_inital;i<finalIndex;i++) {
         UIButton *button=_buttonArray[i];
         button.hidden=NO;
