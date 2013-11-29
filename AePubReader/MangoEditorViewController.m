@@ -660,17 +660,32 @@
             pageTextView.text = [itemsArray objectAtIndex:index];
             [pageImageView addSubview:pageTextView];
             
-            NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
-            NSMutableArray *layersArray = [pageDict objectForKey:LAYERS];
+            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+            MangoPage *page = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:currentPageNumber]];
             
-            NSMutableDictionary *textDict = [[NSMutableDictionary alloc] init];
-            [textDict setObject:pageTextView.text forKey:TEXT];
-            [textDict setObject:TEXT forKey:TYPE];
-            
-            [layersArray addObject:textDict];
-            
-            [pageDict setObject:layersArray forKey:LAYERS];
-            [pagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
+            MangoTextLayer *textLayer = [[MangoTextLayer alloc] init];
+            textLayer.actualText = pageTextView.text;
+            textLayer.fontSize = [NSNumber numberWithInt:30];
+            textLayer.leftRatio = [NSNumber numberWithFloat:1000.0f];
+            textLayer.topRatio = [NSNumber numberWithFloat:1000.0f];
+            textLayer.width = [NSNumber numberWithFloat:600.0f];
+            textLayer.height = [NSNumber numberWithFloat:400.0f];
+            if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
+                _audioLayer = [[MangoAudioLayer alloc] init];
+                _audioLayer.wordMap = [textLayer.actualText componentsSeparatedByString:@" "];
+                _audioLayer.wordTimes = [[NSArray alloc] init];
+                _audioLayer.url = @"";
+                if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
+                    
+                }
+                
+                NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:page.layers];
+                [layersArray addObject:textLayer.id];
+                page.layers = layersArray;
+                if ([appDelegate.ejdbController insertOrUpdateObject:page]) {
+                    NSLog(@"New text added on new page. Success.");
+                }
+            }
         }
             break;
             
@@ -1243,7 +1258,9 @@ enum
     [self saveAudioDb];
 }
 - (void)saveAudioDb {
-    MangoPage *currentPage = [_mangoStoryBook.pages objectAtIndex:currentPageNumber];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:currentPageNumber]];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
@@ -1270,7 +1287,6 @@ enum
     }
     _audioLayer.url = [NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber];
 
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
         NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:currentPage.layers];
         if (![layersArray containsObject:_audioLayer.id]) {
