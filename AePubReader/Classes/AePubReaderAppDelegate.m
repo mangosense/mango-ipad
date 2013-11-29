@@ -294,7 +294,7 @@ static UIAlertView *alertViewLoading;
 #pragma mark Copying json based books
     else if (uiNew&&![userDefaults boolForKey:@"didaddWithNewUI"]) {
         NSString *zipDestination;
-        //[userDefaults setBool:YES forKey:@"didaddWithNewUI"];
+        [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
         /* book one --- The Crane in Tamil
          */
         NSNumber *identity;
