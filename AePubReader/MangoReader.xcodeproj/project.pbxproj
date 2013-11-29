@@ -134,6 +134,7 @@
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837D27F3180D3BC000469D1C /* Twitter.framework */; };
 		838BF9D0184868A1003C8791 /* MangoCapturedImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 838BF9CF184868A1003C8791 /* MangoCapturedImageLayer.m */; };
+		838BF9E01848BFC2003C8791 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 838BF9D91848BFB8003C8791 /* libEJDBKit.a */; };
 		8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8393E08317CF45280080EB0C /* UIImage-Extensions.m */; };
 		8393E08617CF7A940080EB0C /* insert_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E08517CF7A940080EB0C /* insert_image.png */; };
 		839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */; };
@@ -771,7 +772,6 @@
 		AE94606516FC64F8002B6E0B /* DirectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE94606416FC64F8002B6E0B /* DirectionButton.m */; };
 		AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */; };
 		AE9793F91650B01F00DBB5D1 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */; };
-		AE97A4E21848B11300EE70AD /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE97A4DB1848B0C400EE70AD /* libEJDBKit.a */; };
 		AE97A4E91848B3BA00EE70AD /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = AE97A4E81848B3BA00EE70AD /* Book.m */; };
 		AE98BFEA173A65F500A7D209 /* CoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE98BFE9173A65F500A7D209 /* CoverViewController.xib */; };
 		AE98BFEC173A69A800A7D209 /* librarybutton.png in Resources */ = {isa = PBXBuildFile; fileRef = AE98BFEB173A69A800A7D209 /* librarybutton.png */; };
@@ -920,30 +920,30 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AE97A4DA1848B0C400EE70AD /* PBXContainerItemProxy */ = {
+		838BF9D81848BFB8003C8791 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */;
+			containerPortal = 838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
 			remoteInfo = EJDBKit;
 		};
-		AE97A4DC1848B0C400EE70AD /* PBXContainerItemProxy */ = {
+		838BF9DA1848BFB8003C8791 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */;
+			containerPortal = 838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		AE97A4DE1848B0C400EE70AD /* PBXContainerItemProxy */ = {
+		838BF9DC1848BFB8003C8791 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */;
+			containerPortal = 838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
 			remoteInfo = EJDBKitTests64;
 		};
-		AE97A4E01848B10E00EE70AD /* PBXContainerItemProxy */ = {
+		838BF9DE1848BFBE003C8791 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */;
+			containerPortal = 838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
 			remoteInfo = EJDBKit;
@@ -1106,6 +1106,7 @@
 		837D27F3180D3BC000469D1C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		838BF9CE184868A1003C8791 /* MangoCapturedImageLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoCapturedImageLayer.h; sourceTree = "<group>"; };
 		838BF9CF184868A1003C8791 /* MangoCapturedImageLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoCapturedImageLayer.m; sourceTree = "<group>"; };
+		838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		8393E08217CF45280080EB0C /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
 		8393E08317CF45280080EB0C /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
 		8393E08517CF7A940080EB0C /* insert_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert_image.png; sourceTree = "<group>"; };
@@ -1867,8 +1868,7 @@
 		AE9793F51650B01F00DBB5D1 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		AE9793F61650B01F00DBB5D1 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		AE9793F71650B01F00DBB5D1 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
-		AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../../Downloads/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
-		AE97A4E31848B2F600EE70AD /* Books 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Books 12.xcdatamodel"; sourceTree = "<group>"; };
+		AE97A4E31848B2F600EE70AD /* Books 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Books 12.xcdatamodel"; sourceTree = "<group>"; };
 		AE97A4E71848B3BA00EE70AD /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		AE97A4E81848B3BA00EE70AD /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		AE98BFE9173A65F500A7D209 /* CoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewController.xib; sourceTree = "<group>"; };
@@ -2070,7 +2070,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE97A4E21848B11300EE70AD /* libEJDBKit.a in Frameworks */,
+				838BF9E01848BFC2003C8791 /* libEJDBKit.a in Frameworks */,
 				CA7E023515E388F3001F520B /* libz.dylib in Frameworks */,
 				837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
@@ -2128,7 +2128,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */,
+				838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */,
 				8303ED6118485FF600BE7671 /* Parse.framework */,
 				8358146A1844799A00670D71 /* EJDB */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
@@ -2572,6 +2572,16 @@
 			children = (
 			);
 			name = "PreK ViewControllers";
+			sourceTree = "<group>";
+		};
+		838BF9D31848BFB8003C8791 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				838BF9D91848BFB8003C8791 /* libEJDBKit.a */,
+				838BF9DB1848BFB8003C8791 /* EJDBKitTests.xctest */,
+				838BF9DD1848BFB8003C8791 /* EJDBKitTests64.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		83DD9BB418111662004C975F /* ImageDownloader */ = {
@@ -3408,16 +3418,6 @@
 			name = Database;
 			sourceTree = "<group>";
 		};
-		AE97A4D51848B0C300EE70AD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AE97A4DB1848B0C400EE70AD /* libEJDBKit.a */,
-				AE97A4DD1848B0C400EE70AD /* EJDBKitTests.xctest */,
-				AE97A4DF1848B0C400EE70AD /* EJDBKitTests64.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AEC9B12616B658FF008CD1F5 /* tableOfContents */ = {
 			isa = PBXGroup;
 			children = (
@@ -3585,7 +3585,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AE97A4E11848B10E00EE70AD /* PBXTargetDependency */,
+				838BF9DF1848BFBE003C8791 /* PBXTargetDependency */,
 			);
 			name = MangoReader;
 			productName = AePubReader;
@@ -3638,8 +3638,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AE97A4D51848B0C300EE70AD /* Products */;
-					ProjectRef = AE97A4D41848B0C300EE70AD /* EJDBKit.xcodeproj */;
+					ProductGroup = 838BF9D31848BFB8003C8791 /* Products */;
+					ProjectRef = 838BF9D21848BFB8003C8791 /* EJDBKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -3651,25 +3651,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AE97A4DB1848B0C400EE70AD /* libEJDBKit.a */ = {
+		838BF9D91848BFB8003C8791 /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libEJDBKit.a;
-			remoteRef = AE97A4DA1848B0C400EE70AD /* PBXContainerItemProxy */;
+			remoteRef = 838BF9D81848BFB8003C8791 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AE97A4DD1848B0C400EE70AD /* EJDBKitTests.xctest */ = {
+		838BF9DB1848BFB8003C8791 /* EJDBKitTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
-			remoteRef = AE97A4DC1848B0C400EE70AD /* PBXContainerItemProxy */;
+			remoteRef = 838BF9DA1848BFB8003C8791 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AE97A4DF1848B0C400EE70AD /* EJDBKitTests64.xctest */ = {
+		838BF9DD1848BFB8003C8791 /* EJDBKitTests64.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests64.xctest;
-			remoteRef = AE97A4DE1848B0C400EE70AD /* PBXContainerItemProxy */;
+			remoteRef = 838BF9DC1848BFB8003C8791 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4585,10 +4585,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AE97A4E11848B10E00EE70AD /* PBXTargetDependency */ = {
+		838BF9DF1848BFBE003C8791 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = EJDBKit;
-			targetProxy = AE97A4E01848B10E00EE70AD /* PBXContainerItemProxy */;
+			targetProxy = 838BF9DE1848BFBE003C8791 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

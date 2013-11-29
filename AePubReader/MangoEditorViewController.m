@@ -922,6 +922,107 @@
 #define READ_TO_ME 0
 #define READ_BY_MYSELF 1
 
++ (UIView *)readerPage:(int)pageNumber ForEditedStory:(MangoBook *)storyBook WithFolderLocation:(NSString *)folderLocation WithAudioMappingViewController:(AudioMappingViewController *)audioMappingViewController andDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
+    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[storyBook.pages objectAtIndex:pageNumber]];
+    
+    NSString *textOnPage;
+    CGRect textFrame;
+    NSData *audioData;
+    for (NSString *layerId in currentPage.layers) {
+        id layer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+        
+        if ([layer isKindOfClass:[MangoImageLayer class]]) {
+            MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
+            backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", imageLayer.url]];
+            NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", imageLayer.url]]);
+            [pageView addSubview:backgroundImageView];
+        } else if ([layer isKindOfClass:[MangoAudioLayer class]]) {
+            MangoAudioLayer *audioLayer = (MangoAudioLayer *)layer;
+            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", audioLayer.url]];
+            
+            audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+            audioMappingViewController.customView.frame = textFrame;
+            [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewController.view setExclusiveTouch:YES];
+            [audioMappingViewController.customView setNeedsDisplay];
+            NSArray *wordMapDict=audioLayer.wordMap;
+            NSMutableArray *wordMap=[[NSMutableArray alloc]init];
+            for (NSDictionary *temp in wordMapDict ) {
+                NSString *word=temp[@"word"];
+                [wordMap addObject:word];
+            }
+            wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
+            NSArray *cues=audioLayer.wordTimes;
+            
+            
+            audioMappingViewController.customView.text=wordMapDict;
+            audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:cues];
+            if ([UIDevice currentDevice].systemVersion.integerValue<6) {
+                audioMappingViewController.customView.space=[@" " sizeWithFont:audioMappingViewController.customView.textFont];
+            }else{
+                NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewController.customView.textFont, NSFontAttributeName, nil];
+                audioMappingViewController.customView.space=   [[[NSAttributedString alloc] initWithString:@" " attributes:attributes] size];
+            }
+            
+            audioMappingViewController.index=0;
+            audioMappingViewController.customView.backgroundColor = [UIColor clearColor];
+            
+            if (readingOption == READ_TO_ME) {
+                [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
+            }
+            NSLog(@"%@",audioMappingViewController.cues);
+            [audioMappingViewController.customView setNeedsDisplay];
+            
+        } else if ([layer isKindOfClass:[MangoTextLayer class]]) {
+            MangoTextLayer *textLayer = (MangoTextLayer *)layer;
+            textOnPage = textLayer.actualText;
+            /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
+             textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+             } else {*/
+            textFrame = CGRectMake(100, 100, 600, 400);
+            /*}*/
+            textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 1), 100), MAX(768/MAX([textLayer.topRatio floatValue], 1), 100), [textLayer.width floatValue], [textLayer.height floatValue]);
+            
+            
+            [pageView addSubview:audioMappingViewController.view];
+            [audioMappingViewController.view setHidden:YES];
+            audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+            audioMappingViewController.customView.frame = textFrame;
+            [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewController.view setExclusiveTouch:YES];
+            
+            [pageView addSubview:audioMappingViewController.customView];
+            
+            audioMappingViewController.textForMapping = textOnPage;
+            
+        } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+            NSURL *asseturl = [layerDict objectForKey:@"url"];
+            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                CGImageRef iref = [rep fullResolutionImage];
+                if (iref) {
+                    UIImage *image = [UIImage imageWithCGImage:iref];
+                    backgroundImageView.image = image;
+                    [pageView addSubview:backgroundImageView];
+                }
+            } failureBlock:^(NSError *myerror) {
+                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+            }];
+        }*/
+        
+        
+        
+        //  else if([layerDict objectForKey:WORDMAP])
+    }
+    
+    return pageView;
+}
+
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
