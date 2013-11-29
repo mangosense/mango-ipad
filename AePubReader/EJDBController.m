@@ -143,6 +143,8 @@
                     [mutableWordMap addObject:word];
                     
                 }
+                NSLog(@"%@", mutableWordMap);
+                NSLog(@"%@",audioLayer.wordTimes);
                 audioLayer.wordMap=mutableWordMap;
                 if ([self insertOrUpdateObject:audioLayer]) {
                     [layerIdArray addObject:audioLayer.id];

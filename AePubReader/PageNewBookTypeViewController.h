@@ -12,7 +12,7 @@
 #import "MangoEditorViewController.h"
 #import "AudioMappingViewController.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "MangoEditorViewController.h"
 #import "DismissPopOver.h"
 @interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate>
 - (IBAction)ShowOptions:(id)sender;
@@ -30,6 +30,7 @@
 - (IBAction)previousButton:(id)sender;
 - (IBAction)nextButton:(id)sender;
 - (IBAction)playOrPauseButton:(id)sender;
+- (IBAction)openGameCentre:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *playOrPauseButton;
 @property(strong,nonatomic) Book *book;
@@ -40,4 +41,6 @@
 @property(retain,nonatomic) UIPopoverController *pop;
 @property(retain,nonatomic) AudioMappingViewController *audioMappingViewController;
 -(void)loadPageWithOption:(NSInteger)option;
+@property(retain,nonatomic) UIPopoverController *popOverShare;
+@property(retain,nonatomic) UIPopoverController *menuPopoverController;
 @end

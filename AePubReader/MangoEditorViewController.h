@@ -16,7 +16,7 @@
 #import "AssetCell.h"
 #import "AssetDatasource.h"
 #import "MangoBook.h"
-
+#import "MangoAudioLayer.h"
 @interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
@@ -51,7 +51,9 @@
 @property (nonatomic, assign) int chosenBookTag;
 @property (nonatomic, strong) Book *storyBook;
 @property (nonatomic, strong) MangoBook *mangoStoryBook;
-
+@property(nonatomic,strong) MangoAudioLayer *audioLayer;
+@property(nonatomic,strong) NSURL *audioUrl;
+@property(nonatomic,assign) CGRect textFrame;
 - (IBAction)mangoButtonTapped:(id)sender;
 - (IBAction)menuButtonTapped:(id)sender;
 - (IBAction)imageButtonTapped:(id)sender;

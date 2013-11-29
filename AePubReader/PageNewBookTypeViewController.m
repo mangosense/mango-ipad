@@ -15,7 +15,7 @@
 @end
 
 @implementation PageNewBookTypeViewController
-
+@synthesize menuPopoverController;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger)option BookId:(NSString *)bookID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -92,9 +92,46 @@
 }
 
 - (IBAction)shareButton:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    NSString *ver=[UIDevice currentDevice].systemVersion;
+    if([ver floatValue]>5.1){
+        NSString *textToShare=[_book.title stringByAppendingString:@" great bk from MangoReader"];
+        
+        
+        UIImage *image=[UIImage imageWithContentsOfFile:_book.localPathImageFile];
+        NSArray *activityItems=@[textToShare,image];
+        
+        UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
+        _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
+        
+        //  [activity release];
+        [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        
+        return;
+    }
+    
+    /// for IOS 5 code below;
+   /* MFMailComposeViewController *mail;
+    
+    mail=[[MFMailComposeViewController alloc]init];
+    [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [mail setMailComposeDelegate:self];
+    NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
+    body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+    [mail setMessageBody:body isHTML:NO];
+    [self presentModalViewController:mail animated:YES];*/
+
 }
 
 - (IBAction)editButton:(id)sender {
+    
+    MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+    mangoEditorViewController.storyBook=_book;
+    [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+
+    
 }
 
 - (IBAction)changeLanguage:(id)sender {
@@ -156,6 +193,28 @@
         
     }
     
+}
+
+- (IBAction)openGameCentre:(id)sender {
+    [self showComingSoonPopover:sender];
+    
+}
+- (void)showComingSoonPopover:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    
+    UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 250)];
+    comingSoonLabel.text = @"Coming Soon...";
+    comingSoonLabel.textAlignment = NSTextAlignmentCenter;
+    comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+    comingSoonLabel.textColor = COLOR_GREY;
+    
+    UIViewController *comingSoonController = [[UIViewController alloc] init];
+    [comingSoonController.view addSubview:comingSoonLabel];
+    
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:comingSoonController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(0, 0, 100, 100)];
+    [menuPopoverController presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 -(void)dismissPopOver{
     [_pop dismissPopoverAnimated:YES];

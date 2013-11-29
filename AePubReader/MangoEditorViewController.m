@@ -945,10 +945,10 @@
     
     
     NSArray *layersArray = mangoStoryPage.layers;
-    NSURL *audioUrl;
+    //NSURL *audioUrl;
     NSString *textOnPage;
-    CGRect textFrame;
-    
+    //CGRect textFrame;
+    //_audioUrl=nil;
     for (NSString *layerId in layersArray) {
         id mangoStoryLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
         
@@ -962,17 +962,18 @@
             MangoTextLayer *textLayer = (MangoTextLayer *)mangoStoryLayer;
             
             textOnPage = textLayer.actualText;
-            textFrame = CGRectMake(0, 0, 600, 400);
-            textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 3), 100), MAX(768/MAX([textLayer.topRatio floatValue], 3), 100), MAX(600, [textLayer.width floatValue]), MAX([textLayer.height floatValue], 400));
+            _textFrame = CGRectMake(0, 0, 600, 400);
+            _textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 3), 100), MAX(768/MAX([textLayer.topRatio floatValue], 3), 100), MAX(600, [textLayer.width floatValue]), MAX([textLayer.height floatValue], 400));
             
-            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:textFrame];
+            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:_textFrame];
             pageTextView.font = [UIFont systemFontOfSize:30];
             pageTextView.text = textOnPage;
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
-            NSLog(@"%@", [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]);
-            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url]];
+            NSString *audioString= [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url];
+            _audioUrl = [NSURL fileURLWithPath:audioString];
+            _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
             ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
@@ -988,9 +989,9 @@
             }];
         }*/
     }
-    
+  //  _audioUrl=nil;
     audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    if (!audioUrl) {
+    if (!_audioUrl) {
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
         audioRecordingButton.tag = RECORD;
     } else {
@@ -1002,12 +1003,13 @@
     [pageImageView addSubview:audioRecordingButton];
     
     //Game
-    if (!mangoStoryPage) {
+    if (mangoStoryPage.layers.count==0) {
         UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, pageImageView.frame.size.width, pageImageView.frame.size.height)];
         comingSoonLabel.text = @"Coming Soon...";
         comingSoonLabel.textAlignment = NSTextAlignmentCenter;
         comingSoonLabel.textColor = COLOR_GREY;
         comingSoonLabel.font = [UIFont boldSystemFontOfSize:24];
+        comingSoonLabel.backgroundColor=[UIColor whiteColor];
         [pageImageView addSubview:comingSoonLabel];
         return;
     }
@@ -1066,7 +1068,8 @@ enum
             break;
             
         case PLAY: {
-            [self startPlayingAudio];
+          //  [self startPlayingAudio];
+            [self startPlayingAudioFromDb];
         }
             break;
             
@@ -1137,7 +1140,7 @@ enum
     
     NSError *error = nil;
     audioRecorder = [[ AVAudioRecorder alloc] initWithURL:url settings:recordSettings error:&error];
-    
+    _audioUrl=url;
     if ([audioRecorder prepareToRecord] == YES){
         [audioRecorder record];
     }else {
@@ -1156,10 +1159,42 @@ enum
     NSLog(@"stopRecording");
     [audioRecorder stop];
     NSLog(@"stopped");
-
-    [self saveAudio];
+    //[self saveAudio];
+    [self saveAudioDb];
 }
-
+- (void)saveAudioDb {
+    NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
+    NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
+    
+    NSMutableDictionary *newAudioDict = [[NSMutableDictionary alloc] init];
+    [newAudioDict setObject:AUDIO forKey:TYPE];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSString *sourceLocation=[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber];
+    NSString *destinationFolder=[sourceLocation lastPathComponent] ;
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/audios"],destinationFolder];
+    
+    NSLog(@"%@ - %@", sourceLocation, destinationFolder);
+    NSError *error;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:destinationFolder]) {
+        [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:&error];
+        if (error) {
+            NSLog(@"%@",error);
+        }
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
+    
+    [newAudioDict setObject:[NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber] forKey:ASSET_URL];
+    [layersArray addObject:newAudioDict];
+    
+    [pageDict setObject:layersArray forKey:LAYERS];
+    [pagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
+    
+ //   [self renderEditorPage:currentPageNumber];
+}
 - (void)saveAudio {
     NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
     NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
@@ -1244,7 +1279,26 @@ enum
     // Temporary, for testing audio mapping UI
     [self showAudioMappingScreen];
 }
+-(void)startPlayingAudioFromDb{
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url;
+    if (_audioUrl) {
+        url = _audioUrl;
+    } else {
+        url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+    }
+   /* NSError *error;
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    audioPlayer.numberOfLoops = 0;
+    audioPlayer.delegate = self;
+    [audioPlayer play];*/
+    [self showAudioMappingScreenDb];
 
+    
+}
 - (void)stopPlayingAudio {
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
     audioRecordingButton.tag = PLAY;
@@ -1313,7 +1367,44 @@ enum
     
 
 }
+-(void)showAudioMappingScreenDb{
+    if (audioMappingViewController) {
+        [audioMappingViewController.view removeFromSuperview];
+    }
+    audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+    [pageImageView addSubview:audioMappingViewController.view];
+    
+    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+    audioMappingViewController.customView.frame = CGRectMake(100, 100, 600, 400);;
+    
+    [pageImageView addSubview:audioMappingViewController.customView];
+    NSMutableArray *arrayOfCues=[[NSMutableArray alloc]init];
+    for (NSNumber *num in _audioLayer.wordTimes) {
+        double d=num.doubleValue;
+        d*=1000;
+        NSNumber *changedNumber=[NSNumber numberWithDouble:d];
+        [arrayOfCues addObject:changedNumber];
+        
+    }
+    audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
+    audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:arrayOfCues];
 
+    audioMappingViewController.customView.text=_audioLayer.wordMap;
+    NSLog(@"%@",audioMappingViewController.customView.text);
+    NSLog(@"%@",audioMappingViewController.cues);
+    [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
+    
+    audioMappingViewController.audioUrl = _audioUrl;
+    [pageImageView bringSubviewToFront:audioMappingViewController.view];
+    
+    for (UIView *subview in [pageImageView subviews]) {
+        if ([subview isKindOfClass:[MovableTextView class]]) {
+            [subview setHidden:YES];
+        }
+    }
+  
+    
+}
 #pragma mark - Audio Player Delegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
