@@ -43,4 +43,5 @@
 -(NoteHighlight *) getNoteOfIdentity:(NSInteger )identity;
 -(void)showNotesAndHighlight;
 -(NSArray *)getAllUserBooks;
+-(NSArray *)getOriginalBooks;
 @end

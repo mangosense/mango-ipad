@@ -339,6 +339,7 @@ static UIAlertView *alertViewLoading;
             book.textBook=@4;
             book.downloadedDate=[NSDate date];
             book.downloaded=@YES;
+            book.edited=@NO;
             NSError *error=nil;
             if (![managedObjectContext save:&error]) {
                 NSLog(@"%@",error);
@@ -387,6 +388,7 @@ static UIAlertView *alertViewLoading;
             book.textBook=@4;
             book.downloadedDate=[NSDate date];
             book.downloaded=@YES;
+            book.edited=@NO;
             NSError *error=nil;
             if (![managedObjectContext save:&error]) {
                 NSLog(@"%@",error);

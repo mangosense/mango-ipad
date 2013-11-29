@@ -22,6 +22,7 @@
 #import "MangoAudioLayer.h"
 #import "MangoCapturedImageLayer.h"
 #import "ZipArchive.h"
+#import "DataModelControl.h"
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
 #define TAMIL_TAG 10
@@ -108,7 +109,23 @@
     BOOL isDir;
     if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]&&!isDir) {
         [self createACopy];
-
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        
+       Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
+        Book *editedBook=[delegate.dataModel getBookInstance];
+        editedBook.localPathFile=_editedBookPath;
+        int identity=book.id.integerValue;
+        identity+=2;
+        editedBook.id=[NSNumber numberWithInteger:identity];
+        editedBook.localPathImageFile=book.localPathImageFile;
+        editedBook.title=book.title;
+        editedBook.desc=book.desc;
+        editedBook.size=book.size;
+        editedBook.downloaded=@YES;
+        editedBook.bookId=book.bookId;
+        editedBook.edited=@YES;
+        [delegate.managedObjectContext save:nil];
+        
     }
     NSLog(@"newPath %@",_editedBookPath);
 }
