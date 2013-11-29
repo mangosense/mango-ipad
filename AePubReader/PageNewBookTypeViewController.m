@@ -238,7 +238,17 @@
     [_pageView removeFromSuperview];
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     
-    _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
+    if (_book.edited) {
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.bookId];
+     /*   + (UIView *)readerPage:(int)pageNumber ForEditedStory:(MangoBook *)storyBook WithFolderLocation:(NSString *)folderLocation WithAudioMappingViewController:(AudioMappingViewController *)audioMappingViewController andDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption*/
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book
+                                     WithFolderLocation:_book.localPathImageFile audioMappingViewController:_audioMappingViewController andDelegate:self
+                                                 Option:option
+                   ];
+    }else{
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
+    }
     _pageView.frame=self.view.bounds;
     for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
