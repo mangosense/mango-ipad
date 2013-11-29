@@ -20,6 +20,7 @@
 #import "MangoImageLayer.h"
 #import "MangoTextLayer.h"
 #import "MangoAudioLayer.h"
+#import "MangoCapturedImageLayer.h"
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -632,25 +633,23 @@
     UIImageView *pageThumbnail = [[UIImageView alloc] init];
     [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
     [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
-    if (index < [pagesArray count]) {
-        NSDictionary *pageDict;
-        for (NSDictionary *currentPageDict in pagesArray) {
-            if ([[currentPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", index]]) {
-                pageDict = currentPageDict;
-                break;
-            } else if ([[currentPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"] && index == 0) {
-                pageDict = currentPageDict;
-                break;
-            }
-        }
+    if (index < [_mangoStoryBook.pages count]) {
         
-        NSArray *layersArray = [pageDict objectForKey:LAYERS];
-        for (NSDictionary *layerDict in layersArray) {
-            if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-                [pageThumbnail setImage:[UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]];
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:index]];
+        
+        NSArray *layersArray = currentPage.layers;
+        for (NSString *layerId in layersArray) {
+            id layer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+            
+            if ([layer isKindOfClass:[MangoImageLayer class]]) {
+                MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
+                [pageThumbnail setImage:[UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]]];
                 break;
-            } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
-                NSURL *asseturl = [layerDict objectForKey:ASSET_URL];
+            } else if ([layer isKindOfClass:[MangoCapturedImageLayer class]]) {
+                MangoCapturedImageLayer *capturedImageLayer = (MangoCapturedImageLayer *)layer;
+                
+                NSURL *asseturl = [NSURL URLWithString:capturedImageLayer.url];
                 ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
                 [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
                     ALAssetRepresentation *rep = [myasset defaultRepresentation];
@@ -673,12 +672,12 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    if (index < [pagesArray count]) {
+    if (index < [_mangoStoryBook.pages count]) {
         [self renderEditorPage:index];
     } else {
         MangoPage *newPage = [[MangoPage alloc] init];
         newPage.story_id = _mangoStoryBook.id;
-        newPage.name = [NSString stringWithFormat:@"%d", [pagesArray count]];
+        newPage.name = [NSString stringWithFormat:@"%d", [_mangoStoryBook.pages count]];
         
         NSMutableArray *layersArray = [[NSMutableArray alloc] init];
         
@@ -704,8 +703,12 @@
         }
         
         if ([appDelegate.ejdbController insertOrUpdateObject:newPage]) {
+            NSMutableArray *existingPagesArray = [[NSMutableArray alloc] initWithArray:_mangoStoryBook.pages];
+            [existingPagesArray addObject:newPage.id];
+            _mangoStoryBook.pages = existingPagesArray;
+            
             [pagesCarousel reloadData];
-            [self carousel:pagesCarousel didSelectItemAtIndex:[pagesArray count] - 1];
+            [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
         }
     }
 }
@@ -744,30 +747,40 @@
 #pragma mark - DoodleDelegate Method
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
-    NSMutableDictionary *pageDict = [[NSMutableDictionary alloc] initWithDictionary:[pagesArray objectAtIndex:index]];
-    NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
+    MangoPage *currentPage = [_mangoStoryBook.pages objectAtIndex:index];
     
-    NSMutableDictionary *newLayerDict = [[NSMutableDictionary alloc] init];
+    MangoImageLayer *newLayer = [[MangoImageLayer alloc] init];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     int layerIndex = 0;
-    for (NSDictionary *layerDict in layersArray) {
-        layerIndex = [layersArray indexOfObject:layerDict];
-        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            [newLayerDict addEntriesFromDictionary:layerDict];
-            [newLayerDict setObject:[NSString stringWithFormat:@"res/images/white_page_%d", currentPageNumber] forKey:ASSET_URL];
+    for (id layer in currentPage.layers) {
+        layerIndex = [currentPage.layers indexOfObject:layer];
+        if ([layer isKindOfClass:[MangoImageLayer class]]) {
+            MangoImageLayer *newLayer = (MangoImageLayer *)layer;
+            newLayer.url = [NSString stringWithFormat:@"res/images/white_page_%d", currentPageNumber];
+            newLayer.alignment = @"center";
             
-            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", [newLayerDict objectForKey:ASSET_URL]];
+            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", newLayer.url];
             NSFileManager *defaultFileManager = [NSFileManager defaultManager];
             if ([defaultFileManager fileExistsAtPath:destinationString]) {
                 [defaultFileManager removeItemAtPath:destinationString error:nil];
             }
             NSData *imageData = UIImagePNGRepresentation(image);
             [imageData writeToFile:destinationString atomically:YES];
+            
+            if ([appDelegate.ejdbController insertOrUpdateObject:newLayer]) {
+                NSLog(@"Success Updating Layer");
+            }
             break;
         }
     }
-    [layersArray replaceObjectAtIndex:layerIndex withObject:newLayerDict];
-    [pageDict setObject:layersArray forKey:LAYERS];
-    [pagesArray replaceObjectAtIndex:index withObject:pageDict];
+    
+    NSMutableArray *newLayersArray = [[NSMutableArray alloc] initWithArray:currentPage.layers];
+    [newLayersArray replaceObjectAtIndex:layerIndex withObject:newLayer];
+    currentPage.layers = newLayersArray;
+    
+    if ([appDelegate.ejdbController insertOrUpdateObject:currentPage]) {
+        NSLog(@"Success Updating Page");
+    }
 }
 
 #pragma mark - Render JSON (Temporary - For Demo Story)

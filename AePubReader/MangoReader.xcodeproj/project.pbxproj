@@ -134,6 +134,7 @@
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837D27F3180D3BC000469D1C /* Twitter.framework */; };
 		838BF9CB1848606C003C8791 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED5B18485D5700BE7671 /* libEJDBKit.a */; };
+		838BF9D0184868A1003C8791 /* MangoCapturedImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 838BF9CF184868A1003C8791 /* MangoCapturedImageLayer.m */; };
 		8393E08417CF45280080EB0C /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8393E08317CF45280080EB0C /* UIImage-Extensions.m */; };
 		8393E08617CF7A940080EB0C /* insert_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 8393E08517CF7A940080EB0C /* insert_image.png */; };
 		839BC5A017BDEAA400F1E9C5 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839BC59E17BDEAA400F1E9C5 /* StoriesViewController.m */; };
@@ -1104,6 +1105,8 @@
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
 		83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenuItem.m; sourceTree = "<group>"; };
 		837D27F3180D3BC000469D1C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		838BF9CE184868A1003C8791 /* MangoCapturedImageLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoCapturedImageLayer.h; sourceTree = "<group>"; };
+		838BF9CF184868A1003C8791 /* MangoCapturedImageLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoCapturedImageLayer.m; sourceTree = "<group>"; };
 		8393E08217CF45280080EB0C /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
 		8393E08317CF45280080EB0C /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
 		8393E08517CF7A940080EB0C /* insert_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert_image.png; sourceTree = "<group>"; };
@@ -2556,6 +2559,8 @@
 				AE1039C91845D22D008D122B /* MangoTextLayer.m */,
 				AE1039CB1845EAC6008D122B /* MangoAudioLayer.h */,
 				AE1039CC1845EAC6008D122B /* MangoAudioLayer.m */,
+				838BF9CE184868A1003C8791 /* MangoCapturedImageLayer.h */,
+				838BF9CF184868A1003C8791 /* MangoCapturedImageLayer.m */,
 			);
 			name = EJDB;
 			sourceTree = "<group>";
@@ -4529,6 +4534,7 @@
 				AE396BB3181F7E3D009C68E7 /* PSTCollectionViewController.m in Sources */,
 				AE195E7C181E2E17008E4208 /* NewStoreCoverViewController.m in Sources */,
 				AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */,
+				838BF9D0184868A1003C8791 /* MangoCapturedImageLayer.m in Sources */,
 				AE396BBB181F7E3D009C68E7 /* PSTGridLayoutRow.m in Sources */,
 				AE396BB4181F7E3D009C68E7 /* PSTCollectionViewData.m in Sources */,
 				AE195EF5181E6862008E4208 /* DataSourceForLinear.m in Sources */,
