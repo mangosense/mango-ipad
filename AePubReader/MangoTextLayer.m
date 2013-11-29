@@ -30,7 +30,7 @@
 
 - (NSDictionary *)toDictionary {
     
-    return NSDictionaryOfVariableBindings(id, actualText,fontSize,
+    return NSDictionaryOfVariableBindings(actualText,fontSize,
                                           height,width,leftRatio,topRatio,lineHeight);
 }
 

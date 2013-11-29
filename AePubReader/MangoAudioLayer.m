@@ -22,7 +22,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, url,wordMap,wordTimes);
+    return NSDictionaryOfVariableBindings(url,wordMap,wordTimes);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {

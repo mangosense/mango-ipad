@@ -141,10 +141,8 @@
                 for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
                     NSString *word=wordMap[@"word"];
                     [mutableWordMap addObject:word];
-                    
                 }
-                NSLog(@"%@", mutableWordMap);
-                NSLog(@"%@",audioLayer.wordTimes);
+                
                 audioLayer.wordMap=mutableWordMap;
                 if ([self insertOrUpdateObject:audioLayer]) {
                     [layerIdArray addObject:audioLayer.id];

@@ -29,7 +29,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, story_id, name, layers);
+    return NSDictionaryOfVariableBindings(story_id, name, layers);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
