@@ -1483,7 +1483,7 @@ enum
     
 
 }
--(void)showAudioMappingScreenDb{
+-(void)showAudioMappingScreenDb {
     if (audioMappingViewController) {
         [audioMappingViewController.view removeFromSuperview];
     }
@@ -1492,7 +1492,6 @@ enum
     audioMappingViewController.audioMappingDelegate = self;
     
     audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
-    audioMappingViewController.customView.frame = CGRectMake(100, 100, 600, 400);;
     
     [pageImageView addSubview:audioMappingViewController.customView];
       audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
@@ -1508,12 +1507,14 @@ enum
     
     for (UIView *subview in [pageImageView subviews]) {
         if ([subview isKindOfClass:[MovableTextView class]]) {
+            audioMappingViewController.customView.frame = subview.frame;
             [subview setHidden:YES];
         }
     }
   
     
 }
+
 #pragma mark - Audio Player Delegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
