@@ -26,7 +26,7 @@
 
 - (NSDictionary *)toDictionary {
  //   NSLog(@"todictionary");
-    return NSDictionaryOfVariableBindings(id, title, pages);
+    return NSDictionaryOfVariableBindings(title, pages);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {

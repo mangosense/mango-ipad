@@ -655,7 +655,7 @@
 #pragma mark - iCarousel Datasource And Delegate Methods
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return [pagesArray count] + 1;
+    return [_mangoStoryBook.pages count] + 1;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
@@ -706,36 +706,37 @@
     if (index < [pagesArray count]) {
         [self renderEditorPage:index];
     } else {
-        NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
-        [newPageDict setObject:[NSNumber numberWithInt:[pagesArray count]] forKey:@"id"];
-        [newPageDict setObject:[NSString stringWithFormat:@"%d", [pagesArray count]] forKey:PAGE_NAME];
+        MangoPage *newPage = [[MangoPage alloc] init];
+        newPage.story_id = _mangoStoryBook.id;
+        newPage.name = [NSString stringWithFormat:@"%d", [pagesArray count]];
         
         NSMutableArray *layersArray = [[NSMutableArray alloc] init];
-        NSMutableDictionary *imageDict = [[NSMutableDictionary alloc] init];
-        [imageDict setObject:IMAGE forKey:TYPE];
+        
+        MangoImageLayer *newImageLayer = [[MangoImageLayer alloc] init];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
         NSString *destinationFolder=[sourceLocation lastPathComponent] ;
         destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/images"],destinationFolder];
-        
-        NSLog(@"%@ - %@", sourceLocation, destinationFolder);
-        
         if (![fileManager fileExistsAtPath:destinationFolder]) {
             [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
             [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
         }
         
-        [imageDict setObject:@"/res/images/white_page.jpeg" forKey:ASSET_URL];
-        [layersArray addObject:imageDict];
+        newImageLayer.url = @"/res/images/white_page.jpeg";
+        newImageLayer.alignment = @"center";
+
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        if ([appDelegate.ejdbController insertOrUpdateObject:newImageLayer]) {
+            [layersArray addObject:newImageLayer.id];
+            newPage.layers = layersArray;
+        }
         
-        [newPageDict setObject:layersArray forKey:LAYERS];
-        
-        [pagesArray addObject:newPageDict];
-        
-        [pagesCarousel reloadData];
-        [self carousel:pagesCarousel didSelectItemAtIndex:[pagesArray count] - 1];
+        if ([appDelegate.ejdbController insertOrUpdateObject:newPage]) {
+            [pagesCarousel reloadData];
+            [self carousel:pagesCarousel didSelectItemAtIndex:[pagesArray count] - 1];
+        }
     }
 }
 

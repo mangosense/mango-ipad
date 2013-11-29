@@ -21,7 +21,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, url, alignment);
+    return NSDictionaryOfVariableBindings(url, alignment);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {

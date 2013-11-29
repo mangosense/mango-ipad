@@ -31,7 +31,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(id, name, style);
+    return NSDictionaryOfVariableBindings(name, style);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
