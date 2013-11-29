@@ -1386,7 +1386,7 @@ enum
         [arrayOfCues addObject:changedNumber];
         
     }
-    audioMappingViewController.textForMapping=@"";
+    audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
     audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:arrayOfCues];
 
     audioMappingViewController.customView.text=_audioLayer.wordMap;

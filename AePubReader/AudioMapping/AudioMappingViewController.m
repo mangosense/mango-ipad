@@ -468,6 +468,8 @@
     
     [_customView removeFromSuperview];
     [self.view removeFromSuperview];
+    [_timer invalidate];
+    
 }
 
 #pragma mark - Audio Speed
