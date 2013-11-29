@@ -12,11 +12,18 @@
 #import <AVFoundation/AVFoundation.h>
 #import "CustomLabel.h"
 
+@protocol AudioMappingDelegate
+
+- (void)saveAudioMapping;
+
+@end
+
 @interface AudioMappingViewController : UIViewController<UITextFieldDelegate,AVAudioPlayerDelegate,CustomLabelDelegate> {
     NSURL *audioUrl;
     NSString *textForMapping;
     
     IBOutlet UISlider *audioSpeedSlider;
+    
 }
 
 - (IBAction)nextClick:(id)sender;
@@ -46,5 +53,6 @@
 @property(assign,nonatomic) NSInteger totalWordCount;
 @property (nonatomic, strong) NSURL *audioUrl;
 @property (nonatomic, strong) NSString *textForMapping;
+@property (nonatomic, assign) id <AudioMappingDelegate> audioMappingDelegate;
 
 @end

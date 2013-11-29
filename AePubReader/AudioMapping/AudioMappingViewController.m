@@ -25,6 +25,7 @@
 @synthesize textForMapping;
 @synthesize xDiffToCenter, yDiffToCenter;
 @synthesize audioSpeedSlider;
+@synthesize audioMappingDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,7 +66,7 @@
     textForMapping = textForMappingAudio;
     _customView.text=[textForMapping componentsSeparatedByString:@" "];
     
-    _cues= [[NSMutableArray alloc]initWithArray:[NSArray arrayWithObjects:@3650,@3900,@4000,@4500,@4800,@5300,@5400,@6000, nil]];
+   // _cues= [[NSMutableArray alloc]initWithArray:[NSArray arrayWithObjects:@3650,@3900,@4000,@4500,@4800,@5300,@5400,@6000, nil]];
     _totalWordCount=_cues.count;
     
     if ([UIDevice currentDevice].systemVersion.integerValue<6) {
@@ -145,14 +146,14 @@
         }
         
         float sec=number.floatValue;
-        sec=sec/1000;
+       // sec=sec/1000;
         if (sec<=initialValue&&_customView.text.count>index&&_cues.count>index) {
                 NSString *str=_customView.text[index];
-            float val=initialValue;
+            /*float val=initialValue;
             val=ceilf(initialValue*1000);
             NSInteger intval=val;
             number=[NSNumber numberWithInteger:intval];
-            _cues[index]=number;
+            _cues[index]=number;*/
 
             CGSize size;
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
@@ -301,7 +302,8 @@
     
     if (_index<_cues.count) {
         NSNumber *number= _cues[_index];
-        if ((_player.currentTime*1000)>=number.floatValue) {
+        NSLog(@"%f %@",_player.currentTime,_cues);
+        if ((_player.currentTime)>=number.floatValue) {
             [self nextClick:nil];
         }
     }
@@ -330,7 +332,7 @@
 
 - (IBAction)map:(id)sender {
     if (_customView.text.count>=_anotherCues.count) {
-        NSNumber *number=[NSNumber numberWithInteger:_player.currentTime*1000];
+        NSNumber *number=[NSNumber numberWithDouble:_player.currentTime];
         [_anotherCues addObject:number];
         UITextView *textView=[_array objectAtIndex:_anotherCues.count-1];
         textView.text=[[NSString alloc]initWithFormat:@"%@",number ];
@@ -465,6 +467,8 @@
             [subview setHidden:NO];
         }
     }
+    
+    [audioMappingDelegate saveAudioMapping];
     
     [_customView removeFromSuperview];
     [self.view removeFromSuperview];

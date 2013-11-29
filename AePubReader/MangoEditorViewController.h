@@ -17,7 +17,7 @@
 #import "AssetDatasource.h"
 #import "MangoBook.h"
 #import "MangoAudioLayer.h"
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate> {
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate, AudioMappingDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;

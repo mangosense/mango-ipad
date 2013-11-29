@@ -674,7 +674,7 @@
             
             if ([layer isKindOfClass:[MangoImageLayer class]]) {
                 MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
-                [pageThumbnail setImage:[UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]]];
+                [pageThumbnail setImage:[UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]]];
                 break;
             } else if ([layer isKindOfClass:[MangoCapturedImageLayer class]]) {
                 MangoCapturedImageLayer *capturedImageLayer = (MangoCapturedImageLayer *)layer;
@@ -716,7 +716,7 @@
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
         NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/images"],destinationFolder];
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/images"],destinationFolder];
         if (![fileManager fileExistsAtPath:destinationFolder]) {
             [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
@@ -777,19 +777,20 @@
 #pragma mark - DoodleDelegate Method
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
-    MangoPage *currentPage = [_mangoStoryBook.pages objectAtIndex:index];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:index]];
     
     MangoImageLayer *newLayer = [[MangoImageLayer alloc] init];
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     int layerIndex = 0;
-    for (id layer in currentPage.layers) {
-        layerIndex = [currentPage.layers indexOfObject:layer];
+    for (NSString *layerId in currentPage.layers) {
+        id layer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+        layerIndex = [currentPage.layers indexOfObject:layerId];
         if ([layer isKindOfClass:[MangoImageLayer class]]) {
-            MangoImageLayer *newLayer = (MangoImageLayer *)layer;
+            newLayer = (MangoImageLayer *)layer;
             newLayer.url = [NSString stringWithFormat:@"res/images/white_page_%d", currentPageNumber];
             newLayer.alignment = @"center";
             
-            NSString *destinationString = [storyBook.localPathFile stringByAppendingFormat:@"/%@", newLayer.url];
+            NSString *destinationString = [_editedBookPath stringByAppendingFormat:@"/%@", newLayer.url];
             NSFileManager *defaultFileManager = [NSFileManager defaultManager];
             if ([defaultFileManager fileExistsAtPath:destinationString]) {
                 [defaultFileManager removeItemAtPath:destinationString error:nil];
@@ -805,7 +806,7 @@
     }
     
     NSMutableArray *newLayersArray = [[NSMutableArray alloc] initWithArray:currentPage.layers];
-    [newLayersArray replaceObjectAtIndex:layerIndex withObject:newLayer];
+    [newLayersArray replaceObjectAtIndex:layerIndex withObject:newLayer.id];
     currentPage.layers = newLayersArray;
     
     if ([appDelegate.ejdbController insertOrUpdateObject:currentPage]) {
@@ -897,18 +898,10 @@
             }
             wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
             NSArray *cues=[layerDict objectForKey:CUES];
-            [wordMap removeAllObjects];
-            for (NSNumber *number in cues) { /* converting cues to miliseconds*/
-                float time=number.floatValue;
-                time*=1000;
-                NSInteger integerTime=roundf(time);
-                NSNumber *numberIntTimer=[NSNumber numberWithInteger:integerTime];
-                [wordMap addObject:numberIntTimer];
-                
-            }
+            
 
             audioMappingViewcontroller.customView.text=wordMapDict;
-            audioMappingViewcontroller.cues=wordMap;
+            audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
             }else{
@@ -922,7 +915,7 @@
             if (readingOption == READ_TO_ME) {
                 [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
             }
-            
+            NSLog(@"%@",audioMappingViewcontroller.cues);
             [audioMappingViewcontroller.customView setNeedsDisplay];
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
@@ -992,16 +985,17 @@
     //NSURL *audioUrl;
     NSString *textOnPage;
     //CGRect textFrame;
-    //_audioUrl=nil;
+    _audioUrl=nil;
+    _audioLayer = nil;
     for (NSString *layerId in layersArray) {
         id mangoStoryLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
         
         if ([mangoStoryLayer isKindOfClass:[MangoImageLayer class]]) {
             MangoImageLayer *imageLayer = (MangoImageLayer *)mangoStoryLayer;
             
-            NSLog(@"%@", [storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]);
-            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]];
-            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[storyBook.localPathFile stringByAppendingFormat:@"/%@", imageLayer.url]];
+            NSLog(@"%@", [_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]);
+            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]];
+            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]];
         } else if ([mangoStoryLayer isKindOfClass:[MangoTextLayer class]]) {
             MangoTextLayer *textLayer = (MangoTextLayer *)mangoStoryLayer;
             
@@ -1015,7 +1009,7 @@
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
-            NSString *audioString= [storyBook.localPathFile stringByAppendingFormat:@"/%@", audioLayer.url];
+            NSString *audioString= [_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url];
             _audioUrl = [NSURL fileURLWithPath:audioString];
             _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
@@ -1207,17 +1201,13 @@ enum
     [self saveAudioDb];
 }
 - (void)saveAudioDb {
-    NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
-    NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
-    
-    NSMutableDictionary *newAudioDict = [[NSMutableDictionary alloc] init];
-    [newAudioDict setObject:AUDIO forKey:TYPE];
+    MangoPage *currentPage = [_mangoStoryBook.pages objectAtIndex:currentPageNumber];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
     NSString *sourceLocation=[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber];
     NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/audios"],destinationFolder];
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/audios"],destinationFolder];
     
     NSLog(@"%@ - %@", sourceLocation, destinationFolder);
     NSError *error;
@@ -1231,14 +1221,28 @@ enum
         [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     }
     
-    [newAudioDict setObject:[NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber] forKey:ASSET_URL];
-    [layersArray addObject:newAudioDict];
-    
-    [pageDict setObject:layersArray forKey:LAYERS];
-    [pagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
-    
- //   [self renderEditorPage:currentPageNumber];
+    if (!_audioLayer) {
+        _audioLayer = [[MangoAudioLayer alloc] init];
+        _audioLayer.wordMap = [[NSArray alloc] init];
+        _audioLayer.wordTimes = [[NSArray alloc] init];
+    }
+    _audioLayer.url = [NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber];
+
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
+        NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:currentPage.layers];
+        if (![layersArray containsObject:_audioLayer.id]) {
+            [layersArray addObject:_audioLayer.id];
+        }
+        currentPage.layers = layersArray;
+        
+        if ([appDelegate.ejdbController insertOrUpdateObject:currentPage]) {
+            NSLog(@"Success");
+            
+        }
+    }
 }
+
 - (void)saveAudio {
     NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
     NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
@@ -1250,7 +1254,7 @@ enum
     NSString *recDir = [paths objectAtIndex:0];
     NSString *sourceLocation=[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber];
     NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[storyBook.localPathFile stringByAppendingString:@"/res/audios"],destinationFolder];
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/audios"],destinationFolder];
     
     NSLog(@"%@ - %@", sourceLocation, destinationFolder);
     NSError *error;
@@ -1300,7 +1304,7 @@ enum
     
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            audioUrl = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            audioUrl = [NSURL URLWithString:[_editedBookPath stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             break;
         }
     }
@@ -1354,6 +1358,16 @@ enum
 
 #pragma mark - Audio Mapping
 
+- (void)saveAudioMapping {
+    _audioLayer.wordTimes = [audioMappingViewController.cues copy];
+    _audioLayer.wordMap = [audioMappingViewController.customView.text copy];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
+        NSLog(@"Audio mapping saved!");
+    }
+}
+
 - (void)showAudioMappingScreen {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
@@ -1382,7 +1396,7 @@ enum
                 }
             }
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-            url = [NSURL URLWithString:[storyBook.localPathFile stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            url = [NSURL URLWithString:[_editedBookPath stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         }
     }
 
@@ -1417,21 +1431,14 @@ enum
     }
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     [pageImageView addSubview:audioMappingViewController.view];
+    audioMappingViewController.audioMappingDelegate = self;
     
     audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
     audioMappingViewController.customView.frame = CGRectMake(100, 100, 600, 400);;
     
     [pageImageView addSubview:audioMappingViewController.customView];
-    NSMutableArray *arrayOfCues=[[NSMutableArray alloc]init];
-    for (NSNumber *num in _audioLayer.wordTimes) {
-        double d=num.doubleValue;
-        d*=1000;
-        NSNumber *changedNumber=[NSNumber numberWithDouble:d];
-        [arrayOfCues addObject:changedNumber];
-        
-    }
-    audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
-    audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:arrayOfCues];
+      audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
+    audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:_audioLayer.wordTimes];
 
     audioMappingViewController.customView.text=_audioLayer.wordMap;
     NSLog(@"%@",audioMappingViewController.customView.text);
