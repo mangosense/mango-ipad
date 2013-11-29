@@ -125,7 +125,7 @@
         editedBook.bookId=book.bookId;
         editedBook.edited=@YES;
         [delegate.managedObjectContext save:nil];
-        
+        [delegate.dataModel displayAllData];
     }
     NSLog(@"newPath %@",_editedBookPath);
 }
@@ -949,17 +949,11 @@
             [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewController.view setExclusiveTouch:YES];
             [audioMappingViewController.customView setNeedsDisplay];
-            NSArray *wordMapDict=audioLayer.wordMap;
-            NSMutableArray *wordMap=[[NSMutableArray alloc]init];
-            for (NSDictionary *temp in wordMapDict ) {
-                NSString *word=temp[@"word"];
-                [wordMap addObject:word];
-            }
-            wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
+ 
             NSArray *cues=audioLayer.wordTimes;
             
             
-            audioMappingViewController.customView.text=wordMapDict;
+            audioMappingViewController.customView.text=audioLayer.wordMap;
             audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:cues];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 audioMappingViewController.customView.space=[@" " sizeWithFont:audioMappingViewController.customView.textFont];

@@ -26,7 +26,7 @@
         _identity=identity;
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
        _book= [delegate.dataModel getBookOfId:identity];
-        
+        NSLog(@"%@",_book.edited);
     }
     return self;
 }

@@ -36,7 +36,7 @@
     [fetchRequest setEntity:entity];
 NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
     for (Book *bok in array) {
-        NSLog(@"Book to be displayed %@,%@,%@ %@",bok.id,bok.title,bok.downloaded,bok.bookId);
+        NSLog(@"Book to be displayed %@,%@,%@ %@ %@",bok.id,bok.title,bok.downloaded,bok.bookId,bok.edited);
     }
     
 }

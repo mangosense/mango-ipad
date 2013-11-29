@@ -63,6 +63,7 @@
         UILabel *label=_titleLabelArray[i];
         label.text=book.title;
         label.hidden=NO;
+        button.tag=book.id.integerValue;
     }
 }
 
@@ -112,7 +113,8 @@
             if (_toEdit) {
                 index=button.tag;
                 index--;
-                Book *book=_books[index];
+                Book *book=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d",button.tag]];
+                [delegate.dataModel displayAllData];
                 identity=[NSString stringWithFormat:@"%@",book.id];
                 
                 MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
@@ -122,8 +124,10 @@
             } else {
                 index=button.tag;
                 index--;
-                Book *book=_books[index];
+                Book *book=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d",button.tag]];
                 identity=[NSString stringWithFormat:@"%@",book.id];
+                [delegate.dataModel displayAllData];
+
                 coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
                 [self.navigationController pushViewController:coverController animated:YES];
             }
