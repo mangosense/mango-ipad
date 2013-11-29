@@ -21,7 +21,7 @@
 #import "MangoTextLayer.h"
 #import "MangoAudioLayer.h"
 #import "MangoCapturedImageLayer.h"
-
+#import "ZipArchive.h"
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
 #define TAMIL_TAG 10
@@ -104,8 +104,38 @@
     pageImageView.delegate = self;
     //pageImageView.selectedBrush = 5.0f;
     //pageImageView.selectedEraserWidth = 20.0f;
-}
+    _editedBookPath=[storyBook.localPathFile stringByAppendingString:@"_fork"];
+    BOOL isDir;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]&&!isDir) {
+        [self createACopy];
 
+    }
+    NSLog(@"newPath %@",_editedBookPath);
+}
+-(void)createACopy{
+    NSString *oldDirectoryPath = storyBook.localPathFile;
+    
+    NSArray *tempArrayForContentsOfDirectory =[[NSFileManager defaultManager] contentsOfDirectoryAtPath:oldDirectoryPath error:nil];
+    
+    NSString *newDirectoryPath = [[oldDirectoryPath stringByDeletingLastPathComponent]stringByAppendingPathComponent:[_editedBookPath lastPathComponent] ];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath  withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    for (int i = 0; i < [tempArrayForContentsOfDirectory count]; i++)
+    {
+        
+        NSString *newFilePath = [newDirectoryPath stringByAppendingPathComponent:[tempArrayForContentsOfDirectory objectAtIndex:i]];
+        
+        NSString *oldFilePath = [oldDirectoryPath stringByAppendingPathComponent:[tempArrayForContentsOfDirectory objectAtIndex:i]];
+        
+        NSError *error = nil;
+        [[NSFileManager defaultManager] copyItemAtPath:oldFilePath toPath:newFilePath error:&error];
+        
+        if (error) {
+            // handle error
+        }
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
