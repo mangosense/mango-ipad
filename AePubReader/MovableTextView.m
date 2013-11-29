@@ -21,6 +21,8 @@
 
 @synthesize xDiffToCenter;
 @synthesize yDiffToCenter;
+@synthesize layerId;
+@synthesize textDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -52,6 +54,8 @@
 - (void) pinch:(UIPinchGestureRecognizer *)recognizer{
     self.frame = CGRectMake(MAX(self.frame.origin.x - (recognizer.scale - 1)*self.frame.size.width/2, 0), MAX(self.frame.origin.y - (recognizer.scale - 1)*self.frame.size.height/2, 0), MIN(self.superview.frame.size.width, self.frame.size.width*recognizer.scale), MIN(self.superview.frame.size.height, self.frame.size.height*recognizer.scale));
     recognizer.scale = 1;
+    
+    [textDelegate saveFrame:self.frame AndText:self.text ForLayer:layerId];
 }
 
 #pragma mark - Touch Event Handler Methods
@@ -89,6 +93,8 @@
 
     self.center = CGPointMake(MAX(5 + self.frame.size.width/2, MIN(location.x - xDiffToCenter, self.superview.frame.size.width - self.frame.size.width/2 - 5)), MAX(5 + self.frame.size.height/2, MIN(location.y - yDiffToCenter, self.superview.frame.size.height - self.frame.size.height/2 - 5/* - 150*/)));
     [self resignFirstResponder];
+    
+    [textDelegate saveFrame:self.frame AndText:self.text ForLayer:layerId];
 }
 
 /*

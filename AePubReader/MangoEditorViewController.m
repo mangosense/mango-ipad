@@ -257,27 +257,58 @@
 
 #pragma mark - TextViewDelegate
 
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    Flickr *flickr = [[Flickr alloc] init];
-    UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [loadingView setFrame:CGRectMake(self.view.center.x - 20, self.view.center.y - 20, 40, 40)];
-    [loadingView setHidesWhenStopped:YES];
-    [self.view addSubview:loadingView];
-    [loadingView startAnimating];
-    [flickr searchFlickrForTerm:textView.text completionBlock:^(NSString *searchTerm, NSArray *results, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [loadingView stopAnimating];
-        });
-        if(results && [results count] > 0) {
-            NSLog(@"Found %d photos matching %@", [results count],searchTerm);
-            NSLog(@"Results: %@", results);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loadFlickrPhotos:results];
-            });
-        } else {
-            NSLog(@"Error searching Flickr: %@", error.localizedDescription);
+- (void)saveFrame:(CGRect)textFrame AndText:(NSString *)layerText ForLayer:(NSString *)layerId {
+    
+    NSLog(@"Text Frame: %@", NSStringFromCGRect(textFrame));
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    MangoTextLayer *textLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+    if (textLayer) {
+        textLayer.actualText = layerText;
+        textLayer.fontSize = [NSNumber numberWithInt:30];
+        textLayer.height = [NSNumber numberWithFloat:textFrame.size.height];
+        textLayer.width = [NSNumber numberWithFloat:textFrame.size.width];
+        textLayer.leftRatio = [NSNumber numberWithFloat:924.0f/textFrame.origin.x];
+        textLayer.topRatio = [NSNumber numberWithFloat:600.0f/textFrame.origin.y];
+        if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
+            NSLog(@"Successfully updated textlayer");
+            MangoTextLayer *savedLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+            NSLog(@"Saved height = %@", savedLayer.height);
         }
-    }];
+    }
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if ([textView isKindOfClass:[MovableTextView class]]) {
+        MovableTextView *newTextview = (MovableTextView *)textView;
+        _audioLayer.wordMap = [newTextview.text componentsSeparatedByString:@" "];
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
+            
+        }
+        [self saveFrame:textView.frame AndText:textView.text ForLayer:newTextview.layerId];
+    } else {
+        Flickr *flickr = [[Flickr alloc] init];
+        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [loadingView setFrame:CGRectMake(self.view.center.x - 20, self.view.center.y - 20, 40, 40)];
+        [loadingView setHidesWhenStopped:YES];
+        [self.view addSubview:loadingView];
+        [loadingView startAnimating];
+        [flickr searchFlickrForTerm:textView.text completionBlock:^(NSString *searchTerm, NSArray *results, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [loadingView stopAnimating];
+            });
+            if(results && [results count] > 0) {
+                NSLog(@"Found %d photos matching %@", [results count],searchTerm);
+                NSLog(@"Results: %@", results);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self loadFlickrPhotos:results];
+                });
+            } else {
+                NSLog(@"Error searching Flickr: %@", error.localizedDescription);
+            }
+        }];
+    }
 }
 
 #pragma mark - Show Image Assets
@@ -737,6 +768,10 @@
             [existingPagesArray addObject:newPage.id];
             _mangoStoryBook.pages = existingPagesArray;
             
+            if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+                NSLog(@"Successfully updated book");
+            }
+            
             [pagesCarousel reloadData];
             [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
         }
@@ -1001,11 +1036,18 @@
             
             textOnPage = textLayer.actualText;
             _textFrame = CGRectMake(0, 0, 600, 400);
-            _textFrame = CGRectMake(MAX(1024/MAX([textLayer.leftRatio floatValue], 3), 100), MAX(768/MAX([textLayer.topRatio floatValue], 3), 100), MAX(600, [textLayer.width floatValue]), MAX([textLayer.height floatValue], 400));
+            _textFrame = CGRectMake(924.0f/[textLayer.leftRatio floatValue], 600.0f/[textLayer.topRatio floatValue], [textLayer.width floatValue], MAX([textLayer.height floatValue], 100));
+            NSLog(@"Rendered Text fRame: %@", NSStringFromCGRect(_textFrame));
+            NSLog(@"Rendered height = %f", [textLayer.height floatValue]);
+            
+            
             
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:_textFrame];
             pageTextView.font = [UIFont systemFontOfSize:30];
             pageTextView.text = textOnPage;
+            pageTextView.layerId = textLayer.id;
+            pageTextView.textDelegate = self;
+            pageTextView.delegate = self;
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
