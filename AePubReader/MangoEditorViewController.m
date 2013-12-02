@@ -9,7 +9,6 @@
 #import "MangoEditorViewController.h"
 #import "Constants.h"
 #import "MovableTextView.h"
-#import "MenuTableViewController.h"
 #import "Flickr.h"
 #import "FlickrPhoto.h"
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -23,6 +22,7 @@
 #import "MangoCapturedImageLayer.h"
 #import "ZipArchive.h"
 #import "DataModelControl.h"
+
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
 #define TAMIL_TAG 10
@@ -413,7 +413,7 @@
 }
 
 - (void)addImageForButton:(UIButton *)button {
-    if ([[pageImageView subviews] containsObject:stickerView]) {
+    if ([[self.view subviews] containsObject:stickerView]) {
         [self addAssetToView];
     }
     [menuPopoverController dismissPopoverAnimated:YES];
@@ -601,6 +601,13 @@
     [menuPopoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
+#pragma mark - Popover Delegates
+
+- (void)goToStoriesList {
+    [menuPopoverController dismissPopoverAnimated:YES];
+    [self mangoButtonTapped:nil];
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)mangoButtonTapped:(id)sender {
@@ -609,8 +616,9 @@
 
 - (IBAction)menuButtonTapped:(id)sender {
     MenuTableViewController *menuTableViewController = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    menuTableViewController.popDelegate = self;
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:menuTableViewController];
-    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 350) animated:YES];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
     [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
     [menuPopoverController presentPopoverFromRect:menuButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
@@ -1247,6 +1255,7 @@
     
     pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     [pagesCarousel reloadData];
+    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
     [self renderEditorPage:0];
 }
 

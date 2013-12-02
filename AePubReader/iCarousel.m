@@ -133,7 +133,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     _stopAtItemBoundary = YES;
     _scrollToItemBoundary = YES;
     _ignorePerpendicularSwipes = YES;
-    _centerItemWhenSelected = YES;
+    _centerItemWhenSelected = NO;
     
     _contentView = [[UIView alloc] initWithFrame:self.bounds];
     
