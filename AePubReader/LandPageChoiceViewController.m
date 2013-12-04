@@ -11,6 +11,8 @@
 #import "CustomNavViewController.h"
 #import "CategoriesViewController.h"
 #import "BooksFromCategoryViewController.h"
+#import "MangoStoreViewController.h"
+
 @interface LandPageChoiceViewController ()
 
 @end
@@ -55,11 +57,11 @@
 }
 
 - (IBAction)store:(id)sender {
-    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:NO];
-    [self.navigationController pushViewController:controller animated:YES];
+    //NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:NO];
+    //[self.navigationController pushViewController:controller animated:YES];
     
-    
-    
+    MangoStoreViewController *storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
+    [self.navigationController pushViewController:storeViewController animated:YES];
 }
 
 - (IBAction)myStories:(id)sender {

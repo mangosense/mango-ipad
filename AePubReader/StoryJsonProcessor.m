@@ -23,9 +23,9 @@
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
-            NSDictionary *textFrameDict = [layerDict objectForKey:TEXT_FRAME];
-            CGFloat leftRatio = [[textFrameDict objectForKey:LEFT_RATIO] floatValue];
-            CGFloat topRatio = [[textFrameDict objectForKey:TOP_RATIO] floatValue];
+            //NSDictionary *textFrameDict = [layerDict objectForKey:TEXT_FRAME];
+            //CGFloat leftRatio = [[textFrameDict objectForKey:LEFT_RATIO] floatValue];
+            //CGFloat topRatio = [[textFrameDict objectForKey:TOP_RATIO] floatValue];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
             ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];

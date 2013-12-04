@@ -50,13 +50,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [itemsListArray count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 1;
+    return [itemsListArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,13 +73,13 @@
     
     switch (tableType) {
         case TABLE_TYPE_AUDIO_RECORDINGS: {
-            AudioRecord *audioRecord = [itemsListArray objectAtIndex:indexPath.section];
+            AudioRecord *audioRecord = [itemsListArray objectAtIndex:indexPath.row];
             cell.textLabel.text = audioRecord.audioName;
         }
             break;
             
         case TABLE_TYPE_TEXT_TEMPLATES: {
-            cell.textLabel.text = [itemsListArray objectAtIndex:indexPath.section];
+            cell.textLabel.text = [itemsListArray objectAtIndex:indexPath.row];
         }
             break;
             
@@ -150,7 +150,7 @@
             break;
             
         case TABLE_TYPE_TEXT_TEMPLATES: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.section] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
@@ -161,7 +161,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [delegate itemType:tableType tappedAtIndex:indexPath.section];
+    [delegate itemType:tableType tappedAtIndex:indexPath.row];
 }
 
 @end
