@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MangoApiController.h"
 
-@interface StoreBookCell : UICollectionViewCell
+@protocol LocalImagesProtocol
+
+- (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl;
+
+@end
+
+@interface StoreBookCell : UICollectionViewCell <MangoPostApiProtocol>
 
 @property (nonatomic, strong) UIImageView *bookImageView;
 @property (nonatomic, strong) UIImageView *frameImageView;
@@ -19,5 +26,8 @@
 @property (nonatomic, strong) UIButton *interactiveButton;
 @property (nonatomic, strong) UIButton *textButton;
 @property (nonatomic, strong) UIButton *imageButton;
+@property (nonatomic, strong) NSString *imageUrlString;
+@property (nonatomic, assign) id <LocalImagesProtocol> delegate;
+- (void)getImageForUrl:(NSString *)urlString;
 
 @end

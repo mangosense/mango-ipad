@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ItemsListViewController.h"
 #import "iCarousel.h"
+#import "MangoApiController.h"
+#import "StoreBookCell.h"
 
-@interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol>
 
 @property (nonatomic, strong) IBOutlet iCarousel *storiesCarousel;
 

@@ -11,7 +11,8 @@
 #import "Constants.h"
 #import "StoreCollectionFlowLayout.h"
 #import "StoreCollectionHeaderView.h"
-#import "StoreBookCell.h"
+#import "AePubReaderAppDelegate.h"
+#import "AFHTTPRequestOperationManager.h"
 
 #define SEGMENT_WIDTH 600
 #define SEGMENT_HEIGHT 60
@@ -28,6 +29,8 @@
 
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
+@property (nonatomic, strong) NSMutableArray *liveStoriesArray;
+@property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
 
 @end
 
@@ -103,9 +106,27 @@
     [filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
-#pragma mark - UI Setup Methods
+#pragma mark - Post API Delegate
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray {
+    if (!_liveStoriesArray) {
+        _liveStoriesArray = [[NSMutableArray alloc] init];
+    }
+    [_liveStoriesArray addObjectsFromArray:dataArray];
+    [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+
+#pragma mark - Setup Methods
+
+- (void)getLiveStories {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES ForParameters:nil];
+}
 
 - (void)setupInitialUI {
+    [self getLiveStories];
+    
     _storiesCarousel.delegate = self;
     _storiesCarousel.dataSource = self;
     _storiesCarousel.type = iCarouselTypeCoverFlow;
@@ -119,7 +140,6 @@
     [_booksCollectionView registerClass:[StoreCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID];
     [_booksCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_booksCollectionView];
-    [_booksCollectionView reloadData];
 }
 
 #pragma mark - Items Delegate
@@ -144,7 +164,7 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 250)];
-    [storyImageView setImage:[UIImage imageNamed:@"video image copy.png"]];
+    [storyImageView setImage:[_localImagesDictionary objectForKey:[[_localImagesDictionary allKeys] objectAtIndex:0]]];
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
     return storyImageView;
@@ -184,10 +204,21 @@
     }
 }
 
+#pragma mark - Local Image Saving Delegate
+
+- (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
+    if (!_localImagesDictionary) {
+        _localImagesDictionary = [[NSMutableDictionary alloc] init];
+    }
+    [_localImagesDictionary setObject:image forKey:imageUrl];
+    [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return 6;
+    return MIN(6, [_liveStoriesArray count]);
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -196,13 +227,21 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
-    [cell.bookImageView setImage:[UIImage imageNamed:@"49.jpg"]];
     cell.bookTitleLabel.text = @"The Moon And The Cap";
     [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
     [cell setNeedsLayout];
     
     cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*indexPath.section, 2*indexPath.section + 2];
     cell.bookPriceLabel.text = @"Rs. 99";
+    cell.delegate = self;
+    
+    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+    cell.imageUrlString = [bookDict objectForKey:@"cover"];
+    if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
+        cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
+    } else {
+        [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
+    }
     
     return cell;
 }

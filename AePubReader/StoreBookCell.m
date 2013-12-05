@@ -78,6 +78,12 @@
     _bookPriceLabel.frame = CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20);
 }
 
+- (void)getImageForUrl:(NSString *)urlString {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController getImageAtUrl:urlString];
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -86,5 +92,19 @@
     // Drawing code
 }
 */
+
+#pragma mark - Reuse
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    _bookImageView.image = nil;
+}
+
+#pragma mark - Post API Delegate
+
+- (void)reloadImage:(UIImage *)image {
+    [_bookImageView setImage:image];
+    [_delegate saveImage:image ForUrl:_imageUrlString];
+}
 
 @end
