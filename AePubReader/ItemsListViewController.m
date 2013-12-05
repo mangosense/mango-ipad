@@ -83,6 +83,11 @@
         }
             break;
             
+        case TABLE_TYPE_CATEGORIES: {
+            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
+        }
+            break;
+            
         default:
             break;
     }
@@ -154,6 +159,11 @@
         }
             break;
             
+        case TABLE_TYPE_CATEGORIES: {
+            return MAX(44, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+        }
+            break;
+            
         default:
             break;
     }
@@ -162,6 +172,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [delegate itemType:tableType tappedAtIndex:indexPath.row];
+}
+
+#pragma mark - Setters
+
+- (void)setTableType:(int)tableTypeForList {
+    tableType = tableTypeForList;
+    if (tableType == TABLE_TYPE_CATEGORIES) {
+        [self getCategories];
+    }
+}
+
+#pragma mark - Post API Delegate
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray {
+    itemsListArray = [NSMutableArray arrayWithArray:dataArray];
+    [self.tableView reloadData];
+}
+
+#pragma mark - Categories API
+
+- (void)getCategories {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController getListOf:CATEGORIES ForParameters:nil];
 }
 
 @end

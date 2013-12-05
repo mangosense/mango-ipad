@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
+#import "MangoApiController.h"
 
 @protocol ItemsDelegate
 
@@ -15,7 +16,7 @@
 
 @end
 
-@interface ItemsListViewController : UITableViewController {
+@interface ItemsListViewController : UITableViewController <MangoPostApiProtocol> {
     NSMutableArray *itemsListArray;
     int tableType;
 }

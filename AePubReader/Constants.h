@@ -81,11 +81,13 @@
 #pragma mark - API Method Names
 
 #define LIVE_STORIES @"livestories.json"
+#define CATEGORIES @"categories.json"
 
 #pragma mark - Table Types
 
 #define TABLE_TYPE_AUDIO_RECORDINGS 1
 #define TABLE_TYPE_TEXT_TEMPLATES 2
+#define TABLE_TYPE_CATEGORIES 3
 
 #pragma mark - Colors
 

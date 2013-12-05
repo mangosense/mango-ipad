@@ -70,27 +70,29 @@
 - (IBAction)filterSelected:(id)sender {
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, 250)];
-    textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
     textTemplatesListViewController.delegate = self;
     
     UIButton *button = (UIButton *)sender;
     switch (button.tag) {
         case CATEGORY_TAG: {
-            textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Bedtime Stories", @"Poems & Rhymes", @"Good Habits & Values", @"Holidays & Celebrations", @"Classics", @"Traditional Tales", nil];
+            textTemplatesListViewController.tableType = TABLE_TYPE_CATEGORIES;
         }
             break;
             
         case AGE_TAG: {
+            textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
             textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"2-4 Years", @"4-6 Years", @"6-8 Years", @"8-10 Years", @"10-12 Years", nil];
         }
             break;
             
         case LANGUAGE_TAG: {
+            textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
             textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"English", @"Spanish", @"French", @"German", @"Tamil", @"Hindi", nil];
         }
             break;
             
         case GRADE_TAG: {
+            textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
             textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Pre K", @"Kindergarten", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", nil];
         }
             break;
