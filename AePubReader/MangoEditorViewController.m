@@ -22,6 +22,7 @@
 #import "MangoCapturedImageLayer.h"
 #import "ZipArchive.h"
 #import "DataModelControl.h"
+#import "ColoringToolsViewController.h"
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -103,8 +104,8 @@
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
     pageImageView.delegate = self;
-    //pageImageView.selectedBrush = 5.0f;
-    //pageImageView.selectedEraserWidth = 20.0f;
+    pageImageView.selectedBrush = 5.0f;
+    pageImageView.selectedEraserWidth = 20.0f;
     _editedBookPath=[storyBook.localPathFile stringByAppendingString:@"_fork"];
     BOOL isDir;
     if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]&&!isDir) {
@@ -601,6 +602,16 @@
     [menuPopoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
+#pragma mark - DrawingTools Delegate
+
+- (void)widthOfBrush:(CGFloat)brushWidth {
+    pageImageView.selectedBrush = brushWidth;
+}
+
+- (void)selectedColor:(int)color {
+    pageImageView.selectedColor = color;
+}
+
 #pragma mark - Popover Delegates
 
 - (void)goToStoriesList {
@@ -670,7 +681,15 @@
 }
 
 - (IBAction)doodleButtonTapped:(id)sender {
-    [self showComingSoonPopover:sender];
+    UIButton *button = (UIButton *)sender;
+    
+    ColoringToolsViewController *coloringToolsController = [[ColoringToolsViewController alloc] initWithNibName:@"ColoringToolsViewController" bundle:nil];
+    coloringToolsController.delegate = self;
+    
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:coloringToolsController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 193) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
+    [menuPopoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
 #pragma mark - Items List Delegate

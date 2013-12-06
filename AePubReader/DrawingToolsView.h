@@ -10,6 +10,7 @@
 
 @protocol DrawingToolsDelegate
 
+@optional
 - (void)widthOfBrush:(CGFloat)brushWidth;
 - (void)widthOfEraser:(CGFloat)eraserWidth;
 - (void)selectedColor:(int)color;
