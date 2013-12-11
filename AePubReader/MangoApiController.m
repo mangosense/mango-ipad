@@ -44,9 +44,7 @@
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Image Response: %@", responseObject);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate reloadImage:(UIImage *)responseObject];
-        });
+        [_delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Image error: %@", error);
     }];

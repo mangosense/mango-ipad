@@ -102,9 +102,9 @@
 
 #pragma mark - Post API Delegate
 
-- (void)reloadImage:(UIImage *)image {
+- (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString {
     [_bookImageView setImage:image];
-    [_delegate saveImage:image ForUrl:_imageUrlString];
+    [_delegate saveImage:image ForUrl:urlString];
 }
 
 @end

@@ -51,7 +51,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
 }
 
@@ -166,7 +166,9 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 250)];
-    [storyImageView setImage:[_localImagesDictionary objectForKey:[[_localImagesDictionary allKeys] objectAtIndex:0]]];
+    if ([[_localImagesDictionary allKeys] count] > 0) {
+        [storyImageView setImage:[_localImagesDictionary objectForKey:[[_localImagesDictionary allKeys] objectAtIndex:0]]];
+    }
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
     return storyImageView;
@@ -209,9 +211,6 @@
 #pragma mark - Local Image Saving Delegate
 
 - (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
-    if (!_localImagesDictionary) {
-        _localImagesDictionary = [[NSMutableDictionary alloc] init];
-    }
     [_localImagesDictionary setObject:image forKey:imageUrl];
     [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];

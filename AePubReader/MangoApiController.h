@@ -12,7 +12,7 @@
 
 @optional
 - (void)reloadViewsWithArray:(NSArray *)dataArray;
-- (void)reloadImage:(UIImage *)image;
+- (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString;
 
 @end
 
