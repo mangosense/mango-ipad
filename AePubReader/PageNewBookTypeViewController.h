@@ -15,7 +15,7 @@
 #import "MangoEditorViewController.h"
 #import "DismissPopOver.h"
 #import "MangoBook.h"
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate>
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate>
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
 - (IBAction)closeButton:(id)sender;

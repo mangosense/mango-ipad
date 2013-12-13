@@ -12,6 +12,9 @@
 #import "CustomMappingView.h"
 @interface PageNewBookTypeViewController ()
 
+@property (nonatomic, assign) NSInteger gamePageNumber;
+@property (nonatomic, strong) NSMutableDictionary *gameDataDict;
+
 @end
 
 @implementation PageNewBookTypeViewController
@@ -62,6 +65,7 @@
    // _pageView.backgroundColor=[UIColor grayColor];
     NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
     _pageNo=numberOfPages.integerValue;
+    _gamePageNumber = 0;
     
 }
 - (void)didReceiveMemoryWarning
@@ -233,6 +237,15 @@
     [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 
 }
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_gameDataDict options:NSJSONReadingAllowFragments error:nil];
+    NSString *paramString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"Param: %@", paramString);
+    
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
+}
+
 -(void)loadPageWithOption:(NSInteger)option{
     [_audioMappingViewController.timer invalidate];
     _audioMappingViewController.timer=nil;
@@ -241,11 +254,24 @@
     NSLog(_book.edited ? @"Yes" : @"No");
     if (_book.edited.boolValue) {
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.bookId];
-     /*   + (UIView *)readerPage:(int)pageNumber ForEditedStory:(MangoBook *)storyBook WithFolderLocation:(NSString *)folderLocation WithAudioMappingViewController:(AudioMappingViewController *)audioMappingViewController andDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption*/
+        MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.bookId];
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:_book.localPathFile WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];
-            }else{
+    }else{
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
+        if (!_pageView) {
+            _pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+            NSArray *gameNamesArray = [NSArray arrayWithObjects:@"wordsearch", @"memory", @"jigsaw", nil];
+            NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_gamePageNumber] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
+            _gameDataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
+            [_gameDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
+            UIWebView *gameView = [gameViewDict objectForKey:@"gameView"];
+            gameView.delegate = self;
+            
+            [_pageView addSubview:gameView];
+            _gamePageNumber++;
+            _gamePageNumber = _gamePageNumber%3;
+        }
+                
     }
     _pageView.frame=self.view.bounds;
     for (UIView *subview in [_pageView subviews]) {

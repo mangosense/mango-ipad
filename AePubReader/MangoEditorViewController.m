@@ -1044,6 +1044,29 @@
     return pageView;
 }
 
++ (NSMutableDictionary *)readerGamePage:(NSString *)gameName ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption {
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    for (NSDictionary *readerPageDict in readerPagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:gameName]) {
+            UIWebView *gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+            NSString *filePath = [[folderLocation stringByAppendingFormat:@"/games/%@/index.html", [readerPageDict objectForKey:PAGE_NAME]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSLog(@"%@", filePath);
+            [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setObject:gameWebView forKey:@"gameView"];
+            [dict setObject:[[readerPageDict objectForKey:LAYERS] lastObject] forKey:@"data"];
+            
+            return dict;
+        }
+    }
+    
+    return nil;
+}
+
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -1153,7 +1176,10 @@
       //  else if([layerDict objectForKey:WORDMAP])
     }
     
-    return pageView;
+    if ([[pageView subviews] count] > 0) {
+        return pageView;
+    }
+    return nil;
 }
 
 - (void)renderEditorPage:(int)pageNumber {
