@@ -12,6 +12,8 @@
 #import "DataModelControl.h"
 #import "PageNewBookTypeViewController.h"
 #import "MangoEditorViewController.h"
+#import "MangoGamesListViewController.h"
+
 @interface CoverViewControllerBetterBookType ()
 
 @end
@@ -82,4 +84,28 @@
 -(void) dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
 }
+
+- (IBAction)gameButtonTapped:(id)sender {
+    MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+    
+    NSString *jsonLocation=_book.localPathFile;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    //  NSLog(@"json location %@",jsonLocation);
+    NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+
+    gamesListViewController.jsonString = jsonContent;
+    gamesListViewController.folderLocation = _book.localPathFile;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
+    [navController.navigationBar setHidden:YES];
+    
+    [self.navigationController presentViewController:navController animated:YES completion:^{
+        
+    }];
+}
+
 @end

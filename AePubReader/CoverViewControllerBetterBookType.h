@@ -20,4 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property(strong,nonatomic) NSString *identity;
 @property(strong,nonatomic) Book *book;
+
+- (IBAction)gameButtonTapped:(id)sender;
+
 @end

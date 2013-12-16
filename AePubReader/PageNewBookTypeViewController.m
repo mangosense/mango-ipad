@@ -10,6 +10,8 @@
 #import "AePubReaderAppDelegate.h"
 #import "LanguageChoiceViewController.h"
 #import "CustomMappingView.h"
+#import "MangoGamesListViewController.h"
+
 @interface PageNewBookTypeViewController ()
 
 @property (nonatomic, assign) NSInteger gamePageNumber;
@@ -201,8 +203,16 @@
 }
 
 - (IBAction)openGameCentre:(id)sender {
-    [self showComingSoonPopover:sender];
+    MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+    gamesListViewController.jsonString = _jsonContent;
+    gamesListViewController.folderLocation = _book.localPathFile;
     
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
+    [navController.navigationBar setHidden:YES];
+    
+    [self.navigationController presentViewController:navController animated:YES completion:^{
+        
+    }];
 }
 - (void)showComingSoonPopover:(id)sender {
     UIButton *button = (UIButton *)sender;

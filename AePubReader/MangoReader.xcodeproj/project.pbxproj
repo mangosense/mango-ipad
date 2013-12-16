@@ -181,6 +181,36 @@
 		839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CD41834A20A00436237 /* MangoEditorViewController.xib */; };
 		839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839F907817E6D37C00BD1412 /* PublishViewController.m */; };
 		839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839F907917E6D37C00BD1412 /* PublishViewController.xib */; };
+		83BB3E9D185B560600BA5ED7 /* back-button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8C185B560600BA5ED7 /* back-button.jpg */; };
+		83BB3E9E185B560600BA5ED7 /* gamecentre_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8D185B560600BA5ED7 /* gamecentre_bg.jpg */; };
+		83BB3E9F185B560600BA5ED7 /* gamecentre_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8E185B560600BA5ED7 /* gamecentre_ref.jpg */; };
+		83BB3EA0185B560600BA5ED7 /* image_sequencing_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8F185B560600BA5ED7 /* image_sequencing_bg.jpg */; };
+		83BB3EA1185B560600BA5ED7 /* image_sequencing_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E90185B560600BA5ED7 /* image_sequencing_ref.jpg */; };
+		83BB3EA2185B560600BA5ED7 /* match-words_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E91185B560600BA5ED7 /* match-words_bg.jpg */; };
+		83BB3EA3185B560600BA5ED7 /* match-words_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E92185B560600BA5ED7 /* match-words_ref.jpg */; };
+		83BB3EA4185B560600BA5ED7 /* match_images_words_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E93185B560600BA5ED7 /* match_images_words_bg.jpg */; };
+		83BB3EA5185B560600BA5ED7 /* match_images_words_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E94185B560600BA5ED7 /* match_images_words_ref.jpg */; };
+		83BB3EA6185B560600BA5ED7 /* question-&-answer_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E95185B560600BA5ED7 /* question-&-answer_bg.jpg */; };
+		83BB3EA7185B560600BA5ED7 /* question-&-answer_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E96185B560600BA5ED7 /* question-&-answer_ref.jpg */; };
+		83BB3EA8185B560600BA5ED7 /* quiz_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E97185B560600BA5ED7 /* quiz_bg.jpg */; };
+		83BB3EA9185B560600BA5ED7 /* quiz_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E98185B560600BA5ED7 /* quiz_ref.jpg */; };
+		83BB3EAA185B560600BA5ED7 /* sequence_story_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E99185B560600BA5ED7 /* sequence_story_bg.jpg */; };
+		83BB3EAB185B560600BA5ED7 /* sequence_story_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E9A185B560600BA5ED7 /* sequence_story_ref.jpg */; };
+		83BB3EAC185B560600BA5ED7 /* true_false_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E9B185B560600BA5ED7 /* true_false_bg.jpg */; };
+		83BB3EAD185B560600BA5ED7 /* true_false_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E9C185B560600BA5ED7 /* true_false_ref.jpg */; };
+		83BB3EB2185B567A00BA5ED7 /* MangoGamesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BB3EB0185B567A00BA5ED7 /* MangoGamesListViewController.m */; };
+		83BB3EB3185B567A00BA5ED7 /* MangoGamesListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EB1185B567A00BA5ED7 /* MangoGamesListViewController.xib */; };
+		83BB3EBE185B5ADD00BA5ED7 /* arrange-the-word.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EB5185B5ADD00BA5ED7 /* arrange-the-word.jpg */; };
+		83BB3EBF185B5ADD00BA5ED7 /* dragNdrop.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EB6185B5ADD00BA5ED7 /* dragNdrop.jpg */; };
+		83BB3EC0185B5ADD00BA5ED7 /* draw-game.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EB7185B5ADD00BA5ED7 /* draw-game.jpg */; };
+		83BB3EC1185B5ADD00BA5ED7 /* identify-the.animal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EB8185B5ADD00BA5ED7 /* identify-the.animal.jpg */; };
+		83BB3EC2185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EB9185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg */; };
+		83BB3EC3185B5ADD00BA5ED7 /* memory-puzzle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EBA185B5ADD00BA5ED7 /* memory-puzzle.jpg */; };
+		83BB3EC4185B5ADD00BA5ED7 /* scratch-game.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EBB185B5ADD00BA5ED7 /* scratch-game.jpg */; };
+		83BB3EC5185B5ADD00BA5ED7 /* select-the-object.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EBC185B5ADD00BA5ED7 /* select-the-object.jpg */; };
+		83BB3EC6185B5ADD00BA5ED7 /* word-search-game.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EBD185B5ADD00BA5ED7 /* word-search-game.jpg */; };
+		83BB3ECA185B61E500BA5ED7 /* MangoGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BB3EC8185B61E500BA5ED7 /* MangoGameViewController.m */; };
+		83BB3ECB185B61E600BA5ED7 /* MangoGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EC9185B61E500BA5ED7 /* MangoGameViewController.xib */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
 		83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
@@ -1233,6 +1263,38 @@
 		839F907717E6D37C00BD1412 /* PublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishViewController.h; sourceTree = "<group>"; };
 		839F907817E6D37C00BD1412 /* PublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishViewController.m; sourceTree = "<group>"; };
 		839F907917E6D37C00BD1412 /* PublishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishViewController.xib; sourceTree = "<group>"; };
+		83BB3E8C185B560600BA5ED7 /* back-button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "back-button.jpg"; sourceTree = "<group>"; };
+		83BB3E8D185B560600BA5ED7 /* gamecentre_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gamecentre_bg.jpg; sourceTree = "<group>"; };
+		83BB3E8E185B560600BA5ED7 /* gamecentre_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gamecentre_ref.jpg; sourceTree = "<group>"; };
+		83BB3E8F185B560600BA5ED7 /* image_sequencing_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sequencing_bg.jpg; sourceTree = "<group>"; };
+		83BB3E90185B560600BA5ED7 /* image_sequencing_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sequencing_ref.jpg; sourceTree = "<group>"; };
+		83BB3E91185B560600BA5ED7 /* match-words_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "match-words_bg.jpg"; sourceTree = "<group>"; };
+		83BB3E92185B560600BA5ED7 /* match-words_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "match-words_ref.jpg"; sourceTree = "<group>"; };
+		83BB3E93185B560600BA5ED7 /* match_images_words_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = match_images_words_bg.jpg; sourceTree = "<group>"; };
+		83BB3E94185B560600BA5ED7 /* match_images_words_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = match_images_words_ref.jpg; sourceTree = "<group>"; };
+		83BB3E95185B560600BA5ED7 /* question-&-answer_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "question-&-answer_bg.jpg"; sourceTree = "<group>"; };
+		83BB3E96185B560600BA5ED7 /* question-&-answer_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "question-&-answer_ref.jpg"; sourceTree = "<group>"; };
+		83BB3E97185B560600BA5ED7 /* quiz_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = quiz_bg.jpg; sourceTree = "<group>"; };
+		83BB3E98185B560600BA5ED7 /* quiz_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = quiz_ref.jpg; sourceTree = "<group>"; };
+		83BB3E99185B560600BA5ED7 /* sequence_story_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sequence_story_bg.jpg; sourceTree = "<group>"; };
+		83BB3E9A185B560600BA5ED7 /* sequence_story_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sequence_story_ref.jpg; sourceTree = "<group>"; };
+		83BB3E9B185B560600BA5ED7 /* true_false_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = true_false_bg.jpg; sourceTree = "<group>"; };
+		83BB3E9C185B560600BA5ED7 /* true_false_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = true_false_ref.jpg; sourceTree = "<group>"; };
+		83BB3EAF185B567A00BA5ED7 /* MangoGamesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoGamesListViewController.h; sourceTree = "<group>"; };
+		83BB3EB0185B567A00BA5ED7 /* MangoGamesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoGamesListViewController.m; sourceTree = "<group>"; };
+		83BB3EB1185B567A00BA5ED7 /* MangoGamesListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoGamesListViewController.xib; sourceTree = "<group>"; };
+		83BB3EB5185B5ADD00BA5ED7 /* arrange-the-word.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "arrange-the-word.jpg"; sourceTree = "<group>"; };
+		83BB3EB6185B5ADD00BA5ED7 /* dragNdrop.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dragNdrop.jpg; sourceTree = "<group>"; };
+		83BB3EB7185B5ADD00BA5ED7 /* draw-game.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "draw-game.jpg"; sourceTree = "<group>"; };
+		83BB3EB8185B5ADD00BA5ED7 /* identify-the.animal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "identify-the.animal.jpg"; sourceTree = "<group>"; };
+		83BB3EB9185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "jigsaw-puzzle.jpg"; sourceTree = "<group>"; };
+		83BB3EBA185B5ADD00BA5ED7 /* memory-puzzle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "memory-puzzle.jpg"; sourceTree = "<group>"; };
+		83BB3EBB185B5ADD00BA5ED7 /* scratch-game.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scratch-game.jpg"; sourceTree = "<group>"; };
+		83BB3EBC185B5ADD00BA5ED7 /* select-the-object.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "select-the-object.jpg"; sourceTree = "<group>"; };
+		83BB3EBD185B5ADD00BA5ED7 /* word-search-game.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "word-search-game.jpg"; sourceTree = "<group>"; };
+		83BB3EC7185B61E500BA5ED7 /* MangoGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoGameViewController.h; sourceTree = "<group>"; };
+		83BB3EC8185B61E500BA5ED7 /* MangoGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoGameViewController.m; sourceTree = "<group>"; };
+		83BB3EC9185B61E500BA5ED7 /* MangoGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoGameViewController.xib; sourceTree = "<group>"; };
 		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
 		83CFB6C1184333AF0003E875 /* BaseViewAudoMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewAudoMapping.h; sourceTree = "<group>"; };
@@ -2268,6 +2330,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				83BB3EAE185B565800BA5ED7 /* Mango Games */,
 				838048501850586C006BBA47 /* AFNetworking */,
 				8380484D1850584E006BBA47 /* API Controller */,
 				83E9ADDA184DA2050025BBD6 /* Store */,
@@ -2362,6 +2425,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				83BB3E8B185B560600BA5ED7 /* mangogames */,
 				8353B31D1851ABB7009B3BD8 /* Color Tool Images */,
 				83E9ADE5184DA3710025BBD6 /* Store Images */,
 				83E2CF72184364EB00F8CDB6 /* EditorImages */,
@@ -2786,6 +2850,60 @@
 				838BF9DD1848BFB8003C8791 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		83BB3E8B185B560600BA5ED7 /* mangogames */ = {
+			isa = PBXGroup;
+			children = (
+				83BB3EB4185B5ADD00BA5ED7 /* titles */,
+				83BB3E8C185B560600BA5ED7 /* back-button.jpg */,
+				83BB3E8D185B560600BA5ED7 /* gamecentre_bg.jpg */,
+				83BB3E8E185B560600BA5ED7 /* gamecentre_ref.jpg */,
+				83BB3E8F185B560600BA5ED7 /* image_sequencing_bg.jpg */,
+				83BB3E90185B560600BA5ED7 /* image_sequencing_ref.jpg */,
+				83BB3E91185B560600BA5ED7 /* match-words_bg.jpg */,
+				83BB3E92185B560600BA5ED7 /* match-words_ref.jpg */,
+				83BB3E93185B560600BA5ED7 /* match_images_words_bg.jpg */,
+				83BB3E94185B560600BA5ED7 /* match_images_words_ref.jpg */,
+				83BB3E95185B560600BA5ED7 /* question-&-answer_bg.jpg */,
+				83BB3E96185B560600BA5ED7 /* question-&-answer_ref.jpg */,
+				83BB3E97185B560600BA5ED7 /* quiz_bg.jpg */,
+				83BB3E98185B560600BA5ED7 /* quiz_ref.jpg */,
+				83BB3E99185B560600BA5ED7 /* sequence_story_bg.jpg */,
+				83BB3E9A185B560600BA5ED7 /* sequence_story_ref.jpg */,
+				83BB3E9B185B560600BA5ED7 /* true_false_bg.jpg */,
+				83BB3E9C185B560600BA5ED7 /* true_false_ref.jpg */,
+			);
+			path = mangogames;
+			sourceTree = "<group>";
+		};
+		83BB3EAE185B565800BA5ED7 /* Mango Games */ = {
+			isa = PBXGroup;
+			children = (
+				83BB3EAF185B567A00BA5ED7 /* MangoGamesListViewController.h */,
+				83BB3EB0185B567A00BA5ED7 /* MangoGamesListViewController.m */,
+				83BB3EB1185B567A00BA5ED7 /* MangoGamesListViewController.xib */,
+				83BB3EC7185B61E500BA5ED7 /* MangoGameViewController.h */,
+				83BB3EC8185B61E500BA5ED7 /* MangoGameViewController.m */,
+				83BB3EC9185B61E500BA5ED7 /* MangoGameViewController.xib */,
+			);
+			name = "Mango Games";
+			sourceTree = "<group>";
+		};
+		83BB3EB4185B5ADD00BA5ED7 /* titles */ = {
+			isa = PBXGroup;
+			children = (
+				83BB3EB5185B5ADD00BA5ED7 /* arrange-the-word.jpg */,
+				83BB3EB6185B5ADD00BA5ED7 /* dragNdrop.jpg */,
+				83BB3EB7185B5ADD00BA5ED7 /* draw-game.jpg */,
+				83BB3EB8185B5ADD00BA5ED7 /* identify-the.animal.jpg */,
+				83BB3EB9185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg */,
+				83BB3EBA185B5ADD00BA5ED7 /* memory-puzzle.jpg */,
+				83BB3EBB185B5ADD00BA5ED7 /* scratch-game.jpg */,
+				83BB3EBC185B5ADD00BA5ED7 /* select-the-object.jpg */,
+				83BB3EBD185B5ADD00BA5ED7 /* word-search-game.jpg */,
+			);
+			path = titles;
 			sourceTree = "<group>";
 		};
 		83DD9BB418111662004C975F /* ImageDownloader */ = {
@@ -4019,7 +4137,9 @@
 				83E9AE06184DA3710025BBD6 /* arrowside.png in Resources */,
 				AE7FEDE0161581EC00C4B51D /* View.xib in Resources */,
 				AE7FEDE21615A16100C4B51D /* book-shelf.png in Resources */,
+				83BB3EBE185B5ADD00BA5ED7 /* arrange-the-word.jpg in Resources */,
 				83E2D22B184364EC00F8CDB6 /* editor_83.png in Resources */,
+				83BB3EAD185B560600BA5ED7 /* true_false_ref.jpg in Resources */,
 				AE0C935B183DE117008E4D54 /* hungry.zip in Resources */,
 				AE7FEE061615CF7000C4B51D /* logo.png in Resources */,
 				83E2D23B184364EC00F8CDB6 /* editor_98.png in Resources */,
@@ -4121,6 +4241,7 @@
 				83E2D1B5184364EC00F8CDB6 /* editor_299.png in Resources */,
 				83E2D20A184364EC00F8CDB6 /* editor_53.png in Resources */,
 				834FCE39182D11F70000181B /* menubutton_selected.png in Resources */,
+				83BB3E9D185B560600BA5ED7 /* back-button.jpg in Resources */,
 				AE9793F91650B01F00DBB5D1 /* SignUpViewController.xib in Resources */,
 				AE9BFBAC16537C12000DDEB1 /* LiveViewController.xib in Resources */,
 				AE9BFBB116537F44000DDEB1 /* PopPurchaseViewController.xib in Resources */,
@@ -4144,12 +4265,14 @@
 				8353B32F1851ABE1009B3BD8 /* earase_2.png in Resources */,
 				AE9A1869165E583600B5E594 /* dropdown.png in Resources */,
 				AEE26AD7165F8EE70021B4AA /* purchase-button.png in Resources */,
+				83BB3EC5185B5ADD00BA5ED7 /* select-the-object.jpg in Resources */,
 				83E2D164184364EC00F8CDB6 /* editor_225.png in Resources */,
 				83E2D1C8184364EC00F8CDB6 /* editor_315.png in Resources */,
 				83E2D14D184364EC00F8CDB6 /* editor_204.png in Resources */,
 				83E2D13B184364EC00F8CDB6 /* editor_189.png in Resources */,
 				83E2D1B0184364EC00F8CDB6 /* editor_294.png in Resources */,
 				8353B31C1851A9A8009B3BD8 /* ColoringToolsViewController.xib in Resources */,
+				83BB3EC3185B5ADD00BA5ED7 /* memory-puzzle.jpg in Resources */,
 				AEAC09D51664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png in Resources */,
 				AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */,
 				83E2D0DF184364EC00F8CDB6 /* editor_105.png in Resources */,
@@ -4174,6 +4297,7 @@
 				83E2D1F3184364EC00F8CDB6 /* editor_354.png in Resources */,
 				8353B3321851ABE1009B3BD8 /* highlight.png in Resources */,
 				AE1C6C1D167210CF0090DFDD /* Default@2x.png in Resources */,
+				83BB3EB3185B567A00BA5ED7 /* MangoGamesListViewController.xib in Resources */,
 				83E2D136184364EC00F8CDB6 /* editor_184.png in Resources */,
 				83E2D153184364EC00F8CDB6 /* editor_21.png in Resources */,
 				83E2D115184364EC00F8CDB6 /* editor_154.png in Resources */,
@@ -4228,6 +4352,8 @@
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
 				834FCE2C182D11F70000181B /* hitosync_active_button.png in Resources */,
 				83E2D10A184364EC00F8CDB6 /* editor_144.png in Resources */,
+				83BB3EA0185B560600BA5ED7 /* image_sequencing_bg.jpg in Resources */,
+				83BB3EA3185B560600BA5ED7 /* match-words_ref.jpg in Resources */,
 				83E2D1E1184364EC00F8CDB6 /* editor_338.png in Resources */,
 				83E9AE05184DA3710025BBD6 /* arrow.png in Resources */,
 				AE731C781675FB6000FE8F19 /* mangoreader-logo.png in Resources */,
@@ -4282,10 +4408,12 @@
 				83E2D173184364EC00F8CDB6 /* editor_239.png in Resources */,
 				83E2D1B8184364EC00F8CDB6 /* editor_300.png in Resources */,
 				834FCE32182D11F70000181B /* italic_button.png in Resources */,
+				83BB3EAA185B560600BA5ED7 /* sequence_story_bg.jpg in Resources */,
 				83E2D1DE184364EC00F8CDB6 /* editor_335.png in Resources */,
 				834FCE42182D11F70000181B /* play_button.png in Resources */,
 				83E2D12E184364EC00F8CDB6 /* editor_177.png in Resources */,
 				83E2D1C0184364EC00F8CDB6 /* editor_308.png in Resources */,
+				83BB3E9F185B560600BA5ED7 /* gamecentre_ref.jpg in Resources */,
 				AED05F9B168CBCBA00D27EF3 /* stop-recording-control.png in Resources */,
 				83E2D1CC184364EC00F8CDB6 /* editor_319.png in Resources */,
 				AED05F9D168CBCBE00D27EF3 /* start-recording-control.png in Resources */,
@@ -4306,11 +4434,13 @@
 				83E2D182184364EC00F8CDB6 /* editor_252.png in Resources */,
 				AE6B855116945DD300E17358 /* loading.png in Resources */,
 				AEF6A155169596CE00ECAE7E /* WebPageViewController.xib in Resources */,
+				83BB3EC4185B5ADD00BA5ED7 /* scratch-game.jpg in Resources */,
 				83E2D18F184364EC00F8CDB6 /* editor_264.png in Resources */,
 				AEF6A1571695973B00ECAE7E /* WebPageViewIphone.xib in Resources */,
 				834FCE4F182D11F70000181B /* retake_button_pressed.png in Resources */,
 				834FCE6A182D11F70000181B /* upload_button_pressed.png in Resources */,
 				834FCE1B182D11F70000181B /* audiobutton_selected.png in Resources */,
+				83BB3EA7185B560600BA5ED7 /* question-&-answer_ref.jpg in Resources */,
 				834FCE52182D11F70000181B /* save_button.png in Resources */,
 				83E2D1DA184364EC00F8CDB6 /* editor_331.png in Resources */,
 				83E2D1FB184364EC00F8CDB6 /* editor_4.png in Resources */,
@@ -4341,7 +4471,9 @@
 				83E2D143184364EC00F8CDB6 /* editor_196.png in Resources */,
 				83E2D17F184364EC00F8CDB6 /* editor_25.png in Resources */,
 				83E2D171184364EC00F8CDB6 /* editor_237.png in Resources */,
+				83BB3EAB185B560600BA5ED7 /* sequence_story_ref.jpg in Resources */,
 				AEDA4856169E7F9C00116C23 /* HighlightedStringOld.js in Resources */,
+				83BB3EA5185B560600BA5ED7 /* match_images_words_ref.jpg in Resources */,
 				83E2D236184364EC00F8CDB6 /* editor_93.png in Resources */,
 				834FCE30182D11F70000181B /* imagebutton.png in Resources */,
 				AED2B518169AA742001956CF /* 49.jpg in Resources */,
@@ -4374,6 +4506,7 @@
 				83E2D141184364EC00F8CDB6 /* editor_194.png in Resources */,
 				83E2D17A184364EC00F8CDB6 /* editor_245.png in Resources */,
 				83E2D151184364EC00F8CDB6 /* editor_208.png in Resources */,
+				83BB3ECB185B61E600BA5ED7 /* MangoGameViewController.xib in Resources */,
 				83E2D195184364EC00F8CDB6 /* editor_27.png in Resources */,
 				AE266FD5183B4E7E001A8CB8 /* traditional.png in Resources */,
 				83E2D14E184364EC00F8CDB6 /* editor_205.png in Resources */,
@@ -4413,6 +4546,7 @@
 				AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */,
 				83E2D17C184364EC00F8CDB6 /* editor_247.png in Resources */,
 				83E2D212184364EC00F8CDB6 /* editor_60.png in Resources */,
+				83BB3EA1185B560600BA5ED7 /* image_sequencing_ref.jpg in Resources */,
 				AE0C936A183DEA8E008E4D54 /* icons_play games.png in Resources */,
 				83E2D189184364EC00F8CDB6 /* editor_259.png in Resources */,
 				83E2D103184364EC00F8CDB6 /* editor_138.png in Resources */,
@@ -4465,6 +4599,7 @@
 				83E9AE18184DA3710025BBD6 /* icon_3.png in Resources */,
 				83E2D129184364EC00F8CDB6 /* editor_172.png in Resources */,
 				83E2D20D184364EC00F8CDB6 /* editor_56.png in Resources */,
+				83BB3EC6185B5ADD00BA5ED7 /* word-search-game.jpg in Resources */,
 				83E2D1FC184364EC00F8CDB6 /* editor_40.png in Resources */,
 				AEFB1C4D173A5FC000C7A081 /* Readbymyselfbutton.png in Resources */,
 				83E2D1A1184364EC00F8CDB6 /* editor_280.png in Resources */,
@@ -4527,6 +4662,7 @@
 				AEBD469C1755B4AC0060692A /* large_one.png in Resources */,
 				AEBD469E1755B4D40060692A /* large_four.png in Resources */,
 				834FCE73182E084E0000181B /* pages_bg_left.png in Resources */,
+				83BB3E9E185B560600BA5ED7 /* gamecentre_bg.jpg in Resources */,
 				83E2D1F8184364EC00F8CDB6 /* editor_37.png in Resources */,
 				83E2D1F7184364EC00F8CDB6 /* editor_36.png in Resources */,
 				83E2D123184364EC00F8CDB6 /* editor_167.png in Resources */,
@@ -4550,6 +4686,7 @@
 				83E2D238184364EC00F8CDB6 /* editor_95.png in Resources */,
 				AE4BB736183CD8D9004F20C5 /* CategoriesFlexibleViewController.xib in Resources */,
 				83E2D219184364EC00F8CDB6 /* editor_67.png in Resources */,
+				83BB3EA6185B560600BA5ED7 /* question-&-answer_bg.jpg in Resources */,
 				AEBD46A61755B5230060692A /* large_three.png in Resources */,
 				83E2D0EC184364EC00F8CDB6 /* editor_117.png in Resources */,
 				83E2D1F5184364EC00F8CDB6 /* editor_356.png in Resources */,
@@ -4562,6 +4699,7 @@
 				AE8CA74C183C9C68006BA6BA /* icons_settings.png in Resources */,
 				83E9AE15184DA3710025BBD6 /* icon_1_pressed.png in Resources */,
 				83E2D1FF184364EC00F8CDB6 /* editor_43.png in Resources */,
+				83BB3EBF185B5ADD00BA5ED7 /* dragNdrop.jpg in Resources */,
 				839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */,
 				83E2D14A184364EC00F8CDB6 /* editor_201.png in Resources */,
 				AE0C9390183E21EF008E4D54 /* storeipadapp_categories.jpg in Resources */,
@@ -4584,6 +4722,8 @@
 				83E2D21E184364EC00F8CDB6 /* editor_71.png in Resources */,
 				839DD8DE17B4F3F3003B62C8 /* yellow-splash.png in Resources */,
 				83E2D0E9184364EC00F8CDB6 /* editor_114.png in Resources */,
+				83BB3EC2185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg in Resources */,
+				83BB3EA9185B560600BA5ED7 /* quiz_ref.jpg in Resources */,
 				83E2D1CA184364EC00F8CDB6 /* editor_317.png in Resources */,
 				83E2D1B4184364EC00F8CDB6 /* editor_298.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
@@ -4611,7 +4751,9 @@
 				834FCE4C182D11F70000181B /* refresh.png in Resources */,
 				83E2D1BA184364EC00F8CDB6 /* editor_302.png in Resources */,
 				83E2D1B2184364EC00F8CDB6 /* editor_296.png in Resources */,
+				83BB3EA2185B560600BA5ED7 /* match-words_bg.jpg in Resources */,
 				AE266FD8183B4E7E001A8CB8 /* poems and rhymes.png in Resources */,
+				83BB3EA8185B560600BA5ED7 /* quiz_bg.jpg in Resources */,
 				83E2D114184364EC00F8CDB6 /* editor_153.png in Resources */,
 				AE0C9384183E0944008E4D54 /* icons_game.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
@@ -4624,6 +4766,7 @@
 				83E2D1A8184364EC00F8CDB6 /* editor_287.png in Resources */,
 				839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */,
 				8353B3331851ABE1009B3BD8 /* orange.png in Resources */,
+				83BB3EC1185B5ADD00BA5ED7 /* identify-the.animal.jpg in Resources */,
 				83E2D20F184364EC00F8CDB6 /* editor_58.png in Resources */,
 				83E2D14F184364EC00F8CDB6 /* editor_206.png in Resources */,
 				83E2D202184364EC00F8CDB6 /* editor_46.png in Resources */,
@@ -4632,6 +4775,7 @@
 				834FCE46182D11F70000181B /* publishthisbook_button_pressed.png in Resources */,
 				83E9AE13184DA3710025BBD6 /* home_button_pressed.png in Resources */,
 				834FCE4A182D11F70000181B /* recording_play_button.png in Resources */,
+				83BB3EAC185B560600BA5ED7 /* true_false_bg.jpg in Resources */,
 				834FCE64182D11F70000181B /* textbutton_selected.png in Resources */,
 				83E2D1B6184364EC00F8CDB6 /* editor_3.png in Resources */,
 				AE0C9378183E0743008E4D54 /* icons_next.png in Resources */,
@@ -4669,6 +4813,7 @@
 				83E9AE0B184DA3710025BBD6 /* buynow.png in Resources */,
 				83E2D1EB184364EC00F8CDB6 /* editor_347.png in Resources */,
 				834FCE59182D11F70000181B /* start_button.png in Resources */,
+				83BB3EA4185B560600BA5ED7 /* match_images_words_bg.jpg in Resources */,
 				834FCE53182D11F70000181B /* save_button_pressed.png in Resources */,
 				AE195E81181E2FD9008E4208 /* page.png in Resources */,
 				834FCE19182D11F70000181B /* addtopage_button_pressed.png in Resources */,
@@ -4678,6 +4823,7 @@
 				834FCE2D182D11F70000181B /* hitosync_active_button_pressed.png in Resources */,
 				83E2D1D8184364EC00F8CDB6 /* editor_33.png in Resources */,
 				83E9AE25184DEFDC0025BBD6 /* brownBar.png in Resources */,
+				83BB3EC0185B5ADD00BA5ED7 /* draw-game.jpg in Resources */,
 				83E9AE14184DA3710025BBD6 /* icon_1.png in Resources */,
 				83E2D0F1184364EC00F8CDB6 /* editor_121.png in Resources */,
 				83E2D0F8184364EC00F8CDB6 /* editor_128.png in Resources */,
@@ -4821,6 +4967,7 @@
 				AEDA4859169E9C6800116C23 /* SimpleView.m in Sources */,
 				AEEC650C16A548D5008530D7 /* UIWebView+SearchWebView.m in Sources */,
 				AEEC651316A55050008530D7 /* GTMNSString+HTML.m in Sources */,
+				83BB3EB2185B567A00BA5ED7 /* MangoGamesListViewController.m in Sources */,
 				AEEC651416A55050008530D7 /* NSString+HTML.m in Sources */,
 				AEEC651816A554AD008530D7 /* Chapter.m in Sources */,
 				83347A28183205BA002891EA /* Flickr.m in Sources */,
@@ -4831,6 +4978,7 @@
 				AEC85BB116AE86710094843B /* DetailHighlightViewController.m in Sources */,
 				AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */,
 				AE396BB6181F7E3D009C68E7 /* PSTCollectionViewItemKey.m in Sources */,
+				83BB3ECA185B61E500BA5ED7 /* MangoGameViewController.m in Sources */,
 				AE1039CA1845D22D008D122B /* MangoTextLayer.m in Sources */,
 				AE0C936F183DEE8C008E4D54 /* LanguageChoiceViewController.m in Sources */,
 				AEDA55B816B266C300530478 /* NoteHighlight.m in Sources */,
@@ -4963,7 +5111,7 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -5002,7 +5150,7 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -5097,7 +5245,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "1FDF5A7C-FEC0-4777-A680-EBADF18A5D3F";
@@ -5119,7 +5267,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "1FDF5A7C-FEC0-4777-A680-EBADF18A5D3F";
