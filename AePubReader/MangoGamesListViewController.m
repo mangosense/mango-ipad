@@ -9,6 +9,7 @@
 #import "MangoGamesListViewController.h"
 #import "MangoEditorViewController.h"
 #import "MangoGameViewController.h"
+#import <Parse/Parse.h>
 
 @interface MangoGamesListViewController ()
 
@@ -63,16 +64,19 @@
     switch (index) {
         case 0: {
             gameName = @"wordsearch";
+            [PFAnalytics trackEvent:EVENT_GAME_WORDSEARCH dimensions:nil];
         }
             break;
             
         case 1: {
             gameName = @"memory";
+            [PFAnalytics trackEvent:EVENT_GAME_MEMORY dimensions:nil];
         }
             break;
             
         case 2: {
             gameName = @"jigsaw";
+            [PFAnalytics trackEvent:EVENT_GAME_JIGSAW dimensions:nil];
         }
             break;
             

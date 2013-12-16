@@ -11,6 +11,9 @@
 #import "LanguageChoiceViewController.h"
 #import "CustomMappingView.h"
 #import "MangoGamesListViewController.h"
+#import <Parse/Parse.h>
+
+#define FORK_TAG 9
 
 @interface PageNewBookTypeViewController ()
 
@@ -41,30 +44,20 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-  //  UIView *view=[MangoEditorViewController readerPage:0 ForStory:<#(NSString *)#> WithFolderLocation:<#(NSString *)#>];
+
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
-    //  NSLog(@"json location %@",jsonLocation);
+
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    /*_audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
 
-    _pageView=[MangoEditorViewController readerPage:1 ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:_option];
-    _pageView.frame=self.view.bounds;
-    for (UIView *subview in [_pageView subviews]) {
-        if ([subview isKindOfClass:[UIImageView class]]) {
-            subview.frame = self.view.bounds;
-        }
-    }
-     [self.viewBase addSubview:_pageView];
-
-     */
     [self loadPageWithOption:_option];
+    
     _rightView.backgroundColor=[UIColor clearColor];
-   // _pageView.backgroundColor=[UIColor grayColor];
+
     NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
     _pageNo=numberOfPages.integerValue;
     _gamePageNumber = 0;
@@ -99,11 +92,12 @@
 }
 
 - (IBAction)shareButton:(id)sender {
+    [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:_book.bookId, [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
     if([ver floatValue]>5.1){
         NSString *textToShare=[_book.title stringByAppendingString:@" great bk from MangoReader"];
-        
         
         UIImage *image=[UIImage imageWithContentsOfFile:_book.localPathImageFile];
         NSArray *activityItems=@[textToShare,image];
@@ -112,7 +106,6 @@
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
         _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
         
-        //  [activity release];
         [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
         
         return;
@@ -132,16 +125,43 @@
 
 }
 
-- (IBAction)editButton:(id)sender {
-    
-    MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
-    mangoEditorViewController.storyBook=_book;
-    [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (alertView.tag) {
+        case FORK_TAG: {
+            switch (buttonIndex) {
+                case 0: {
+                    [alertView dismissWithClickedButtonIndex:buttonIndex animated:YES];
+                }
+                    break;
+                    
+                case 1: {
+                    [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:_book.bookId, [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+                    MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                    mangoEditorViewController.storyBook=_book;
+                    [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 
-    
+- (IBAction)editButton:(id)sender {
+    UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Fork this book" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    editAlertView.tag = FORK_TAG;
+    [editAlertView show];
 }
 
 - (IBAction)changeLanguage:(id)sender {
+    [PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:_book.bookId, [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
     UIButton *button=(UIButton *)sender;
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
@@ -185,24 +205,29 @@
 - (IBAction)playOrPauseButton:(id)sender {
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
+            [PFAnalytics trackEvent:EVENT_AUDIO_PAUSED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:_book.bookId, [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+            
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player pause];
         }else{
+            [PFAnalytics trackEvent:EVENT_AUDIO_PLAYED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:_book.bookId, [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
             [self closeButton:nil];
         }
-    }else{
+    } else {
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         [self loadPageWithOption:0];
         [self closeButton:nil];
 
         
     }
-    
 }
 
 - (IBAction)openGameCentre:(id)sender {
+    [PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:_book.bookId, [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
     MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
     gamesListViewController.jsonString = _jsonContent;
     gamesListViewController.folderLocation = _book.localPathFile;

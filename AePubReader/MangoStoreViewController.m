@@ -118,6 +118,10 @@
     [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
+- (void)getBookAtPath:(NSURL *)filePath {
+    
+}
+
 #pragma mark - Setup Methods
 
 - (void)getLiveStories {
@@ -228,15 +232,17 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
-    cell.bookTitleLabel.text = @"The Moon And The Cap";
-    [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
-    [cell setNeedsLayout];
     
     cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*indexPath.section, 2*indexPath.section + 2];
     cell.bookPriceLabel.text = @"Rs. 99";
     cell.delegate = self;
     
     NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+    
+    cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+    [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
+    [cell setNeedsLayout];
+
     cell.imageUrlString = [bookDict objectForKey:@"cover"];
     if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
         cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
@@ -260,8 +266,13 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: Select Item
+    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController downloadBookWithId:[bookDict objectForKey:@"id"]];
 }
+
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: Deselect item
 }

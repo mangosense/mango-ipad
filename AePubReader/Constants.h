@@ -26,6 +26,16 @@
 #define EVENT_BOOK_PURCHASE_COMPLETED @"completedBookPurchase"
 #define EVENT_BOOK_PURCHASE_CANCELLED @"cancelledBookPurchase"
 
+#define EVENT_BOOK_SHARED @"sharedBook"
+#define EVENT_BOOK_FORKED @"forkedBook"
+#define EVENT_TRANSLATE_INITIATED @"translateBookInitiated"
+#define EVENT_AUDIO_PAUSED @"audioPaused"
+#define EVENT_AUDIO_PLAYED @"audioPlayed"
+#define EVENT_GAME_CENTER_OPENED @"openedGameCenter"
+#define EVENT_GAME_WORDSEARCH @"wordsearchPlayed"
+#define EVENT_GAME_MEMORY @"memoryPlayed"
+#define EVENT_GAME_JIGSAW @"jigsawPlayed"
+
 #define PARAMETER_TIME_RANGE @"timeRange"
 #define PARAMETER_VIEW_NAME @"viewName"
 #define PARAMETER_BOOK_ID @"bookId"
@@ -83,6 +93,7 @@
 #define LIVE_STORIES @"livestories.json"
 #define CATEGORIES @"categories.json"
 #define LOGIN @"/users/sign_in.json"
+#define DOWNLOAD_STORY @"/livestories/%@/zipped"
 
 #pragma mark - Table Types
 

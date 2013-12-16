@@ -149,6 +149,8 @@
 		835DAD8A183F63C6005A7AA8 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 835DAD89183F63C6005A7AA8 /* white_page.jpeg */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
+		83708941185F166600946376 /* MangoSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370893F185F166600946376 /* MangoSignupViewController.m */; };
+		83708942185F166600946376 /* MangoSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83708940185F166600946376 /* MangoSignupViewController.xib */; };
 		837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837D27F3180D3BC000469D1C /* Twitter.framework */; };
 		838048641850586C006BBA47 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 838048521850586C006BBA47 /* AFHTTPRequestOperation.m */; };
 		838048651850586C006BBA47 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 838048541850586C006BBA47 /* AFHTTPRequestOperationManager.m */; };
@@ -1213,6 +1215,9 @@
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
 		83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenuItem.m; sourceTree = "<group>"; };
+		8370893E185F166600946376 /* MangoSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoSignupViewController.h; sourceTree = "<group>"; };
+		8370893F185F166600946376 /* MangoSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoSignupViewController.m; sourceTree = "<group>"; };
+		83708940185F166600946376 /* MangoSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoSignupViewController.xib; sourceTree = "<group>"; };
 		837D27F3180D3BC000469D1C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		838048511850586C006BBA47 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		838048521850586C006BBA47 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
@@ -2330,6 +2335,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				8370893D185F161900946376 /* Login */,
 				83BB3EAE185B565800BA5ED7 /* Mango Games */,
 				838048501850586C006BBA47 /* AFNetworking */,
 				8380484D1850584E006BBA47 /* API Controller */,
@@ -2798,6 +2804,16 @@
 				83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */,
 			);
 			name = "Paint Menu";
+			sourceTree = "<group>";
+		};
+		8370893D185F161900946376 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				8370893E185F166600946376 /* MangoSignupViewController.h */,
+				8370893F185F166600946376 /* MangoSignupViewController.m */,
+				83708940185F166600946376 /* MangoSignupViewController.xib */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		837E6B541802B77D0068112A /* PreK ViewControllers */ = {
@@ -4076,6 +4092,7 @@
 				834FCE43182D11F70000181B /* playbuttonnew.png in Resources */,
 				834FCE69182D11F70000181B /* upload_button.png in Resources */,
 				AEEB9B8616A3D23100E91603 /* highlightXpath.js in Resources */,
+				83708942185F166600946376 /* MangoSignupViewController.xib in Resources */,
 				83E2D20E184364EC00F8CDB6 /* editor_57.png in Resources */,
 				834FCE22182D11F70000181B /* close_button.png in Resources */,
 				83E2D19D184364EC00F8CDB6 /* editor_277.png in Resources */,
@@ -4875,6 +4892,7 @@
 				838048661850586C006BBA47 /* AFHTTPSessionManager.m in Sources */,
 				838048681850586C006BBA47 /* AFSecurityPolicy.m in Sources */,
 				838048691850586C006BBA47 /* AFURLConnectionOperation.m in Sources */,
+				83708941185F166600946376 /* MangoSignupViewController.m in Sources */,
 				AE8CA74F183C9E0F006BA6BA /* SettingOptionViewController.m in Sources */,
 				83E9AE2B184EFE700025BBD6 /* StoreCollectionFlowLayout.m in Sources */,
 				FAFA8EA7134A06D6000291E2 /* ioapi.c in Sources */,

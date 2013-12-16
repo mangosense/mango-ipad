@@ -46,9 +46,8 @@
 }
 
 - (IBAction)goToNext:(id)sender {
-    LandPageChoiceViewController *landingPageViewController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
     [self.navigationController pushViewController:landingPageViewController animated:YES];
-
 }
 
 - (IBAction)signUp:(id)sender {
