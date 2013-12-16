@@ -76,12 +76,13 @@
 
 #pragma mark - URL's
 
-#define BASE_URL @"http://192.168.2.28:3001/api/v2"
+#define BASE_URL @"http://api.mangoreader.com/api/v2"
 
 #pragma mark - API Method Names
 
 #define LIVE_STORIES @"livestories.json"
 #define CATEGORIES @"categories.json"
+#define LOGIN @"/users/sign_in.json"
 
 #pragma mark - Table Types
 

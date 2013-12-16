@@ -32,10 +32,10 @@
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", responseObject);
+        NSLog(@"Get List Response: %@", responseObject);
         [_delegate reloadViewsWithArray:(NSArray *)responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"%@", error);
+        NSLog(@"Get List Error: %@", [error localizedDescription]);
     }];
 }
 
@@ -46,9 +46,19 @@
         NSLog(@"Image Response: %@", responseObject);
         [_delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Image error: %@", error);
+        NSLog(@"Image error: %@", [error localizedDescription]);
     }];
     [imageRequestOperation start];
+}
+
+- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:@"username", @"pass", nil]];
+    [manager POST:LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Login Response: %@", responseObject);
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Login Error: %@", error);
+    }];
 }
 
 @end

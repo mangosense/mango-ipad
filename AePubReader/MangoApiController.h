@@ -13,14 +13,18 @@
 @optional
 - (void)reloadViewsWithArray:(NSArray *)dataArray;
 - (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString;
+- (void)saveUserDetails:(NSDictionary *)userDetailsDictionary;
 
 @end
 
 @interface MangoApiController : NSObject
 
 @property (nonatomic, assign) id <MangoPostApiProtocol> delegate;
+
 + (id)sharedApiController;
+
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary;
 - (void)getImageAtUrl:(NSString *)urlString;
+- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password;
 
 @end

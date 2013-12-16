@@ -8,6 +8,9 @@
 
 #import "LoginNewViewController.h"
 #import "LandPageChoiceViewController.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
+
 @interface LoginNewViewController ()
 
 @end
@@ -37,7 +40,9 @@
 }
 
 - (IBAction)signIn:(id)sender {
-    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text];
 }
 
 - (IBAction)goToNext:(id)sender {
@@ -49,4 +54,11 @@
 - (IBAction)signUp:(id)sender {
     
 }
+
+#pragma mark - API Delegate
+
+- (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
+    [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
+}
+
 @end
