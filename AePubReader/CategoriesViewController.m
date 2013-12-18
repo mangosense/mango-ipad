@@ -11,7 +11,11 @@
 #import "CategoriesFlexibleViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "BooksFromCategoryViewController.h"
+#import "Constants.h"
+
 @interface CategoriesViewController ()
+
+@property (nonatomic, strong) NSMutableArray *booksArray;
 
 @end
 
@@ -30,6 +34,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self getAllPurchasedBooks];
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,10 +64,50 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
 - (IBAction)openBooks:(id)sender {
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
+    
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];}
     
 - (IBAction)nextButton:(id)sender {
     CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
     [self.navigationController pushViewController:categoryFlexible animated:YES];
 }
+
+#pragma mark - Post API Delegate
+
+- (void)getBookAtPath:(NSURL *)filePath {
+    [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate unzipExistingJsonBooks];
+}
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    _booksArray = [[NSMutableArray alloc] initWithArray:dataArray];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    for (NSDictionary *dataDict in dataArray) {
+        NSString *bookId = [dataDict objectForKey:@"id"];
+        Book *bk=[delegate.dataModel getBookOfId:bookId];
+        if (!bk) {
+            MangoApiController *apiController = [MangoApiController sharedApiController];
+            apiController.delegate = self;
+            [apiController downloadBookWithId:bookId];
+        }
+    }
+    //[self openBooks:nil];
+}
+
+#pragma mark - Get Purchased Books
+
+- (void)getAllPurchasedBooks {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    
+    NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
+    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
+    
+    [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict];
+}
+
 @end

@@ -11,7 +11,7 @@
 @protocol MangoPostApiProtocol
 
 @optional
-- (void)reloadViewsWithArray:(NSArray *)dataArray;
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type;
 - (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString;
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary;
 - (void)getBookAtPath:(NSURL *)filePath;

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
-@interface CategoriesViewController : UIViewController<DismissPopOver>
+#import "MangoApiController.h"
+
+@interface CategoriesViewController : UIViewController<DismissPopOver, MangoPostApiProtocol>
 - (IBAction)backToLandingPage:(id)sender;
 - (IBAction)settingsOption:(id)sender;
 @property(retain,nonatomic) UIPopoverController *popOverController;

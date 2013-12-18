@@ -106,18 +106,18 @@
     pageImageView.delegate = self;
     pageImageView.selectedBrush = 5.0f;
     pageImageView.selectedEraserWidth = 20.0f;
-    _editedBookPath=[storyBook.localPathFile stringByAppendingString:@"_fork"];
+    _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
     BOOL isDir;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]&&!isDir) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir] && !isDir) {
         [self createACopy];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
-       Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
+        Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
         Book *editedBook=[delegate.dataModel getBookInstance];
         editedBook.localPathFile=_editedBookPath;
         int identity=book.id.integerValue;
-        identity+=2;
-        editedBook.id=[NSNumber numberWithInteger:identity];
+        identity += rand();
+        editedBook.id=[NSString stringWithFormat:@"%d", identity];
         editedBook.localPathImageFile=book.localPathImageFile;
         editedBook.title=book.title;
         editedBook.desc=book.desc;
@@ -796,7 +796,7 @@
         [self renderEditorPage:index];
     } else {
         MangoPage *newPage = [[MangoPage alloc] init];
-        newPage.story_id = _mangoStoryBook.id;
+        newPage.pageable_id = _mangoStoryBook.id;
         newPage.name = [NSString stringWithFormat:@"%d", [_mangoStoryBook.pages count]];
         
         NSMutableArray *layersArray = [[NSMutableArray alloc] init];
@@ -1279,7 +1279,7 @@
 
 - (void)setStoryBook:(Book *)storyBookChosen {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.bookId];
+    _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
     
     storyBook = storyBookChosen;
     NSString *jsonLocation=storyBook.localPathFile;

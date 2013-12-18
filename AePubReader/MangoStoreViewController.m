@@ -31,6 +31,9 @@
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
 @property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
+@property (nonatomic, strong) NSMutableArray *featuredStoriesArray;
+@property (nonatomic, assign) BOOL liveStoriesFetched;
+@property (nonatomic, assign) BOOL featuredStoriesFetched;
 
 @end
 
@@ -110,16 +113,35 @@
 
 #pragma mark - Post API Delegate
 
-- (void)reloadViewsWithArray:(NSArray *)dataArray {
-    if (!_liveStoriesArray) {
-        _liveStoriesArray = [[NSMutableArray alloc] init];
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    if ([type isEqualToString:LIVE_STORIES]) {
+        if (!_liveStoriesArray) {
+            _liveStoriesArray = [[NSMutableArray alloc] init];
+        }
+        [_liveStoriesArray addObjectsFromArray:dataArray];
+        _liveStoriesFetched = YES;
+
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        apiController.delegate = self;
+        [apiController getListOf:FEATURED_STORIES ForParameters:nil];
+    } else if ([type isEqualToString:FEATURED_STORIES]) {
+        if (!_featuredStoriesArray) {
+            _featuredStoriesArray = [[NSMutableArray alloc] init];
+        }
+        [_featuredStoriesArray addObjectsFromArray:dataArray];
+        _featuredStoriesFetched = YES;
     }
-    [_liveStoriesArray addObjectsFromArray:dataArray];
-    [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    if (_liveStoriesFetched && _featuredStoriesFetched) {
+        [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    }
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
-    
+    [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate unzipExistingJsonBooks];
 }
 
 #pragma mark - Setup Methods
@@ -164,15 +186,13 @@
 #pragma mark - iCarousel Delegates
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return 5;
+    return [_featuredStoriesArray count];
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 250)];
-    if ([[_localImagesDictionary allKeys] count] > 0) {
-        [storyImageView setImage:[_localImagesDictionary objectForKey:[[_localImagesDictionary allKeys] objectAtIndex:0]]];
-    }
+    [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
     return storyImageView;
@@ -216,7 +236,6 @@
 
 - (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
     [_localImagesDictionary setObject:image forKey:imageUrl];
-    [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 

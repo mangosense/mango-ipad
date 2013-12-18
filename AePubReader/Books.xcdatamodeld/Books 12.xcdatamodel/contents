@@ -8,7 +8,7 @@
         <attribute name="downloaded" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="downloadedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="edited" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="localPathFile" optional="YES" attributeType="String" syncable="YES"/>
@@ -48,8 +48,8 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Book" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="NoteHighlight" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="StoreBooks" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Book" positionX="52" positionY="-126" width="128" height="283"/>
+        <element name="NoteHighlight" positionX="-144" positionY="-18" width="128" height="225"/>
+        <element name="StoreBooks" positionX="-396" positionY="-36" width="128" height="240"/>
     </elements>
 </model>

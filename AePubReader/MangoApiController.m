@@ -31,10 +31,10 @@
 }
 
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary {
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Get List Response: %@", responseObject);
-        [_delegate reloadViewsWithArray:(NSArray *)responseObject];
+        [_delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
     }];
@@ -53,11 +53,15 @@
 }
 
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password {
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    [[NSUserDefaults standardUserDefaults] setObject:email forKey:EMAIL];
     
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:@"username", @"pass", nil]];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:EMAIL, PASSWORD, nil]];
     [manager POST:LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
+        NSDictionary *responseDict = (NSDictionary *)responseObject;
+        [_delegate saveUserDetails:responseDict];
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
     }];
@@ -67,7 +71,8 @@
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
-    NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId]];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [[userDefaults objectForKey:EMAIL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [userDefaults objectForKey:AUTH_TOKEN]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {

@@ -185,7 +185,7 @@
 
 #pragma mark - Post API Delegate
 
-- (void)reloadViewsWithArray:(NSArray *)dataArray {
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     itemsListArray = [NSMutableArray arrayWithArray:dataArray];
     [self.tableView reloadData];
 }

@@ -16,6 +16,7 @@
 #import "Base64.h"
 
 #import <Parse/Parse.h>
+#import "Constants.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
@@ -38,375 +39,46 @@ static UIAlertView *alertViewLoading;
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:LOGIN]]];
+    for (NSHTTPCookie *cookie in cookies)
+    {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    
     _LandscapeOrientation=YES;
     _PortraitOrientation=NO;
    _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
- //   NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
+
     _wasFirstInPortrait=NO;
-         BOOL uiNew=YES;
+    
+    BOOL uiNew=YES;
+    
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     NSFileManager *fileManager=[NSFileManager defaultManager];
 
-    if (![userDefaults objectForKey:@"baseurl"]) {
-        
-         [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
-    }
     [userDefaults setBool:NO forKey:@"changed"];
-    if (![userDefaults boolForKey:@"didadd" ]&&!uiNew)
+    if (!uiNew)
     {
         [userDefaults setBool:YES forKey:@"didadd"];
-    NSString *destPath;/*=@"780.jpg";*/
-    NSString *insPath;/* = @"780.jpg";*/
-    NSString *srcPath; /*= [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    destPath=[string stringByAppendingPathComponent:destPath];*/
-    //  NSLog(@"src path %@ des path %@",srcPath,temp);
-    NSError *error=nil;
-    NSString *recording=[string stringByAppendingPathComponent:@"recording"];
-    [userDefaults setObject:recording forKey:@"recordingDirectory"];
-    
-    NSNumber *moonCapId;
 
-   
-
-    destPath=@"49.jpg";
-    insPath=@"49.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    destPath=[string stringByAppendingPathComponent:destPath];
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath toPath:destPath error:&error];
+        NSString *recording=[string stringByAppendingPathComponent:@"recording"];
+        [userDefaults setObject:recording forKey:@"recordingDirectory"];
         
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-           // [url release];
-        }
-    }
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        
-        [application setStatusBarStyle:UIStatusBarStyleLightContent];
-        
-        self.window.clipsToBounds =YES;
-        
-        //self.window.frame =  CGRectMake(20,0,self.window.frame.size.width,self.window.frame.size.height-20);
-        
-      //  //added on 19th Sep
-    //    self.window.bounds = CGRectMake(20, 20, self.window.frame.size.width, self.window.frame.size.height);
-    }
-
-    moonCapId=@49;
-    
-    if(![_dataModel checkIfIdExists:moonCapId]){
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Moon and the Cap";
-        book.desc=@"Do you like to wear a cap on a sunny day? Find out who else likes to wear a cap in this charming english book.The Moon and The Cap was originally published as part of the Read India project by Pratham Books. This book is written and narrated in multiple different languages including Hindi & English. Read this book to your kid and see their eyes light up! If you're not a kid then this book will take you back in days when life was simple and small simple gifts made us excited with joy. Tap/click on characters and objects and you will discover new things. <br/> <br/><br /><br /> <br/><strong> <br/>Age Group <br/></strong> 2 - 6 <br/><br /><br /> <br/><strong>Grade</strong> <br/>NUR <br/><br /><br /> <br/><strong>Includes:</strong> Interactive audio with highlighting, puzzle game, word game, memory game <br/>";
-        book.link=@"http://www.mangoreader.com/books/49";
-        book.imageUrl=@"http://www.mangoreader.com/49/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/49/download";
-        book.localPathImageFile=destPath;
-        book.id=@49;
-        book.size=@7631651;
-        book.date=[NSDate date];
-        book.textBook=@1;
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@NO;
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-    }
-
-    
-    NSURL *url=[NSURL fileURLWithPath:destPath];
-    
-    id Flag=nil;
-    [url getResourceValue:&Flag forKey:NSURLIsExcludedFromBackupKey error:&error];
-    if (Flag) {
-        NSNumber *flag=(NSNumber *)Flag;
-        NSLog(flag.boolValue ? @"Yes" : @"No");
-        NSLog(@"%@",Flag);
-    }
-
-    destPath=@"445.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"445.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-           // [url release];
-        }
-    }
-      NSNumber *vayuTheWind=@445;
-    if (![_dataModel checkIfIdExists:vayuTheWind]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Vayu the Wind";
-        book.desc=@"Vayu, The Wind  written by Madhuri Pai and published by Pratham Books is intended for kids  from the ages of 3-6yrs. The book is a  great way to teach the kids about wind and its effects. Even though we can\r\nsee it, the wind plays an integral part in our lives and what better way to learn about it than this. So lets learn about the wind from a kid's perspective. And play game when hover over the game image.";
-        book.link=@"http://www.mangoreader.com/books/445";
-        book.imageUrl=@"http://www.mangoreader.com/445/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/445/download";
-        book.localPathImageFile=destPath;
-        book.id=@445;
-        book.size=@26171226;
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@NO;
-        book.textBook=@1;
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-        
-    }
-
-    destPath=@"1094.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1094.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-    NSNumber *azzura=@1094;
-    if (![_dataModel checkIfIdExists:azzura]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Azzura";
-        book.desc=@"Azzura";
-        book.link=@"http://www.mangoreader.com/books/1094";
-        book.imageUrl=@"http://www.mangoreader.com/1094/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/1094/download";
-        book.localPathImageFile=destPath;
-        book.id=@1094;
-        book.size=@26171226;
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@YES;
-        book.textBook=@1;
-        
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-    }else{
-        Book *book= [_dataModel getBookOfId:[NSString stringWithFormat:@"%@",azzura ]];
-        book.localPathImageFile=destPath;
-        [_dataModel saveData:book];
-    }
-  
-    destPath=@"1094.epub";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1094.epub";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-   azzura=@1331;
-    destPath=@"1331.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1331.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-
-    if (![_dataModel checkIfIdExists:azzura]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"InOpen";
-        book.desc=@"InOpen";
-        book.link=@"http://www.mangoreader.com/books/1331";
-        book.imageUrl=@"http://www.mangoreader.com/1331/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/1331/download";
-        book.localPathImageFile=destPath;
-        book.id=@1331;
-        book.size=@26171226;
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@NO;
-        book.textBook=@3;
-        
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-    }
-   /* destPath=@"1331.epub";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1331.epub";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }*/
-   // [vayuTheWind release];
         [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
 
     }
-#pragma mark -
-    
-#pragma mark Copying json based books
-    else if (uiNew&&![userDefaults boolForKey:@"didaddWithNewUI"]) {
-        NSString *zipDestination;
+    else {
         [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
-        /* book one --- The Crane in Tamil
-         */
-        NSNumber *identity;
-        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"kokku" ofType:@"zip"];
-        NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-     //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
-        NSLog(@"Destination Folder %@",destinationFolder);
-        
-        if (![fileManager fileExistsAtPath:destinationFolder]) {
-            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
-                           NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
-                //NSURLIsExcludedFromBackupKey
-                [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
-        }
-        zipDestination=destinationFolder;
-        sourceLocation=[[NSBundle mainBundle]pathForResource:@"kokku" ofType:@"jpg"];
-        destinationFolder=[sourceLocation lastPathComponent];
-        //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
-        if (![fileManager fileExistsAtPath:destinationFolder]) {
-            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
-            
-        }
-        
-        // adding to database
-        identity=@1;
-        if (![_dataModel checkIfIdExists:identity]) {
-            Book *book= [_dataModel getBookInstance];
-            book.title=@"The Crane (Tamil)";
-            book.desc=@"Every animal and person has a special talent. From a long neck to reach tall leaves to nimble fingers with which to play marbles, each person has a skill. Crane finds out just how useful he is in this charming tale. <br/> <br/><br /><br /> <br/><strong> <br/>Age Group <br/></strong> 3.5 -4.5 <br/><br /><br /> <br/><strong>Grade</strong> <br/>J. KG <br/><br /><br /> <br/><strong>Includes:</strong> Interactive audio with highlighting, puzzle game, word game, memory game <br/>";
-            book.link=nil;
-            book.imageUrl=@"http://www.mangoreader.com/uploads/books/954/cover_image/big/crane.jpg";
-            book.sourceFileUrl=@"";
-            book.localPathImageFile=destinationFolder;
-            book.localPathFile=[zipDestination stringByDeletingPathExtension];
-            book.id=identity;
-            book.size=@15415067;
-            book.date=[NSDate date];
-            book.textBook=@4;
-            book.downloadedDate=[NSDate date];
-            book.downloaded=@YES;
-            book.edited=@NO;
-            NSError *error=nil;
-            if (![managedObjectContext save:&error]) {
-                NSLog(@"%@",error);
-            }
-        }
-        
-        /*book two - Hungry Caterpillar
-         */
-        sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"zip"];
-        destinationFolder=[sourceLocation lastPathComponent] ;
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
-        zipDestination=destinationFolder;
-        if (![fileManager fileExistsAtPath:destinationFolder]) {
-            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
-        }
-
-        
-        sourceLocation=[[NSBundle mainBundle]pathForResource:@"hungry" ofType:@"jpg"];
-        destinationFolder=[sourceLocation lastPathComponent];
-        //   destinationFolder=[destinationFolder stringByDeletingPathExtension];
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",string,destinationFolder ];
-        if (![fileManager fileExistsAtPath:destinationFolder]) {
-            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
-            
-        }
-        // adding to database
-
-        identity=@2;
-        if (![_dataModel checkIfIdExists:identity]) {
-            Book *book= [_dataModel getBookInstance];
-            book.title=@"Hungry Caterpillar";
-            book.desc=@"The Hungry Caterpillar is the story of a Caterpillar who eats in a garden without his mother's permission and gets caught. The butterfly apologizes for the caterpillar and rescues him from the gardener. Enjoy the story with animations and voice over and play games to learn more...";
-            book.link=nil;
-            book.imageUrl=@"http://www.mangoreader.com/uploads/books/826/cover_image/big/stanging_image.jpg?2012";
-            book.sourceFileUrl=@"";
-            book.localPathImageFile=destinationFolder;
-            book.localPathFile=[zipDestination stringByDeletingPathExtension];
-            book.id=identity;
-            book.size=@23068672;
-            book.date=[NSDate date];
-            book.textBook=@4;
-            book.downloadedDate=[NSDate date];
-            book.downloaded=@YES;
-            book.edited=@NO;
-            NSError *error=nil;
-            if (![managedObjectContext save:&error]) {
-                NSLog(@"%@",error);
-            }
-        }
-      
         [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
-
-        
     }
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
       
         self.window.rootViewController = nav;
-        //[nav release];
         [self.window makeKeyAndVisible];
-    }else{
+    } else {
         CustomNavViewController *nav;
         if (uiNew) {
             _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
@@ -419,8 +91,11 @@ static UIAlertView *alertViewLoading;
  
         [self.window makeKeyAndVisible];
     }
+    
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    
     [self addSkipBackupAttribute];
+    
     // convert all directories out of backup
     _location=[self applicationDocumentsDirectory];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"bkup"]) {
@@ -428,10 +103,10 @@ static UIAlertView *alertViewLoading;
 
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
- [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
-    [Appirater appLaunched:YES];
+        
     return YES;
 }
 -(void)addSkipAttribute:(NSString *) string{
@@ -526,7 +201,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)unzipExistingJsonBooks{
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
-    int i=99;
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
@@ -538,20 +212,20 @@ void uncaughtExceptionHandler(NSException *exception) {
         // provide do not backup attribute to folder itself
         [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
         // delete the zip since it is unzipped
-        [self SendToEJDB:[epubLocation stringByDeletingPathExtension] WithId:i];
-        i--;
+        [self SendToEJDB:[epubLocation stringByDeletingPathExtension] WithId:nil];
+
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
     }
 }
 
--(void)SendToEJDB:(NSString *)locationDirectory WithId:(int)numberId {
+-(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
     
     NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles lastObject]];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
-    [_ejdbController parseBookJson:jsonData WithId:numberId];
+    [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
     
 }
 
@@ -559,15 +233,19 @@ void uncaughtExceptionHandler(NSException *exception) {
     ZipArchive* za = [[ZipArchive alloc] init];
    // NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
     NSLog(@"zip %@",location);
+    
     if( [za UnzipOpenFile:location] ){
         
-		//NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
 		NSFileManager *filemanager=[[NSFileManager alloc] init];
-		
-        //	[filemanager release];
-	//	filemanager=nil;
-		//start unzip
-		BOOL ret = [za UnzipFileTo:[NSString stringWithFormat:@"%@/",[self applicationDocumentsDirectory]] overWrite:YES];
+        NSString *destination;
+        if ([folderName isEqualToString:@"hungry"] || [folderName isEqualToString:@"kokku"]) {
+            destination = [NSString stringWithFormat:@"%@/",[self applicationDocumentsDirectory]];
+        } else {
+            destination = [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], folderName];
+        }
+        NSLog(@"Unzip Destination: %@", destination);
+        
+		BOOL ret = [za UnzipFileTo:destination overWrite:YES];
 		if( NO==ret ){
 			// error handler here
 			UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
@@ -576,8 +254,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 												cancelButtonTitle:@"OK"
 												otherButtonTitles:nil];
 			[alert show];
-            //		[alert release];
-			alert=nil;
 		}else{
             
         }
@@ -664,7 +340,8 @@ void uncaughtExceptionHandler(NSException *exception) {
                 }
                 [dict setValue:[transaction.error debugDescription] forKey:@"error"];
                 [Flurry logEvent:@"payment failed" withParameters:dict];
-                    [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+                
                 break;
             case SKPaymentTransactionStatePurchased:
                 //[self purchaseValidation:transaction];
@@ -678,10 +355,8 @@ void uncaughtExceptionHandler(NSException *exception) {
                 number=@(transaction.payment.productIdentifier.integerValue);
                 books= [_dataModel getBookById:number];
                 [_dataModel insertBookWithNo:books];
-               // [number release];
-//                string=[[NSString alloc]initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];
-//                NSLog(@"string %@",string);
-                data=transaction.transactionReceipt;
+
+                data = transaction.transactionReceipt;
                 transactionReciept=transaction.transactionReceipt;
                 encode=[Base64 encode:transactionReciept];
                  diction=[[NSMutableDictionary alloc]init];

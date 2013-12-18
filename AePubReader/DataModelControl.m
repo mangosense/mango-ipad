@@ -287,7 +287,7 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
     return [array lastObject];
 
 }
--(BOOL)checkIfIdExists:(NSNumber *)iden{
+-(BOOL)checkIfIdExists:(NSString *)iden{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];

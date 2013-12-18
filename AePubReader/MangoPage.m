@@ -19,6 +19,7 @@
 @synthesize name;
 @synthesize layers;
 @synthesize pageNo;
+@synthesize pageable_id;
 
 - (NSString *)type {
     return NSStringFromClass([self class]);
@@ -29,11 +30,11 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(story_id, name, layers);
+    return NSDictionaryOfVariableBindings(name, layers, pageable_id);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *keysArray = [NSArray arrayWithObjects:@"id", @"story_id", @"name", @"layers", nil];
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id", @"name", @"layers", @"pageable_id", nil];
     for (NSString *key in keysArray)
     {
         if ([[dictionary allKeys] containsObject:key]) {
@@ -53,6 +54,7 @@
     [mangoPage setName:name];
     [mangoPage setLayers:layers];
     [mangoPage setPageNo:pageNo];
+    [mangoPage setPageable_id:pageable_id];
     return mangoPage;
 }
 

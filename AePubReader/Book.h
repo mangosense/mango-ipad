@@ -18,7 +18,7 @@
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSNumber * downloaded;
 @property (nonatomic, retain) NSDate * downloadedDate;
-@property (nonatomic, retain) NSNumber * id;
+@property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * imageUrl;
 @property (nonatomic, retain) NSString * link;
 @property (nonatomic, retain) NSString * localPathFile;

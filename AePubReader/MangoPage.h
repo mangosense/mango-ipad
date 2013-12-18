@@ -20,5 +20,6 @@
 @property (nonatomic, strong) NSString *story_id;
 @property (nonatomic, strong) NSString *updated_at;
 @property (nonatomic, strong) NSString *id;
+@property (nonatomic, strong) NSString *pageable_id;
 
 @end

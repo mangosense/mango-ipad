@@ -24,7 +24,7 @@
 -(NSArray *)getForPage:(NSInteger )pageNumber;
 -(void)displayAllData;
 -(StoreBooks *)getBookById:(NSNumber *)identity;
--(BOOL)checkIfIdExists:(NSNumber *)iden;
+-(BOOL)checkIfIdExists:(NSString *)iden;
 -(StoreBooks *)getStoreBookById:(NSString *)productId;
 -(void)insertNoteOFHighLight:(BOOL)highLight book:(NSInteger )bookid page:(NSInteger)pageNo string:(NSString *)text;
 -(Book*)getBookInstance;

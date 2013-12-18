@@ -63,6 +63,7 @@
 
 #pragma mark - JSON Response KEYS
 
+#define AUTH_TOKEN @"auth_token"
 #define PAGE_NO @"pageNo"
 #define LAYERS @"layers"
 #define TYPE @"type"
@@ -86,14 +87,22 @@
 
 #pragma mark - URL's
 
-#define BASE_URL @"http://api.mangoreader.com/api/v2"
+#define BASE_URL @"http://192.168.2.28:3001/api/v2"
+//api.mangoreader.com
 
 #pragma mark - API Method Names
 
 #define LIVE_STORIES @"livestories.json"
 #define CATEGORIES @"categories.json"
-#define LOGIN @"/users/sign_in.json"
-#define DOWNLOAD_STORY @"/livestories/%@/zipped"
+#define LOGIN @"sign_in"
+#define DOWNLOAD_STORY @"/livestories/%@/zipped?email=%@&auth_token=%@"
+#define PURCHASED_STORIES @"users/purchased"
+#define FEATURED_STORIES @"livestories/featured.json"
+
+#define API Parameter Keys
+
+#define EMAIL @"email"
+#define PASSWORD @"password"
 
 #pragma mark - Table Types
 
@@ -115,5 +124,11 @@
 #define COLOR_LIGHT_GREY [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1.0f]
 //Dark Red: #4d0e00 (R:77 G:14 B:0)
 #define COLOR_DARK_RED [UIColor colorWithRed:77.0/255.0 green:14.0/255.0 blue:0.0/255.0 alpha:1.0f]
+
+#pragma mark - Random Keys
+
+#define PURCHASED_BOOKS 1
+#define LIVE_BOOKS 2
+#define FEATURED_BOOKS 3
 
 @end

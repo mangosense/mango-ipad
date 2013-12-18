@@ -15,6 +15,8 @@
 
 @interface BooksFromCategoryViewController ()
 
+@property (nonatomic, strong) NSMutableDictionary *bookIdDictionary;
+
 @end
 
 @implementation BooksFromCategoryViewController
@@ -40,12 +42,14 @@
     if (_toEdit) {
         _books=[delegate.dataModel getOriginalBooks];
     }else{
-    _books= [delegate.dataModel getAllUserBooks];
+        _books= [delegate.dataModel getAllUserBooks];
     }
     NSInteger count=MIN(_books.count, 6);
     NSInteger finalIndex=_inital+count;
     UIImage *maskImage=[UIImage imageNamed:@"circle2.png"];
     UIImage *originalImage;
+    
+    _bookIdDictionary = [[NSMutableDictionary alloc] init];
     
     for (int i=_inital;i<finalIndex;i++) {
         UIButton *button=_buttonArray[i];
@@ -53,7 +57,7 @@
         Book *book=_books[i];
         UIImageView *imageView=_imageArray[i];
         NSLog(@"Local Path File %@",book.localPathImageFile);
-       originalImage= [UIImage imageWithContentsOfFile:book.localPathImageFile];
+        originalImage= [UIImage imageWithContentsOfFile:book.localPathImageFile];
         imageView.image=   [self maskImage:originalImage withMask:maskImage];
         CGRect frame=imageView.frame;
         frame.size=maskImage.size;
@@ -63,7 +67,8 @@
         UILabel *label=_titleLabelArray[i];
         label.text=book.title;
         label.hidden=NO;
-        button.tag=book.id.integerValue;
+        button.tag = i+5; //Random tag
+        [_bookIdDictionary setObject:book.id forKey:[NSString stringWithFormat:@"%d", button.tag]];
     }
 }
 
@@ -74,14 +79,12 @@
 }
 
 - (IBAction)homeButton:(id)sender {
-    
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     UIViewController *contoller=(UIViewController *)delegate.controller;
     [self.navigationController popToViewController:contoller animated:YES];
 }
 
 - (IBAction)libraryButton:(id)sender {
-   
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -113,7 +116,7 @@
             if (_toEdit) {
                 index=button.tag;
                 index--;
-                Book *book=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d",button.tag]];
+                Book *book=[delegate.dataModel getBookOfId:[_bookIdDictionary objectForKey:[NSString stringWithFormat:@"%d", button.tag]]];
                 [delegate.dataModel displayAllData];
                 identity=[NSString stringWithFormat:@"%@",book.id];
                 
@@ -124,7 +127,7 @@
             } else {
                 index=button.tag;
                 index--;
-                Book *book=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d",button.tag]];
+                Book *book=[delegate.dataModel getBookOfId:[_bookIdDictionary objectForKey:[NSString stringWithFormat:@"%d", button.tag]]];
                 identity=[NSString stringWithFormat:@"%@",book.id];
                 [delegate.dataModel displayAllData];
 
@@ -152,4 +155,5 @@
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
     return [UIImage imageWithCGImage:masked];
 }
+
 @end

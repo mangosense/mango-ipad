@@ -58,6 +58,9 @@
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
+    NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+    [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+    [self goToNext:nil];
 }
 
 @end

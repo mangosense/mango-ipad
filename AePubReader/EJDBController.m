@@ -46,9 +46,40 @@
     return layer;
 }
 
+#pragma mark - Save Book To Core Data
+
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:filePath]) {
+        NSURL *url = [[NSURL alloc]initFileURLWithPath:filePath];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
+
+    // adding to database
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (![appDelegate.dataModel checkIfIdExists:book.id]) {
+        Book *coreDatabook= [appDelegate.dataModel getBookInstance];
+        coreDatabook.title=book.title;
+        coreDatabook.link=nil;
+        coreDatabook.localPathImageFile = filePath;
+        coreDatabook.localPathFile = [filePath stringByDeletingPathExtension];
+        coreDatabook.id = book.id;
+        coreDatabook.size = @23068672;
+        coreDatabook.date = [NSDate date];
+        coreDatabook.textBook = @4;
+        coreDatabook.downloadedDate = [NSDate date];
+        coreDatabook.downloaded = @YES;
+        coreDatabook.edited = @NO;
+        NSError *error=nil;
+        if (![appDelegate.managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+    }
+}
+
 #pragma mark - Parse JSON
 
-- (void)parseBookJson:(NSData *)bookJsonData WithId:(int)numberId{
+- (void)parseBookJson:(NSData *)bookJsonData WithId:(NSNumber *)numberId AtLocation:(NSString *)filePath {
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:bookJsonData options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"%@", jsonDict);
     
@@ -66,7 +97,7 @@
     for (NSDictionary *pageDict in pagesArray) {
         MangoPage *page = [[MangoPage alloc] init];
         page.id = [pageDict objectForKey:@"id"];
-        page.story_id = [pageDict objectForKey:@"story_id"];
+        page.pageable_id = [pageDict objectForKey:@"pageable_id"];
         page.name = [pageDict objectForKey:@"name"];
         
         NSArray *pageArray=[pageDict objectForKey:LAYERS];
@@ -182,13 +213,18 @@
             NSLog(@"id - %@   name-%@ ",pageFetched.id,pageFetched.name);
         }
         NSLog(@"%@",fetchedPage.layers);
-        NSString *iden=[NSString stringWithFormat:@"%d",numberId ];
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        Book *bk=[delegate.dataModel getBookOfId:iden];
-        bk.bookId=book.id;
-        [delegate.dataModel saveData:bk];
-        [delegate.dataModel displayAllData];
         
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        Book *bk=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d", [numberId intValue]]];
+        if (bk) {
+            bk.bookId=book.id;
+            [delegate.dataModel saveData:bk];
+        } else {
+            [self saveBook:book AtLocation:filePath];
+        }
+        
+        [delegate.dataModel displayAllData];
     }
     
 }

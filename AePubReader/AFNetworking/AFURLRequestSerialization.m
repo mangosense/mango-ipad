@@ -339,6 +339,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         }
     }
 
+    NSLog(@"Request Type: %@", [[request HTTPMethod] uppercaseString]);
     if ([self.HTTPMethodsEncodingParametersInURI containsObject:[[request HTTPMethod] uppercaseString]]) {
         mutableRequest.URL = [NSURL URLWithString:[[mutableRequest.URL absoluteString] stringByAppendingFormat:mutableRequest.URL.query ? @"&%@" : @"?%@", AFQueryStringFromParametersWithEncoding(parameters, self.stringEncoding)]];
     } else {
