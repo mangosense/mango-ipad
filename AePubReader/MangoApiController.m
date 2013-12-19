@@ -30,11 +30,15 @@
     return self;
 }
 
+#pragma mark - API Methods
+
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Get List Response: %@", responseObject);
-        [_delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
+        if ([_delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
+            [_delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
     }];
@@ -45,7 +49,9 @@
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Image Response: %@", responseObject);
-        [_delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
+        if ([_delegate respondsToSelector:@selector(reloadImage:forUrl:)]) {
+            [_delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Image error: %@", error);
     }];
@@ -61,7 +67,9 @@
     [manager POST:LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;
-        [_delegate saveUserDetails:responseDict];
+        if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
+            [_delegate saveUserDetails:responseDict];
+        }
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
     }];
@@ -80,7 +88,9 @@
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
-        [_delegate getBookAtPath:filePath];
+        if ([_delegate respondsToSelector:@selector(getBookAtPath:)]) {
+            [_delegate getBookAtPath:filePath];
+        }
     }];
     [downloadTask resume];
 }

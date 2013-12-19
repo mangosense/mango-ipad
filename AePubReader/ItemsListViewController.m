@@ -8,6 +8,7 @@
 
 #import "ItemsListViewController.h"
 #import "AudioRecord.h"
+#import "MBProgressHUD.h"
 
 @interface ItemsListViewController ()
 
@@ -186,6 +187,8 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
     itemsListArray = [NSMutableArray arrayWithArray:dataArray];
     [self.tableView reloadData];
 }
@@ -193,6 +196,8 @@
 #pragma mark - Categories API
 
 - (void)getCategories {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     [apiController getListOf:CATEGORIES ForParameters:nil];

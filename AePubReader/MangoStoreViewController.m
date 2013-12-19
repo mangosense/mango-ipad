@@ -13,6 +13,8 @@
 #import "StoreCollectionHeaderView.h"
 #import "AePubReaderAppDelegate.h"
 #import "AFHTTPRequestOperationManager.h"
+#import "MBProgressHUD.h"
+#import "BooksFromCategoryViewController.h"
 
 #define SEGMENT_WIDTH 600
 #define SEGMENT_HEIGHT 60
@@ -114,12 +116,16 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
     if ([type isEqualToString:LIVE_STORIES]) {
         if (!_liveStoriesArray) {
             _liveStoriesArray = [[NSMutableArray alloc] init];
         }
         [_liveStoriesArray addObjectsFromArray:dataArray];
         _liveStoriesFetched = YES;
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
         MangoApiController *apiController = [MangoApiController sharedApiController];
         apiController.delegate = self;
@@ -138,15 +144,23 @@
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
+    //[MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
     [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
 
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate unzipExistingJsonBooks];
+    
+    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    booksCategoryViewController.toEdit=NO;
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
 }
 
 #pragma mark - Setup Methods
 
 - (void)getLiveStories {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     [apiController getListOf:LIVE_STORIES ForParameters:nil];
@@ -285,6 +299,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
 
     MangoApiController *apiController = [MangoApiController sharedApiController];

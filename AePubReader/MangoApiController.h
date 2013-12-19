@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol MangoPostApiProtocol
+@protocol MangoPostApiProtocol <NSObject>
 
 @optional
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type;

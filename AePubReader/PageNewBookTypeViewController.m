@@ -100,7 +100,13 @@
         NSString *textToShare=[_book.title stringByAppendingString:@" great bk from MangoReader"];
         
         UIImage *image=[UIImage imageWithContentsOfFile:_book.localPathImageFile];
-        NSArray *activityItems=@[textToShare,image];
+        NSMutableArray *activityItems= [[NSMutableArray alloc] init];
+        if (textToShare) {
+            [activityItems addObject:textToShare];
+        }
+        if (image) {
+            [activityItems addObject:image];
+        }
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];

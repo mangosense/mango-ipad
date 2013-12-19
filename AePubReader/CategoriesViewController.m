@@ -12,6 +12,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "BooksFromCategoryViewController.h"
 #import "Constants.h"
+#import "MBProgressHUD.h"
 
 @interface CategoriesViewController ()
 
@@ -75,6 +76,8 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
 #pragma mark - Post API Delegate
 
 - (void)getBookAtPath:(NSURL *)filePath {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
     [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -82,6 +85,8 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
     _booksArray = [[NSMutableArray alloc] initWithArray:dataArray];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
@@ -89,6 +94,8 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
         NSString *bookId = [dataDict objectForKey:@"id"];
         Book *bk=[delegate.dataModel getBookOfId:bookId];
         if (!bk) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
             MangoApiController *apiController = [MangoApiController sharedApiController];
             apiController.delegate = self;
             [apiController downloadBookWithId:bookId];
@@ -100,6 +107,8 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
 #pragma mark - Get Purchased Books
 
 - (void)getAllPurchasedBooks {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     

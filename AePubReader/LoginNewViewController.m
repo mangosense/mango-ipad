@@ -10,6 +10,7 @@
 #import "LandPageChoiceViewController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
+#import "MBProgressHUD.h"
 
 @interface LoginNewViewController ()
 
@@ -40,6 +41,8 @@
 }
 
 - (IBAction)signIn:(id)sender {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text];
@@ -57,6 +60,8 @@
 #pragma mark - API Delegate
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
     [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
     NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
     [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];

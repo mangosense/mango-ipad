@@ -87,7 +87,7 @@
 
 #pragma mark - URL's
 
-#define BASE_URL @"http://192.168.2.28:3001/api/v2"
+#define BASE_URL @"http://api.mangoreader.com/api/v2"
 //api.mangoreader.com
 
 #pragma mark - API Method Names
