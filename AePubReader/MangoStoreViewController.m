@@ -66,6 +66,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITextField Delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)goBackToStoryPage:(id)sender {
@@ -118,7 +126,7 @@
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-    if ([type isEqualToString:LIVE_STORIES]) {
+    if ([type isEqualToString:LIVE_STORIES] || [type isEqualToString:LIVE_STORIES_SEARCH]) {
         if (!_liveStoriesArray) {
             _liveStoriesArray = [[NSMutableArray alloc] init];
         }
@@ -127,9 +135,11 @@
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-        MangoApiController *apiController = [MangoApiController sharedApiController];
-        apiController.delegate = self;
-        [apiController getListOf:FEATURED_STORIES ForParameters:nil];
+        if (!_featuredStoriesArray) {
+            MangoApiController *apiController = [MangoApiController sharedApiController];
+            apiController.delegate = self;
+            [apiController getListOf:FEATURED_STORIES ForParameters:nil];
+        }
     } else if ([type isEqualToString:FEATURED_STORIES]) {
         if (!_featuredStoriesArray) {
             _featuredStoriesArray = [[NSMutableArray alloc] init];
@@ -191,7 +201,7 @@
     switch (itemType) {
         case TABLE_TYPE_TEXT_TEMPLATES:
             break;
-            
+                        
         default:
             break;
     }

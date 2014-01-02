@@ -98,6 +98,7 @@
 #define DOWNLOAD_STORY @"/livestories/%@/zipped?email=%@&auth_token=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
+#define LIVE_STORIES_SEARCH @"/livestories/search"
 
 #define API Parameter Keys
 
@@ -109,6 +110,7 @@
 #define TABLE_TYPE_AUDIO_RECORDINGS 1
 #define TABLE_TYPE_TEXT_TEMPLATES 2
 #define TABLE_TYPE_CATEGORIES 3
+#define TABLE_TYPE_AGE_GROUPS 4 
 
 #pragma mark - Colors
 
