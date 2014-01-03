@@ -62,10 +62,15 @@
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-    [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
-    NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
-    [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
-    [self goToNext:nil];
+    if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
+        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
+        NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+        [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+        [self goToNext:nil];
+    } else {
+        UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your email and password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [loginFailureAlert show];
+    }
 }
 
 @end
