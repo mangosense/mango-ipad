@@ -12,6 +12,7 @@
 #import "DataModelControl.h"
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoEditorViewController.h"
+#import "MangoStoreViewController.h"
 
 @interface BooksFromCategoryViewController ()
 
@@ -112,7 +113,7 @@
 
 - (IBAction)booksButtonclicked:(id)sender {
     UIButton *button=(UIButton *)sender;
-    NewStoreCoverViewController *controller;
+    MangoStoreViewController *controller;
     CoverViewControllerBetterBookType *coverController;
     NSInteger index;
     NSString *identity;
@@ -120,7 +121,7 @@
     delegate.pageViewController=self;
     switch (button.tag) {
         case 0:
-            controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:YES];
+            controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
             
             [self.navigationController pushViewController:controller animated:YES];
             break;
