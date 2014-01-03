@@ -15,11 +15,10 @@
     if (self) {
         self.itemSize = CGSizeMake(150, 270);
         self.scrollDirection = UICollectionViewScrollDirectionVertical;
-        self.sectionInset = UIEdgeInsetsMake(30, 0, 20, 0);
+//        self.sectionInset = UIEdgeInsetsMake(30, 0, 20, 0);
     }
     return self;
 }
-
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds {
     return YES;
@@ -34,8 +33,8 @@
     return array;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(collectionView.frame.size.width, 30);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+//    return CGSizeMake(collectionView.frame.size.width, 30);
+//}
 
 @end

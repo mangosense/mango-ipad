@@ -15,6 +15,7 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		298CE7011875ACCF007BE021 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 298CE6FC1875ACAC007BE021 /* libEJDBKit.a */; };
 		298CE7031875ACF5007BE021 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 298CE7021875ACF5007BE021 /* Parse.framework */; };
+		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
@@ -1050,6 +1051,8 @@
 		298CE6F51875ACAC007BE021 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../GitIgnoreFiles/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		298CE7021875ACF5007BE021 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../GitIgnoreFiles/Parse.framework; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29FC83351876C34400FB6F96 /* StoreBookCarouselCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreBookCarouselCell.h; sourceTree = "<group>"; };
+		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		8303ED6118485FF600BE7671 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -3366,6 +3369,8 @@
 				83E9AE2A184EFE700025BBD6 /* StoreCollectionFlowLayout.m */,
 				83E9AE2C184F2B6A0025BBD6 /* StoreCollectionHeaderView.h */,
 				83E9AE2D184F2B6A0025BBD6 /* StoreCollectionHeaderView.m */,
+				29FC83351876C34400FB6F96 /* StoreBookCarouselCell.h */,
+				29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */,
 				83E9AE2F184F337D0025BBD6 /* StoreBookCell.h */,
 				83E9AE30184F337D0025BBD6 /* StoreBookCell.m */,
 			);
@@ -5006,6 +5011,7 @@
 				AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */,
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
 				835814841844833600670D71 /* MangoBook.m in Sources */,
+				29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */,
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
 				AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */,
 				AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */,

@@ -10,4 +10,5 @@
 
 @interface StoreBookCarouselCell : UICollectionViewCell
 
+
 @end

@@ -11,6 +11,7 @@
 #import "iCarousel.h"
 #import "MangoApiController.h"
 #import "StoreBookCell.h"
+#import "StoreBookCarouselCell.h"
 
 @interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, UITextFieldDelegate>
 
