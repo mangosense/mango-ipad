@@ -1,3 +1,4 @@
+
 //
 //  MangoStoreViewController.m
 //  MangoReader
@@ -25,6 +26,8 @@
 #define GRADE_TAG 4
 
 #define STORE_BOOK_CELL_ID @"StoreBookCell"
+#define STORE_BOOK_CAROUSEL_CELL_ID @"StoreBookCarouselCell"
+
 #define HEADER_ID @"headerId"
 
 @interface MangoStoreViewController ()
@@ -179,17 +182,16 @@
 - (void)setupInitialUI {
     [self getLiveStories];
     
-    _storiesCarousel.delegate = self;
-    _storiesCarousel.dataSource = self;
-    _storiesCarousel.type = iCarouselTypeCoverFlow;
-    [_storiesCarousel reloadData];
+    CGRect viewFrame = self.view.bounds;
     
     StoreCollectionFlowLayout *layout = [[StoreCollectionFlowLayout alloc] init];
-    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(_storiesCarousel.frame.origin.x, _storiesCarousel.frame.origin.y + _storiesCarousel.frame.size.height + 5, _storiesCarousel.frame.size.width, self.view.frame.size.height - (_storiesCarousel.frame.origin.y + _storiesCarousel.frame.size.height + 5) - 10) collectionViewLayout:layout];
+    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)) collectionViewLayout:layout];
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
+    [_booksCollectionView registerClass:[StoreBookCarouselCell class] forCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID];
     [_booksCollectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
     [_booksCollectionView registerClass:[StoreCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID];
+    [_booksCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Section0"];
     [_booksCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_booksCollectionView];
 }
@@ -270,43 +272,72 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return MIN(6, [_liveStoriesArray count]);
+    
+    if(section == 0) {
+        return 1;
+    } else {
+        return MIN(6, [_liveStoriesArray count]);
+    }
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return 6;
+    return 7;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
     
-    cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*indexPath.section, 2*indexPath.section + 2];
-    cell.bookPriceLabel.text = @"Rs. 99";
-    cell.delegate = self;
-    
-    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
-    
-    cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-    [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
-    [cell setNeedsLayout];
-
-    cell.imageUrlString = [bookDict objectForKey:@"cover"];
-    if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
-        cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
+    if(indexPath.section == 0) {
+        StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
+        
+        if (!_storiesCarousel) {
+            _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 1024, 220)];
+            _storiesCarousel.delegate = self;
+            _storiesCarousel.dataSource = self;
+            _storiesCarousel.type = iCarouselTypeCoverFlow;            
+            
+            [cell.contentView addSubview:_storiesCarousel];
+        }
+        
+        [_storiesCarousel reloadData];        
+        return cell;
     } else {
-        [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
+        StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+        
+        cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
+        cell.bookPriceLabel.text = @"Rs. 99";
+        cell.delegate = self;
+        
+        NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        
+        cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
+        [cell setNeedsLayout];
+        
+        cell.imageUrlString = [bookDict objectForKey:@"cover"];
+        if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
+            cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
+        } else {
+            [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
+        }
+        
+        return cell;
     }
     
-    return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
-    headerView.titleLabel.textColor = COLOR_DARK_RED;
-    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    headerView.titleLabel.text = [NSString stringWithFormat:@"For Age %d-%d Years", 2*indexPath.section, 2*indexPath.section + 2];
     
-    return headerView;
+    if(indexPath.section != 0) {
+        StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
+        headerView.titleLabel.textColor = COLOR_DARK_RED;
+        headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        headerView.titleLabel.text = [NSString stringWithFormat:@"For Age %d-%d Years", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
+        
+        return headerView;
+    } else {
+        UICollectionReusableView *headerViewForCarousel = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Section0" forIndexPath:indexPath];
+        return headerViewForCarousel;
+    }
 }
 
 #pragma mark - UICollectionView Delegate
@@ -329,11 +360,20 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(20, 0, 20, 0);
+    return UIEdgeInsetsMake(20, 20, 20, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(collectionView.frame.size.width, 20);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        return CGSizeMake(150, 220);
+    }
+    
+    return CGSizeMake(150, 270);
 }
 
 @end
