@@ -179,13 +179,10 @@
 - (void)setupInitialUI {
     [self getLiveStories];
     
-    _storiesCarousel.delegate = self;
-    _storiesCarousel.dataSource = self;
-    _storiesCarousel.type = iCarouselTypeCoverFlow;
-    [_storiesCarousel reloadData];
+    CGRect viewFrame = self.view.bounds;
     
     StoreCollectionFlowLayout *layout = [[StoreCollectionFlowLayout alloc] init];
-    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(_storiesCarousel.frame.origin.x, _storiesCarousel.frame.origin.y + _storiesCarousel.frame.size.height + 5, _storiesCarousel.frame.size.width, self.view.frame.size.height - (_storiesCarousel.frame.origin.y + _storiesCarousel.frame.size.height + 5) - 10) collectionViewLayout:layout];
+    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)) collectionViewLayout:layout];
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
     [_booksCollectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
@@ -274,39 +271,58 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return 6;
+    return 7;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
     
-    cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*indexPath.section, 2*indexPath.section + 2];
-    cell.bookPriceLabel.text = @"Rs. 99";
-    cell.delegate = self;
-    
-    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
-    
-    cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-    [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
-    [cell setNeedsLayout];
-
-    cell.imageUrlString = [bookDict objectForKey:@"cover"];
-    if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
-        cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
+    if(indexPath.section == 0) {
+        
+        CGRect cvFrame = cv.frame;
+        
+        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(CGRectGetMinX(cvFrame), 0, CGRectGetWidth(cvFrame), 30)];
+        _storiesCarousel.delegate = self;
+        _storiesCarousel.dataSource = self;
+        _storiesCarousel.type = iCarouselTypeCoverFlow;
+        [_storiesCarousel reloadData];
+        
     } else {
-        [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
+        StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+        
+        cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*indexPath.section, 2*indexPath.section + 2];
+        cell.bookPriceLabel.text = @"Rs. 99";
+        cell.delegate = self;
+        
+        NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        
+        cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
+        [cell setNeedsLayout];
+        
+        cell.imageUrlString = [bookDict objectForKey:@"cover"];
+        if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
+            cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
+        } else {
+            [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
+        }
+        
+        return cell;
     }
     
-    return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
-    headerView.titleLabel.textColor = COLOR_DARK_RED;
-    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    headerView.titleLabel.text = [NSString stringWithFormat:@"For Age %d-%d Years", 2*indexPath.section, 2*indexPath.section + 2];
     
-    return headerView;
+    if(indexPath.section != 0) {
+        StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
+        headerView.titleLabel.textColor = COLOR_DARK_RED;
+        headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        headerView.titleLabel.text = [NSString stringWithFormat:@"For Age %d-%d Years", 2*indexPath.section, 2*indexPath.section + 2];
+        
+        return headerView;
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - UICollectionView Delegate

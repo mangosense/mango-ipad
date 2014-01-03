@@ -14,7 +14,7 @@
 
 @interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, UITextFieldDelegate>
 
-@property (nonatomic, strong) IBOutlet iCarousel *storiesCarousel;
+@property (nonatomic, strong) iCarousel *storiesCarousel;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;
