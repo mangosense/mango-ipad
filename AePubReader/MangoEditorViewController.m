@@ -299,7 +299,13 @@
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if ([textView isKindOfClass:[MovableTextView class]]) {
         MovableTextView *newTextview = (MovableTextView *)textView;
+        if (!_audioLayer) {
+            _audioLayer = [[MangoAudioLayer alloc] init];
+            _audioLayer.wordTimes = [[NSArray alloc] init];
+            _audioLayer.url = @"";
+        }
         _audioLayer.wordMap = [newTextview.text componentsSeparatedByString:@" "];
+        
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
             
@@ -1232,7 +1238,9 @@
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
             NSString *audioString= [_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url];
-            _audioUrl = [NSURL fileURLWithPath:audioString];
+            if (audioString) {
+                _audioUrl = [NSURL fileURLWithPath:audioString];
+            }
             _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
