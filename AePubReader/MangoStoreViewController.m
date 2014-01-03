@@ -201,7 +201,7 @@
     switch (itemType) {
         case TABLE_TYPE_TEXT_TEMPLATES:
             break;
-                        
+
         default:
             break;
     }
@@ -235,11 +235,13 @@
             //normally you would hard-code this to YES or NO
             return YES;
         }
+            
         case iCarouselOptionSpacing:
         {
             //add a bit of spacing between the item views
             return value * 1.05f;
         }
+            
         case iCarouselOptionFadeMax:
         {
             if (carousel.type == iCarouselTypeCustom)
@@ -249,10 +251,12 @@
             }
             return value;
         }
+            
         default:
         {
             return value;
         }
+            
     }
 }
 
