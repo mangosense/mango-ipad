@@ -17,7 +17,7 @@
     if (self) {
         // Initialization code
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width - 100, 20)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, frame.size.width - 100, 20)];
         [self addSubview:_titleLabel];
         
         _lineView = [[UILabel alloc] initWithFrame:CGRectMake(0, -2, frame.size.width, 2)];

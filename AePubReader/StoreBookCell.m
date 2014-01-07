@@ -84,6 +84,8 @@
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
+    
+    //urlString = [BASE_URL stringByAppendingString:urlString];
     [apiController getImageAtUrl:urlString];
 }
 

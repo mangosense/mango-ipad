@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17FBB648187AE36A00453B17 /* CargoBay.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FBB647187AE36A00453B17 /* CargoBay.m */; };
 		1D3623260D0F684500981E51 /* AePubReaderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AePubReaderAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -1041,6 +1042,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17FBB646187AE36A00453B17 /* CargoBay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CargoBay.h; sourceTree = "<group>"; };
+		17FBB647187AE36A00453B17 /* CargoBay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CargoBay.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AePubReaderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AePubReaderAppDelegate.h; path = Classes/AePubReaderAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AePubReaderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AePubReaderAppDelegate.m; path = Classes/AePubReaderAppDelegate.m; sourceTree = "<group>"; wrapsLines = 0; };
@@ -2334,6 +2337,15 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		17FBB645187AE36A00453B17 /* CargoBay_Store */ = {
+			isa = PBXGroup;
+			children = (
+				17FBB646187AE36A00453B17 /* CargoBay.h */,
+				17FBB647187AE36A00453B17 /* CargoBay.m */,
+			);
+			path = CargoBay_Store;
+			sourceTree = "<group>";
+		};
 		298CE6F61875ACAC007BE021 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2355,7 +2367,6 @@
 				838048501850586C006BBA47 /* AFNetworking */,
 				8380484D1850584E006BBA47 /* API Controller */,
 				83E9ADDA184DA2050025BBD6 /* Store */,
-				8303ED6118485FF600BE7671 /* Parse.framework */,
 				8358146A1844799A00670D71 /* EJDB */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
@@ -2364,22 +2375,14 @@
 				83DD9BB418111662004C975F /* ImageDownloader */,
 				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,
 				83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */,
-				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
 				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
-				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
-				AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */,
-				AEC70E1716D4C35100A191D2 /* CoreVideo.framework */,
-				AEC70E1516D4C34700A191D2 /* CoreMedia.framework */,
 				AEC9B12616B658FF008CD1F5 /* tableOfContents */,
 				AE2D35BC16B15902009E99A7 /* not.png */,
 				AEEC650E16A54FEF008530D7 /* SearchInBook */,
-				AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */,
 				AEE103BD169C023400AEEEFB /* librarytext.png */,
 				AED2B4F8169A8F12001956CF /* Default-Portrait@2x~ipad.png */,
 				AED2B4F5169A8EF9001956CF /* Default-Portrait~ipad.png */,
-				AEDF1850168B72CF0087064A /* AVFoundation.framework */,
 				AEDF1802168AC4EA0087064A /* IpadReaderImages */,
-				AE5FC01B167701DC00BB9AED /* Social.framework */,
 				AE8D260D166DC99D00156F43 /* ConnectionDelegate iphone */,
 				AEEF8474166C91020098BAA2 /* Mangoreader iphone */,
 				AE1D511B17525FED00D2F25E /* help */,
@@ -2531,6 +2534,15 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8303ED6118485FF600BE7671 /* Parse.framework */,
+				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
+				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
+				AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */,
+				AEC70E1716D4C35100A191D2 /* CoreVideo.framework */,
+				AEC70E1516D4C34700A191D2 /* CoreMedia.framework */,
+				AE2BDEB516A438DA009A2D9B /* AudioToolbox.framework */,
+				AEDF1850168B72CF0087064A /* AVFoundation.framework */,
+				AE5FC01B167701DC00BB9AED /* Social.framework */,
 				298CE7021875ACF5007BE021 /* Parse.framework */,
 				837D27F3180D3BC000469D1C /* Twitter.framework */,
 				833058A317F9961A00F48427 /* Accounts.framework */,
@@ -3316,6 +3328,7 @@
 		83E9ADDA184DA2050025BBD6 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				17FBB645187AE36A00453B17 /* CargoBay_Store */,
 				83E9AE28184EFE270025BBD6 /* Store Books Collection View */,
 				83E9ADE0184DA2460025BBD6 /* MangoStoreViewController.h */,
 				83E9ADE1184DA2460025BBD6 /* MangoStoreViewController.m */,
@@ -5040,6 +5053,7 @@
 				AE396BBB181F7E3D009C68E7 /* PSTGridLayoutRow.m in Sources */,
 				AE396BB4181F7E3D009C68E7 /* PSTCollectionViewData.m in Sources */,
 				AE195EF5181E6862008E4208 /* DataSourceForLinear.m in Sources */,
+				17FBB648187AE36A00453B17 /* CargoBay.m in Sources */,
 				AE5B84DE17AA535500EDC098 /* CollectionViewLayout.m in Sources */,
 				AE396BB0181F7E3D009C68E7 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				AE5B84E217AA546900EDC098 /* Cell.m in Sources */,
@@ -5141,8 +5155,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
+				PROVISIONING_PROFILE = "EF77A1C5-3AD3-42F3-9C2A-7530DD371222";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EF77A1C5-3AD3-42F3-9C2A-7530DD371222";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -5154,7 +5168,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5181,8 +5195,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
+				PROVISIONING_PROFILE = "EF77A1C5-3AD3-42F3-9C2A-7530DD371222";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D700AB9B-2341-4F4C-A5A4-0F742A807B6E";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

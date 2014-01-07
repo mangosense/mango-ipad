@@ -30,6 +30,8 @@
 
 #define HEADER_ID @"headerId"
 
+#import "CargoBay.h"
+
 @interface MangoStoreViewController ()
 
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
@@ -39,6 +41,8 @@
 @property (nonatomic, strong) NSMutableArray *featuredStoriesArray;
 @property (nonatomic, assign) BOOL liveStoriesFetched;
 @property (nonatomic, assign) BOOL featuredStoriesFetched;
+
+@property (nonatomic, strong) NSMutableArray *purchasedBooks;
 
 @end
 
@@ -55,12 +59,20 @@
     return self;
 }
 
+- (void)dealloc {
+    //Register observer
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:[CargoBay sharedManager]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
+    
+    //Register observer
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,8 +139,16 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
+    if ([type isEqualToString:PURCHASED_STORIES]) {
+        
+        self.purchasedBooks = [NSMutableArray arrayWithArray:dataArray];
+        [self getLiveStories];
+        return;
+    }
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
     if ([type isEqualToString:LIVE_STORIES] || [type isEqualToString:LIVE_STORIES_SEARCH]) {
         if (!_liveStoriesArray) {
             _liveStoriesArray = [[NSMutableArray alloc] init];
@@ -171,6 +191,21 @@
 
 #pragma mark - Setup Methods
 
+#pragma mark - Get Purchased Books
+
+- (void)getAllPurchasedBooks {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    
+    NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
+    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
+    
+    [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict];
+}
+
 - (void)getLiveStories {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
@@ -180,12 +215,22 @@
 }
 
 - (void)setupInitialUI {
-    [self getLiveStories];
+    
+    NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
+    NSString * email = [userdefaults objectForKey:EMAIL];
+    NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
+    
+    if (email.length>5 && authToken.length >0) {
+        [self getAllPurchasedBooks];
+    }
+    else {
+        [self getLiveStories];
+    }
     
     CGRect viewFrame = self.view.bounds;
     
     StoreCollectionFlowLayout *layout = [[StoreCollectionFlowLayout alloc] init];
-    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)) collectionViewLayout:layout];
+    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
     [_booksCollectionView registerClass:[StoreBookCarouselCell class] forCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID];
@@ -281,7 +326,7 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return 7;
+    return 6+1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -290,11 +335,10 @@
         StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
         
         if (!_storiesCarousel) {
-            _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 1024, 220)];
+            _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 220)];
             _storiesCarousel.delegate = self;
             _storiesCarousel.dataSource = self;
-            _storiesCarousel.type = iCarouselTypeCoverFlow;            
-            
+            _storiesCarousel.type = iCarouselTypeCoverFlow;
             [cell.contentView addSubview:_storiesCarousel];
         }
         
@@ -342,15 +386,41 @@
 
 #pragma mark - UICollectionView Delegate
 
+- (BOOL) isProductPurchased :(NSString *) productId {
+
+    BOOL isBookPurchased = NO;
+    for (NSDictionary *dataDict in self.purchasedBooks) {
+        NSString *bookId = [dataDict objectForKey:@"id"];
+        if ([bookId isEqualToString:productId]) {
+            isBookPurchased = YES;
+            break;
+        }
+    }
+    return isBookPurchased;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
     NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+    
+    NSString * productId = [bookDict objectForKey:@"id"];
+    if (productId != nil && productId.length > 0) {
 
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController downloadBookWithId:[bookDict objectForKey:@"id"]];
+        //Check product is already purchased or not?
+        if ([self isProductPurchased:productId]) {
+            [self itemReadyToUse:productId];//Download Product from server.
+        }
+        else {
+            ///Purchasing Products
+            //TODO: Need to change key name.
+            NSString * skIdentifier = [bookDict objectForKey:@"purchasedProduct_Identifier"];
+            [self itemProceedToPurchase:productId storeIdentifier:skIdentifier];
+        }
+    }
+    else {
+        NSLog(@"Product dose not have relative Id");
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -370,10 +440,82 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
-        return CGSizeMake(150, 220);
+        return CGSizeMake(984, 240);
     }
     
     return CGSizeMake(150, 270);
 }
+
+#pragma mark - In App purchasing..
+
+- (void) itemReadyToUse:(NSString *) productId {
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController downloadBookWithId:productId];
+}
+
+- (void) itemProceedToPurchase :(NSString *) productId storeIdentifier:(NSString *) productIdentifier{
+    
+    NSAssert((productIdentifier.length > 0), @"Product identifier should have some characters lenght");
+    
+    //Observer Method for updated Transactions
+    [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+        NSLog(@"Updated Transactions: %@", transactions);
+        
+        for (SKPaymentTransaction *transaction in transactions)
+        {
+            NSLog(@"Payment State: %d", transaction.transactionState);
+            switch (transaction.transactionState) {
+                
+                case SKPaymentTransactionStatePurchased:
+                    NSLog(@"Product Purchased!");
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    [self itemReadyToUse:productId];
+                    break;
+                    
+                case SKPaymentTransactionStateFailed:
+                    NSLog(@"Transaction Failed!");
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    break;
+                    
+                case SKPaymentTransactionStateRestored:
+                    NSLog(@"Product Restored!");
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    [self itemReadyToUse:productId];
+                    break;
+                    
+                default:
+                    break;
+            }
+            if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            }
+        }
+    }];
+    
+    //Get products from identifires....
+    NSSet * productSet = [NSSet setWithArray:@[productIdentifier]];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {
+        if (products.count) {
+            NSLog(@"Products: %@", products);
+            //Initialise payment queue
+            SKPayment * payement = [SKPayment paymentWithProduct:products[0]];
+            [[SKPaymentQueue defaultQueue] addPayment:payement];
+        }
+        else {
+            //Hide progress HUD if no products found
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            NSLog(@"LOL:No Product found");
+        }
+        NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
+    } failure:^(NSError *error) {
+        //Hide progress HUD if Error!!
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSLog(@"GetProductError: %@", error);
+    }];
+}
+
 
 @end
