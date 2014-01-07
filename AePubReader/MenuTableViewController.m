@@ -133,6 +133,38 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case 0: {
+            switch (indexPath.row) {
+                case 0: {
+                    
+                }
+                    break;
+                    
+                case 1: {
+                    
+                }
+                    break;
+                    
+                case 2: {
+                    
+                }
+                    break;
+                    
+                case 3: {
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
     [self.popDelegate goToStoriesList];
 }
 

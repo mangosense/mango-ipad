@@ -294,6 +294,7 @@
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     NSLog(_book.edited ? @"Yes" : @"No");
     if (_book.edited.boolValue) {
+
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.bookId];
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:_book.localPathFile WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];

@@ -1226,8 +1226,6 @@
             NSLog(@"Rendered Text fRame: %@", NSStringFromCGRect(_textFrame));
             NSLog(@"Rendered height = %f", [textLayer.height floatValue]);
             
-            
-            
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:_textFrame];
             pageTextView.font = [UIFont systemFontOfSize:30];
             pageTextView.text = textOnPage;
