@@ -91,6 +91,12 @@
 //api.mangoreader.com
 
 #pragma mark - API Method Names
+//Validate receipt
+#define receiptValidate_SignedIn @"receipt_validate_without_signed_in.json"
+#define receiptValidate @"receipt_validate.json"
+#define receiptValidate_ @"apple_register_users_books.json"
+
+
 
 #define LIVE_STORIES @"livestories.json"
 #define CATEGORIES @"categories.json"
