@@ -7,6 +7,7 @@
 //
 
 #import "SettingOptionViewController.h"
+#import "Constants.h"
 
 @interface SettingOptionViewController ()
 
@@ -122,8 +123,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:
+        {
             [self.controller popToRootViewControllerAnimated:YES];
             [_dismissDelegate dismissPopOver];
+            
+            //Removing User-Id; Added when user logged In with Email-Password
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:AUTH_TOKEN];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
             break;
             
         default:
