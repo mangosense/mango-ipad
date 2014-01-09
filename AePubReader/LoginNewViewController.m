@@ -66,6 +66,7 @@
         [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
         NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
         [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+        [appDefaults setObject:[userDetailsDictionary objectForKey:@"id"] forKey:USER_ID];
         [self goToNext:nil];
     } else {
         UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your email and password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];

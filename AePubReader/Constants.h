@@ -63,6 +63,7 @@
 
 #pragma mark - JSON Response KEYS
 
+#define USER_ID @"userId"
 #define AUTH_TOKEN @"auth_token"
 #define PAGE_NO @"pageNo"
 #define LAYERS @"layers"
@@ -92,9 +93,8 @@
 
 #pragma mark - API Method Names
 //Validate receipt
-#define receiptValidate_SignedIn @"receipt_validate_without_signed_in.json"
-#define receiptValidate @"receipt_validate.json"
-#define receiptValidate_ @"apple_register_users_books.json"
+#define ReceiptValidate_SignedIn @"receipt_validate.json"
+#define ReceiptValidate_NotSignedIn @"receipt_validate_without_signed_in.json"
 
 
 

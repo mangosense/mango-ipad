@@ -29,4 +29,8 @@
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password;
 - (void)downloadBookWithId:(NSString *)bookId;
 
+#pragma mark - Validate Receipt
+- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
+                          block:(void (^)(id response, NSInteger type, NSString * error))block ;
+
 @end

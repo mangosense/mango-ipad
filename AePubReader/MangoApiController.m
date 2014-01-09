@@ -32,6 +32,39 @@
 
 #pragma mark - API Methods
 
+- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
+                          block:(void (^)(id response, NSInteger type, NSString * error))block {
+    
+    NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
+    NSString * userId = [userdefaults objectForKey:USER_ID];
+    NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
+    
+    NSString * strMethod;
+    NSDictionary *paramDict;
+    
+    if (userId.length>5 && authToken.length >0) {
+        strMethod = ReceiptValidate_SignedIn;
+        paramDict = @{@"receipt_data":rData, @"amount":amount, @"user_id":userId, @"story_id":storyId};
+    }
+    else {
+        strMethod = ReceiptValidate_NotSignedIn;
+        paramDict = @{@"receipt_data":rData, @"amount":amount, @"story_id":storyId};
+    }
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+        if (responseObject != nil) { block(responseObject, 1, nil);}
+        else { block(nil, 0, @"Response is nil.");}
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Request:: %@", operation.request);
+        NSLog(@"ResponseString:: %@", operation.responseString);
+        block(nil, 0, [error localizedDescription]);
+    }];
+}
+
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {

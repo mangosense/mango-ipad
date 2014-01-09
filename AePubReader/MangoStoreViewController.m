@@ -43,6 +43,7 @@
 @property (nonatomic, assign) BOOL featuredStoriesFetched;
 
 @property (nonatomic, strong) NSMutableArray *purchasedBooks;
+@property (nonatomic, strong) NSString * currentProductPrice;
 
 @end
 
@@ -407,16 +408,17 @@
     NSString * productId = [bookDict objectForKey:@"id"];
     if (productId != nil && productId.length > 0) {
 
-        //Check product is already purchased or not?
-        if ([self isProductPurchased:productId]) {
-            [self itemReadyToUse:productId];//Download Product from server.
-        }
-        else {
-            ///Purchasing Products
-            //TODO: Need to change key name.
-            NSString * skIdentifier = [bookDict objectForKey:@"purchasedProduct_Identifier"];
-            [self itemProceedToPurchase:productId storeIdentifier:skIdentifier];
-        }
+//        //Check product is already purchased or not?
+//        if ([self isProductPurchased:productId]) {
+//            [self itemReadyToUse:productId];//Download Product from server.
+//        }
+//        else {
+//            ///Purchasing Products
+//            //TODO: Need to change key name.
+//            NSString * skIdentifier = [bookDict objectForKey:@"purchasedProduct_Identifier"];
+//            [self itemProceedToPurchase:productId storeIdentifier:skIdentifier];
+//        }
+        [self itemProceedToPurchase:productId storeIdentifier:@"752"];
     }
     else {
         NSLog(@"Product dose not have relative Id");
@@ -467,22 +469,28 @@
         {
             NSLog(@"Payment State: %d", transaction.transactionState);
             switch (transaction.transactionState) {
-                
+                    
                 case SKPaymentTransactionStatePurchased:
+                {
                     NSLog(@"Product Purchased!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self itemReadyToUse:productId];
+                    [self validateReceipt:productId amount:self.currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]]];
+                }
                     break;
                     
                 case SKPaymentTransactionStateFailed:
+                {
                     NSLog(@"Transaction Failed!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                }
                     break;
                     
                 case SKPaymentTransactionStateRestored:
+                {
                     NSLog(@"Product Restored!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self itemReadyToUse:productId];
+                    [self validateReceipt:productId amount:self.currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]]];
+                }
                     break;
                     
                 default:
@@ -501,7 +509,9 @@
         if (products.count) {
             NSLog(@"Products: %@", products);
             //Initialise payment queue
-            SKPayment * payement = [SKPayment paymentWithProduct:products[0]];
+            SKProduct * product = products[0];
+            self.currentProductPrice = [product.price stringValue];
+            SKPayment * payement = [SKPayment paymentWithProduct:product];
             [[SKPaymentQueue defaultQueue] addPayment:payement];
         }
         else {
@@ -515,6 +525,53 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSLog(@"GetProductError: %@", error);
     }];
+}
+
+//Encode receipt data
+- (NSString *)encode:(const uint8_t *)input length:(NSInteger)length {
+    
+    static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	
+    NSMutableData *data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
+    uint8_t *output = (uint8_t *)data.mutableBytes;
+	
+    for (NSInteger i = 0; i < length; i += 3) {
+        NSInteger value = 0;
+        for (NSInteger j = i; j < (i + 3); j++) {
+			value <<= 8;
+			
+			if (j < length) {
+				value |= (0xFF & input[j]);
+			}
+        }
+		
+        NSInteger index = (i / 3) * 4;
+        output[index + 0] =                    table[(value >> 18) & 0x3F];
+        output[index + 1] =                    table[(value >> 12) & 0x3F];
+        output[index + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
+        output[index + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
+    }
+	
+    return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+}
+
+- (void)validateReceipt:(NSString *) productId amount:(NSString *)amount storeIdentifier:(NSData *) receiptData {
+    
+    NSString * jsonObjectString = [self encode:(uint8_t *)receiptData.bytes length:receiptData.length];
+
+    
+    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+       
+        if (type == 1) {
+            NSLog(@"SuccessResponse:%@", response);
+        }
+        else {
+            NSLog(@"ReceiptError:%@", error);
+        }
+    }];
+    
+    //If Success.
+    //[self itemReadyToUse:productId];
 }
 
 
