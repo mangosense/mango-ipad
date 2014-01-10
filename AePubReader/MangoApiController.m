@@ -55,13 +55,13 @@
     
     [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-        if (responseObject != nil) { block(responseObject, 1, nil);}
-        else { block(nil, 0, @"Response is nil.");}
+        if (responseObject != nil) { block(responseObject, 1, nil);}//Successful
+        else { block(nil, 0, @"Response is nil.");}//Errored
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Request:: %@", operation.request);
         NSLog(@"ResponseString:: %@", operation.responseString);
-        block(nil, 0, [error localizedDescription]);
+        block(nil, 0, [error localizedDescription]);//Errored
     }];
 }
 
@@ -74,6 +74,9 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
+        if ([_delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
+            [_delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
+        }
     }];
 }
 

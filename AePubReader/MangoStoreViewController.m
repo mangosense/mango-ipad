@@ -84,10 +84,27 @@
 
 #pragma mark - UITextField Delegate
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSLog(@"STring:: %@", string);
+    return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSLog(@"Need to call api for Search text..");
+    [self.view endEditing:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+    
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+/*    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+ */
 }
 
 #pragma mark - Action Methods
@@ -142,13 +159,16 @@
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
 
     if ([type isEqualToString:PURCHASED_STORIES]) {
-        
+        //Will come empty array...
         self.purchasedBooks = [NSMutableArray arrayWithArray:dataArray];
         [self getLiveStories];
         return;
     }
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    if (dataArray.count == 0 && ![type isEqualToString:PURCHASED_STORIES]) {
+        return;
+    }
     
     if ([type isEqualToString:LIVE_STORIES] || [type isEqualToString:LIVE_STORIES_SEARCH]) {
         if (!_liveStoriesArray) {
@@ -262,6 +282,9 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
+    
+    NSLog(@"Image:%@", [[self.featuredStoriesArray objectAtIndex:index] objectForKey:@"cover"]);
+    //TODO: Need to set images to carousel
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 250)];
     [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
@@ -349,10 +372,11 @@
         StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
         
         cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
-        cell.bookPriceLabel.text = @"Rs. 99";
         cell.delegate = self;
         
         NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        
+        cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
         
         cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
@@ -386,19 +410,6 @@
 }
 
 #pragma mark - UICollectionView Delegate
-
-- (BOOL) isProductPurchased :(NSString *) productId {
-
-    BOOL isBookPurchased = NO;
-    for (NSDictionary *dataDict in self.purchasedBooks) {
-        NSString *bookId = [dataDict objectForKey:@"id"];
-        if ([bookId isEqualToString:productId]) {
-            isBookPurchased = YES;
-            break;
-        }
-    }
-    return isBookPurchased;
-}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -449,6 +460,19 @@
 }
 
 #pragma mark - In App purchasing..
+
+- (BOOL) isProductPurchased :(NSString *) productId {
+    
+    BOOL isBookPurchased = NO;
+    for (NSDictionary *dataDict in self.purchasedBooks) {
+        NSString *bookId = [dataDict objectForKey:@"id"];
+        if ([bookId isEqualToString:productId]) {
+            isBookPurchased = YES;
+            break;
+        }
+    }
+    return isBookPurchased;
+}
 
 - (void) itemReadyToUse:(NSString *) productId {
     
@@ -558,20 +582,19 @@
 - (void)validateReceipt:(NSString *) productId amount:(NSString *)amount storeIdentifier:(NSData *) receiptData {
     
     NSString * jsonObjectString = [self encode:(uint8_t *)receiptData.bytes length:receiptData.length];
-
+    
     
     [[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
        
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
+            //If Succeed.
+            //[self itemReadyToUse:productId];
         }
         else {
             NSLog(@"ReceiptError:%@", error);
         }
     }];
-    
-    //If Success.
-    //[self itemReadyToUse:productId];
 }
 
 
