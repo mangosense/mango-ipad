@@ -16,6 +16,7 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "MBProgressHUD.h"
 #import "BooksFromCategoryViewController.h"
+#import "MangoStoreCollectionViewController.h"
 
 #define SEGMENT_WIDTH 600
 #define SEGMENT_HEIGHT 60
@@ -264,15 +265,13 @@
 
 #pragma mark - Items Delegate
 
-- (void)itemType:(int)itemType tappedAtIndex:(int)index {
+- (void)itemType:(int)itemType tappedAtIndex:(int)index withDetail:(NSString *)categoryID {
+    
     [filterPopoverController dismissPopoverAnimated:YES];
-    switch (itemType) {
-        case TABLE_TYPE_TEXT_TEMPLATES:
-            break;
-
-        default:
-            break;
-    }
+    
+    MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
+    selectedCategoryViewController.categoryID = categoryID;
+    [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
 }
 
 #pragma mark - iCarousel Delegates

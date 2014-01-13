@@ -11,6 +11,7 @@
 
 @protocol LocalImagesProtocol
 
+@optional
 - (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl;
 
 @end

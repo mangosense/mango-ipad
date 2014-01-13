@@ -16,6 +16,8 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		298CE7011875ACCF007BE021 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 298CE6FC1875ACAC007BE021 /* libEJDBKit.a */; };
 		298CE7031875ACF5007BE021 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 298CE7021875ACF5007BE021 /* Parse.framework */; };
+		29B9FED91883DDDA00772921 /* MangoStoreCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B9FED81883DDDA00772921 /* MangoStoreCollectionViewController.m */; };
+		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
@@ -1054,6 +1056,9 @@
 		298CE6F51875ACAC007BE021 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../GitIgnoreFiles/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		298CE7021875ACF5007BE021 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../GitIgnoreFiles/Parse.framework; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B9FED71883DDDA00772921 /* MangoStoreCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoStoreCollectionViewController.h; sourceTree = "<group>"; };
+		29B9FED81883DDDA00772921 /* MangoStoreCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoStoreCollectionViewController.m; sourceTree = "<group>"; };
+		29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoStoreCollectionViewController.xib; sourceTree = "<group>"; };
 		29FC83351876C34400FB6F96 /* StoreBookCarouselCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreBookCarouselCell.h; sourceTree = "<group>"; };
 		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
@@ -3332,7 +3337,10 @@
 				83E9AE28184EFE270025BBD6 /* Store Books Collection View */,
 				83E9ADE0184DA2460025BBD6 /* MangoStoreViewController.h */,
 				83E9ADE1184DA2460025BBD6 /* MangoStoreViewController.m */,
+				29B9FED71883DDDA00772921 /* MangoStoreCollectionViewController.h */,
+				29B9FED81883DDDA00772921 /* MangoStoreCollectionViewController.m */,
 				83E9ADE2184DA2470025BBD6 /* MangoStoreViewController.xib */,
+				29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -4656,6 +4664,7 @@
 				AEB79386173BA50A00301057 /* sharebutton.png in Resources */,
 				834FCE26182D11F70000181B /* discard_button.png in Resources */,
 				83E2D199184364EC00F8CDB6 /* editor_273.png in Resources */,
+				29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */,
 				AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */,
 				8353B32E1851ABE1009B3BD8 /* brown.png in Resources */,
 				83E2D1FD184364EC00F8CDB6 /* editor_41.png in Resources */,
@@ -4973,6 +4982,7 @@
 				AE8D261A166DD48800156F43 /* DetailViewController.m in Sources */,
 				AE8D261E166DF61100156F43 /* BookDownloaderIphone.m in Sources */,
 				8380486A1850586C006BBA47 /* AFURLRequestSerialization.m in Sources */,
+				29B9FED91883DDDA00772921 /* MangoStoreCollectionViewController.m in Sources */,
 				AE195EF8181E68C5008E4208 /* StoreCell.m in Sources */,
 				AE189427166F4CBE009F8361 /* LiveViewControllerIphone.m in Sources */,
 				839CB4F31817B524001B5571 /* TimeRange.m in Sources */,

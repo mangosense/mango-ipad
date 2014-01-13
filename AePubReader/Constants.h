@@ -105,6 +105,7 @@
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"/livestories/search"
+#define STORY_FILTER_CATEGORY @"livestories/by/category/"
 
 #define API Parameter Keys
 

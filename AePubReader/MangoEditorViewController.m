@@ -700,7 +700,7 @@
 
 #pragma mark - Items List Delegate
 
-- (void)itemType:(int)itemType tappedAtIndex:(int)index {
+- (void)itemType:(int)itemType tappedAtIndex:(int)index withDetail:(NSString *)detail {
     switch (itemType) {
         case TABLE_TYPE_TEXT_TEMPLATES: {
             // Move to delegate method
