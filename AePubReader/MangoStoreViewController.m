@@ -38,6 +38,7 @@
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
+@property (nonatomic, strong) NSMutableDictionary *liveStoriesFiltered;
 @property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
 @property (nonatomic, strong) NSMutableArray *featuredStoriesArray;
 @property (nonatomic, assign) BOOL liveStoriesFetched;
@@ -177,6 +178,11 @@
         }
         [_liveStoriesArray addObjectsFromArray:dataArray];
         _liveStoriesFetched = YES;
+        
+        if (_liveStoriesArray) {
+            self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+            [self filterResponse];
+        }
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
@@ -211,7 +217,98 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
 }
 
-#pragma mark - Setup Methods
+#pragma mark - Filters
+
+- (void)filterResponse {
+
+    for (int i = 0; i < _liveStoriesArray.count; i++) {
+        NSDictionary *story = _liveStoriesArray[i];
+        NSDictionary *storyInfo = [story objectForKey:@"info"];
+        NSArray *ageGroups = [storyInfo objectForKey:@"age_groups"];
+        
+        for (int j = 0; j < ageGroups.count; j++) {
+            
+            NSString *ageGroup = ageGroups[j];
+            
+            if ([ageGroup isEqualToString:@"0-2"]) {
+                
+                if ([self.liveStoriesFiltered objectForKey:@"0-2"]) {
+                    
+                    NSMutableArray *array = [self.liveStoriesFiltered objectForKey:@"0-2"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"0-2"];
+                    
+                    continue;
+                }
+                else {
+                    
+                    NSMutableArray *array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"0-2"];
+                    
+                    continue;
+                }
+            }
+            
+            if ([ageGroup isEqualToString:@"3-5"]) {
+                
+                if ([self.liveStoriesFiltered objectForKey:@"3-5"]) {
+                    
+                    NSMutableArray *array = [self.liveStoriesFiltered objectForKey:@"3-5"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"3-5"];
+                    
+                    continue;
+                }
+                else {
+                    
+                    NSMutableArray *array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"3-5"];
+                    
+                    continue;
+                }
+            }
+            
+            if ([ageGroup isEqualToString:@"6-8"]) {
+                
+                if ([self.liveStoriesFiltered objectForKey:@"6-8"]) {
+                    
+                    NSMutableArray *array = [self.liveStoriesFiltered objectForKey:@"6-8"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"6-8"];
+                    
+                    continue;
+                }
+                else {
+                    
+                    NSMutableArray *array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"6-8"];
+                    
+                    continue;
+                }
+            }
+            
+            if ([ageGroup isEqualToString:@"9-12"]) {
+                
+                if ([self.liveStoriesFiltered objectForKey:@"9-12"]) {
+                    
+                    NSMutableArray *array = [self.liveStoriesFiltered objectForKey:@"9-12"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"9-12"];
+                    
+                    continue;
+                }
+                else {
+                    
+                    NSMutableArray *array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"9-12"];
+                    
+                    continue;
+                }
+            }
+           
+        }
+    }
+}
 
 #pragma mark - Get Purchased Books
 

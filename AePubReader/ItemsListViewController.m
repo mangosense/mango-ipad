@@ -172,10 +172,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *categoryID = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
-    NSString *categoryName = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
     
-    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:categoryName];
+    NSString *categoryID = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:categoryID];
 }
 
 #pragma mark - Setters

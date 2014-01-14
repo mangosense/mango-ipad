@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "StoreBookCell.h"
 
-@interface MangoStoreCollectionViewController : UIViewController <MangoPostApiProtocol>
+@interface MangoStoreCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LocalImagesProtocol, MangoPostApiProtocol>
 
 @property (nonatomic, copy) NSString *categoryID;
 
