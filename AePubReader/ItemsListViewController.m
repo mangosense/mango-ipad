@@ -89,7 +89,9 @@
         }
             break;
             
-        default:
+        default: {
+            cell.textLabel.text = [itemsListArray objectAtIndex:indexPath.row];
+        }
             break;
     }
     
@@ -165,16 +167,42 @@
         }
             break;
             
-        default:
+        default: {
+            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+        }
             break;
     }
     return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *detail;
     
-    NSString *categoryID = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
-    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:categoryID];
+    switch (self.tableType) {
+        case TABLE_TYPE_CATEGORIES: {
+            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            break;
+        }
+        case TABLE_TYPE_AGE_GROUPS: { // TODO:
+            NSString *ageGroup = [itemsListArray objectAtIndex:indexPath.row];
+            NSRange range = [ageGroup rangeOfString:@" Years"];
+            
+            if (range.location != NSNotFound) {
+                ageGroup = [ageGroup stringByReplacingCharactersInRange:range withString:@""];
+            }
+            
+            detail = ageGroup;
+            break;
+        }
+        case TABLE_TYPE_LANGUAGE: {  // TODO
+            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            break;
+        }
+        default:
+            break;
+    }
+    NSLog(@"TableType: %d", self.tableType);
+    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:detail];
 }
 
 #pragma mark - Setters

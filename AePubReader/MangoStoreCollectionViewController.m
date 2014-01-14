@@ -40,8 +40,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 //     [self.collectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
-    NSLog(@"%@", self.categoryID);
-    [self getCategoryBooks];
+    NSLog(@"%@", self.selectedItemDetail);
+    [self getFilteredStories];
 }
 
 
@@ -62,14 +62,34 @@
     [self.view addSubview:_booksCollectionView];
 }
 
-- (void)getCategoryBooks {
+- (void)getFilteredStories {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
-    NSString *url = [STORY_FILTER_CATEGORY stringByAppendingString:self.categoryID];
-//    NSString *url = [STORY_FILTER_CATEGORY stringByAppendingString:[self.categoryID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSString *url;
+    
+    switch (self.tableType) {
+        case TABLE_TYPE_CATEGORIES: {
+            url = [STORY_FILTER_CATEGORY stringByAppendingString:self.selectedItemDetail];
+            break;
+        }
+        case TABLE_TYPE_AGE_GROUPS: {
+            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemDetail];
+            break;
+        }
+        case TABLE_TYPE_LANGUAGE: {
+            url = [STORY_FILTER_LANGUAGES stringByAppendingFormat:@"%@/languages", self.selectedItemDetail];
+            break;
+        }
+        case TABLE_TYPE_GRADE: {
+            break;
+        }
+        default:
+            break;
+    }
     [apiController getListOf:url ForParameters:nil];
 }
 

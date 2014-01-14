@@ -68,7 +68,7 @@
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Get List Response: %@", responseObject);
+//        NSLog(@"Get List Response: %@", responseObject);
         if ([_delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
             [_delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
         }

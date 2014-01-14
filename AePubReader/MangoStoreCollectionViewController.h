@@ -11,7 +11,8 @@
 
 @interface MangoStoreCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LocalImagesProtocol, MangoPostApiProtocol>
 
-@property (nonatomic, copy) NSString *categoryID;
+@property (nonatomic, assign) int tableType;
+@property (nonatomic, copy) NSString *selectedItemDetail;
 
 - (IBAction)bacKButtonTapped:(id)sender;
 

@@ -106,6 +106,9 @@
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"/livestories/search"
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
+#define STORY_FILTER_AGE_GROUP @"/livestories/by/agegroup/"
+#define STORY_FILTER_LANGUAGES @"/livestories/"   // /livestoriers/:id/languages
+
 
 #define API Parameter Keys
 
@@ -118,6 +121,8 @@
 #define TABLE_TYPE_TEXT_TEMPLATES 2
 #define TABLE_TYPE_CATEGORIES 3
 #define TABLE_TYPE_AGE_GROUPS 4 
+#define TABLE_TYPE_LANGUAGE 5
+#define TABLE_TYPE_GRADE 6
 
 #pragma mark - Colors
 
