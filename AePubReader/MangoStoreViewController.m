@@ -96,16 +96,16 @@
     [self.view endEditing:YES];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+//    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"] withDelegate:self];
     
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 /*    MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+//    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"] withDelegate:self];
  */
 }
 
@@ -185,13 +185,20 @@
             self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
             [self filterResponse];
         }
+        
+        if ([type isEqualToString:LIVE_STORIES_SEARCH]) {
+            MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
+            selectedCategoryViewController.liveStoriesQueried = self.liveStoriesFiltered;
+            [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
+        }
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
         if (!_featuredStoriesArray) {
             MangoApiController *apiController = [MangoApiController sharedApiController];
-            apiController.delegate = self;
-            [apiController getListOf:FEATURED_STORIES ForParameters:nil];
+//            apiController.delegate = self;
+            [apiController getListOf:FEATURED_STORIES ForParameters:nil withDelegate:self];
+            NSLog(@"I am here");
         }
     } else if ([type isEqualToString:FEATURED_STORIES]) {
         if (!_featuredStoriesArray) {
@@ -201,6 +208,7 @@
         _featuredStoriesFetched = YES;
     }
     if (_liveStoriesFetched && _featuredStoriesFetched) {
+        NSLog(@"I am here: %d / %d", _liveStoriesFetched, _featuredStoriesFetched);
         [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     }
@@ -223,8 +231,8 @@
 
 - (void)filterResponse {
 //    NSLog(@"Count : %d", _liveStoriesArray.count);
-    for (int i = 0; i < self.purchasedBooks.count; i++) {
-        NSDictionary *story = self.purchasedBooks[i];
+    for (int i = 0; i < self.liveStoriesArray.count; i++) {
+        NSDictionary *story = self.liveStoriesArray[i];
         NSDictionary *storyInfo = [story objectForKey:@"info"];
         NSArray *ageGroups = [storyInfo objectForKey:@"age_groups"];
         
@@ -315,8 +323,7 @@
             break;
     }
     
-//    NSLog(@"%@", stories);
-    
+//  NSLog(@"%@", stories);
     return stories;
 }
 
@@ -326,21 +333,21 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
+//    apiController.delegate = self;
     
     NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
     [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
     [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
     
-    [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict];
+    [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
 }
 
 - (void)getLiveStories {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController getListOf:LIVE_STORIES ForParameters:nil];
+//    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES ForParameters:nil withDelegate:self];
 }
 
 - (void)setupInitialUI {
@@ -401,7 +408,6 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    
 }
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {

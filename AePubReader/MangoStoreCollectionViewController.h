@@ -13,6 +13,7 @@
 
 @property (nonatomic, assign) int tableType;
 @property (nonatomic, copy) NSString *selectedItemDetail;
+@property (nonatomic, copy) NSDictionary *liveStoriesQueried;
 
 - (IBAction)bacKButtonTapped:(id)sender;
 

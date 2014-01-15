@@ -123,6 +123,7 @@
 #define TABLE_TYPE_AGE_GROUPS 4 
 #define TABLE_TYPE_LANGUAGE 5
 #define TABLE_TYPE_GRADE 6
+#define TABLE_TYPE_SEARCH 7
 
 #pragma mark - Colors
 

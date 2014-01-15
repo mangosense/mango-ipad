@@ -65,17 +65,17 @@
     }];
 }
 
-- (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary {
+- (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"Get List Response: %@", responseObject);
-        if ([_delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
-            [_delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
+        NSLog(@"Get List Response: %@", responseObject);
+        if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
+            [delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
-        if ([_delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
-            [_delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
+        if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
+            [delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
         }
     }];
 }

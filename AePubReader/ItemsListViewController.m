@@ -229,8 +229,8 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController getListOf:CATEGORIES ForParameters:nil];
+//    apiController.delegate = self;
+    [apiController getListOf:CATEGORIES ForParameters:nil withDelegate:self];
 }
 
 @end

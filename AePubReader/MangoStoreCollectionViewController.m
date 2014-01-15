@@ -17,10 +17,11 @@
 
 @interface MangoStoreCollectionViewController () {
 
-    NSMutableDictionary *bookDict;
+   
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
+@property (nonatomic, strong) NSArray *liveStoriesArray;
 
 @end
 
@@ -41,9 +42,21 @@
 	// Do any additional setup after loading the view.
 //     [self.collectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
     NSLog(@"%@", self.selectedItemDetail);
+    
+//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+//    title.backgroundColor = [UIColor yellowColor];
+//    title.text = self.selectedItemDetail;
+//    [title sizeToFit];
+//    UIImage *image = [[UIImage imageNamed:@"brown_bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10) resizingMode:UIImageResizingModeTile];
+//    
+//    UIImageView *labelBackground = [[UIImageView alloc] initWithImage:image];
+//    labelBackground.frame = CGRectMake(0, 0, CGRectGetWidth(title.frame), 60);
+//    labelBackground.center = CGPointMake(512, 20 + CGRectGetHeight(labelBackground.frame)/2 );
+//    [labelBackground addSubview:title];
+//    [self.view addSubview:labelBackground];
+    
     [self getFilteredStories];
 }
-
 
 
 - (void)setUpInitialUI {
@@ -67,37 +80,39 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
+//    apiController.delegate = self;
     
     NSString *url;
     
     switch (self.tableType) {
         case TABLE_TYPE_CATEGORIES: {
             url = [STORY_FILTER_CATEGORY stringByAppendingString:self.selectedItemDetail];
-            break;
         }
+            break;
+            
         case TABLE_TYPE_AGE_GROUPS: {
             url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemDetail];
-            break;
         }
+            break;
+            
         case TABLE_TYPE_LANGUAGE: {
             url = [STORY_FILTER_LANGUAGES stringByAppendingFormat:@"%@/languages", self.selectedItemDetail];
-            break;
         }
+            break;
+            
         case TABLE_TYPE_GRADE: {
-            break;
         }
+            break;
+            
+        case TABLE_TYPE_SEARCH: {
+            self.liveStoriesArray = self.liveStoriesQueried;
+        }
+            break;
+            
         default:
             break;
     }
-    [apiController getListOf:url ForParameters:nil];
-}
-
-- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    NSLog(@"Data Array: %@", dataArray);
-    [self setUpInitialUI];
+    [apiController getListOf:url ForParameters:nil withDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,7 +148,11 @@
     cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
     cell.delegate = self;
     
-//    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+    NSDictionary *bookDict;
+    
+    bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+    
+//    bookDict = [self getStoriesForAgeGroup:indexPath.section][indexPath.row];
     
     cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
     
@@ -177,5 +196,18 @@
     
     return CGSizeMake(150, 270);
 }
+
+#pragma mark - Post API Delegate
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    NSLog(@"Collection View Type: %@ /n Data Array: %@", type, dataArray);
+    
+    _liveStoriesArray = dataArray;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self setUpInitialUI];
+    [self.booksCollectionView reloadData];
+}
+
 
 @end
