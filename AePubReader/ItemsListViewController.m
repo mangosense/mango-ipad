@@ -184,25 +184,18 @@
             break;
         }
         case TABLE_TYPE_AGE_GROUPS: { // TODO:
-            NSString *ageGroup = [itemsListArray objectAtIndex:indexPath.row];
-            NSRange range = [ageGroup rangeOfString:@" Years"];
-            
-            if (range.location != NSNotFound) {
-                ageGroup = [ageGroup stringByReplacingCharactersInRange:range withString:@""];
-            }
-            
-            detail = ageGroup;
+            detail = [itemsListArray objectAtIndex:indexPath.row];            
             break;
         }
         case TABLE_TYPE_LANGUAGE: {  // TODO
-            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            detail = [itemsListArray objectAtIndex:indexPath.row];
             break;
         }
         default:
             break;
     }
     NSLog(@"TableType: %d", self.tableType);
-    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:detail];
+    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:detail];    
 }
 
 #pragma mark - Setters

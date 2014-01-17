@@ -38,7 +38,6 @@
     NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
     NSString * userId = [userdefaults objectForKey:USER_ID];
     NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
-    
     NSString * strMethod;
     NSDictionary *paramDict;
     
@@ -52,12 +51,9 @@
     }
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    
     [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
         if (responseObject != nil) { block(responseObject, 1, nil);}//Successful
         else { block(nil, 0, @"Response is nil.");}//Errored
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Request:: %@", operation.request);
         NSLog(@"ResponseString:: %@", operation.responseString);
@@ -80,13 +76,13 @@
     }];
 }
 
-- (void)getImageAtUrl:(NSString *)urlString {
-    AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+- (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate {
+    AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByAppendingString:urlString]]]];
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Image Response: %@", responseObject);
-        if ([_delegate respondsToSelector:@selector(reloadImage:forUrl:)]) {
-            [_delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
+        if ([delegate respondsToSelector:@selector(reloadImage:forUrl:)]) {
+            [delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Image error: %@", error);

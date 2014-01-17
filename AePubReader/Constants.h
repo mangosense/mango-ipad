@@ -104,10 +104,10 @@
 #define DOWNLOAD_STORY @"/livestories/%@/zipped?email=%@&auth_token=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
-#define LIVE_STORIES_SEARCH @"/livestories/search"
+#define LIVE_STORIES_SEARCH @"livestories/search"
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
-#define STORY_FILTER_AGE_GROUP @"/livestories/by/agegroup/"
-#define STORY_FILTER_LANGUAGES @"/livestories/"   // /livestoriers/:id/languages
+#define STORY_FILTER_AGE_GROUP @"livestories/by/agegroup/"
+#define STORY_FILTER_LANGUAGES @"livestories/"   // /livestoriers/:id/languages
 
 
 #define API Parameter Keys

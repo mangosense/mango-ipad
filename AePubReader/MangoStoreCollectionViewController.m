@@ -17,7 +17,7 @@
 
 @interface MangoStoreCollectionViewController () {
 
-   
+    NSArray *collectionHeaderViewTitleArray;
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
@@ -63,7 +63,7 @@
 
     CGRect viewFrame = self.view.bounds;
     
-    StoreCollectionFlowLayout *layout = [[StoreCollectionFlowLayout alloc] init];
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
@@ -73,6 +73,8 @@
     [_booksCollectionView registerClass:[StoreCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID];
     [_booksCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_booksCollectionView];
+    
+    collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"3-5 Years", @"6-8 Years", @"11-13 Years", @"13+ Years", nil];
 }
 
 - (void)getFilteredStories {
@@ -91,7 +93,13 @@
             break;
             
         case TABLE_TYPE_AGE_GROUPS: {
-            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemDetail];
+            NSString *ageGroup = self.selectedItemDetail;
+            NSRange range = [ageGroup rangeOfString:@" Years"];
+            
+            if (range.location != NSNotFound) {
+                ageGroup = [ageGroup stringByReplacingCharactersInRange:range withString:@""];
+            }
+            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:ageGroup];
         }
             break;
             
@@ -131,25 +139,31 @@
 #pragma mark - CollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    return 5;
+    if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
+        return self.liveStoriesArray.count;
+    } else {
+        return MIN(6, [self getStoriesForAgeGroup:section].count);
+    }
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    
-    return 6+1;
+    if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
+        return 1;
+    } else {
+        return 5;
+    }
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {    
     StoreBookCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
     
-    cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
+//    cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
     cell.delegate = self;
     
     NSDictionary *bookDict;
     
+    if(_liveStoriesArray.count > indexPath.row) {
     bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
     
 //    bookDict = [self getStoriesForAgeGroup:indexPath.section][indexPath.row];
@@ -166,16 +180,20 @@
 //    } else {
         [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
 //    }
+    }
     
     return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
     StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
     headerView.titleLabel.textColor = COLOR_DARK_RED;
     headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    headerView.titleLabel.text = [NSString stringWithFormat:@"For Age %d-%d Years", 2*(indexPath.section), 2*(indexPath.section) + 2];
+    if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
+        headerView.titleLabel.text = self.selectedItemDetail;
+    } else {
+        headerView.titleLabel.text = collectionHeaderViewTitleArray[indexPath.section];
+    }
     
     return headerView;    
 }
@@ -183,30 +201,53 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    
     return UIEdgeInsetsMake(20, 20, 20, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    
     return CGSizeMake(collectionView.frame.size.width, 20);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     return CGSizeMake(150, 270);
 }
 
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    
     NSLog(@"Collection View Type: %@ /n Data Array: %@", type, dataArray);
     
     _liveStoriesArray = dataArray;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self setUpInitialUI];
     [self.booksCollectionView reloadData];
+}
+
+# pragma mark - Private Methods
+
+- (NSArray *)getStoriesForAgeGroup:(NSInteger)section {
+    NSArray *stories = nil;
+    
+//    if (!self.liveStoriesArray) {
+//        return stories;
+//    }
+//    
+//    switch (section) {
+//        case 1: stories = [self.liveStoriesFiltered objectForKey:@"0-2"];
+//            break;
+//        case 2: stories = [self.liveStoriesFiltered objectForKey:@"3-5"];
+//            break;
+//        case 3: stories = [self.liveStoriesFiltered objectForKey:@"6-8"];
+//            break;
+//        case 4: stories = [self.liveStoriesFiltered objectForKey:@"11-13"];
+//            break;
+//        case 5: stories = [self.liveStoriesFiltered objectForKey:@"13+"];
+//            break;
+//        default:
+//            break;
+//    }
+    
+    return stories;
 }
 
 
