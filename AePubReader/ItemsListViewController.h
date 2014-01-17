@@ -12,7 +12,7 @@
 
 @protocol ItemsDelegate
 
-- (void)itemType:(int)itemType tappedAtIndex:(int)index;
+- (void)itemType:(int)itemType tappedAtIndex:(int)index withDetail:(NSString *)detail;
 
 @end
 

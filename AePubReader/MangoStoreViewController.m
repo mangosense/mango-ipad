@@ -16,6 +16,7 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "MBProgressHUD.h"
 #import "BooksFromCategoryViewController.h"
+#import "MangoStoreCollectionViewController.h"
 
 #define SEGMENT_WIDTH 600
 #define SEGMENT_HEIGHT 60
@@ -37,6 +38,7 @@
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
+@property (nonatomic, strong) NSMutableDictionary *liveStoriesFiltered;
 @property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
 @property (nonatomic, strong) NSMutableArray *featuredStoriesArray;
 @property (nonatomic, assign) BOOL liveStoriesFetched;
@@ -84,10 +86,27 @@
 
 #pragma mark - UITextField Delegate
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSLog(@"STring:: %@", string);
+    return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSLog(@"Need to call api for Search text..");
+    [self.view endEditing:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+    
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+/*    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"]];
+ */
 }
 
 #pragma mark - Action Methods
@@ -109,18 +128,18 @@
             break;
             
         case AGE_TAG: {
-            textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
+            textTemplatesListViewController.tableType = TABLE_TYPE_AGE_GROUPS;
             textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"2-4 Years", @"4-6 Years", @"6-8 Years", @"8-10 Years", @"10-12 Years", nil];
         }
             break;
             
         case LANGUAGE_TAG: {
-            textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
+            textTemplatesListViewController.tableType = TABLE_TYPE_LANGUAGE;
             textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"English", @"Spanish", @"French", @"German", @"Tamil", @"Hindi", nil];
         }
             break;
             
-        case GRADE_TAG: {
+        case GRADE_TAG: {           // FIXME: Change Table Type
             textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
             textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Pre K", @"Kindergarten", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", nil];
         }
@@ -140,15 +159,20 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    NSLog(@"type : %@ Count; %d Data Aray : %@ ", type, dataArray.count, dataArray);
 
     if ([type isEqualToString:PURCHASED_STORIES]) {
-        
+        //Will come empty array...
         self.purchasedBooks = [NSMutableArray arrayWithArray:dataArray];
         [self getLiveStories];
         return;
     }
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    if (dataArray.count == 0 && ![type isEqualToString:PURCHASED_STORIES]) {
+        return;
+    }
     
     if ([type isEqualToString:LIVE_STORIES] || [type isEqualToString:LIVE_STORIES_SEARCH]) {
         if (!_liveStoriesArray) {
@@ -156,6 +180,11 @@
         }
         [_liveStoriesArray addObjectsFromArray:dataArray];
         _liveStoriesFetched = YES;
+        
+        if (_liveStoriesArray) {
+            self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+            [self filterResponse];
+        }
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
@@ -190,7 +219,106 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
 }
 
-#pragma mark - Setup Methods
+#pragma mark - Filters
+
+- (void)filterResponse {
+//    NSLog(@"Count : %d", _liveStoriesArray.count);
+    for (int i = 0; i < self.purchasedBooks.count; i++) {
+        NSDictionary *story = self.purchasedBooks[i];
+        NSDictionary *storyInfo = [story objectForKey:@"info"];
+        NSArray *ageGroups = [storyInfo objectForKey:@"age_groups"];
+        
+//         NSLog(@"%@", ageGroups);
+        
+        for (int j = 0; j < ageGroups.count; j++) {
+           
+            NSMutableArray *array;
+            NSString *ageGroup = ageGroups[j];
+            
+            if ([ageGroup isEqualToString:@"0-2"]) {
+                if ([self.liveStoriesFiltered objectForKey:@"0-2"]) {
+                    array = [self.liveStoriesFiltered objectForKey:@"0-2"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"0-2"];
+                    continue;
+                    NSLog(@"0-2");
+                }
+                else {
+                    array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"0-2"];
+                    continue;
+                }
+            }
+            
+            if ([ageGroup isEqualToString:@"3-5"]) {
+                if ([self.liveStoriesFiltered objectForKey:@"3-5"]) {
+                    array = [self.liveStoriesFiltered objectForKey:@"3-5"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"3-5"];
+                    continue;
+                    NSLog(@"3-5");
+                }
+                else {
+                    array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"3-5"];
+                    continue;
+                }
+            }
+            
+            if ([ageGroup isEqualToString:@"6-8"]) {
+                if ([self.liveStoriesFiltered objectForKey:@"6-8"]) {
+                    array = [self.liveStoriesFiltered objectForKey:@"6-8"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"6-8"];
+                    continue;
+                    NSLog(@"6-8");
+                }
+                else {
+                    array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"6-8"];
+                    continue;
+                }
+            }
+            
+            if ([ageGroup isEqualToString:@"9-12"]) {
+                if ([self.liveStoriesFiltered objectForKey:@"9-12"]) {
+                    array = [self.liveStoriesFiltered objectForKey:@"9-12"];
+                    [array addObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"9-12"];
+                    continue;
+                    NSLog(@"9-12");
+                }
+                else {
+                    array = [NSMutableArray arrayWithObject:story];
+                    [self.liveStoriesFiltered setObject:array forKey:@"9-12"];
+                    continue;
+                }
+            }
+        }
+    }
+    [_booksCollectionView reloadData];
+}
+
+- (NSArray *)getStoriesForAgeGroup:(NSInteger)section {
+    NSArray *stories;
+    
+    switch (section) {
+        case 1: stories = [self.liveStoriesFiltered objectForKey:@"0-2"];
+            break;
+        case 2: stories = [self.liveStoriesFiltered objectForKey:@"3-5"];
+            break;
+        case 3: stories = [self.liveStoriesFiltered objectForKey:@"6-8"];
+            break;
+        case 4: stories = [self.liveStoriesFiltered objectForKey:@"9-12"];
+            break;
+        default:
+            break;
+    }
+    
+//    NSLog(@"%@", stories);
+    
+    return stories;
+}
 
 #pragma mark - Get Purchased Books
 
@@ -244,15 +372,14 @@
 
 #pragma mark - Items Delegate
 
-- (void)itemType:(int)itemType tappedAtIndex:(int)index {
+- (void)itemType:(int)itemType tappedAtIndex:(int)index withDetail:(NSString *)detail {
+    
     [filterPopoverController dismissPopoverAnimated:YES];
-    switch (itemType) {
-        case TABLE_TYPE_TEXT_TEMPLATES:
-            break;
-
-        default:
-            break;
-    }
+    
+    MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
+    selectedCategoryViewController.tableType = itemType;
+    selectedCategoryViewController.selectedItemDetail = detail;
+    [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
 }
 
 #pragma mark - iCarousel Delegates
@@ -262,6 +389,9 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
+    
+    NSLog(@"Image:%@", [[self.featuredStoriesArray objectAtIndex:index] objectForKey:@"cover"]);
+    //TODO: Need to set images to carousel
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 250)];
     [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
@@ -318,16 +448,16 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    
     if(section == 0) {
         return 1;
     } else {
-        return MIN(6, [_liveStoriesArray count]);
+        NSLog(@"%d : %d", section, [self getStoriesForAgeGroup:section].count);
+        return [self getStoriesForAgeGroup:section].count;
     }
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return 6+1;
+    return 1+5;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -349,10 +479,18 @@
         StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
         
         cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
-        cell.bookPriceLabel.text = @"Rs. 99";
         cell.delegate = self;
         
-        NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        NSDictionary *bookDict;
+        
+        if(self.liveStoriesFiltered)
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+            bookDict= [self getStoriesForAgeGroup:indexPath.section][indexPath.row];
+//        else
+//            bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        
+        cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
         
         cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
@@ -367,7 +505,6 @@
         
         return cell;
     }
-    
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
@@ -387,25 +524,12 @@
 
 #pragma mark - UICollectionView Delegate
 
-- (BOOL) isProductPurchased :(NSString *) productId {
-
-    BOOL isBookPurchased = NO;
-    for (NSDictionary *dataDict in self.purchasedBooks) {
-        NSString *bookId = [dataDict objectForKey:@"id"];
-        if ([bookId isEqualToString:productId]) {
-            isBookPurchased = YES;
-            break;
-        }
-    }
-    return isBookPurchased;
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
-    
-    NSString * productId = [bookDict objectForKey:@"id"];
+    //TODO: Need to change key name.
+    NSString *productId = [bookDict objectForKey:@"id"];
     if (productId != nil && productId.length > 0) {
 
 //        //Check product is already purchased or not?
@@ -449,6 +573,19 @@
 }
 
 #pragma mark - In App purchasing..
+
+- (BOOL) isProductPurchased :(NSString *) productId {
+    
+    BOOL isBookPurchased = NO;
+    for (NSDictionary *dataDict in self.purchasedBooks) {
+        NSString *bookId = [dataDict objectForKey:@"id"];
+        if ([bookId isEqualToString:productId]) {
+            isBookPurchased = YES;
+            break;
+        }
+    }
+    return isBookPurchased;
+}
 
 - (void) itemReadyToUse:(NSString *) productId {
     
@@ -558,20 +695,19 @@
 - (void)validateReceipt:(NSString *) productId amount:(NSString *)amount storeIdentifier:(NSData *) receiptData {
     
     NSString * jsonObjectString = [self encode:(uint8_t *)receiptData.bytes length:receiptData.length];
-
+    
     
     [[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
        
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
+            //If Succeed.
+            //[self itemReadyToUse:productId];
         }
         else {
             NSLog(@"ReceiptError:%@", error);
         }
     }];
-    
-    //If Success.
-    //[self itemReadyToUse:productId];
 }
 
 
