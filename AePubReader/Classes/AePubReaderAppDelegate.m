@@ -29,7 +29,7 @@ static UIAlertView *alertViewLoading;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    //EJDB
+     //EJDB
     _ejdbController = [[EJDBController alloc] initWithCollectionName:@"MangoCollection" andDatabaseName:@"MangoDb.db"];
     
     _prek=NO;

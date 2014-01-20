@@ -50,6 +50,8 @@
 @property (strong,nonatomic) SKPaymentTransaction *transaction;
 @property (strong,nonatomic) LoginNewViewController *loginController;
 
+
+- (BOOL) writeToFile :(NSMutableArray *) array;
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;

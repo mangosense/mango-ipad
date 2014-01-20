@@ -44,6 +44,7 @@
 @property (nonatomic, strong) NSMutableDictionary *liveStoriesFiltered;
 @property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
 @property (nonatomic, strong) NSMutableArray *featuredStoriesArray;
+@property (nonatomic, strong) NSArray *ageGroupsFoundInResponse;
 @property (nonatomic, assign) BOOL liveStoriesFetched;
 @property (nonatomic, assign) BOOL featuredStoriesFetched;
 
@@ -165,8 +166,8 @@
     if ([type isEqualToString:PURCHASED_STORIES]) {
         //Will come empty array...
         self.purchasedBooks = [NSMutableArray arrayWithArray:dataArray];
-        
         [self getLiveStories];
+        
         if (!_featuredStoriesArray) {
             MangoApiController *apiController = [MangoApiController sharedApiController];
             //            apiController.delegate = self;
@@ -185,6 +186,7 @@
             _liveStoriesArray = [[NSMutableArray alloc] init];
         }
         [_liveStoriesArray addObjectsFromArray:dataArray];
+
         _liveStoriesFetched = YES;
         
         if (_liveStoriesArray) {
@@ -306,6 +308,21 @@
         }
     }
     
+    // Building Age Group Array based on response.
+    NSArray *ageGroupsFound = self.liveStoriesFiltered.allKeys;
+    NSMutableArray *tempArray = [NSMutableArray array];
+    
+    for (int j=0; j<collectionHeaderViewTitleArray.count; j++) {
+        NSString *titleString = collectionHeaderViewTitleArray[j];
+        for (NSString *ageGroup in ageGroupsFound) {
+            if ([titleString isEqualToString:ageGroup]) {
+                [tempArray addObject:titleString];
+                break;
+            }
+        }
+    }
+    
+    self.ageGroupsFoundInResponse = tempArray;
     [_booksCollectionView reloadData];
 }
 
@@ -316,20 +333,8 @@
         return stories;
     }
     
-    switch (section) {
-        case 1: stories = [self.liveStoriesFiltered objectForKey:@"0-2"];
-            break;
-        case 2: stories = [self.liveStoriesFiltered objectForKey:@"3-5"];
-            break;
-        case 3: stories = [self.liveStoriesFiltered objectForKey:@"6-8"];
-            break;
-        case 4: stories = [self.liveStoriesFiltered objectForKey:@"11-13"];
-            break;
-        case 5: stories = [self.liveStoriesFiltered objectForKey:@"13+"];
-            break;
-        default:
-            break;
-    }
+    NSString *ageGroupForSection = self.ageGroupsFoundInResponse[section-1];
+    stories = [self.liveStoriesFiltered objectForKey:ageGroupForSection];
     
     return stories;
 }
@@ -346,6 +351,7 @@
     [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
     [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
     
+    // FIXME: Uncomment it after testing...
     [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
 }
 
@@ -357,7 +363,7 @@
     [apiController getListOf:LIVE_STORIES ForParameters:nil withDelegate:self];
 }
 
-- (void)setupInitialUI {    
+- (void)setupInitialUI {
     NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
     NSString * email = [userdefaults objectForKey:EMAIL];
     NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
@@ -381,7 +387,12 @@
     [_booksCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_booksCollectionView];
     
-    collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"3-5 Years", @"6-8 Years", @"11-13 Years", @"13+ Years", nil];
+    collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2", @"3-5", @"6-8", @"11-13", @"13+", nil];
+    
+//#ifdef DEBUG
+//    [self getStaticData];
+//#else
+//#endif
 }
 
 #pragma mark - Items Delegate
@@ -405,7 +416,7 @@
     NSLog(@"Image:%@", [[self.featuredStoriesArray objectAtIndex:index] objectForKey:@"cover"]);
     //TODO: Need to set images to carousel
     UIImageView *storyImageView = [[UIImageView alloc] init];
-    [storyImageView setFrame:CGRectMake(0, 0, 400, 250)];
+    [storyImageView setFrame:CGRectMake(0, 0, 400, 240)];
     [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
@@ -460,7 +471,7 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return 1+5;
+    return self.ageGroupsFoundInResponse.count + 1;          // +1 for iCarousel at Section - 0.
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -468,7 +479,7 @@
         StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
         
         if (!_storiesCarousel) {
-            _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 220)];
+            _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
             _storiesCarousel.delegate = self;
             _storiesCarousel.dataSource = self;
             _storiesCarousel.type = iCarouselTypeCoverFlow;
@@ -488,11 +499,12 @@
         if(self.liveStoriesFiltered) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             bookDict= [self getStoriesForAgeGroup:indexPath.section][indexPath.row];
+            NSLog(@"Section:%d Row:%d /n Book Dictionary:%@", indexPath.section, indexPath.row, bookDict);
         }
         //        else
         //            bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
         
-        cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
+        cell.bookPriceLabel.text = @"Rs. 1299";//[bookDict objectForKey:@"price"];//
         
         cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
@@ -514,7 +526,7 @@
         StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
         headerView.titleLabel.textColor = COLOR_DARK_RED;
         headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        headerView.titleLabel.text = collectionHeaderViewTitleArray[indexPath.section-1];
+        headerView.titleLabel.text = [self.ageGroupsFoundInResponse[indexPath.section-1] stringByAppendingString:@" Years"];
         
         return headerView;
     } else {
@@ -556,11 +568,19 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(30, 20, 0, 0);
+    if(section == 0) {
+        return UIEdgeInsetsMake(10, 0, 10, 0);
+    } else {
+        return UIEdgeInsetsMake(20, 20, 0, 0);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(collectionView.frame.size.width, 20);
+    if(section == 0) {
+        return CGSizeMake(collectionView.frame.size.width, 0);
+    } else {
+        return CGSizeMake(collectionView.frame.size.width, 20);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -568,7 +588,7 @@
         return CGSizeMake(984, 240);
     }
     
-    return CGSizeMake(150, 270);
+    return CGSizeMake(150, 240);
 }
 
 #pragma mark - In App purchasing..
@@ -700,6 +720,22 @@
             NSLog(@"ReceiptError:%@", error);
         }
     }];
+}
+
+# pragma mark - Retrieving/Saving data from/to disk 
+
+- (void)getStaticData {
+    
+    NSJSONSerialization * JSONPurchased = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/Users/avinashnehra/Desktop/purchased.txt"] options:NSJSONReadingMutableLeaves error:nil];
+    self.purchasedBooks = [NSMutableArray arrayWithArray:(NSArray*)JSONPurchased];
+    
+    NSJSONSerialization * JSON = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/Users/avinashnehra/Desktop/LiveStories.txt"] options:NSJSONReadingMutableLeaves error:nil];
+    self.liveStoriesArray = [[NSMutableArray alloc] initWithArray:(NSArray*)JSON];
+    
+    if (_liveStoriesArray) {
+        self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+        [self filterResponse];
+    }
 }
 
 @end

@@ -93,7 +93,7 @@
                     <color key="backgroundColor" red="0.30196078431372547" green="0.054901960784313725" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view alpha="0.30000001192092896" contentMode="scaleToFill" id="cG3-0P-aCS">
-                    <rect key="frame" x="0.0" y="77" width="1024" height="2"/>
+                    <rect key="frame" x="0.0" y="78" width="1024" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.30196078430000001" green="0.054901960780000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>

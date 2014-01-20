@@ -77,8 +77,7 @@
     collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"3-5 Years", @"6-8 Years", @"11-13 Years", @"13+ Years", nil];
 }
 
-- (void)getFilteredStories {
-    
+- (void)getFilteredStories {    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
@@ -189,8 +188,10 @@
     StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
     headerView.titleLabel.textColor = COLOR_DARK_RED;
     headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    
     if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
         headerView.titleLabel.text = self.selectedItemDetail;
+        headerView.seeAllButton.hidden = YES;
     } else {
         headerView.titleLabel.text = collectionHeaderViewTitleArray[indexPath.section];
     }
@@ -201,7 +202,7 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(20, 20, 20, 0);
+    return UIEdgeInsetsMake(20, 20, 0, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
