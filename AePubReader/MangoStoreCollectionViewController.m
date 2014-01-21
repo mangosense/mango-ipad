@@ -54,8 +54,9 @@
     self.kTitle.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     
     self.kTitle.text = self.selectedItemTitle;
-    [self.kTitle sizeToFit];
-    [self.kTitle setFrame:CGRectMake(self.kTitle.frame.origin.x, self.kTitle.frame.origin.y, self.kTitle.frame.size.width + 16, self.kTitle.frame.size.height)];
+    [self.kTitle sizeToFit];    
+    
+    [self.kTitle setFrame:CGRectMake(self.kTitle.frame.origin.x, self.kTitle.frame.origin.y, self.kTitle.frame.size.width + 32, self.kTitle.frame.size.height)];
     
     CGRect frame = self.kTitle.frame;
     frame.origin.x = (CGRectGetWidth(self.view.frame) - CGRectGetWidth(frame))/2;
@@ -126,8 +127,11 @@
         }
             break;
             
-        default:
-            break;
+        default: self.liveStoriesArray = [[NSMutableArray alloc] init];
+            [self.liveStoriesArray addObjectsFromArray:self.liveStoriesQueried];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.booksCollectionView reloadData];
+            return;
     }
     
     [apiController getListOf:url ForParameters:param withDelegate:self];

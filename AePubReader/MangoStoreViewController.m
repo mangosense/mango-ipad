@@ -77,6 +77,9 @@
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
     
+    // FIXME: ------- Remove after testing.
+//    [self getStaticData];
+    
     //Register observer
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
@@ -180,7 +183,7 @@
         return;
     }
     
-    if ([type isEqualToString:LIVE_STORIES] || [type isEqualToString:LIVE_STORIES_SEARCH]) {
+    if ([type isEqualToString:LIVE_STORIES]) {
         if (!_liveStoriesArray) {
             _liveStoriesArray = [[NSMutableArray alloc] init];
         }
@@ -191,12 +194,6 @@
         if (_liveStoriesFetched) {
             self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
             [self filterResponse];
-        }
-        
-        if ([type isEqualToString:LIVE_STORIES_SEARCH]) {
-            MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
-            selectedCategoryViewController.liveStoriesQueried = self.liveStoriesFiltered;
-            [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
         }
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -411,9 +408,11 @@
     [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
 }
 
-- (void)seeAllTapped {
-
-        
+- (void)seeAllTapped:(NSInteger)section {
+    MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
+    selectedCategoryViewController.selectedItemTitle = [self.ageGroupsFoundInResponse[section-1] stringByAppendingString:@" Years"];
+    selectedCategoryViewController.liveStoriesQueried = [self getStoriesForAgeGroup:section];
+    [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
 }
 
 #pragma mark - iCarousel Delegates
@@ -591,7 +590,7 @@
     if(section == 0) {
         return CGSizeMake(collectionView.frame.size.width, 0);
     } else {
-        return CGSizeMake(collectionView.frame.size.width, 20);
+        return CGSizeMake(collectionView.frame.size.width, 40);
     }
 }
 

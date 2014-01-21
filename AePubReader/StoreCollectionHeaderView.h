@@ -10,7 +10,7 @@
 
 @protocol collectionSeeAllDelegate
 
-- (void)seeAllTapped;
+- (void)seeAllTapped:(NSInteger)section;
 
 @end
 
