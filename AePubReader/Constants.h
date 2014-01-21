@@ -139,6 +139,8 @@
 #define COLOR_LIGHT_GREY [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1.0f]
 //Dark Red: #4d0e00 (R:77 G:14 B:0)
 #define COLOR_DARK_RED [UIColor colorWithRed:77.0/255.0 green:14.0/255.0 blue:0.0/255.0 alpha:1.0f]
+//Dark Red: #9c351e (R:99 G:25 B:9)
+#define COLOR_BROWN [UIColor colorWithRed:99.0/255.0 green:25.0/255.0 blue:9.0/255.0 alpha:0.4f]
 
 #pragma mark - Random Keys
 

@@ -21,18 +21,20 @@
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
-@property (nonatomic, strong) NSArray *liveStoriesArray;
+@property (nonatomic, strong) NSMutableArray *liveStoriesArray;
+@property (nonatomic, strong) UILabel *kTitle;
 
 @end
 
 @implementation MangoStoreCollectionViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
+    
     return self;
 }
 
@@ -40,27 +42,35 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-//     [self.collectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
+//  [self.collectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
     NSLog(@"%@", self.selectedItemDetail);
+    self.kTitle = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.kTitle.textAlignment = NSTextAlignmentCenter;
+    self.kTitle.font = [UIFont boldSystemFontOfSize:18.0];
+    self.kTitle.backgroundColor = COLOR_BROWN;
+    self.kTitle.layer.cornerRadius = 10.0;
+    self.kTitle.numberOfLines = 1;
+    self.kTitle.textColor = [UIColor whiteColor];
+    self.kTitle.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     
-//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
-//    title.backgroundColor = [UIColor yellowColor];
-//    title.text = self.selectedItemDetail;
-//    [title sizeToFit];
-//    UIImage *image = [[UIImage imageNamed:@"brown_bar"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10) resizingMode:UIImageResizingModeTile];
-//    
-//    UIImageView *labelBackground = [[UIImageView alloc] initWithImage:image];
-//    labelBackground.frame = CGRectMake(0, 0, CGRectGetWidth(title.frame), 60);
-//    labelBackground.center = CGPointMake(512, 20 + CGRectGetHeight(labelBackground.frame)/2 );
-//    [labelBackground addSubview:title];
-//    [self.view addSubview:labelBackground];
+    self.kTitle.text = self.selectedItemTitle;
+    [self.kTitle sizeToFit];
+    [self.kTitle setFrame:CGRectMake(self.kTitle.frame.origin.x, self.kTitle.frame.origin.y, self.kTitle.frame.size.width + 16, self.kTitle.frame.size.height)];
     
+    CGRect frame = self.kTitle.frame;
+    frame.origin.x = (CGRectGetWidth(self.view.frame) - CGRectGetWidth(frame))/2;
+    frame.origin.y = 24;
+    frame.size.height = 44;
+    
+    self.kTitle.frame = frame;
+    [self.view addSubview:self.kTitle];
+    
+    [self setUpInitialUI];
     [self getFilteredStories];
 }
 
 
 - (void)setUpInitialUI {
-
     CGRect viewFrame = self.view.bounds;
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -70,11 +80,9 @@
     _booksCollectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     [_booksCollectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
-    [_booksCollectionView registerClass:[StoreCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID];
+    [_booksCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"defaultHeader"];
     [_booksCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_booksCollectionView];
-    
-    collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"3-5 Years", @"6-8 Years", @"11-13 Years", @"13+ Years", nil];
 }
 
 - (void)getFilteredStories {    
@@ -84,6 +92,7 @@
 //    apiController.delegate = self;
     
     NSString *url;
+    NSDictionary *param = nil;
     
     switch (self.tableType) {
         case TABLE_TYPE_CATEGORIES: {
@@ -112,14 +121,16 @@
             break;
             
         case TABLE_TYPE_SEARCH: {
-            self.liveStoriesArray = self.liveStoriesQueried;
+            url = LIVE_STORIES_SEARCH;
+            param = [NSDictionary dictionaryWithObject:self.selectedItemDetail forKey:@"q"];
         }
             break;
             
         default:
             break;
     }
-    [apiController getListOf:url ForParameters:nil withDelegate:self];
+    
+    [apiController getListOf:url ForParameters:param withDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -131,26 +142,17 @@
 #pragma mark - Custom Methods
 
 - (IBAction)bacKButtonTapped:(id)sender {
-
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - CollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
-        return self.liveStoriesArray.count;
-    } else {
-        return MIN(6, [self getStoriesForAgeGroup:section].count);
-    }
+    return self.liveStoriesArray.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
-        return 1;
-    } else {
-        return 5;
-    }
+    return 1;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -185,17 +187,7 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
-    headerView.titleLabel.textColor = COLOR_DARK_RED;
-    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    
-    if (self.tableType == TABLE_TYPE_AGE_GROUPS) {
-        headerView.titleLabel.text = self.selectedItemDetail;
-        headerView.seeAllButton.hidden = YES;
-    } else {
-        headerView.titleLabel.text = collectionHeaderViewTitleArray[indexPath.section];
-    }
-    
+    UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"defaultHeader" forIndexPath:indexPath];
     return headerView;    
 }
 
@@ -217,10 +209,13 @@
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     NSLog(@"Collection View Type: %@ /n Data Array: %@", type, dataArray);
-    
-    _liveStoriesArray = dataArray;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self setUpInitialUI];
+    
+    if (!self.liveStoriesArray) {
+        _liveStoriesArray = [[NSMutableArray alloc] init];
+    }
+    [self.liveStoriesArray addObjectsFromArray:dataArray];
+    
     [self.booksCollectionView reloadData];
 }
 
@@ -250,6 +245,5 @@
     
     return stories;
 }
-
 
 @end

@@ -12,8 +12,9 @@
 @interface MangoStoreCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LocalImagesProtocol, MangoPostApiProtocol>
 
 @property (nonatomic, assign) int tableType;
-@property (nonatomic, copy) NSString *selectedItemDetail;
-@property (nonatomic, copy) NSDictionary *liveStoriesQueried;
+@property (nonatomic, copy) NSString *selectedItemDetail;           // Row tapped to perform filter Or [Age Group in case of "See All" button].
+@property (nonatomic, copy) NSDictionary *liveStoriesQueried;       //
+@property (nonatomic, copy) NSString *selectedItemTitle;
 
 - (IBAction)bacKButtonTapped:(id)sender;
 

@@ -33,7 +33,7 @@
 
 #import "CargoBay.h"
 
-@interface MangoStoreViewController () {
+@interface MangoStoreViewController () <collectionSeeAllDelegate> {
 
     NSArray *collectionHeaderViewTitleArray;
 }
@@ -90,17 +90,16 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSLog(@"STring:: %@", string);
+    
     return YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    NSLog(@"Need to call api for Search text..");
     [self.view endEditing:YES];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    //    apiController.delegate = self;
-    [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"] withDelegate:self];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:textField.text forKey:@"id"];
     
+    [self itemType:TABLE_TYPE_SEARCH tappedWithDetail:dict];
     return YES;
 }
 
@@ -189,7 +188,7 @@
 
         _liveStoriesFetched = YES;
         
-        if (_liveStoriesArray) {
+        if (_liveStoriesFetched) {
             self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
             [self filterResponse];
         }
@@ -201,7 +200,6 @@
         }
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
     } else if ([type isEqualToString:FEATURED_STORIES]) {
         if (!_featuredStoriesArray) {
             _featuredStoriesArray = [[NSMutableArray alloc] init];
@@ -308,7 +306,7 @@
         }
     }
     
-    // Building Age Group Array based on response.
+    // Building Age Groups Array based on response.
     NSArray *ageGroupsFound = self.liveStoriesFiltered.allKeys;
     NSMutableArray *tempArray = [NSMutableArray array];
     
@@ -322,7 +320,7 @@
         }
     }
     
-    self.ageGroupsFoundInResponse = tempArray;
+    self.ageGroupsFoundInResponse = tempArray;        // Found Age Groups in sorted order.
     [_booksCollectionView reloadData];
 }
 
@@ -397,13 +395,25 @@
 
 #pragma mark - Items Delegate
 
-- (void)itemType:(int)itemType tappedAtIndex:(int)index withDetail:(NSString *)detail {
+- (void)itemType:(int)itemType tappedWithDetail:(NSDictionary *)detailDict {
     [filterPopoverController dismissPopoverAnimated:YES];
+    NSString *detailId = [detailDict objectForKey:@"id"];
+    NSString *detailTitle = [detailDict objectForKey:@"title"];
+    
+    if(!detailTitle) {
+        detailTitle = detailId;     // id is same as title.... detailTitle will be nil.
+    }
     
     MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
     selectedCategoryViewController.tableType = itemType;
-    selectedCategoryViewController.selectedItemDetail = detail;
+    selectedCategoryViewController.selectedItemDetail = detailId;       // Used for API call
+    selectedCategoryViewController.selectedItemTitle = detailTitle;     // Used for setting View's Title  :: Both vary e.g. as in case of category above will be an Alphanumeric value (id)
     [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
+}
+
+- (void)seeAllTapped {
+
+        
 }
 
 #pragma mark - iCarousel Delegates
@@ -504,7 +514,7 @@
         //        else
         //            bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
         
-        cell.bookPriceLabel.text = @"Rs. 1299";//[bookDict objectForKey:@"price"];//
+        cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];
         
         cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
@@ -527,6 +537,8 @@
         headerView.titleLabel.textColor = COLOR_DARK_RED;
         headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         headerView.titleLabel.text = [self.ageGroupsFoundInResponse[indexPath.section-1] stringByAppendingString:@" Years"];
+        headerView.section = indexPath.section;
+        headerView.delegate = self;
         
         return headerView;
     } else {

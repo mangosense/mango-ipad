@@ -35,8 +35,7 @@
 }
 
 - (void)setSection:(int)sectionFromCollection {
-    _section = sectionFromCollection;
-    
+    _section = sectionFromCollection;    
 }
 
 /*
@@ -51,7 +50,7 @@
 #pragma mark - Action Methods
 
 - (void)seeAll {
-    NSLog(@"See All Tapped");
+    NSLog(@"Section: %d", self.section);
 }
 
 @end
