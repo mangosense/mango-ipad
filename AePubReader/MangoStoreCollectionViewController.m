@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
 @property (nonatomic, strong) UILabel *kTitle;
+@property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
 
 @end
 
@@ -43,6 +44,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 //  [self.collectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
+    _localImagesDictionary = [[NSMutableDictionary alloc] init];
+
     NSLog(@"%@", self.selectedItemDetail);
     self.kTitle = [[UILabel alloc] initWithFrame:CGRectZero];
     self.kTitle.textAlignment = NSTextAlignmentCenter;
@@ -169,22 +172,20 @@
     NSDictionary *bookDict;
     
     if(_liveStoriesArray.count > indexPath.row) {
-    bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+        
+        cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
+        cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
+        [cell setNeedsLayout];
+        
+        cell.imageUrlString = [bookDict objectForKey:@"cover"];
+        if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
+            cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+        } else {
+            [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+        }
     
-//    bookDict = [self getStoriesForAgeGroup:indexPath.section][indexPath.row];
-    
-    cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
-    
-    cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-    [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
-    [cell setNeedsLayout];
-    
-    cell.imageUrlString = [bookDict objectForKey:@"cover"];
-//    if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
-//        cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
-//    } else {
-        [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
-//    }
     }
     
     return cell;
@@ -193,6 +194,13 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"defaultHeader" forIndexPath:indexPath];
     return headerView;    
+}
+
+#pragma mark - Local Image Saving Delegate
+
+- (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
+    [_localImagesDictionary setObject:image forKey:imageUrl];
+    [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout

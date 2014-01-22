@@ -77,7 +77,7 @@
 }
 
 - (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate {
-    AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByAppendingString:urlString]]]];
+    AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Image Response: %@", responseObject);

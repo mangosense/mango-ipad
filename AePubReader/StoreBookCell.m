@@ -91,9 +91,7 @@
     [MBProgressHUD showHUDAddedTo:self animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
-//    apiController.delegate = self;
     
-    urlString = [ASSET_BASE_URL stringByAppendingString:urlString];
     [apiController getImageAtUrl:urlString withDelegate:self];
 }
 
