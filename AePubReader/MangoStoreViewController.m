@@ -497,8 +497,8 @@
         [cell setNeedsLayout];
         
         cell.imageUrlString = [bookDict objectForKey:@"cover"];
-        if ([_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]]) {
-            cell.bookImageView.image = [_localImagesDictionary objectForKey:[bookDict objectForKey:@"cover"]];
+        if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
+            cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
         } else {
             [cell getImageForUrl:[bookDict objectForKey:@"cover"]];
         }

@@ -14,5 +14,6 @@
 @property(strong,nonatomic) NSArray *wordMap;
 @property(strong,nonatomic) NSArray *wordTimes;
 @property(strong,nonatomic) NSString *id;
+@property (nonatomic, assign) BOOL isNew;
 
 @end

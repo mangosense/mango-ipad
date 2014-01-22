@@ -80,12 +80,12 @@
 }
 
 - (void)getImageForUrl:(NSString *)urlString {
-    //[MBProgressHUD showHUDAddedTo:self animated:YES];
+    [MBProgressHUD showHUDAddedTo:self animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     
-    //urlString = [BASE_URL stringByAppendingString:urlString];
+    urlString = [ASSET_BASE_URL stringByAppendingString:urlString];
     [apiController getImageAtUrl:urlString];
 }
 
@@ -108,7 +108,7 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString {
-    //[MBProgressHUD hideAllHUDsForView:self animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self animated:YES];
     
     [_bookImageView setImage:image];
     [_delegate saveImage:image ForUrl:urlString];

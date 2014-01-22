@@ -88,15 +88,14 @@
 
 #pragma mark - URL's
 
-#define BASE_URL @"http://api.mangoreader.com/api/v2"
+#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
+#define ASSET_BASE_URL @"http://test.mangoreader.com"
 
 #pragma mark - API Method Names
 //Validate receipt
 #define ReceiptValidate_SignedIn @"receipt_validate.json"
 #define ReceiptValidate_NotSignedIn @"receipt_validate_without_signed_in.json"
-
-
 
 #define LIVE_STORIES @"livestories.json"
 #define CATEGORIES @"categories.json"
@@ -108,9 +107,9 @@
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
 #define STORY_FILTER_AGE_GROUP @"/livestories/by/agegroup/"
 #define STORY_FILTER_LANGUAGES @"/livestories/"   // /livestoriers/:id/languages
+#define SAVE_STORY @"/stories"
 
-
-#define API Parameter Keys
+#pragma mark - API Parameter Keys
 
 #define EMAIL @"email"
 #define PASSWORD @"password"

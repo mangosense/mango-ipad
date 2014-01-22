@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSString *alignment;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSString *id;
+@property (nonatomic, assign) BOOL isNew;
 
 @end

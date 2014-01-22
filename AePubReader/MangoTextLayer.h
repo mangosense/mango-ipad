@@ -21,4 +21,6 @@
 @property(retain,nonatomic) NSNumber *leftRatio;
 @property(retain,nonatomic) NSNumber *topRatio;
 @property(retain,nonatomic) NSNumber *lineHeight;
+@property (nonatomic, assign) BOOL isNew;
+
 @end

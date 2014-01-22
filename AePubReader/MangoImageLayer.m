@@ -12,6 +12,8 @@
 @synthesize id;
 @synthesize url;
 @synthesize alignment;
+@synthesize isNew;
+
 - (NSString *)type {
     return NSStringFromClass([self class]);
 }

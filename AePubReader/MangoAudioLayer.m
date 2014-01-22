@@ -13,6 +13,8 @@
 @synthesize wordMap;
 @synthesize wordTimes;
 @synthesize id;
+@synthesize isNew;
+
 - (NSString *)type {
     return NSStringFromClass([self class]);
 }

@@ -20,6 +20,7 @@
 @synthesize leftRatio;
 @synthesize topRatio;
 @synthesize lineHeight;
+@synthesize isNew;
 - (NSString *)type {
     return NSStringFromClass([self class]);
 }
