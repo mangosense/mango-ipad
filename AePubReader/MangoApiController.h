@@ -24,8 +24,8 @@
 
 + (id)sharedApiController;
 
-- (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary;
-- (void)getImageAtUrl:(NSString *)urlString;
+- (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate;
+- (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password;
 - (void)downloadBookWithId:(NSString *)bookId;
 

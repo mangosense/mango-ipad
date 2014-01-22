@@ -54,15 +54,21 @@
         _bookTitleLabel.font = [UIFont boldSystemFontOfSize:16];
         [self addSubview:_bookTitleLabel];
 
-        _bookAgeGroupLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20)];
-        _bookAgeGroupLabel.textColor = COLOR_DARK_RED;
-        _bookAgeGroupLabel.font = [UIFont systemFontOfSize:16];
-        [self addSubview:_bookAgeGroupLabel];
+//        _bookAgeGroupLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20)];
+//        _bookAgeGroupLabel.textColor = COLOR_DARK_RED;
+//        _bookAgeGroupLabel.font = [UIFont systemFontOfSize:16];
+//        [self addSubview:_bookAgeGroupLabel];
 
-        _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20)];
+//        _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20)];
+//        _bookPriceLabel.textColor = COLOR_DARK_RED;
+//        _bookPriceLabel.font = [UIFont boldSystemFontOfSize:16];
+//        [self addSubview:_bookPriceLabel];
+        
+        _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20)];
         _bookPriceLabel.textColor = COLOR_DARK_RED;
         _bookPriceLabel.font = [UIFont boldSystemFontOfSize:16];
         [self addSubview:_bookPriceLabel];
+
     }
     return self;
 }
@@ -75,18 +81,20 @@
     [_textButton setFrame:CGRectMake(_interactiveButton.frame.origin.x + _interactiveButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
     [_imageButton setFrame:CGRectMake(_textButton.frame.origin.x + _textButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
 
-    _bookAgeGroupLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20);
-    _bookPriceLabel.frame = CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20);
+//    _bookAgeGroupLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20);
+//    _bookPriceLabel.frame = CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20);
+    
+    _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20);
 }
 
 - (void)getImageForUrl:(NSString *)urlString {
     [MBProgressHUD showHUDAddedTo:self animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
+//    apiController.delegate = self;
     
     urlString = [ASSET_BASE_URL stringByAppendingString:urlString];
-    [apiController getImageAtUrl:urlString];
+    [apiController getImageAtUrl:urlString withDelegate:self];
 }
 
 /*

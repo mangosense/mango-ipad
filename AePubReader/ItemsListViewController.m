@@ -177,32 +177,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *detail;
+    NSMutableDictionary *detailsDict = [NSMutableDictionary dictionary];
     
     switch (self.tableType) {
         case TABLE_TYPE_CATEGORIES: {
             detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            [detailsDict setObject:detail forKey:@"id"];
+            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
+            [detailsDict setObject:detail forKey:@"title"];
             break;
         }
         case TABLE_TYPE_AGE_GROUPS: { // TODO:
-            NSString *ageGroup = [itemsListArray objectAtIndex:indexPath.row];
-            NSRange range = [ageGroup rangeOfString:@" Years"];
-            
-            if (range.location != NSNotFound) {
-                ageGroup = [ageGroup stringByReplacingCharactersInRange:range withString:@""];
-            }
-            
-            detail = ageGroup;
+            detail = [itemsListArray objectAtIndex:indexPath.row];
+            [detailsDict setObject:detail forKey:@"id"];
             break;
         }
         case TABLE_TYPE_LANGUAGE: {  // TODO
-            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            detail = [itemsListArray objectAtIndex:indexPath.row];
+            [detailsDict setObject:detail forKey:@"id"];
             break;
         }
         default:
             break;
     }
     NSLog(@"TableType: %d", self.tableType);
-    [delegate itemType:tableType tappedAtIndex:indexPath.row withDetail:detail];
+    [delegate itemType:self.tableType tappedWithDetail:detailsDict];
 }
 
 #pragma mark - Setters
@@ -229,8 +228,8 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController getListOf:CATEGORIES ForParameters:nil];
+//    apiController.delegate = self;
+    [apiController getListOf:CATEGORIES ForParameters:nil withDelegate:self];
 }
 
 @end

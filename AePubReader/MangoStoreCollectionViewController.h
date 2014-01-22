@@ -12,7 +12,9 @@
 @interface MangoStoreCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LocalImagesProtocol, MangoPostApiProtocol>
 
 @property (nonatomic, assign) int tableType;
-@property (nonatomic, copy) NSString *selectedItemDetail;
+@property (nonatomic, copy) NSString *selectedItemDetail;           // Row tapped to perform filter.
+@property (nonatomic, copy) NSArray *liveStoriesQueried;       //
+@property (nonatomic, copy) NSString *selectedItemTitle;
 
 - (IBAction)bacKButtonTapped:(id)sender;
 
