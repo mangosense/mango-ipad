@@ -17,6 +17,7 @@
 #import "MBProgressHUD.h"
 #import "BooksFromCategoryViewController.h"
 #import "MangoStoreCollectionViewController.h"
+#import "iCarouselImageView.h"
 
 #define SEGMENT_WIDTH 600
 #define SEGMENT_HEIGHT 60
@@ -34,12 +35,13 @@
 #import "CargoBay.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
-
+    
     NSArray *collectionHeaderViewTitleArray;
 }
 
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
+@property (nonatomic, strong) UITextField *searchTextField;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
 @property (nonatomic, strong) NSMutableDictionary *liveStoriesFiltered;
 @property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
@@ -55,10 +57,9 @@
 
 @implementation MangoStoreViewController
 
-@synthesize filterPopoverController;
+//@synthesize filterPopoverController;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -77,9 +78,6 @@
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
     
-    // FIXME: ------- Remove after testing.
-//    [self getStaticData];
-    
     //Register observer
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
@@ -90,6 +88,10 @@
 }
 
 #pragma mark - UITextField Delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.searchTextField = textField;
+}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSLog(@"STring:: %@", string);
@@ -103,6 +105,7 @@
     [dict setObject:textField.text forKey:@"id"];
     
     [self itemType:TABLE_TYPE_SEARCH tappedWithDetail:dict];
+    self.searchTextField = nil;
     return YES;
 }
 
@@ -120,6 +123,9 @@
 }
 
 - (IBAction)filterSelected:(id)sender {
+    [self.searchTextField resignFirstResponder];
+    self.searchTextField = nil;
+    
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, 250)];
     textTemplatesListViewController.delegate = self;
@@ -153,11 +159,11 @@
             break;
     }
     
-    filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
-    [filterPopoverController setPopoverContentSize:CGSizeMake(250, 250)];
-    filterPopoverController.delegate = self;
-    [filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
-    [filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
+    [self.filterPopoverController setPopoverContentSize:CGSizeMake(250, 250)];
+    self.filterPopoverController.delegate = self;
+    [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+    [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 #pragma mark - Post API Delegate
@@ -188,7 +194,6 @@
             _liveStoriesArray = [[NSMutableArray alloc] init];
         }
         [_liveStoriesArray addObjectsFromArray:dataArray];
-
         _liveStoriesFetched = YES;
         
         if (_liveStoriesFetched) {
@@ -205,7 +210,6 @@
         _featuredStoriesFetched = YES;
     }
     if (_liveStoriesFetched && _featuredStoriesFetched) {
-        NSLog(@"I am here: %d / %d", _liveStoriesFetched, _featuredStoriesFetched);
         [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     }
@@ -213,7 +217,6 @@
 
 - (void)getBookAtPath:(NSURL *)filePath {
     //[MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
     [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -304,20 +307,11 @@
     }
     
     // Building Age Groups Array based on response.
-    NSArray *ageGroupsFound = self.liveStoriesFiltered.allKeys;
-    NSMutableArray *tempArray = [NSMutableArray array];
+    NSSet *ageGroupsFound = [NSSet setWithArray:self.liveStoriesFiltered.allKeys];
+    NSMutableOrderedSet *tempArray = [NSMutableOrderedSet orderedSetWithArray:collectionHeaderViewTitleArray];
+    [tempArray intersectSet:ageGroupsFound];
     
-    for (int j=0; j<collectionHeaderViewTitleArray.count; j++) {
-        NSString *titleString = collectionHeaderViewTitleArray[j];
-        for (NSString *ageGroup in ageGroupsFound) {
-            if ([titleString isEqualToString:ageGroup]) {
-                [tempArray addObject:titleString];
-                break;
-            }
-        }
-    }
-    
-    self.ageGroupsFoundInResponse = tempArray;        // Found Age Groups in sorted order.
+    self.ageGroupsFoundInResponse = [tempArray array];        // Found Age Groups in sorted order.
     [_booksCollectionView reloadData];
 }
 
@@ -384,16 +378,16 @@
     
     collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2", @"3-5", @"6-8", @"11-13", @"13+", nil];
     
-//#ifdef DEBUG
-//    [self getStaticData];
-//#else
-//#endif
+    //#ifdef DEBUG
+    //    [self getStaticData];
+    //#else
+    //#endif
 }
 
 #pragma mark - Items Delegate
 
 - (void)itemType:(int)itemType tappedWithDetail:(NSDictionary *)detailDict {
-    [filterPopoverController dismissPopoverAnimated:YES];
+    [self.filterPopoverController dismissPopoverAnimated:YES];
     NSString *detailId = [detailDict objectForKey:@"id"];
     NSString *detailTitle = [detailDict objectForKey:@"title"];
     
@@ -421,14 +415,25 @@
     return [_featuredStoriesArray count];
 }
 
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {    
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     NSLog(@"Image:%@", [[self.featuredStoriesArray objectAtIndex:index] objectForKey:@"cover"]);
     //TODO: Need to set images to carousel
-    UIImageView *storyImageView = [[UIImageView alloc] init];
-    [storyImageView setFrame:CGRectMake(0, 0, 400, 240)];
-    [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
-    [[storyImageView layer] setCornerRadius:12];
-    [storyImageView setClipsToBounds:YES];
+    iCarouselImageView *storyImageView = (iCarouselImageView *)[view viewWithTag:iCarousel_VIEW_TAG];
+    
+    if (!storyImageView) {
+        storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
+        storyImageView.delegate = self;
+        [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
+    }
+    
+    if (self.featuredStoriesFetched) {
+        if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]]) {
+            storyImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]];
+        } else {
+            [storyImageView getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]];
+        }
+    }
+    
     return storyImageView;
 }
 
@@ -463,6 +468,10 @@
 }
 
 #pragma mark - Local Image Saving Delegate
+
+- (void)iCarouselSaveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
+    [_localImagesDictionary setObject:image forKey:imageUrl];
+}
 
 - (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
     [_localImagesDictionary setObject:image forKey:imageUrl];
@@ -500,7 +509,7 @@
     } else {
         StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
         
-//        cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
+        //        cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
         cell.delegate = self;
         
         NSDictionary *bookDict;
@@ -538,6 +547,18 @@
         headerView.titleLabel.text = [self.ageGroupsFoundInResponse[indexPath.section-1] stringByAppendingString:@" Years"];
         headerView.section = indexPath.section;
         headerView.delegate = self;
+        
+        if(self.liveStoriesFiltered) {
+            if([self getStoriesForAgeGroup:indexPath.section].count > 6) {
+                if (headerView.seeAllButton.isHidden) {
+                    headerView.seeAllButton.hidden = NO;
+                }
+            } else {
+                if (!headerView.seeAllButton.isHidden) {
+                    headerView.seeAllButton.hidden = YES;
+                }
+            }
+        }
         
         return headerView;
     } else {
@@ -733,7 +754,14 @@
     }];
 }
 
-# pragma mark - Retrieving/Saving data from/to disk 
+#pragma mark - Private Methods
+
+- (void)getImageForUrl:(NSString *)urlString {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    [apiController getImageAtUrl:urlString withDelegate:self];
+}
+
+# pragma mark - Retrieving/Saving data from/to disk
 
 - (void)getStaticData {
     
@@ -748,5 +776,13 @@
         [self filterResponse];
     }
 }
+
+#pragma mark - Touch events
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.searchTextField resignFirstResponder];
+    self.searchTextField = nil;
+}
+
 
 @end

@@ -21,7 +21,7 @@
         _bookImageView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 2, 127, 134)];
         [_bookImageView setContentMode:UIViewContentModeScaleToFill];
         [[_bookImageView layer] setCornerRadius:12.0f];
-        [_bookImageView setClipsToBounds:YES];
+        [_bookImageView setClipsToBounds:YES];       
         [self addSubview:_bookImageView];
         
         _frameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130, 137)];
@@ -88,7 +88,7 @@
 }
 
 - (void)getImageForUrl:(NSString *)urlString {
-    [MBProgressHUD showHUDAddedTo:self animated:YES];
+//    [MBProgressHUD showHUDAddedTo:self animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     

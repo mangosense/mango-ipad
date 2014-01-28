@@ -28,7 +28,7 @@
 @property (nonatomic, strong) UIButton *textButton;
 @property (nonatomic, strong) UIButton *imageButton;
 @property (nonatomic, strong) NSString *imageUrlString;
-@property (nonatomic, assign) id <LocalImagesProtocol> delegate;
+@property (nonatomic, weak) id <LocalImagesProtocol> delegate;
 - (void)getImageForUrl:(NSString *)urlString;
 
 @end
