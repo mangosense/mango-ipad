@@ -40,7 +40,6 @@
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 //  [self.collectionView registerClass:[StoreBookCell class] forCellWithReuseIdentifier:STORE_BOOK_CELL_ID];
@@ -89,9 +88,7 @@
     [self.view addSubview:_booksCollectionView];
 }
 
-- (void)getFilteredStories {    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
+- (void)getFilteredStories {
     MangoApiController *apiController = [MangoApiController sharedApiController];
 //    apiController.delegate = self;
     
@@ -137,6 +134,7 @@
             return;
     }
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [apiController getListOf:url ForParameters:param withDelegate:self];
 }
 
@@ -180,12 +178,14 @@
         [cell setNeedsLayout];
         
         cell.imageUrlString = [bookDict objectForKey:@"cover"];
-        if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
-            cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
-        } else {
-            [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+        
+        if (self.liveStoriesArray) {
+            if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
+                cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+            } else {
+                [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+            }
         }
-    
     }
     
     return cell;
