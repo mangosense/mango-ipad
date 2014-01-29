@@ -90,6 +90,8 @@
 
 #define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
+//testapi.mangoreader.com
+//192.168.2.28:3001/api/v2
 #define ASSET_BASE_URL @"http://test.mangoreader.com"
 
 #pragma mark - API Method Names
@@ -107,12 +109,14 @@
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
 #define STORY_FILTER_AGE_GROUP @"/livestories/by/agegroup/"
 #define STORY_FILTER_LANGUAGES @"/livestories/"   // /livestoriers/:id/languages
-#define SAVE_STORY @"/stories"
+#define SAVE_STORY @"livestories/%@/fork"
+#define NEW_STORY @"stories"
 
 #pragma mark - API Parameter Keys
 
 #define EMAIL @"email"
 #define PASSWORD @"password"
+#define BOOK_JSON @"json"
 
 #pragma mark - Table Types
 

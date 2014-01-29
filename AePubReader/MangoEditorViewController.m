@@ -618,10 +618,22 @@
     pageImageView.selectedColor = color;
 }
 
+#pragma mark - Post API Delegate
+
+- (void)saveStoryId:(NSNumber *)storyId {
+    NSLog(@"%d", [storyId intValue]);
+}
+
 #pragma mark - Popover Delegates
 
 - (void)goToStoriesList {
     [menuPopoverController dismissPopoverAnimated:YES];
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController saveNewBookWithJSON:@""];
+
+    
     [self mangoButtonTapped:nil];
 }
 

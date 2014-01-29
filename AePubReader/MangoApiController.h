@@ -15,6 +15,7 @@
 - (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString;
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary;
 - (void)getBookAtPath:(NSURL *)filePath;
+- (void)saveStoryId:(NSNumber *)storyId;
 
 @end
 
@@ -28,6 +29,8 @@
 - (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password;
 - (void)downloadBookWithId:(NSString *)bookId;
+- (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON;
+- (void)saveNewBookWithJSON:(NSString *)bookJSON;
 
 #pragma mark - Validate Receipt
 - (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId

@@ -127,4 +127,41 @@
     [downloadTask resume];
 }
 
+- (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+    NSString *methodName = [NSString stringWithFormat:SAVE_STORY, bookId];
+    [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Save Story Response: %@", responseObject);
+        NSDictionary *responseDict = (NSDictionary *)responseObject;
+        if ([_delegate respondsToSelector:@selector(saveStoryId:)]) {
+            [_delegate saveStoryId:[responseDict objectForKey:@"id"]];
+        }
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Save Story Error: %@", error);
+    }];
+}
+
+- (void)saveNewBookWithJSON:(NSString *)bookJSON {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    //Remove after Testing. TEMPORARY
+    
+    bookJSON = @"{\"title\": \"NewTestBookKedar\",\"language\": \"English\",\"pages\": [{\"id\": \"Cover\",\"name\": \"Cover\",\"layers\": []},{\"id\": 1,\"json\": {\"id\": 1,\"name\": 1,\"type\": \"page\",\"layers\": []}}]}";
+    
+    NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+    [manager POST:NEW_STORY parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Save Story Response: %@", responseObject);
+        NSDictionary *responseDict = (NSDictionary *)responseObject;
+        if ([_delegate respondsToSelector:@selector(saveStoryId:)]) {
+            [_delegate saveStoryId:[responseDict objectForKey:@"id"]];
+        }
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Save Story Error: %@", error);
+    }];
+}
+
 @end
