@@ -27,10 +27,9 @@
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password;
-- (void)downloadBookWithId:(NSString *)bookId;
+- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate;
 
 #pragma mark - Validate Receipt
-- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
-                          block:(void (^)(id response, NSInteger type, NSString * error))block ;
+- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;
 
 @end

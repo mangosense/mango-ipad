@@ -13,8 +13,9 @@
 #import "MangoApiController.h"
 #import "StoreBookCell.h"
 #import "StoreBookCarouselCell.h"
+#import "PurchaseManager.h"
 
-@interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, iCarouselImageCachingProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, UITextFieldDelegate>
+@interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, iCarouselImageCachingProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, PurchaseManagerProtocol ,UITextFieldDelegate>
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;
 
