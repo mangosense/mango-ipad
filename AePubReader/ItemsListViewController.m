@@ -180,6 +180,12 @@
     NSMutableDictionary *detailsDict = [NSMutableDictionary dictionary];
     
     switch (self.tableType) {
+        case TABLE_TYPE_TEXT_TEMPLATES: {
+            [delegate itemType:self.tableType tappedAtIndex:indexPath.row withDetail:nil];
+            return;
+            break;
+        }
+            
         case TABLE_TYPE_CATEGORIES: {
             detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             [detailsDict setObject:detail forKey:@"id"];

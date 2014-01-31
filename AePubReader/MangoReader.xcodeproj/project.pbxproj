@@ -2379,6 +2379,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				AE195E7F181E2FD9008E4208 /* page.png */,
 				292217D5189BAF43009D4216 /* Purchase Manager */,
 				29A650FB18979E6F00A33A15 /* iCarouselImageView.h */,
 				29A650FC18979E6F00A33A15 /* iCarouselImageView.m */,
@@ -2393,7 +2394,6 @@
 				8358146A1844799A00670D71 /* EJDB */,
 				83E1CD4918168C9F00AC63FB /* Constants.h */,
 				AE195E7E181E2FD9008E4208 /* background.png */,
-				AE195E7F181E2FD9008E4208 /* page.png */,
 				AE195EF2181E67B3008E4208 /* New store */,
 				83DD9BB418111662004C975F /* ImageDownloader */,
 				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,

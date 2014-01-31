@@ -771,6 +771,7 @@
     UIImageView *pageThumbnail = [[UIImageView alloc] init];
     [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
     [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
+    [pageThumbnail setBackgroundColor:[UIColor whiteColor]];
     if (index < [_mangoStoryBook.pages count]) {
         
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -822,7 +823,7 @@
         MangoImageLayer *newImageLayer = [[MangoImageLayer alloc] init];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
+        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"page" ofType:@"png"];
         NSString *destinationFolder=[sourceLocation lastPathComponent] ;
         destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/images"],destinationFolder];
         if (![fileManager fileExistsAtPath:destinationFolder]) {
@@ -831,7 +832,7 @@
             [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
         }
         
-        newImageLayer.url = @"/res/images/white_page.jpeg";
+        newImageLayer.url = @"/res/images/page.png";
         newImageLayer.alignment = @"center";
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];

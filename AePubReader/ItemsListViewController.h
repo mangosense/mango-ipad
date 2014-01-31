@@ -12,8 +12,8 @@
 
 @protocol ItemsDelegate
 
-- (void)itemType:(int)itemType tappedWithDetail:(NSDictionary *)detail;
 @optional
+- (void)itemType:(int)itemType tappedWithDetail:(NSDictionary *)detail;
 - (void)itemType:(int)itemType tappedAtIndex:(int)index withDetail:(NSString *)detail;
 
 
