@@ -107,7 +107,7 @@
     }];
 }
 
-- (void)downloadBookWithId:(NSString *)bookId {
+- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
@@ -120,8 +120,8 @@
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
-        if ([_delegate respondsToSelector:@selector(getBookAtPath:)]) {
-            [_delegate getBookAtPath:filePath];
+        if ([delegate respondsToSelector:@selector(getBookAtPath:)]) {
+            [delegate getBookAtPath:filePath];
         }
     }];
     [downloadTask resume];

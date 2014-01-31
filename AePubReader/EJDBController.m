@@ -151,7 +151,7 @@
                 NSNumber *numberLineHeight=[NSNumber numberWithFloat:lineHeight.floatValue];
                 textLayer.lineHeight=numberLineHeight;
                 NSLog(@"%@ %@",style[@"top_ratio"],style[@"left_ratio"]);
-                textLayer.topRatio=[NSNumber numberWithFloat:MAX([style[@"top_ratio"] floatValue], 1)];
+                //textLayer.topRatio=[NSNumber numberWithFloat:MAX([style[@"top_ratio"] floatValue], 1)];
                 textLayer.leftRatio=[NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
                 textLayer.height=[NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
                 textLayer.width=[NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];

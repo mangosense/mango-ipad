@@ -8,34 +8,17 @@
 //
 
 #import "MangoStoreViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "Constants.h"
 #import "StoreCollectionFlowLayout.h"
 #import "StoreCollectionHeaderView.h"
 #import "AePubReaderAppDelegate.h"
-#import "AFHTTPRequestOperationManager.h"
 #import "MBProgressHUD.h"
 #import "BooksFromCategoryViewController.h"
 #import "MangoStoreCollectionViewController.h"
 #import "iCarouselImageView.h"
-
-#define SEGMENT_WIDTH 600
-#define SEGMENT_HEIGHT 60
-#define FILTER_BUTTON_WIDTH 130
-#define CATEGORY_TAG 1
-#define AGE_TAG 2
-#define LANGUAGE_TAG 3
-#define GRADE_TAG 4
-
-#define STORE_BOOK_CELL_ID @"StoreBookCell"
-#define STORE_BOOK_CAROUSEL_CELL_ID @"StoreBookCarouselCell"
-
-#define HEADER_ID @"headerId"
-
 #import "CargoBay.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
-    
     NSArray *collectionHeaderViewTitleArray;
 }
 
@@ -49,7 +32,6 @@
 @property (nonatomic, strong) NSArray *ageGroupsFoundInResponse;
 @property (nonatomic, assign) BOOL liveStoriesFetched;
 @property (nonatomic, assign) BOOL featuredStoriesFetched;
-
 @property (nonatomic, strong) NSMutableArray *purchasedBooks;
 @property (nonatomic, strong) NSString *currentProductPrice;
 
@@ -57,7 +39,7 @@
 
 @implementation MangoStoreViewController
 
-//@synthesize filterPopoverController;
+@synthesize filterPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -94,8 +76,6 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSLog(@"STring:: %@", string);
-    
     return YES;
 }
 
@@ -225,6 +205,14 @@
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+}
+
+#pragma mark - Purchased Manager Call Back
+
+- (void)itemReadyToUse:(NSString *) productId {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    //    apiController.delegate = self;
+    [apiController downloadBookWithId:productId withDelegate:self];
 }
 
 #pragma mark - Filters
@@ -584,9 +572,12 @@
         //            ///Purchasing Products
         //            //TODO: Need to change key name.
         //            NSString * skIdentifier = [bookDict objectForKey:@"purchasedProduct_Identifier"];
-        //            [self itemProceedToPurchase:productId storeIdentifier:skIdentifier];
+        
+        //        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:skIdentifier withDelegate:self];
+        
         //        }
-        [self itemProceedToPurchase:productId storeIdentifier:@"752"];
+        
+        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:@"752" withDelegate:self];
     }
     else {
         NSLog(@"Product dose not have relative Id");
@@ -623,137 +614,6 @@
     return CGSizeMake(150, 240);
 }
 
-#pragma mark - In App purchasing..
-
-- (BOOL)isProductPurchased :(NSString *) productId {
-    BOOL isBookPurchased = NO;
-    for (NSDictionary *dataDict in self.purchasedBooks) {
-        NSString *bookId = [dataDict objectForKey:@"id"];
-        if ([bookId isEqualToString:productId]) {
-            isBookPurchased = YES;
-            break;
-        }
-    }
-    return isBookPurchased;
-}
-
-- (void)itemReadyToUse:(NSString *) productId {
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController downloadBookWithId:productId];
-}
-
-- (void)itemProceedToPurchase :(NSString *) productId storeIdentifier:(NSString *) productIdentifier {
-    NSAssert((productIdentifier.length > 0), @"Product identifier should have some characters lenght");
-    
-    //Observer Method for updated Transactions
-    [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
-        NSLog(@"Updated Transactions: %@", transactions);
-        
-        for (SKPaymentTransaction *transaction in transactions)
-        {
-            NSLog(@"Payment State: %d", transaction.transactionState);
-            switch (transaction.transactionState) {
-                    
-                case SKPaymentTransactionStatePurchased:
-                {
-                    NSLog(@"Product Purchased!");
-                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self validateReceipt:productId amount:self.currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]]];
-                }
-                    break;
-                    
-                case SKPaymentTransactionStateFailed:
-                {
-                    NSLog(@"Transaction Failed!");
-                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                }
-                    break;
-                    
-                case SKPaymentTransactionStateRestored:
-                {
-                    NSLog(@"Product Restored!");
-                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self validateReceipt:productId amount:self.currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]]];
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
-            if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            }
-        }
-    }];
-    
-    //Get products from identifires....
-    NSSet * productSet = [NSSet setWithArray:@[productIdentifier]];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {
-        if (products.count) {
-            NSLog(@"Products: %@", products);
-            //Initialise payment queue
-            SKProduct * product = products[0];
-            self.currentProductPrice = [product.price stringValue];
-            SKPayment * payement = [SKPayment paymentWithProduct:product];
-            [[SKPaymentQueue defaultQueue] addPayment:payement];
-        }
-        else {
-            //Hide progress HUD if no products found
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            NSLog(@"LOL:No Product found");
-        }
-        NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
-    } failure:^(NSError *error) {
-        //Hide progress HUD if Error!!
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        NSLog(@"GetProductError: %@", error);
-    }];
-}
-
-//Encode receipt data
-- (NSString *)encode:(const uint8_t *)input length:(NSInteger)length {
-    static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-	
-    NSMutableData *data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
-    uint8_t *output = (uint8_t *)data.mutableBytes;
-	
-    for (NSInteger i = 0; i < length; i += 3) {
-        NSInteger value = 0;
-        for (NSInteger j = i; j < (i + 3); j++) {
-			value <<= 8;
-			
-			if (j < length) {
-				value |= (0xFF & input[j]);
-			}
-        }
-		
-        NSInteger index = (i / 3) * 4;
-        output[index + 0] =                    table[(value >> 18) & 0x3F];
-        output[index + 1] =                    table[(value >> 12) & 0x3F];
-        output[index + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
-        output[index + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
-    }
-	
-    return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-}
-
-- (void)validateReceipt:(NSString *) productId amount:(NSString *)amount storeIdentifier:(NSData *) receiptData {
-    NSString * jsonObjectString = [self encode:(uint8_t *)receiptData.bytes length:receiptData.length];
-    
-    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
-        if (type == 1) {
-            NSLog(@"SuccessResponse:%@", response);
-            //If Succeed.
-            //[self itemReadyToUse:productId];
-        }
-        else {
-            NSLog(@"ReceiptError:%@", error);
-        }
-    }];
-}
-
 #pragma mark - Private Methods
 
 - (void)getImageForUrl:(NSString *)urlString {
@@ -764,7 +624,6 @@
 # pragma mark - Retrieving/Saving data from/to disk
 
 - (void)getStaticData {
-    
     NSJSONSerialization * JSONPurchased = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/Users/avinashnehra/Desktop/purchased.txt"] options:NSJSONReadingMutableLeaves error:nil];
     self.purchasedBooks = [NSMutableArray arrayWithArray:(NSArray*)JSONPurchased];
     
@@ -777,12 +636,11 @@
     }
 }
 
-#pragma mark - Touch events
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.searchTextField resignFirstResponder];
-    self.searchTextField = nil;
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (self.searchTextField ) {
+        [self.searchTextField resignFirstResponder];
+        self.searchTextField = nil;
+    }
 }
-
 
 @end

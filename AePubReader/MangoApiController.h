@@ -31,9 +31,9 @@
 - (void)downloadBookWithId:(NSString *)bookId;
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON;
 - (void)saveNewBookWithJSON:(NSString *)bookJSON;
+- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate;
 
 #pragma mark - Validate Receipt
-- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
-                          block:(void (^)(id response, NSInteger type, NSString * error))block ;
+- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;
 
 @end
