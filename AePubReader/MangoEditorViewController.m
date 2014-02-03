@@ -900,7 +900,7 @@
         layerIndex = [currentPage.layers indexOfObject:layerId];
         if ([layer isKindOfClass:[MangoImageLayer class]]) {
             newLayer = (MangoImageLayer *)layer;
-            newLayer.url = [NSString stringWithFormat:@"res/images/white_page_%d", currentPageNumber];
+            newLayer.url = [NSString stringWithFormat:@"res/images/white_page_%d.png", currentPageNumber];
             newLayer.alignment = @"center";
             
             NSString *destinationString = [_editedBookPath stringByAppendingFormat:@"/%@", newLayer.url];

@@ -298,7 +298,7 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.bookId];
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:_book.localPathFile WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];
-    }else{
+    } else {
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
         if (!_pageView) {
             _pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];

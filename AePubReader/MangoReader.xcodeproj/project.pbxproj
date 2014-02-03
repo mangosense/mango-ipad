@@ -160,6 +160,8 @@
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		83708941185F166600946376 /* MangoSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370893F185F166600946376 /* MangoSignupViewController.m */; };
 		83708942185F166600946376 /* MangoSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83708940185F166600946376 /* MangoSignupViewController.xib */; };
+		83738ED1189BE4C7006FC1C8 /* bedtimestories.png in Resources */ = {isa = PBXBuildFile; fileRef = 83738ED0189BE4C7006FC1C8 /* bedtimestories.png */; };
+		83738ED3189BE809006FC1C8 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 83738ED2189BE809006FC1C8 /* Checkmark.png */; };
 		837D27F4180D3BC000469D1C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837D27F3180D3BC000469D1C /* Twitter.framework */; };
 		838048641850586C006BBA47 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 838048521850586C006BBA47 /* AFHTTPRequestOperation.m */; };
 		838048651850586C006BBA47 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 838048541850586C006BBA47 /* AFHTTPRequestOperationManager.m */; };
@@ -717,7 +719,6 @@
 		AE266FC9183B4881001A8CB8 /* button_free stories.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FC5183B4881001A8CB8 /* button_free stories.png */; };
 		AE266FCA183B4881001A8CB8 /* button_store.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FC6183B4881001A8CB8 /* button_store.png */; };
 		AE266FCD183B4E4F001A8CB8 /* categoryscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FCC183B4E4F001A8CB8 /* categoryscreen.png */; };
-		AE266FCF183B4E67001A8CB8 /* bedtimestories.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FCE183B4E67001A8CB8 /* bedtimestories.png */; };
 		AE266FD5183B4E7E001A8CB8 /* traditional.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FD0183B4E7E001A8CB8 /* traditional.png */; };
 		AE266FD6183B4E7E001A8CB8 /* values.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FD1183B4E7E001A8CB8 /* values.png */; };
 		AE266FD7183B4E7E001A8CB8 /* celebrations.png in Resources */ = {isa = PBXBuildFile; fileRef = AE266FD2183B4E7E001A8CB8 /* celebrations.png */; };
@@ -1234,6 +1235,8 @@
 		8370893E185F166600946376 /* MangoSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoSignupViewController.h; sourceTree = "<group>"; };
 		8370893F185F166600946376 /* MangoSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoSignupViewController.m; sourceTree = "<group>"; };
 		83708940185F166600946376 /* MangoSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoSignupViewController.xib; sourceTree = "<group>"; };
+		83738ED0189BE4C7006FC1C8 /* bedtimestories.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bedtimestories.png; sourceTree = "<group>"; };
+		83738ED2189BE809006FC1C8 /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checkmark.png; sourceTree = "<group>"; };
 		837D27F3180D3BC000469D1C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		838048511850586C006BBA47 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		838048521850586C006BBA47 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
@@ -1851,7 +1854,6 @@
 		AE266FC5183B4881001A8CB8 /* button_free stories.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_free stories.png"; sourceTree = "<group>"; };
 		AE266FC6183B4881001A8CB8 /* button_store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_store.png; sourceTree = "<group>"; };
 		AE266FCC183B4E4F001A8CB8 /* categoryscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = categoryscreen.png; sourceTree = "<group>"; };
-		AE266FCE183B4E67001A8CB8 /* bedtimestories.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bedtimestories.png; sourceTree = "<group>"; };
 		AE266FD0183B4E7E001A8CB8 /* traditional.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = traditional.png; sourceTree = "<group>"; };
 		AE266FD1183B4E7E001A8CB8 /* values.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = values.png; sourceTree = "<group>"; };
 		AE266FD2183B4E7E001A8CB8 /* celebrations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = celebrations.png; sourceTree = "<group>"; };
@@ -2379,6 +2381,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				83738ED2189BE809006FC1C8 /* Checkmark.png */,
+				83738ED0189BE4C7006FC1C8 /* bedtimestories.png */,
 				AE195E7F181E2FD9008E4208 /* page.png */,
 				292217D5189BAF43009D4216 /* Purchase Manager */,
 				29A650FB18979E6F00A33A15 /* iCarouselImageView.h */,
@@ -2425,7 +2429,6 @@
 				AE266FD3183B4E7E001A8CB8 /* poems and rhymes.png */,
 				AE266FD4183B4E7E001A8CB8 /* classics.png */,
 				AE9280971619AC82001BCBB6 /* mango.png */,
-				AE266FCE183B4E67001A8CB8 /* bedtimestories.png */,
 				AE031AC21830D7130042236D /* eunselected.png */,
 				AE031AC31830D7130042236D /* sunselected.png */,
 				AE031AC41830D7130042236D /* lunselected.png */,
@@ -4409,6 +4412,7 @@
 				83E2D10D184364EC00F8CDB6 /* editor_147.png in Resources */,
 				83E2D1D6184364EC00F8CDB6 /* editor_328.png in Resources */,
 				83E2D1D9184364EC00F8CDB6 /* editor_330.png in Resources */,
+				83738ED3189BE809006FC1C8 /* Checkmark.png in Resources */,
 				83E2D197184364EC00F8CDB6 /* editor_271.png in Resources */,
 				AE031ABD1830D5FF0042236D /* sselected.png in Resources */,
 				AE731C721675FB4500FE8F19 /* mangoreader-app-icon-57X57.png in Resources */,
@@ -4720,6 +4724,7 @@
 				AE37CD711752796700EA8653 /* LandscapePageiPhone.xib in Resources */,
 				83E2D0E7184364EC00F8CDB6 /* editor_112.png in Resources */,
 				AECC0ACD1754D2FA00CA5EEC /* StatsViewController.xib in Resources */,
+				83738ED1189BE4C7006FC1C8 /* bedtimestories.png in Resources */,
 				83E2D10E184364EC00F8CDB6 /* editor_148.png in Resources */,
 				83E2D198184364EC00F8CDB6 /* editor_272.png in Resources */,
 				AEBD469C1755B4AC0060692A /* large_one.png in Resources */,
@@ -4798,7 +4803,6 @@
 				AE0C937E183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png in Resources */,
 				AE0C9377183E0743008E4D54 /* icons_back.png in Resources */,
 				83E2D18A184364EC00F8CDB6 /* editor_26.png in Resources */,
-				AE266FCF183B4E67001A8CB8 /* bedtimestories.png in Resources */,
 				83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */,
 				8353B3391851ABE1009B3BD8 /* shape2.png in Resources */,
 				AE0C9353183DB3B5008E4D54 /* icons_getmorebooks.png in Resources */,
