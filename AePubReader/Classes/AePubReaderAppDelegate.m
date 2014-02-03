@@ -17,6 +17,7 @@
 
 #import <Parse/Parse.h>
 #import "Constants.h"
+#import "MBProgressHUD.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
@@ -201,6 +202,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)unzipExistingJsonBooks{
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
+    
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];

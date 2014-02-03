@@ -101,34 +101,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self getBookJson];
-    [pagesCarousel setClipsToBounds:YES];
-    pageImageView.delegate = self;
-    pageImageView.selectedBrush = 5.0f;
-    pageImageView.selectedEraserWidth = 20.0f;
-    _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
-    BOOL isDir;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir] && !isDir) {
-        [self createACopy];
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        
-        Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
-        Book *editedBook=[delegate.dataModel getBookInstance];
-        editedBook.localPathFile=_editedBookPath;
-        int identity=book.id.integerValue;
-        identity += rand();
-        editedBook.id=[NSString stringWithFormat:@"%d", identity];
-        editedBook.localPathImageFile=book.localPathImageFile;
-        editedBook.title=book.title;
-        editedBook.desc=book.desc;
-        editedBook.size=book.size;
-        editedBook.downloaded=@YES;
-        editedBook.bookId=book.bookId;
-        editedBook.edited=@YES;
-        [delegate.managedObjectContext save:nil];
-        [delegate.dataModel displayAllData];
-    }
-    NSLog(@"newPath %@",_editedBookPath);
+    
 }
 -(void)createACopy{
     NSString *oldDirectoryPath = storyBook.localPathFile;
@@ -1308,6 +1281,41 @@
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     bookJsonString = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    
+    [self getBookJson];
+    [pagesCarousel setClipsToBounds:YES];
+    pageImageView.delegate = self;
+    pageImageView.selectedBrush = 5.0f;
+    pageImageView.selectedEraserWidth = 20.0f;
+    _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
+    BOOL isDir;
+    NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
+    if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
+        [self createACopy];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
+        Book *editedBook=[delegate.dataModel getBookInstance];
+        editedBook.localPathFile=_editedBookPath;
+        int identity=book.id.integerValue;
+        identity += rand();
+        editedBook.id=[NSString stringWithFormat:@"%d", identity];
+        editedBook.localPathImageFile=book.localPathImageFile;
+        editedBook.title=book.title;
+        editedBook.desc=book.desc;
+        editedBook.size=book.size;
+        editedBook.downloaded=@YES;
+        editedBook.bookId=book.bookId;
+        editedBook.edited=@YES;
+        [delegate.managedObjectContext save:nil];
+        [delegate.dataModel displayAllData];
+    }
+    NSLog(@"newPath %@",_editedBookPath);
+    
+    [pagesCarousel reloadData];
+    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
+    [self renderEditorPage:0];
+
 }
 
 - (void)getBookJson {
@@ -1318,9 +1326,6 @@
     NSLog(@"%@", jsonDict);
     
     pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
-    [pagesCarousel reloadData];
-    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
-    [self renderEditorPage:0];
 }
 
 #pragma mark - Audio Recording

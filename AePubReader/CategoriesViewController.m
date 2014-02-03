@@ -76,12 +76,13 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
 #pragma mark - Post API Delegate
 
 - (void)getBookAtPath:(NSURL *)filePath {
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
     [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate unzipExistingJsonBooks];
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
