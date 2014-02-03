@@ -743,7 +743,7 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *pageThumbnail = [[UIImageView alloc] init];
     [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
-    [pageThumbnail setImage:[UIImage imageNamed:@"page.png"]];
+    [pageThumbnail setImage:[UIImage imageNamed:@"white_page.jpeg"]];
     [pageThumbnail setBackgroundColor:[UIColor whiteColor]];
     if (index < [_mangoStoryBook.pages count]) {
         
@@ -796,16 +796,16 @@
         MangoImageLayer *newImageLayer = [[MangoImageLayer alloc] init];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"page" ofType:@"png"];
+        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
         NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/images"],destinationFolder];
+        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/"],destinationFolder];
         if (![fileManager fileExistsAtPath:destinationFolder]) {
             [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
             NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
             [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
         }
         
-        newImageLayer.url = @"/res/images/page.png";
+        newImageLayer.url = @"res/white_page.jpeg";
         newImageLayer.alignment = @"center";
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -860,6 +860,21 @@
     }
 }
 
+-(NSArray *)listFileAtPath:(NSString *)path
+{
+    //-----> LIST ALL FILES <-----//
+    NSLog(@"LISTING ALL FILES FOUND");
+    
+    int count;
+    
+    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
+    for (count = 0; count < (int)[directoryContent count]; count++)
+    {
+        NSLog(@"File %d: %@", (count + 1), [directoryContent objectAtIndex:count]);
+    }
+    return directoryContent;
+}
+
 #pragma mark - DoodleDelegate Method
 
 - (void)replaceImageAtIndex:(NSInteger)index withImage:(UIImage *)image {
@@ -873,7 +888,7 @@
         layerIndex = [currentPage.layers indexOfObject:layerId];
         if ([layer isKindOfClass:[MangoImageLayer class]]) {
             newLayer = (MangoImageLayer *)layer;
-            newLayer.url = [NSString stringWithFormat:@"res/images/white_page_%d", currentPageNumber];
+            newLayer.url = [NSString stringWithFormat:@"res/white_page_%d", currentPageNumber];
             newLayer.alignment = @"center";
             
             NSString *destinationString = [_editedBookPath stringByAppendingFormat:@"/%@", newLayer.url];
@@ -881,8 +896,14 @@
             if ([defaultFileManager fileExistsAtPath:destinationString]) {
                 [defaultFileManager removeItemAtPath:destinationString error:nil];
             }
+            
             NSData *imageData = UIImagePNGRepresentation(image);
-            [imageData writeToFile:destinationString atomically:YES];
+            if ([defaultFileManager fileExistsAtPath:[_editedBookPath stringByAppendingString:@"/res"]]) {
+                NSLog(@"Res Exists");
+                [self listFileAtPath:[_editedBookPath stringByAppendingString:@"/res"]];
+            }
+            BOOL isImageWritten = [defaultFileManager createFileAtPath:destinationString contents:imageData attributes:nil];
+            NSLog(@"%d", isImageWritten);
             
             if ([appDelegate.ejdbController insertOrUpdateObject:newLayer]) {
                 NSLog(@"Success Updating Layer");
@@ -1175,6 +1196,10 @@
 }
 
 - (void)renderEditorPage:(int)pageNumber {
+    pageImageView.delegate = self;
+    pageImageView.selectedBrush = 5.0f;
+    pageImageView.selectedEraserWidth = 20.0f;
+
     currentPageNumber = pageNumber;
     
     for (UIView *subview in [pageImageView subviews]) {
@@ -1284,9 +1309,6 @@
     
     [self getBookJson];
     [pagesCarousel setClipsToBounds:YES];
-    pageImageView.delegate = self;
-    pageImageView.selectedBrush = 5.0f;
-    pageImageView.selectedEraserWidth = 20.0f;
     _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
     BOOL isDir;
     NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
@@ -1456,7 +1478,7 @@ enum
     NSString *recDir = [paths objectAtIndex:0];
     NSString *sourceLocation=[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber];
     NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/audios"],destinationFolder];
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res"],destinationFolder];
     
     NSLog(@"%@ - %@", sourceLocation, destinationFolder);
     NSError *error;
@@ -1475,7 +1497,7 @@ enum
         _audioLayer.wordMap = [[NSArray alloc] init];
         _audioLayer.wordTimes = [[NSArray alloc] init];
     }
-    _audioLayer.url = [NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber];
+    _audioLayer.url = [NSString stringWithFormat:@"res/sampleRecord_%d.caf", currentPageNumber];
 
     if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
         NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:currentPage.layers];
@@ -1502,7 +1524,7 @@ enum
     NSString *recDir = [paths objectAtIndex:0];
     NSString *sourceLocation=[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber];
     NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/audios"],destinationFolder];
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res"],destinationFolder];
     
     NSLog(@"%@ - %@", sourceLocation, destinationFolder);
     NSError *error;
@@ -1516,7 +1538,7 @@ enum
         [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     }
     
-    [newAudioDict setObject:[NSString stringWithFormat:@"res/audios/sampleRecord_%d.caf", currentPageNumber] forKey:ASSET_URL];
+    [newAudioDict setObject:[NSString stringWithFormat:@"res/sampleRecord_%d.caf", currentPageNumber] forKey:ASSET_URL];
     [layersArray addObject:newAudioDict];
     
     [pageDict setObject:layersArray forKey:LAYERS];

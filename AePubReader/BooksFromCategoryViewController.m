@@ -45,7 +45,7 @@
     }else{
         _books= [delegate.dataModel getAllUserBooks];
     }
-    NSInteger count=MIN(_books.count, 6);
+    NSInteger count=MIN(_books.count, 5);
     NSInteger finalIndex=_inital+count;
     UIImage *maskImage=[UIImage imageNamed:@"circle2.png"];
     UIImage *originalImage;
