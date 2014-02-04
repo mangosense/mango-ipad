@@ -296,7 +296,7 @@
     if (_book.edited.boolValue) {
 
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.bookId];
+        MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.id];
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:_book.localPathFile WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];
     } else {
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];

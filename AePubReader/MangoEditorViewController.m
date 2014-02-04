@@ -919,6 +919,7 @@
     if ([appDelegate.ejdbController insertOrUpdateObject:currentPage]) {
         NSLog(@"Success Updating Page");
     }
+    
 }
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
@@ -1319,9 +1320,6 @@
         Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
         Book *editedBook=[delegate.dataModel getBookInstance];
         editedBook.localPathFile=_editedBookPath;
-        int identity=book.id.integerValue;
-        identity += rand();
-        editedBook.id=[NSString stringWithFormat:@"%d", identity];
         editedBook.localPathImageFile=book.localPathImageFile;
         editedBook.title=book.title;
         editedBook.desc=book.desc;
@@ -1329,8 +1327,18 @@
         editedBook.downloaded=@YES;
         editedBook.bookId=book.bookId;
         editedBook.edited=@YES;
-        [delegate.managedObjectContext save:nil];
-        [delegate.dataModel displayAllData];
+        
+        //Make Duplicate in EJDB
+        _mangoStoryBook.id = nil;
+        if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+            NSLog(@"%@", _mangoStoryBook.id);
+            editedBook.id=_mangoStoryBook.id;
+            [delegate.managedObjectContext save:nil];
+            [delegate.dataModel displayAllData];
+
+            
+            NSLog(@"Successfully duplicated book");
+        }
     }
     NSLog(@"newPath %@",_editedBookPath);
     
