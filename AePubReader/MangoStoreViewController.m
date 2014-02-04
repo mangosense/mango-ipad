@@ -19,7 +19,6 @@
 #import "CargoBay.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
-    NSArray *collectionHeaderViewTitleArray;
 }
 
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
@@ -185,7 +184,10 @@
         }
         [_featuredStoriesArray addObjectsFromArray:dataArray];
         _featuredStoriesFetched = YES;
+    } else if ([type isEqualToString:AGE_GROUPS]) {
+        self.ageGroupsFoundInResponse = dataArray;
     }
+    
     if (_liveStoriesFetched && _featuredStoriesFetched) {
         [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
@@ -215,88 +217,30 @@
 #pragma mark - Filters
 
 - (void)filterResponse {
-    for (int i = 0; i < self.liveStoriesArray.count; i++) {
-        NSDictionary *story = self.liveStoriesArray[i];
-        NSDictionary *storyInfo = [story objectForKey:@"info"];
-        NSArray *ageGroups = [storyInfo objectForKey:@"age_groups"];
+    NSMutableDictionary *filteredStoriesDict = [[NSMutableDictionary alloc] init];
+
+    for (NSDictionary *story in self.liveStoriesArray) {
+        NSArray *ageGroups = [[story objectForKey:@"info"] objectForKey:@"age_groups"];
         
-        for (int j = 0; j < ageGroups.count; j++) {
-            NSMutableArray *array;
-            NSString *ageGroup = ageGroups[j];
-            
-            if ([ageGroup isEqualToString:@"0-2"]) {
-                if ([self.liveStoriesFiltered objectForKey:@"0-2"]) {
-                    array = [self.liveStoriesFiltered objectForKey:@"0-2"];
-                    [array addObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"0-2"];
+        for (NSString *ageGroupOfStory in ageGroups) {
+            for (NSDictionary *ageGroupDict in self.ageGroupsFoundInResponse) {
+                NSString *ageGroup = [ageGroupDict objectForKey:NAME];
+                if ([ageGroup isEqualToString:ageGroupOfStory]) {
+                    if ([[filteredStoriesDict allKeys] containsObject:ageGroup]) {
+                        [[filteredStoriesDict objectForKey:ageGroup] addObject:story];
+                    } else {
+                        NSMutableArray *storiesArray = [[NSMutableArray alloc] initWithObjects:story, nil];
+                        [filteredStoriesDict setObject:storiesArray forKey:ageGroup];
+                    }
+                    break;
                 }
-                else {
-                    array = [NSMutableArray arrayWithObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"0-2"];
-                }
-                continue;
-            }
-            
-            if ([ageGroup isEqualToString:@"3-5"]) {
-                if ([self.liveStoriesFiltered objectForKey:@"3-5"]) {
-                    array = [self.liveStoriesFiltered objectForKey:@"3-5"];
-                    [array addObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"3-5"];
-                }
-                else {
-                    array = [NSMutableArray arrayWithObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"3-5"];
-                }
-                continue;
-            }
-            
-            if ([ageGroup isEqualToString:@"6-8"]) {
-                if ([self.liveStoriesFiltered objectForKey:@"6-8"]) {
-                    array = [self.liveStoriesFiltered objectForKey:@"6-8"];
-                    [array addObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"6-8"];
-                }
-                else {
-                    array = [NSMutableArray arrayWithObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"6-8"];
-                }
-                continue;
-            }
-            
-            if ([ageGroup isEqualToString:@"11-13"]) {
-                if ([self.liveStoriesFiltered objectForKey:@"11-13"]) {
-                    array = [self.liveStoriesFiltered objectForKey:@"11-13"];
-                    [array addObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"11-13"];
-                }
-                else {
-                    array = [NSMutableArray arrayWithObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"11-13"];
-                }
-                continue;
-            }
-            
-            if ([ageGroup isEqualToString:@"13+"]) {
-                if ([self.liveStoriesFiltered objectForKey:@"13+"]) {
-                    array = [self.liveStoriesFiltered objectForKey:@"13+"];
-                    [array addObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"13+"];
-                }
-                else {
-                    array = [NSMutableArray arrayWithObject:story];
-                    [self.liveStoriesFiltered setObject:array forKey:@"13+"];
-                }
-                continue;
             }
         }
+
     }
     
-    // Building Age Groups Array based on response.
-    NSSet *ageGroupsFound = [NSSet setWithArray:self.liveStoriesFiltered.allKeys];
-    NSMutableOrderedSet *tempArray = [NSMutableOrderedSet orderedSetWithArray:collectionHeaderViewTitleArray];
-    [tempArray intersectSet:ageGroupsFound];
-    
-    self.ageGroupsFoundInResponse = [tempArray array];        // Found Age Groups in sorted order.
+    NSLog(@"%@", filteredStoriesDict);
+    self.liveStoriesFiltered = filteredStoriesDict;
     [_booksCollectionView reloadData];
 }
 
@@ -337,6 +281,11 @@
     [apiController getListOf:LIVE_STORIES ForParameters:nil withDelegate:self];
 }
 
+- (void)getAllAgeGroups {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    [apiController getListOf:AGE_GROUPS ForParameters:nil withDelegate:self];
+}
+
 - (void)setupInitialUI {
     NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
     NSString * email = [userdefaults objectForKey:EMAIL];
@@ -360,13 +309,6 @@
     [_booksCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Section0"];
     [_booksCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_booksCollectionView];
-    
-    collectionHeaderViewTitleArray = [NSMutableArray arrayWithObjects:@"0-2", @"3-5", @"6-8", @"11-13", @"13+", nil];
-    
-    //#ifdef DEBUG
-    //    [self getStaticData];
-    //#else
-    //#endif
 }
 
 #pragma mark - Items Delegate

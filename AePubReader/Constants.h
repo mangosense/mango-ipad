@@ -111,9 +111,9 @@
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
-#define STORY_FILTER_AGE_GROUP @"/livestories/by/agegroup/"
-#define STORY_FILTER_LANGUAGES @"/livestories/by/language/"
-#define STORY_FILTER_GRADE @"/livestories/by/grade/"
+#define STORY_FILTER_AGE_GROUP @"livestories/by/agegroup/"
+#define STORY_FILTER_LANGUAGES @"livestories/by/language/"
+#define STORY_FILTER_GRADE @"livestories/by/grade/"
 #define SAVE_STORY @"livestories/%@/fork"
 #define NEW_STORY @"stories"
 

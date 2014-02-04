@@ -84,8 +84,13 @@
         }
             break;
             
+        case TABLE_TYPE_LANGUAGE: {
+            cell.textLabel.text = [itemsListArray objectAtIndex:indexPath.row];
+        }
+            break;
+            
         default: {
-            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
+            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME];
         }
             break;
     }
@@ -157,6 +162,11 @@
         }
             break;
             
+        case TABLE_TYPE_LANGUAGE: {
+            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+        }
+            break;
+            
         default: {
             return MAX(44, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
@@ -173,19 +183,24 @@
         case TABLE_TYPE_TEXT_TEMPLATES: {
             [delegate itemType:self.tableType tappedAtIndex:indexPath.row withDetail:nil];
             return;
-            break;
         }
-            
+            break;
+
         case TABLE_TYPE_CATEGORIES:
         case TABLE_TYPE_AGE_GROUPS:
-        case TABLE_TYPE_LANGUAGE:
         case TABLE_TYPE_GRADE: {
             detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             [detailsDict setObject:detail forKey:@"id"];
-            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
+            detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME];
             [detailsDict setObject:detail forKey:@"title"];
             break;
         }
+
+        case TABLE_TYPE_LANGUAGE: {
+            [detailsDict setObject:[itemsListArray objectAtIndex:indexPath.row] forKey:@"id"];
+            [detailsDict setObject:[itemsListArray objectAtIndex:indexPath.row] forKey:@"title"];
+        }
+            break;
 
         default:
             break;

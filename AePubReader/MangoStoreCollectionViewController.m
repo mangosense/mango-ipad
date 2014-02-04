@@ -97,22 +97,22 @@
     
     switch (self.tableType) {
         case TABLE_TYPE_CATEGORIES: {
-            url = [STORY_FILTER_CATEGORY stringByAppendingString:self.selectedItemDetail];
+            url = [STORY_FILTER_CATEGORY stringByAppendingString:self.selectedItemTitle];
         }
             break;
             
         case TABLE_TYPE_AGE_GROUPS: {
-            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemDetail];
+            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemTitle];
         }
             break;
             
         case TABLE_TYPE_LANGUAGE: {
-            url = [STORY_FILTER_LANGUAGES stringByAppendingString:self.selectedItemDetail];
+            url = [STORY_FILTER_LANGUAGES stringByAppendingString:self.selectedItemTitle];
         }
             break;
             
         case TABLE_TYPE_GRADE: {
-            url = [STORY_FILTER_GRADE stringByAppendingString:self.selectedItemDetail];
+            url = [STORY_FILTER_GRADE stringByAppendingString:self.selectedItemTitle];
         }
             break;
             
