@@ -148,6 +148,9 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
+
     if ([type isEqualToString:AGE_GROUPS]) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
@@ -159,12 +162,12 @@
         //Get Stories For Age Groups
         for (NSDictionary *ageGroupDict in self.ageGroupsFoundInResponse) {
             NSString *ageGroup = [ageGroupDict objectForKey:NAME];
-            [apiController getListOf:[STORY_FILTER_AGE_GROUP stringByAppendingString:ageGroup] ForParameters:nil withDelegate:self];
+            [apiController getListOf:[STORY_FILTER_AGE_GROUP stringByAppendingString:ageGroup] ForParameters:paramDict withDelegate:self];
         }
         
         //Get Featured Stories
         if (!_featuredStoriesArray) {
-            [apiController getListOf:FEATURED_STORIES ForParameters:nil withDelegate:self];
+            [apiController getListOf:FEATURED_STORIES ForParameters:paramDict withDelegate:self];
         }
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -212,44 +215,7 @@
     [apiController downloadBookWithId:productId withDelegate:self];
 }
 
-#pragma mark - Filters
-
-- (void)filterResponse {
-    NSMutableDictionary *filteredStoriesDict = [[NSMutableDictionary alloc] init];
-
-    for (NSDictionary *story in self.liveStoriesArray) {
-        NSArray *ageGroups = [[story objectForKey:@"info"] objectForKey:@"age_groups"];
-        
-        for (NSString *ageGroupOfStory in ageGroups) {
-            for (NSDictionary *ageGroupDict in self.ageGroupsFoundInResponse) {
-                NSString *ageGroup = [ageGroupDict objectForKey:NAME];
-                if ([ageGroup isEqualToString:ageGroupOfStory]) {
-                    if ([[filteredStoriesDict allKeys] containsObject:ageGroup]) {
-                        [[filteredStoriesDict objectForKey:ageGroup] addObject:story];
-                    } else {
-                        NSMutableArray *storiesArray = [[NSMutableArray alloc] initWithObjects:story, nil];
-                        [filteredStoriesDict setObject:storiesArray forKey:ageGroup];
-                    }
-                    break;
-                }
-            }
-        }
-
-    }
-    
-    NSLog(@"%@", filteredStoriesDict);
-    liveStoriesFiltered = filteredStoriesDict;
-    [_booksCollectionView reloadData];
-}
-
-#pragma mark - Get Purchased Books
-
-- (void)getLiveStories {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    [apiController getListOf:LIVE_STORIES ForParameters:nil withDelegate:self];
-}
+#pragma mark - Get Books
 
 - (void)getAllAgeGroups {
     MangoApiController *apiController = [MangoApiController sharedApiController];
@@ -258,7 +224,6 @@
 
 - (void)setupInitialUI {
     [self getAllAgeGroups];
-    //[self getLiveStories];
     
     CGRect viewFrame = self.view.bounds;
     
@@ -294,7 +259,9 @@
 
 - (void)seeAllTapped:(NSInteger)section {
     MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
-    selectedCategoryViewController.selectedItemTitle = [[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
+    
+    selectedCategoryViewController.selectedItemTitle = [self.ageGroupsFoundInResponse[section-1] objectForKey:NAME];
+    selectedCategoryViewController.tableType = TABLE_TYPE_AGE_GROUPS;
     NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
     selectedCategoryViewController.liveStoriesQueried = [liveStoriesFiltered objectForKey:ageGroup];
     [self.navigationController pushViewController:selectedCategoryViewController animated:YES];

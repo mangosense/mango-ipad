@@ -122,6 +122,8 @@
 #define EMAIL @"email"
 #define PASSWORD @"password"
 #define BOOK_JSON @"json"
+#define PAGE_NUMBER @"page"
+#define LIMIT @"limit"
 
 #pragma mark - Table Types
 

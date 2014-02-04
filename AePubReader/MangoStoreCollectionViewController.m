@@ -93,32 +93,35 @@
 //    apiController.delegate = self;
     
     NSString *url;
-    NSDictionary *param = nil;
+    
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
+    NSString *filterName = [self.selectedItemTitle stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     switch (self.tableType) {
         case TABLE_TYPE_CATEGORIES: {
-            url = [STORY_FILTER_CATEGORY stringByAppendingString:self.selectedItemTitle];
+            url = [STORY_FILTER_CATEGORY stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_AGE_GROUPS: {
-            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemTitle];
+            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_LANGUAGE: {
-            url = [STORY_FILTER_LANGUAGES stringByAppendingString:self.selectedItemTitle];
+            url = [STORY_FILTER_LANGUAGES stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_GRADE: {
-            url = [STORY_FILTER_GRADE stringByAppendingString:self.selectedItemTitle];
+            url = [STORY_FILTER_GRADE stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_SEARCH: {
             url = LIVE_STORIES_SEARCH;
-            param = [NSDictionary dictionaryWithObject:self.selectedItemDetail forKey:@"q"];
+            [paramDict setObject:filterName forKey:@"q"];
         }
             break;
             
@@ -130,7 +133,7 @@
     }
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [apiController getListOf:url ForParameters:param withDelegate:self];
+    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -215,7 +218,6 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    NSLog(@"Collection View Type: %@ /n Data Array: %@", type, dataArray);
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     if (!self.liveStoriesArray) {
