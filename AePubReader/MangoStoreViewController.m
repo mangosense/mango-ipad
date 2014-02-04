@@ -147,24 +147,8 @@
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     NSLog(@"type : %@ Count; %d Data Aray : %@ ", type, dataArray.count, dataArray);
     
-    if ([type isEqualToString:PURCHASED_STORIES]) {
-        //Will come empty array...
-        self.purchasedBooks = [NSMutableArray arrayWithArray:dataArray];
-        [self getLiveStories];
-        
-        if (!_featuredStoriesArray) {
-            MangoApiController *apiController = [MangoApiController sharedApiController];
-            //            apiController.delegate = self;
-            [apiController getListOf:FEATURED_STORIES ForParameters:nil withDelegate:self];
-        }
-        return;
-    }
-    
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    if (dataArray.count == 0 && ![type isEqualToString:PURCHASED_STORIES]) {
-        return;
-    }
-    
+
     if ([type isEqualToString:LIVE_STORIES]) {
         if (!_liveStoriesArray) {
             _liveStoriesArray = [[NSMutableArray alloc] init];
@@ -172,10 +156,13 @@
         [_liveStoriesArray addObjectsFromArray:dataArray];
         _liveStoriesFetched = YES;
         
-        if (_liveStoriesFetched) {
-            self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
-            [self filterResponse];
+        if (!_featuredStoriesArray) {
+            MangoApiController *apiController = [MangoApiController sharedApiController];
+            [apiController getListOf:FEATURED_STORIES ForParameters:nil withDelegate:self];
         }
+        
+        self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+        [self filterResponse];
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     } else if ([type isEqualToString:FEATURED_STORIES]) {
@@ -259,20 +246,6 @@
 
 #pragma mark - Get Purchased Books
 
-- (void)getAllPurchasedBooks {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    //    apiController.delegate = self;
-    
-    NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
-    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
-    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
-    
-    // FIXME: Uncomment it after testing...
-    [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
-}
-
 - (void)getLiveStories {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -287,17 +260,8 @@
 }
 
 - (void)setupInitialUI {
-    NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
-    NSString * email = [userdefaults objectForKey:EMAIL];
-    NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
-    
     [self getAllAgeGroups];
-    
-    if (email.length>5 && authToken.length >0) {
-        [self getAllPurchasedBooks];
-    } else {
-        [self getLiveStories];
-    }
+    [self getLiveStories];
     
     CGRect viewFrame = self.view.bounds;
     
