@@ -33,12 +33,15 @@
 @property (nonatomic, assign) BOOL featuredStoriesFetched;
 @property (nonatomic, strong) NSMutableArray *purchasedBooks;
 @property (nonatomic, strong) NSString *currentProductPrice;
+@property (nonatomic, assign) int liveStoriesForAgeCounter;
 
 @end
 
 @implementation MangoStoreViewController
 
 @synthesize filterPopoverController;
+@synthesize liveStoriesFiltered;
+@synthesize liveStoriesForAgeCounter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -145,24 +148,24 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    NSLog(@"type : %@ Count; %d Data Aray : %@ ", type, dataArray.count, dataArray);
-    
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    if ([type isEqualToString:AGE_GROUPS]) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-    if ([type isEqualToString:LIVE_STORIES]) {
-        if (!_liveStoriesArray) {
-            _liveStoriesArray = [[NSMutableArray alloc] init];
-        }
-        [_liveStoriesArray addObjectsFromArray:dataArray];
-        _liveStoriesFetched = YES;
+        self.ageGroupsFoundInResponse = dataArray;
         
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        
+        liveStoriesForAgeCounter = 0;
+        //Get Stories For Age Groups
+        for (NSDictionary *ageGroupDict in self.ageGroupsFoundInResponse) {
+            NSString *ageGroup = [ageGroupDict objectForKey:NAME];
+            [apiController getListOf:[STORY_FILTER_AGE_GROUP stringByAppendingString:ageGroup] ForParameters:nil withDelegate:self];
+        }
+        
+        //Get Featured Stories
         if (!_featuredStoriesArray) {
-            MangoApiController *apiController = [MangoApiController sharedApiController];
             [apiController getListOf:FEATURED_STORIES ForParameters:nil withDelegate:self];
         }
-        
-        self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
-        [self filterResponse];
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     } else if ([type isEqualToString:FEATURED_STORIES]) {
@@ -171,18 +174,27 @@
         }
         [_featuredStoriesArray addObjectsFromArray:dataArray];
         _featuredStoriesFetched = YES;
-    } else if ([type isEqualToString:AGE_GROUPS]) {
-        self.ageGroupsFoundInResponse = dataArray;
+    } else if ([type rangeOfString:STORY_FILTER_AGE_GROUP].location != NSNotFound) {
+        NSArray *methodNameComponents = [type componentsSeparatedByString:@"/"];
+        NSString *ageGroup = [methodNameComponents lastObject];
+        
+        if (!liveStoriesFiltered) {
+            liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+        }
+        [liveStoriesFiltered setObject:dataArray forKey:ageGroup];
+        
+        liveStoriesForAgeCounter += 1;
     }
     
-    if (_liveStoriesFetched && _featuredStoriesFetched) {
+    if (liveStoriesForAgeCounter == [self.ageGroupsFoundInResponse count] && _featuredStoriesFetched) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
         [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     }
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
-    //[MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -197,7 +209,6 @@
 
 - (void)itemReadyToUse:(NSString *) productId {
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    //    apiController.delegate = self;
     [apiController downloadBookWithId:productId withDelegate:self];
 }
 
@@ -227,21 +238,8 @@
     }
     
     NSLog(@"%@", filteredStoriesDict);
-    self.liveStoriesFiltered = filteredStoriesDict;
+    liveStoriesFiltered = filteredStoriesDict;
     [_booksCollectionView reloadData];
-}
-
-- (NSArray *)getStoriesForAgeGroup:(NSInteger)section {
-    NSArray *stories = nil;
-    
-    if (!self.liveStoriesArray) {
-        return stories;
-    }
-    
-    NSString *ageGroupForSection = [self.ageGroupsFoundInResponse[section-1] objectForKey:NAME];
-    stories = [self.liveStoriesFiltered objectForKey:ageGroupForSection];
-    
-    return stories;
 }
 
 #pragma mark - Get Purchased Books
@@ -250,7 +248,6 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    //    apiController.delegate = self;
     [apiController getListOf:LIVE_STORIES ForParameters:nil withDelegate:self];
 }
 
@@ -261,7 +258,7 @@
 
 - (void)setupInitialUI {
     [self getAllAgeGroups];
-    [self getLiveStories];
+    //[self getLiveStories];
     
     CGRect viewFrame = self.view.bounds;
     
@@ -298,7 +295,8 @@
 - (void)seeAllTapped:(NSInteger)section {
     MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
     selectedCategoryViewController.selectedItemTitle = [[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
-    selectedCategoryViewController.liveStoriesQueried = [self getStoriesForAgeGroup:section];
+    NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
+    selectedCategoryViewController.liveStoriesQueried = [liveStoriesFiltered objectForKey:ageGroup];
     [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
 }
 
@@ -309,7 +307,6 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
-    NSLog(@"Image:%@", [[self.featuredStoriesArray objectAtIndex:index] objectForKey:@"cover"]);
     //TODO: Need to set images to carousel
     iCarouselImageView *storyImageView = (iCarouselImageView *)[view viewWithTag:iCarousel_VIEW_TAG];
     
@@ -377,7 +374,8 @@
     if(section == 0) {
         return 1;
     } else {
-        return MIN(6, [self getStoriesForAgeGroup:section].count);
+        NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
+        return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
     }
 }
 
@@ -407,10 +405,10 @@
         
         NSDictionary *bookDict;
         
-        if(self.liveStoriesFiltered) {
+        if(liveStoriesFiltered) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            bookDict= [self getStoriesForAgeGroup:indexPath.section][indexPath.row];
-            NSLog(@"Section:%d Row:%d /n Book Dictionary:%@", indexPath.section, indexPath.row, bookDict);
+            NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section-1] objectForKey:NAME];
+            bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
         }
         //        else
         //            bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
@@ -441,7 +439,7 @@
         headerView.section = indexPath.section;
         headerView.delegate = self;
         
-        if(self.liveStoriesFiltered) {
+        if(liveStoriesFiltered) {
             headerView.seeAllButton.hidden = NO;
         }
         
@@ -519,19 +517,6 @@
 }
 
 # pragma mark - Retrieving/Saving data from/to disk
-
-- (void)getStaticData {
-    NSJSONSerialization * JSONPurchased = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/Users/avinashnehra/Desktop/purchased.txt"] options:NSJSONReadingMutableLeaves error:nil];
-    self.purchasedBooks = [NSMutableArray arrayWithArray:(NSArray*)JSONPurchased];
-    
-    NSJSONSerialization * JSON = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/Users/avinashnehra/Desktop/LiveStories.txt"] options:NSJSONReadingMutableLeaves error:nil];
-    self.liveStoriesArray = [[NSMutableArray alloc] initWithArray:(NSArray*)JSON];
-    
-    if (_liveStoriesArray) {
-        self.liveStoriesFiltered = [[NSMutableDictionary alloc] init];
-        [self filterResponse];
-    }
-}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (self.searchTextField ) {
