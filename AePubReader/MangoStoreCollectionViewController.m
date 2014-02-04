@@ -95,7 +95,7 @@
     NSString *url;
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
+    [paramDict setObject:[NSNumber numberWithInt:30] forKey:LIMIT];
     NSString *filterName = [self.selectedItemTitle stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     switch (self.tableType) {
