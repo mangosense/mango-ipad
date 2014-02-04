@@ -151,10 +151,14 @@
                 NSNumber *numberLineHeight=[NSNumber numberWithFloat:lineHeight.floatValue];
                 textLayer.lineHeight=numberLineHeight;
                 NSLog(@"%@ %@",style[@"top_ratio"],style[@"left_ratio"]);
-                textLayer.topRatio= [NSNumber numberWithInt:0];//[NSNumber numberWithFloat:MAX([style[@"top_ratio"] floatValue], 1)];
-                textLayer.leftRatio=[NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
-                textLayer.height=[NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
-                textLayer.width=[NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
+                if (![style[@"top_ratio"] isEqual:[NSNull null]]) {
+                    textLayer.topRatio= [NSNumber numberWithFloat:MAX([style[@"top_ratio"] floatValue], 1)];
+                } else {
+                    textLayer.topRatio = [NSNumber numberWithInt:500];
+                }
+                textLayer.leftRatio = [NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
+                textLayer.height = [NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
+                textLayer.width = [NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
                 if ([self insertOrUpdateObject:textLayer]) {
                     [layerIdArray addObject:textLayer.id];
                 }
