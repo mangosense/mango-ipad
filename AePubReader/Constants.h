@@ -85,6 +85,7 @@
 #define GAME @"game"
 #define CUES @"wordTimes"
 #define WORDMAP @"wordMap"
+#define NAME @"name"
 
 #pragma mark - URL's
 
@@ -101,6 +102,9 @@
 
 #define LIVE_STORIES @"livestories.json"
 #define CATEGORIES @"categories.json"
+#define AGE_GROUPS @"age_groups.json"
+#define LANGUAGES @"available_languages.json"
+#define GRADES @"grades.json"
 #define LOGIN @"sign_in"
 #define DOWNLOAD_STORY @"/livestories/%@/zipped?email=%@&auth_token=%@"
 #define PURCHASED_STORIES @"users/purchased"
@@ -108,7 +112,8 @@
 #define LIVE_STORIES_SEARCH @"livestories/search"
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
 #define STORY_FILTER_AGE_GROUP @"/livestories/by/agegroup/"
-#define STORY_FILTER_LANGUAGES @"/livestories/"   // /livestoriers/:id/languages
+#define STORY_FILTER_LANGUAGES @"/livestories/by/language/"
+#define STORY_FILTER_GRADE @"/livestories/by/grade/"
 #define SAVE_STORY @"livestories/%@/fork"
 #define NEW_STORY @"stories"
 

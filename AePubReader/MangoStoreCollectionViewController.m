@@ -102,22 +102,17 @@
             break;
             
         case TABLE_TYPE_AGE_GROUPS: {
-            NSString *ageGroup = self.selectedItemDetail;
-            NSRange range = [ageGroup rangeOfString:@" Years"];
-            
-            if (range.location != NSNotFound) {
-                ageGroup = [ageGroup stringByReplacingCharactersInRange:range withString:@""];
-            }
-            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:ageGroup];
+            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:self.selectedItemDetail];
         }
             break;
             
         case TABLE_TYPE_LANGUAGE: {
-            url = [STORY_FILTER_LANGUAGES stringByAppendingFormat:@"%@/languages", self.selectedItemDetail];
+            url = [STORY_FILTER_LANGUAGES stringByAppendingString:self.selectedItemDetail];
         }
             break;
             
         case TABLE_TYPE_GRADE: {
+            url = [STORY_FILTER_GRADE stringByAppendingString:self.selectedItemDetail];
         }
             break;
             

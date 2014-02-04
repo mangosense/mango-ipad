@@ -119,19 +119,16 @@
             
         case AGE_TAG: {
             textTemplatesListViewController.tableType = TABLE_TYPE_AGE_GROUPS;
-            textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"0-2 Years", @"3-5 Years", @"6-8 Years", @"11-13 Years", @"13+ Years", nil];
         }
             break;
             
         case LANGUAGE_TAG: {
             textTemplatesListViewController.tableType = TABLE_TYPE_LANGUAGE;
-            textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"English", @"Spanish", @"French", @"German", @"Tamil", @"Hindi", nil];
         }
             break;
             
-        case GRADE_TAG: {           // FIXME: Change Table Type
-            textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
-            textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Pre K", @"Kindergarten", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", nil];
+        case GRADE_TAG: {
+            textTemplatesListViewController.tableType = TABLE_TYPE_GRADE;
         }
             break;
             

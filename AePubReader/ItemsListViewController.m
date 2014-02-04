@@ -84,13 +84,8 @@
         }
             break;
             
-        case TABLE_TYPE_CATEGORIES: {
-            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
-        }
-            break;
-            
         default: {
-            cell.textLabel.text = [itemsListArray objectAtIndex:indexPath.row];
+            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
         }
             break;
     }
@@ -162,13 +157,8 @@
         }
             break;
             
-        case TABLE_TYPE_CATEGORIES: {
-            return MAX(44, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
-        }
-            break;
-            
         default: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(44, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
     }
@@ -186,23 +176,17 @@
             break;
         }
             
-        case TABLE_TYPE_CATEGORIES: {
+        case TABLE_TYPE_CATEGORIES:
+        case TABLE_TYPE_AGE_GROUPS:
+        case TABLE_TYPE_LANGUAGE:
+        case TABLE_TYPE_GRADE: {
             detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             [detailsDict setObject:detail forKey:@"id"];
             detail = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"name"];
             [detailsDict setObject:detail forKey:@"title"];
             break;
         }
-        case TABLE_TYPE_AGE_GROUPS: { // TODO:
-            detail = [itemsListArray objectAtIndex:indexPath.row];
-            [detailsDict setObject:detail forKey:@"id"];
-            break;
-        }
-        case TABLE_TYPE_LANGUAGE: {  // TODO
-            detail = [itemsListArray objectAtIndex:indexPath.row];
-            [detailsDict setObject:detail forKey:@"id"];
-            break;
-        }
+
         default:
             break;
     }
@@ -214,9 +198,7 @@
 
 - (void)setTableType:(int)tableTypeForList {
     tableType = tableTypeForList;
-    if (tableType == TABLE_TYPE_CATEGORIES) {
-        [self getCategories];
-    }
+    [self getListData];
 }
 
 #pragma mark - Post API Delegate
@@ -228,14 +210,33 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - Categories API
+#pragma mark - Get Data API
 
-- (void)getCategories {
+- (void)getListData {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     MangoApiController *apiController = [MangoApiController sharedApiController];
-//    apiController.delegate = self;
-    [apiController getListOf:CATEGORIES ForParameters:nil withDelegate:self];
+    
+    switch (tableType) {
+        case TABLE_TYPE_CATEGORIES:
+            [apiController getListOf:CATEGORIES ForParameters:nil withDelegate:self];
+            break;
+            
+        case TABLE_TYPE_AGE_GROUPS:
+            [apiController getListOf:AGE_GROUPS ForParameters:nil withDelegate:self];
+            break;
+            
+        case TABLE_TYPE_LANGUAGE:
+            [apiController getListOf:LANGUAGES ForParameters:nil withDelegate:self];
+            break;
+            
+        case TABLE_TYPE_GRADE:
+            [apiController getListOf:GRADES ForParameters:nil withDelegate:self];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end
