@@ -251,7 +251,7 @@
         return stories;
     }
     
-    NSString *ageGroupForSection = self.ageGroupsFoundInResponse[section-1];
+    NSString *ageGroupForSection = [self.ageGroupsFoundInResponse[section-1] objectForKey:NAME];
     stories = [self.liveStoriesFiltered objectForKey:ageGroupForSection];
     
     return stories;
@@ -290,6 +290,8 @@
     NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
     NSString * email = [userdefaults objectForKey:EMAIL];
     NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
+    
+    [self getAllAgeGroups];
     
     if (email.length>5 && authToken.length >0) {
         [self getAllPurchasedBooks];
@@ -331,7 +333,7 @@
 
 - (void)seeAllTapped:(NSInteger)section {
     MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
-    selectedCategoryViewController.selectedItemTitle = [self.ageGroupsFoundInResponse[section-1] stringByAppendingString:@" Years"];
+    selectedCategoryViewController.selectedItemTitle = [[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
     selectedCategoryViewController.liveStoriesQueried = [self getStoriesForAgeGroup:section];
     [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
 }
@@ -471,20 +473,12 @@
         StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
         headerView.titleLabel.textColor = COLOR_DARK_RED;
         headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        headerView.titleLabel.text = [self.ageGroupsFoundInResponse[indexPath.section-1] stringByAppendingString:@" Years"];
+        headerView.titleLabel.text = [[self.ageGroupsFoundInResponse[indexPath.section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
         headerView.section = indexPath.section;
         headerView.delegate = self;
         
         if(self.liveStoriesFiltered) {
-            if([self getStoriesForAgeGroup:indexPath.section].count > 6) {
-                if (headerView.seeAllButton.isHidden) {
-                    headerView.seeAllButton.hidden = NO;
-                }
-            } else {
-                if (!headerView.seeAllButton.isHidden) {
-                    headerView.seeAllButton.hidden = YES;
-                }
-            }
+            headerView.seeAllButton.hidden = NO;
         }
         
         return headerView;
