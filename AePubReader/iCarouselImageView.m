@@ -16,13 +16,9 @@
     self = [super initWithFrame:frame];    
     if (self) {
         // Initialization code
-        UIImageView *storyImageView = [[UIImageView alloc] init];
-        [storyImageView setFrame:frame];
-        [[storyImageView layer] setCornerRadius:12];
-        [storyImageView setClipsToBounds:YES];
-        [storyImageView setTag:iCarousel_VIEW_TAG];
-        [storyImageView setContentMode:UIViewContentModeScaleToFill];
-        [self addSubview:storyImageView];
+        [[self layer] setCornerRadius:12];
+        [self setTag:iCarousel_VIEW_TAG];
+        [self setContentMode:UIViewContentModeScaleToFill];
     }
     
     return self;
@@ -35,7 +31,7 @@
 
 - (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString {
     [MBProgressHUD hideAllHUDsForView:self animated:YES];
-    
+
     [self setImage:image];
     [self.delegate iCarouselSaveImage:image ForUrl:urlString];
 }

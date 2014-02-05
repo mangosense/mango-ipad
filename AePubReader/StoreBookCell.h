@@ -23,8 +23,8 @@
 @property (nonatomic, strong) UILabel *bookTitleLabel;
 @property (nonatomic, strong) UILabel *bookAgeGroupLabel;
 @property (nonatomic, strong) UILabel *bookPriceLabel;
-@property (nonatomic, strong) UIButton *soundButton;
-@property (nonatomic, strong) UIButton *interactiveButton;
+@property (nonatomic, strong) UIButton *readPreviewButton;
+@property (nonatomic, strong) UIButton *buyBookButton;
 @property (nonatomic, strong) UIButton *textButton;
 @property (nonatomic, strong) UIButton *imageButton;
 @property (nonatomic, strong) NSString *imageUrlString;

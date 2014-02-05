@@ -13,6 +13,8 @@
 
 @implementation StoreBookCell
 
+@synthesize readPreviewButton;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -28,41 +30,23 @@
         [_frameImageView setImage:[UIImage imageNamed:@"bookframe.png"]];
         [self addSubview:_frameImageView];
         
-        _soundButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_soundButton setImage:[UIImage imageNamed:@"sound.png"] forState:UIControlStateNormal];
-        [_soundButton setFrame:CGRectMake(2, _frameImageView.frame.size.height + 3, 32, 37)];
-        [self addSubview:_soundButton];
+        readPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, _frameImageView.frame.size.height + 3, 64, 37)];
+        [readPreviewButton setTitle:@"Read" forState:UIControlStateNormal];
+        [readPreviewButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [readPreviewButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+        [self addSubview:readPreviewButton];
         
-        _interactiveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_interactiveButton setImage:[UIImage imageNamed:@"interactive.png"] forState:UIControlStateNormal];
-        [_interactiveButton setFrame:CGRectMake(_soundButton.frame.origin.x + _soundButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
-        [self addSubview:_interactiveButton];
-        
-        _textButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_textButton setImage:[UIImage imageNamed:@"txt.png"] forState:UIControlStateNormal];
-        [_textButton setFrame:CGRectMake(_interactiveButton.frame.origin.x + _interactiveButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
-        [self addSubview:_textButton];
-        
-        _imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_imageButton setImage:[UIImage imageNamed:@"image.png"] forState:UIControlStateNormal];
-        [_imageButton setFrame:CGRectMake(_textButton.frame.origin.x + _textButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
-        [self addSubview:_imageButton];
+        _buyBookButton = [[UIButton alloc] initWithFrame:CGRectMake(readPreviewButton.frame.origin.x + readPreviewButton.frame.size.width, _frameImageView.frame.size.height + 3, 64, 37)];
+        [_buyBookButton setTitle:@"Buy" forState:UIControlStateNormal];
+        [_buyBookButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_buyBookButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+        [self addSubview:_buyBookButton];
         
         _bookTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _frameImageView.frame.size.height + 40, 130, 20)];
         _bookTitleLabel.numberOfLines = 2;
         _bookTitleLabel.textColor = COLOR_DARK_RED;
         _bookTitleLabel.font = [UIFont boldSystemFontOfSize:16];
         [self addSubview:_bookTitleLabel];
-
-//        _bookAgeGroupLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20)];
-//        _bookAgeGroupLabel.textColor = COLOR_DARK_RED;
-//        _bookAgeGroupLabel.font = [UIFont systemFontOfSize:16];
-//        [self addSubview:_bookAgeGroupLabel];
-
-//        _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20)];
-//        _bookPriceLabel.textColor = COLOR_DARK_RED;
-//        _bookPriceLabel.font = [UIFont boldSystemFontOfSize:16];
-//        [self addSubview:_bookPriceLabel];
         
         _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20)];
         _bookPriceLabel.textColor = COLOR_DARK_RED;
@@ -76,20 +60,15 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [_soundButton setFrame:CGRectMake(2, _frameImageView.frame.size.height + 3, 32, 37)];
-    [_interactiveButton setFrame:CGRectMake(_soundButton.frame.origin.x + _soundButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
-    [_textButton setFrame:CGRectMake(_interactiveButton.frame.origin.x + _interactiveButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
+    [readPreviewButton setFrame:CGRectMake(2, _frameImageView.frame.size.height + 3, 64, 37)];
+    [_buyBookButton setFrame:CGRectMake(readPreviewButton.frame.origin.x + readPreviewButton.frame.size.width, _frameImageView.frame.size.height + 3, 64, 37)];
+    [_textButton setFrame:CGRectMake(_buyBookButton.frame.origin.x + _buyBookButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
     [_imageButton setFrame:CGRectMake(_textButton.frame.origin.x + _textButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
 
-//    _bookAgeGroupLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20);
-//    _bookPriceLabel.frame = CGRectMake(2, _bookAgeGroupLabel.frame.origin.y + _bookAgeGroupLabel.frame.size.height, 130, 20);
-    
     _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20);
 }
 
 - (void)getImageForUrl:(NSString *)urlString {
-//    [MBProgressHUD showHUDAddedTo:self animated:YES];
-    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     
     [apiController getImageAtUrl:urlString withDelegate:self];

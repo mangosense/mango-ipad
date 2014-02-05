@@ -156,6 +156,7 @@
 		83581490184489D100670D71 /* MangoLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148F184489D100670D71 /* MangoLayer.m */; };
 		835DAD8A183F63C6005A7AA8 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 835DAD89183F63C6005A7AA8 /* white_page.jpeg */; };
 		835FE3E91863299E009D2BC7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 835FE3E81863299E009D2BC7 /* MBProgressHUD.m */; };
+		8360314818A24C8A006C0A70 /* annualHairCutDayCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 8360314718A24C8A006C0A70 /* annualHairCutDayCover.png */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
 		83708941185F166600946376 /* MangoSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370893F185F166600946376 /* MangoSignupViewController.m */; };
@@ -1228,6 +1229,7 @@
 		835DAD89183F63C6005A7AA8 /* white_page.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white_page.jpeg; sourceTree = "<group>"; };
 		835FE3E71863299E009D2BC7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		835FE3E81863299E009D2BC7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		8360314718A24C8A006C0A70 /* annualHairCutDayCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = annualHairCutDayCover.png; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
@@ -2381,6 +2383,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				8360314718A24C8A006C0A70 /* annualHairCutDayCover.png */,
 				83738ED2189BE809006FC1C8 /* Checkmark.png */,
 				83738ED0189BE4C7006FC1C8 /* bedtimestories.png */,
 				AE195E7F181E2FD9008E4208 /* page.png */,
@@ -4640,6 +4643,7 @@
 				83E2D1E2184364EC00F8CDB6 /* editor_339.png in Resources */,
 				AED5E3A817377A4300914590 /* recordbuttonpressed.png in Resources */,
 				AE0C937C183E07E1008E4D54 /* icons_menu.png in Resources */,
+				8360314818A24C8A006C0A70 /* annualHairCutDayCover.png in Resources */,
 				AE0C9393183E22BA008E4D54 /* store_library_button.png in Resources */,
 				83E2D1A3184364EC00F8CDB6 /* editor_282.png in Resources */,
 				AE0C937A183E07AF008E4D54 /* icons_close.png in Resources */,

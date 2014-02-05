@@ -280,9 +280,11 @@
     if (!storyImageView) {
         storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
         storyImageView.delegate = self;
-        [storyImageView setImage:[UIImage imageNamed:@"backimageiphonen.png"]];
+        [storyImageView setImage:[UIImage imageNamed:@"annualHairCutDayCover.png"]];
     }
-    
+    [storyImageView setContentMode:UIViewContentModeScaleAspectFill];
+    [storyImageView setClipsToBounds:YES];
+
     if (self.featuredStoriesFetched) {
         if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]]) {
             storyImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]];
@@ -307,15 +309,19 @@
             
         case iCarouselOptionSpacing: {
             //add a bit of spacing between the item views
-            return value * 1.05f;
+            return value * 1.5f;
         }
-            
+        
         case iCarouselOptionFadeMax: {
             if (carousel.type == iCarouselTypeCustom) {
                 //set opacity based on distance from camera
                 return 0.0f;
             }
-            return value;
+            return value*0.5f;
+        }
+            
+        case iCarouselOptionVisibleItems: {
+            return 5;
         }
             
         default: {
@@ -421,29 +427,19 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
-    NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
-    //TODO: Need to change key name.
-    NSString *productId = [bookDict objectForKey:@"id"];
-    if (productId != nil && productId.length > 0) {
+    if (indexPath.section == 0) {
         
-        //        //Check product is already purchased or not?
-        //        if ([self isProductPurchased:productId]) {
-        //            [self itemReadyToUse:productId];//Download Product from server.
-        //        }
-        //        else {
-        //            ///Purchasing Products
-        //            //TODO: Need to change key name.
-        //            NSString * skIdentifier = [bookDict objectForKey:@"purchasedProduct_Identifier"];
-        
-        //        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:skIdentifier withDelegate:self];
-        
-        //        }
-        
-        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
-    }
-    else {
-        NSLog(@"Product dose not have relative Id");
+    } else {
+        NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
+        NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
+
+        NSString *productId = [bookDict objectForKey:@"id"];
+        if (productId != nil && productId.length > 0) {
+            [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+        }
+        else {
+            NSLog(@"Product dose not have relative Id");
+        }
     }
 }
 
