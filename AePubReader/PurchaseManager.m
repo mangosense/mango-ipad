@@ -70,7 +70,7 @@
                     
                 case SKPaymentTransactionStateFailed:
                 {
-                    NSLog(@"Transaction Failed!");
+                    NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 }
                     break;

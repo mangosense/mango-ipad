@@ -420,8 +420,9 @@
 #pragma mark - UICollectionView Delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+
+    NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
+    NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
     //TODO: Need to change key name.
     NSString *productId = [bookDict objectForKey:@"id"];
     if (productId != nil && productId.length > 0) {
@@ -439,7 +440,7 @@
         
         //        }
         
-        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:@"752" withDelegate:self];
+        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
     }
     else {
         NSLog(@"Product dose not have relative Id");
