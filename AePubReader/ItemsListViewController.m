@@ -250,6 +250,7 @@
             break;
             
         default:
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             break;
     }
 }

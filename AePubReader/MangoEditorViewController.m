@@ -1343,9 +1343,8 @@
     NSLog(@"newPath %@",_editedBookPath);
     
     [pagesCarousel reloadData];
-    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
     [self renderEditorPage:0];
-
+    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
 }
 
 - (void)getBookJson {
