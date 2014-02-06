@@ -27,4 +27,6 @@
 - (MangoPage *)getPageForPageId:(NSString *)pageId;
 - (id)getLayerForLayerId:(NSString *)layerId;
 
+- (BOOL)deleteObject:(id)object;
+
 @end

@@ -101,8 +101,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+
+    [self renderEditorPage:0];
+    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
 }
+
 -(void)createACopy{
     NSString *oldDirectoryPath = storyBook.localPathFile;
     
@@ -741,10 +744,12 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
-    UIImageView *pageThumbnail = [[UIImageView alloc] init];
-    [pageThumbnail setFrame:CGRectMake(0, 0, 130, 90)];
-    [pageThumbnail setImage:[UIImage imageNamed:@"white_page.jpeg"]];
-    [pageThumbnail setBackgroundColor:[UIColor whiteColor]];
+    PageThumbnailView *pageThumbnail = [[PageThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 130, 90)];
+    pageThumbnail.thumbnailImageView.image = [UIImage imageNamed:@"white_page.jpeg"];
+    [pageThumbnail setBackgroundColor:[UIColor clearColor]];
+    pageThumbnail.delegate = self;
+    pageThumbnail.deleteButton.tag = index;
+    
     if (index < [_mangoStoryBook.pages count]) {
         
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -756,7 +761,7 @@
             
             if ([layer isKindOfClass:[MangoImageLayer class]]) {
                 MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
-                [pageThumbnail setImage:[UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]]];
+                [pageThumbnail.thumbnailImageView setImage:[UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]]];
                 break;
             } else if ([layer isKindOfClass:[MangoCapturedImageLayer class]]) {
                 MangoCapturedImageLayer *capturedImageLayer = (MangoCapturedImageLayer *)layer;
@@ -768,7 +773,7 @@
                     CGImageRef iref = [rep fullResolutionImage];
                     if (iref) {
                         UIImage *image = [UIImage imageWithCGImage:iref];
-                        [pageThumbnail setImage:image];
+                        [pageThumbnail.thumbnailImageView setImage:image];
                     }
                 } failureBlock:^(NSError *myerror) {
                     NSLog(@"Couldn't get image - %@",[myerror localizedDescription]);
@@ -777,7 +782,7 @@
         }
     } else {
         UIImage *image = [UIImage imageNamed:@"addnewpage.png"];
-        [pageThumbnail setImage:image];
+        [pageThumbnail.thumbnailImageView setImage:image];
     }
     
     return pageThumbnail;
@@ -873,6 +878,21 @@
         NSLog(@"File %d: %@", (count + 1), [directoryContent objectAtIndex:count]);
     }
     return directoryContent;
+}
+
+#pragma mark - Page Delete Delegate Method
+
+- (void)deletePageNumber:(int)pageNumber {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
+    [mutablePagesArray removeObjectAtIndex:pageNumber];
+    _mangoStoryBook.pages = (NSArray *)mutablePagesArray;
+    if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+            NSLog(@"Page deleted");
+            [pagesCarousel removeItemAtIndex:pageNumber animated:YES];
+            [pagesCarousel reloadData];
+            [self carousel:pagesCarousel didSelectItemAtIndex:MIN(pageNumber, [_mangoStoryBook.pages count] - 1)];
+    }
 }
 
 #pragma mark - DoodleDelegate Method
@@ -1146,14 +1166,25 @@
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
-            /*if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] != nil) {
-             textFrame = CGRectMake([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_X] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_POSITION_Y] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
-             } else {*/
             textFrame = CGRectMake(100, 100, 600, 400);
-            /*}*/
+
             if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
                 if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
-                    textFrame = CGRectMake(MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100), MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100), [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                    
+                    CGFloat xOrigin = 0;
+                    if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
+                        xOrigin = MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100);
+                    }
+                    
+                    
+                    CGFloat yOrigin = 0;
+                    if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
+                        yOrigin = MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100);
+                    }
+                    
+                    CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
+                    
+                    textFrame = CGRectMake(xOrigin, yOrigin, textSize.width - 100, textSize.height + 100);
                 }
             }
             
@@ -1326,7 +1357,7 @@
         editedBook.size=book.size;
         editedBook.downloaded=@YES;
         editedBook.bookId=book.bookId;
-        editedBook.edited=@YES;
+        editedBook.edited = @YES;
         
         //Make Duplicate in EJDB
         _mangoStoryBook.id = nil;
@@ -1336,15 +1367,12 @@
             [delegate.managedObjectContext save:nil];
             [delegate.dataModel displayAllData];
 
-            
             NSLog(@"Successfully duplicated book");
         }
     }
     NSLog(@"newPath %@",_editedBookPath);
     
     [pagesCarousel reloadData];
-    [self renderEditorPage:0];
-    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
 }
 
 - (void)getBookJson {
@@ -1636,6 +1664,7 @@ enum
 #pragma mark - Audio Mapping
 
 - (void)saveAudioMapping {
+    
     _audioLayer.wordTimes = [audioMappingViewController.cues copy];
     _audioLayer.wordMap = [audioMappingViewController.customView.text copy];
     
@@ -1646,6 +1675,7 @@ enum
 }
 
 - (void)showAudioMappingScreen {
+    [self selectedColor:0];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *recDir = [paths objectAtIndex:0];
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
@@ -1702,7 +1732,9 @@ enum
     
 
 }
+
 -(void)showAudioMappingScreenDb {
+    [self selectedColor:0];
     if (audioMappingViewController) {
         [audioMappingViewController.view removeFromSuperview];
     }

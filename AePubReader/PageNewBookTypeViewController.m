@@ -160,7 +160,7 @@
 }
 
 - (IBAction)editButton:(id)sender {
-    UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Fork this book" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Create your own version" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     editAlertView.tag = FORK_TAG;
     [editAlertView show];
 }

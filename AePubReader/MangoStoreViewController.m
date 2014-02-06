@@ -280,16 +280,16 @@
     if (!storyImageView) {
         storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
         storyImageView.delegate = self;
-        [storyImageView setImage:[UIImage imageNamed:@"annualHairCutDayCover.png"]];
     }
     [storyImageView setContentMode:UIViewContentModeScaleAspectFill];
     [storyImageView setClipsToBounds:YES];
 
+    NSString *coverImageUrl = [[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     if (self.featuredStoriesFetched) {
-        if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]]) {
-            storyImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]];
+        if ([_localImagesDictionary objectForKey:coverImageUrl]) {
+            storyImageView.image = [_localImagesDictionary objectForKey:coverImageUrl];
         } else {
-            [storyImageView getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]]];
+            [storyImageView getImageForUrl:coverImageUrl];
         }
     }
     

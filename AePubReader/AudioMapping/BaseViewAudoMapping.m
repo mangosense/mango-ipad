@@ -18,6 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        [self setExclusiveTouch:YES];
     }
     return self;
 }

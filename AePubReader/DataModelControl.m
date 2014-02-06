@@ -79,12 +79,12 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
         return array;
 
 }
--(NSArray *)getOriginalBooks{
+-(NSArray *)getEditedBooks{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
     [fetchRequest setEntity:entity];
-     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"edited==%@",@NO];
+     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"edited==%@",@YES];
      [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *desc=[[NSSortDescriptor alloc] initWithKey:@"downloadedDate" ascending:NO];

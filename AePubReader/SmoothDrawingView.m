@@ -137,7 +137,7 @@ uint ctr;
             break;
             
         default:
-            [[UIColor redColor] setStroke];
+            [[UIColor colorWithPatternImage:tempImage] setStroke];
             break;
     }
     
@@ -289,7 +289,7 @@ uint ctr;
             break;
             
         default:
-            [[UIColor redColor] setStroke];
+            [[UIColor colorWithPatternImage:tempImage] setStroke];
             break;
     }
     

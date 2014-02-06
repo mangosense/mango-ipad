@@ -21,8 +21,9 @@
 #import "MenuTableViewController.h"
 #import "DrawingToolsView.h"
 #import "MangoApiController.h"
+#import "PageThumbnailView.h"
 
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate, AudioMappingDelegate, TextLayerDelegate, PopControllerDelegate, DrawingToolsDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol> {
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate, AudioMappingDelegate, TextLayerDelegate, PopControllerDelegate, DrawingToolsDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol, PageDelete> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;

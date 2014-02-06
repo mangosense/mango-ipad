@@ -108,16 +108,21 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
 #pragma mark - Get Purchased Books
 
 - (void)getAllPurchasedBooks {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
 //    apiController.delegate = self;
     
     NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
-    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
-    [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
     
-    [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+        [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
+        
+        [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
+    }
+    
 }
 
 @end

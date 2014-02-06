@@ -41,7 +41,7 @@
     _titleLabelArray=[NSArray arrayWithObjects:_labelone,_labelTwo,_labelThree,_labelFour,_labelFive, nil];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (_toEdit) {
-        _books=[delegate.dataModel getOriginalBooks];
+        _books=[delegate.dataModel getEditedBooks];
     }else{
         _books= [delegate.dataModel getAllUserBooks];
     }

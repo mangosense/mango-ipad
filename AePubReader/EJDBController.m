@@ -46,6 +46,12 @@
     return layer;
 }
 
+#pragma mark - Delete Objects
+
+- (BOOL)deleteObject:(id)object {
+    return [_collection removeObject:object];
+}
+
 #pragma mark - Save Book To Core Data
 
 - (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath {

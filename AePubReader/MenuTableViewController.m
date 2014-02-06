@@ -55,7 +55,7 @@
     // Return the number of rows in the section.
     switch (section) {
         case 0:
-            return 4;
+            return 2;
             break;
             
         case 1:
@@ -88,14 +88,6 @@
                     break;
                     
                 case 1:
-                    cell.textLabel.text = @"Publish This Story";
-                    break;
-                    
-                case 2:
-                    cell.textLabel.text = @"Open A Recent Story";
-                    break;
-                    
-                case 3:
                     cell.textLabel.text = @"Create A New Story";
                     break;
                     
