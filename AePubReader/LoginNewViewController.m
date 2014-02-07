@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import "SignUpViewController.h"
 
 @interface LoginNewViewController ()
 
@@ -45,7 +46,7 @@
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
-    [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text];
+    [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO];
 }
 
 - (IBAction)goToNext:(id)sender {
@@ -54,7 +55,9 @@
 }
 
 - (IBAction)signUp:(id)sender {
-    
+    SignUpViewController *signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    signupViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+    [self presentViewController:signupViewController animated:YES completion:nil];
 }
 
 #pragma mark - API Delegate

@@ -53,7 +53,7 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
 
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-
+    
     [self loadPageWithOption:_option];
     
     _rightView.backgroundColor=[UIColor clearColor];
@@ -234,16 +234,24 @@
 - (IBAction)openGameCentre:(id)sender {
     [PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
-    MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
-    gamesListViewController.jsonString = _jsonContent;
-    gamesListViewController.folderLocation = _book.localPathFile;
-    
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
-    [navController.navigationBar setHidden:YES];
-    
-    [self.navigationController presentViewController:navController animated:YES completion:^{
+    NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
+        UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [noGamesAlert show];
+    } else {
+        MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+        gamesListViewController.jsonString = _jsonContent;
+        gamesListViewController.folderLocation = _book.localPathFile;
         
-    }];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
+        [navController.navigationBar setHidden:YES];
+        
+        [self.navigationController presentViewController:navController animated:YES completion:^{
+            
+        }];
+    }
 }
 - (void)showComingSoonPopover:(id)sender {
     UIButton *button = (UIButton *)sender;

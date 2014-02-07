@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "StoreCollectionFlowLayout.h"
 #import "StoreCollectionHeaderView.h"
+#import "CargoBay.h"
 
 #define STORE_BOOK_CELL_ID @"StoreBookCell"
 #define HEADER_ID @"headerId"
@@ -192,6 +193,18 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"defaultHeader" forIndexPath:indexPath];
     return headerView;    
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+
+    NSString *productId = [bookDict objectForKey:@"id"];
+    if (productId != nil && productId.length > 0) {
+        [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+    }
+    else {
+        NSLog(@"Product dose not have relative Id");
+    }
 }
 
 #pragma mark - Local Image Saving Delegate

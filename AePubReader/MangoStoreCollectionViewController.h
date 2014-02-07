@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "StoreBookCell.h"
+#import "PurchaseManager.h"
 
-@interface MangoStoreCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LocalImagesProtocol, MangoPostApiProtocol>
+@interface MangoStoreCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LocalImagesProtocol, MangoPostApiProtocol, PurchaseManagerProtocol>
 
 @property (nonatomic, assign) int tableType;
 @property (nonatomic, copy) NSString *selectedItemDetail;           // Row tapped to perform filter.

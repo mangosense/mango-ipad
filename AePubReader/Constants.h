@@ -86,6 +86,7 @@
 #define CUES @"wordTimes"
 #define WORDMAP @"wordMap"
 #define NAME @"name"
+#define NUMBER_OF_GAMES @"widget_count"
 
 #pragma mark - URL's
 
@@ -106,6 +107,7 @@
 #define LANGUAGES @"available_languages.json"
 #define GRADES @"grades.json"
 #define LOGIN @"sign_in"
+#define SIGN_UP @"sign_up"
 #define DOWNLOAD_STORY @"/livestories/%@/zipped?email=%@&auth_token=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
-@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate>
+#import "MangoApiController.h"
+
+@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol>
 - (IBAction)signUp:(id)sender;
 - (IBAction)donePressed:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *nameFull;

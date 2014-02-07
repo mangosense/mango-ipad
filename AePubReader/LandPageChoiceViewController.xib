@@ -19,8 +19,18 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="67c-sb-jCf">
+                    <rect key="frame" x="368" y="493" width="647" height="273"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="button_my-stories.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="myStories:" destination="-1" eventType="touchUpInside" id="2Ph-wA-iUc"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jAx-7v-d8D">
-                    <rect key="frame" x="5" y="22" width="440" height="515"/>
+                    <rect key="frame" x="3" y="9" width="448" height="542"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="button_create story.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -29,34 +39,14 @@
                         <action selector="creatAStory:" destination="-1" eventType="touchUpInside" id="zG5-dy-8uz"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JS4-XB-Rxg">
-                    <rect key="frame" x="394" y="13" width="355" height="264"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="button_free stories.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="openFreeStories:" destination="-1" eventType="touchUpInside" id="fvY-lO-RuQ"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ge0-ua-wtV">
-                    <rect key="frame" x="696" y="118" width="324" height="397"/>
+                    <rect key="frame" x="688" y="92" width="336" height="454"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="button_store.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="store:" destination="-1" eventType="touchUpInside" id="1bk-ta-9HT"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="67c-sb-jCf">
-                    <rect key="frame" x="378" y="509" width="633" height="258"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="button_my stories.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="myStories:" destination="-1" eventType="touchUpInside" id="2Ph-wA-iUc"/>
                     </connections>
                 </button>
             </subviews>
@@ -66,10 +56,9 @@
         </view>
     </objects>
     <resources>
-        <image name="button_create story.png" width="440" height="515"/>
-        <image name="button_free stories.png" width="355" height="264"/>
-        <image name="button_my stories.png" width="633" height="252"/>
-        <image name="button_store.png" width="324" height="397"/>
+        <image name="button_create story.png" width="448" height="542"/>
+        <image name="button_my-stories.png" width="647" height="273"/>
+        <image name="button_store.png" width="336" height="454"/>
         <image name="nav.png" width="1024" height="768"/>
     </resources>
 </document>

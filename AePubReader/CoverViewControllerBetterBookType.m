@@ -86,7 +86,6 @@
 }
 
 - (IBAction)gameButtonTapped:(id)sender {
-    MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
     
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -96,16 +95,26 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-
-    gamesListViewController.jsonString = jsonContent;
-    gamesListViewController.folderLocation = _book.localPathFile;
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
-    [navController.navigationBar setHidden:YES];
-    
-    [self.navigationController presentViewController:navController animated:YES completion:^{
+    NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    NSLog(@"%@", jsonDict);
+    if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
+        UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [noGamesAlert show];
+    } else {
+        MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+        gamesListViewController.jsonString = jsonContent;
+        gamesListViewController.folderLocation = _book.localPathFile;
         
-    }];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
+        [navController.navigationBar setHidden:YES];
+        
+        [self.navigationController presentViewController:navController animated:YES completion:^{
+            
+        }];
+    }
+
 }
 
 @end
