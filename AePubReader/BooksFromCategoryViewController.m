@@ -56,32 +56,34 @@
         UIButton *button=_buttonArray[i];
         button.hidden=NO;
         Book *book=_books[i];
-        UIImageView *imageView=_imageArray[i];
-        
-        //For Cover Image
-        NSString *jsonLocation=book.localPathFile;
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
-        NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-        NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-        jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
-
-        NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-        UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
-        
-        NSLog(@"Local Path File %@",book.localPathImageFile);
-        originalImage= image;
-        imageView.image=   [self maskImage:originalImage withMask:maskImage];
-        CGRect frame=imageView.frame;
-        frame.size=maskImage.size;
-        frame.origin=button.frame.origin;
-        imageView.frame=frame;
-        imageView.hidden=NO;
-        UILabel *label=_titleLabelArray[i];
-        label.text=book.title;
-        label.hidden=NO;
-        button.tag = i+5; //Random tag
-        [_bookIdDictionary setObject:book.id forKey:[NSString stringWithFormat:@"%d", button.tag]];
+        if (book.localPathFile) {
+            UIImageView *imageView=_imageArray[i];
+            
+            //For Cover Image
+            NSString *jsonLocation=book.localPathFile;
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+            NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+            NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+            
+            NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+            UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
+            
+            NSLog(@"Local Path File %@",book.localPathImageFile);
+            originalImage= image;
+            imageView.image=   [self maskImage:originalImage withMask:maskImage];
+            CGRect frame=imageView.frame;
+            frame.size=maskImage.size;
+            frame.origin=button.frame.origin;
+            imageView.frame=frame;
+            imageView.hidden=NO;
+            UILabel *label=_titleLabelArray[i];
+            label.text=book.title;
+            label.hidden=NO;
+            button.tag = i+5; //Random tag
+            [_bookIdDictionary setObject:book.id forKey:[NSString stringWithFormat:@"%d", button.tag]];
+        }
     }
 }
 

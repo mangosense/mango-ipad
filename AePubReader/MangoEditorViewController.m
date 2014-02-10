@@ -858,13 +858,15 @@
 - (void)deletePageNumber:(int)pageNumber {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
-    [mutablePagesArray removeObjectAtIndex:pageNumber];
-    _mangoStoryBook.pages = (NSArray *)mutablePagesArray;
-    if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+    if (pageNumber < [mutablePagesArray count]) {
+        [mutablePagesArray removeObjectAtIndex:pageNumber];
+        _mangoStoryBook.pages = (NSArray *)mutablePagesArray;
+        if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
             NSLog(@"Page deleted");
             [pagesCarousel removeItemAtIndex:pageNumber animated:YES];
             [pagesCarousel reloadData];
             [self carousel:pagesCarousel didSelectItemAtIndex:MIN(pageNumber, [_mangoStoryBook.pages count] - 1)];
+        }
     }
 }
 
