@@ -121,9 +121,17 @@
     delegate.pageViewController=self;
     switch (button.tag) {
         case 0:
-            controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
-            
-            [self.navigationController pushViewController:controller animated:YES];
+            if (_toEdit) {
+                MangoEditorViewController *newBookEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                newBookEditorViewController.isNewBook = YES;
+                newBookEditorViewController.storyBook = nil;
+                [self.navigationController.navigationBar setHidden:YES];
+                [self.navigationController pushViewController:newBookEditorViewController animated:YES];
+            } else {
+                controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                
+                [self.navigationController pushViewController:controller animated:YES];
+            }
             break;
         default:
             if (_toEdit) {
@@ -134,6 +142,7 @@
                 identity=[NSString stringWithFormat:@"%@",book.id];
                 
                 MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                mangoEditorViewController.isNewBook = NO;
                 mangoEditorViewController.storyBook = book;
                 [self.navigationController.navigationBar setHidden:YES];
                 [self.navigationController pushViewController:mangoEditorViewController animated:YES];

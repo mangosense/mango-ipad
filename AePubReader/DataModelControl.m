@@ -265,7 +265,7 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Book" inManagedObjectContext:_dataModelContext];
- NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id==%@",[iden stringByDeletingPathExtension]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id==%@",[iden stringByDeletingPathExtension]];
     NSError *error;
     [fetchRequest setPredicate:predicate];
     [fetchRequest setEntity:entity];
@@ -529,6 +529,7 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
        return array;
     
 }
+
 -(BOOL)insertIfNew:(NSMutableData *)data{
     NSArray *array=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
@@ -541,19 +542,19 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
         NSDictionary *fromDict=array[i];
         NSDictionary *key=fromDict[@"book"];
 
-           NSString *temp=[NSString stringWithFormat:@"%@.jpg",key[@"id"]];
+           NSString *temp = [NSString stringWithFormat:@"%@.jpg",key[@"id"]];
            
            
            NSNumber *numberId=key[@"id"];
            
-           temp=[string stringByAppendingPathComponent:temp];
+           temp = [string stringByAppendingPathComponent:temp];
            NSURL *url=[NSURL URLWithString:key[@"cover_image_url"]];
-           if (![self checkIfIdExists:numberId]) {
+           if (![self checkIfIdExists:[NSString stringWithFormat:@"%d", [numberId intValue]]]) {
                count++;
                Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
                book.id=key[@"id"];
                if ([NSNull null] !=key[@"description"]) {
-               book.desc=key[@"description"];    
+                   book.desc=key[@"description"];
                }else{
                    book.desc=@"";
                }
@@ -564,7 +565,7 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
                tempUrl=[tempUrl stringByReplacingOccurrencesOfString:@"localhost" withString:@"192.168.2.28"];
                book.imageUrl=tempUrl;
                if ([NSNull null] !=key[@"title"]) {
-               book.title=key[@"title"];
+                   book.title=key[@"title"];
                }else{
                    book.title=@"";
                }
@@ -578,49 +579,46 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
                }
                book.downloadedDate=[NSDate dateWithTimeIntervalSinceNow:NSTimeIntervalSince1970];
                NSNumber *numb=key[@"source_file_size"];
-             if((id)[NSNull null]!=numb){
-               book.size=@([numb floatValue]);
-               NSLog(@"%@",book.title);
+               if((id)[NSNull null]!=numb){
+                   book.size=@([numb floatValue]);
+                   NSLog(@"%@",book.title);
               
                }
                NSError *error=nil;
                NSURLResponse *response;
-//
+
                NSURLRequest *request=[NSURLRequest requestWithURL:url];
                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                book.localPathImageFile=temp;
                [data writeToFile:temp atomically:YES];
-NSLog(@"mime type %@",response.MIMEType);
+               NSLog(@"mime type %@",response.MIMEType);
                if (![_dataModelContext save:&error]) {
                    NSLog(@"%@",error);
                }
-              
-           }else{
+           } else {
                NSNumber *num=key[@"source_file_size"];
                NSNumber *iden=key[@"id"];
                NSString *str=[[NSString alloc ]initWithFormat:@"%@.epub",iden];
                Book *book=[self getBookOfId:str];
                if(num!=(id)[NSNull null]){
                    book.size=@([num floatValue]);
-               book.desc=key[@"description"];
+                   book.desc=key[@"description"];
                }
-                NSLog(@"id %@",iden );
-                 NSNumber *type=key[@"booktype"];
+               NSLog(@"id %@",iden );
+               NSNumber *type=key[@"booktype"];
                if (type!=(id)[NSNull null]) {
                    book.textBook=type;
 
                }
-                                  NSLog(@"id %@",iden );
-                   book.sourceFileUrl=key[@"book_url"];
-                      book.imageUrl=key[@"cover_image_url"];
+               NSLog(@"id %@",iden );
+               book.sourceFileUrl=key[@"book_url"];
+               book.imageUrl=key[@"cover_image_url"];
                book.localPathImageFile=temp;
 
                [self saveData:book];
            }
-      //  if ([[NSFileManager defaultManager] fileExistsAtPath:temp]) {
-       //     [[NSFileManager defaultManager] removeItemAtPath:temp error:nil];
-        //}
-           if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
+
+        if (![[NSFileManager defaultManager] fileExistsAtPath:temp]) {
                NSURLResponse *response;
                NSError *error;
                NSURLRequest *request=[NSURLRequest requestWithURL:url];
@@ -628,7 +626,7 @@ NSLog(@"mime type %@",response.MIMEType);
                NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                NSLog(@"mime type %@",response.MIMEType);
                [data writeToFile:temp atomically:YES];
-           }
+       }
            
            
     }//end for
@@ -636,7 +634,9 @@ NSLog(@"mime type %@",response.MIMEType);
 
     return YES;
 }
+
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
 
 }
+
 @end

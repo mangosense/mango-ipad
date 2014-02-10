@@ -112,7 +112,7 @@
 - (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:bookId];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -126,11 +126,11 @@
                                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                           NSLog(@"Error: %@", error);
                                       }];
-    op.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];
+    op.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];*/
     
     //////--------
     
-    /*NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
     NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [[userDefaults objectForKey:EMAIL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [userDefaults objectForKey:AUTH_TOKEN]]];
@@ -145,7 +145,7 @@
             [delegate getBookAtPath:filePath];
         }
     }];
-    [downloadTask resume];*/
+    [downloadTask resume];
 }
 
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON {

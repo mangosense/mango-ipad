@@ -41,6 +41,8 @@
     int recordEncoding;
     
     Book *storyBook;
+    
+    BOOL isNewBook;
 }
 @property(nonatomic,strong) AssetDatasource *dataSource;
 @property (nonatomic, strong) IBOutlet UIButton *mangoButton;
@@ -61,6 +63,8 @@
 @property(nonatomic,strong) NSURL *audioUrl;
 @property(nonatomic,assign) CGRect textFrame;
 @property(nonatomic,strong) NSString *editedBookPath;
+@property (nonatomic, assign) BOOL isNewBook;
+
 - (IBAction)mangoButtonTapped:(id)sender;
 - (IBAction)menuButtonTapped:(id)sender;
 - (IBAction)imageButtonTapped:(id)sender;

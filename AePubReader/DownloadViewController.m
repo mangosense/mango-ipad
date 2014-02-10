@@ -105,8 +105,8 @@
             }
           
         }else{
-        NSMutableData *dataToInsert=[[NSMutableData alloc]initWithData:data];
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            NSMutableData *dataToInsert=[[NSMutableData alloc]initWithData:data];
+            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             [delegate.dataModel insertIfNew:dataToInsert];
         }
 

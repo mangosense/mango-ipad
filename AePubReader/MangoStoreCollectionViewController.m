@@ -171,7 +171,7 @@
     if(_liveStoriesArray.count > indexPath.row) {
         bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
         
-        cell.bookPriceLabel.text = [bookDict objectForKey:@"price"];//@"Rs. 99";
+        cell.bookPriceLabel.text = [NSString stringWithFormat:@"%d", [[bookDict objectForKey:@"price"] intValue]];//@"Rs. 99";
         cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
         [cell setNeedsLayout];

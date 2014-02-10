@@ -26,6 +26,7 @@
 - (MangoBook *)getBookForBookId:(NSString *)bookId;
 - (MangoPage *)getPageForPageId:(NSString *)pageId;
 - (id)getLayerForLayerId:(NSString *)layerId;
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath;
 
 - (BOOL)deleteObject:(id)object;
 

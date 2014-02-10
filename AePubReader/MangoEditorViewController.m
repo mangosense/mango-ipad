@@ -60,6 +60,8 @@
 @end
 
 @implementation MangoEditorViewController
+
+@synthesize isNewBook;
 @synthesize pageImageView;
 @synthesize mangoButton;
 @synthesize menuButton;
@@ -197,7 +199,7 @@
 
 - (void)addNewPageWithImageUrl:(NSURL *)assetUrl {
     NSMutableDictionary *newPageDict = [[NSMutableDictionary alloc] init];
-    [newPageDict setObject:[NSNumber numberWithInt:[pagesArray count]] forKey:@"id"];
+    [newPageDict setObject:[NSNumber numberWithInt:[_mangoStoryBook.pages count]] forKey:@"id"];
     
     NSMutableArray *layersArray = [[NSMutableArray alloc] init];
     NSMutableDictionary *imageDict = [[NSMutableDictionary alloc] init];
@@ -214,10 +216,12 @@
             
             [newPageDict setObject:layersArray forKey:LAYERS];
             
-            [pagesArray addObject:newPageDict];
+            NSMutableArray *tempPagesArray = [[NSMutableArray alloc] initWithArray:_mangoStoryBook.pages];
+            [tempPagesArray addObject:newPageDict];
+            _mangoStoryBook.pages = tempPagesArray;
             
             [pagesCarousel reloadData];
-            [self carousel:pagesCarousel didSelectItemAtIndex:[pagesArray count] - 1];
+            [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
         }
     } failureBlock:^(NSError *myerror) {
         NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
@@ -792,45 +796,9 @@
     if (index < [_mangoStoryBook.pages count]) {
         [self renderEditorPage:index];
     } else {
-        MangoPage *newPage = [[MangoPage alloc] init];
-        newPage.pageable_id = _mangoStoryBook.id;
-        newPage.name = [NSString stringWithFormat:@"%d", [_mangoStoryBook.pages count]];
-        
-        NSMutableArray *layersArray = [[NSMutableArray alloc] init];
-        
-        MangoImageLayer *newImageLayer = [[MangoImageLayer alloc] init];
-        
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
-        NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-        destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/"],destinationFolder];
-        if (![fileManager fileExistsAtPath:destinationFolder]) {
-            [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
-        }
-        
-        newImageLayer.url = @"res/white_page.jpeg";
-        newImageLayer.alignment = @"center";
-
-        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-        if ([appDelegate.ejdbController insertOrUpdateObject:newImageLayer]) {
-            [layersArray addObject:newImageLayer.id];
-            newPage.layers = layersArray;
-        }
-        
-        if ([appDelegate.ejdbController insertOrUpdateObject:newPage]) {
-            NSMutableArray *existingPagesArray = [[NSMutableArray alloc] initWithArray:_mangoStoryBook.pages];
-            [existingPagesArray addObject:newPage.id];
-            _mangoStoryBook.pages = existingPagesArray;
-            
-            if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
-                NSLog(@"Successfully updated book");
-            }
-            
-            [pagesCarousel reloadData];
-            [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
-        }
+        [self createEmptyPage];
+        [pagesCarousel reloadData];
+        [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
     }
 }
 
@@ -1326,63 +1294,131 @@
 
 #pragma mark - Book JSON Methods
 
-- (void)setStoryBook:(Book *)storyBookChosen {
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
-    
-    storyBook = storyBookChosen;
-    NSString *jsonLocation=storyBook.localPathFile;
+- (NSString *)jsonStringForLocation:(NSString *)jsonLocation {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
-    bookJsonString = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    
-    [self getBookJson];
-    [pagesCarousel setClipsToBounds:YES];
-    _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
-    BOOL isDir;
-    NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
-        [self createACopy];
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        
-        Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
-        Book *editedBook=[delegate.dataModel getBookInstance];
-        editedBook.localPathFile=_editedBookPath;
-        editedBook.localPathImageFile=book.localPathImageFile;
-        editedBook.title=book.title;
-        editedBook.desc=book.desc;
-        editedBook.size=book.size;
-        editedBook.downloaded=@YES;
-        editedBook.bookId=book.bookId;
-        editedBook.edited = @YES;
-        
-        //Make Duplicate in EJDB
-        _mangoStoryBook.id = nil;
-        if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
-            NSLog(@"%@", _mangoStoryBook.id);
-            editedBook.id=_mangoStoryBook.id;
-            [delegate.managedObjectContext save:nil];
-            [delegate.dataModel displayAllData];
-
-            NSLog(@"Successfully duplicated book");
-        }
-    }
-    NSLog(@"newPath %@",_editedBookPath);
-    
-    [pagesCarousel reloadData];
+    jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    NSString *jsonString = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    return jsonString;
 }
 
-- (void)getBookJson {
-    NSLog(@"%@", bookJsonString);
+- (NSString *)jsonStringForNewBook:(MangoBook *)book {
+    NSString *jsonString;
     
-    NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    NSLog(@"%@", jsonDict);
+    NSDictionary *jsonDict = [NSDictionary dictionaryWithObjectsAndKeys:book.id, @"id", book.title, @"title", [NSMutableArray array], @"pages", nil];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONReadingAllowFragments error:&error];
+    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    pagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    return jsonString;
+}
+
+- (void)createEmptyPage {
+    MangoPage *newPage = [[MangoPage alloc] init];
+    newPage.pageable_id = _mangoStoryBook.id;
+    newPage.name = [NSString stringWithFormat:@"%d", [_mangoStoryBook.pages count]];
+    
+    NSMutableArray *layersArray = [[NSMutableArray alloc] init];
+    
+    MangoImageLayer *newImageLayer = [[MangoImageLayer alloc] init];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
+    NSString *destinationFolder=[sourceLocation lastPathComponent] ;
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/"],destinationFolder];
+    if (![fileManager fileExistsAtPath:destinationFolder]) {
+        [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
+    
+    newImageLayer.url = @"res/white_page.jpeg";
+    newImageLayer.alignment = @"center";
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.ejdbController insertOrUpdateObject:newImageLayer]) {
+        [layersArray addObject:newImageLayer.id];
+        newPage.layers = layersArray;
+        
+        if ([appDelegate.ejdbController insertOrUpdateObject:newPage]) {
+            NSMutableArray *existingPagesArray = [[NSMutableArray alloc] initWithArray:_mangoStoryBook.pages];
+            [existingPagesArray addObject:newPage.id];
+            _mangoStoryBook.pages = existingPagesArray;
+            
+            if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+                NSLog(@"Successfully updated book");
+            }
+        }
+    }
+}
+
+- (void)setStoryBook:(Book *)storyBookChosen {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if (isNewBook) {
+        MangoBook *newBook = [[MangoBook alloc] init];
+        newBook.title = @"New Book";
+        newBook.pages = [NSArray array];
+        if ([appDelegate.ejdbController insertOrUpdateObject:newBook]) {
+            NSLog(@"Saving new book...");
+            _mangoStoryBook = newBook;
+            
+            //Create Core Data Book
+            NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.title];
+            [appDelegate.ejdbController saveBook:_mangoStoryBook AtLocation:newBookFilePath];
+            _editedBookPath = newBookFilePath;
+            
+            //Create JSON String
+            bookJsonString = [self jsonStringForNewBook:_mangoStoryBook];
+            
+            //Create Empty Page
+            [self createEmptyPage];
+        }
+    } else {
+        _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
+        
+        storyBook = storyBookChosen;
+        
+        //Get JSON String
+        bookJsonString = [self jsonStringForLocation:storyBook.localPathFile];
+        
+        _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
+        
+        BOOL isDir;
+        NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
+        if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
+            [self createACopy];
+            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            
+            Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
+            Book *editedBook=[delegate.dataModel getBookInstance];
+            editedBook.localPathFile=_editedBookPath;
+            editedBook.localPathImageFile=book.localPathImageFile;
+            editedBook.title=book.title;
+            editedBook.desc=book.desc;
+            editedBook.size=book.size;
+            editedBook.downloaded=@YES;
+            editedBook.bookId=book.bookId;
+            editedBook.edited = @YES;
+            
+            //Make Duplicate in EJDB
+            _mangoStoryBook.id = nil;
+            if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+                NSLog(@"%@", _mangoStoryBook.id);
+                editedBook.id=_mangoStoryBook.id;
+                [delegate.managedObjectContext save:nil];
+                [delegate.dataModel displayAllData];
+                
+                NSLog(@"Successfully duplicated book");
+            }
+        }
+        NSLog(@"newPath %@",_editedBookPath);
+    }
+
+    [pagesCarousel setClipsToBounds:YES];
+    [pagesCarousel reloadData];
 }
 
 #pragma mark - Audio Recording
@@ -1549,7 +1585,7 @@ enum
 }
 
 - (void)saveAudio {
-    NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[pagesArray objectAtIndex:currentPageNumber]];
+    NSMutableDictionary *pageDict = [NSMutableDictionary dictionaryWithDictionary:[_mangoStoryBook.pages objectAtIndex:currentPageNumber]];
     NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:[pageDict objectForKey:LAYERS]];
     
     NSMutableDictionary *newAudioDict = [[NSMutableDictionary alloc] init];
@@ -1577,7 +1613,10 @@ enum
     [layersArray addObject:newAudioDict];
     
     [pageDict setObject:layersArray forKey:LAYERS];
-    [pagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
+    
+    NSMutableArray *tempPagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
+    [tempPagesArray replaceObjectAtIndex:currentPageNumber withObject:pageDict];
+    _mangoStoryBook.pages = (NSArray *)tempPagesArray;
     
     [self renderEditorPage:currentPageNumber];
 }
@@ -1594,7 +1633,7 @@ enum
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
     
     NSDictionary *pageDict;
-    for (NSDictionary *readerPageDict in pagesArray) {
+    for (NSDictionary *readerPageDict in _mangoStoryBook.pages) {
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", currentPageNumber]]) {
             pageDict = readerPageDict;
             break;
@@ -1681,7 +1720,7 @@ enum
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
     
     NSDictionary *pageDict;
-    for (NSDictionary *readerPageDict in pagesArray) {
+    for (NSDictionary *readerPageDict in _mangoStoryBook.pages) {
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", currentPageNumber]]) {
             pageDict = readerPageDict;
             break;
