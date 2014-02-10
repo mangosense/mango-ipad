@@ -210,7 +210,7 @@
 
 #pragma mark - Purchased Manager Call Back
 
-- (void)itemReadyToUse:(NSString *) productId {
+- (void)itemReadyToUse:(NSString *)productId {
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController downloadBookWithId:productId withDelegate:self];
 }

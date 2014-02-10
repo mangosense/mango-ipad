@@ -147,16 +147,20 @@
 - (void)validateReceipt:(NSString *)productId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
     //NSString * jsonObjectString = [self encode:(uint8_t *)receiptData.bytes length:receiptData.length];
     
-    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+    //FIXME: Temporary direct download added
+    [delegate itemReadyToUse:productId];
+    
+    //TODO: Use this when receipt_validate is error free
+    /*[[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
-            //[delegate itemReadyToUse:productId];
+            [delegate itemReadyToUse:productId];
         }
         else {
             NSLog(@"ReceiptError:%@", error);
         }
-    }];
+    }];*/
 }
 
 
