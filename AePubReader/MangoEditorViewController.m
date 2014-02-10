@@ -620,6 +620,11 @@
 #pragma mark - Action Methods
 
 - (IBAction)mangoButtonTapped:(id)sender {
+    
+    bookJsonString = [self jsonForBook:_mangoStoryBook];
+    NSData *data = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+    [self createFileAtPath:[NSString stringWithFormat:@"%@/%@.json", _editedBookPath, _mangoStoryBook.id] WithData:data];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -956,7 +961,7 @@
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[storyBook.pages objectAtIndex:pageNumber]];
+    MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[storyBook.pages objectAtIndex:MIN(pageNumber, [storyBook.pages count] - 1)]];
     
     NSString *textOnPage;
     CGRect textFrame;
@@ -1210,7 +1215,7 @@
     
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    MangoPage *mangoStoryPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:pageNumber]];
+    MangoPage *mangoStoryPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:MIN(pageNumber, [_mangoStoryBook.pages count] - 1)]];
     
     
     NSArray *layersArray = mangoStoryPage.layers;
@@ -1292,6 +1297,38 @@
     }
 }
 
+#pragma mark - Create/Modify Book JSON while saving
+
+- (NSDictionary *)dictionaryForBook:(MangoBook *)book {
+    NSMutableDictionary *bookDict;
+    
+    bookDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:book.id, @"id", book.pages, @"pages", book.title, @"title", nil];
+    NSMutableArray *pagesArrayForbook = [[NSMutableArray alloc] init];
+    for (NSString *pageId in book.pages) {
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        MangoPage *page = [appDelegate.ejdbController getPageForPageId:pageId];
+        NSDictionary *pageDict = [self dictionaryForPage:page];
+        [pagesArrayForbook addObject:pageDict];
+    }
+    [bookDict setObject:pagesArrayForbook forKey:@"pages"];
+    
+    return [NSDictionary dictionaryWithDictionary:bookDict];
+}
+
+- (NSString *)jsonForBook:(MangoBook *)book {
+    NSString *jsonString;
+    
+    NSDictionary *bookDict = [self dictionaryForBook:book];
+    NSError *error;
+    NSData *bookData = [NSJSONSerialization dataWithJSONObject:bookDict options:NSJSONReadingAllowFragments error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
+    jsonString = [[NSString alloc] initWithData:bookData encoding:NSUTF8StringEncoding];
+    
+    return jsonString;
+}
+
 #pragma mark - Book JSON Methods
 
 - (NSString *)jsonStringForLocation:(NSString *)jsonLocation {
@@ -1304,6 +1341,38 @@
     return jsonString;
 }
 
+- (NSDictionary *)dictionaryForLayer:(id)layer {
+    NSDictionary *layerDict;
+    
+    if ([layer isKindOfClass:[MangoImageLayer class]]) {
+        MangoImageLayer *imgLayer = (MangoImageLayer *)layer;
+        layerDict = [NSDictionary dictionaryWithObjectsAndKeys:imgLayer.id, @"id", imgLayer.url, @"url", imgLayer.alignment, @"alignment", IMAGE, @"type", nil];
+    } else if ([layer isKindOfClass:[MangoTextLayer class]]) {
+        MangoTextLayer *txtLayer = (MangoTextLayer *)layer;
+        layerDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:txtLayer.actualText, txtLayer.fontSize, txtLayer.height, txtLayer.width, txtLayer.leftRatio, txtLayer.topRatio, TEXT, nil] forKeys:[NSArray arrayWithObjects:@"actualText", @"fontSize", @"height", @"width", @"leftRatio", @"topRatio", @"type", nil]];
+    } else if ([layer isKindOfClass:[MangoAudioLayer class]]) {
+        MangoAudioLayer *audLayer = (MangoAudioLayer *)layer;
+        layerDict = [NSDictionary dictionaryWithObjectsAndKeys:audLayer.id, @"id", audLayer.url, @"url", audLayer.wordMap, @"wordMap", audLayer.wordTimes, @"wordTimes", AUDIO, @"type", nil];
+    }
+    
+    return layerDict;
+}
+
+- (NSDictionary *)dictionaryForPage:(MangoPage *)page {
+    NSMutableDictionary *pageDict;
+    
+    pageDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:page.name, @"name", page.pageable_id, @"pageable_id", page.layers, @"layers", page.id, @"id", nil];
+    NSMutableArray *layersArray = [[NSMutableArray alloc] init];
+    for (NSString *layerId in page.layers) {
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        id layer = [appDelegate.ejdbController getLayerForLayerId:layerId];
+        [layersArray addObject:[self dictionaryForLayer:layer]];
+    }
+    [pageDict setObject:layersArray forKey:@"layers"];
+
+    return [NSDictionary dictionaryWithDictionary:pageDict];
+}
+
 - (NSString *)jsonStringForNewBook:(MangoBook *)book {
     NSString *jsonString;
     
@@ -1313,6 +1382,45 @@
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     return jsonString;
+}
+
+- (void)createCoverPage {
+    MangoPage *coverPage = [[MangoPage alloc] init];
+    coverPage.pageable_id = _mangoStoryBook.id;
+    coverPage.name = @"Cover";
+    
+    NSMutableArray *layersArray = [[NSMutableArray alloc] init];
+    
+    MangoImageLayer *newImageLayer = [[MangoImageLayer alloc] init];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
+    NSString *destinationFolder=[sourceLocation lastPathComponent] ;
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res"],destinationFolder];
+    if (![fileManager fileExistsAtPath:destinationFolder]) {
+        [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
+    
+    newImageLayer.url = @"res/white_page.jpeg";
+    newImageLayer.alignment = @"center";
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.ejdbController insertOrUpdateObject:newImageLayer]) {
+        [layersArray addObject:newImageLayer.id];
+        coverPage.layers = layersArray;
+        
+        if ([appDelegate.ejdbController insertOrUpdateObject:coverPage]) {
+            NSMutableArray *existingPagesArray = [[NSMutableArray alloc] initWithArray:_mangoStoryBook.pages];
+            [existingPagesArray addObject:coverPage.id];
+            _mangoStoryBook.pages = existingPagesArray;
+            
+            if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
+                NSLog(@"Successfully updated book");
+            }
+        }
+    }
 }
 
 - (void)createEmptyPage {
@@ -1428,6 +1536,7 @@
             [self createFileAtPath:[NSString stringWithFormat:@"%@/%@.json", newBookFilePath, newBook.id] WithData:data];
             
             //Create Empty Page
+            [self createCoverPage];
             [self createEmptyPage];
         }
     } else {
