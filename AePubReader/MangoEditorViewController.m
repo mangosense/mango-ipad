@@ -1327,7 +1327,7 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *sourceLocation=[[NSBundle mainBundle] pathForResource:@"white_page" ofType:@"jpeg"];
     NSString *destinationFolder=[sourceLocation lastPathComponent] ;
-    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res/"],destinationFolder];
+    destinationFolder=[[NSString alloc]initWithFormat:@"%@/%@",[_editedBookPath stringByAppendingString:@"/res"],destinationFolder];
     if (![fileManager fileExistsAtPath:destinationFolder]) {
         [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:nil];
         NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
@@ -1354,6 +1354,54 @@
     }
 }
 
+- (BOOL)createFolderAtPath:(NSString *)filePath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    BOOL success = [fileManager createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:&error];
+    if (!success) {
+        NSLog(@"%@", error);
+    } else {
+        
+    }
+    return success;
+}
+
+- (BOOL)createFileAtPath:(NSString *)filePath WithData:(NSData *)jsonData{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL success = [fileManager createFileAtPath:filePath contents:jsonData attributes:nil];
+
+    return success;
+}
+
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:filePath]) {
+        NSURL *url = [[NSURL alloc]initFileURLWithPath:filePath];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+    }
+    
+    //Adding to database
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (![appDelegate.dataModel checkIfIdExists:book.id]) {
+        Book *coreDatabook= [appDelegate.dataModel getBookInstance];
+        coreDatabook.title=book.title;
+        coreDatabook.link=nil;
+        coreDatabook.localPathImageFile = filePath;
+        coreDatabook.localPathFile = [filePath stringByDeletingPathExtension];
+        coreDatabook.id = book.id;
+        coreDatabook.size = @23068672;
+        coreDatabook.date = [NSDate date];
+        coreDatabook.textBook = @4;
+        coreDatabook.downloadedDate = [NSDate date];
+        coreDatabook.downloaded = @NO;
+        coreDatabook.edited = @YES;
+        NSError *error=nil;
+        if (![appDelegate.managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+    }
+}
+
 - (void)setStoryBook:(Book *)storyBookChosen {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
@@ -1366,12 +1414,18 @@
             _mangoStoryBook = newBook;
             
             //Create Core Data Book
-            NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.title];
-            [appDelegate.ejdbController saveBook:_mangoStoryBook AtLocation:newBookFilePath];
+            NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.id];
+            [self saveBook:_mangoStoryBook AtLocation:newBookFilePath];
+            BOOL success = [self createFolderAtPath:newBookFilePath];
+            if (success) {
+                success = [self createFolderAtPath:[NSString stringWithFormat:@"%@/res", newBookFilePath]];
+            }
             _editedBookPath = newBookFilePath;
             
             //Create JSON String
             bookJsonString = [self jsonStringForNewBook:_mangoStoryBook];
+            NSData *data = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+            [self createFileAtPath:[NSString stringWithFormat:@"%@/%@.json", newBookFilePath, newBook.id] WithData:data];
             
             //Create Empty Page
             [self createEmptyPage];
@@ -1384,10 +1438,17 @@
         //Get JSON String
         bookJsonString = [self jsonStringForLocation:storyBook.localPathFile];
         
-        _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
-        
         BOOL isDir;
         NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
+        
+        //If Downloaded, then fork it.
+        //Else this is a newly created book. Keep it as it is.
+        if ([storyBook.downloaded boolValue]) {
+            _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
+        } else {
+            _editedBookPath = storyBook.localPathFile;
+        }
+        
         if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
             [self createACopy];
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

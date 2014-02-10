@@ -240,11 +240,8 @@ void uncaughtExceptionHandler(NSException *exception) {
         
 		NSFileManager *filemanager=[[NSFileManager alloc] init];
         NSString *destination;
-        if ([folderName isEqualToString:@"hungry"] || [folderName isEqualToString:@"kokku"]) {
-            destination = [NSString stringWithFormat:@"%@/",[self applicationDocumentsDirectory]];
-        } else {
-            destination = [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], folderName];
-        }
+        destination = [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], folderName];
+        
         NSLog(@"Unzip Destination: %@", destination);
         
 		BOOL ret = [za UnzipFileTo:destination overWrite:YES];
