@@ -135,17 +135,22 @@
     
     NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [[userDefaults objectForKey:EMAIL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [userDefaults objectForKey:AUTH_TOKEN]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    NSProgress *downloadProgress;
     
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&downloadProgress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]];
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
+        [downloadProgress removeObserver:self forKeyPath:@"fractionCompleted"];
         if ([delegate respondsToSelector:@selector(getBookAtPath:)]) {
             [delegate getBookAtPath:filePath];
         }
     }];
     [downloadTask resume];
+    [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+        NSLog(@"Progress… %lld", totalBytesWritten*100/totalBytesExpectedToWrite);
+    }];
 }
 
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON {
