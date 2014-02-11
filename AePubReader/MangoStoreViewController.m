@@ -17,6 +17,9 @@
 #import "MangoStoreCollectionViewController.h"
 #import "iCarouselImageView.h"
 #import "CargoBay.h"
+#import "HKCircularProgressLayer.h"
+#import "HKCircularProgressView.h"
+#import "MyStoriesBooksViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -34,6 +37,7 @@
 @property (nonatomic, strong) NSMutableArray *purchasedBooks;
 @property (nonatomic, strong) NSString *currentProductPrice;
 @property (nonatomic, assign) int liveStoriesForAgeCounter;
+@property (nonatomic, strong) HKCircularProgressView *progressView;
 
 @end
 
@@ -198,14 +202,29 @@
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
-    [filePath setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate unzipExistingJsonBooks];
     
+    /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
+    myStoriesBooksViewController.toEdit = NO;
+    
+    [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
+    
+    /// -----
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+}
+
+- (void)updateProgress:(NSNumber *)progress {
+    if (!_progressView) {
+        _progressView = [[HKCircularProgressView alloc] initWithFrame:CGRectMake(self.view.center.x - 50, self.view.center.y - 50, 100, 100)];
+        _progressView.max = 100.0f;
+        _progressView.step = 0.0f;
+        [self.view addSubview:_progressView];
+    }
+    _progressView.current = [progress floatValue];
 }
 
 #pragma mark - Purchased Manager Call Back

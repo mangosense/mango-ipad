@@ -10,6 +10,8 @@
 #import "BooksFromCategoryViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "SettingOptionViewController.h"
+#import "MyStoriesBooksViewController.h"
+
 @interface CategoriesFlexibleViewController ()
 
 @end
@@ -41,6 +43,12 @@
 }
 
 - (IBAction)openBooks:(id)sender {
+    /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
+    myStoriesBooksViewController.toEdit = NO;
+    
+    [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
+    
+    /// -----
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];

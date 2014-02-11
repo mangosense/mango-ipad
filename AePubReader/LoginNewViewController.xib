@@ -53,13 +53,13 @@
                     <color key="textColor" red="0.61667582929999998" green="1" blue="0.97118789750000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testkedar@mangosense.com" borderStyle="roundedRect" placeholder="Email id" minimumFontSize="17" id="mUC-tf-x9p">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testkedartwo@mangosense.com" borderStyle="roundedRect" placeholder="Email id" minimumFontSize="17" id="mUC-tf-x9p">
                     <rect key="frame" x="349" y="180" width="244" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testkedar" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="ad0-TJ-uJc">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testkedartwo" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="ad0-TJ-uJc">
                     <rect key="frame" x="349" y="224" width="244" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <nil key="textColor"/>

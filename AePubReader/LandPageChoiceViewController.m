@@ -12,6 +12,7 @@
 #import "CategoriesViewController.h"
 #import "BooksFromCategoryViewController.h"
 #import "MangoStoreViewController.h"
+#import "MyStoriesBooksViewController.h"
 
 @interface LandPageChoiceViewController ()
 
@@ -44,12 +45,16 @@
 }
 
 - (IBAction)creatAStory:(id)sender {
+    /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
+    myStoriesBooksViewController.toEdit = YES;
+    
+    [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
+
+    /// -----
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=YES;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
     
-//    _storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
-//    [self.navigationController pushViewController:_storiesViewController animated:YES];
 }
 
 - (IBAction)openFreeStories:(id)sender {

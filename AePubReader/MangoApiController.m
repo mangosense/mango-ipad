@@ -10,6 +10,7 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "Constants.h"
 #import "AFURLSessionManager.h"
+#import "AePubReaderAppDelegate.h"
 
 @implementation MangoApiController
 
@@ -142,12 +143,15 @@
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
-        [downloadProgress removeObserver:self forKeyPath:@"fractionCompleted"];
-        if ([delegate respondsToSelector:@selector(getBookAtPath:)]) {
-            [delegate getBookAtPath:filePath];
-        }
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate unzipExistingJsonBooks];
     }];
     [downloadTask resume];
+    
+    if ([delegate respondsToSelector:@selector(getBookAtPath:)]) {
+        [delegate getBookAtPath:nil];
+    }
+    
     [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         NSLog(@"Progress… %lld", totalBytesWritten*100/totalBytesExpectedToWrite);
     }];

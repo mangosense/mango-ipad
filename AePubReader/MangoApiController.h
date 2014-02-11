@@ -16,6 +16,7 @@
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary;
 - (void)getBookAtPath:(NSURL *)filePath;
 - (void)saveStoryId:(NSNumber *)storyId;
+- (void)updateProgress:(NSNumber *)progress;
 
 @end
 

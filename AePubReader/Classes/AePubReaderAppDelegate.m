@@ -19,6 +19,8 @@
 #import "Constants.h"
 #import "MBProgressHUD.h"
 
+#import "BooksFromCategoryViewController.h"
+
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
 
@@ -663,6 +665,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+
+#pragma mark - After Download
 
 #pragma mark -
 #pragma mark Memory management

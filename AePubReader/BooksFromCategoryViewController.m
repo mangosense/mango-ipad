@@ -166,9 +166,10 @@
     [_popOverController dismissPopoverAnimated:YES];
 
 }
-- (UIImage*) maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
+
+- (UIImage*)maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
     
-	CGImageRef imgRef = [image CGImage];// you are just refering it not instantiating it so you should not release it.
+	CGImageRef imgRef = [image CGImage];
     CGImageRef maskRef = [maskImage CGImage];
     CGImageRef actualMask = CGImageMaskCreate(CGImageGetWidth(maskRef),
                                               CGImageGetHeight(maskRef),

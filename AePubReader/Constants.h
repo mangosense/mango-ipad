@@ -154,7 +154,7 @@
 //Dark Red: #9c351e (R:99 G:25 B:9)
 #define COLOR_BROWN [UIColor colorWithRed:99.0/255.0 green:25.0/255.0 blue:9.0/255.0 alpha:0.4f]
 
-#pragma mark - Tags 
+#pragma mark - Tags
 #pragma mark - MangoStoreView Controller
 
 #define iCarousel_VIEW_TAG 601
@@ -170,6 +170,10 @@
 #define STORE_BOOK_CELL_ID @"StoreBookCell"
 #define STORE_BOOK_CAROUSEL_CELL_ID @"StoreBookCarouselCell"
 #define HEADER_ID @"headerId"
+
+#pragma mark - My Stories
+
+#define MY_STORIES_BOOK_CELL @"MyStoriesBookCell"
 
 #pragma mark - Random Keys
 

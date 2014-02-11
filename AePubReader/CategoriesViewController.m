@@ -13,6 +13,7 @@
 #import "BooksFromCategoryViewController.h"
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import "MyStoriesBooksViewController.h"
 
 @interface CategoriesViewController ()
 
@@ -63,10 +64,17 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
     [_popOverController dismissPopoverAnimated:YES];
 }
 - (IBAction)openBooks:(id)sender {
+    /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
+    myStoriesBooksViewController.toEdit = NO;
+    
+    [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
+    
+    /// -------
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
     
-    [self.navigationController pushViewController:booksCategoryViewController animated:YES];}
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+}
     
 - (IBAction)nextButton:(id)sender {
     CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
