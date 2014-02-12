@@ -117,8 +117,27 @@
 - (void)setupUI {
     NSMutableArray *currentPageCategoriesArray = [[NSMutableArray alloc] init];
     
+    NSArray *buttonsArray = [NSArray arrayWithObjects:_categoryButtonOne, _categoryButtonTwo, _categoryButtonThree, _categoryButtonFour, _categoryButtonFive, _categoryButtonSix, nil];
     for (int i = NUMBER_OF_CATEGORIES_PER_PAGE*_pageNumber; i < NUMBER_OF_CATEGORIES_PER_PAGE*(_pageNumber + 1); i++) {
         [currentPageCategoriesArray addObject:[_categoriesArray objectAtIndex:i]];
+        UIButton *button = [buttonsArray objectAtIndex:i%NUMBER_OF_CATEGORIES_PER_PAGE];
+        NSString *imageName;
+        if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Bedtime Stories"]) {
+            imageName = @"bedtimestories.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Traditional Tales"]) {
+            imageName = @"traditional.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Poems and Songs"]) {
+            imageName = @"poems and rhymes.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Holidays and Celebrations"]) {
+            imageName = @"celebrations.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Morals and Values"]) {
+            imageName = @"values.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Classic Stories"]) {
+            imageName = @"classics.png";
+        } else {
+            imageName = @"icon_my existing books.png";
+        }
+        [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     }
     
     _categoryLabelOne.text = [[currentPageCategoriesArray objectAtIndex:0] objectForKey:NAME];

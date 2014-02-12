@@ -12,6 +12,7 @@
 #import "StoreCollectionFlowLayout.h"
 #import "StoreCollectionHeaderView.h"
 #import "CargoBay.h"
+#import "BookDetailsViewController.h"
 
 #define STORE_BOOK_CELL_ID @"StoreBookCell"
 #define HEADER_ID @"headerId"
@@ -96,7 +97,7 @@
     NSString *url;
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:[NSNumber numberWithInt:30] forKey:LIMIT];
+    [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
     NSString *filterName = [self.selectedItemTitle stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     switch (self.tableType) {
@@ -197,14 +198,31 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
+    
+    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    
+    [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+        bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        
+        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+    }];
+    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
 
-    NSString *productId = [bookDict objectForKey:@"id"];
+    /*NSString *productId = [bookDict objectForKey:@"id"];
     if (productId != nil && productId.length > 0) {
         [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
     }
     else {
         NSLog(@"Product dose not have relative Id");
-    }
+    }*/
 }
 
 #pragma mark - Local Image Saving Delegate

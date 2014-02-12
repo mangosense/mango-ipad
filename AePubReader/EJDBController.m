@@ -217,12 +217,12 @@
         MangoBook *fetchedBook = [self getBookForBookId:book.id];
         NSLog(@"%@", fetchedBook.pages);
         
-        MangoPage *fetchedPage = [self getPageForPageId:fetchedBook.pages[5]];
+        //MangoPage *fetchedPage = [self getPageForPageId:fetchedBook.pages[5]];
         for (NSString *page in fetchedBook.pages) {
             MangoPage *pageFetched=[self getPageForPageId:page];
             NSLog(@"id - %@   name-%@ ",pageFetched.id,pageFetched.name);
         }
-        NSLog(@"%@",fetchedPage.layers);
+        //NSLog(@"%@",fetchedPage.layers);
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         

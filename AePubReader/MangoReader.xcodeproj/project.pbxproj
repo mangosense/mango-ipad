@@ -201,6 +201,9 @@
 		83AB60A918AA326E004A040E /* MyStoriesBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB60A718AA326E004A040E /* MyStoriesBooksViewController.m */; };
 		83AB60AA18AA326E004A040E /* MyStoriesBooksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83AB60A818AA326E004A040E /* MyStoriesBooksViewController.xib */; };
 		83AB60AD18AA36E9004A040E /* MyStoriesBookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB60AC18AA36E9004A040E /* MyStoriesBookCell.m */; };
+		83AB60B218ABF1CD004A040E /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB60B018ABF1CD004A040E /* BookDetailsViewController.m */; };
+		83AB60B318ABF1CD004A040E /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83AB60B118ABF1CD004A040E /* BookDetailsViewController.xib */; };
+		83AB60B518AC0F0F004A040E /* greenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AB60B418AC0F0F004A040E /* greenButton.png */; };
 		83BB3E9D185B560600BA5ED7 /* back-button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8C185B560600BA5ED7 /* back-button.jpg */; };
 		83BB3E9E185B560600BA5ED7 /* gamecentre_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8D185B560600BA5ED7 /* gamecentre_bg.jpg */; };
 		83BB3E9F185B560600BA5ED7 /* gamecentre_ref.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3E8E185B560600BA5ED7 /* gamecentre_ref.jpg */; };
@@ -1307,6 +1310,10 @@
 		83AB60A818AA326E004A040E /* MyStoriesBooksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyStoriesBooksViewController.xib; sourceTree = "<group>"; };
 		83AB60AB18AA36E9004A040E /* MyStoriesBookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStoriesBookCell.h; sourceTree = "<group>"; };
 		83AB60AC18AA36E9004A040E /* MyStoriesBookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStoriesBookCell.m; sourceTree = "<group>"; };
+		83AB60AF18ABF1CD004A040E /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
+		83AB60B018ABF1CD004A040E /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
+		83AB60B118ABF1CD004A040E /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
+		83AB60B418AC0F0F004A040E /* greenButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = greenButton.png; path = "Store Images/greenButton.png"; sourceTree = "<group>"; };
 		83BB3E8C185B560600BA5ED7 /* back-button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "back-button.jpg"; sourceTree = "<group>"; };
 		83BB3E8D185B560600BA5ED7 /* gamecentre_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gamecentre_bg.jpg; sourceTree = "<group>"; };
 		83BB3E8E185B560600BA5ED7 /* gamecentre_ref.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gamecentre_ref.jpg; sourceTree = "<group>"; };
@@ -3404,6 +3411,7 @@
 		83E9ADDA184DA2050025BBD6 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				83AB60B418AC0F0F004A040E /* greenButton.png */,
 				17FBB645187AE36A00453B17 /* CargoBay_Store */,
 				83E9AE28184EFE270025BBD6 /* Store Books Collection View */,
 				83E9ADE0184DA2460025BBD6 /* MangoStoreViewController.h */,
@@ -3412,6 +3420,9 @@
 				29B9FED81883DDDA00772921 /* MangoStoreCollectionViewController.m */,
 				83E9ADE2184DA2470025BBD6 /* MangoStoreViewController.xib */,
 				29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */,
+				83AB60AF18ABF1CD004A040E /* BookDetailsViewController.h */,
+				83AB60B018ABF1CD004A040E /* BookDetailsViewController.m */,
+				83AB60B118ABF1CD004A040E /* BookDetailsViewController.xib */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -4219,6 +4230,7 @@
 				83E2D1E4184364EC00F8CDB6 /* editor_340.png in Resources */,
 				AE62B32B1832008E005C5EC9 /* storesamplejson.txt in Resources */,
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
+				83AB60B318ABF1CD004A040E /* BookDetailsViewController.xib in Resources */,
 				FA11956613BA93F100025A2B /* EPubView.xib in Resources */,
 				83E2D208184364EC00F8CDB6 /* editor_51.png in Resources */,
 				83E2D188184364EC00F8CDB6 /* editor_258.png in Resources */,
@@ -4562,6 +4574,7 @@
 				834FCE52182D11F70000181B /* save_button.png in Resources */,
 				83E2D1DA184364EC00F8CDB6 /* editor_331.png in Resources */,
 				83E2D1FB184364EC00F8CDB6 /* editor_4.png in Resources */,
+				83AB60B518AC0F0F004A040E /* greenButton.png in Resources */,
 				834FCE6C182D11F70000181B /* yes_button_pressed.png in Resources */,
 				83E2D17D184364EC00F8CDB6 /* editor_248.png in Resources */,
 				AEF6A16416959B5E00ECAE7E /* ViewController.xib in Resources */,
@@ -5152,6 +5165,7 @@
 				AE5B84E817AA548A00EDC098 /* LibraryOldCell.m in Sources */,
 				8380486B1850586C006BBA47 /* AFURLResponseSerialization.m in Sources */,
 				AE5B84EB17AA54AF00EDC098 /* OldFooterView.m in Sources */,
+				83AB60B218ABF1CD004A040E /* BookDetailsViewController.m in Sources */,
 				AE62B32E183201CB005C5EC9 /* NewBookStore.m in Sources */,
 				AE396BBA181F7E3D009C68E7 /* PSTGridLayoutItem.m in Sources */,
 				AE5B84EE17AA54C600EDC098 /* OldCell.m in Sources */,

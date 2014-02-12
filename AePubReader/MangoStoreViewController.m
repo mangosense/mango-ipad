@@ -20,6 +20,7 @@
 #import "HKCircularProgressLayer.h"
 #import "HKCircularProgressView.h"
 #import "MyStoriesBooksViewController.h"
+#import "BookDetailsViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -452,16 +453,35 @@
     if (indexPath.section == 0) {
         
     } else {
+        
         NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
         NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
 
-        NSString *productId = [bookDict objectForKey:@"id"];
+        BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        
+        [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+        [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+            bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+            bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", ageGroup];
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+            bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+            bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+            bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+            
+            bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+            bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+        }];
+        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+
+        
+        /*NSString *productId = [bookDict objectForKey:@"id"];
         if (productId != nil && productId.length > 0) {
             [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
         }
         else {
             NSLog(@"Product dose not have relative Id");
-        }
+        }*/
     }
 }
 

@@ -45,10 +45,11 @@
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fzz-Ob-jxi">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Fzz-Ob-jxi">
                     <rect key="frame" x="131" y="107" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icon_my existing books.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -62,10 +63,11 @@
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hxO-ms-Bkk">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hxO-ms-Bkk">
                     <rect key="frame" x="690" y="417" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icon_my existing books.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -79,10 +81,11 @@
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p5y-E2-WtS">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p5y-E2-WtS">
                     <rect key="frame" x="415" y="417" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icon_my existing books.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -96,10 +99,11 @@
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="49F-Gg-GQp">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="49F-Gg-GQp">
                     <rect key="frame" x="131" y="417" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icon_my existing books.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -113,10 +117,11 @@
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TCt-UB-zQe">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TCt-UB-zQe">
                     <rect key="frame" x="690" y="107" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icon_my existing books.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -130,10 +135,11 @@
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3ua-Vc-v3s">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ua-Vc-v3s">
                     <rect key="frame" x="415" y="107" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icon_my existing books.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -189,7 +195,6 @@
     </objects>
     <resources>
         <image name="categoryscreen_bg.png" width="1024" height="768"/>
-        <image name="icon_my existing books.png" width="215" height="225"/>
         <image name="icons_back2.png" width="83" height="167"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_next2.png" width="83" height="167"/>
