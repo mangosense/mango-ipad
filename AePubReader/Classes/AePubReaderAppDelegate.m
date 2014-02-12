@@ -108,7 +108,8 @@ static UIAlertView *alertViewLoading;
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
     
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
+    
+    //[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
         
     return YES;
 }

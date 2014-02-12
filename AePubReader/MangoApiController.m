@@ -98,7 +98,7 @@
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
     NSString *methodName = isNew ? SIGN_UP:LOGIN;
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:EMAIL, PASSWORD, nil]];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"asdfasdf", email, password, nil] forKeys:[NSArray arrayWithObjects:NAME, EMAIL, PASSWORD, nil]];
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;
@@ -140,9 +140,10 @@
     
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&downloadProgress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+        return [documentsDirectoryPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", bookId]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
+
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate unzipExistingJsonBooks];
     }];

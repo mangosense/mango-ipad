@@ -203,8 +203,8 @@
 
 - (void)getBookAtPath:(NSURL *)filePath {
     
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate unzipExistingJsonBooks];
+    /*AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate unzipExistingJsonBooks];*/
     
     /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
     myStoriesBooksViewController.toEdit = NO;
