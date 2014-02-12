@@ -213,7 +213,7 @@
     
     /// -----
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
-    booksCategoryViewController.toEdit=NO;
+    booksCategoryViewController.toEdit = NO;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
 }
 

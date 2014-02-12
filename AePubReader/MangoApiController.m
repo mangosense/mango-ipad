@@ -146,6 +146,8 @@
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate unzipExistingJsonBooks];
+        
+        [_delegate bookDownloaded];
     }];
     [downloadTask resume];
     
@@ -155,6 +157,9 @@
     
     [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         NSLog(@"Progress… %lld", totalBytesWritten*100/totalBytesExpectedToWrite);
+        if (_delegate && [_delegate respondsToSelector:@selector(updateBookProgress:)]) {
+            [_delegate updateBookProgress:[[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue]];
+        }
     }];
 }
 

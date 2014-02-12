@@ -13,10 +13,16 @@
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoEditorViewController.h"
 #import "MangoStoreViewController.h"
+#import "MBProgressHUD.h"
+#import "HKCircularProgressLayer.h"
+#import "HKCircularProgressView.h"
 
 @interface BooksFromCategoryViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *bookIdDictionary;
+@property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, strong) HKCircularProgressView *progressView;
+@property (nonatomic, assign) int bookProgress;
 
 @end
 
@@ -36,55 +42,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    
     _buttonArray=[NSArray arrayWithObjects:_bookOne,_bookTwo,_bookThree,_bookFour,_bookFive, nil];
     _imageArray=[NSArray arrayWithObjects:_imageOne,_imageTwo,_imageThree,_imageFour,_imageFive, nil];
     _titleLabelArray=[NSArray arrayWithObjects:_labelone,_labelTwo,_labelThree,_labelFour,_labelFive, nil];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    if (_toEdit) {
-        _books=[delegate.dataModel getEditedBooks];
-    }else{
-        _books= [delegate.dataModel getAllUserBooks];
-    }
-    NSInteger count=MIN(_books.count, 5);
-    NSInteger finalIndex=_inital+count;
-    UIImage *maskImage=[UIImage imageNamed:@"circle2.png"];
-    UIImage *originalImage;
     
-    _bookIdDictionary = [[NSMutableDictionary alloc] init];
-    
-    for (int i=_inital;i<finalIndex;i++) {
-        UIButton *button=_buttonArray[i];
-        button.hidden=NO;
-        Book *book=_books[i];
-        if (book.localPathFile) {
-            UIImageView *imageView=_imageArray[i];
-            
-            //For Cover Image
-            NSString *jsonLocation=book.localPathFile;
-            NSFileManager *fm = [NSFileManager defaultManager];
-            NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
-            NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-            NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
-            
-            NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-            UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
-            
-            NSLog(@"Local Path File %@",book.localPathImageFile);
-            originalImage= image;
-            imageView.image=   [self maskImage:originalImage withMask:maskImage];
-            CGRect frame=imageView.frame;
-            frame.size=maskImage.size;
-            frame.origin=button.frame.origin;
-            imageView.frame=frame;
-            imageView.hidden=NO;
-            UILabel *label=_titleLabelArray[i];
-            label.text=book.title;
-            label.hidden=NO;
-            button.tag = i+5; //Random tag
-            [_bookIdDictionary setObject:book.id forKey:[NSString stringWithFormat:@"%d", button.tag]];
-        }
-    }
+    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning
@@ -179,6 +145,127 @@
                                               CGImageGetDataProvider(maskRef), NULL, false);
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
     return [UIImage imageWithCGImage:masked];
+}
+
+#pragma mark  - HUD Methods
+
+- (void)showHudOnButton:(UIButton *)button {
+    if (!_progressView) {
+        _progressView = [[HKCircularProgressView alloc] initWithFrame:CGRectMake(button.frame.size.width/2 - 25, button.frame.size.height/2 - 25, 50, 50)];
+        _progressView.max = 100.0f;
+        _progressView.step = 0.0f;
+        [button addSubview:_progressView];
+    }
+    _progressView.current = _bookProgress;
+}
+
+- (void)hideHudOnButton:(UIButton *)button {
+    [_progressView removeFromSuperview];
+}
+
+#pragma mark - Setup UI
+
+- (void)setupUI {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if (_toEdit) {
+        _books=[delegate.dataModel getEditedBooks];
+    }else{
+        _books= [delegate.dataModel getAllUserBooks];
+    }
+    NSInteger count=MIN(_books.count, 5);
+    NSInteger finalIndex=_inital+count;
+    UIImage *maskImage=[UIImage imageNamed:@"circle2.png"];
+    UIImage *originalImage;
+    
+    _bookIdDictionary = [[NSMutableDictionary alloc] init];
+    
+    for (int i=_inital;i<finalIndex;i++) {
+        UIButton *button=_buttonArray[i];
+        button.hidden=NO;
+        Book *book=_books[i];
+        if (book.localPathFile) {
+            UIImageView *imageView=_imageArray[i];
+            
+            //For Cover Image
+            NSString *jsonLocation=book.localPathFile;
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+            NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+            NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+            
+            NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+            UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
+            
+            NSLog(@"Local Path File %@",book.localPathImageFile);
+            originalImage= image;
+            imageView.image=   [self maskImage:originalImage withMask:maskImage];
+            CGRect frame=imageView.frame;
+            frame.size=maskImage.size;
+            frame.origin=button.frame.origin;
+            imageView.frame=frame;
+            imageView.hidden=NO;
+            UILabel *label=_titleLabelArray[i];
+            label.text=book.title;
+            label.hidden=NO;
+            button.tag = i+5; //Random tag
+            [_bookIdDictionary setObject:book.id forKey:[NSString stringWithFormat:@"%d", button.tag]];
+        }
+    }
+}
+
+#pragma mark - Post API Delegate
+
+- (void)bookDownloaded {
+    [self setupUI];
+}
+
+- (void)updateBookProgress:(int)progress {
+    _bookProgress = progress;
+    
+    if (progress < 100) {
+        if (_progressView) {
+            [self performSelectorOnMainThread:@selector(showHudOnButton:) withObject:nil waitUntilDone:YES];
+        }
+        
+        int lastIndex = -1;
+        
+        if (!_isDownloading) {
+            for (UIButton *button in _buttonArray) {
+                if (button.hidden) {
+                    lastIndex = [_buttonArray indexOfObject:button] - 1;
+                    _isDownloading = YES;
+                    break;
+                }
+            }
+        }
+        
+        if (lastIndex > -1) {
+            UIButton *button = [_buttonArray objectAtIndex:lastIndex];
+            [self performSelectorOnMainThread:@selector(showHudOnButton:) withObject:button waitUntilDone:YES];
+        }
+        
+        [_homeBtn setEnabled:NO];
+        [_libraryBtn setEnabled:NO];
+        
+    } else {
+        int lastIndex = -1;
+
+        for (UIButton *button in _buttonArray) {
+            if (button.hidden) {
+                lastIndex = [_buttonArray indexOfObject:button] - 1;
+                break;
+            }
+        }
+        if (lastIndex > -1) {
+            UIButton *button = [_buttonArray objectAtIndex:lastIndex];
+            [self performSelectorOnMainThread:@selector(hideHudOnButton:) withObject:button waitUntilDone:YES];
+        }
+        
+        [_homeBtn setEnabled:YES];
+        [_libraryBtn setEnabled:YES];
+
+    }
 }
 
 @end

@@ -10,8 +10,9 @@
 #import "DismissPopOver.h"
 #import "Book.h"
 #import "NewStoreCoverViewController.h"
+#import "MangoApiController.h"
 
-@interface BooksFromCategoryViewController : UIViewController<DismissPopOver>
+@interface BooksFromCategoryViewController : UIViewController<DismissPopOver, MangoPostApiProtocol>
 - (IBAction)homeButton:(id)sender;
 - (IBAction)libraryButton:(id)sender;
 - (IBAction)settingsButton:(id)sender;
@@ -40,5 +41,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelFour;
 @property (weak, nonatomic) IBOutlet UILabel *labelFive;
 @property(assign,nonatomic) BOOL toEdit;
+
+@property (nonatomic, strong) IBOutlet UIButton *homeBtn;
+@property (nonatomic, strong) IBOutlet UIButton *libraryBtn;
 
 @end

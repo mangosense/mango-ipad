@@ -13,6 +13,7 @@
                 <outlet property="bookOne" destination="IuW-bi-ko6" id="lmO-GV-uAG"/>
                 <outlet property="bookThree" destination="dFf-9U-i0x" id="S1y-aY-rBG"/>
                 <outlet property="bookTwo" destination="zxk-fu-po6" id="wcW-8T-xzR"/>
+                <outlet property="homeBtn" destination="ctw-cS-4TR" id="H3M-OZ-TNS"/>
                 <outlet property="imageFive" destination="BH8-yt-cra" id="zzb-HA-prg"/>
                 <outlet property="imageFour" destination="a7L-G1-ypO" id="gyi-e9-FII"/>
                 <outlet property="imageOne" destination="QLD-zG-hKV" id="fmV-bN-yzx"/>
@@ -23,6 +24,7 @@
                 <outlet property="labelThree" destination="kZM-Qi-7Es" id="Sxg-R6-l8w"/>
                 <outlet property="labelTwo" destination="o1X-EC-qjJ" id="vbE-3e-8Rf"/>
                 <outlet property="labelone" destination="AZj-hG-Ut8" id="gCa-4a-Gbv"/>
+                <outlet property="libraryBtn" destination="Akj-vj-fbc" id="o9Y-v5-2eJ"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>

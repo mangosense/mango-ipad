@@ -1348,7 +1348,7 @@
     
     if ([layer isKindOfClass:[MangoImageLayer class]]) {
         MangoImageLayer *imgLayer = (MangoImageLayer *)layer;
-        layerDict = [NSDictionary dictionaryWithObjectsAndKeys:imgLayer.id, @"id", imgLayer.url, @"url", imgLayer.alignment, @"alignment", IMAGE, @"type", nil];
+        layerDict = [NSDictionary dictionaryWithObjectsAndKeys:imgLayer.id, @"id", imgLayer.url, @"url", IMAGE, @"type", nil];
     } else if ([layer isKindOfClass:[MangoTextLayer class]]) {
         MangoTextLayer *txtLayer = (MangoTextLayer *)layer;
         layerDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:txtLayer.actualText, txtLayer.fontSize, txtLayer.height, txtLayer.width, txtLayer.leftRatio, txtLayer.topRatio, TEXT, nil] forKeys:[NSArray arrayWithObjects:@"actualText", @"fontSize", @"height", @"width", @"leftRatio", @"topRatio", @"type", nil]];
@@ -1517,7 +1517,7 @@
     
     if (isNewBook) {
         MangoBook *newBook = [[MangoBook alloc] init];
-        newBook.title = @"New Book";
+        newBook.title = @"My Book";
         newBook.pages = [NSArray array];
         if ([appDelegate.ejdbController insertOrUpdateObject:newBook]) {
             NSLog(@"Saving new book...");
