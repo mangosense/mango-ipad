@@ -38,6 +38,7 @@
 @property (nonatomic, strong) NSString *currentProductPrice;
 @property (nonatomic, assign) int liveStoriesForAgeCounter;
 @property (nonatomic, strong) HKCircularProgressView *progressView;
+@property (nonatomic, strong) NSString *selectedBookId;
 
 @end
 
@@ -232,6 +233,8 @@
 - (void)itemReadyToUse:(NSString *)productId {
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController downloadBookWithId:productId withDelegate:self];
+    
+    _selectedBookId = productId;
 }
 
 #pragma mark - Get Books

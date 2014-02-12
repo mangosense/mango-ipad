@@ -13,6 +13,7 @@
 #import "BooksFromCategoryViewController.h"
 #import "MangoStoreViewController.h"
 #import "MyStoriesBooksViewController.h"
+#import "CategoriesFlexibleViewController.h"
 
 @interface LandPageChoiceViewController ()
 
@@ -70,7 +71,8 @@
 }
 
 - (IBAction)myStories:(id)sender {
-    CategoriesViewController *categoryViewController=[[CategoriesViewController alloc]initWithNibName:@"CategoriesViewController" bundle:nil];
-    [self.navigationController pushViewController:categoryViewController animated:YES];
+    CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
+    categoryFlexible.pageNumber = 0;
+    [self.navigationController pushViewController:categoryFlexible animated:YES];
 }
 @end

@@ -1304,7 +1304,7 @@
 - (NSDictionary *)dictionaryForBook:(MangoBook *)book {
     NSMutableDictionary *bookDict;
     
-    bookDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:book.id, @"id", book.pages, @"pages", book.title, @"title", nil];
+    bookDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:book.id, @"id", book.pages, @"pages", book.title, @"title", [NSDictionary dictionaryWithObjectsAndKeys: [NSArray arrayWithObject:@"My Books"], @"categories", nil], @"info", nil];
     NSMutableArray *pagesArrayForbook = [[NSMutableArray alloc] init];
     for (NSString *pageId in book.pages) {
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -1378,7 +1378,7 @@
 - (NSString *)jsonStringForNewBook:(MangoBook *)book {
     NSString *jsonString;
     
-    NSDictionary *jsonDict = [NSDictionary dictionaryWithObjectsAndKeys:book.id, @"id", book.title, @"title", [NSMutableArray array], @"pages", nil];
+    NSDictionary *jsonDict = [NSDictionary dictionaryWithObjectsAndKeys:book.id, @"id", book.title, @"title", [NSMutableArray array], @"pages", [NSDictionary dictionaryWithObjectsAndKeys: [NSArray arrayWithObject:@"My Books"], @"categories", nil], @"info", nil];
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONReadingAllowFragments error:&error];
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

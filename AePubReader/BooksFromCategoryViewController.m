@@ -171,6 +171,27 @@
         _books=[delegate.dataModel getEditedBooks];
     }else{
         _books= [delegate.dataModel getAllUserBooks];
+        
+        NSMutableArray *booksForSelectedCategory = [[NSMutableArray alloc] init];
+        for (Book *book in _books) {
+            if (book.localPathFile && _categorySelected) {
+                NSString *jsonLocation=book.localPathFile;
+                NSFileManager *fm = [NSFileManager defaultManager];
+                NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+                NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+                NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+                jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+                
+                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
+                
+                NSLog(@"Categories - %@, Selected Category - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"], [_categorySelected objectForKey:NAME]);
+                if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]]) {
+                    [booksForSelectedCategory addObject:book];
+                }
+                
+            }
+        }
+        _books = (NSArray *)booksForSelectedCategory;
     }
     NSInteger count=MIN(_books.count, 5);
     NSInteger finalIndex=_inital+count;

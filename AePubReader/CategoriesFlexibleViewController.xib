@@ -7,6 +7,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoriesFlexibleViewController">
             <connections>
+                <outlet property="categoryButtonFive" destination="p5y-E2-WtS" id="LSZ-nh-FxT"/>
+                <outlet property="categoryButtonFour" destination="49F-Gg-GQp" id="3wu-ME-hgO"/>
+                <outlet property="categoryButtonOne" destination="Fzz-Ob-jxi" id="dkq-I6-TCg"/>
+                <outlet property="categoryButtonSix" destination="hxO-ms-Bkk" id="jZY-NF-yGE"/>
+                <outlet property="categoryButtonThree" destination="TCt-UB-zQe" id="xjU-BW-4N8"/>
+                <outlet property="categoryButtonTwo" destination="3ua-Vc-v3s" id="rL2-2F-0n4"/>
+                <outlet property="categoryLabelFive" destination="YFO-DK-gBl" id="lAd-H7-TXd"/>
+                <outlet property="categoryLabelFour" destination="nQg-Zo-46c" id="TUB-J4-QqK"/>
+                <outlet property="categoryLabelOne" destination="BZc-6A-VoY" id="nev-Mi-KHO"/>
+                <outlet property="categoryLabelSix" destination="U5l-GR-3gG" id="T5V-pQ-hdf"/>
+                <outlet property="categoryLabelThree" destination="Yz7-M1-SuS" id="caB-5W-lMM"/>
+                <outlet property="categoryLabelTwo" destination="mQ0-nS-m18" id="sDO-9N-Idq"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -26,21 +38,106 @@
                     <color key="textColor" red="0.39901069972826086" green="0.2649544972884712" blue="0.13200199587071057" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My books" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BZc-6A-VoY">
-                    <rect key="frame" x="161" y="353" width="116" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BZc-6A-VoY">
+                    <rect key="frame" x="116" y="337" width="220" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fzz-Ob-jxi">
-                    <rect key="frame" x="119" y="107" width="200" height="212"/>
+                    <rect key="frame" x="131" y="107" width="200" height="212"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="icon_my existing books.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="openBooks:" destination="-1" eventType="touchUpInside" id="n9i-tO-Pqs"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U5l-GR-3gG">
+                    <rect key="frame" x="684" y="646" width="220" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hxO-ms-Bkk">
+                    <rect key="frame" x="690" y="417" width="200" height="212"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="icon_my existing books.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="openBooks:" destination="-1" eventType="touchUpInside" id="1uF-py-Fh8"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YFO-DK-gBl">
+                    <rect key="frame" x="400" y="646" width="220" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p5y-E2-WtS">
+                    <rect key="frame" x="415" y="417" width="200" height="212"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="icon_my existing books.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="openBooks:" destination="-1" eventType="touchUpInside" id="PLP-bm-Lv2"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nQg-Zo-46c">
+                    <rect key="frame" x="116" y="646" width="220" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="49F-Gg-GQp">
+                    <rect key="frame" x="131" y="417" width="200" height="212"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="icon_my existing books.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="openBooks:" destination="-1" eventType="touchUpInside" id="jN1-af-Dk7"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yz7-M1-SuS">
+                    <rect key="frame" x="685" y="337" width="220" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TCt-UB-zQe">
+                    <rect key="frame" x="690" y="107" width="200" height="212"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="icon_my existing books.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="openBooks:" destination="-1" eventType="touchUpInside" id="TVE-8T-G48"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mQ0-nS-m18">
+                    <rect key="frame" x="401" y="337" width="220" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.93098778380000002" blue="0.5526406881" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3ua-Vc-v3s">
+                    <rect key="frame" x="415" y="107" width="200" height="212"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="icon_my existing books.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="openBooks:" destination="-1" eventType="touchUpInside" id="HXW-UC-5NR"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dBQ-ZR-h02">
@@ -73,6 +170,17 @@
                         <action selector="settingsButton:" destination="-1" eventType="touchUpInside" id="s7u-b4-HIK"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kcf-pQ-86Y">
+                    <rect key="frame" x="918" y="287" width="129" height="167"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="icons_next2.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="nextButtonTapped:" destination="-1" eventType="touchUpInside" id="q6z-mF-C3v"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -84,6 +192,7 @@
         <image name="icon_my existing books.png" width="215" height="225"/>
         <image name="icons_back2.png" width="83" height="167"/>
         <image name="icons_home.png" width="78" height="77"/>
+        <image name="icons_next2.png" width="83" height="167"/>
         <image name="icons_settings.png" width="78" height="77"/>
     </resources>
 </document>
