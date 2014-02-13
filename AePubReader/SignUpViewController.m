@@ -54,7 +54,7 @@
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES];
-    
+    apiController.delegate = self;
 }
 
 - (IBAction)donePressed:(id)sender {

@@ -320,6 +320,24 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
+    NSDictionary *bookDict = [self.featuredStoriesArray objectAtIndex:index];
+    
+    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    
+    [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+        bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        
+        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+    }];
+    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
 }
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {

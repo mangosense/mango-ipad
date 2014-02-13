@@ -1054,6 +1054,9 @@
 }
 
 + (NSMutableDictionary *)readerGamePage:(NSString *)gameName ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption {
+    NSArray *resFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[folderLocation stringByAppendingString:@"/res"] error:nil];
+    NSLog(@"Res Folder contents: %@", resFiles);
+    
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
