@@ -10,6 +10,12 @@
 #import "MangoApiController.h"
 #import "PurchaseManager.h"
 
+@protocol BookViewProtocol <NSObject>
+
+- (void)openBookViewWithCategory:(NSDictionary *)categoryDict;
+
+@end
+
 @interface BookDetailsViewController : UIViewController <MangoPostApiProtocol, PurchaseManagerProtocol>
 
 @property (nonatomic, strong) NSString *selectedProductId;
@@ -25,6 +31,8 @@
 @property (nonatomic, strong) IBOutlet UIButton *buyButton;
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
+
+@property (nonatomic, assign) id <BookViewProtocol> delegate;
 
 - (IBAction)buyButtonTapped:(id)sender;
 - (IBAction)closeDetails:(id)sender;

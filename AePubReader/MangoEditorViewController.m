@@ -623,7 +623,23 @@
     
     bookJsonString = [self jsonForBook:_mangoStoryBook];
     NSData *data = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
-    [self createFileAtPath:[NSString stringWithFormat:@"%@/%@.json", _editedBookPath, _mangoStoryBook.id] WithData:data];
+    
+    NSString *fileName;
+    if (!isNewBook) {
+        NSDictionary *modifiedBookDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSMutableDictionary *mutableBookDict = [NSMutableDictionary dictionaryWithDictionary:modifiedBookDict];
+        NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithDictionary:[mutableBookDict objectForKey:@"info"]];
+        [infoDict setObject:[NSArray arrayWithObject:@"My Books"] forKey:@"categories"];
+        [mutableBookDict setObject:infoDict forKey:@"info"];
+        
+        data = [NSJSONSerialization dataWithJSONObject:mutableBookDict options:NSJSONReadingAllowFragments error:nil];
+        
+        fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
+    } else {
+        fileName = _mangoStoryBook.id;
+    }
+    
+    [self createFileAtPath:[NSString stringWithFormat:@"%@/%@.json", _editedBookPath, fileName] WithData:data];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -1336,12 +1352,22 @@
 
 #pragma mark - Book JSON Methods
 
+- (NSString *)jsonFileLocationForLocation:(NSString *)jsonLocation {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+
+    return jsonLocation;
+}
+
 - (NSString *)jsonStringForLocation:(NSString *)jsonLocation {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
     NSString *jsonString = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     return jsonString;
 }

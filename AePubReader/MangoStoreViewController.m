@@ -20,7 +20,6 @@
 #import "HKCircularProgressLayer.h"
 #import "HKCircularProgressView.h"
 #import "MyStoriesBooksViewController.h"
-#import "BookDetailsViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -214,6 +213,7 @@
     [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
     
     /// -----
+    
     BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit = NO;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];
@@ -323,6 +323,7 @@
     NSDictionary *bookDict = [self.featuredStoriesArray objectAtIndex:index];
     
     BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    bookDetailsViewController.delegate = self;
     
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
@@ -369,6 +370,15 @@
             return value;
         }
     }
+}
+
+#pragma mark - Book View Delegate
+
+- (void)openBookViewWithCategory:(NSDictionary *)categoryDict {
+    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    booksCategoryViewController.toEdit = NO;
+    booksCategoryViewController.categorySelected = categoryDict;
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
 }
 
 #pragma mark - Local Image Saving Delegate
@@ -476,6 +486,7 @@
         NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
 
         BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        bookDetailsViewController.delegate = self;
         
         [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
         [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {

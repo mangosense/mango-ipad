@@ -12,12 +12,15 @@
 #import "HKCircularProgressLayer.h"
 #import "HKCircularProgressView.h"
 #import "Constants.h"
+#import "BooksFromCategoryViewController.h"
+#import "AePubReaderAppDelegate.h"
 
 @interface BookDetailsViewController ()
 
 @property (nonatomic, assign) int bookProgress;
 @property (nonatomic, strong) HKCircularProgressView *progressView;
 @property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, strong) NSString *bookId;
 
 @end
 
@@ -71,8 +74,14 @@
 
 - (IBAction)closeDetails:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^(void) {
-        
+        //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
     }];
+}
+
+- (void)openBook:(NSString *)bookId {
+    [_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
+
+    [self closeDetails:nil];
 }
 
 #pragma mark - Get Image
@@ -87,6 +96,8 @@
 #pragma mark - Purchased Manager Call Back
 
 - (void)itemReadyToUse:(NSString *)productId {
+    _bookId = productId;
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController downloadBookWithId:productId withDelegate:self];
 }
@@ -100,7 +111,7 @@
 }
 
 - (void)bookDownloaded {
-    [self closeDetails:nil];
+    [self openBook:_bookId];
 }
 
 - (void)updateBookProgress:(int)progress {

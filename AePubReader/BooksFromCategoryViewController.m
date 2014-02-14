@@ -50,6 +50,8 @@
     _imageArray=[NSArray arrayWithObjects:_imageOne,_imageTwo,_imageThree,_imageFour,_imageFive, nil];
     _titleLabelArray=[NSArray arrayWithObjects:_labelone,_labelTwo,_labelThree,_labelFour,_labelFive, nil];
     
+    _categoryTitleLabel.text = [_categorySelected objectForKey:NAME];
+    
     [self setupUI];
 }
 
@@ -180,7 +182,7 @@
                 NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
                 NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
                 NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-                jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+                jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
                 
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
                 
@@ -213,7 +215,7 @@
             NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
             NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
             NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
             
             NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
             UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];

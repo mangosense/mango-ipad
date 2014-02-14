@@ -122,7 +122,7 @@
     NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:book.localPathFile error:nil];
     
     NSArray *jsonFiles = [dirContents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
-    NSString *jsonFileLocation = [book.localPathFile stringByAppendingPathComponent:[jsonFiles lastObject]];
+    NSString *jsonFileLocation = [book.localPathFile stringByAppendingPathComponent:[jsonFiles firstObject]];
     
     NSString *jsonString = [[NSString alloc]initWithContentsOfFile:jsonFileLocation encoding:NSUTF8StringEncoding error:nil];
     return jsonString;

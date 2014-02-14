@@ -45,6 +45,8 @@
 @property (nonatomic, strong) IBOutlet UIButton *homeBtn;
 @property (nonatomic, strong) IBOutlet UIButton *libraryBtn;
 
+@property (nonatomic, strong) IBOutlet UILabel *categoryTitleLabel;
+
 @property (nonatomic, strong) NSDictionary *categorySelected;
 
 @end

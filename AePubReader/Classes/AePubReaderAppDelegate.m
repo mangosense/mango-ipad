@@ -227,7 +227,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
     
-    NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles lastObject]];
+    NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles firstObject]];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
     [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];

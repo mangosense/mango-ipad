@@ -50,7 +50,7 @@
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
 
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     
@@ -97,7 +97,10 @@
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
     if([ver floatValue]>5.1){
-        NSString *textToShare=[_book.title stringByAppendingString:@" great bk from MangoReader"];
+        
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        MangoBook *book=[appDelegate.ejdbController.collection fetchObjectWithOID:_book.id];
+        NSString *textToShare=[_book.title stringByAppendingFormat:@"\n\nI found this cool book - %@ - on MangoReader!\n\n Read it here - %@ !", _book.title, [NSString stringWithFormat:@"www.mangoreader.com/live_stories/%@", book.id]];
         
         UIImage *image=[UIImage imageWithContentsOfFile:_book.localPathImageFile];
         NSMutableArray *activityItems= [[NSMutableArray alloc] init];

@@ -11,7 +11,6 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "MBProgressHUD.h"
-#import "SignUpViewController.h"
 
 @interface LoginNewViewController ()
 
@@ -49,6 +48,11 @@
     [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO];
 }
 
+- (void)goToNext {
+    LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    [self.navigationController pushViewController:landingPageViewController animated:YES];
+}
+
 - (IBAction)goToNext:(id)sender {
     LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
     [self.navigationController pushViewController:landingPageViewController animated:YES];
@@ -56,6 +60,7 @@
 
 - (IBAction)signUp:(id)sender {
     SignUpViewController *signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    signupViewController.delegate = self;
     signupViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:signupViewController animated:YES completion:nil];
 }

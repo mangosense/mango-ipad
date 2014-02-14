@@ -42,7 +42,7 @@
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
   //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
   //  NSLog(@"json contents %@",jsonContents);
@@ -60,8 +60,21 @@
     size.height=size.height-300;
     _popOverController.popoverContentSize=size;
 
+    NSString *jsonLocation=_book.localPathFile;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+    //  NSLog(@"json location %@",jsonLocation);
+    NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    
+    NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    choiceViewController.array = [jsonDict objectForKey:@"available_languages"];
+    choiceViewController.bookDict = jsonDict;
+    
     [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-  
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,7 +105,7 @@
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson lastObject]];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     

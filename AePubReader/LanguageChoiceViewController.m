@@ -7,6 +7,8 @@
 //
 
 #import "LanguageChoiceViewController.h"
+#import "BookDetailsViewController.h"
+#import "Constants.h"
 
 @interface LanguageChoiceViewController ()
 
@@ -19,7 +21,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Hindi",@"Spanish",@"German",@"Marathi", nil];
+
     }
     return self;
 }
@@ -124,6 +126,28 @@
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [_delegate dismissPopOver];
+    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    
+    [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+        bookDetailsViewController.bookTitleLabel.text = [_bookDict objectForKey:@"title"];
+        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[_bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[_bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[_bookDict objectForKey:@"page_count"] intValue]];
+        bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[_bookDict objectForKey:@"price"] intValue]];
+        bookDetailsViewController.categoriesLabel.text = [[[_bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        bookDetailsViewController.descriptionLabel.text = [_bookDict objectForKey:@"synopsis"];
+        
+        bookDetailsViewController.selectedProductId = [[[_bookDict objectForKey:@"available_languages"] objectAtIndex:indexPath.row] objectForKey:@"live_story_id"];
+        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[_bookDict objectForKey:@"cover"]];
+    }];
+    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+}
+
+#pragma mark - Get Languages
+
+- (void)getBookDetails {
     
 }
+
 @end

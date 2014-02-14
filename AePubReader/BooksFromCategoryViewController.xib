@@ -13,6 +13,7 @@
                 <outlet property="bookOne" destination="IuW-bi-ko6" id="lmO-GV-uAG"/>
                 <outlet property="bookThree" destination="dFf-9U-i0x" id="S1y-aY-rBG"/>
                 <outlet property="bookTwo" destination="zxk-fu-po6" id="wcW-8T-xzR"/>
+                <outlet property="categoryTitleLabel" destination="VuT-MP-hua" id="siM-jc-Y0o"/>
                 <outlet property="homeBtn" destination="ctw-cS-4TR" id="H3M-OZ-TNS"/>
                 <outlet property="imageFive" destination="BH8-yt-cra" id="zzb-HA-prg"/>
                 <outlet property="imageFour" destination="a7L-G1-ypO" id="gyi-e9-FII"/>
@@ -37,7 +38,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Books" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VuT-MP-hua">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VuT-MP-hua">
                     <rect key="frame" x="364" y="40" width="295" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>

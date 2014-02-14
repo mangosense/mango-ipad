@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Flurry.h"
 #import "AePubReaderAppDelegate.h"
+#import "Constants.h"
+#import "LandPageChoiceViewController.h"
 
 @interface SignUpViewController ()
 
@@ -74,7 +76,12 @@
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     if (userDetailsDictionary) {
+        
+        NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+        [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+        
         [self donePressed:nil];
+        [_delegate goToNext];
     }
 }
 
