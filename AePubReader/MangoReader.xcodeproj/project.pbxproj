@@ -234,6 +234,18 @@
 		83BB3EC6185B5ADD00BA5ED7 /* word-search-game.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EBD185B5ADD00BA5ED7 /* word-search-game.jpg */; };
 		83BB3ECA185B61E500BA5ED7 /* MangoGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BB3EC8185B61E500BA5ED7 /* MangoGameViewController.m */; };
 		83BB3ECB185B61E600BA5ED7 /* MangoGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83BB3EC9185B61E500BA5ED7 /* MangoGameViewController.xib */; };
+		83C1B52018AE5EA700624E1B /* question_answer.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51418AE5EA700624E1B /* question_answer.png */; };
+		83C1B52118AE5EA700624E1B /* sequence.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51518AE5EA700624E1B /* sequence.png */; };
+		83C1B52218AE5EA700624E1B /* sequenceimages.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51618AE5EA700624E1B /* sequenceimages.png */; };
+		83C1B52318AE5EA700624E1B /* build-a-story.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51718AE5EA700624E1B /* build-a-story.png */; };
+		83C1B52418AE5EA700624E1B /* true_false.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51818AE5EA700624E1B /* true_false.png */; };
+		83C1B52518AE5EA700624E1B /* draw.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51918AE5EA700624E1B /* draw.png */; };
+		83C1B52618AE5EA700624E1B /* drop-the-correcr-word.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51A18AE5EA700624E1B /* drop-the-correcr-word.png */; };
+		83C1B52718AE5EA700624E1B /* matchwords.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51B18AE5EA700624E1B /* matchwords.png */; };
+		83C1B52818AE5EA700624E1B /* memory.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51C18AE5EA700624E1B /* memory.png */; };
+		83C1B52918AE5EA700624E1B /* quiz.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51D18AE5EA700624E1B /* quiz.png */; };
+		83C1B52A18AE5EA700624E1B /* jigsaw.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51E18AE5EA700624E1B /* jigsaw.png */; };
+		83C1B52B18AE5EA700624E1B /* wordsearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51F18AE5EA700624E1B /* wordsearch.png */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
 		83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
@@ -1346,6 +1358,18 @@
 		83BB3EC7185B61E500BA5ED7 /* MangoGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoGameViewController.h; sourceTree = "<group>"; };
 		83BB3EC8185B61E500BA5ED7 /* MangoGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoGameViewController.m; sourceTree = "<group>"; };
 		83BB3EC9185B61E500BA5ED7 /* MangoGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoGameViewController.xib; sourceTree = "<group>"; };
+		83C1B51418AE5EA700624E1B /* question_answer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question_answer.png; sourceTree = "<group>"; };
+		83C1B51518AE5EA700624E1B /* sequence.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sequence.png; sourceTree = "<group>"; };
+		83C1B51618AE5EA700624E1B /* sequenceimages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sequenceimages.png; sourceTree = "<group>"; };
+		83C1B51718AE5EA700624E1B /* build-a-story.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "build-a-story.png"; sourceTree = "<group>"; };
+		83C1B51818AE5EA700624E1B /* true_false.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = true_false.png; sourceTree = "<group>"; };
+		83C1B51918AE5EA700624E1B /* draw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = draw.png; sourceTree = "<group>"; };
+		83C1B51A18AE5EA700624E1B /* drop-the-correcr-word.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "drop-the-correcr-word.png"; sourceTree = "<group>"; };
+		83C1B51B18AE5EA700624E1B /* matchwords.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = matchwords.png; sourceTree = "<group>"; };
+		83C1B51C18AE5EA700624E1B /* memory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = memory.png; sourceTree = "<group>"; };
+		83C1B51D18AE5EA700624E1B /* quiz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quiz.png; sourceTree = "<group>"; };
+		83C1B51E18AE5EA700624E1B /* jigsaw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jigsaw.png; sourceTree = "<group>"; };
+		83C1B51F18AE5EA700624E1B /* wordsearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsearch.png; sourceTree = "<group>"; };
 		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
 		83CFB6C1184333AF0003E875 /* BaseViewAudoMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewAudoMapping.h; sourceTree = "<group>"; };
@@ -2507,6 +2531,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				83C1B51318AE5EA700624E1B /* GameIcons */,
 				83BB3E8B185B560600BA5ED7 /* mangogames */,
 				8353B31D1851ABB7009B3BD8 /* Color Tool Images */,
 				83E9ADE5184DA3710025BBD6 /* Store Images */,
@@ -3020,6 +3045,25 @@
 				83BB3EBD185B5ADD00BA5ED7 /* word-search-game.jpg */,
 			);
 			path = titles;
+			sourceTree = "<group>";
+		};
+		83C1B51318AE5EA700624E1B /* GameIcons */ = {
+			isa = PBXGroup;
+			children = (
+				83C1B51418AE5EA700624E1B /* question_answer.png */,
+				83C1B51518AE5EA700624E1B /* sequence.png */,
+				83C1B51618AE5EA700624E1B /* sequenceimages.png */,
+				83C1B51718AE5EA700624E1B /* build-a-story.png */,
+				83C1B51818AE5EA700624E1B /* true_false.png */,
+				83C1B51918AE5EA700624E1B /* draw.png */,
+				83C1B51A18AE5EA700624E1B /* drop-the-correcr-word.png */,
+				83C1B51B18AE5EA700624E1B /* matchwords.png */,
+				83C1B51C18AE5EA700624E1B /* memory.png */,
+				83C1B51D18AE5EA700624E1B /* quiz.png */,
+				83C1B51E18AE5EA700624E1B /* jigsaw.png */,
+				83C1B51F18AE5EA700624E1B /* wordsearch.png */,
+			);
+			path = GameIcons;
 			sourceTree = "<group>";
 		};
 		83DD9BB418111662004C975F /* ImageDownloader */ = {
@@ -4275,10 +4319,12 @@
 				AE576060161B0E1E00C6EEC6 /* closebutton.png in Resources */,
 				83E2D1E9184364EC00F8CDB6 /* editor_345.png in Resources */,
 				834FCE3E182D11F70000181B /* no_button_pressed.png in Resources */,
+				83C1B52618AE5EA700624E1B /* drop-the-correcr-word.png in Resources */,
 				AE525E98161D8CD200CDB400 /* WebViewController.xib in Resources */,
 				83E2D207184364EC00F8CDB6 /* editor_50.png in Resources */,
 				AE7FEF18161EE4FF00181CE8 /* about-mango-icon.png in Resources */,
 				AE7FEF1B161EE52800181CE8 /* sign-in-button.png in Resources */,
+				83C1B52218AE5EA700624E1B /* sequenceimages.png in Resources */,
 				AE7FD7F61823B2B800C8DD88 /* DetailStoreViewController.xib in Resources */,
 				83E2D1D0184364EC00F8CDB6 /* editor_322.png in Resources */,
 				83E2D226184364EC00F8CDB6 /* editor_79.png in Resources */,
@@ -4300,6 +4346,7 @@
 				83E2D113184364EC00F8CDB6 /* editor_152.png in Resources */,
 				83E2D101184364EC00F8CDB6 /* editor_136.png in Resources */,
 				83E2D16B184364EC00F8CDB6 /* editor_231.png in Resources */,
+				83C1B52918AE5EA700624E1B /* quiz.png in Resources */,
 				AE73704B183C686B00054115 /* LoginNewViewController.xib in Resources */,
 				AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */,
 				83E2D178184364EC00F8CDB6 /* editor_243.png in Resources */,
@@ -4408,6 +4455,7 @@
 				83E9AE1B184DA3710025BBD6 /* interactive.png in Resources */,
 				83E2D1B9184364EC00F8CDB6 /* editor_301.png in Resources */,
 				AE266FCA183B4881001A8CB8 /* button_store.png in Resources */,
+				83C1B52B18AE5EA700624E1B /* wordsearch.png in Resources */,
 				AEEF8473166C90FB0098BAA2 /* LoginViewControllerIphone.xib in Resources */,
 				AEFA9BF6166CC44200A60A12 /* SignUpViewControllerIphone.xib in Resources */,
 				834FCE27182D11F70000181B /* discard_button_pressed.png in Resources */,
@@ -4544,6 +4592,7 @@
 				83E2D12E184364EC00F8CDB6 /* editor_177.png in Resources */,
 				83E2D1C0184364EC00F8CDB6 /* editor_308.png in Resources */,
 				83BB3E9F185B560600BA5ED7 /* gamecentre_ref.jpg in Resources */,
+				83C1B52A18AE5EA700624E1B /* jigsaw.png in Resources */,
 				AED05F9B168CBCBA00D27EF3 /* stop-recording-control.png in Resources */,
 				83E2D1CC184364EC00F8CDB6 /* editor_319.png in Resources */,
 				AED05F9D168CBCBE00D27EF3 /* start-recording-control.png in Resources */,
@@ -4608,6 +4657,7 @@
 				83E2D236184364EC00F8CDB6 /* editor_93.png in Resources */,
 				834FCE30182D11F70000181B /* imagebutton.png in Resources */,
 				AED2B518169AA742001956CF /* 49.jpg in Resources */,
+				83C1B52718AE5EA700624E1B /* matchwords.png in Resources */,
 				83E2D159184364EC00F8CDB6 /* editor_215.png in Resources */,
 				83E2D19A184364EC00F8CDB6 /* editor_274.png in Resources */,
 				834FCE18182D11F70000181B /* addtopage_button.png in Resources */,
@@ -4675,6 +4725,7 @@
 				AE0C9355183DB401008E4D54 /* icons_library.png in Resources */,
 				AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */,
 				83E2D17C184364EC00F8CDB6 /* editor_247.png in Resources */,
+				83C1B52318AE5EA700624E1B /* build-a-story.png in Resources */,
 				83E2D212184364EC00F8CDB6 /* editor_60.png in Resources */,
 				83BB3EA1185B560600BA5ED7 /* image_sequencing_ref.jpg in Resources */,
 				AE0C936A183DEA8E008E4D54 /* icons_play games.png in Resources */,
@@ -4753,6 +4804,7 @@
 				83E2D199184364EC00F8CDB6 /* editor_273.png in Resources */,
 				29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */,
 				AEB7938B173BA61A00301057 /* ShowPopViewController.xib in Resources */,
+				83C1B52518AE5EA700624E1B /* draw.png in Resources */,
 				8353B32E1851ABE1009B3BD8 /* brown.png in Resources */,
 				83E2D1FD184364EC00F8CDB6 /* editor_41.png in Resources */,
 				83E2D205184364EC00F8CDB6 /* editor_49.png in Resources */,
@@ -4802,6 +4854,7 @@
 				83E9AE1D184DA3710025BBD6 /* sound.png in Resources */,
 				83E2D220184364EC00F8CDB6 /* editor_73.png in Resources */,
 				83E2D14C184364EC00F8CDB6 /* editor_203.png in Resources */,
+				83C1B52418AE5EA700624E1B /* true_false.png in Resources */,
 				834FCE16182D11F70000181B /* addthisgame_button.png in Resources */,
 				831E746718A8BF69001976E4 /* white_page.jpeg in Resources */,
 				83E2D1EF184364EC00F8CDB6 /* editor_350.png in Resources */,
@@ -4859,10 +4912,12 @@
 				83BB3EC2185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg in Resources */,
 				83BB3EA9185B560600BA5ED7 /* quiz_ref.jpg in Resources */,
 				83E2D1CA184364EC00F8CDB6 /* editor_317.png in Resources */,
+				83C1B52118AE5EA700624E1B /* sequence.png in Resources */,
 				83E2D1B4184364EC00F8CDB6 /* editor_298.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
 				834FCE36182D11F70000181B /* mangoicon.png in Resources */,
 				833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */,
+				83C1B52818AE5EA700624E1B /* memory.png in Resources */,
 				83E2D0E1184364EC00F8CDB6 /* editor_107.png in Resources */,
 				83E723CE17BA058D0083DBD6 /* camera_gray_round.png in Resources */,
 				83E2D237184364EC00F8CDB6 /* editor_94.png in Resources */,
@@ -4889,6 +4944,7 @@
 				83BB3EA8185B560600BA5ED7 /* quiz_bg.jpg in Resources */,
 				83E2D114184364EC00F8CDB6 /* editor_153.png in Resources */,
 				AE0C9384183E0944008E4D54 /* icons_game.png in Resources */,
+				83C1B52018AE5EA700624E1B /* question_answer.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
 				83E2D0ED184364EC00F8CDB6 /* editor_118.png in Resources */,
 				83E2D21B184364EC00F8CDB6 /* editor_69.png in Resources */,

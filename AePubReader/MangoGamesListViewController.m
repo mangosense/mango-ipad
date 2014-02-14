@@ -47,7 +47,11 @@
     // Do any additional setup after loading the view from its nib.
     _gamesArray = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"word-search-game.jpg"], [UIImage imageNamed:@"memory-puzzle.jpg"], [UIImage imageNamed:@"jigsaw-puzzle.jpg"], nil];
     [_gamesCarousel setType:iCarouselTypeCoverFlow];
-    [_gamesCarousel scrollToItemAtIndex:1 animated:YES];
+    int scrollToIndex = 0;
+    if ([_gameNames count] > 2) {
+        scrollToIndex = 1;
+    }
+    [_gamesCarousel scrollToItemAtIndex:scrollToIndex animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,7 +69,7 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 350)];
-    [storyImageView setImage:[_gamesArray objectAtIndex:index%3]];
+    [storyImageView setImage:[UIImage imageNamed:[_gameNames objectAtIndex:index]]];
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
     return storyImageView;
