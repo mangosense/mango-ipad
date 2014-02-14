@@ -11,6 +11,18 @@
 #import "MangoGameViewController.h"
 #import <Parse/Parse.h>
 
+#define GAME_DRAW @"draw"
+#define GAME_JIGSAW @"jigsaw"
+#define GAME_MATCH_IMAGES @"matchimages"
+#define GAME_MATCH_WORDS @"matchwords"
+#define GAME_MEMORY @"memory"
+#define GAME_QA @"question_answer"
+#define GAME_QUIZ @"quiz"
+#define GAME_SEQUENCE @"sequence"
+#define GAME_SEQUENCE_IMAGES @"sequenceimages"
+#define GAME_TRUE_FALSE @"true_false"
+#define GAME_WORDSEARCH @"wordsearch"
+
 @interface MangoGamesListViewController ()
 
 @property (nonatomic, strong) NSMutableArray *gamesArray;
@@ -47,7 +59,7 @@
 #pragma mark - iCarousel Datasource and Delegate Methods
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return 3;
+    return [_gameNames count];
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
@@ -60,35 +72,18 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    NSString *gameName;
-    switch (index) {
-        case 0: {
-            gameName = @"wordsearch";
-            [PFAnalytics trackEvent:EVENT_GAME_WORDSEARCH dimensions:nil];
-        }
-            break;
-            
-        case 1: {
-            gameName = @"memory";
-            [PFAnalytics trackEvent:EVENT_GAME_MEMORY dimensions:nil];
-        }
-            break;
-            
-        case 2: {
-            gameName = @"jigsaw";
-            [PFAnalytics trackEvent:EVENT_GAME_JIGSAW dimensions:nil];
-        }
-            break;
-            
-        default:
-            break;
-    }
+    NSString *gameName = [_gameNames objectAtIndex:index];
+
     NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePage:gameName ForStory:_jsonString WithFolderLocation:_folderLocation AndOption:0];
+    
     _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
     [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
     
     UIWebView *webview = [gameViewDict objectForKey:@"gameView"];
     webview.delegate = self;
+    webview.frame = self.view.frame;
+    [webview setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
+    [[webview scrollView] setBounces:NO];
     [self.view addSubview:webview];
     
     [self.view bringSubviewToFront:_closeButton];
@@ -150,7 +145,8 @@
     NSString *paramString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"Param: %@", paramString);
     
-    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
+    NSString *resultString = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
+    NSLog(@"%@", resultString);
 }
 
 @end

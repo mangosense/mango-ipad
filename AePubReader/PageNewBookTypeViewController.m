@@ -313,16 +313,30 @@
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
         if (!_pageView) {
             _pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-            NSArray *gameNamesArray = [NSArray arrayWithObjects:@"wordsearch", @"memory", @"jigsaw", nil];
-            NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_gamePageNumber] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
-            _gameDataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
-            [_gameDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
-            UIWebView *gameView = [gameViewDict objectForKey:@"gameView"];
-            gameView.delegate = self;
             
-            [_pageView addSubview:gameView];
-            _gamePageNumber++;
-            _gamePageNumber = _gamePageNumber%3;
+            NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+            int numberOfGames = [jsonDict objectForKey:NUMBER_OF_GAMES];
+            
+            NSArray *pagesArray = [jsonDict objectForKey:PAGES];
+            NSMutableArray *gameNamesArray = [[NSMutableArray alloc] init];
+            for (NSDictionary *pageDict in pagesArray) {
+                if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
+                    [gameNamesArray addObject:[pageDict objectForKey:NAME]];
+                }
+            }
+            
+            if ([gameNamesArray count] > 0) {
+                NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_gamePageNumber] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
+                _gameDataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
+                [_gameDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
+                UIWebView *gameView = [gameViewDict objectForKey:@"gameView"];
+                gameView.delegate = self;
+                
+                [_pageView addSubview:gameView];
+                _gamePageNumber++;
+                _gamePageNumber = MIN(numberOfGames - 1, _gamePageNumber);
+            }
         }
                 
     }

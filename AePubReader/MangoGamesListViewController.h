@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSString *folderLocation;
 @property (nonatomic, strong) NSString *jsonString;
 
+@property (nonatomic, strong) NSArray *gameNames;
+
 @property (nonatomic, strong) IBOutlet iCarousel *gamesCarousel;
 @property (nonatomic, strong) IBOutlet UILabel *gameTitleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *gameDescriptionLabel;
