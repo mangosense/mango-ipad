@@ -65,7 +65,7 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *storyImageView = [[UIImageView alloc] init];
     [storyImageView setFrame:CGRectMake(0, 0, 400, 350)];
-    [storyImageView setImage:[_gamesArray objectAtIndex:index]];
+    [storyImageView setImage:[_gamesArray objectAtIndex:index%3]];
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
     return storyImageView;

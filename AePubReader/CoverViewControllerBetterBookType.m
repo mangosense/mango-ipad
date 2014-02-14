@@ -119,7 +119,15 @@
         MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
         gamesListViewController.jsonString = jsonContent;
         gamesListViewController.folderLocation = _book.localPathFile;
+        NSMutableArray *gameNames = [[NSMutableArray alloc] init];
+        for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
+            if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
+                [gameNames addObject:[pageDict objectForKey:NAME]];
+            }
+        }
+        gamesListViewController.gameNames = gameNames;
         
+
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
         [navController.navigationBar setHidden:YES];
         
