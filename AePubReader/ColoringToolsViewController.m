@@ -109,6 +109,10 @@
         }
             break;
             
+        case ERASER_BUTTON_TAG: {
+            [_delegate selectedColor:button.tag];
+        }
+            
         default:
             break;
     }
