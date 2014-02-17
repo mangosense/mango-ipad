@@ -48,7 +48,7 @@
 @property (nonatomic, strong) UIButton *audioRecordingButton;
 @property (nonatomic, strong) UIPopoverController *menuPopoverController;
 @property (nonatomic, strong) NSArray *flickerResultsArray;
-@property (nonatomic, strong) NSArray *arrayOfImageNames;
+@property (nonatomic, strong) NSArray *arrayOfEditorImages;
 @property (nonatomic, strong) UIView *stickerView;
 
 @property (nonatomic, assign) CGFloat rotateAngle;
@@ -83,7 +83,7 @@
 @synthesize audioRecordingButton;
 @synthesize menuPopoverController;
 @synthesize flickerResultsArray;
-@synthesize arrayOfImageNames;
+@synthesize arrayOfEditorImages;
 @synthesize stickerView;
 @synthesize rotateAngle;
 @synthesize translatePoint;
@@ -249,7 +249,12 @@
             NSLog(@"error");
         } else {
             NSLog(@"url %@", assetURL);
-            [self addNewPageWithImageUrl:assetURL];
+            NSMutableArray *mutableImagesArray = [NSMutableArray arrayWithArray:arrayOfEditorImages];
+            [mutableImagesArray addObject:image];
+            arrayOfEditorImages = [NSArray arrayWithArray:mutableImagesArray];
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = [arrayOfEditorImages count] - 1;
+            [self addImageForButton:button];
         }
     }];
 }
@@ -346,7 +351,7 @@
         [assetImageButton addTarget:self action:@selector(addFlickerPhotoForButton:) forControlEvents:UIControlEventTouchUpInside];
         [assetsScrollView addSubview:assetImageButton];
     }
-    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, ([arrayOfImageNames count]/2)*140);
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, ([arrayOfEditorImages count]/2)*140);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
     [menuPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
     
@@ -411,26 +416,20 @@
     [stickerView setMultipleTouchEnabled:YES];
     [self addGestureRecognizersforView:stickerView];
     
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *editorImagesPath = [[appDelegate applicationDocumentsDirectory] stringByAppendingFormat:@"/EditorImages"];
-    BOOL isDir;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:editorImagesPath isDirectory:&isDir]) {
-        NSArray *imageNames = [[NSFileManager defaultManager] subpathsAtPath:editorImagesPath];
-        UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 120, 120)];
-        assetImageView.image = [UIImage imageNamed:[imageNames objectAtIndex:button.tag]];
-        [stickerView addSubview:assetImageView];
-        
-        UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [doneButton setImage:[UIImage imageNamed:@"Checkmark.png"] forState:UIControlStateNormal];
-        [doneButton setFrame:CGRectMake(50, 130, 44, 44)];
-        [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
-        [stickerView addSubview:doneButton];
-        
-        [self.view addSubview:stickerView];
-        
-        rotateAngle = 0;
-        translatePoint = stickerView.center;
-    }
+    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 120, 120)];
+    assetImageView.image = [arrayOfEditorImages objectAtIndex:button.tag];
+    [stickerView addSubview:assetImageView];
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setImage:[UIImage imageNamed:@"Checkmark.png"] forState:UIControlStateNormal];
+    [doneButton setFrame:CGRectMake(50, 130, 44, 44)];
+    [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
+    [stickerView addSubview:doneButton];
+    
+    [self.view addSubview:stickerView];
+    
+    rotateAngle = 0;
+    translatePoint = stickerView.center;
 }
 
 - (void)assetTypeSelected:(id)sender {
@@ -448,12 +447,12 @@
     int selectedIndex = control.selectedSegmentIndex;
     switch (selectedIndex) {
         case 0: {
-            arrayOfImageNames = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+            arrayOfEditorImages = [NSArray arrayWithObjects:@"1-leaf.png", @"2-Grass.png", @"3-leaves.png", @"10-leaves.png", @"11-leaves.png", @"A.png", @"B.png", @"bamboo-01.png", @"bamboo-02.png", @"bambu-01.png", @"bambu-02.png", @"bambu.png", @"Branch_01.png", @"C.png", @"coconut tree.png", @"grass1.png", @"hills-01.png", @"hills-02.png", @"hills-03.png", @"leaf-02", @"mushroom_01.png", @"mushroom_02.png", @"mushroom_03.png", @"mushroom_04.png", @"rock_01.png", @"rock_02.png", @"rock_03.png", @"rock_04.png", @"rock_05.png", @"rock_06.png", @"rock_07.png", @"rock_08.png", @"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
         }
             break;
             
         case 1: {
-            arrayOfImageNames = [NSArray arrayWithObjects:@"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
+            arrayOfEditorImages = [NSArray arrayWithObjects:@"rock_09.png", @"rock-10.png", @"rock_11.png", @"rock_12.png", @"tree2.png", nil];
         }
             break;
             
@@ -461,7 +460,7 @@
             break;
     }
     
-    for (NSString *imageName in arrayOfImageNames) {
+    for (NSString *imageName in arrayOfEditorImages) {
         UIImage *image = [UIImage imageNamed:imageName];
         UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [[assetImageButton layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
@@ -469,16 +468,16 @@
         [assetImageButton setBackgroundColor:COLOR_LIGHT_GREY];
         [assetImageButton setImage:image forState:UIControlStateNormal];
         CGFloat originX = 10;
-        if ([arrayOfImageNames indexOfObject:imageName]%2 == 0) {
+        if ([arrayOfEditorImages indexOfObject:imageName]%2 == 0) {
             originX = 10 + 5 + 112;
         }
-        int level = [arrayOfImageNames indexOfObject:imageName]/2;
+        int level = [arrayOfEditorImages indexOfObject:imageName]/2;
         [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
-        assetImageButton.tag = [arrayOfImageNames indexOfObject:imageName];
+        assetImageButton.tag = [arrayOfEditorImages indexOfObject:imageName];
         [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
         [assetsScrollView addSubview:assetImageButton];
     }
-    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, ([arrayOfImageNames count]/2)*140);
+    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, ([arrayOfEditorImages count]/2)*140);
     assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
     [menuPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
     
@@ -486,29 +485,16 @@
 }
 
 - (void)writeEditorImagesToDevice {
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
     NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
-    int i = 1;
-    while ([UIImage imageNamed:[NSString stringWithFormat:@"editor_%d", i]]) {
-        [imagesArray addObject:[NSString stringWithFormat:@"editor_%d", i]];
-        i++;
-    }
-    arrayOfImageNames = [NSArray arrayWithArray:imagesArray];
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *folderPath = [[appDelegate applicationDocumentsDirectory] stringByAppendingFormat:@"/EditorImages"];
-    if (![fileManager fileExistsAtPath:folderPath]) {
-        if ([self createFolderAtPath:folderPath]) {
-            for (NSString *imageName in arrayOfImageNames) {
-                NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:[NSString stringWithFormat:@"%@.png", imageName]]);
-                BOOL imageWriteSuccess = [self createFileAtPath:[folderPath stringByAppendingFormat:@"/%@.png", imageName] WithData:imageData];
-                if (!imageWriteSuccess) {
-                    NSLog(@"Error while saving image : %@", imageName);
-                }
-            }
+    for (int i = 1; i < 100; i++) {
+        if ([UIImage imageNamed:[NSString stringWithFormat:@"editor_%d.png", i]]) {
+            NSLog(@"Editor Image %d : %@", i, [UIImage imageNamed:[NSString stringWithFormat:@"editor_%d", i]]);
+            [imagesArray addObject:[UIImage imageNamed:[NSString stringWithFormat:@"editor_%d.png", i]]];
         }
     }
+
+    arrayOfEditorImages = [NSArray arrayWithArray:imagesArray];
 }
 
 - (void)showEditorImages {
@@ -536,35 +522,27 @@
     [scrollController.view  addSubview:assetTypeSegmentedControl];*/
     /*[scrollController.view  addSubview:searchTextView];*/
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    BOOL isDir;
-    NSString *editorImagesPath = [[appDelegate applicationDocumentsDirectory] stringByAppendingFormat:@"/EditorImages"];
-    if ([fileManager fileExistsAtPath:editorImagesPath isDirectory:&isDir]) {
-        NSArray *imageNames = [fileManager subpathsAtPath:editorImagesPath];
-        for (NSString *imageName in imageNames) {
-            UIImage *image = [UIImage imageNamed:imageName];
-            UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [assetImageButton setImage:image forState:UIControlStateNormal];
-            CGFloat originX = 10;
-            if ([imageNames indexOfObject:imageName]%2 == 0) {
-                originX = 10 + 5 + 112;
-            }
-            int level = [imageNames indexOfObject:imageName]/2;
-            [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
-            assetImageButton.tag = [imageNames indexOfObject:imageName];
-            [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
+    for (UIImage *image in arrayOfEditorImages) {
+        UIButton *assetImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [assetImageButton setImage:image forState:UIControlStateNormal];
+        CGFloat originX = 10;
+        if ([arrayOfEditorImages indexOfObject:image]%2 == 0) {
+            originX = 10 + 5 + 112;
         }
-        
-        AssetCollectionViewLayout *layout = [[AssetCollectionViewLayout alloc]init];
-        UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 30, 250, pageImageView.frame.size.height - 30) collectionViewLayout:layout];
-        [collectionView registerClass:[AssetCell class] forCellWithReuseIdentifier:@"Cell"];
-        _dataSource = [[AssetDatasource alloc] initWithArray:imageNames];
-        collectionView.dataSource = _dataSource;
-        collectionView.delegate = self;
-        collectionView.backgroundColor = [UIColor whiteColor];
-        [scrollController.view addSubview:collectionView];
+        int level = [arrayOfEditorImages indexOfObject:image]/2;
+        [assetImageButton setFrame:CGRectMake(originX, level*120 + 15, 112, 112)];
+        assetImageButton.tag = [arrayOfEditorImages indexOfObject:image];
+        [assetImageButton addTarget:self action:@selector(addImageForButton:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    AssetCollectionViewLayout *layout = [[AssetCollectionViewLayout alloc]init];
+    UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 30, 250, pageImageView.frame.size.height - 30) collectionViewLayout:layout];
+    [collectionView registerClass:[AssetCell class] forCellWithReuseIdentifier:@"Cell"];
+    _dataSource = [[AssetDatasource alloc] initWithArray:arrayOfEditorImages];
+    collectionView.dataSource = _dataSource;
+    collectionView.delegate = self;
+    collectionView.backgroundColor = [UIColor whiteColor];
+    [scrollController.view addSubview:collectionView];
 
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, pageImageView.frame.size.height)];
@@ -2062,7 +2040,7 @@ enum
                 
                 photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
                 photoPopoverController.delegate = self;
-                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 44, 250, 44) inView:pageImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
             }
         }
             break;
@@ -2076,7 +2054,7 @@ enum
 
 - (void)cameraButtonTapped {
     UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
-    [photoActionSheet showFromRect:CGRectMake(0, 44, 250, 44) inView:pageImageView animated:YES];
+    [photoActionSheet showFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView animated:YES];
 }
 
 @end

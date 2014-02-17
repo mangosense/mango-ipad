@@ -25,7 +25,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     AssetCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    UIImage *image=[UIImage imageNamed:[_array objectAtIndex:indexPath.row]];
+    UIImage *image= [_array objectAtIndex:indexPath.row];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
     cell.imageView.image=image;
     return cell;
