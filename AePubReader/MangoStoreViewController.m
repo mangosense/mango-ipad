@@ -194,12 +194,12 @@
         liveStoriesForAgeCounter += 1;
     }
     
-    if (liveStoriesForAgeCounter == [self.ageGroupsFoundInResponse count] && _featuredStoriesFetched) {
+    //if (liveStoriesForAgeCounter == [self.ageGroupsFoundInResponse count] && _featuredStoriesFetched) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
         [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-    }
+    //}
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
@@ -293,7 +293,10 @@
 #pragma mark - iCarousel Delegates
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return [_featuredStoriesArray count];
+    if (_featuredStoriesArray) {
+        return [_featuredStoriesArray count];
+    }
+    return 5;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
@@ -307,38 +310,44 @@
     [storyImageView setContentMode:UIViewContentModeScaleAspectFill];
     [storyImageView setClipsToBounds:YES];
 
-    NSString *coverImageUrl = [[ASSET_BASE_URL stringByAppendingString:[self.featuredStoriesArray[index] objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
-    if (self.featuredStoriesFetched) {
-        if ([_localImagesDictionary objectForKey:coverImageUrl]) {
-            storyImageView.image = [_localImagesDictionary objectForKey:coverImageUrl];
-        } else {
-            [storyImageView getImageForUrl:coverImageUrl];
+    if (_featuredStoriesArray) {
+        NSString *coverImageUrl = [[ASSET_BASE_URL stringByAppendingString:[_featuredStoriesArray[index] objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        if (self.featuredStoriesFetched) {
+            if ([_localImagesDictionary objectForKey:coverImageUrl]) {
+                storyImageView.image = [_localImagesDictionary objectForKey:coverImageUrl];
+            } else {
+                [storyImageView getImageForUrl:coverImageUrl];
+            }
         }
+    } else {
+        storyImageView.image = [UIImage imageNamed:@"page.png"];
     }
     
     return storyImageView;
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    NSDictionary *bookDict = [self.featuredStoriesArray objectAtIndex:index];
-    
-    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-    bookDetailsViewController.delegate = self;
-    
-    [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
-        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
-        bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
-        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-        bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
-        bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
-        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+    if (_featuredStoriesArray) {
+        NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
         
-        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
-    }];
-    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+        BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        bookDetailsViewController.delegate = self;
+        
+        [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+        [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+            bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+            bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+            bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+            bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+            bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+            
+            bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+            bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+        }];
+        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+    }
 }
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
@@ -399,7 +408,10 @@
         return 1;
     } else {
         NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
-        return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
+        if ([liveStoriesFiltered objectForKey:ageGroup]) {
+            return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
+        }
+        return 6;
     }
 }
 
@@ -433,23 +445,23 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section-1] objectForKey:NAME];
             bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
+            
+            if (bookDict) {
+                cell.bookPriceLabel.text = [NSString stringWithFormat:@"%d", [[bookDict objectForKey:@"price"] intValue]];
+                
+                cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+                [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
+                [cell setNeedsLayout];
+                
+                cell.imageUrlString = [bookDict objectForKey:@"cover"];
+                if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
+                    cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+                } else {
+                    [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+                }
+            }
         }
-        //        else
-        //            bookDict = [_liveStoriesArray objectAtIndex:indexPath.row];
-        
-        cell.bookPriceLabel.text = [NSString stringWithFormat:@"%d", [[bookDict objectForKey:@"price"] intValue]];
-        
-        cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-        [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
-        [cell setNeedsLayout];
-        
-        cell.imageUrlString = [bookDict objectForKey:@"cover"];
-        if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
-            cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
-        } else {
-            [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
-        }
-        
+
         return cell;
     }
 }
@@ -485,32 +497,34 @@
         NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
         NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
 
-        BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-        bookDetailsViewController.delegate = self;
-        
-        [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-        [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
-            bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-            bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", ageGroup];
-            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
-            bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
-            bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
-            bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        if (bookDict) {
+            BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+            bookDetailsViewController.delegate = self;
             
-            bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-            bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
-        }];
-        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
-
-        
-        /*NSString *productId = [bookDict objectForKey:@"id"];
-        if (productId != nil && productId.length > 0) {
-            [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+            [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+            [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+                bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+                bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", ageGroup];
+                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+                bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+                bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+                bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+                
+                bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+                bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+            }];
+            bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+            
+            
+            /*NSString *productId = [bookDict objectForKey:@"id"];
+             if (productId != nil && productId.length > 0) {
+             [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+             }
+             else {
+             NSLog(@"Product dose not have relative Id");
+             }*/
         }
-        else {
-            NSLog(@"Product dose not have relative Id");
-        }*/
     }
 }
 
