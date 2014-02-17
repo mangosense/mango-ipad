@@ -411,20 +411,26 @@
     [stickerView setMultipleTouchEnabled:YES];
     [self addGestureRecognizersforView:stickerView];
     
-    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 120, 120)];
-    assetImageView.image = [UIImage imageNamed:[arrayOfImageNames objectAtIndex:button.tag]];
-    [stickerView addSubview:assetImageView];
-    
-    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setImage:[UIImage imageNamed:@"Checkmark.png"] forState:UIControlStateNormal];
-    [doneButton setFrame:CGRectMake(50, 130, 44, 44)];
-    [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
-    [stickerView addSubview:doneButton];
-    
-    [self.view addSubview:stickerView];
-    
-    rotateAngle = 0;
-    translatePoint = stickerView.center;
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *editorImagesPath = [[appDelegate applicationDocumentsDirectory] stringByAppendingFormat:@"/EditorImages"];
+    BOOL isDir;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:editorImagesPath isDirectory:&isDir]) {
+        NSArray *imageNames = [[NSFileManager defaultManager] subpathsAtPath:editorImagesPath];
+        UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 120, 120)];
+        assetImageView.image = [UIImage imageNamed:[imageNames objectAtIndex:button.tag]];
+        [stickerView addSubview:assetImageView];
+        
+        UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [doneButton setImage:[UIImage imageNamed:@"Checkmark.png"] forState:UIControlStateNormal];
+        [doneButton setFrame:CGRectMake(50, 130, 44, 44)];
+        [doneButton addTarget:self action:@selector(addAssetToView) forControlEvents:UIControlEventTouchUpInside];
+        [stickerView addSubview:doneButton];
+        
+        [self.view addSubview:stickerView];
+        
+        rotateAngle = 0;
+        translatePoint = stickerView.center;
+    }
 }
 
 - (void)assetTypeSelected:(id)sender {
