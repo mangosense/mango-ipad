@@ -86,9 +86,9 @@
                 default:
                     break;
             }
-            if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
+            //if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
                 [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
-            }
+            //}
         }
     }];
     

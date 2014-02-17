@@ -486,17 +486,9 @@
     [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [takePhotoButton setFrame:CGRectMake(0, 75, 250, 30)];
     
-  /*  UIScrollView *assetsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, 250, 500)];
-    assetsScrollView.backgroundColor = [UIColor clearColor];
-    [assetsScrollView setUserInteractionEnabled:YES];
-    CGFloat minContentHeight = MAX(assetsScrollView.frame.size.height, 37/2*140);
-    assetsScrollView.contentSize = CGSizeMake(assetsScrollView.frame.size.width, minContentHeight);
-    */
     NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
     for (int i = 1; i < 358; i++) {
-       // if ([UIImage imageNamed:[NSString stringWithFormat:@"editor_%d", i]]) {
-            [imagesArray addObject:[NSString stringWithFormat:@"editor_%d", i]];
-       // }
+        [imagesArray addObject:[NSString stringWithFormat:@"editor_%d", i]];
     }
     arrayOfImageNames = [NSArray arrayWithArray:imagesArray];
 
@@ -516,7 +508,6 @@
     scrollController.view.frame=CGRectMake(0, 0, 250, 500);
     [scrollController.view addSubview:collectionView];
     UISegmentedControl *assetTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All", @"Story", nil]];
-    [assetTypeSegmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
     [assetTypeSegmentedControl setSelectedSegmentIndex:0];
     [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
     [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 30)];
