@@ -86,9 +86,9 @@
                 default:
                     break;
             }
-            //if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
+            if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
                 [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
-            //}
+            }
         }
     }];
     
@@ -109,7 +109,6 @@
             [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
             NSLog(@"LOL:No Product found");
         }
-        [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
         NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
     } failure:^(NSError *error) {
         //Hide progress HUD if Error!!

@@ -79,8 +79,9 @@
 }
 
 - (void)openBook:(NSString *)bookId {
-    [_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
-
+    if (_delegate && [_delegate respondsToSelector:@selector(openBookViewWithCategory:)]) {
+        [_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject] forKey:NAME]];
+    }
     [self closeDetails:nil];
 }
 
