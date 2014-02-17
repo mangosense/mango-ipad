@@ -18,7 +18,7 @@
 @class EPubViewController;
 @class LoginViewController;
 @class LandPageChoiceViewController;
-@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate,SKProductsRequestDelegate> {
+@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,UIAlertViewDelegate> {
     
    
         
@@ -51,7 +51,6 @@
 @property (strong,nonatomic) LoginNewViewController *loginController;
 
 
-- (BOOL) writeToFile :(NSMutableArray *) array;
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;
