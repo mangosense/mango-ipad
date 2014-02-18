@@ -339,7 +339,7 @@
             bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
             bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %.2f", [[bookDict objectForKey:@"price"] floatValue]];
             bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
             
@@ -447,7 +447,7 @@
             bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
             
             if (bookDict) {
-                cell.bookPriceLabel.text = [NSString stringWithFormat:@"%d", [[bookDict objectForKey:@"price"] intValue]];
+                cell.bookPriceLabel.text = [NSString stringWithFormat:@"%.2f", [[bookDict objectForKey:@"price"] floatValue]];
                 
                 cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
                 [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
@@ -507,7 +507,7 @@
                 bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", ageGroup];
                 bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
                 bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %d", [[bookDict objectForKey:@"price"] intValue]];
+                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %.2f", [[bookDict objectForKey:@"price"] floatValue]];
                 bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
                 bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
                 

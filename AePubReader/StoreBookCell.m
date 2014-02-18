@@ -30,7 +30,7 @@
         [_frameImageView setImage:[UIImage imageNamed:@"bookframe.png"]];
         [self addSubview:_frameImageView];
         
-        readPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, _frameImageView.frame.size.height + 3, 64, 37)];
+        /*readPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, _frameImageView.frame.size.height + 3, 64, 37)];
         [readPreviewButton setTitle:@"Read" forState:UIControlStateNormal];
         [readPreviewButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [readPreviewButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
@@ -40,9 +40,9 @@
         [_buyBookButton setTitle:@"Buy" forState:UIControlStateNormal];
         [_buyBookButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_buyBookButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
-        [self addSubview:_buyBookButton];
+        [self addSubview:_buyBookButton];*/
         
-        _bookTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _frameImageView.frame.size.height + 40, 130, 20)];
+        _bookTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _frameImageView.frame.size.height, 130, 20)];
         _bookTitleLabel.numberOfLines = 2;
         _bookTitleLabel.textColor = COLOR_DARK_RED;
         _bookTitleLabel.font = [UIFont boldSystemFontOfSize:16];

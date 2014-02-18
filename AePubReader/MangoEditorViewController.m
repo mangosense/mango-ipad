@@ -716,6 +716,7 @@
             pageTextView.font = [UIFont systemFontOfSize:30];
             NSArray *itemsArray = [NSArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
             pageTextView.text = [itemsArray objectAtIndex:index];
+            pageTextView.delegate = self;
             [pageImageView addSubview:pageTextView];
             
             AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -739,9 +740,11 @@
                 
                 NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:page.layers];
                 [layersArray addObject:textLayer.id];
+                [layersArray addObject:_audioLayer.id];
                 page.layers = layersArray;
                 if ([appDelegate.ejdbController insertOrUpdateObject:page]) {
                     NSLog(@"New text added on new page. Success.");
+                    pageTextView.layerId = textLayer.id;
                 }
             }
         }
@@ -1234,7 +1237,6 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     MangoPage *mangoStoryPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:MIN(pageNumber, [_mangoStoryBook.pages count] - 1)]];
     
-    
     NSArray *layersArray = mangoStoryPage.layers;
     //NSURL *audioUrl;
     NSString *textOnPage;
@@ -1268,9 +1270,9 @@
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
-            NSString *audioString= [_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url];
-            if (audioString) {
-                _audioUrl = [NSURL fileURLWithPath:audioString];
+
+            if ([audioLayer.url length] > 0) {
+                _audioUrl = [NSURL fileURLWithPath:[_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url]];
             }
             _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
