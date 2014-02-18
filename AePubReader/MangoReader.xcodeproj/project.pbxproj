@@ -205,6 +205,7 @@
 		839E0CD61834A20A00436237 /* MangoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839E0CD41834A20A00436237 /* MangoEditorViewController.xib */; };
 		839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 839F907817E6D37C00BD1412 /* PublishViewController.m */; };
 		839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839F907917E6D37C00BD1412 /* PublishViewController.xib */; };
+		83A0EF2E18B37CEE00BC687D /* create-story-book-icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A0EF2D18B37CEE00BC687D /* create-story-book-icon1.png */; };
 		83AB60A318A9F642004A040E /* HKCircularProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB60A018A9F642004A040E /* HKCircularProgressLayer.m */; };
 		83AB60A418A9F642004A040E /* HKCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB60A218A9F642004A040E /* HKCircularProgressView.m */; };
 		83AB60A918AA326E004A040E /* MyStoriesBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB60A718AA326E004A040E /* MyStoriesBooksViewController.m */; };
@@ -1330,6 +1331,7 @@
 		839F907717E6D37C00BD1412 /* PublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishViewController.h; sourceTree = "<group>"; };
 		839F907817E6D37C00BD1412 /* PublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishViewController.m; sourceTree = "<group>"; };
 		839F907917E6D37C00BD1412 /* PublishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishViewController.xib; sourceTree = "<group>"; };
+		83A0EF2D18B37CEE00BC687D /* create-story-book-icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "create-story-book-icon1.png"; path = "EditorImages/create-story-book-icon1.png"; sourceTree = "<group>"; };
 		83AB609F18A9F642004A040E /* HKCircularProgressLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKCircularProgressLayer.h; sourceTree = "<group>"; };
 		83AB60A018A9F642004A040E /* HKCircularProgressLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKCircularProgressLayer.m; sourceTree = "<group>"; };
 		83AB60A118A9F642004A040E /* HKCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKCircularProgressView.h; sourceTree = "<group>"; };
@@ -2669,6 +2671,7 @@
 		832CB91C17B375930073F9C2 /* MangoEditor iPad */ = {
 			isa = PBXGroup;
 			children = (
+				83A0EF2D18B37CEE00BC687D /* create-story-book-icon1.png */,
 				83539E321839F4AC0096DBF8 /* AudioMapping */,
 				83347A231832058D002891EA /* Flickr Search */,
 				AE24BCDD181A92BA006CD354 /* iCarousel.h */,
@@ -4975,6 +4978,7 @@
 				83BB3EA8185B560600BA5ED7 /* quiz_bg.jpg in Resources */,
 				83E2D114184364EC00F8CDB6 /* editor_153.png in Resources */,
 				AE0C9384183E0944008E4D54 /* icons_game.png in Resources */,
+				83A0EF2E18B37CEE00BC687D /* create-story-book-icon1.png in Resources */,
 				83C1B52018AE5EA700624E1B /* question_answer.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
 				83E2D0ED184364EC00F8CDB6 /* editor_118.png in Resources */,

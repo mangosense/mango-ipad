@@ -75,10 +75,11 @@
                         <action selector="settingsButton:" destination="-1" eventType="touchUpInside" id="Dij-H8-tG1"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bYY-XM-nzU">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bYY-XM-nzU">
                     <rect key="frame" x="102" y="161" width="221" height="220"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icons_getmorebooks.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -198,7 +199,6 @@
     </objects>
     <resources>
         <image name="circle1.png" width="218" height="218"/>
-        <image name="icons_getmorebooks.png" width="221" height="220"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_library.png" width="78" height="77"/>
         <image name="icons_settings.png" width="78" height="77"/>

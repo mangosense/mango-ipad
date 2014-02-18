@@ -171,8 +171,10 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (_toEdit) {
         _books=[delegate.dataModel getEditedBooks];
+        [_MoreBooksButton setImage:[UIImage imageNamed:@"create-story-book-icon1.png"] forState:UIControlStateNormal];
     }else{
         _books= [delegate.dataModel getAllUserBooks];
+        [_MoreBooksButton setImage:[UIImage imageNamed:@"icons_getmorebooks.png"] forState:UIControlStateNormal];
         
         NSMutableArray *booksForSelectedCategory = [[NSMutableArray alloc] init];
         for (Book *book in _books) {

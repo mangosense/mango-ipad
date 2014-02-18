@@ -18,7 +18,7 @@
 - (IBAction)settingsButton:(id)sender;
 - (IBAction)booksButtonclicked:(id)sender;
 @property(assign,nonatomic) NSInteger inital;
-@property (weak, nonatomic) IBOutlet UIButton *MoreBooksButton;
+@property (strong, nonatomic) IBOutlet UIButton *MoreBooksButton;
 @property (weak, nonatomic) IBOutlet UIButton *bookOne;
 @property (weak, nonatomic) IBOutlet UIImageView *imageOne;
 @property (weak, nonatomic) IBOutlet UIButton *bookTwo;
