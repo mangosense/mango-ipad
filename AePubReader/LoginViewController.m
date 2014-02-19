@@ -162,8 +162,6 @@
         frame.origin.y=_topToolbar.frame.size.height+1;
         _backgroundimage.frame=frame;
     }
-
-
 }
 
 -(void)transactionFailed{

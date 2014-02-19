@@ -11,7 +11,9 @@
 #import <StoreKit/StoreKit.h>
 #import "Book.h"
 #import "NewStoreCoverViewController.h"
-@interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate>
+#import <FacebookSDK/FacebookSDK.h>
+
+@interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate, FBLoginViewDelegate>
 - (IBAction)Check:(id)sender;
 @property (retain, nonatomic) IBOutlet UITextField *userName;
 - (IBAction)skipLogin:(id)sender;

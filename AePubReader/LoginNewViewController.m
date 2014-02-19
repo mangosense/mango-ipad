@@ -38,6 +38,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden=YES;
+    
+    // Create a FBLoginView to log the user in with basic, email and likes permissions
+    // You should ALWAYS ask for basic permissions (basic_info) when logging the user in
+    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_likes"]];
+    
+    // Set this loginUIViewController to be the loginView button's delegate
+    loginView.delegate = self;
+    
+    // Align the button in the center horizontally
+    loginView.frame = CGRectOffset(loginView.frame,
+                                   (self.view.center.x - (loginView.frame.size.width / 2) - 60),
+                                   35);
+    
+    // Align the button in the center vertically
+    loginView.center = self.view.center;
+    
+    
+    // Add the button to the view
+    [self.view addSubview:loginView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,83 +67,69 @@
 
 #pragma mark - Facebook Login Methods
 
--(void)facebookError{
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
+// This method will be called when the user information has been fetched
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                            user:(id<FBGraphUser>)user {
+    NSLog(@"%@", user);
+    NSLog(@"FB Auth Token: %@", [[[FBSession activeSession] accessTokenData] accessToken]);
+    NSDictionary *userInfoDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[[FBSession activeSession] accessTokenData] accessToken], AUTH_TOKEN, [user objectForKey:@"id"], USER_ID, nil];
+    [self saveUserDetails:userInfoDictionary];
 }
 
--(void)facebookRequest{
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+// Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experience
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     
-    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-    
-    dictionary[@"email"] = [userDefaults objectForKey:@"FacebookUsername"];
-    dictionary[@"name"] = [userDefaults objectForKey:@"FullName"];
-    
-    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *jsonValue=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"json String %@",jsonValue);
-    
-    NSString *connectionString = [userDefaults objectForKey:@"baseurl"];
-    connectionString = [connectionString stringByAppendingString:@"facebookapplogin.json"];
-    connectionString = [connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"Connection String %@",connectionString);
-    
-    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString ]];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:jsonData];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    FacebookLogin *facebook = [[FacebookLogin alloc] initWithloginViewController:self];
-    
-    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
-    [connection start];
 }
 
-- (void)getFacebookAccess {
-    ACAccountStore *accountStore=[[ACAccountStore alloc]init];
+// Implement the loginViewShowingLoggedOutUser: delegate method to modify your app's UI for a logged-out user experience
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
     
-    ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-    NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
-    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
-        if (e) {
-            [self performSelectorOnMainThread:@selector(facebookError) withObject:nil waitUntilDone:NO];
-        }
-        else if (granted) {
-            
-            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
-            ACAccount *account=[accounts lastObject];
-            
-            NSLog(@"%@", account.username);
-            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
-            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
-            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
-            request.account=account;
-            
-            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
-                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                NSLog(@"%@", dict);
-                if (!dict[@"name"]) {
-                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
-                        if (renewresult != ACAccountCredentialRenewResultRejected) {
-                            [self getFacebookAccess];
-                        }
-                    }];
-                }else{
-                    [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
-                    [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
-                }
-            }];
-            
-        }
-    }];
+}
+
+// You need to override loginView:handleError in order to handle possible errors that can occur during login
+- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
+    NSString *alertMessage, *alertTitle;
+    
+    // If the user should perform an action outside of you app to recover,
+    // the SDK will provide a message for the user, you just need to surface it.
+    // This conveniently handles cases like Facebook password change or unverified Facebook accounts.
+    if ([FBErrorUtility shouldNotifyUserForError:error]) {
+        alertTitle = @"Facebook error";
+        alertMessage = [FBErrorUtility userMessageForError:error];
+        
+        // This code will handle session closures since that happen outside of the app.
+        // You can take a look at our error handling guide to know more about it
+        // https://developers.facebook.com/docs/ios/errors
+    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
+        alertTitle = @"Session Error";
+        alertMessage = @"Your current session is no longer valid. Please log in again.";
+        
+        // If the user has cancelled a login, we will do nothing.
+        // You can also choose to show the user a message if cancelling login will result in
+        // the user not being able to complete a task they had initiated in your app
+        // (like accessing FB-stored information or posting to Facebook)
+    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
+        NSLog(@"user cancelled login");
+        
+        // For simplicity, this sample handles other errors with a generic message
+        // You can checkout our error handling guide for more detailed information
+        // https://developers.facebook.com/docs/ios/errors
+    } else {
+        alertTitle  = @"Something went wrong";
+        alertMessage = @"Please try again later.";
+        NSLog(@"Unexpected error:%@", error);
+    }
+    
+    if (alertMessage) {
+        [[[UIAlertView alloc] initWithTitle:alertTitle
+                                    message:alertMessage
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    }
 }
 
 #pragma mark - Action Methods
-
-- (IBAction)facebookSignIn:(id)sender {
-    [self getFacebookAccess];
-}
 
 - (IBAction)signIn:(id)sender {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
