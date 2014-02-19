@@ -11,6 +11,12 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import <Accounts/Accounts.h>
+#import "FacebookLogin.h"
+#import <StoreKit/StoreKit.h>
+#import <Foundation/Foundation.h>
+#import <Social/Social.h>
+#import "AePubReaderAppDelegate.h"
 
 @interface LoginNewViewController ()
 
@@ -38,6 +44,86 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Facebook Login Methods
+
+-(void)facebookError{
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+}
+
+-(void)facebookRequest{
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    
+    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
+    
+    dictionary[@"email"] = [userDefaults objectForKey:@"FacebookUsername"];
+    dictionary[@"name"] = [userDefaults objectForKey:@"FullName"];
+    
+    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonValue=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"json String %@",jsonValue);
+    
+    NSString *connectionString = [userDefaults objectForKey:@"baseurl"];
+    connectionString = [connectionString stringByAppendingString:@"facebookapplogin.json"];
+    connectionString = [connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"Connection String %@",connectionString);
+    
+    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString ]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:jsonData];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    FacebookLogin *facebook = [[FacebookLogin alloc] initWithloginViewController:self];
+    
+    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
+    [connection start];
+}
+
+- (void)getFacebookAccess {
+    ACAccountStore *accountStore=[[ACAccountStore alloc]init];
+    
+    ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
+    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
+        if (e) {
+            [self performSelectorOnMainThread:@selector(facebookError) withObject:nil waitUntilDone:NO];
+        }
+        else if (granted) {
+            
+            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
+            ACAccount *account=[accounts lastObject];
+            
+            NSLog(@"%@", account.username);
+            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
+            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
+            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
+            request.account=account;
+            
+            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
+                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                NSLog(@"%@", dict);
+                if (!dict[@"name"]) {
+                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
+                        if (renewresult != ACAccountCredentialRenewResultRejected) {
+                            [self getFacebookAccess];
+                        }
+                    }];
+                }else{
+                    [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
+                    [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
+                }
+            }];
+            
+        }
+    }];
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)facebookSignIn:(id)sender {
+    [self getFacebookAccess];
 }
 
 - (IBAction)signIn:(id)sender {

@@ -460,7 +460,6 @@
                         if (renewresult != ACAccountCredentialRenewResultRejected) {
                             [self getFacebookAccess];
                         } else {
-                          //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
                             [AePubReaderAppDelegate hideAlertView];
                         }
                     }];
@@ -471,7 +470,6 @@
             }];
             
         }else{
-          //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
             [AePubReaderAppDelegate hideAlertView];
         }
         

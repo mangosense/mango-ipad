@@ -53,21 +53,21 @@
                     <color key="textColor" red="0.61667582929999998" green="1" blue="0.97118789750000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testkedartwo@mangosense.com" borderStyle="roundedRect" placeholder="Email id" minimumFontSize="17" id="mUC-tf-x9p">
-                    <rect key="frame" x="349" y="180" width="244" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email id" minimumFontSize="17" id="mUC-tf-x9p">
+                    <rect key="frame" x="335" y="180" width="274" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testkedartwo" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="ad0-TJ-uJc">
-                    <rect key="frame" x="349" y="224" width="244" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="ad0-TJ-uJc">
+                    <rect key="frame" x="335" y="224" width="274" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="e35-3O-qF5">
-                    <rect key="frame" x="382" y="271" width="180" height="57"/>
+                    <rect key="frame" x="335" y="271" width="180" height="57"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="icon_signin.png">
@@ -78,12 +78,30 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NqG-fh-HNg">
-                    <rect key="frame" x="437" y="336" width="70" height="44"/>
+                    <rect key="frame" x="539" y="278" width="70" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                     <state key="normal" title="Sign up"/>
                     <connections>
                         <action selector="signUp:" destination="-1" eventType="touchUpInside" id="P5u-Re-I2a"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="faL-8n-0Au">
+                    <rect key="frame" x="353" y="327" width="239" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2Ac-SG-Nmi">
+                    <rect key="frame" x="330" y="369" width="285" height="56"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" image="facebook-login-button.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="facebookSignIn:" destination="-1" eventType="touchUpInside" id="NuK-c6-j83"/>
                     </connections>
                 </button>
             </subviews>
@@ -93,6 +111,7 @@
         </view>
     </objects>
     <resources>
+        <image name="facebook-login-button.png" width="285" height="56"/>
         <image name="icon_signin.png" width="180" height="57"/>
         <image name="icon_skip_signin.png" width="180" height="57"/>
         <image name="login page_bg.png" width="1024" height="768"/>

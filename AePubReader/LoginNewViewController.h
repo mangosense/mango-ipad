@@ -14,6 +14,7 @@
 - (IBAction)signIn:(id)sender;
 - (IBAction)goToNext:(id)sender;
 - (IBAction)signUp:(id)sender;
+- (IBAction)facebookSignIn:(id)sender;
 
 @property (nonatomic, strong) IBOutlet UITextField *emailTextField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordTextField;

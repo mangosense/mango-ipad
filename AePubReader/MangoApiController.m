@@ -31,6 +31,36 @@
     return self;
 }
 
+#pragma mark - Data Encoding Methods
+
+- (NSString *)base64EncodedStringFromData:(NSData *)data {
+    NSUInteger length = [data length];
+    NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
+    
+    uint8_t *input = (uint8_t *)[data bytes];
+    uint8_t *output = (uint8_t *)[mutableData mutableBytes];
+    
+    static uint8_t const kAFBase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    
+    for (NSUInteger i = 0; i < length; i += 3) {
+        NSUInteger value = 0;
+        for (NSUInteger j = i; j < (i + 3); j++) {
+            value <<= 8;
+            if (j < length) {
+                value |= (0xFF & input[j]);
+            }
+        }
+        
+        NSUInteger idx = (i / 3) * 4;
+        output[idx + 0] = kAFBase64EncodingTable[(value >> 18) & 0x3F];
+        output[idx + 1] = kAFBase64EncodingTable[(value >> 12) & 0x3F];
+        output[idx + 2] = (i + 1) < length ? kAFBase64EncodingTable[(value >> 6)  & 0x3F] : '=';
+        output[idx + 3] = (i + 2) < length ? kAFBase64EncodingTable[(value >> 0)  & 0x3F] : '=';
+    }
+    
+    return [[NSString alloc] initWithData:mutableData encoding:NSASCIIStringEncoding];
+}
+
 #pragma mark - API Methods
 
 - (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
@@ -42,13 +72,15 @@
     NSString * strMethod;
     NSDictionary *paramDict;
     
+    NSString *base64TxReceiptStr = [self base64EncodedStringFromData:rData];
+    
     if (userId.length>5 && authToken.length >0) {
         strMethod = ReceiptValidate_SignedIn;
-        paramDict = @{@"receipt_data":rData, @"amount":amount, @"user_id":userId, @"story_id":storyId};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"story_id":storyId};
     }
     else {
         strMethod = ReceiptValidate_NotSignedIn;
-        paramDict = @{@"receipt_data":rData, @"amount":amount, @"story_id":storyId};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"story_id":storyId};
     }
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
@@ -86,7 +118,8 @@
             [delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Image error: %@", error);
+        NSLog(@"Image error: %@ \n Attempting to get cover image...", error);
+        [self getImageAtUrl:[urlString stringByReplacingOccurrencesOfString:@"banner" withString:@"cover"] withDelegate:delegate];
     }];
     [imageRequestOperation start];
 }

@@ -297,16 +297,16 @@
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     
     dictionary[@"email"] = [userDefaults objectForKey:@"FacebookUsername"];
-  
     dictionary[@"name"] = [userDefaults objectForKey:@"FullName"];
   
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonValue=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"json String %@",jsonValue);
+    
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
     connectionString =[connectionString stringByAppendingString:@"facebookapplogin.json"];
-   // connectionString=[connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"Connection String %@",connectionString);
+    
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString ]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];

@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LoginViewController.h"
+#import "LoginNewViewController.h"
+
 @interface FacebookLogin : NSObject<NSURLConnectionDataDelegate>
-@property(retain,nonatomic)NSMutableData *data;
-@property(assign,nonatomic)LoginViewController *loginViewController;
--(id)initWithloginViewController:(LoginViewController *)login;
+
+@property(retain,nonatomic) NSMutableData *data;
+@property(assign,nonatomic) LoginNewViewController *loginViewController;
+
+-(id)initWithloginViewController:(LoginNewViewController *)login;
 
 @end
