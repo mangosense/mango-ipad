@@ -124,14 +124,14 @@
     [imageRequestOperation start];
 }
 
-- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew{
+- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew {
     [[NSUserDefaults standardUserDefaults] setObject:email forKey:EMAIL];
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
     NSString *methodName = isNew ? SIGN_UP:LOGIN;
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"asdfasdf", email, password, nil] forKeys:[NSArray arrayWithObjects:NAME, EMAIL, PASSWORD, nil]];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, email, password, nil] forKeys:[NSArray arrayWithObjects:NAME, EMAIL, PASSWORD, nil]];
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;

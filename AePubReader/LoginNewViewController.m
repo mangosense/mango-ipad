@@ -47,12 +47,10 @@
     loginView.delegate = self;
     
     // Align the button in the center horizontally
-    loginView.frame = CGRectOffset(loginView.frame,
-                                   (self.view.center.x - (loginView.frame.size.width / 2) - 60),
-                                   35);
+    loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
     
     // Align the button in the center vertically
-    loginView.center = self.view.center;
+    //loginView.center = self.view.center;
     
     
     // Add the button to the view
