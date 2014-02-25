@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 #import "Flurry.h"
-@interface LiveViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,SKPaymentTransactionObserver>
+#import "FooterView.h"
+#import "PSTCollectionDataSource.h"
+#import "PSTCollectionView.h"
+#import "OldCell.h"
+#import "OldFooterView.h"
+@interface LiveViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,SKPaymentTransactionObserver,UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 -(void)requestBooks;
@@ -30,7 +35,14 @@
 //@property(assign,nonatomic)StoreViewController *storeViewController;
 @property(assign,nonatomic)UIInterfaceOrientation interfaceOrientationChanged;
 @property(strong,nonatomic) NSError *error;
+@property(strong,nonatomic)NSMutableArray *listOfBooks;
+@property(strong,nonatomic)UICollectionView *collectionView;
+@property(strong,nonatomic)FooterView *footerView;
+@property(strong,nonatomic)OldFooterView *oldFootView;
+@property(strong,nonatomic) PSUICollectionView *pstCollectionView;
+@property(strong,nonatomic)PSTCollectionDataSource *dataSource;
 -(void)purchaseValidation:(SKPaymentTransaction *)transaction;
+@property (weak, nonatomic) IBOutlet UIView *storeview;
 -(void)transactionFailed;
 -(void)requestBooksWithoutUIChange;
 @end

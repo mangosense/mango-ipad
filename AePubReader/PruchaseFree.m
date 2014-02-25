@@ -112,7 +112,7 @@
         [library DownloadComplete:bookToDownload];
     }else{
         UINavigationController *nav=(UINavigationController *)(_liveViewController.tabBarController.viewControllers)[1];
-        StoreViewController *storeViewController=(StoreViewController *)nav.topViewController;
+        DownloadViewControlleriPad *storeViewController=(DownloadViewControlleriPad *)nav.topViewController;
  [storeViewController refreshButton:nil];
         
     }

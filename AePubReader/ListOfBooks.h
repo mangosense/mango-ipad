@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 @interface ListOfBooks : NSObject<NSURLConnectionDelegate>
--(id)initWithViewController:(StoreViewController *)store;
-@property(assign,nonatomic)StoreViewController *store;
+-(id)initWithViewController:(DownloadViewControlleriPad *)store;
+@property(assign,nonatomic)DownloadViewControlleriPad *store;
 @property(retain,nonatomic)NSMutableData *dataMutable;
 @property(assign,nonatomic)BOOL shouldBuild;
 @end

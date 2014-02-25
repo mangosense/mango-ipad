@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import <Foundation/Foundation.h>
 #import "AePubReaderAppDelegate.h"
 #import "WebViewController.h"
@@ -24,14 +24,30 @@
 #import "CustomTabViewController.h"
 #import "Flurry.h"
 #import "RootViewController.h"
+#import "StoriesViewController.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
+#import "TimeRange.h"
+#import "NewStoreCoverViewController.h"
+#import "NewStoreViewControlleriPad.h"
+#import "CustomNavViewController.h"
+#import "LandPageChoiceViewController.h"
 @interface LoginViewController ()
-@property(strong,nonatomic)StoreViewController *store;
+@property(strong,nonatomic)DownloadViewControlleriPad *store;
 @property(strong,nonatomic)LiveViewController *liveViewController;
 @property(nonatomic,strong)LibraryViewController *library;
-
+//@property (nonatomic, strong) EditorViewController *editorViewController;
+@property (nonatomic, strong) StoriesViewController *storiesViewController;
+@property (nonatomic, strong) NSDate *currentTime;
+//@property(nonatomic,strong)NewStoreCoverViewController *storeNewViewController;
+@property(nonatomic,strong) NewStoreViewControlleriPad *storeViewControlleriPad;
 @end
 
 @implementation LoginViewController
+
+//@synthesize editorViewController;
+@synthesize storiesViewController;
+@synthesize currentTime;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,6 +62,7 @@
     return YES;
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     if (_getFromSignUp) {
       NSString *email=  [[NSUserDefaults standardUserDefaults]valueForKey:@"emailSignUp"];
      NSString *password=   [[NSUserDefaults standardUserDefaults]valueForKey:@"emailPassword"];
@@ -59,7 +76,7 @@
 
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=NO;
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)&&![[NSUserDefaults standardUserDefaults]objectForKey:@"email"]) {
         UIViewController *c=[[UIViewController alloc]init];
         c.view.backgroundColor=[UIColor clearColor];
         [self presentViewController:c animated:YES completion:^(){
@@ -67,26 +84,44 @@
         }];
     }
     [Flurry logEvent:@"Login entered"];
+    
+    currentTime = [NSDate date];
 
 }
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 -(void)goToNext{
+  
+              
+
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.PortraitOrientation=NO;
 
     _tabBarController=[[UITabBarController alloc]init];
     _library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-    _store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+    _store=[[DownloadViewControlleriPad alloc]initWithNibName:@"StoreViewController" bundle:nil];
     _store.delegate=_library;
-    
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-    UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:_library];
-    UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:_store];
-    UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:_liveViewController];
-    _tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
+   /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
+   
+ _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+    _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
+    CustomNavViewController *navigationLibrary=[[CustomNavViewController alloc]initWithRootViewController:_library];
+   // CustomNavViewController *navigationPurchase=[[CustomNavViewController alloc]initWithRootViewController:_store];
+    
+  /*  iCarouselExampleViewController *controller=[[iCarouselExampleViewController alloc]initWithNibName:@"iCarouselExampleViewController" bundle:nil];*/
+      /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
+     storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+    CustomNavViewController *storiesNavigationController = [[CustomNavViewController alloc] initWithRootViewController:storiesViewController];
+    CustomNavViewController *customNav=[[CustomNavViewController alloc]initWithRootViewController:_storeNewViewController];
+    _tabBarController.viewControllers=@[ navigationLibrary,storiesNavigationController,customNav];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
+    [_tabBarController.tabBar setHidden:YES];
+    
+    self.navigationController.navigationBarHidden=YES;
+  
 }
 -(void)insertInStore{
     [_liveViewController performSelectorInBackground:@selector(requestBooksWithoutUIChange) withObject:nil];
@@ -96,6 +131,7 @@
 {
     [super viewDidLoad];
   
+    currentTime = [NSDate date];
     
     [self.navigationController.navigationBar setHidden:YES];
     _password.secureTextEntry=YES;
@@ -114,8 +150,20 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"help"];
     }
     [_AboutUs addTarget:self action:@selector(popUpThenURL:) forControlEvents:UIControlEventTouchUpInside];
-    
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }else{
+      CGRect frame=  _topToolbar.frame;
+        frame.origin.y=0;
+        _topToolbar.frame=frame;
+      frame=  _backgroundimage.frame;
+        frame.origin.y=_topToolbar.frame.size.height+1;
+        _backgroundimage.frame=frame;
+    }
 }
+
 -(void)transactionFailed{
     [_liveViewController transactionFailed];
     
@@ -147,15 +195,26 @@
     }
     return didCall;
 }
+
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [Flurry logEvent:@"Login exited"];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
+    NSDate *exitTime = [NSDate date];
+    NSTimeInterval timeOnLoginPage = [exitTime timeIntervalSinceDate:currentTime];
+    NSString *timeRange = [TimeRange getTimeRangeForTime:timeOnLoginPage];
+    NSLog(@"%f", timeOnLoginPage);
+    
+    NSDictionary *timeOnPageDict = [NSDictionary dictionaryWithObjectsAndKeys:timeRange, PARAMETER_TIME_RANGE, VIEW_LOGIN, PARAMETER_VIEW_NAME, nil];
+    [PFAnalytics trackEvent:EVENT_TIME_ON_VIEW dimensions:timeOnPageDict];
 
 }
+
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
-    [controller dismissModalViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:^(void) {
+        
+    }];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     switch (textField.tag) {
@@ -178,7 +237,8 @@
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
  //   [alertView release];
@@ -192,8 +252,8 @@
    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
-   
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
+  //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
@@ -208,27 +268,28 @@
         [userDefault setObject:temp forKey:@"auth_token"];
         [userDefault setObject:_userName.text forKey:@"email"];
         [userDefault setObject:_password.text forKey:@"password"];
-            UITabBarController *tabBarController=[[UITabBarController alloc]init];
+         /*   UITabBarController *tabBarController=[[UITabBarController alloc]init];
             LibraryViewController *library=[[LibraryViewController alloc]initWithNibName:@"LibraryViewController" bundle:nil];
-            StoreViewController *store=[[StoreViewController alloc]initWithNibName:@"StoreViewController" bundle:nil];
+            DownloadViewControlleriPad *store=[[DownloadViewControlleriPad alloc]initWithNibName:@"StoreViewController" bundle:nil];
             store.delegate=library;
             UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:library];
         UINavigationController *navigationPurchase=[[UINavigationController alloc]initWithRootViewController:store];
          LiveViewController *liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
-        //    [library release];
         UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:liveViewController];
-        //[liveViewController release];
-            tabBarController.viewControllers=@[navigation ,navigationPurchase,navigationStore];
-       // [navigationStore release];
-       // [navigationPurchase release];
-       //     [navigation release];
-       //     [store release];
-            [self.navigationController pushViewController:tabBarController animated:YES];
-           // [tabBarController release];
+        
+        EditorViewController *editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];
+        UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];
+        
+        storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
+        UINavigationController *storiesNavigationController = [[UINavigationController alloc] initWithRootViewController:storiesViewController];
+
+        tabBarController.viewControllers=@[storiesNavigationController, navigation , navigationPurchase, navigationStore];
+        [self.navigationController pushViewController:tabBarController animated:YES];*/
+        [self goToNext];
+        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObjectsAndKeys:[userDefault objectForKey:@"email"], @"email", nil]];
     }else{
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Either username or password is invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-       // [alertView release];
     }
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -246,7 +307,7 @@
    // [_connection autorelease];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    _alertView =[[UIAlertView alloc]init];
+ /*   _alertView =[[UIAlertView alloc]init];
 
     
     UIImage *image=[UIImage imageNamed:@"loading.png"];
@@ -260,7 +321,8 @@
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
-    [_alertView addSubview:indicator];
+    [_alertView addSubview:indicator];*/
+    [AePubReaderAppDelegate showAlertViewiPad];
 
 
 }
@@ -329,6 +391,7 @@
     [self presentViewController:signUp animated:YES completion:nil];
     [Flurry logEvent:@"Goto to signUp"];
     
+    [PFAnalytics trackEvent:EVENT_REDIRECT_TO_SIGNUP];
 }
 - (IBAction)showVideo:(id)sender {
      WebViewController *webView;
@@ -337,7 +400,8 @@
     webView.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     
     [self presentViewController:webView animated:YES completion:nil];
-
+    
+    [PFAnalytics trackEvent:EVENT_VIDEO];
 }
 -(void)facebookRequest{
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -364,10 +428,54 @@
     FacebookLogin *facebook=[[FacebookLogin alloc]initWithloginViewController:self];
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:facebook startImmediately:YES];
     [connection start];
-
 }
+
+- (void)getFacebookAccess {
+    ACAccountStore *accountStore=[[ACAccountStore alloc]init];
+    
+    ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
+    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
+        if (e) {
+            [self performSelectorOnMainThread:@selector(facebookError) withObject:nil waitUntilDone:NO];
+        }
+        else if (granted) {
+            
+            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
+            ACAccount *account=[accounts lastObject];
+            
+            NSLog(@"%@", account.username);
+            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
+            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
+            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
+            request.account=account;
+
+            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
+                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                NSLog(@"%@", dict);
+                if (!dict[@"name"]) {
+                    [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewresult,NSError *error){
+                        if (renewresult != ACAccountCredentialRenewResultRejected) {
+                            [self getFacebookAccess];
+                        } else {
+                            [AePubReaderAppDelegate hideAlertView];
+                        }
+                    }];
+                }else{
+                    [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
+                    [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
+                }
+            }];
+            
+        }else{
+            [AePubReaderAppDelegate hideAlertView];
+        }
+        
+    }];
+}
+
 - (IBAction)facebookLogin:(id)sender {
-                _alertView =[[UIAlertView alloc]init];
+          /*      _alertView =[[UIAlertView alloc]init];
 
     UIImage *image=[UIImage imageNamed:@"loading.png"];
     
@@ -381,46 +489,20 @@
     indicator.color=[UIColor blackColor];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
-    [_alertView show];
-    ACAccountStore *accountStore=[[ACAccountStore alloc]init];
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertViewiPad];
     
-    ACAccountType *facebookAccountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-    NSDictionary *options=@{@"ACFacebookAppIdKey" : @"199743376733034",@"ACFacebookPermissionsKey":@[@"email",@"user_about_me"]};
-    [accountStore requestAccessToAccountsWithType:facebookAccountType options:options completion:^(BOOL granted,NSError *e){
-        if (e) {
-           [ self performSelectorOnMainThread:@selector(facebookError) withObject:nil waitUntilDone:NO];
-        }
-        else if (granted) {
-
-            
-            NSArray *accounts=[accountStore accountsWithAccountType:facebookAccountType];
-            ACAccount *account=[accounts lastObject];
-            
-            NSLog(@"%@", account.username);
-            [[NSUserDefaults standardUserDefaults] setObject:account.username forKey:@"FacebookUsername"];
-            NSURL *requestURL=[NSURL URLWithString:@"https://graph.facebook.com/me"];
-            SLRequest *request=[SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:nil];
-            request.account=account;
-            [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
-                NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
-                [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
-                
-            }];
-        }else{
-            [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-        }
-        
-    }];
+    [self getFacebookAccess];
 
 }
 -(void)facebookError{
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter facebook credentials in system preferences" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+  //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 }
 - (IBAction)skipLogin:(id)sender {
     [self goToNext];
+    [PFAnalytics trackEvent:EVENT_SKIP_LOGIN];
 }
 @end

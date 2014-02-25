@@ -38,6 +38,8 @@
         
     }else{
       [_store DownloadBook:_bookTapped];
+      
+        [_controller DownloadComplete:_bookTapped];
     }
     
     
@@ -76,6 +78,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     UIBarButtonItem *done=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeModal:)];
     self.navigationItem.leftBarButtonItem=done;
 
@@ -111,6 +114,11 @@
   //  [share release];
     NSLog(@"x=%f y=%f height=%f width=%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.height,self.view.frame.size.width);
     _freeSpace.text=[NSString stringWithFormat:@"Free Space :%lld MB",[self getFreeDiskspace]];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
 }
 -(void)shareBook:(id)sender{
@@ -124,6 +132,9 @@
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeSaveToCameraRoll ];
+        if (_popDetails) {
+            [_popDetails dismissPopoverAnimated:YES];
+        }
         _popDetails=[[UIPopoverController alloc]initWithContentViewController:activity];
         
      //   [activity release];
@@ -144,6 +155,9 @@
    // [mail release];
 }
 -(void)closeModal:(id)sender{
+    if (_popDetails) {
+        [_popDetails dismissPopoverAnimated:YES];
+    }
     [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning

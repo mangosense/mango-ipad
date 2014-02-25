@@ -11,7 +11,7 @@
 #import "Flurry.h"
 #define BYTE 1024
 @implementation BookDownloaderIphone
--(id)initWithViewController:(MyBooksViewController *)store{
+-(id)initWithViewController:(MyBooksViewControlleriPhone *)store{
     self=[super init];
     if (self) {
         _myBookViewController=store;

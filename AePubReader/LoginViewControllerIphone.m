@@ -8,20 +8,22 @@
 
 #import "LoginViewControllerIphone.h"
 #import "SignUpViewControllerIphone.h"
-#import "MyBooksViewController.h"
+#import "MyBooksViewControlleriPhone.h"
 #import "LiveViewControllerIphone.h"
 #import <Accounts/Accounts.h>
 #import <Social/Social.h>
 #import "FacebookIphoneLogin.h"
 #import <QuartzCore/QuartzCore.h>
-#import "DownloadViewController.h"
+#import "DownloadViewControlleriPhone.h"
 #import "Flurry.h"
 #import "RootViewController.h"
+#import <Parse/Parse.h>
+#import "Constants.h"
+#import "NewStoreControlleriPhone.h"
 @interface LoginViewControllerIphone ()
-@property(retain,nonatomic)DownloadViewController *downloadView;
+@property(retain,nonatomic)DownloadViewControlleriPhone *downloadView;
 @property(strong,nonatomic) LiveViewControllerIphone *liveController;
-@property(retain,nonatomic) MyBooksViewController *myBook;
-
+@property(retain,nonatomic) MyBooksViewControlleriPhone *myBook;
 @end
 
 @implementation LoginViewControllerIphone
@@ -47,8 +49,8 @@
     
     NSDictionary *diction=[NSJSONSerialization JSONObjectWithData:_dataMutable options:NSJSONReadingAllowFragments error:nil];
     
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-   
+ //   [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     NSString *temp=diction[@"user"];
     NSString *str=[[NSString alloc]initWithData:_dataMutable encoding:NSUTF8StringEncoding];
     NSLog(@"user %@",str);
@@ -62,6 +64,9 @@
         [userDefault setObject:temp forKey:@"auth_token"];
         [userDefault setObject:_email.text forKey:@"email"];
         [userDefault setObject:_password.text forKey:@"password"];
+        
+        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObjectsAndKeys:[userDefault objectForKey:@"email"], @"email", nil]];
+        
         [self goToNext];
     
         
@@ -107,18 +112,22 @@
 
 -(void)goToNext{
     UITabBarController *tabBarController=[[UITabBarController alloc]init];
-    _myBook=[[MyBooksViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    _myBook=[[MyBooksViewControlleriPhone alloc]initWithNibName:@"MyBooksViewControlleriPhone" bundle:nil];
     UINavigationController *navLib=[[UINavigationController alloc]initWithRootViewController:_myBook];
    
-    _downloadView=[[DownloadViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    _downloadView.myBook=_myBook;
+    _downloadView=[[DownloadViewControlleriPhone alloc]initWithNibName:@"DownloadViewControlleriPhone" bundle:nil];
     
+    _downloadView.myBook=_myBook;
+    _downloadView.hidesBottomBarWhenPushed=YES;
+    _myBook.hidesBottomBarWhenPushed=YES;
     UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:_downloadView];
-    _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *navigationLive=[[UINavigationController alloc]initWithRootViewController:_liveController];
+  //  _liveController=[[LiveViewControllerIphone alloc]initWithStyle:UITableViewStyleGrouped];
+  
+    
     _liveController.myBooks=_myBook;
     _liveController.downloadViewController=_downloadView;
-    tabBarController.viewControllers=@[navLib,nav,navigationLive];
+    tabBarController.viewControllers=@[navLib,nav];//,navigationLive];
+    tabBarController.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:tabBarController animated:YES];
 
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -142,7 +151,8 @@
         return YES;
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+ //   [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
 //    [alertView release];
@@ -157,6 +167,12 @@
         [_faceBookId removeFromSuperview];
         [_orImage removeFromSuperview];
     }
+//    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+//    {
+//        // iOS 7 code here
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
+  //  self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern.png" ]];
      CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height;
     if (screenHeight>500.0) {
@@ -200,6 +216,8 @@
 
     }
     // Do any additional setup after loading the view from its nib.
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -221,6 +239,10 @@
     [self setSignUp:nil];
     [super viewDidUnload];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [AePubReaderAppDelegate adjustForIOS7:self.view];
+}
 - (IBAction)signUp:(id)sender {
     SignUpViewControllerIphone *signUp=[[SignUpViewControllerIphone alloc]initWithNibName:@"SignUpViewControllerIphone" bundle:nil];
     signUp.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
@@ -241,7 +263,7 @@
     NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
 
-    _alertView =[[UIAlertView alloc]init];
+  /*  _alertView =[[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
     [_alertView addSubview:indicator];
@@ -250,7 +272,8 @@
 
  
 
-    [_alertView show];
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertView];
 
 
 }
@@ -274,16 +297,16 @@
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     
     dictionary[@"email"] = [userDefaults objectForKey:@"FacebookUsername"];
-  
     dictionary[@"name"] = [userDefaults objectForKey:@"FullName"];
   
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonValue=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"json String %@",jsonValue);
+    
     NSString *connectionString=[userDefaults objectForKey:@"baseurl"];
     connectionString =[connectionString stringByAppendingString:@"facebookapplogin.json"];
-   // connectionString=[connectionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"Connection String %@",connectionString);
+    
     NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:connectionString ]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
@@ -298,13 +321,14 @@
 }
 - (IBAction)faceBookLogin:(id)sender {
 
-                _alertView =[[UIAlertView alloc]init];
+          /*      _alertView =[[UIAlertView alloc]init];
                 UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
                 [indicator startAnimating];
                 [_alertView addSubview:indicator];
             //    [indicator autorelease];
                 [_alertView setTitle:@"Loading...."];
-               [_alertView show];
+               [_alertView show];*/
+    [AePubReaderAppDelegate showAlertView];
 
     ACAccountStore *accountStore=[[ACAccountStore alloc]init];
   
@@ -336,13 +360,19 @@
                 request.account=account;
                 [request performRequestWithHandler:^(NSData *data,NSHTTPURLResponse *response,NSError *error){
                     NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                    
+                    NSLog(@"%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
+                    NSLog(@"%@",dict[@"name"]);
+                    if (!dict[@"name"]) {
+                         [[NSUserDefaults standardUserDefaults] setObject:@"NA" forKey:@"FullName"];
+                    }else{
                     [[NSUserDefaults standardUserDefaults] setObject:dict[@"name"] forKey:@"FullName"];
+                    }
                     [self performSelectorOnMainThread:@selector(facebookRequest) withObject:nil waitUntilDone:NO];
                     
                 }];
             }else{
-                [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+               // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+                [AePubReaderAppDelegate hideAlertView];
             }
             
         }];
@@ -355,8 +385,8 @@
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[_error debugDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
 
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    
+    //[_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 }
 -(void)errorFacebook{
     
@@ -365,8 +395,8 @@
    
     
     _error=nil;
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-
+  //  [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
 }
 -(void)transactionRestored{
     [_downloadView transactionRestored];

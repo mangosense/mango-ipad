@@ -46,7 +46,9 @@
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     
     [Flurry logEvent:string withParameters:dictionary];
-      self.navigationController.navigationBarHidden=NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+
+    self.navigationController.navigationBarHidden=NO;
     
     [self.navigationController popViewControllerAnimated:YES];
     [self.parentViewController.parentViewController.navigationController popViewControllerAnimated:YES];
@@ -57,7 +59,7 @@
             [_searchResultsPopover dismissPopoverAnimated:YES];
         }
     }
-    
+    self.tabBarController.tabBar.hidden=NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -475,7 +477,11 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     
     
     NSString *surroundingText=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().extentNode.wholeText"];
-      NSString *currentstartOffset=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().getRangeAt(0).startOffset"];
+    NSString *currentstartOffset=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().getRangeAt(0).startOffset"];
+    NSString *startContainerRange=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().getRangeAt(0).startContainer.wholeText"];
+    NSString *endContainerRange=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().getRangeAt(0).endContainer.wholeText"];
+    NSString *endEndOffset=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().getRangeAt(0).endOffset"];
+    NSString *previousSibling=[_webView stringByEvaluatingJavaScriptFromString:@"window.getSelection().getRangeAt(0).endContainer.previousSibling.innerText"];
      NSLog(@"new surrounding text %@",surroundingText);
     if (![startContainer isEqualToString:endContainer]) {
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -515,10 +521,62 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
             }
                    }
         if (i==array.count) {
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Cannot" message:@"Cannot highlight more than one paragraph" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-          //  [alert release];
-          //  [array release];
+           NSString *startSelection= [startContainerRange substringFromIndex:currentstartOffset.integerValue];
+            NoteHighlight *noteHighlightStart=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:delegate.managedObjectContext];
+            noteHighlightStart.text=startSelection;
+            noteHighlightStart.surroundingtext=startContainerRange;
+            noteHighlightStart.srno=@(currentstartOffset.integerValue);// srno is startoffset
+            
+            noteHighlightStart.identity=[NSNumber numberWithInteger:[delegate.dataModel getCount]];
+            NSLog(@"identity %@",noteHighlightStart.identity);
+            noteHighlightStart.bookid=@(bookId);
+            NSInteger pageNumber=  _chapter.chapterIndex;
+            noteHighlightStart.pageNo=@(pageNumber);
+            noteHighlightStart.date_added=[NSDate date];
+            noteHighlightStart.date_modified=[NSDate date];
+            noteHighlightStart.highlight=@YES;
+            NSError *error;
+            if (![delegate.managedObjectContext save:&error]) {
+                NSLog(@"%@",error);
+            }
+            if (previousSibling.length>0) {/// if middle highlight exist
+                 NoteHighlight *noteHighlightMiddle=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:delegate.managedObjectContext];
+                noteHighlightMiddle.text=previousSibling;
+                noteHighlightMiddle.surroundingtext=previousSibling;
+                noteHighlightMiddle.srno=@0;
+                noteHighlightMiddle.bookid=@(bookId);
+                noteHighlightMiddle.pageNo=@(pageNumber);
+                noteHighlightMiddle.date_added=[NSDate date];
+                noteHighlightMiddle.date_modified=[NSDate date];
+                noteHighlightMiddle.highlight=@YES;
+                NSError *error;
+                if (![delegate.managedObjectContext save:&error]) {
+                    NSLog(@"%@",error);
+                }
+            }
+             NoteHighlight *noteHighlightLast=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:delegate.managedObjectContext];
+            
+            NSString *lastSelection=[endContainerRange substringToIndex:endEndOffset.integerValue];
+            noteHighlightLast.text=lastSelection;
+            noteHighlightLast.surroundingtext=endContainerRange;
+            noteHighlightLast.srno=@0;
+            noteHighlightLast.bookid=@(bookId);
+            noteHighlightLast.pageNo=@(pageNumber);
+            noteHighlightLast.date_modified=[NSDate date];
+            noteHighlightLast.date_added=[NSDate date];
+            noteHighlightLast.highlight=@YES;
+        
+           
+            if (![delegate.managedObjectContext save:&error]) {
+                NSLog(@"%@",error);
+            }
+
+            
+            [self selection:nil];
+            
+           /* UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Cannot" message:@"Cannot highlight more than one paragraph" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];*/
+
             return;
             
         }
@@ -688,14 +746,7 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
         if (i==array.count) {
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Cannot" message:@"Cannot highlight more than one paragraph" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
-//            [alert release];
-//            [array release];
-//            [_selectedStringNote release];
-//            [_startContainerNote release];
-//            [_endContainerNote release];
-//            [_surroundingTextNote release];
-//            [_currentstartOffsetNote release];
-//            [string release];
+
             return;
             
         }
@@ -1165,7 +1216,9 @@ NSMutableString *jsString  = [[NSMutableString alloc] initWithData:fileData enco
     //    TableOfContentsViewController *contentViewController=[[TableOfContentsViewController alloc]initWithStyle:UITableViewStyleGrouped loca:controller.rootPath];
     ViewController *controller=(ViewController *)self.parentViewController.parentViewController;
     contentViewController.delegate=controller;
+   
        _tableOfContentsPop=[[UIPopoverController alloc]initWithContentViewController:contentViewController];
+    contentViewController.controller=_tableOfContentsPop;
  //       [contentViewController release];
         [_tableOfContentsPop presentPopoverFromRect:_tocButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     

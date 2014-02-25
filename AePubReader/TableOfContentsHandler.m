@@ -85,7 +85,7 @@
      //   _textEnable=NO;
     }
     if ([elementName isEqualToString:@"text"]) {
-        
+                _textEnable=NO;
     }
     if ([elementName isEqualToString:@"navLabel"]) {
         _textEnable=NO;

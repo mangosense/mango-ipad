@@ -46,8 +46,9 @@
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     
     [Flurry logEvent:string withParameters:dictionary];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     self.navigationController.navigationBarHidden=NO;
-    
+
     [self.navigationController popViewControllerAnimated:YES];
     [self.parentViewController.parentViewController.navigationController popViewControllerAnimated:YES];
     NSNotificationCenter *defaultCenter=[NSNotificationCenter defaultCenter];
@@ -57,8 +58,9 @@
             [_searchResultsPopover dismissPopoverAnimated:YES];
         }
     }
-    
-}
+    [self.tabBarController.tabBar setHidden:NO];
+
+   }
 -(void)setQuery:(NSString *)query{
     _query=[[NSString alloc]initWithString:query];
 }
@@ -86,9 +88,10 @@
     
     ////
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector( show: ) ];
-    //  gr.delegate=self;
+     gr.delegate=self;
     [self.webView.scrollView addGestureRecognizer: gr];
-    // [gr release];
+   //  [gr release];
+  //  [self.webView addGestureRecognizer:gr];
     //    UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(show:)];
     //    [self.webView addGestureRecognizer:pan];
     //    [pan release];
@@ -106,11 +109,40 @@
     UIImage *image=[UIImage imageNamed:@"srbar.png"];
     _searchBar.backgroundImage=image;
     // Do any additional setup after loading the view from its nib.
+    _topView.hidden=!_topView.hidden;
+}
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
 }
 - (NSUInteger)supportedInterfaceOrientations {
     
     return UIInterfaceOrientationMaskLandscape;
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    if (_chapter.chapterIndex==0) {
+        UIViewController *c=[[UIViewController alloc]init];
+        c.view.backgroundColor=[UIColor clearColor];
+        @try {
+            [self presentViewController:c animated:YES completion:^(){
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+
+    }
+      
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return YES;
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
@@ -123,8 +155,8 @@
         [_alertView dismissWithClickedButtonIndex:0 animated:YES];
         _alertView =nil;
     }
-    NSString *jsCode=@"var hLink=document.getElementsByTagName('a');for (i=0;i<hLink.length;i++) {if (hLink[i].getAttribute('href')=='#') {hLink[i].setAttribute('href','javascript:void(0)');}}";
-    [_webView stringByEvaluatingJavaScriptFromString:jsCode];
+//    NSString *jsCode=@"var hLink=document.getElementsByTagName('a');for (i=0;i<hLink.length;i++) {if (hLink[i].getAttribute('href')=='#') {hLink[i].setAttribute('href','javascript:void(0)');}}";
+//    [_webView stringByEvaluatingJavaScriptFromString:jsCode];
     
     NSString *filePath  = [[NSBundle mainBundle] pathForResource:@"UIWebViewSearch" ofType:@"js" inDirectory:@""];
     NSData *fileData    = [NSData dataWithContentsOfFile:filePath];
@@ -157,11 +189,11 @@
      selection = window.getSelection();
      selection.setPosition(myDiv, 0);
      */
-    _webView.scrollView.scrollEnabled=YES;
-    NSString *width=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientWidth"];
-    NSString *height=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight"];
-    NSLog(@"width %@ height %@",width,height);
-
+//    _webView.scrollView.scrollEnabled=YES;
+//    NSString *width=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientWidth"];
+//    NSString *height=[_webView stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight"];
+//    NSLog(@"width %@ height %@",width,height);
+//
     
 
         
@@ -286,7 +318,7 @@
             _tap=YES;
         }
     }
-    
+    _topView.hidden=!_topView.hidden;
     
 }
 -(BOOL)canBecomeFirstResponder{
@@ -948,9 +980,12 @@
     LandscapeTextBookViewController *controller=(LandscapeTextBookViewController *)self.parentViewController.parentViewController;
     contentViewController.delegate=controller;
     _tableOfContentsPop=[[UIPopoverController alloc]initWithContentViewController:contentViewController];
-
+    contentViewController.controller=_tableOfContentsPop;
     [_tableOfContentsPop presentPopoverFromRect:_tocButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [_tableOfContentsPop dismissPopoverAnimated:YES];
 }
 - (void)didReceiveMemoryWarning
 {

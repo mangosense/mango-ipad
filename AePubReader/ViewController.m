@@ -99,7 +99,18 @@
     }
     return UIInterfaceOrientationPortrait;
 }
-
+- (BOOL)shouldAutomaticallyForwardRotationMethods
+{
+    return NO;
+}
+- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers
+{
+    return NO;
+}
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods
+{
+    return NO;
+}
 /*Function Name : unzipAndSaveFile
  *Return Type   : void
  *Parameters    : nil
@@ -151,7 +162,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  //  [self unzipAndSaveFile:_strFileName];
     _xmlhandler=[[XMLHandler alloc] init];
 	_xmlhandler.delegate=self;
 	[_xmlhandler parseXMLFileAt:[self getRootFilePath]];
@@ -311,8 +321,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [self.navigationController.navigationBar setHidden:NO];
-    [self.tabBarController.tabBar setHidden:NO];
+    [self.navigationController.navigationBar setHidden:YES];
+    [self.tabBarController.tabBar setHidden:YES];
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"title"];
@@ -355,6 +365,7 @@
     }else{
          [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
     }
+    
 
     
 }

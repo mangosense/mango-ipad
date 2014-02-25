@@ -136,6 +136,11 @@
     self.contentSizeForViewInPopover=CGSizeMake(150.0, 400.0);
     // Do any additional setup after loading the view from its nib.
     [_tableView setDelegate:self];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
   
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{

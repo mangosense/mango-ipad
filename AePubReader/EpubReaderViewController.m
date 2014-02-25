@@ -7,6 +7,8 @@
 #import <AudioToolbox/AudioServices.h>
 #import "UIWebView+SearchWebView.h"
 #import "CoverViewController.h"
+#import "PreKCategoriesViewController.h"
+
 @implementation EpubReaderViewController
 @synthesize _ePubContent;
 @synthesize _rootPath;
@@ -37,6 +39,11 @@
     UIButton *button=(UIButton *)sender;
     NSLog(@"tag %d",button.tag);
     if (button.tag==_pageNumber) {
+        return;
+    }
+    if (button.tag==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        [self.navigationController popViewControllerAnimated:NO];
+        _pageNumber=1;
         return;
     }
     _pageNumber=button.tag;
@@ -181,7 +188,9 @@
 	//[self unzipAndSaveFile];
 	_xmlHandler=[[XMLHandler alloc] init];
 	_xmlHandler.delegate=self;
-	[_xmlHandler parseXMLFileAt:[self getRootFilePath]];
+  
+        [_xmlHandler parseXMLFileAt:[self getRootFilePath]];
+    
     [_leftButton setAlpha:0.25f];
     [_rightButton setAlpha:0.25f];
    
@@ -218,7 +227,7 @@
     
     //_webview.scrollView.scrollEnabled=NO;
     
-    _webview.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
+   // _webview.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"wood_pattern.png"]];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [_doneButton setTintColor:[UIColor lightGrayColor]];
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
@@ -286,7 +295,6 @@
 
     }else{
         _progressView=[[CircularProgressView alloc]initWithFrame:CGRectMake(34, 33, 95,95)];
- 
     }
     [_progressView setColourR:0.0 G:1.0 B:0.0 A:1.0];
     [_recordControlView addSubview:_progressView];
@@ -297,6 +305,8 @@
     [_progressView setHidden:YES];
     _viewAppeared=NO;
     _startTime=[[NSDate date]timeIntervalSince1970];
+    _startedReading=YES;
+    _playingPaused=YES;
 }
 - (IBAction)wasDragged:(UIButton *)button withEvent:(UIEvent *)event{
     //get the touch
@@ -666,7 +676,13 @@
     if (_isPlaying) {
         [self playOrPauseAudio:nil];
     }
-    
+_pageCountTime=[[NSDate date]timeIntervalSince1970]-_pageCountTime;
+NSTimeInterval avgTime=[[NSUserDefaults standardUserDefaults] floatForKey:@"avgPageTimer"];
+avgTime=avgTime+_pageCountTime;
+avgTime=avgTime/2;
+[[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
+
+
 }
 /*Function Name : setTitlename
  *Return Type   : void
@@ -703,20 +719,30 @@
 //
 //    }
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    if (_playerDefault&&_playerDefault.isPlaying) {
+        [self playOrPauseAudio:nil];
+
+    }
+}
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-       [self becomeFirstResponder];
-    [self loadPage];
-    if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+       //[self becomeFirstResponder];
+//[self loadPage];
+   /* if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         //CoverViewController
-        CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
-        coverViewController.imageLocation=_imageLocation;
-        [self.navigationController pushViewController:coverViewController animated:NO];
-        coverViewController.epubViewController=self;
-        _pageNumber++;
-        
-    }
+        [self performSelector:@selector(delayedPush) withObject:nil afterDelay:5];
+    }*/
+    //[self performSelector:@selector(loadPage) withObject:nil afterDelay:6];
     _viewAppeared=YES;
+}
+-(void)delayedPush{
+    CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
+    coverViewController.imageLocation=_imageLocation;
+    [self.navigationController pushViewController:coverViewController animated:NO];
+    coverViewController.epubViewController=self;
+    _pageNumber++;
+
 }
 
    /*Function Name : unzipAndSaveFile
@@ -779,6 +805,7 @@
  *Purpose       : To find the path to container.xml.This file contains the file name which holds the epub informations
  */
 
+
 - (NSString*)getRootFilePath{
 	
 	//check whether root file path exists
@@ -819,8 +846,14 @@
 		if (_pageNumber>0) {
 			
 			_pageNumber--;
+            if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+                [self.navigationController popViewControllerAnimated:NO];
+                _pageNumber=1;
 
-			[self loadPage];
+            }else{
+                [self loadPage];
+
+            }
 		}else{
       [self onBack:nil];
         }
@@ -843,7 +876,7 @@
 - (void)foundRootPath:(NSString*)rootPath{
 	
 	//Found the path of *.opf file
-
+   
     NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
 
     NSString *strOpfFilePath=[NSString stringWithFormat:@"%@/%d/%@",[self applicationDocumentsDirectory],iden,rootPath];
@@ -867,7 +900,8 @@
 											otherButtonTitles:nil];
 		[alert show];
 		alert=nil;
-	}
+        }
+   
 	
 }
 
@@ -964,13 +998,17 @@
     if(_playerDefault){
         _playerDefault=nil;
     }
-    self.navigationController.navigationBarHidden=NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+
+//    self.navigationController.navigationBarHidden=NO;
+
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]];
                            [_webview loadRequest:request];
-[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
 
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+    //[self.tabBarController.tabBar setHidden:NO];
+
     NSLog(@"NSString %@",_strFileName);
 
     if (_pop) {
@@ -987,14 +1025,18 @@
         NSString *string=@"iphone or ipod touch  Story Book closed ";
                 [Flurry logEvent:string withParameters:dictionary];
     }
-    [self.tabBarController.tabBar setHidden:NO];
+    //[self.tabBarController.tabBar setHidden:NO];
   
     double last=    [[NSUserDefaults standardUserDefaults]doubleForKey:@"timerCompleted"];
        double endStartTimer=[[NSDate date]timeIntervalSince1970];
     endStartTimer=endStartTimer-_startTime;
     last=last+endStartTimer;
     [[NSUserDefaults standardUserDefaults] setFloat:last forKey:@"timerCompleted"];
-    
+    _pageCountTime=[[NSDate date]timeIntervalSince1970]-_pageCountTime;
+    NSTimeInterval avgTime=[[NSUserDefaults standardUserDefaults] floatForKey:@"avgPageTimer"];
+    avgTime=avgTime+_pageCountTime;
+    avgTime=avgTime/2;
+    [[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
 }
 
 - (IBAction)showPopView:(id)sender {
@@ -1030,7 +1072,7 @@
         
         
    
-     }
+     }//recording case ends
     else{
         
         if (_timerProgress&&!_playerDefault) {
@@ -1056,6 +1098,7 @@
                 [_playerDefault setVolume:1.0];
                 [_playerDefault play];
                   _timerProgress=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+                _playingPaused=NO;
                 }
             UIImage *image=[UIImage imageNamed:@"pause-control.png"];
             [_playPauseControl setImage:image forState:UIControlStateNormal];
@@ -1063,10 +1106,12 @@
         }else{
             if ([_playerDefault isPlaying]) {
                 [_playerDefault pause];
+                _playingPaused=YES;
                 UIImage *image=[UIImage imageNamed:@"play-control.png"];
                 [_playPauseControl setImage:image forState:UIControlStateNormal];
             }else{
                 [_playerDefault play];
+                _playingPaused=NO;
                 UIImage *image=[UIImage imageNamed:@"pause-control.png"];
                 [_playPauseControl setImage:image forState:UIControlStateNormal];
                  [self ribbonButtonClick:nil];
@@ -1170,14 +1215,10 @@
 
 - (void)loadPage{
 	
-    if (_pageNumber==0&&_viewAppeared&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-        CoverViewController *coverViewController=[[CoverViewController alloc]initWithNibName:@"CoverViewController" bundle:nil];
-        coverViewController.imageLocation=_imageLocation;
-        [self.navigationController pushViewController:coverViewController animated:NO];
-        coverViewController.epubViewController=self;
-       // _pageNumber++;
+    if (_pageNumber==0&&UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+            _pageNumber++;
         
-    }else{
+    }
         if (_playerDefault) {
             _playerDefault=nil;
         }
@@ -1185,14 +1226,37 @@
 	[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pagesPath]]];
         
     [self addThumbnails];
-    }
+        if (_pageCountTime==0) {
+            _pageCountTime=[[NSDate date]timeIntervalSince1970];
+            
+        }else{
+           
+            NSTimeInterval diff=[[NSDate date]timeIntervalSince1970]-_pageCountTime;
+             _pageCountTime=[[NSDate date]timeIntervalSince1970];
+            NSTimeInterval avgTime=[[NSUserDefaults standardUserDefaults] floatForKey:@"avgPageTimer"];
+            avgTime=avgTime+diff;
+            avgTime=avgTime/2;
+            [[NSUserDefaults standardUserDefaults] setFloat:avgTime forKey:@"avgPageTimer"];
+            
+        }
+    
    NSInteger pageCount= [[NSUserDefaults standardUserDefaults]integerForKey:@"tpageCount"];
     pageCount++;
     [[NSUserDefaults standardUserDefaults]setInteger:pageCount forKey:@"tpageCount"];
-    if(self._ePubContent._spine.count-2<=_pageNumber){
+    if(self._ePubContent._spine.count-2<=_pageNumber&&_startedReading){
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         NSInteger bookCount=[[NSUserDefaults standardUserDefaults]integerForKey:@"tbookCount"];
         bookCount++;
         [[NSUserDefaults standardUserDefaults] setInteger:bookCount forKey:@"tbookCount"];
+         NSInteger iden=[[NSUserDefaults standardUserDefaults] integerForKey:@"bookid"];
+      
+        Book *book=[delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%d",iden ]];
+         bookCount=book.bookCount.integerValue;
+        bookCount++;
+        book.bookCount=[NSNumber numberWithInteger:bookCount];
+            [delegate.dataModel saveData:book];
+            _startedReading=NO;
+        
     }
 	//set page number
 	//_pageNumberLbl.text=[NSString stringWithFormat:@"%d",_pageNumber+1];
@@ -1488,12 +1552,7 @@
         [self loadPage];
         return;
     }
-    if (_playerDefault) {
-        _playerDefault=nil;
-        [_timerProgress invalidate];
-        _timerProgress=nil;
-    }
-    if (delegate.options==1) {// if read to me option
+       if (delegate.options==1) {// if read to me option
         if ([self._ePubContent._spine count]-1>_pageNumber) {
 			
 			_pageNumber++;
@@ -1502,16 +1561,23 @@
 		}
 
     }
-    UIImage *image=[UIImage imageNamed:@"playbutton.png"];
+    UIImage *image=[UIImage imageNamed:@"play-control.png"];
     [_playRecordedButton setImage:image forState:UIControlStateNormal];
-    if (_anAudioPlayer==player) {
+    [_playPauseControl setImage:image forState:UIControlStateNormal];
+    if (_playerDefault==player) {
         [_webview stringByEvaluatingJavaScriptFromString:@"$('#jquery_jplayer').data('handleAudio').resetCues()"];
         _anAudioPlayer=nil;
     }
     [_stopRecordingOrRecordedAudio setEnabled:NO];
 
     [_recordButton setEnabled:YES];
-    _playingPaused=NO;
+    //_playingPaused=NO;
+    if (_playerDefault) {
+        _playerDefault=nil;
+        [_timerProgress invalidate];
+        _timerProgress=nil;
+    }
+
     if (_timerProgress) {
         [_timerProgress invalidate];
         _timerProgress=nil;

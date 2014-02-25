@@ -63,4 +63,5 @@
 @property(strong,nonatomic)UIPopoverController *listNotesHighlight;
 @property(strong,nonatomic)NSString *titleOfBook;
 @property(assign,nonatomic)NSInteger bookId;
+@property(strong,nonatomic)NSString *startContainerRange;
 @end

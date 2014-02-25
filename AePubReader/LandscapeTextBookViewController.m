@@ -91,7 +91,7 @@
 {
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-    
+    NSLog(@"index %d",[_array indexOfObject:viewController.chapter]);
     
     return [_array indexOfObject:viewController.chapter];
 }
@@ -221,15 +221,30 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+//    UIViewController *c=[[UIViewController alloc]init];
+//    c.view.backgroundColor=[UIColor clearColor];
+//    @try {
+//        [self presentViewController:c animated:YES completion:^(){
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//    }
+//    @catch (NSException *exception) {
+//        
+//    }
+//    @finally {
+//        
+//    }
+
+}
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [self.navigationController.navigationBar setHidden:NO];
-    [self.tabBarController.tabBar setHidden:NO];
+
     NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
     [dictionary setValue:@(_identity) forKey:@"identity"];
     [dictionary setValue:_titleOfBook forKey:@"title"];
@@ -262,12 +277,34 @@
     //  [page release];
     LandscapePageViewController *current=[_controller.viewControllers lastObject];
     [current.searchResultsPopover dismissPopoverAnimated:YES];
+    __block LandscapeTextBookViewController *blocksafeSelf=self;
     if (current.chapter.chapterIndex>chapterIndex) {
-        [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+        [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished){
+            if(finished)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [blocksafeSelf.controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];// bug fix for uipageview controller
+                });
+            }
+        }];
     }else if(current.chapter.chapterIndex<chapterIndex){
-        [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished){
+            if(finished)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [blocksafeSelf.controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];// bug fix for uipageview controller
+                });
+            }
+        }];
     }else{
-        [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
+        [_controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished){
+            if(finished)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [blocksafeSelf.controller setViewControllers:array direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];// bug fix for uipageview controller
+                });
+            }
+        }];
     }
     
     

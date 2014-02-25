@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "StoreViewController.h"
+#import "DownloadViewControlleriPad.h"
 #import "DownloadViewController.h"
 @interface SyncIpadConnection : NSObject<NSURLConnectionDataDelegate>
 
 @property(nonatomic,retain)NSMutableData *data;
-@property(nonatomic,assign)StoreViewController *store;
+@property(nonatomic,assign)DownloadViewControlleriPad *store;
 -(id)init;
 @property(nonatomic,assign)DownloadViewController *download;
 @end

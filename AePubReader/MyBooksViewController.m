@@ -13,6 +13,7 @@
 #import "ViewController.h"
 #import "RootViewController.h"
 #import "LandscapeTextBookViewController.h"
+#import "NewStoreViewControlleriPhone.h"
 @interface MyBooksViewController ()
 
 @end
@@ -46,7 +47,7 @@
    // [_array release];
     _array=[[NSMutableArray alloc]initWithArray:temp];
     [self.tableView reloadData];
-    BookDownloaderIphone *bookDownload=[[BookDownloaderIphone alloc]initWithViewController:self];
+    BookDownloaderIphone *bookDownload;//=[[BookDownloaderIphone alloc]initWithViewController:self];
    
     NSString *string=[[NSString alloc]initWithFormat:@"%d",index ];
     Book *book=[_delegate.dataModel getBookOfId:string];
@@ -80,6 +81,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
     self.navigationController.navigationBar.tintColor=[UIColor blackColor];
     UIImageView *imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mangoreader-logo.png"]];
@@ -98,6 +104,40 @@
         delegate.LandscapeOrientation=YES;
 
     }
+    self.navigationController.navigationBarHidden=YES;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
+    view.autoresizingMask= UIViewAutoresizingFlexibleWidth;
+ //   view.backgroundColor=[UIColor blueColor];
+   
+    UIButton *anotherButton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [anotherButton setTitle:@"Store" forState:UIControlStateNormal];
+    [anotherButton addTarget:self action:@selector(showStore:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:anotherButton];
+
+    UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-150, 5, 150, 100)];
+    [button setTitle:@"Feedback" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(feedback:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+   
+    return view;
+}
+-(void)showStore:(id)sender{
+    NewStoreViewControlleriPhone *storeNew=[[NewStoreViewControlleriPhone alloc]initWithStyle:UITableViewStylePlain];
+    [UIView beginAnimations:@"View Flip" context:nil];
+    [UIView setAnimationDuration:0.80];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                           forView:self.navigationController.view cache:NO];
+    
+    [self.navigationController pushViewController:storeNew animated:YES];
+    [UIView commitAnimations];
+
+}
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 150;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -185,19 +225,22 @@
     else{
         cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+   
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
+     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (indexPath.row==0&&delegate.downloadBook) {
       
         [cell addSubview:_progress];
+        
+    }else{
         
     }
    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     Book *book=_array[indexPath.row];
-    NSLog(@"%@",book.localPathImageFile);
+  //  NSLog(@"%@",book.localPathImageFile);
     cell.imageView.image=[[UIImage alloc]initWithContentsOfFile:book.localPathImageFile];
     cell.textLabel.text=book.title;
 
@@ -264,7 +307,7 @@
         return;
     }
     // Navigation logic may go here. Create and push another view controller.
-    _alertView =[[UIAlertView alloc]init];
+  /*  _alertView =[[UIAlertView alloc]init];
 
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
     [indicator startAnimating];
@@ -272,8 +315,9 @@
     [_alertView setTitle:@"Loading...."];
     [_alertView setDelegate:self];
 
-    [_alertView show];
-
+    [_alertView show];*/
+    [AePubReaderAppDelegate showAlertView];
+    [[AePubReaderAppDelegate getAlertView] setDelegate:self];
     Book *iden=_array[indexPath.row];
     _identity=indexPath.row;
     [[NSUserDefaults standardUserDefaults] setInteger:[iden.id integerValue] forKey:@"bookid"];
@@ -354,8 +398,8 @@
 
             break;
     }
-
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [AePubReaderAppDelegate hideAlertView];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {

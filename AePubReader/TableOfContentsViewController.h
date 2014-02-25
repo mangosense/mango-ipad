@@ -15,4 +15,5 @@
 @property(retain,nonatomic)NSMutableArray *array;
 - (id)initWithStyle:(UITableViewStyle)style array:(NSMutableArray *)array;
 @property(assign,nonatomic)id<TableViewOfTOCdelegate> delegate;
+@property(assign,nonatomic)UIPopoverController *controller;
 @end

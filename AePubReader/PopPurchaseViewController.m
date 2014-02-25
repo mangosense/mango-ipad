@@ -45,9 +45,10 @@
 -(void)viewWillDisappear:(BOOL)animated{
  
         
-    if (_alertView) {
+    /*if (_alertView) {
          [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    }
+    }*/
+    [AePubReaderAppDelegate showAlertViewiPad];
     NSString * string=[NSString stringWithFormat: @"In the store details for particular book existed" ];
     [Flurry logEvent:string];
 }
@@ -102,7 +103,11 @@
         }
     }
     _freeSpace.text=[NSString stringWithFormat:@"Free Space : %lld",[self getFreeDiskspace]];
-   
+    if([UIDevice currentDevice].systemVersion.integerValue>=7)
+    {
+        // iOS 7 code here 
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 -(uint64_t)getFreeDiskspace {
     uint64_t totalSpace = 0;
@@ -260,8 +265,9 @@
         _purchaseLabel.text=[NSString stringWithFormat:@"Price : Free "];
         _isFree=true;
     }
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    _alertView=nil;
+    [AePubReaderAppDelegate hideAlertView];
+   // [_alertView dismissWithClickedButtonIndex:0 animated:YES];
+    //_alertView=nil;
     [_purchaseButton setEnabled:YES];
         
 }

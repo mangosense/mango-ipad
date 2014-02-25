@@ -9,6 +9,10 @@
 #import "SignUpViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Flurry.h"
+#import "AePubReaderAppDelegate.h"
+#import "Constants.h"
+#import "LandPageChoiceViewController.h"
+
 @interface SignUpViewController ()
 
 @end
@@ -28,15 +32,10 @@
 
 - (void)viewDidLoad
 {
-    
     [super viewDidLoad];
     
     [_password setSecureTextEntry:YES];
     [_confirmPassword setSecureTextEntry:YES];
-    
-//    self.navigationItem.leftBarButtonItem.tintColor=[UIColor grayColor];
-//    self.navigationController.navigationBar.tintColor=[UIColor blackColor];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,194 +43,102 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
+
 - (IBAction)signUp:(id)sender {
-    [Flurry logEvent:@"signUp event requested"];
-//    if (_nameFull.text.length==0||_password.text.length==0||_confirmPassword.text.length==0||_email.text.length==0) {
-//        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"No fields should be blank" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        
-//        [alertView show];
-//        [alertView release];
-//        return;
-//    }
-    if (![_password.text isEqualToString:_confirmPassword.text]) {
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"password and confirm password don't match" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alertView show];
-       // [alertView release];
-        return;
-    }
-//    if (![self validateEmailWithString:_email.text]) {
-//        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Invalid Email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        
-//        [alertView show];
-//        [alertView release];
-//        return;
-//    }
-    //actual signup
-    if (_email.text.length==0||_password.text.length==0||_confirmPassword.text.length==0||_nameFull.text.length==0) {
+    if (_email.text.length==0 || _password.text.length==0 || _confirmPassword.text.length==0 || _nameFull.text.length==0) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"All fields are required" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
-      //  [alertView release];
-        return;
     }
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    NSString *baseUrl=[userDefaults objectForKey:@"baseurl"];
-    //baseUrl=@"http://staging.mangoreader.com/api/v1/";
-    baseUrl =[baseUrl stringByAppendingString:@"users/sign_up.json?user[email]="];
-    NSLog(@"production baseurl %@",baseUrl);
-   // baseUrl=@"http://192.168.2.29:3000/api/v1/users/sign_up.json?user[email]=";
-    NSString *parameter=[NSString stringWithFormat:@"%@&user[password]=%@&user[password_confirmation]=%@&user[name]=%@",_email.text,_password.text,_confirmPassword.text,_nameFull.text];
-       parameter= [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    baseUrl=[baseUrl stringByAppendingString:parameter];
-    NSLog(@"staging baseurl %@",baseUrl);
-
-  
-    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:baseUrl]];
- //   [request setHTTPMethod:@"POST"];
-    [request setHTTPMethod:@"POST"];
-   // [request setHTTPBody:jsonData];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSURLConnection *connection=[[NSURLConnection alloc]initWithRequest:request delegate:self];
-    [connection start];
-
-    _alertView =[[UIAlertView alloc]init];
-
-//
     
-    UIImage *image=[UIImage imageNamed:@"loading.png"];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
-    
-    
-    imageView.image=image;
-    [_alertView addSubview:imageView];
-   // [imageView release];
-    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
-    indicator.color=[UIColor blackColor];
-    [indicator startAnimating];
-    [_alertView addSubview:indicator];
-    //[indicator release];
-
-    [_alertView show];
-   // [_alertView release];
- //[dictionary release];
-  //    [stringJson release];
-   // _data=nil;
-    _data=[[NSMutableData alloc]init];
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES];
+    apiController.delegate = self;
 }
 
 - (IBAction)donePressed:(id)sender {
-      [self dismissModalViewControllerAnimated:YES];
-}
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    
-}
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    [_data appendData:data];
+    [self dismissViewControllerAnimated:YES completion:^(void) {
+        
+    }];
 }
 
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
-    //[alert release];
-}
--(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-     [_alertView dismissWithClickedButtonIndex:0 animated:YES];
-    NSString *string=[[NSString alloc]initWithData:_data encoding:NSUTF8StringEncoding];
-   NSDictionary *dictionary= [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:nil];
-    NSLog(@"json output %@",string);
-  //  [string release];
-    if (dictionary[@"user"]) {
-        //sucess
-        dictionary=dictionary[@"user"];
-        if (dictionary[@"email"]==nil) {
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: @"Email is either used or invalid" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                        [alert show];
-                      //  [alert release];
-            return;
-        }
-        UIAlertView *alertViewSuccess=[[UIAlertView alloc]initWithTitle:@"Success" message:@"You have been sucessfully signed up" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alertViewSuccess show];
-        NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-        [dictionary setValue:_email.text forKey:@"email"];
-        [Flurry logEvent:@"Sign up successful" withParameters:dictionary];
-     //   [alertViewSuccess release];
-   
-    }
-    else{
-      dictionary=  dictionary[@"error"];
-        NSArray *arrayError=dictionary[@"email"];
-        if (arrayError!=nil) {
-            NSString *stringError=[NSString stringWithFormat:@"email %@",arrayError[0] ];
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: stringError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-          //  [alert release];
-        }else{
-            NSArray *arrayError=dictionary[@"password"];
-
-            NSString *stringError= [ NSString stringWithFormat:@"password %@",arrayError[0]];
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message: stringError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-           // [alert release];
-        }
-     
-    }
-   // _data=nil;
-    
-    
-}
 - (BOOL)validateEmailWithString:(NSString*)email
 {
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
 }
-/*- (void)dealloc {
-    [_nameFull release];
-    [_email release];
-    [_password release];
-    
-    [_confirmPassword release];
-    _alertView=nil;
-    [super dealloc];
-}*/
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    [[NSUserDefaults standardUserDefaults]setValue:_email.text forKey:@"emailSignUp"];
-    [[NSUserDefaults standardUserDefaults]setValue:_password.text forKey:@"emailPassword"];
-    _loginViewController.getFromSignUp=YES;
-    [self donePressed:nil];
+
+#pragma mark - PostAPI Delegate Method
+
+- (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
+    if (userDetailsDictionary) {
+        
+        NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+        [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+        
+        [self donePressed:nil];
+        [_delegate goToNext];
+    }
 }
+
+#pragma mark - UITextField Delegate Methods
+
+#define EMAIL_TAG 0
+#define PASSWORD_TAG 1
+#define CONFIRM_PASSWORD_TAG 2
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    switch (textField.tag) {
+        case EMAIL_TAG:
+            if (![self validateEmailWithString:textField.text]) {
+                textField.text = @"";
+                UIAlertView *wrongEmailAlert = [[UIAlertView alloc] initWithTitle:@"Wrong Email" message:@"Please enter a valid email address" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [wrongEmailAlert show];
+            }
+            break;
+            
+        case PASSWORD_TAG:
+            
+            break;
+            
+        case CONFIRM_PASSWORD_TAG:
+            if (![textField.text isEqualToString:_password.text]) {
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Passwords don't match" message:@"Password and Confirm Password don't match" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [alertView show];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     switch (textField.tag) {
-        case 0:
+        case EMAIL_TAG:
             [_email becomeFirstResponder];
             break;
-        case 1:
+        case PASSWORD_TAG:
             [_password becomeFirstResponder];
             break;
-        case 2:
-            
+        case CONFIRM_PASSWORD_TAG:
             [_confirmPassword becomeFirstResponder];
             break;
+            
         case 3:
             [self signUp:nil];
             break;
+            
         default:
             break;
     }
     return YES;
    
 }
-- (void)viewDidUnload {
-    [self setNameFull:nil];
-    [self setEmail:nil];
-    [self setPassword:nil];
-    [self setConfirmPassword:nil];
-    [super viewDidUnload];
-}
+
 @end

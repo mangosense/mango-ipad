@@ -211,6 +211,23 @@
     bounds.origin.y = 0;
     [self.scrollView scrollRectToVisible:bounds animated:animated];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    UIViewController *c=[[UIViewController alloc]init];
+    c.view.backgroundColor=[UIColor clearColor];
+    @try {
+        [self presentViewController:c animated:YES completion:^(){
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+
+}
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskLandscape;
 }

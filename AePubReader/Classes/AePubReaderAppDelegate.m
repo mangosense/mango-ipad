@@ -14,261 +14,90 @@
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 #import "Base64.h"
-@implementation AePubReaderAppDelegate
 
-@synthesize window;
+#import <Parse/Parse.h>
+#import "Constants.h"
+#import "MBProgressHUD.h"
+
+#import "BooksFromCategoryViewController.h"
+
+#import <FacebookSDK/FacebookSDK.h>
+
+@implementation AePubReaderAppDelegate
+static UIAlertView *alertViewLoading;
+
+//@synthesize window;
 @synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator;
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    _LandscapeOrientation=YES;
-    _PortraitOrientation=YES;
-   _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
- //   NSLog(@"bundle identifier %@",[[NSBundle mainBundle]bundleIdentifier]);
-    _wasFirstInPortrait=NO;
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    if (![userDefaults objectForKey:@"baseurl"]) {
-        
-         [userDefaults setObject:@"http://www.mangoreader.com/api/v1/" forKey:@"baseurl"];
-    }
-    [userDefaults setBool:NO forKey:@"changed"];
-    NSFileManager *fileManager=[NSFileManager defaultManager];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+     //EJDB
+    _ejdbController = [[EJDBController alloc] initWithCollectionName:@"MangoCollection" andDatabaseName:@"MangoDb.db"];
+    
+    _prek=NO;
+    //Parse
+    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *destPath;/*=@"780.jpg";*/
-    NSString *insPath;/* = @"780.jpg";*/
-    NSString *srcPath; /*= [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    destPath=[string stringByAppendingPathComponent:destPath];*/
-    //  NSLog(@"src path %@ des path %@",srcPath,temp);
-    NSError *error=nil;
-    NSString *recording=[string stringByAppendingPathComponent:@"recording"];
-    [userDefaults setObject:recording forKey:@"recordingDirectory"];
+
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:LOGIN]]];
+    for (NSHTTPCookie *cookie in cookies)
+    {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
     
-    NSNumber *moonCapId;
+    _LandscapeOrientation=YES;
+    _PortraitOrientation=NO;
+   _dataModel=[[DataModelControl alloc]initWithContext:[self managedObjectContext]];
 
-
-    destPath=@"49.jpg";
-    insPath=@"49.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    destPath=[string stringByAppendingPathComponent:destPath];
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath toPath:destPath error:&error];
-        
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-           // [url release];
-        }
-    }
-    moonCapId=@49;
+    _wasFirstInPortrait=NO;
     
-    if(![_dataModel checkIfIdExists:moonCapId]){
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Moon and the Cap";
-        book.desc=@"Do you like to wear a cap on a sunny day? Find out who else likes to wear a cap in this charming english book.The Moon and The Cap was originally published as part of the Read India project by Pratham Books. This book is written and narrated in multiple different languages including Hindi & English. Read this book to your kid and see their eyes light up! If you're not a kid then this book will take you back in days when life was simple and small simple gifts made us excited with joy. Tap/click on characters and objects and you will discover new things. <br/> <br/><br /><br /> <br/><strong> <br/>Age Group <br/></strong> 2 - 6 <br/><br /><br /> <br/><strong>Grade</strong> <br/>NUR <br/><br /><br /> <br/><strong>Includes:</strong> Interactive audio with highlighting, puzzle game, word game, memory game <br/>";
-        book.link=@"http://www.mangoreader.com/books/49";
-        book.imageUrl=@"http://www.mangoreader.com/49/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/49/download";
-        book.localPathImageFile=destPath;
-        book.id=@49;
-        book.size=@7631651;
-        book.date=[NSDate date];
-        book.textBook=@1;
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@NO;
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-    }
-
+    BOOL uiNew=YES;
     
-    NSURL *url=[NSURL fileURLWithPath:destPath];
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+
+    [userDefaults setBool:NO forKey:@"changed"];
+    if (!uiNew)
+    {
+        [userDefaults setBool:YES forKey:@"didadd"];
+
+        NSString *recording=[string stringByAppendingPathComponent:@"recording"];
+        [userDefaults setObject:recording forKey:@"recordingDirectory"];
+        
+        [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
+
+    }
+    else {
+        [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
+        [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
+    }
     
-    id Flag=nil;
-    [url getResourceValue:&Flag forKey:NSURLIsExcludedFromBackupKey error:&error];
-    if (Flag) {
-        NSNumber *flag=(NSNumber *)Flag;
-        NSLog(flag.boolValue ? @"Yes" : @"No");
-        NSLog(@"%@",Flag);
-    }
-
-    destPath=@"445.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"445.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-           // [url release];
-        }
-    }
-      NSNumber *vayuTheWind=@445;
-    if (![_dataModel checkIfIdExists:vayuTheWind]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Vayu the Wind";
-        book.desc=@"Vayu, The Wind  written by Madhuri Pai and published by Pratham Books is intended for kids  from the ages of 3-6yrs. The book is a  great way to teach the kids about wind and its effects. Even though we can\r\nsee it, the wind plays an integral part in our lives and what better way to learn about it than this. So lets learn about the wind from a kid's perspective. And play game when hover over the game image.";
-        book.link=@"http://www.mangoreader.com/books/445";
-        book.imageUrl=@"http://www.mangoreader.com/445/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/445/download";
-        book.localPathImageFile=destPath;
-        book.id=@445;
-        book.size=@26171226;
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@NO;
-        book.textBook=@1;
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-        
-    }
-
-    destPath=@"1094.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1094.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-    NSNumber *azzura=@1094;
-    if (![_dataModel checkIfIdExists:azzura]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"Azzura";
-        book.desc=@"Azzura";
-        book.link=@"http://www.mangoreader.com/books/1094";
-        book.imageUrl=@"http://www.mangoreader.com/1094/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/1094/download";
-        book.localPathImageFile=destPath;
-        book.id=@1094;
-        book.size=@26171226;
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@YES;
-        book.textBook=@1;
-        
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-    }
-  
-    destPath=@"1094.epub";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1094.epub";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-   azzura=@1331;
-    destPath=@"1331.jpg";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1331.jpg";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-
-    if (![_dataModel checkIfIdExists:azzura]) {
-        Book *book= [_dataModel getBookInstance];
-        book.title=@"InOpen";
-        book.desc=@"InOpen";
-        book.link=@"http://www.mangoreader.com/books/1331";
-        book.imageUrl=@"http://www.mangoreader.com/1331/cover_image/download";
-        book.sourceFileUrl=@"http://www.mangoreader.com/book/1331/download";
-        book.localPathImageFile=destPath;
-        book.id=@1331;
-        book.size=@26171226;
-        book.date=[NSDate date];
-        book.downloadedDate=[NSDate date];
-        book.downloaded=@YES;
-        book.textBook=@3;
-        
-        //book.downloaded=[NSNumber numberWithBool:NO];
-        NSError *error=nil;
-        if (![managedObjectContext save:&error]) {
-            NSLog(@"%@",error);
-        }
-        
-    }
-    destPath=@"1331.epub";
-    destPath=[string stringByAppendingPathComponent:destPath];
-    insPath = @"1331.epub";
-    srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:insPath];
-    // NSLog(@"src path %@ des path %@",srcPath,temp);
-    if (![fileManager fileExistsAtPath:destPath]) {
-        [fileManager copyItemAtPath:srcPath  toPath:destPath error:nil];
-        if (error) {
-            NSLog(@"error %@",[error description]);
-        }else{
-            NSURL *url=[[NSURL alloc]initFileURLWithPath:destPath];
-            //NSURLIsExcludedFromBackupKey
-            [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error];
-            // [url release];
-        }
-    }
-   // [vayuTheWind release];
-  
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
       
         self.window.rootViewController = nav;
-        //[nav release];
         [self.window makeKeyAndVisible];
-    }else{
+    } else {
+        CustomNavViewController *nav;
+        if (uiNew) {
+            _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+            nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+        }else{
         _loginViewController=[[LoginViewController alloc]init];
-        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
-   
+        nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
+        }
         self.window.rootViewController = nav;
  
         [self.window makeKeyAndVisible];
     }
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+        
     [self addSkipBackupAttribute];
-    [self performSelectorInBackground:@selector(unzipExisting) withObject:nil];
+    
     // convert all directories out of backup
     _location=[self applicationDocumentsDirectory];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"bkup"]) {
@@ -276,12 +105,32 @@
 
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"bkup"];
- [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge];
-    [Appirater appLaunched:YES];
+    
+    // Load the FBProfilePictureView
+    // You can find more information about why you need to add this line of code in our troubleshooting guide
+    // https://developers.facebook.com/docs/ios/troubleshooting#objc
+    [FBProfilePictureView class];
+    
     return YES;
 }
+
+// In order to process the response you get from interacting with the Facebook login process,
+// you need to override application:openURL:sourceApplication:annotation:
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
+    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    
+    // You can add your app-specific url handling code here if needed
+    
+    return wasHandled;
+}
+
 -(void)addSkipAttribute:(NSString *) string{
     const char* filePath = [string fileSystemRepresentation];
     
@@ -291,43 +140,9 @@
     int result =  setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
     NSLog(@"Result %d",result);
 }
+
 void uncaughtExceptionHandler(NSException *exception) {
     [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
-}
--(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    NSLog(@"Error %@",error);
-}
--(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-    NSString* newToken = [deviceToken description];
-	newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-	newToken = [newToken stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *urlString=[NSString stringWithFormat:@"%@apns_device_request",[[NSUserDefaults standardUserDefaults]objectForKey:@"baseurl"]  ];
-    NSURL *url;//=[NSURL URLWithString:@"http://192.168.0.107:3000/api/v1/apns_device_request"];
-    url=[NSURL URLWithString:urlString];
-    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    NSMutableDictionary *dictionary=[[NSMutableDictionary alloc]init];
-   // "apns": {  "udid": " ", "devise_token": " "  }
-    [dictionary setValue:@"Not Allowed" forKey:@"udid"];
-    [dictionary setValue:newToken forKey:@"device_token"];
-    NSMutableDictionary *apns=[[NSMutableDictionary alloc]init];
-    [apns setValue:dictionary forKey:@"apns"];
-    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:apns options:NSJSONWritingPrettyPrinted error:nil];
-    [request setHTTPBody:jsonData];
-  //  NSLog(@"json token %@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSURLResponse *response;
-    NSError *error;
-    /*NSData *responseData=*/[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (error) {
-        NSLog(@"Error %@",error);
-    }else{
-    //    NSLog(@"responseData %@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
-    }
-    // send device token
-}
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    
 }
 
 -(void)removeBackDirectory{
@@ -364,8 +179,71 @@ void uncaughtExceptionHandler(NSException *exception) {
         
     }
 }
+
+-(void)unzipExistingJsonBooks{
+    NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
+    NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
+    
+    for (NSString *string in epubFles) {
+        //location
+        NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+        NSString *value=[string stringByDeletingPathExtension];
+        
+        NSLog(@"EpubLocation: %@, Value: %@", epubLocation, value);
+            // unzip the file
+        [self unzipAndSaveFile:epubLocation withString:value];
+        // provide do not backup attribute to folder itself
+        [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
+        // delete the zip since it is unzipped
+        [self SendToEJDB:[epubLocation stringByDeletingPathExtension] WithId:nil];
+
+        [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
+    }
+}
+
+-(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
+    NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
+    NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
+    
+    NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles firstObject]];
+    NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
+    
+    [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
+    
+}
+
+-(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{
+    ZipArchive* za = [[ZipArchive alloc] init];
+   // NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
+    NSLog(@"zip %@",location);
+    
+    if( [za UnzipOpenFile:location] ){
+        
+		NSFileManager *filemanager=[[NSFileManager alloc] init];
+        NSString *destination;
+        destination = [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], folderName];
+        
+        NSLog(@"Unzip Destination: %@", destination);
+        
+		BOOL ret = [za UnzipFileTo:destination overWrite:YES];
+		if( NO==ret ){
+			// error handler here
+			UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error"
+														  message:@"An unknown error occured"
+														 delegate:self
+												cancelButtonTitle:@"OK"
+												otherButtonTitles:nil];
+			[alert show];
+		}else{
+            
+        }
+        [filemanager removeItemAtPath:location error:nil];
+		[za UnzipCloseFile];
+	}
+
+}
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity {
-	
+	NSLog(@"location %@",location);
 	ZipArchive* za = [[ZipArchive alloc] init];
 	if( [za UnzipOpenFile:location] ){
  
@@ -411,304 +289,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"Result %d",result);
 }
 
--(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
-    UIAlertView *alertFailed;
-    StoreBooks *books;
-    NSNumber *number;
-    BOOL restored;
-    restored=NO;
-    NSDictionary *diction;
-    NSData *jsonData;
-    NSString *valueJson;
-    NSData *data;
-    NSData *transactionReciept;
-    NSString *encode;
-    NSString *identifier;
-    for (SKPaymentTransaction *transaction in transactions) {
-       identifier= transaction.payment.productIdentifier;
-        NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-        [dict setValue:identifier forKey:@"identity"];
-        switch (transaction.transactionState) {
-            case SKPaymentTransactionStateFailed:
-                alertFailed =[[UIAlertView alloc]initWithTitle:@"Error"message:@"Payment not performed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alertFailed show];
-              //  [alertFailed release];
-                
-                if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-                    [_loginViewController transactionFailed];
-                }else{
-                    [_loginViewControllerIphone transactionFailed];
-                    
-                }
-                [dict setValue:[transaction.error debugDescription] forKey:@"error"];
-                [Flurry logEvent:@"payment failed" withParameters:dict];
-                    [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-                break;
-            case SKPaymentTransactionStatePurchased:
-                //[self purchaseValidation:transaction];
-                /*
-                 This code will get the price again from the Apple Server. Then validate the purchase and send the price to Apple
-                 */
-                [self requestPrice:transaction];
-
-                break;
-            case SKPaymentTransactionStateRestored:
-                number=@(transaction.payment.productIdentifier.integerValue);
-                books= [_dataModel getBookById:number];
-                [_dataModel insertBookWithNo:books];
-               // [number release];
-//                string=[[NSString alloc]initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];
-//                NSLog(@"string %@",string);
-                data=transaction.transactionReceipt;
-                transactionReciept=transaction.transactionReceipt;
-                encode=[Base64 encode:transactionReciept];
-                 diction=[[NSMutableDictionary alloc]init];
-                [diction setValue:encode forKey:@"receipt_data"];
-                jsonData=[NSJSONSerialization dataWithJSONObject:diction options:NSJSONWritingPrettyPrinted error:nil];
-                
-                valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-             //   NSLog(@"value json request %@",valueJson);
-                [Flurry logEvent:@"book restored" withParameters:dict];
-                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-                restored=YES;
-                
-                break;
-            case SKPaymentTransactionStatePurchasing:
-                NSLog(@"Purchasing");
-                break;
-            default:
-                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                
-        }
-    }//end for
-    if (restored) {
-        if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-            [_loginViewController transactionRestored];
-
-        }else{
-            [_loginViewControllerIphone transactionRestored];
-
-        }
-    }
-
-}
--(void)requestPrice:(SKPaymentTransaction *)transaction{
-    NSString *iden=[NSString stringWithFormat:@"%d",transaction.payment.productIdentifier.integerValue ];
-    NSSet *prodIds=[NSSet setWithObject:iden];
-    SKProductsRequest *productRequest=[[SKProductsRequest alloc]initWithProductIdentifiers:prodIds];
-    productRequest.delegate=self;
-    [productRequest start];
-    /*the start function will call productRequest:didReceiveResponse 
-     */
-    _transaction=transaction;
-}
--(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
-    _product=[response.products lastObject];
-    [self purchaseValidation];
-}
--(void)purchaseValidation {
-    NSMutableURLRequest *request;
-    NSMutableDictionary *dictionary;
-    NSNumber *userid;
-    NSData *jsonData;
-    NSString *valueJson;
-    _identity=_transaction.payment.productIdentifier.integerValue;
-    
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"email"])
-    {
-        request=[[NSMutableURLRequest alloc]init];
-        dictionary=[[NSMutableDictionary alloc]init];
-        userid=[[NSUserDefaults standardUserDefaults]objectForKey:@"id"];
-        [dictionary setValue:userid forKey:@"user_id"];
-        [dictionary setValue:@(_identity) forKey:@"book_id"];
-        [dictionary setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"auth_token"] forKey:@"auth_token"];
-        [dictionary setValue:_product.price forKey:@"amount"];
-        NSData *transactionReciept=_transaction.transactionReceipt;
-        NSString *encode=[Base64 encode:transactionReciept];
-        
-        [dictionary setValue:encode forKey:@"receipt_data"];
-        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-        
-        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        //NSLog(@"JSON data %@",valueJson);
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate",[defaults objectForKey:@"baseurl"] ];
-        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
-       // NSLog(@"reciept validation %@",urlString);
-        [request setURL:[NSURL URLWithString:urlString]];
-        NSURLResponse *response;
-        NSError *error;
-        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (error) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alertView show];
-        }else{
-            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSString *value= dictionary[@"message"];
-            if ([value isEqualToString:@"purchase successful!"]) {
-                StoreBooks *books=[self.dataModel getBookById:@(_identity)];
-                NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",books.title ];
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-                // [alertViewDelegate autorelease];
-                alertView.tag=2000;
-                [alertView show];
-                //   [alertView release];
-                
-                
-            }else{
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alertView show];
-            
-            }
-            [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
-        }
-        
-        
-    }else// no email
-    {
-        NSURLResponse *response;
-        NSError *error;
-        request=[[NSMutableURLRequest alloc]init];
-        dictionary=[[NSMutableDictionary alloc]init];
-        [dictionary setValue:_product.price forKey:@"amount"];
-        NSData *transactionReciept=_transaction.transactionReceipt;
-        NSString *encode=[Base64 encode:transactionReciept];
-        [dictionary setValue:encode forKey:@"receipt_data"];
-        jsonData=[NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-        
-        valueJson=[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-     //   NSLog(@"value json request %@",valueJson);
-        // [valueJson release];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-        
-        NSString *urlString=[NSString stringWithFormat:@"%@receipt_validate_without_signed_in.json",[defaults objectForKey:@"baseurl"] ];
-        //   urlString=@"http://192.168.2.29:3000/api/v1/receipt_validate";
-        //NSLog(@"reciept validation %@",urlString);
-        [request setURL:[NSURL URLWithString:urlString]];
-        NSData *data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (error) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alertView show];
-        }else{
-            NSDictionary *dictionary=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSNumber *value= dictionary[@"status"];
-            if (value.integerValue==0) {
-                StoreBooks *books=[self.dataModel getBookById:@(_identity)];
-                NSString *message=[NSString stringWithFormat:@"Do you wish to download book titled %@ now?",books.title ];
-
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Purchase Successful" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles: @"YES", nil];
-                // [alertViewDelegate autorelease];
-                alertView.tag=2000;
-                [alertView show];
-
-        
-            }else{
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Purchase failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alertView show];
-                
-            }
-            [[SKPaymentQueue defaultQueue]finishTransaction:_transaction];
-
-        
-        }
-        
-        
-    }
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
- if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
-    {
-    NSNumber *identity=@(_identity);
-    StoreBooks *books=[self.dataModel getBookById:identity];
-    float size=[books.size floatValue];
-    //  [image release];
-//    NSLog(@"%ll",size );
-//    size=size/1024.0f;
-//    NSLog(@"%f",size );
-//    size=size/1024.0f;
-//    NSLog(@"%f",size);
-    if (buttonIndex==1) {// yes is case
-        if (size>[self getFreeDiskspace]) {
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alertView show];
-            [self.dataModel insertBookWithNo:books];
-            [self.loginViewController refreshDownloads];
-
-        }else{// if there is sufficient space
-            if (!_addControlEvents) {
-                UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
-                [down show];
-                [self.dataModel insertBookWithNo:books];
-                [self.loginViewController refreshDownloads];
-
-            }//end if add controlevents
-            else{
-                [self.dataModel insertBookWithYes:books];
-                [self.loginViewController liveViewControllerDismiss];
-                NSString *valu=[[NSString alloc]initWithFormat:@"%d.epub",_identity ];
-                Book *bookToDownload=[self.dataModel getBookOfId:valu];
-                if (![_loginViewController downloadBook:bookToDownload]) {
-                    bookToDownload.downloaded=@NO;
-                    [self.dataModel saveData:bookToDownload];
-                }
-                
-            }
-            
-        }
-        }else{/// no is the case
-                [self.dataModel insertBookWithNo:books];
-        
-            }
-            [self.loginViewController liveViewControllerDismiss];
-            [self.loginViewController refreshDownloads];
-    }else if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
-        NSNumber *identity=@(_identity);
-        StoreBooks *books=[self.dataModel getBookById:identity];
-        float size=[books.size floatValue];
-        //  [image release];
-        NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-        size=size/1024.0f;
-        NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-        size=size/1024.0f;
-        NSLog(@"%@",[NSNumber numberWithLongLong:size] );
-
-        if (buttonIndex==1) {
-            if (size>[self getFreeDiskspace]) {
-                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alertView show];
-                [self.dataModel insertBookWithNo:books];
-                [self.loginViewControllerIphone downloadViewControllerRefreshUI];
-                
-            }else // if there is space
-                {
-                    if (_downloadBook) {
-                        UIAlertView *down=[[UIAlertView alloc]initWithTitle:@"Downloading.." message:@"Cannot start downloading as previous download is not complete" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
-                        [down show];
-                        [_dataModel insertBookWithNo:books ];
-                        [self.loginViewControllerIphone downloadViewControllerRefreshUI];
-
-                    }else{
-                        [_dataModel insertBookWithYes:books];
-                        [self.loginViewControllerIphone downloadComplete:_identity];
-                    }
-                }// end else of if there is freespace
-        }        
-        else
-        {
-            [_dataModel insertBookWithNo:books];
-            [self.loginViewControllerIphone downloadViewControllerRefreshUI];
-        }
-                
-    }
-[self.loginViewControllerIphone dismissStoreViewController];
-}
 -(uint64_t)getFreeDiskspace {
     uint64_t totalSpace = 0;
     uint64_t totalFreeSpace = 0;
@@ -728,18 +308,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     return totalFreeSpace;
 }
--(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
-    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-        [_loginViewController restoreFailed];
-    }else{
-        [_loginViewControllerIphone restoreFailed];
-    }
-}
 
 -(void)applicationDidEnterBackground:(UIApplication *)application{
     [Flurry logEvent:@"Application went to background thus downloads and connection request will close"];
 
 }
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -765,6 +339,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+
+#pragma mark - After Download
 
 #pragma mark -
 #pragma mark Memory management
@@ -806,7 +382,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
                                                stringByAppendingPathComponent: @"MangoReader.sqlite"]];
     NSError *error = nil;
-       
+    
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
     						 NSInferMappingModelAutomaticallyOption: @YES};
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
@@ -869,7 +445,100 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)insertInStore{
     [_loginViewController insertInStore];
 }
++(void)adjustForIOS7:(UIView *)view{
+    if(    [UIDevice currentDevice].systemVersion.integerValue>=7){
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect frame=view.frame;
+    frame.origin.y=20;
+        frame.size.height=screenBounds.size.height-20;
+        view.frame=frame;
+    }
+    
+}
++(void)showAlertView{
+   alertViewLoading= [[UIAlertView alloc]init];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
+    [indicator startAnimating];
+    [alertViewLoading addSubview:indicator];
+    // [indicator release];
+    [alertViewLoading setTitle:@"Loading...."];
+    
+    
+    
+    [alertViewLoading show];
 
-
+}
++(void)showAlertViewiPad{
+    alertViewLoading =[[UIAlertView alloc]init];
+    
+    
+    UIImage *image=[UIImage imageNamed:@"loading.png"];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-40, -160, 391, 320)];
+    imageView.layer.cornerRadius = 5.0;
+    imageView.layer.masksToBounds = YES;
+    
+    imageView.image=image;
+    [alertViewLoading addSubview:imageView];
+    UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(125, 25, 66.0f, 66.0f)];
+    indicator.color=[UIColor blackColor];
+    [indicator startAnimating];
+    [alertViewLoading addSubview:indicator];
+    [alertViewLoading show];
+}
++(UIAlertView *) getAlertView{
+    return alertViewLoading;
+}
++(void)hideAlertView{
+    if(alertViewLoading){
+        [alertViewLoading dismissWithClickedButtonIndex:0 animated:YES];}
+    alertViewLoading =nil;
+    
+}
++(void)hideTabBar:(UITabBarController *)tabbarcontroller
+{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    float fHeight = screenRect.size.height;
+    if(  UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) )
+    {
+        fHeight = screenRect.size.width;
+    }
+    
+    for(UIView *view in tabbarcontroller.view.subviews)
+    {
+        if([view isKindOfClass:[UITabBar class]])
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, fHeight, view.frame.size.width, view.frame.size.height)];
+        }
+        else
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, fHeight)];
+            view.backgroundColor = [UIColor blackColor];
+        }
+    }
+}
++ (UIColor *) colorFromHexString:(NSString *)hexString {
+    NSString *cleanString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    if([cleanString length] == 3) {
+        cleanString = [NSString stringWithFormat:@"%@%@%@%@%@%@",
+                       [cleanString substringWithRange:NSMakeRange(0, 1)],[cleanString substringWithRange:NSMakeRange(0, 1)],
+                       [cleanString substringWithRange:NSMakeRange(1, 1)],[cleanString substringWithRange:NSMakeRange(1, 1)],
+                       [cleanString substringWithRange:NSMakeRange(2, 1)],[cleanString substringWithRange:NSMakeRange(2, 1)]];
+    }
+    if([cleanString length] == 6) {
+        cleanString = [cleanString stringByAppendingString:@"ff"];
+    }
+    
+    unsigned int baseValue;
+    [[NSScanner scannerWithString:cleanString] scanHexInt:&baseValue];
+    
+    float red = ((baseValue >> 24) & 0xFF)/255.0f;
+    float green = ((baseValue >> 16) & 0xFF)/255.0f;
+    float blue = ((baseValue >> 8) & 0xFF)/255.0f;
+    float alpha = ((baseValue >> 0) & 0xFF)/255.0f;
+    
+    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
 @end
 

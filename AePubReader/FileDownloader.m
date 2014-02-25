@@ -44,12 +44,19 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.addControlEvents=YES;
     [delegate.dataModel saveData:_book];
-    UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[1];
-    StoreViewController *store=(StoreViewController *)[nav topViewController];
+    UINavigationController *nav=(_libViewController.tabBarController.viewControllers)[2];
+    DownloadViewControlleriPad *store=(DownloadViewControlleriPad *)[nav topViewController];
     [(_libViewController.navigationItem.rightBarButtonItems)[0] setEnabled:YES];
-    [store BuildButtons];
+    //[store BuildButtons];
   _libViewController.downloadFailed=YES;
-    
+    _libViewController.epubFiles=[delegate.dataModel getDataDownloaded];
+    [_libViewController.collectionView reloadData];
+    store.listOfBooks=[delegate.dataModel getDataNotDownloaded];
+    store.dataSource.array=store.listOfBooks;
+    [store.collectionView reloadData];
+    [store.pstCollectionView reloadData];
+    _libViewController.dataSource.array=[delegate.dataModel getDataDownloaded];
+    [_libViewController.pstcollectionView reloadData];
     [_libViewController.tabBarController setSelectedIndex:1];
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
    // [_buttonindicator setTitle:@"" forState:UIControlStateNormal];
@@ -132,7 +139,7 @@
     [[NSFileManager defaultManager]removeItemAtPath:_loc error:nil];
     _libViewController.showDeleteButton=NO;
     
-    [_libViewController.tabBarController setSelectedIndex:0];
+    [_libViewController.tabBarController setSelectedIndex:1];
   //  [url release];
    [_progress setAlpha:0.0];  
 [_progress removeFromSuperview];
