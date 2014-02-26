@@ -14,6 +14,7 @@
 #import "LoginViewController.h"
 #import "LoginNewViewController.h"
 #import "EJDBController.h"
+#import "UserInfo.h"
 
 @class EPubViewController;
 @class LoginViewController;
@@ -50,6 +51,7 @@
 @property (strong,nonatomic) SKPaymentTransaction *transaction;
 @property (strong,nonatomic) LoginNewViewController *loginController;
 
+@property (nonatomic, strong) UserInfo *loggedInUserInfo;
 
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;

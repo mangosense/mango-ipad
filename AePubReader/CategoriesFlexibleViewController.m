@@ -208,12 +208,12 @@
     MangoApiController *apiController = [MangoApiController sharedApiController];
     
     NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN]) {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.loggedInUserInfo) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
-        [paramsdict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:EMAIL] forKey:EMAIL];
+        [paramsdict setObject:appDelegate.loggedInUserInfo.authToken forKey:AUTH_TOKEN];
+        [paramsdict setObject:appDelegate.loggedInUserInfo.email forKey:EMAIL];
         
         [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
     }

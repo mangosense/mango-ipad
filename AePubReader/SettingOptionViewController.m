@@ -8,6 +8,9 @@
 
 #import "SettingOptionViewController.h"
 #import "Constants.h"
+#import "AePubReaderAppDelegate.h"
+#import "EJDBController.h"
+#import "UserInfo.h"
 
 @interface SettingOptionViewController ()
 
@@ -128,9 +131,18 @@
             [_dismissDelegate dismissPopOver];
             
             //Removing User-Id; Added when user logged In with Email-Password
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID];
+            /*[[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID];
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:AUTH_TOKEN];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSUserDefaults standardUserDefaults] synchronize];*/
+            
+            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+            if (appDelegate.loggedInUserInfo) {
+                UserInfo *loggedInUserInfo = [appDelegate.ejdbController getUserInfoForId:appDelegate.loggedInUserInfo.id];
+                [appDelegate.ejdbController deleteObject:loggedInUserInfo];
+                
+                appDelegate.loggedInUserInfo = nil;
+            }
+            
         }
             break;
             

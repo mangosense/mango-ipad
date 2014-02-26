@@ -18,6 +18,7 @@
 - (void)saveStoryId:(NSNumber *)storyId;
 - (void)updateBookProgress:(int)progress;
 - (void)bookDownloaded;
+- (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
 
 @end
 
@@ -29,11 +30,12 @@
 
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate;
-- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew;
+- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew Name:(NSString *)name;
 - (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON;
 - (void)saveNewBookWithJSON:(NSString *)bookJSON;
 - (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate;
+- (void)loginWithFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
 
 #pragma mark - Validate Receipt
 - (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;

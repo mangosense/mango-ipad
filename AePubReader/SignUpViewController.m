@@ -12,6 +12,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "Constants.h"
 #import "LandPageChoiceViewController.h"
+#import "MBProgressHUD.h"
 
 @interface SignUpViewController ()
 
@@ -54,8 +55,10 @@
         [alertView show];
     }
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES];
+    [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES Name:_nameFull.text];
     apiController.delegate = self;
 }
 
@@ -75,11 +78,10 @@
 #pragma mark - PostAPI Delegate Method
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
-    if (userDetailsDictionary) {
+    if (userDetailsDictionary) {        
+        [_delegate saveUserInfo:userDetailsDictionary];
         
-        NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
-        [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self donePressed:nil];
         [_delegate goToNext];
     }
