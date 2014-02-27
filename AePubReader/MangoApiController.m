@@ -66,10 +66,10 @@
 
 - (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
                           block:(void (^)(id response, NSInteger type, NSString * error))block {
-    
-    NSUserDefaults * userdefaults = [NSUserDefaults standardUserDefaults];
-    NSString * userId = [userdefaults objectForKey:USER_ID];
-    NSString * authToken = [userdefaults objectForKey:AUTH_TOKEN];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    NSString * userId = appDelegate.loggedInUserInfo.id;
+    NSString * authToken = appDelegate.loggedInUserInfo.authToken;
     NSString * strMethod;
     NSDictionary *paramDict;
     
@@ -114,7 +114,7 @@
     AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Image Response: %@", responseObject);
+        //NSLog(@"Image Response: %@", responseObject);
         if ([delegate respondsToSelector:@selector(reloadImage:forUrl:)]) {
             [delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
         }
@@ -125,14 +125,15 @@
     [imageRequestOperation start];
 }
 
-- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew {
-    [[NSUserDefaults standardUserDefaults] setObject:email forKey:EMAIL];
-    
+- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew Name:(NSString *)name {    
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
     NSString *methodName = isNew ? SIGN_UP:LOGIN;
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, email, password, nil] forKeys:[NSArray arrayWithObjects:NAME, EMAIL, PASSWORD, nil]];
+    NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:EMAIL, PASSWORD, nil]];
+    if (name) {
+        [paramsDict setObject:name forKey:NAME];
+    }
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;
@@ -141,12 +142,40 @@
         }
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
+        if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
+            [_delegate saveUserDetails:@{}];
+        }
     }];
 }
 
-- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+- (void)loginWithFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    NSMutableDictionary *paramsDict = [[NSMutableDictionary alloc] init];
+    [paramsDict setObject:[facebookDetailsDictionary objectForKey:EMAIL] forKey:EMAIL];
+    [paramsDict setObject:[facebookDetailsDictionary objectForKey:@"id"] forKey:@"id"];
+    [paramsDict setObject:[facebookDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
+    [paramsDict setObject:[facebookDetailsDictionary objectForKey:FACEBOOK_TOKEN_EXPIRATION_DATE] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
+    [paramsDict setObject:[facebookDetailsDictionary objectForKey:USERNAME] forKey:USERNAME];
+    [paramsDict setObject:[facebookDetailsDictionary objectForKey:NAME] forKey:NAME];
+    
+    [manager POST:FACEBOOK_LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Login Response: %@", responseObject);
+        NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];
+        [responseDict setObject:[paramsDict objectForKey:USERNAME] forKey:USERNAME];
+        [responseDict setObject:[paramsDict objectForKey:NAME] forKey:NAME];
+        if ([_delegate respondsToSelector:@selector(saveFacebookDetails:)]) {
+            [_delegate saveFacebookDetails:responseDict];
+        }
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Login Error: %@", error);
+    }];
 
+}
+
+- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:bookId];
     
@@ -168,7 +197,7 @@
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
-    NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [[userDefaults objectForKey:EMAIL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [userDefaults objectForKey:AUTH_TOKEN]]];
+    NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSProgress *downloadProgress;
     
@@ -196,8 +225,8 @@
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
-    NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
     NSString *methodName = [NSString stringWithFormat:SAVE_STORY, bookId];
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Save Story Response: %@", responseObject);
@@ -217,11 +246,9 @@
     
     bookJSON = @"{\"title\": \"NewTestBookKedar\",\"language\": \"English\",\"pages\": [{\"id\": \"Cover\",\"name\": \"Cover\",\"layers\": []},{\"id\": 1,\"json\": {\"id\": 1,\"name\": 1,\"type\": \"page\",\"layers\": []}}]}";
     
-    NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
-    
-    NSLog(@"auth values --- %@, %@, %@", [appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON);
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
-    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+
     [manager POST:NEW_STORY parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Save Story Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;

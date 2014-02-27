@@ -14,6 +14,8 @@
 #import "MangoImageLayer.h"
 #import "MangoTextLayer.h"
 #import "MangoAudioLayer.h"
+#import "UserInfo.h"
+
 @interface EJDBController : NSObject
 
 @property (nonatomic, strong) EJDBCollection *collection;
@@ -23,6 +25,8 @@
 - (BOOL)insertOrUpdateObject:(id)object;
 - (void)parseBookJson:(NSData *)bookJsonData WithId:(NSNumber *)numberId AtLocation:(NSString *)filePath;
 
+- (NSArray *)getAllUserInfoObjects;
+- (UserInfo *)getUserInfoForId:(NSString *)userId;
 - (MangoBook *)getBookForBookId:(NSString *)bookId;
 - (MangoPage *)getPageForPageId:(NSString *)pageId;
 - (id)getLayerForLayerId:(NSString *)layerId;

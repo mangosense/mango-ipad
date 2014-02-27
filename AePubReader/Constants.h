@@ -86,6 +86,7 @@
 #define CUES @"wordTimes"
 #define WORDMAP @"wordMap"
 #define NAME @"name"
+#define USERNAME @"username"
 #define NUMBER_OF_GAMES @"widget_count"
 
 #pragma mark - URL's
@@ -118,6 +119,7 @@
 #define STORY_FILTER_GRADE @"livestories/by/grade/"
 #define SAVE_STORY @"livestories/%@/"
 #define NEW_STORY @"stories"
+#define FACEBOOK_LOGIN @"facebookapplogin.json"
 
 #pragma mark - API Parameter Keys
 
@@ -126,6 +128,7 @@
 #define BOOK_JSON @"json"
 #define PAGE_NUMBER @"page"
 #define LIMIT @"limit"
+#define FACEBOOK_TOKEN_EXPIRATION_DATE @"expirationDate"
 
 #pragma mark - Table Types
 

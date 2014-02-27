@@ -26,6 +26,7 @@
 		68A15FB518BC9CB900DB1AF0 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */; };
 		68A15FB918BC9F4A00DB1AF0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
+		8309295918BDCA1600FA401E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309295818BDCA1600FA401E /* UserInfo.m */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
 		8310414518A3BE3D000514CE /* PageThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310414418A3BE3D000514CE /* PageThumbnailView.m */; };
 		8310414718A4EEFE000514CE /* button_my-stories.png in Resources */ = {isa = PBXBuildFile; fileRef = 8310414618A4EEFE000514CE /* button_my-stories.png */; };
@@ -1107,6 +1108,8 @@
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		8303ED6118485FF600BE7671 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		8309295718BDCA1600FA401E /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		8309295818BDCA1600FA401E /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		830DE2A417D471E300399146 /* DrawingToolsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingToolsView.h; sourceTree = "<group>"; };
 		830DE2A517D471E300399146 /* DrawingToolsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingToolsView.m; sourceTree = "<group>"; };
 		8310414318A3BE3D000514CE /* PageThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageThumbnailView.h; sourceTree = "<group>"; };
@@ -2940,6 +2943,8 @@
 				AE1039CC1845EAC6008D122B /* MangoAudioLayer.m */,
 				838BF9CE184868A1003C8791 /* MangoCapturedImageLayer.h */,
 				838BF9CF184868A1003C8791 /* MangoCapturedImageLayer.m */,
+				8309295718BDCA1600FA401E /* UserInfo.h */,
+				8309295818BDCA1600FA401E /* UserInfo.m */,
 			);
 			name = EJDB;
 			sourceTree = "<group>";
@@ -5232,6 +5237,7 @@
 				29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */,
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,
 				AE61CB131828D1F1006956BE /* AFTableViewCell.m in Sources */,
+				8309295918BDCA1600FA401E /* UserInfo.m in Sources */,
 				AE0C57531829F5F700A923CF /* NewStoreViewControlleriPad.m in Sources */,
 				83539E431839F4AC0096DBF8 /* CustomScrollView.m in Sources */,
 				AEA7902B16B7E8C5009B9C11 /* CustomLeftView.m in Sources */,

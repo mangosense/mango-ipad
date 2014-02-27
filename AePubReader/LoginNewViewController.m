@@ -55,12 +55,29 @@
     
     // Add the button to the view
     [self.view addSubview:loginView];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
+    if ([userInfoObjects count] > 0) {
+        appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
+        [self goToNext:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Facebook Login API
+
+- (void)loginWithFacebook:(NSDictionary *)facebookDetailsDict {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController loginWithFacebookDetails:facebookDetailsDict];
 }
 
 #pragma mark - Facebook Login Methods
@@ -70,8 +87,16 @@
                             user:(id<FBGraphUser>)user {
     NSLog(@"%@", user);
     NSLog(@"FB Auth Token: %@", [[[FBSession activeSession] accessTokenData] accessToken]);
-    NSDictionary *userInfoDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[[FBSession activeSession] accessTokenData] accessToken], AUTH_TOKEN, [user objectForKey:@"id"], USER_ID, nil];
-    [self saveUserDetails:userInfoDictionary];
+    
+    NSMutableDictionary *facebookDict = [[NSMutableDictionary alloc] init];
+    [facebookDict setObject:[user objectForKey:EMAIL] forKey:EMAIL];
+    [facebookDict setObject:[user objectForKey:@"id"] forKey:@"id"];
+    [facebookDict setObject:[[[FBSession activeSession] accessTokenData] accessToken] forKey:AUTH_TOKEN];
+    [facebookDict setObject:[[[FBSession activeSession] accessTokenData] expirationDate] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
+    [facebookDict setObject:[user objectForKey:USERNAME] forKey:USERNAME];
+    [facebookDict setObject:[user objectForKey:NAME] forKey:NAME];
+    
+    [self loginWithFacebook:[NSDictionary dictionaryWithDictionary:facebookDict]];
 }
 
 // Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experience
@@ -134,7 +159,7 @@
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
-    [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO];
+    [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO Name:nil];
 }
 
 - (void)goToNext {
@@ -154,16 +179,39 @@
     [self presentViewController:signupViewController animated:YES completion:nil];
 }
 
+#pragma mark - User Info
+
+- (void)saveUserInfo:(NSDictionary *)userInfoDict {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    UserInfo *userInfo = [[UserInfo alloc] init];
+    userInfo.email = [userInfoDict objectForKey:EMAIL];
+    userInfo.id = [userInfoDict objectForKey:@"id"];
+    userInfo.authToken = [userInfoDict objectForKey:AUTH_TOKEN];
+    userInfo.facebookExpirationDate = [userInfoDict objectForKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
+    userInfo.username = [userInfoDict objectForKey:USERNAME];
+    userInfo.name = [userInfoDict objectForKey:NAME];
+    
+    [appDelegate.ejdbController insertOrUpdateObject:userInfo];
+    appDelegate.loggedInUserInfo = userInfo;
+}
+
 #pragma mark - API Delegate
+
+- (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
+    [self saveUserInfo:facebookDetailsDictionary];
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [self goToNext:nil];
+}
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
     if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
-        [PFAnalytics trackEvent:EVENT_LOGIN_EMAIL dimensions:[NSDictionary dictionaryWithObject:_emailTextField.text forKey:@"email"]];
-        NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
-        [appDefaults setObject:[userDetailsDictionary objectForKey:AUTH_TOKEN] forKey:AUTH_TOKEN];
-        [appDefaults setObject:[userDetailsDictionary objectForKey:@"id"] forKey:USER_ID];
+        [self saveUserInfo:userDetailsDictionary];
+        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self goToNext:nil];
     } else {
         UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your email and password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];

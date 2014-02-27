@@ -11,6 +11,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "Book.h"
+
 @implementation EJDBController
 
 - (id)initWithCollectionName:(NSString *)collectionName andDatabaseName:(NSString *)databaseName {
@@ -30,6 +31,16 @@
 }
 
 #pragma mark - Get Objects
+
+- (NSArray *)getAllUserInfoObjects {
+    NSArray *userInfoObjects = [_db findObjectsWithQuery:@{@"authToken":@{@"$exists":@YES}} inCollection:_collection error:nil];
+    return userInfoObjects;
+}
+
+- (UserInfo *)getUserInfoForId:(NSString *)userId {
+    UserInfo *userInfo = [_collection fetchObjectWithOID:userId];
+    return userInfo;
+}
 
 - (MangoBook *)getBookForBookId:(NSString *)bookId {
     MangoBook *book = [_collection fetchObjectWithOID:bookId];

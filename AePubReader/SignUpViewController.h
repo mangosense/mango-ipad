@@ -13,6 +13,7 @@
 @protocol PostSignupDelegate <NSObject>
 
 - (void)goToNext;
+- (void)saveUserInfo:(NSDictionary *)userInfoDict;
 
 @end
 
