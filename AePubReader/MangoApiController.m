@@ -113,7 +113,7 @@
     AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Image Response: %@", responseObject);
+        //NSLog(@"Image Response: %@", responseObject);
         if ([delegate respondsToSelector:@selector(reloadImage:forUrl:)]) {
             [delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
         }

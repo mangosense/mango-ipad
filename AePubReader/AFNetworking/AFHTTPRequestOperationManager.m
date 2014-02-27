@@ -119,6 +119,7 @@
 {
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
     NSLog(@"Request URL: %@", [[request URL] absoluteString]);
+    request.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
     [self.operationQueue addOperation:operation];
