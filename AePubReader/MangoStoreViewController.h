@@ -19,6 +19,7 @@
 @interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, iCarouselImageCachingProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, PurchaseManagerProtocol ,UITextFieldDelegate, BookViewProtocol>
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;
+@property (nonatomic, assign) int tableType;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;

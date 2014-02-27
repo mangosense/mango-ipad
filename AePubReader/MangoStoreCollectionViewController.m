@@ -92,7 +92,6 @@
 
 - (void)getFilteredStories {
     MangoApiController *apiController = [MangoApiController sharedApiController];
-//    apiController.delegate = self;
     
     NSString *url;
     

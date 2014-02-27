@@ -36,7 +36,6 @@
 @property (nonatomic, assign) BOOL featuredStoriesFetched;
 @property (nonatomic, strong) NSMutableArray *purchasedBooks;
 @property (nonatomic, strong) NSString *currentProductPrice;
-@property (nonatomic, assign) int liveStoriesForAgeCounter;
 @property (nonatomic, strong) HKCircularProgressView *progressView;
 @property (nonatomic, strong) NSString *selectedBookId;
 
@@ -46,7 +45,6 @@
 
 @synthesize filterPopoverController;
 @synthesize liveStoriesFiltered;
-@synthesize liveStoriesForAgeCounter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -163,7 +161,6 @@
         
         MangoApiController *apiController = [MangoApiController sharedApiController];
         
-        liveStoriesForAgeCounter = 0;
         //Get Stories For Age Groups
         for (NSDictionary *ageGroupDict in self.ageGroupsFoundInResponse) {
             NSString *ageGroup = [ageGroupDict objectForKey:NAME];
@@ -190,16 +187,21 @@
             liveStoriesFiltered = [[NSMutableDictionary alloc] init];
         }
         [liveStoriesFiltered setObject:dataArray forKey:ageGroup];
+    } else {
+        NSArray *methodNameComponents = [type componentsSeparatedByString:@"/"];
+        NSString *filterString = [methodNameComponents lastObject];
         
-        liveStoriesForAgeCounter += 1;
+        if (!liveStoriesFiltered) {
+            liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+        }
+        [liveStoriesFiltered removeAllObjects];
+        [liveStoriesFiltered setObject:dataArray forKey:filterString];
     }
     
-    //if (liveStoriesForAgeCounter == [self.ageGroupsFoundInResponse count] && _featuredStoriesFetched) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-        [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-        [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-    //}
+    [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
@@ -240,12 +242,60 @@
 
 #pragma mark - Get Books
 
+- (void)getFilteredStories:(NSString *)filterName {
+    filterName = [filterName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    
+    NSString *url;
+    
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
+    
+    switch (_tableType) {
+        case TABLE_TYPE_CATEGORIES: {
+            url = [STORY_FILTER_CATEGORY stringByAppendingString:filterName];
+        }
+            break;
+            
+        case TABLE_TYPE_AGE_GROUPS: {
+            url = [STORY_FILTER_AGE_GROUP stringByAppendingString:filterName];
+        }
+            break;
+            
+        case TABLE_TYPE_LANGUAGE: {
+            url = [STORY_FILTER_LANGUAGES stringByAppendingString:filterName];
+        }
+            break;
+            
+        case TABLE_TYPE_GRADE: {
+            url = [STORY_FILTER_GRADE stringByAppendingString:filterName];
+        }
+            break;
+            
+        case TABLE_TYPE_SEARCH: {
+            url = LIVE_STORIES_SEARCH;
+            [paramDict setObject:filterName forKey:@"q"];
+        }
+            break;
+            
+        default:
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [_booksCollectionView reloadData];
+            return;
+    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+}
+
 - (void)getAllAgeGroups {
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController getListOf:AGE_GROUPS ForParameters:nil withDelegate:self];
 }
 
 - (void)setupInitialUI {
+    _tableType = TABLE_TYPE_MAIN_STORE;
     [self getAllAgeGroups];
     
     CGRect viewFrame = self.view.bounds;
@@ -273,11 +323,9 @@
         detailTitle = detailId;     // id is same as title.... detailTitle will be nil.
     }
     
-    MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
-    selectedCategoryViewController.tableType = itemType;
-    selectedCategoryViewController.selectedItemDetail = detailId;       // Used for API call
-    selectedCategoryViewController.selectedItemTitle = detailTitle;     // Used for setting View's Title  :: Both vary e.g. as in case of category above will be an Alphanumeric value (id)
-    [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
+    _tableType = itemType;
+    
+    [self getFilteredStories:detailTitle];
 }
 
 - (void)seeAllTapped:(NSInteger)section {
@@ -300,7 +348,6 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
-    //TODO: Need to set images to carousel
     iCarouselImageView *storyImageView = (iCarouselImageView *)[view viewWithTag:iCarousel_VIEW_TAG];
     
     if (!storyImageView) {
@@ -404,127 +451,190 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    if(section == 0) {
-        return 1;
-    } else {
-        NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
-        if ([liveStoriesFiltered objectForKey:ageGroup]) {
-            return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if(section == 0) {
+                return 1;
+            } else {
+                NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
+                if ([liveStoriesFiltered objectForKey:ageGroup]) {
+                    return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
+                }
+                return 6;
+            }
         }
-        return 6;
+            break;
+            
+        default: {
+            return [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] count];
+        }
+            break;
     }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return self.ageGroupsFoundInResponse.count + 1;          // +1 for iCarousel at Section - 0.
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            return self.ageGroupsFoundInResponse.count + 1;          // +1 for iCarousel at Section - 0.
+        }
+            break;
+            
+        default: {
+            return 1;
+        }
+            break;
+    }
+    return 0;          // +1 for iCarousel at Section - 0.
+}
+
+- (void)setupCollectionViewCell:(StoreBookCell *)cell WithDict:(NSDictionary *)bookDict {
+    cell.bookPriceLabel.text = [NSString stringWithFormat:@"%.2f", [[bookDict objectForKey:@"price"] floatValue]];
+    
+    cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+    [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
+    [cell setNeedsLayout];
+    
+    cell.imageUrlString = [[bookDict objectForKey:@"cover"] stringByReplacingOccurrencesOfString:@"cover_" withString:@"thumb_"];
+    if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]]) {
+        cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
+    } else {
+        [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section == 0) {
-        StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
-        
-        if (!_storiesCarousel) {
-            _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
-            _storiesCarousel.delegate = self;
-            _storiesCarousel.dataSource = self;
-            _storiesCarousel.type = iCarouselTypeCoverFlow;
-            [cell.contentView addSubview:_storiesCarousel];
-        }
-        
-        [_storiesCarousel reloadData];
-        return cell;
-    } else {
-        StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
-        
-        //        cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
-        cell.delegate = self;
-        
-        NSDictionary *bookDict;
-        
-        if(liveStoriesFiltered) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section-1] objectForKey:NAME];
-            bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
-            
-            if (bookDict) {
-                cell.bookPriceLabel.text = [NSString stringWithFormat:@"%.2f", [[bookDict objectForKey:@"price"] floatValue]];
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if(indexPath.section == 0) {
+                StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
                 
-                cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-                [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
-                [cell setNeedsLayout];
-                
-                cell.imageUrlString = [bookDict objectForKey:@"cover"];
-                if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]]) {
-                    cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
-                } else {
-                    [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]]];
+                if (!_storiesCarousel) {
+                    _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                    _storiesCarousel.delegate = self;
+                    _storiesCarousel.dataSource = self;
+                    _storiesCarousel.type = iCarouselTypeCoverFlow;
+                    [cell.contentView addSubview:_storiesCarousel];
                 }
+                
+                [_storiesCarousel reloadData];
+                return cell;
+            } else {
+                StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+                cell.delegate = self;
+                
+                if(liveStoriesFiltered) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section-1] objectForKey:NAME];
+                    NSDictionary *bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
+                    
+                    if (bookDict) {
+                        [self setupCollectionViewCell:cell WithDict:bookDict];
+                    }
+                }
+                
+                return cell;
             }
         }
-
-        return cell;
+            break;
+            
+        default: {
+            StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+            cell.delegate = self;
+            
+            if(liveStoriesFiltered) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                NSDictionary *bookDict= [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] objectAtIndex:indexPath.row];
+                
+                if (bookDict) {
+                    [self setupCollectionViewCell:cell WithDict:bookDict];
+                }
+            }
+            
+            return cell;
+        }
+            break;
     }
+    return nil;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section != 0) {
-        StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
-        headerView.titleLabel.textColor = COLOR_DARK_RED;
-        headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        headerView.titleLabel.text = [[self.ageGroupsFoundInResponse[indexPath.section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
-        headerView.section = indexPath.section;
-        headerView.delegate = self;
-        
-        if(liveStoriesFiltered) {
-            headerView.seeAllButton.hidden = NO;
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if(indexPath.section != 0) {
+                StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
+                headerView.titleLabel.textColor = COLOR_DARK_RED;
+                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+                headerView.titleLabel.text = [[self.ageGroupsFoundInResponse[indexPath.section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
+                headerView.section = indexPath.section;
+                headerView.delegate = self;
+                
+                if(liveStoriesFiltered) {
+                    headerView.seeAllButton.hidden = NO;
+                }
+                
+                return headerView;
+            } else {
+                UICollectionReusableView *headerViewForCarousel = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Section0" forIndexPath:indexPath];
+                return headerViewForCarousel;
+            }
         }
-        
-        return headerView;
-    } else {
-        UICollectionReusableView *headerViewForCarousel = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Section0" forIndexPath:indexPath];
-        return headerViewForCarousel;
+            break;
+            
+        default:
+            break;
     }
+    return nil;
 }
 
 #pragma mark - UICollectionView Delegate
 
+- (void)showBookDetailsForBook:(NSDictionary *)bookDict {
+    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    bookDetailsViewController.delegate = self;
+    
+    [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        bookDetailsViewController.ageLabel.text = @"";
+        bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+        bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        
+        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+    }];
+    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == 0) {
-        
-    } else {
-        
-        NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
-        NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
-
-        if (bookDict) {
-            BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-            bookDetailsViewController.delegate = self;
-            
-            [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-            [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
-                bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-                bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", ageGroup];
-                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
-                bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-                bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
-                bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if (indexPath.section == 0) {
                 
-                bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-                bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
-            }];
-            bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
-            
-            
-            /*NSString *productId = [bookDict objectForKey:@"id"];
-             if (productId != nil && productId.length > 0) {
-             [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
-             }
-             else {
-             NSLog(@"Product dose not have relative Id");
-             }*/
+            } else {
+                
+                NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
+                NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
+                
+                if (bookDict) {
+                    [self showBookDetailsForBook:bookDict];
+                }
+            }
         }
+            break;
+            
+        default: {
+            NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] objectAtIndex:indexPath.row];
+            
+            if (bookDict) {
+                [self showBookDetailsForBook:bookDict];
+            }
+        }
+            break;
     }
 }
 
@@ -535,11 +645,18 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if(section == 0) {
-        return UIEdgeInsetsMake(10, 0, 10, 0);
-    } else {
-        return UIEdgeInsetsMake(20, 20, 0, 0);
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if(section == 0) {
+                return UIEdgeInsetsMake(10, 0, 10, 0);
+            }
+        }
+            break;
+            
+        default:
+            break;
     }
+    return UIEdgeInsetsMake(20, 20, 0, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -551,8 +668,16 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return CGSizeMake(984, 240);
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if (indexPath.section == 0) {
+                return CGSizeMake(984, 240);
+            }
+        }
+            break;
+            
+        default:
+            break;
     }
     
     return CGSizeMake(150, 240);

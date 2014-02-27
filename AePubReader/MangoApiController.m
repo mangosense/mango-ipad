@@ -12,6 +12,12 @@
 #import "AFURLSessionManager.h"
 #import "AePubReaderAppDelegate.h"
 
+@interface MangoApiController ()
+
+@property (nonatomic, strong) AFHTTPRequestOperationManager *imageOperationManager;
+
+@end
+
 @implementation MangoApiController
 
 + (id)sharedApiController {
@@ -111,6 +117,7 @@
 
 - (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate {
     AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+
     imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         //NSLog(@"Image Response: %@", responseObject);
@@ -121,7 +128,14 @@
         NSLog(@"Image error: %@ \n Attempting to get cover image...", error);
         [self getImageAtUrl:[urlString stringByReplacingOccurrencesOfString:@"banner" withString:@"cover"] withDelegate:delegate];
     }];
-    [imageRequestOperation start];
+
+    if (!_imageOperationManager) {
+        _imageOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
+        [_imageOperationManager.operationQueue setMaxConcurrentOperationCount:2];
+    }
+    [_imageOperationManager.operationQueue addOperation:imageRequestOperation];
+    
+    //[imageRequestOperation start];
 }
 
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew Name:(NSString *)name {    
