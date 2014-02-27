@@ -117,7 +117,7 @@
 #define STORY_FILTER_AGE_GROUP @"livestories/by/agegroup/"
 #define STORY_FILTER_LANGUAGES @"livestories/by/language/"
 #define STORY_FILTER_GRADE @"livestories/by/grade/"
-#define SAVE_STORY @"livestories/%@/fork"
+#define SAVE_STORY @"livestories/%@/"
 #define NEW_STORY @"stories"
 #define FACEBOOK_LOGIN @"facebookapplogin.json"
 

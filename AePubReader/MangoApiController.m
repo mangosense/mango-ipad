@@ -6,6 +6,7 @@
 //
 //
 
+#import "AFNetworking.h"
 #import "MangoApiController.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "Constants.h"
@@ -261,6 +262,7 @@
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+
     [manager POST:NEW_STORY parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Save Story Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;
