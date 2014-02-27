@@ -58,7 +58,7 @@
 
 - (void)setImageUrlString:(NSString *)imageUrlString {
     _imageUrlString = imageUrlString;
-    [self getImageForUrl:[_imageUrlString stringByReplacingOccurrencesOfString:@"leftright" withString:@"banner"]];
+    [self getImageForUrl:[_imageUrlString stringByReplacingOccurrencesOfString:@"banner" withString:@"leftright"]];
 }
 
 #pragma mark - Action Methods

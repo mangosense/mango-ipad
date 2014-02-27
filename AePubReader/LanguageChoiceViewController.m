@@ -139,7 +139,7 @@
         bookDetailsViewController.descriptionLabel.text = [_bookDict objectForKey:@"synopsis"];
         
         bookDetailsViewController.selectedProductId = [[[_bookDict objectForKey:@"available_languages"] objectAtIndex:indexPath.row] objectForKey:@"live_story_id"];
-        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[_bookDict objectForKey:@"cover"]];
+        bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[_bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
 }

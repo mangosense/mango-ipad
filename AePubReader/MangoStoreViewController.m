@@ -409,7 +409,7 @@
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
             
             bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-            bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+            bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
         }];
         bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
     }
@@ -641,7 +641,7 @@
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-        bookDetailsViewController.imageUrlString = [ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]];
+        bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
 }
