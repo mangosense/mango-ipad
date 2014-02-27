@@ -446,7 +446,7 @@
 
 - (void)saveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
     [_localImagesDictionary setObject:image forKey:imageUrl];
-    [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    //[_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark - UICollectionView Datasource
