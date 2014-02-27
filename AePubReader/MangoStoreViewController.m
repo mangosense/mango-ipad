@@ -507,22 +507,22 @@
     if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]]) {
         cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
     } else {
-        StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
-        
-        //        cell.bookAgeGroupLabel.text = [NSString stringWithFormat:@"For Age %d-%d Yrs", 2*(indexPath.section - 1), 2*(indexPath.section - 1) + 2];
-        cell.delegate = self;
-        
-        NSDictionary *bookDict;
-        
-        if(liveStoriesFiltered) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section-1] objectForKey:NAME];
-            bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
-            
-            if (bookDict) {
-                cell.bookPriceLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0];
-                if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-                    cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
+        [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
+    }
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if(indexPath.section == 0) {
+                StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
+                
+                if (!_storiesCarousel) {
+                    _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                    _storiesCarousel.delegate = self;
+                    _storiesCarousel.dataSource = self;
+                    _storiesCarousel.type = iCarouselTypeCoverFlow;
+                    [cell.contentView addSubview:_storiesCarousel];
                 }
                 
                 [_storiesCarousel reloadData];
@@ -617,27 +617,16 @@
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
 }
 
-        if (bookDict) {
-            BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-            bookDetailsViewController.delegate = self;
-            
-            [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-            [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
-                bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-                bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", ageGroup];
-                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
-                bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-                 //Check for the price tag
-                if([[bookDict objectForKey:@"price"] floatValue]==0.00){
-                    bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-                    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-                }
-                else{
-                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-                    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-                }
-                bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
-                bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if (indexPath.section == 0) {
+                
+            } else {
+                
+                NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
+                NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
                 
                 if (bookDict) {
                     [self showBookDetailsForBook:bookDict];
