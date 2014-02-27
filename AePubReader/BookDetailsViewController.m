@@ -121,10 +121,10 @@
     
     if (progress < 100) {
         [self performSelectorOnMainThread:@selector(showHudOnButton) withObject:nil waitUntilDone:YES];
-        [_closeButton setEnabled:NO];
+        //[_closeButton setEnabled:NO];
     } else {
         [self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
-        [_closeButton setEnabled:YES];
+        //[_closeButton setEnabled:YES];
     }
 }
 

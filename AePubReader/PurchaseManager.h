@@ -11,6 +11,7 @@
 @protocol PurchaseManagerProtocol <NSObject>
 
 - (void)itemReadyToUse:(NSString *)productID;
+- (void)updateBookProgress:(int)progress;
 
 @end
 
