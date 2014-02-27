@@ -141,6 +141,7 @@
 #define TABLE_TYPE_LANGUAGE 5
 #define TABLE_TYPE_GRADE 6
 #define TABLE_TYPE_SEARCH 7
+#define TABLE_TYPE_MAIN_STORE 8
 
 #pragma mark - Colors
 
