@@ -507,7 +507,13 @@
 }
 
 - (void)setupCollectionViewCell:(StoreBookCell *)cell WithDict:(NSDictionary *)bookDict {
-    cell.bookPriceLabel.text = [NSString stringWithFormat:@"%.2f", [[bookDict objectForKey:@"price"] floatValue]];
+    if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+        cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
+    }
+    else{
+        cell.bookPriceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+    }
+    cell.bookPriceLabel.font = [UIFont systemFontOfSize:14];
     
     cell.bookTitleLabel.text = [bookDict objectForKey:@"title"];
     [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
@@ -636,7 +642,14 @@
         bookDetailsViewController.ageLabel.text = @"";
         bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-        bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"Rs. %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+        }
+        else{
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+        }
         bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
