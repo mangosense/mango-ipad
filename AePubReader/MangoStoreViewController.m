@@ -66,7 +66,7 @@
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
-    
+    //bookDetailsViewController.priceLabel.text.font = [UIFont fontWithName:@"the_hungry_ghost" size:16.0];
     //Register observer
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
@@ -155,6 +155,7 @@
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
+   // [paramDict setObject:IOS forKey:PLATFORM];
 
     if ([type isEqualToString:AGE_GROUPS]) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -339,8 +340,14 @@
             bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
             bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-
+            if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+                [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+            }
+            else{
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+                [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+            }
             bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
             
@@ -448,6 +455,7 @@
             bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
             
             if (bookDict) {
+                cell.bookPriceLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0];
                 if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
                     cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
                 }
@@ -516,9 +524,11 @@
                  //Check for the price tag
                 if([[bookDict objectForKey:@"price"] floatValue]==0.00){
                     bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+                    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
                 }
                 else{
                 bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+                    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
                 }
                 bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
                 bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];

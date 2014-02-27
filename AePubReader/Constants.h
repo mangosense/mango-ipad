@@ -128,6 +128,8 @@
 #define BOOK_JSON @"json"
 #define PAGE_NUMBER @"page"
 #define LIMIT @"limit"
+#define PLATFORM @"platform"
+#define IOS @"iOS"
 #define FACEBOOK_TOKEN_EXPIRATION_DATE @"expirationDate"
 
 #pragma mark - Table Types

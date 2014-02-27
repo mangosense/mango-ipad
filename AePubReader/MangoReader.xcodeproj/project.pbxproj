@@ -21,6 +21,8 @@
 		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		68576C0F18BF3CA4005766C9 /* Read-now.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C0E18BF3CA4005766C9 /* Read-now.png */; };
+		68576C1318BF44BE005766C9 /* without-text.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C1218BF44BE005766C9 /* without-text.png */; };
 		68A15FB018BC991A00DB1AF0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FAF18BC991A00DB1AF0 /* Parse.framework */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68A15FB518BC9CB900DB1AF0 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */; };
@@ -1071,13 +1073,6 @@
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		68A15DB818BC951D00DB1AF0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
-			remoteInfo = EJDBKitTests64;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -1103,6 +1098,8 @@
 		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		68576C0E18BF3CA4005766C9 /* Read-now.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Read-now.png"; sourceTree = "<group>"; };
+		68576C1218BF44BE005766C9 /* without-text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "without-text.png"; sourceTree = "<group>"; };
 		68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../../Downloads/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		68A15FAF18BC991A00DB1AF0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -2676,7 +2673,6 @@
 			children = (
 				68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */,
 				68A15DB718BC951D00DB1AF0 /* EJDBKitTests.xctest */,
-				68A15DB918BC951D00DB1AF0 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3517,6 +3513,8 @@
 			children = (
 				83E9AE32184F4CCF0025BBD6 /* see all.png */,
 				83E9AE24184DEFDC0025BBD6 /* brownBar.png */,
+				68576C0E18BF3CA4005766C9 /* Read-now.png */,
+				68576C1218BF44BE005766C9 /* without-text.png */,
 				83E9ADE6184DA3710025BBD6 /* arrow.png */,
 				83E9ADE7184DA3710025BBD6 /* arrowside.png */,
 				83E9ADE8184DA3710025BBD6 /* bg1.png */,
@@ -4260,13 +4258,6 @@
 			remoteRef = 68A15DB618BC951D00DB1AF0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68A15DB918BC951D00DB1AF0 /* EJDBKitTests64.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests64.xctest;
-			remoteRef = 68A15DB818BC951D00DB1AF0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -4414,6 +4405,7 @@
 				83E2D0E8184364EC00F8CDB6 /* editor_113.png in Resources */,
 				8353B33A1851ABE1009B3BD8 /* shape3.png in Resources */,
 				AE0C936C183DEB59008E4D54 /* rectangle_books.png in Resources */,
+				68576C1318BF44BE005766C9 /* without-text.png in Resources */,
 				83E9AE09184DA3710025BBD6 /* brown_bar.png in Resources */,
 				83E2D137184364EC00F8CDB6 /* editor_185.png in Resources */,
 				AE9D4C7C162C20E100352FF8 /* PopViewDetailsViewController.xib in Resources */,
@@ -4466,6 +4458,7 @@
 				AE9BFBB116537F44000DDEB1 /* PopPurchaseViewController.xib in Resources */,
 				83E9AE1F184DA3710025BBD6 /* star2.png in Resources */,
 				83E2D158184364EC00F8CDB6 /* editor_214.png in Resources */,
+				68576C0F18BF3CA4005766C9 /* Read-now.png in Resources */,
 				83E2D0E4184364EC00F8CDB6 /* editor_11.png in Resources */,
 				83E9AE0C184DA3710025BBD6 /* buynow_pressed.png in Resources */,
 				AE0C9386183E096D008E4D54 /* icons_editimage.png in Resources */,

@@ -20,6 +20,8 @@
 @synthesize tableType;
 @synthesize delegate;
 
+int menuLanguage = 0;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -220,8 +222,21 @@
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
-    itemsListArray = [NSMutableArray arrayWithArray:dataArray];
+    
+    if(menuLanguage){
+        itemsListArray = [[NSMutableArray alloc] init];
+        NSMutableArray *tempItemArray = [NSMutableArray arrayWithArray:dataArray];
+    
+        //  itemsListArray = [NSMutableArray arrayWithArray:dataArray];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"count" ascending:FALSE];
+        [tempItemArray sortUsingDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+        for(int i =0 ; i<tempItemArray.count; ++i){
+        [itemsListArray addObject:[tempItemArray[i] valueForKey:@"_id"]];
+        }
+    }
+    else{
+        itemsListArray = [NSMutableArray arrayWithArray:dataArray];
+    }
     [self.tableView reloadData];
 }
 
@@ -229,7 +244,7 @@
 
 - (void)getListData {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
+    menuLanguage = 0;
     MangoApiController *apiController = [MangoApiController sharedApiController];
     
     switch (tableType) {
@@ -243,6 +258,7 @@
             
         case TABLE_TYPE_LANGUAGE:
             [apiController getListOf:LANGUAGES ForParameters:nil withDelegate:self];
+            menuLanguage = 1;
             break;
             
         case TABLE_TYPE_GRADE:

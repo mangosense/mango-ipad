@@ -104,7 +104,7 @@
                     <rect key="frame" x="579" y="178" width="206" height="58"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" image="buynow.png">
+                    <state key="normal" image="without-text.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -135,7 +135,7 @@
         </view>
     </objects>
     <resources>
-        <image name="buynow.png" width="235" height="63"/>
         <image name="close_big_button.png" width="28" height="28"/>
+        <image name="without-text.png" width="235" height="63"/>
     </resources>
 </document>
