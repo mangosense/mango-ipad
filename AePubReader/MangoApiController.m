@@ -6,6 +6,7 @@
 //
 //
 
+#import "AFNetworking.h"
 #import "MangoApiController.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "Constants.h"
@@ -217,7 +218,10 @@
     bookJSON = @"{\"title\": \"NewTestBookKedar\",\"language\": \"English\",\"pages\": [{\"id\": \"Cover\",\"name\": \"Cover\",\"layers\": []},{\"id\": 1,\"json\": {\"id\": 1,\"name\": 1,\"type\": \"page\",\"layers\": []}}]}";
     
     NSUserDefaults *appDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSLog(@"auth values --- %@, %@, %@", [appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON);
     NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[appDefaults objectForKey:AUTH_TOKEN], [appDefaults objectForKey:EMAIL], bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+    
     [manager POST:NEW_STORY parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Save Story Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;

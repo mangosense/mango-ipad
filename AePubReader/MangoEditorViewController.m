@@ -91,6 +91,8 @@
 @synthesize audioMappingViewController;
 @synthesize storyBook;
 
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -600,11 +602,12 @@
 
 - (void)goToStoriesList {
     [menuPopoverController dismissPopoverAnimated:YES];
-    
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController saveNewBookWithJSON:@""];
+    /* To do methods for save and close and create a new story*/
 
+//    MangoApiController *apiController = [MangoApiController sharedApiController];
+//    apiController.delegate = self;
+//    [apiController saveNewBookWithJSON:@""];
+//
     
     [self mangoButtonTapped:nil];
 }
@@ -722,6 +725,8 @@
             AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
             MangoPage *page = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:currentPageNumber]];
             
+  //          UIPanGestureRecognizer *pangesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+            
             MangoTextLayer *textLayer = [[MangoTextLayer alloc] init];
             textLayer.actualText = pageTextView.text;
             textLayer.fontSize = [NSNumber numberWithInt:30];
@@ -729,6 +734,10 @@
             textLayer.topRatio = [NSNumber numberWithFloat:1000.0f];
             textLayer.width = [NSNumber numberWithFloat:600.0f];
             textLayer.height = [NSNumber numberWithFloat:400.0f];
+//            [pangesture setMinimumNumberOfTouches:1];
+//            [pangesture setMaximumNumberOfTouches:1];
+//            [pangesture setDelegate:self];
+            
             if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
                 _audioLayer = [[MangoAudioLayer alloc] init];
                 _audioLayer.wordMap = [textLayer.actualText componentsSeparatedByString:@" "];
@@ -759,6 +768,25 @@
     }
     [menuPopoverController dismissPopoverAnimated:YES];
 }
+
+/*- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
+    
+    // //NSLog(@"orig val %f", originalPoint.x);
+    CGPoint translation = [recognizer translationInView:self.view];
+    originalPoint.x = originalPoint.x + translation.x;
+    originalPoint.y = originalPoint.y + translation.y;
+    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
+                                         recognizer.view.center.y + translation.y);
+    
+    [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
+    if(recognizer.state == UIGestureRecognizerStateEnded){
+        
+        CGRect recognizerView = [recognizer.view frame];
+        recognizer.view.center = CGPointMake(recognizer.view.center.x - originalPoint.x,
+                                         recognizer.view.center.y - originalPoint.y);
+        originalPoint = CGPointMake(0.00, 0.00);
+    }
+}*/
 
 #pragma mark - iCarousel Datasource And Delegate Methods
 

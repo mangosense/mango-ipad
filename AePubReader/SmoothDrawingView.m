@@ -170,9 +170,10 @@ uint ctr;
     ctr = 0;
     UITouch *touch = [touches anyObject];
     pts[0] = [touch locationInView:self];
-    
+    NSLog(@"touch two");
     CGPoint p = [touch locationInView:self];
     [path moveToPoint:p];
+    [self endEditing:YES];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -216,7 +217,7 @@ uint ctr;
         [[UIColor clearColor] setFill];
         [rectpath fill];
     }
-    
+    NSLog(@"Draw Sticker");
     [incrementalImage drawInRect:self.bounds];
     
     stickerImage = [stickerImage imageRotatedByRadians:-angle];

@@ -125,6 +125,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"Index path row %d -- %d", indexPath.section, indexPath.row);
     switch (indexPath.section) {
         case 0: {
             switch (indexPath.row) {
