@@ -179,7 +179,7 @@
         }
         [_featuredStoriesArray addObjectsFromArray:dataArray];
         _featuredStoriesFetched = YES;
-    } else if ([type rangeOfString:STORY_FILTER_AGE_GROUP].location != NSNotFound) {
+    } else if ([type rangeOfString:STORY_FILTER_AGE_GROUP].location != NSNotFound && _tableType == TABLE_TYPE_MAIN_STORE) {
         NSArray *methodNameComponents = [type componentsSeparatedByString:@"/"];
         NSString *ageGroup = [methodNameComponents lastObject];
         
@@ -329,13 +329,23 @@
 }
 
 - (void)seeAllTapped:(NSInteger)section {
-    MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
+    if (_tableType == TABLE_TYPE_MAIN_STORE) {
+        _tableType = TABLE_TYPE_AGE_GROUPS;
+        [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
+    } else {
+        _tableType = TABLE_TYPE_MAIN_STORE;
+        
+        [self setupInitialUI];
+    }
+    
+    //----
+    /*MangoStoreCollectionViewController *selectedCategoryViewController = [[MangoStoreCollectionViewController alloc] initWithNibName:@"MangoStoreCollectionViewController" bundle:nil];
     
     selectedCategoryViewController.selectedItemTitle = [self.ageGroupsFoundInResponse[section-1] objectForKey:NAME];
     selectedCategoryViewController.tableType = TABLE_TYPE_AGE_GROUPS;
     NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
     selectedCategoryViewController.liveStoriesQueried = [liveStoriesFiltered objectForKey:ageGroup];
-    [self.navigationController pushViewController:selectedCategoryViewController animated:YES];
+    [self.navigationController pushViewController:selectedCategoryViewController animated:YES];*/
 }
 
 #pragma mark - iCarousel Delegates
@@ -582,7 +592,26 @@
         }
             break;
             
-        default:
+        default: {
+            StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
+            headerView.titleLabel.textColor = COLOR_DARK_RED;
+            headerView.titleLabel.text = [[[self.liveStoriesFiltered allKeys] objectAtIndex:0] stringByRemovingPercentEncoding];
+            headerView.section = indexPath.section;
+            headerView.delegate = self;
+            
+            [headerView.titleLabel setFrame:CGRectMake(headerView.frame.origin.x + 200, 0, headerView.frame.size.width - 400, headerView.frame.size.height)];
+            headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
+            headerView.titleLabel.font = [UIFont boldSystemFontOfSize:22];
+            
+            [headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
+            [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
+            
+            if(liveStoriesFiltered) {
+                headerView.seeAllButton.hidden = YES;
+            }
+            
+            return headerView;
+        }
             break;
     }
     return nil;
@@ -662,7 +691,11 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if(section == 0) {
-        return CGSizeMake(collectionView.frame.size.width, 0);
+        if (_tableType == TABLE_TYPE_MAIN_STORE) {
+            return CGSizeMake(collectionView.frame.size.width, 0);
+        } else {
+            return CGSizeMake(collectionView.frame.size.width, 40);
+        }
     } else {
         return CGSizeMake(collectionView.frame.size.width, 40);
     }

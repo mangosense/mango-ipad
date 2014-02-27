@@ -259,6 +259,7 @@
 		83C1B52918AE5EA700624E1B /* quiz.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51D18AE5EA700624E1B /* quiz.png */; };
 		83C1B52A18AE5EA700624E1B /* jigsaw.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51E18AE5EA700624E1B /* jigsaw.png */; };
 		83C1B52B18AE5EA700624E1B /* wordsearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C1B51F18AE5EA700624E1B /* wordsearch.png */; };
+		83C67B2A18BF7D310019280D /* arrowsideleft.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C67B2918BF7D310019280D /* arrowsideleft.png */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
 		83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
@@ -1396,6 +1397,7 @@
 		83C1B51D18AE5EA700624E1B /* quiz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quiz.png; sourceTree = "<group>"; };
 		83C1B51E18AE5EA700624E1B /* jigsaw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jigsaw.png; sourceTree = "<group>"; };
 		83C1B51F18AE5EA700624E1B /* wordsearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsearch.png; sourceTree = "<group>"; };
+		83C67B2918BF7D310019280D /* arrowsideleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowsideleft.png; sourceTree = "<group>"; };
 		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
 		83CFB6C1184333AF0003E875 /* BaseViewAudoMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewAudoMapping.h; sourceTree = "<group>"; };
@@ -3515,6 +3517,7 @@
 		83E9ADE5184DA3710025BBD6 /* Store Images */ = {
 			isa = PBXGroup;
 			children = (
+				83C67B2918BF7D310019280D /* arrowsideleft.png */,
 				83E9AE32184F4CCF0025BBD6 /* see all.png */,
 				83E9AE24184DEFDC0025BBD6 /* brownBar.png */,
 				83E9ADE6184DA3710025BBD6 /* arrow.png */,
@@ -4589,6 +4592,7 @@
 				83E2D1F0184364EC00F8CDB6 /* editor_351.png in Resources */,
 				AE5FC0261677300B00BB9AED /* or-iphone5.png in Resources */,
 				AE5B19D9167F21B4000FFADA /* skip-button.png in Resources */,
+				83C67B2A18BF7D310019280D /* arrowsideleft.png in Resources */,
 				AEDF1810168AC5020087064A /* Draw-control.png in Resources */,
 				AEDF1812168AC5020087064A /* game-control.png in Resources */,
 				AEDF1816168AC5020087064A /* library-icon.png in Resources */,
