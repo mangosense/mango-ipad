@@ -97,6 +97,7 @@
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
+   // [paramDict setObject:IOS forKey:PLATFORM];
     NSString *filterName = [self.selectedItemTitle stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     switch (self.tableType) {
