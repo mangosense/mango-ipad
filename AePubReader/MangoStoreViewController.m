@@ -336,6 +336,13 @@
     } else {
         _tableType = TABLE_TYPE_MAIN_STORE;
         
+        self.ageGroupsFoundInResponse = nil;
+        _featuredStoriesArray = nil;
+        liveStoriesFiltered = nil;
+        [_booksCollectionView removeFromSuperview];
+        _booksCollectionView = nil;
+        [_storiesCarousel removeFromSuperview];
+        _storiesCarousel = nil;
         [self setupInitialUI];
     }
     
@@ -620,7 +627,7 @@
             [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
             
             if(liveStoriesFiltered) {
-                headerView.seeAllButton.hidden = YES;
+                headerView.seeAllButton.hidden = NO;
             }
             
             return headerView;
