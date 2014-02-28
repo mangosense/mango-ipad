@@ -1538,7 +1538,7 @@
     return success;
 }
 
-- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath {
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath WithEJDBId:(NSString *)ejdbId {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:filePath]) {
         NSURL *url = [[NSURL alloc]initFileURLWithPath:filePath];
@@ -1560,6 +1560,8 @@
         coreDatabook.downloadedDate = [NSDate date];
         coreDatabook.downloaded = @NO;
         coreDatabook.edited = @YES;
+        coreDatabook.bookId = ejdbId;
+        
         NSError *error=nil;
         if (![appDelegate.managedObjectContext save:&error]) {
             NSLog(@"%@",error);
@@ -1580,7 +1582,7 @@
             
             //Create Core Data Book
             NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.id];
-            [self saveBook:_mangoStoryBook AtLocation:newBookFilePath];
+            [self saveBook:_mangoStoryBook AtLocation:newBookFilePath WithEJDBId:_mangoStoryBook.id];
             BOOL success = [self createFolderAtPath:newBookFilePath];
             if (success) {
                 success = [self createFolderAtPath:[NSString stringWithFormat:@"%@/res", newBookFilePath]];

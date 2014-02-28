@@ -65,7 +65,7 @@
 
 #pragma mark - Save Book To Core Data
 
-- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath {
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath WithEJDBId:(NSString *)ejdbId {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:filePath]) {
         NSURL *url = [[NSURL alloc]initFileURLWithPath:filePath];
@@ -87,6 +87,8 @@
         coreDatabook.downloadedDate = [NSDate date];
         coreDatabook.downloaded = @YES;
         coreDatabook.edited = @NO;
+        coreDatabook.bookId = ejdbId;
+        
         NSError *error=nil;
         if (![appDelegate.managedObjectContext save:&error]) {
             NSLog(@"%@",error);
@@ -242,7 +244,7 @@
             bk.bookId=book.id;
             [delegate.dataModel saveData:bk];
         } else {
-            [self saveBook:book AtLocation:filePath];
+            [self saveBook:book AtLocation:filePath WithEJDBId:book.id];
         }
         
         [delegate.dataModel displayAllData];

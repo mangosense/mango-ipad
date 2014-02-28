@@ -182,7 +182,7 @@
         
         for (NSDictionary *dataDict in dataArray) {
             NSString *bookId = [dataDict objectForKey:@"id"];
-            Book *bk=[delegate.dataModel getBookOfId:bookId];
+            Book *bk=[delegate.dataModel getBookOfEJDBId:bookId];
             if (!bk) {
                 //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 

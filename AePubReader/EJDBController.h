@@ -30,7 +30,7 @@
 - (MangoBook *)getBookForBookId:(NSString *)bookId;
 - (MangoPage *)getPageForPageId:(NSString *)pageId;
 - (id)getLayerForLayerId:(NSString *)layerId;
-- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath;
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath WithEJDBId:(NSString *)ejdbId;
 
 - (BOOL)deleteObject:(id)object;
 
