@@ -1338,6 +1338,7 @@
             pageTextView.layerId = textLayer.id;
             pageTextView.textDelegate = self;
             pageTextView.delegate = self;
+            
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;

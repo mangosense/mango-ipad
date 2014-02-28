@@ -98,8 +98,7 @@
     [_popOverController dismissPopoverAnimated:YES];
 }
 
-- (IBAction)gameButtonTapped:(id)sender {
-    
+- (NSString *)getJsonContentForBook {
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
@@ -108,16 +107,34 @@
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    
+    return jsonContent;
+}
+
+- (void)showOrHideGameButton {
+    NSDictionary *jsonDict = [self getJsonDictForBook];
+    if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
+        _games.hidden = YES;
+    } else {
+        _games.hidden = NO;
+    }
+}
+
+- (NSDictionary *)getJsonDictForBook {
+    NSString *jsonContent = [self getJsonContentForBook];
     NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
+    return jsonDict;
+}
+
+- (IBAction)gameButtonTapped:(id)sender {
+    NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [noGamesAlert show];
     } else {
         MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
-        gamesListViewController.jsonString = jsonContent;
+        gamesListViewController.jsonString = [self getJsonContentForBook];
         gamesListViewController.folderLocation = _book.localPathFile;
         NSMutableArray *gameNames = [[NSMutableArray alloc] init];
         for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
