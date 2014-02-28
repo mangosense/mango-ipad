@@ -44,4 +44,8 @@
 -(void)loadPageWithOption:(NSInteger)option;
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 @property(retain,nonatomic) UIPopoverController *menuPopoverController;
+
+@property (nonatomic, strong) IBOutlet UIButton *backButton;
+@property (nonatomic, strong) IBOutlet UIButton *menuButton;
+
 @end
