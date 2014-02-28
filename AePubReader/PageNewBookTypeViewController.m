@@ -349,11 +349,11 @@
                 
     }
     _pageView.frame=self.view.bounds;
-    for (UIView *subview in [_pageView subviews]) {
+    /*for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
             subview.frame = self.view.bounds;
         }
-    }
+    }*/
     [self.viewBase addSubview:_pageView];
     if (option==0) {
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];

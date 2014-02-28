@@ -1017,6 +1017,15 @@
             MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
             backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", imageLayer.url]];
             NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", imageLayer.url]]);
+            if ([imageLayer.alignment isEqualToString:LEFT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width*0.65, pageView.frame.size.height)];
+            } else if ([imageLayer.alignment isEqualToString:RIGHT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(pageView.frame.size.width*0.35, 0, pageView.frame.size.width*0.65, pageView.frame.size.height)];
+            } else if ([imageLayer.alignment isEqualToString:TOP_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.65)];
+            } else if ([imageLayer.alignment isEqualToString:BOTTOM_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, pageView.frame.size.width, pageView.frame.size.height)];
+            }
             [pageView addSubview:backgroundImageView];
         } else if ([layer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)layer;
@@ -1147,6 +1156,15 @@
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
             backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]);
+            if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width*0.65, pageView.frame.size.height)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(pageView.frame.size.width*0.35, 0, pageView.frame.size.width*0.65, pageView.frame.size.height)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:TOP_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.65)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, pageView.frame.size.width, pageView.frame.size.height)];
+            }
             [pageView addSubview:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
