@@ -184,7 +184,7 @@
             NSString *bookId = [dataDict objectForKey:@"id"];
             Book *bk=[delegate.dataModel getBookOfId:bookId];
             if (!bk) {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 
                 MangoApiController *apiController = [MangoApiController sharedApiController];
                 [apiController downloadBookWithId:bookId withDelegate:self];
