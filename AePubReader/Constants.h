@@ -93,6 +93,7 @@
 #define RIGHT_ALIGN @"right"
 #define TOP_ALIGN @"top"
 #define BOTTOM_ALIGN @"bottom"
+#define IMAGE_ALIGNMENT @"image_alignment"
 
 #pragma mark - URL's
 

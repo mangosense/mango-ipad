@@ -22,5 +22,6 @@
 @property(retain,nonatomic) NSNumber *topRatio;
 @property(retain,nonatomic) NSNumber *lineHeight;
 @property (nonatomic, assign) BOOL isNew;
+@property (nonatomic, strong) NSString *imageAlignment;
 
 @end

@@ -21,6 +21,8 @@
 @synthesize topRatio;
 @synthesize lineHeight;
 @synthesize isNew;
+@synthesize imageAlignment;
+
 - (NSString *)type {
     return NSStringFromClass([self class]);
 }
@@ -32,11 +34,11 @@
 - (NSDictionary *)toDictionary {
     
     return NSDictionaryOfVariableBindings(actualText,fontSize,
-                                          height,width,leftRatio,topRatio);
+                                          height,width,leftRatio,topRatio, imageAlignment);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *keysArray = [NSArray arrayWithObjects:@"id",@"actualText",@"fontSize",@"height",@"width",@"leftRatio",@"topRatio", nil];
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id",@"actualText",@"fontSize",@"height",@"width",@"leftRatio",@"topRatio", @"imageAlignment", nil];
     for (NSString *key in keysArray)
     {
         if ([[dictionary allKeys] containsObject:key]) {
@@ -58,6 +60,7 @@
     mangoTextLayer.leftRatio=leftRatio;
     mangoTextLayer.topRatio=topRatio;
     mangoTextLayer.lineHeight=lineHeight;
+    mangoTextLayer.imageAlignment = imageAlignment;
     return mangoTextLayer;
    
 }

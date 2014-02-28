@@ -178,6 +178,7 @@
                 textLayer.leftRatio = [NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
                 textLayer.height = [NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
                 textLayer.width = [NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
+                textLayer.imageAlignment = layerDict[IMAGE_ALIGNMENT];
                 if ([self insertOrUpdateObject:textLayer]) {
                     [layerIdArray addObject:textLayer.id];
                 }

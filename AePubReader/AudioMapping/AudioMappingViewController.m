@@ -67,7 +67,6 @@
     textForMapping = textForMappingAudio;
     _customView.text=[textForMapping componentsSeparatedByString:@" "];
     
-   // _cues= [[NSMutableArray alloc]initWithArray:[NSArray arrayWithObjects:@3650,@3900,@4000,@4500,@4800,@5300,@5400,@6000, nil]];
     _totalWordCount=_cues.count;
     
     if ([UIDevice currentDevice].systemVersion.integerValue<6) {
