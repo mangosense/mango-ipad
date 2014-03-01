@@ -52,6 +52,7 @@
 @property (strong,nonatomic) LoginNewViewController *loginController;
 
 @property (nonatomic, strong) UserInfo *loggedInUserInfo;
+@property (nonatomic, assign) BOOL arePurchasesDownloading;
 
 -(void)removeBackDirectory;
 - (NSString *)applicationDocumentsDirectory;

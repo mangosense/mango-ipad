@@ -34,11 +34,11 @@
 - (NSDictionary *)toDictionary {
     
     return NSDictionaryOfVariableBindings(actualText,fontSize,
-                                          height,width,leftRatio,topRatio, imageAlignment);
+                                          height,width,leftRatio,topRatio);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *keysArray = [NSArray arrayWithObjects:@"id",@"actualText",@"fontSize",@"height",@"width",@"leftRatio",@"topRatio", @"imageAlignment", nil];
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id",@"actualText",@"fontSize",@"height",@"width",@"leftRatio",@"topRatio", nil];
     for (NSString *key in keysArray)
     {
         if ([[dictionary allKeys] containsObject:key]) {

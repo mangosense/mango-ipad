@@ -191,14 +191,18 @@
                 MangoAudioLayer *audioLayer=[[MangoAudioLayer alloc]init];
                 audioLayer.id=layerDict[@"id"];
                 audioLayer.url=layerDict[@"url"];
-                audioLayer.wordTimes=layerDict[@"wordTimes"];
-                NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
-                for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
-                    NSString *word=wordMap[@"word"];
-                    [mutableWordMap addObject:word];
+                if ([[layerDict allKeys] containsObject:@"wordTimes"]) {
+                    audioLayer.wordTimes=layerDict[@"wordTimes"];
+                }
+                if ([[layerDict allKeys] containsObject:@"wordMap"]) {
+                    NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
+                    for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
+                        NSString *word=wordMap[@"word"];
+                        [mutableWordMap addObject:word];
+                    }
+                    audioLayer.wordMap=mutableWordMap;
                 }
                 
-                audioLayer.wordMap=mutableWordMap;
                 if ([self insertOrUpdateObject:audioLayer]) {
                     [layerIdArray addObject:audioLayer.id];
                 }

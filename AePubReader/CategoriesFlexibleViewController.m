@@ -53,8 +53,10 @@
         [self setupUI];
     }
     
-    if (_pageNumber == 0) {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (_pageNumber == 0 && !appDelegate.arePurchasesDownloading) {
         [self getAllPurchasedBooks];
+        appDelegate.arePurchasesDownloading = YES;
     }
 }
 

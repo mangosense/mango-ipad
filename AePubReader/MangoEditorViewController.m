@@ -1218,17 +1218,24 @@
                     CGFloat xOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
                         xOrigin = MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100);
+                        if (xOrigin >= 1024 || xOrigin < 0) {
+                            xOrigin = 0;
+                        }
                     }
                     
                     
                     CGFloat yOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
                         yOrigin = MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100);
+                        if (yOrigin >= 768 || yOrigin < 0) {
+                            yOrigin = 0;
+                        }
                     }
                     
                     CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
                     
                     textFrame = CGRectMake(xOrigin, yOrigin, textSize.width - 100, textSize.height + 100);
+                    audioMappingViewcontroller.customView.frame = textFrame;
                 }
             }
             
