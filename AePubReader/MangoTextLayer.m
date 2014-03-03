@@ -21,6 +21,8 @@
 @synthesize topRatio;
 @synthesize lineHeight;
 @synthesize isNew;
+@synthesize imageAlignment;
+
 - (NSString *)type {
     return NSStringFromClass([self class]);
 }
@@ -58,6 +60,7 @@
     mangoTextLayer.leftRatio=leftRatio;
     mangoTextLayer.topRatio=topRatio;
     mangoTextLayer.lineHeight=lineHeight;
+    mangoTextLayer.imageAlignment = imageAlignment;
     return mangoTextLayer;
    
 }

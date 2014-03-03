@@ -53,8 +53,10 @@
         [self setupUI];
     }
     
-    if (_pageNumber == 0) {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (_pageNumber == 0 && !appDelegate.arePurchasesDownloading) {
         [self getAllPurchasedBooks];
+        appDelegate.arePurchasesDownloading = YES;
     }
 }
 
@@ -182,9 +184,9 @@
         
         for (NSDictionary *dataDict in dataArray) {
             NSString *bookId = [dataDict objectForKey:@"id"];
-            Book *bk=[delegate.dataModel getBookOfId:bookId];
+            Book *bk=[delegate.dataModel getBookOfEJDBId:bookId];
             if (!bk) {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 
                 MangoApiController *apiController = [MangoApiController sharedApiController];
                 [apiController downloadBookWithId:bookId withDelegate:self];

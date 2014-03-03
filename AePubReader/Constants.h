@@ -88,6 +88,12 @@
 #define NAME @"name"
 #define USERNAME @"username"
 #define NUMBER_OF_GAMES @"widget_count"
+#define ALIGNMENT @"alignment"
+#define LEFT_ALIGN @"left"
+#define RIGHT_ALIGN @"right"
+#define TOP_ALIGN @"top"
+#define BOTTOM_ALIGN @"bottom"
+#define IMAGE_ALIGNMENT @"image_alignment"
 
 #pragma mark - URL's
 

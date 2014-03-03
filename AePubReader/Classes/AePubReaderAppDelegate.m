@@ -341,6 +341,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if ([[NSFileManager defaultManager] fileExistsAtPath:loc]) {
         [[NSFileManager defaultManager] removeItemAtPath:loc error:nil];
     }
+    _arePurchasesDownloading = NO;
 }
 
 

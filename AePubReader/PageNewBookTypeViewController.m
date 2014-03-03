@@ -19,6 +19,7 @@
 
 @property (nonatomic, assign) NSInteger gamePageNumber;
 @property (nonatomic, strong) NSMutableDictionary *gameDataDict;
+@property (nonatomic, assign) BOOL showButtons;
 
 @end
 
@@ -62,7 +63,26 @@
     _pageNo=numberOfPages.integerValue;
     _gamePageNumber = 0;
     
+    _showButtons = YES;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
+    tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
+    [self.view addGestureRecognizer:tapGesture];
+    
 }
+
+- (void)didTap:(UITapGestureRecognizer *)gesture {
+    _showButtons = !_showButtons;
+    
+    if (_showButtons) {
+        _showOptionButton.hidden = NO;
+        _backButton.hidden = NO;
+    } else {
+        _showOptionButton.hidden = YES;
+        _backButton.hidden = YES;
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -349,11 +369,11 @@
                 
     }
     _pageView.frame=self.view.bounds;
-    for (UIView *subview in [_pageView subviews]) {
+    /*for (UIView *subview in [_pageView subviews]) {
         if ([subview isKindOfClass:[UIImageView class]]) {
             subview.frame = self.view.bounds;
         }
-    }
+    }*/
     [self.viewBase addSubview:_pageView];
     if (option==0) {
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];

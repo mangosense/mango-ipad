@@ -19,6 +19,7 @@
 -(void)saveData:(Book *)book;
 -(void)saveStoreBookData:(StoreBooks *)book;
 -(Book *)getBookOfId:(NSString *)iden;
+- (Book *)getBookOfEJDBId:(NSString *)ejdbId;
 -(NSArray *)getDataDownloaded;
 -(BOOL)insertIfNew:(NSMutableData *)data;
 -(NSArray *)getForPage:(NSInteger )pageNumber;

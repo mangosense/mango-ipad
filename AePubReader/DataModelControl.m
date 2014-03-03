@@ -261,6 +261,7 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
     return array;
     
 }
+
 -(Book *)getBookOfId:(NSString *)iden{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
@@ -273,6 +274,20 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
 
     return [array lastObject];
 }
+
+- (Book *)getBookOfEJDBId:(NSString *)ejdbId {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Book" inManagedObjectContext:_dataModelContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bookId==%@",ejdbId];
+    NSError *error;
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setEntity:entity];
+    NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
+
+    return [array lastObject];
+}
+
 -(StoreBooks *)getStoreBookById:(NSString *)productId{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription

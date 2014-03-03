@@ -65,7 +65,7 @@
 
 #pragma mark - Save Book To Core Data
 
-- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath {
+- (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath WithEJDBId:(NSString *)ejdbId {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:filePath]) {
         NSURL *url = [[NSURL alloc]initFileURLWithPath:filePath];
@@ -87,6 +87,8 @@
         coreDatabook.downloadedDate = [NSDate date];
         coreDatabook.downloaded = @YES;
         coreDatabook.edited = @NO;
+        coreDatabook.bookId = ejdbId;
+        
         NSError *error=nil;
         if (![appDelegate.managedObjectContext save:&error]) {
             NSLog(@"%@",error);
@@ -176,6 +178,7 @@
                 textLayer.leftRatio = [NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
                 textLayer.height = [NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
                 textLayer.width = [NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
+                textLayer.imageAlignment = layerDict[IMAGE_ALIGNMENT];
                 if ([self insertOrUpdateObject:textLayer]) {
                     [layerIdArray addObject:textLayer.id];
                 }
@@ -188,14 +191,18 @@
                 MangoAudioLayer *audioLayer=[[MangoAudioLayer alloc]init];
                 audioLayer.id=layerDict[@"id"];
                 audioLayer.url=layerDict[@"url"];
-                audioLayer.wordTimes=layerDict[@"wordTimes"];
-                NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
-                for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
-                    NSString *word=wordMap[@"word"];
-                    [mutableWordMap addObject:word];
+                if ([[layerDict allKeys] containsObject:@"wordTimes"]) {
+                    audioLayer.wordTimes=layerDict[@"wordTimes"];
+                }
+                if ([[layerDict allKeys] containsObject:@"wordMap"]) {
+                    NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
+                    for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
+                        NSString *word=wordMap[@"word"];
+                        [mutableWordMap addObject:word];
+                    }
+                    audioLayer.wordMap=mutableWordMap;
                 }
                 
-                audioLayer.wordMap=mutableWordMap;
                 if ([self insertOrUpdateObject:audioLayer]) {
                     [layerIdArray addObject:audioLayer.id];
                 }
@@ -242,7 +249,7 @@
             bk.bookId=book.id;
             [delegate.dataModel saveData:bk];
         } else {
-            [self saveBook:book AtLocation:filePath];
+            [self saveBook:book AtLocation:filePath WithEJDBId:book.id];
         }
         
         [delegate.dataModel displayAllData];

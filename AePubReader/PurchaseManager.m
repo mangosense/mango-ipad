@@ -156,6 +156,9 @@
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
             [delegate itemReadyToUse:productId];
+            if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                [delegate updateBookProgress:0];
+            }
         }
         else {
             NSLog(@"ReceiptError:%@", error);
