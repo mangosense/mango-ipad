@@ -27,6 +27,10 @@
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68A15FB518BC9CB900DB1AF0 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */; };
 		68A15FB918BC9F4A00DB1AF0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */; };
+		68CACAC218C0D256000FF135 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CACAC018C0D256000FF135 /* down.png */; };
+		68CACAC318C0D256000FF135 /* button_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CACAC118C0D256000FF135 /* button_back.png */; };
+		68CACAC818C0D39D000FF135 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68CACAC618C0D39C000FF135 /* DropDownView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		68DD898F18C447D300A1CCC6 /* CloseDetailBookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
 		8309295918BDCA1600FA401E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309295818BDCA1600FA401E /* UserInfo.m */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
@@ -1105,6 +1109,11 @@
 		68A15FAF18BC991A00DB1AF0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		68CACAC018C0D256000FF135 /* down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down.png; sourceTree = "<group>"; };
+		68CACAC118C0D256000FF135 /* button_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_back.png; sourceTree = "<group>"; };
+		68CACAC618C0D39C000FF135 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
+		68CACAC718C0D39D000FF135 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
+		68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseDetailBookButton.png; sourceTree = "<group>"; };
 		8303ED6118485FF600BE7671 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		8309295718BDCA1600FA401E /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		8309295818BDCA1600FA401E /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
@@ -3494,6 +3503,8 @@
 		83E9ADDA184DA2050025BBD6 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				68CACAC618C0D39C000FF135 /* DropDownView.m */,
+				68CACAC718C0D39D000FF135 /* DropDownView.h */,
 				83AB60B418AC0F0F004A040E /* greenButton.png */,
 				17FBB645187AE36A00453B17 /* CargoBay_Store */,
 				83E9AE28184EFE270025BBD6 /* Store Books Collection View */,
@@ -3513,6 +3524,9 @@
 		83E9ADE5184DA3710025BBD6 /* Store Images */ = {
 			isa = PBXGroup;
 			children = (
+				68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */,
+				68CACAC018C0D256000FF135 /* down.png */,
+				68CACAC118C0D256000FF135 /* button_back.png */,
 				83C67B2918BF7D310019280D /* arrowsideleft.png */,
 				83E9AE32184F4CCF0025BBD6 /* see all.png */,
 				83E9AE24184DEFDC0025BBD6 /* brownBar.png */,
@@ -4490,6 +4504,7 @@
 				8353B31C1851A9A8009B3BD8 /* ColoringToolsViewController.xib in Resources */,
 				83BB3EC3185B5ADD00BA5ED7 /* memory-puzzle.jpg in Resources */,
 				8310414718A4EEFE000514CE /* button_my-stories.png in Resources */,
+				68CACAC318C0D256000FF135 /* button_back.png in Resources */,
 				AEAC09D51664A2A0000DA497 /* f-mangoreader-ipad-signupbg.png in Resources */,
 				AE138F3B182B783200F36C99 /* NewStoreControlleriPhone.xib in Resources */,
 				8357E6C118AF498100770D27 /* 10.png in Resources */,
@@ -4660,6 +4675,7 @@
 				AEF6A1571695973B00ECAE7E /* WebPageViewIphone.xib in Resources */,
 				834FCE4F182D11F70000181B /* retake_button_pressed.png in Resources */,
 				834FCE6A182D11F70000181B /* upload_button_pressed.png in Resources */,
+				68CACAC218C0D256000FF135 /* down.png in Resources */,
 				834FCE1B182D11F70000181B /* audiobutton_selected.png in Resources */,
 				83BB3EA7185B560600BA5ED7 /* question-&-answer_ref.jpg in Resources */,
 				834FCE52182D11F70000181B /* save_button.png in Resources */,
@@ -4891,6 +4907,7 @@
 				AEBD469C1755B4AC0060692A /* large_one.png in Resources */,
 				AEBD469E1755B4D40060692A /* large_four.png in Resources */,
 				834FCE73182E084E0000181B /* pages_bg_left.png in Resources */,
+				68DD898F18C447D300A1CCC6 /* CloseDetailBookButton.png in Resources */,
 				83BB3E9E185B560600BA5ED7 /* gamecentre_bg.jpg in Resources */,
 				83E2D1F8184364EC00F8CDB6 /* editor_37.png in Resources */,
 				83E2D1F7184364EC00F8CDB6 /* editor_36.png in Resources */,
@@ -5281,6 +5298,7 @@
 				AE61CB101828C9DE006956BE /* NewStoreViewControlleriPhone.m in Sources */,
 				83347A29183205BA002891EA /* FlickrPhoto.m in Sources */,
 				832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */,
+				68CACAC818C0D39D000FF135 /* DropDownView.m in Sources */,
 				839DD8CE17B4D7A3003B62C8 /* PageBackgroundImageView.m in Sources */,
 				83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */,
 				833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */,

@@ -94,6 +94,8 @@
     return YES;
 }
 
+
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     /*    MangoApiController *apiController = [MangoApiController sharedApiController];
      //    apiController.delegate = self;
@@ -401,6 +403,26 @@
         [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
         [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
             bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+            
+            // to be implement ILLUSTRATE & NARRATE BY here ------>
+            
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+            
+            if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+                bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
+            }
+            else if([[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+                bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
+            }
+            
+            [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
+            [bookDetailsViewController.dropDownArrayData addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+            [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
+            [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+            [bookDetailsViewController.dropDownView.uiTableView reloadData];
+            
+            bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: -"];
+            
             bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
             bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
@@ -418,7 +440,7 @@
             bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
             bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
         }];
-        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     }
 }
 
@@ -646,7 +668,25 @@
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-        bookDetailsViewController.ageLabel.text = @"";
+        bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
+        }
+        else if([[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
+        }
+        
+        //// to be implement ILLUSTRATE & NARRATE BY here ------>
+        
+        [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
+        [bookDetailsViewController.dropDownArrayData addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+        [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+        [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
+        [bookDetailsViewController.dropDownView.uiTableView reloadData];
+        bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: -"];
+        
+        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
         bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
@@ -663,7 +703,7 @@
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
-    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

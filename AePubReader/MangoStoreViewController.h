@@ -6,6 +6,7 @@
 //
 //
 
+
 #import <UIKit/UIKit.h>
 #import "ItemsListViewController.h"
 #import "iCarousel.h"
@@ -20,6 +21,7 @@
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;
 @property (nonatomic, assign) int tableType;
+
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;
