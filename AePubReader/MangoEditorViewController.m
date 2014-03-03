@@ -1335,6 +1335,12 @@
             
             textOnPage = textLayer.actualText;
             _textFrame = CGRectMake(0, 0, 600, 400);
+            if ([textLayer.leftRatio isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                textLayer.leftRatio = [NSNumber numberWithFloat:1000.0f];
+            }
+            if ([textLayer.topRatio isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                textLayer.topRatio = [NSNumber numberWithFloat:1000.0f];
+            }
             _textFrame = CGRectMake(924.0f/[textLayer.leftRatio floatValue], 600.0f/[textLayer.topRatio floatValue], [textLayer.width floatValue], MAX([textLayer.height floatValue], 100));
             NSLog(@"Rendered Text fRame: %@", NSStringFromCGRect(_textFrame));
             NSLog(@"Rendered height = %f", [textLayer.height floatValue]);
