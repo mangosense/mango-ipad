@@ -274,8 +274,8 @@
         textLayer.fontSize = [NSNumber numberWithInt:30];
         textLayer.height = [NSNumber numberWithFloat:textFrame.size.height];
         textLayer.width = [NSNumber numberWithFloat:textFrame.size.width];
-        textLayer.leftRatio = [NSNumber numberWithFloat:924.0f/textFrame.origin.x];
-        textLayer.topRatio = [NSNumber numberWithFloat:600.0f/textFrame.origin.y];
+        textLayer.leftRatio = [NSNumber numberWithFloat:924.0f/MAX(textFrame.origin.x, 0.01f)];
+        textLayer.topRatio = [NSNumber numberWithFloat:600.0f/MAX(textFrame.origin.y, 0.01f)];
         if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
             NSLog(@"Successfully updated textlayer");
             MangoTextLayer *savedLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
