@@ -1163,7 +1163,7 @@
         }
     }
 
-    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
