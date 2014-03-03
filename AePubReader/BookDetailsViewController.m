@@ -127,7 +127,12 @@
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
 	
-	[_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
+    if([[_dropDownArrayData objectAtIndex:returnIndex] isEqualToString:@"Record new language"]){
+        //Implement recording in new language
+    }
+    else{
+        [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
+    }
 	//handle book language response here ...
 }
 

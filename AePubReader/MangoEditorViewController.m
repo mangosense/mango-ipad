@@ -284,6 +284,14 @@
     }
 }
 
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"Add your text here ..."]) {
+        textView.text = @"";
+    }
+    [textView becomeFirstResponder];
+}
+
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if ([textView isKindOfClass:[MovableTextView class]]) {
         MovableTextView *newTextview = (MovableTextView *)textView;
@@ -657,7 +665,7 @@
 
 - (IBAction)textButtonTapped:(id)sender {
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
+    textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
     textTemplatesListViewController.tableType = TABLE_TYPE_TEXT_TEMPLATES;
     textTemplatesListViewController.delegate = self;
@@ -717,7 +725,7 @@
             // Move to delegate method
             MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 400, 300)];
             pageTextView.font = [UIFont systemFontOfSize:30];
-            NSArray *itemsArray = [NSArray arrayWithObjects:@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
+            NSArray *itemsArray = [NSArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
             pageTextView.text = [itemsArray objectAtIndex:index];
             pageTextView.delegate = self;
             [pageImageView addSubview:pageTextView];
@@ -1293,7 +1301,7 @@
     pageImageView.selectedEraserWidth = 20.0f;
 
     currentPageNumber = pageNumber;
-    
+    NSLog(@"Current page no is %d", currentPageNumber);
     for (UIView *subview in [pageImageView subviews]) {
         [subview removeFromSuperview];
     }

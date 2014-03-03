@@ -94,8 +94,6 @@
     return YES;
 }
 
-
-
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     /*    MangoApiController *apiController = [MangoApiController sharedApiController];
      //    apiController.delegate = self;
