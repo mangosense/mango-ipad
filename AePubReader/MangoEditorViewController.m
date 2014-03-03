@@ -968,6 +968,8 @@
         NSLog(@"Success Updating Page");
     }
     
+    [pagesCarousel reloadItemAtIndex:index animated:YES];
+    
 }
 
 #pragma mark - Render JSON (Temporary - For Demo Story)
