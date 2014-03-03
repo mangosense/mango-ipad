@@ -20,5 +20,6 @@
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, assign) int pageIndex;
 @property (nonatomic, assign) id<PageDelete> delegate;
+@property (nonatomic, assign) BOOL showDeleteButton;
 
 @end

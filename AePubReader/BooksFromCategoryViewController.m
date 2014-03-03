@@ -51,6 +51,7 @@
     _titleLabelArray=[NSArray arrayWithObjects:_labelone,_labelTwo,_labelThree,_labelFour,_labelFive, nil];
     
     _categoryTitleLabel.text = [_categorySelected objectForKey:NAME];
+    _categoryTitleLabel.font = [UIFont boldSystemFontOfSize:17];
     
     [self setupUI];
 }

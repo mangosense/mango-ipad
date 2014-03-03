@@ -839,9 +839,12 @@
                 }];
             }
         }
+        
+        pageThumbnail.showDeleteButton = YES;
     } else {
         UIImage *image = [UIImage imageNamed:@"addnewpage.png"];
         [pageThumbnail.thumbnailImageView setImage:image];
+        pageThumbnail.showDeleteButton = NO;
     }
     
     return pageThumbnail;
