@@ -75,6 +75,16 @@
                         <action selector="settingsButton:" destination="-1" eventType="touchUpInside" id="Dij-H8-tG1"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6sZ-Zn-6C0">
+                    <rect key="frame" x="847" y="12" width="78" height="77"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="MangoTrash.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="deleteBook:" destination="-1" eventType="touchUpInside" id="XbF-T8-SuJ"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bYY-XM-nzU">
                     <rect key="frame" x="102" y="161" width="221" height="220"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -198,6 +208,7 @@
         </view>
     </objects>
     <resources>
+        <image name="MangoTrash.png" width="78" height="77"/>
         <image name="circle1.png" width="218" height="218"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_library.png" width="78" height="77"/>

@@ -49,10 +49,19 @@
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [self.view endEditing:NO];
+    }
+}
+
 - (IBAction)signUp:(id)sender {
+    [self.view endEditing:NO];
     if (_email.text.length==0 || _password.text.length==0 || _confirmPassword.text.length==0 || _nameFull.text.length==0) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"All fields are required" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
+        return;
     }
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -85,6 +94,10 @@
         [self donePressed:nil];
         [_delegate goToNext];
     }
+    else{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        return;
+    }
 }
 
 #pragma mark - UITextField Delegate Methods
@@ -96,7 +109,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     switch (textField.tag) {
         case EMAIL_TAG:
-            if (![self validateEmailWithString:textField.text]) {
+            if ((![self validateEmailWithString:textField.text]) && (textField.text.length > 0)) {
                 textField.text = @"";
                 UIAlertView *wrongEmailAlert = [[UIAlertView alloc] initWithTitle:@"Wrong Email" message:@"Please enter a valid email address" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
                 [wrongEmailAlert show];
@@ -104,13 +117,19 @@
             break;
             
         case PASSWORD_TAG:
-            
+            if((textField.text.length < 8)&&(textField.text.length > 0)){
+                UIAlertView *wrongPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Weak Password Strength" message:@"Password field's length should be more than 7" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                
+                [wrongPasswordAlert show];
+                _password.text = @"";
+            }
             break;
             
         case CONFIRM_PASSWORD_TAG:
             if (![textField.text isEqualToString:_password.text]) {
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Passwords don't match" message:@"Password and Confirm Password don't match" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
                 [alertView show];
+                _confirmPassword.text = @"";
             }
             break;
             

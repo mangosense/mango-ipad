@@ -150,15 +150,24 @@
         [paramsDict setObject:name forKey:NAME];
     }
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Login Response: %@", responseObject);
         NSDictionary *responseDict = (NSDictionary *)responseObject;
-        if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
+        NSLog(@"Login Response: %@", responseObject);
+        
+        if(![responseObject valueForKey:@"auth_token"]){
+            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:responseObject delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [responseError show];
+        }
+        
+        else if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
             [_delegate saveUserDetails:responseDict];
         }
+        
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
         if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
-            [_delegate saveUserDetails:@{}];
+           [_delegate saveUserDetails:nil];
+            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [responseError show];
         }
     }];
 }

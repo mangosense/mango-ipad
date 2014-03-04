@@ -14,7 +14,7 @@
 
 @end
 
-@interface PageThumbnailView : UIView
+@interface PageThumbnailView : UIView<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIImageView *thumbnailImageView;
 @property (nonatomic, strong) UIButton *deleteButton;

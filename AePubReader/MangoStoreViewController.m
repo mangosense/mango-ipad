@@ -54,6 +54,15 @@
     return self;
 }
 
+- (void)setCategoryFlagValue:(BOOL)value {
+    
+    categoryflag = value;
+}
+
+- (void)setCategoryDictValue:(NSDictionary*)categoryInfoDict {
+    categoryDictionary = [[NSDictionary alloc] initWithDictionary:categoryInfoDict];
+}
+
 - (void)dealloc {
     //Register observer
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:[CargoBay sharedManager]];
@@ -67,6 +76,14 @@
     //bookDetailsViewController.priceLabel.text.font = [UIFont fontWithName:@"the_hungry_ghost" size:16.0];
     
     //Register observer
+    if(categoryflag){
+        NSLog(@"Here is our category flagvalue");
+        [self itemType:TABLE_TYPE_CATEGORIES tappedWithDetail:categoryDictionary];
+    }
+    else{
+        _tableType = TABLE_TYPE_MAIN_STORE;
+        [self getAllAgeGroups];
+    }
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
@@ -297,10 +314,6 @@
 }
 
 - (void)setupInitialUI {
-    _tableType = TABLE_TYPE_MAIN_STORE;
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self getAllAgeGroups];
     
     CGRect viewFrame = self.view.bounds;
     
@@ -338,7 +351,7 @@
         [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
     } else {
         _tableType = TABLE_TYPE_MAIN_STORE;
-        
+        [self getAllAgeGroups];
         self.ageGroupsFoundInResponse = nil;
         _featuredStoriesArray = nil;
         liveStoriesFiltered = nil;
