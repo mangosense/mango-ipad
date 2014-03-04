@@ -164,7 +164,7 @@
 
 - (void)showHudOnButton {
     if (!_progressView) {
-        _progressView = [[HKCircularProgressView alloc] initWithFrame:CGRectMake(_bookImageView.frame.size.width/2 - 100, _bookImageView.frame.size.height/2 - 100, 200, 200)];
+        _progressView = [[HKCircularProgressView alloc] initWithFrame:CGRectMake(_bookImageView.frame.size.width/2 - 50, _bookImageView.frame.size.height/2 - 50, 100, 100)];
         _progressView.max = 100.0f;
         _progressView.step = 0.0f;
         _progressView.fillRadius = 1;
@@ -172,7 +172,7 @@
         [_progressView setAlpha:0.6f];
         [_bookImageView addSubview:_progressView];
     }
-    _progressView.current = _bookProgress;
+    _progressView.current = MAX(1, _bookProgress);
 }
 
 - (void)hideHudOnButton {
