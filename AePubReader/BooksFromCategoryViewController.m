@@ -192,12 +192,16 @@
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
                 NSLog(@"Categories - %@, Selected Category - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"], [_categorySelected objectForKey:NAME]);
 
-                selectCategoryDict = [[NSDictionary alloc] initWithObjectsAndKeys:[_categorySelected objectForKey:NAME], @"title", nil, @"id", nil];
                 if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]] || [[_categorySelected objectForKey:NAME] isEqualToString:ALL_BOOKS_CATEGORY]) {
                     [booksForSelectedCategory addObject:book];
                 }
             }
         }
+        
+        if (_categorySelected) {
+            selectCategoryDict = [[NSDictionary alloc] initWithObjectsAndKeys:[_categorySelected objectForKey:NAME], @"title", nil, @"id", nil];
+        }
+
         _books = (NSArray *)booksForSelectedCategory;
     }
     NSInteger count=MIN(_books.count, 5);
