@@ -120,7 +120,7 @@
     NSMutableArray *currentPageCategoriesArray = [[NSMutableArray alloc] init];
     
     NSArray *buttonsArray = [NSArray arrayWithObjects:_categoryButtonOne, _categoryButtonTwo, _categoryButtonThree, _categoryButtonFour, _categoryButtonFive, _categoryButtonSix, nil];
-    for (int i = NUMBER_OF_CATEGORIES_PER_PAGE*_pageNumber; i < NUMBER_OF_CATEGORIES_PER_PAGE*(_pageNumber + 1); i++) {
+    for (int i = NUMBER_OF_CATEGORIES_PER_PAGE*_pageNumber; i < MIN(NUMBER_OF_CATEGORIES_PER_PAGE*(_pageNumber + 1), [_categoriesArray count]); i++) {
         [currentPageCategoriesArray addObject:[_categoriesArray objectAtIndex:i]];
         UIButton *button = [buttonsArray objectAtIndex:i%NUMBER_OF_CATEGORIES_PER_PAGE];
         NSString *imageName;
@@ -150,20 +150,42 @@
         [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     }
     
-    _categoryLabelOne.text = [[currentPageCategoriesArray objectAtIndex:0] objectForKey:NAME];
-    _categoryLabelTwo.text = [[currentPageCategoriesArray objectAtIndex:1] objectForKey:NAME];
-    _categoryLabelThree.text = [[currentPageCategoriesArray objectAtIndex:2] objectForKey:NAME];
-    _categoryLabelFour.text = [[currentPageCategoriesArray objectAtIndex:3] objectForKey:NAME];
-    _categoryLabelFive.text = [[currentPageCategoriesArray objectAtIndex:4] objectForKey:NAME];
-    _categoryLabelSix.text = [[currentPageCategoriesArray objectAtIndex:5] objectForKey:NAME];
-
-    _categoryButtonOne.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 0;
-    _categoryButtonTwo.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 1;
-    _categoryButtonThree.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 2;
-    _categoryButtonFour.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 3;
-    _categoryButtonFive.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 4;
-    _categoryButtonSix.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 5;
-
+    for (int i = 0; i < [currentPageCategoriesArray count]; i++) {
+        switch (i) {
+            case 0:
+                _categoryLabelOne.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonOne.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 1:
+                _categoryLabelTwo.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonTwo.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 2:
+                _categoryLabelThree.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonThree.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 3:
+                _categoryLabelFour.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonFour.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 4:
+                _categoryLabelFive.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonFive.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 5:
+                _categoryLabelSix.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonSix.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 #pragma mark - Post API
@@ -184,6 +206,7 @@
     if ([type isEqualToString:CATEGORIES]) {
         NSMutableArray *categoriesWithMyBooksCategoryArray = [NSMutableArray arrayWithArray:dataArray];
         [categoriesWithMyBooksCategoryArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"My Books", NAME, nil]];
+        [categoriesWithMyBooksCategoryArray insertObject:[NSDictionary dictionaryWithObjectsAndKeys:@"All Books", NAME, nil] atIndex:0];
         _categoriesArray = [NSArray arrayWithArray:categoriesWithMyBooksCategoryArray];
         
         [self setupUI];

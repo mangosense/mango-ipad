@@ -190,10 +190,9 @@
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
                 
                 NSLog(@"Categories - %@, Selected Category - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"], [_categorySelected objectForKey:NAME]);
-                if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]]) {
+                if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]] || [[_categorySelected objectForKey:NAME] isEqualToString:ALL_BOOKS_CATEGORY]) {
                     [booksForSelectedCategory addObject:book];
                 }
-                
             }
         }
         _books = (NSArray *)booksForSelectedCategory;
