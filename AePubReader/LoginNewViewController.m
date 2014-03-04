@@ -206,6 +206,7 @@
 }
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
+    
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
     if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {

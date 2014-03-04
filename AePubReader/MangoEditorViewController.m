@@ -804,6 +804,7 @@
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     PageThumbnailView *pageThumbnail = [[PageThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 130, 90)];
+    
     pageThumbnail.thumbnailImageView.image = [UIImage imageNamed:@"white_page.jpeg"];
     [pageThumbnail setBackgroundColor:[UIColor clearColor]];
     pageThumbnail.delegate = self;
@@ -821,6 +822,9 @@
             if ([layer isKindOfClass:[MangoImageLayer class]]) {
                 MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
                 [pageThumbnail.thumbnailImageView setImage:[UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]]];
+                NSLog(@"layer tag is %d", pageThumbnail.thumbnailImageView.tag);
+                pageThumbnail.thumbnailImageView.layer.borderWidth = 2.0;
+                pageThumbnail.thumbnailImageView.layer.borderColor = [[UIColor clearColor]CGColor];
                 break;
             } else if ([layer isKindOfClass:[MangoCapturedImageLayer class]]) {
                 MangoCapturedImageLayer *capturedImageLayer = (MangoCapturedImageLayer *)layer;
@@ -850,6 +854,9 @@
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (index < [_mangoStoryBook.pages count]) {
         [self renderEditorPage:index];
+       // pagesCarousel..layer.borderColor = [[UIColor redColor] CGColor];
+       // pagesCarousel.contentView.layer.borderWidth = 2.0f;
+        
     } else {
         [self createEmptyPage];
         [pagesCarousel reloadData];

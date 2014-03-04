@@ -27,6 +27,10 @@
         [deleteButton addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         deleteButton.frame = CGRectMake(frame.size.width - 20, 0, 20, 20);
         
+//        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+//        tapRecognizer.delegate = self;
+//        [self addGestureRecognizer:tapRecognizer];
+        
         [self addSubview:thumbnailImageView];
         [self addSubview:deleteButton];
     }
@@ -37,6 +41,12 @@
 
 - (void)deleteButtonPressed {
     [delegate deletePageNumber:deleteButton.tag];
+}
+
+- (IBAction)handleTap:(UITapGestureRecognizer *)recognizer {
+    NSLog(@"Current button tag is %d -- %d", recognizer.view.tag, deleteButton.tag);
+    recognizer.view.layer.borderColor = [[UIColor redColor] CGColor];
+    recognizer.view.layer.borderWidth = 2.0f;
 }
 
 /*

@@ -12,7 +12,9 @@
 #import "NewStoreCoverViewController.h"
 #import "MangoApiController.h"
 
-@interface BooksFromCategoryViewController : UIViewController<DismissPopOver, MangoPostApiProtocol>
+@interface BooksFromCategoryViewController : UIViewController<DismissPopOver, MangoPostApiProtocol>{
+    NSDictionary *selectCategoryDict;
+}
 - (IBAction)homeButton:(id)sender;
 - (IBAction)libraryButton:(id)sender;
 - (IBAction)settingsButton:(id)sender;
@@ -48,5 +50,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *categoryTitleLabel;
 
 @property (nonatomic, strong) NSDictionary *categorySelected;
+
+-(IBAction)deleteBook:(id)sender;
 
 @end

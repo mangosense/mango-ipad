@@ -98,8 +98,10 @@
                 [self.navigationController.navigationBar setHidden:YES];
                 [self.navigationController pushViewController:newBookEditorViewController animated:YES];
             } else {
-                controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
                 
+                controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                [controller setCategoryFlagValue:1];
+                [controller setCategoryDictValue:selectCategoryDict];
                 [self.navigationController pushViewController:controller animated:YES];
             }
             break;
@@ -187,8 +189,8 @@
                 jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
                 
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
-                
                 NSLog(@"Categories - %@, Selected Category - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"], [_categorySelected objectForKey:NAME]);
+                selectCategoryDict = [[NSDictionary alloc] initWithObjectsAndKeys:[_categorySelected objectForKey:NAME], @"title", nil, @"id", nil];
                 if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]]) {
                     [booksForSelectedCategory addObject:book];
                 }
@@ -291,6 +293,12 @@
         [_libraryBtn setEnabled:YES];
 
     }
+}
+
+-(IBAction)deleteBook:(id)sender{
+    
+    //handle deletion of books available
+    
 }
 
 @end

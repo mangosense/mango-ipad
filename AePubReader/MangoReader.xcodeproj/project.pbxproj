@@ -30,6 +30,12 @@
 		68CACAC218C0D256000FF135 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CACAC018C0D256000FF135 /* down.png */; };
 		68CACAC318C0D256000FF135 /* button_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CACAC118C0D256000FF135 /* button_back.png */; };
 		68CACAC818C0D39D000FF135 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68CACAC618C0D39C000FF135 /* DropDownView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		68D2638218C5E385003AFE48 /* MangoNameLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638118C5E385003AFE48 /* MangoNameLogo.png */; };
+		68D2638818C5E57F003AFE48 /* MangoSignUpBoximage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */; };
+		68D2638C18C5E843003AFE48 /* SignUpBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638B18C5E843003AFE48 /* SignUpBtn.png */; };
+		68D2638E18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638D18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png */; };
+		68D2639018C61B63003AFE48 /* MangoTrash.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638F18C61B63003AFE48 /* MangoTrash.png */; };
+		68D2639218C62247003AFE48 /* deletebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2639118C62247003AFE48 /* deletebook.png */; };
 		68DD898F18C447D300A1CCC6 /* CloseDetailBookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
 		8309295918BDCA1600FA401E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309295818BDCA1600FA401E /* UserInfo.m */; };
@@ -1113,6 +1119,12 @@
 		68CACAC118C0D256000FF135 /* button_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_back.png; sourceTree = "<group>"; };
 		68CACAC618C0D39C000FF135 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
 		68CACAC718C0D39D000FF135 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
+		68D2638118C5E385003AFE48 /* MangoNameLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoNameLogo.png; sourceTree = "<group>"; };
+		68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoSignUpBoximage.png; sourceTree = "<group>"; };
+		68D2638B18C5E843003AFE48 /* SignUpBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUpBtn.png; sourceTree = "<group>"; };
+		68D2638D18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-ipad-signupnewbg.png"; sourceTree = "<group>"; };
+		68D2638F18C61B63003AFE48 /* MangoTrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoTrash.png; sourceTree = "<group>"; };
+		68D2639118C62247003AFE48 /* deletebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deletebook.png; sourceTree = "<group>"; };
 		68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseDetailBookButton.png; sourceTree = "<group>"; };
 		8303ED6118485FF600BE7671 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		8309295718BDCA1600FA401E /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
@@ -2558,6 +2570,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				68D2638D18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png */,
+				68D2638B18C5E843003AFE48 /* SignUpBtn.png */,
+				68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */,
+				68D2638118C5E385003AFE48 /* MangoNameLogo.png */,
 				83C1B51318AE5EA700624E1B /* GameIcons */,
 				83BB3E8B185B560600BA5ED7 /* mangogames */,
 				8353B31D1851ABB7009B3BD8 /* Color Tool Images */,
@@ -3647,6 +3663,8 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				68D2639118C62247003AFE48 /* deletebook.png */,
+				68D2638F18C61B63003AFE48 /* MangoTrash.png */,
 				AE0C9395183E3C60008E4D54 /* icon_my existing books.png */,
 				AE0C938B183E0B58008E4D54 /* icons_text.png */,
 				AE0C9387183E098B008E4D54 /* icons_replay.png */,
@@ -4361,6 +4379,7 @@
 				AE7FEDE0161581EC00C4B51D /* View.xib in Resources */,
 				AE7FEDE21615A16100C4B51D /* book-shelf.png in Resources */,
 				83BB3EBE185B5ADD00BA5ED7 /* arrange-the-word.jpg in Resources */,
+				68D2638818C5E57F003AFE48 /* MangoSignUpBoximage.png in Resources */,
 				83E2D22B184364EC00F8CDB6 /* editor_83.png in Resources */,
 				83BB3EAD185B560600BA5ED7 /* true_false_ref.jpg in Resources */,
 				AE0C935B183DE117008E4D54 /* hungry.zip in Resources */,
@@ -4393,6 +4412,7 @@
 				83E2D223184364EC00F8CDB6 /* editor_76.png in Resources */,
 				83E2D105184364EC00F8CDB6 /* editor_14.png in Resources */,
 				AE7FEF28161F1AC400181CE8 /* library.png in Resources */,
+				68D2638E18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png in Resources */,
 				83E2D1D1184364EC00F8CDB6 /* editor_323.png in Resources */,
 				834FCE40182D11F70000181B /* pagesbutton_selected.png in Resources */,
 				83E2D113184364EC00F8CDB6 /* editor_152.png in Resources */,
@@ -4537,6 +4557,7 @@
 				83E2D115184364EC00F8CDB6 /* editor_154.png in Resources */,
 				AE4BB731183CD7AB004F20C5 /* icons_back2.png in Resources */,
 				AE1C6C24167217F20090DFDD /* sign-in-button-iphone4.png in Resources */,
+				68D2639018C61B63003AFE48 /* MangoTrash.png in Resources */,
 				AE1C6C25167217F20090DFDD /* sign-up-button-iphone4.png in Resources */,
 				83E2D148184364EC00F8CDB6 /* editor_20.png in Resources */,
 				AE1C6C27167219320090DFDD /* facebook-login-button-iphone3.png in Resources */,
@@ -4562,6 +4583,7 @@
 				8353B3381851ABE1009B3BD8 /* shape1.png in Resources */,
 				83E2D1ED184364EC00F8CDB6 /* editor_349.png in Resources */,
 				AE1C6C3216721EBB0090DFDD /* download-button-iphone3.png in Resources */,
+				68D2638218C5E385003AFE48 /* MangoNameLogo.png in Resources */,
 				83E2D1AF184364EC00F8CDB6 /* editor_293.png in Resources */,
 				834FCE1C182D11F70000181B /* audioicon.png in Resources */,
 				83E9AE22184DA3710025BBD6 /* storeipadapp_final3.jpg in Resources */,
@@ -4734,6 +4756,7 @@
 				83E2D1DF184364EC00F8CDB6 /* editor_336.png in Resources */,
 				AEB7AE0216B94974009844B0 /* addhigh.png in Resources */,
 				AEB7AE0416B94986009844B0 /* lib.png in Resources */,
+				68D2638C18C5E843003AFE48 /* SignUpBtn.png in Resources */,
 				AE0C9367183DEA73008E4D54 /* icons_readbymyself.png in Resources */,
 				AEB7AE0616B9498D009844B0 /* addnot.png in Resources */,
 				834FCE50182D11F70000181B /* rightmark.png in Resources */,
@@ -4975,6 +4998,7 @@
 				83BB3EA9185B560600BA5ED7 /* quiz_ref.jpg in Resources */,
 				83E2D1CA184364EC00F8CDB6 /* editor_317.png in Resources */,
 				83C1B52118AE5EA700624E1B /* sequence.png in Resources */,
+				68D2639218C62247003AFE48 /* deletebook.png in Resources */,
 				83E2D1B4184364EC00F8CDB6 /* editor_298.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
 				834FCE36182D11F70000181B /* mangoicon.png in Resources */,
