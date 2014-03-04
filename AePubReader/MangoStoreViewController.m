@@ -65,8 +65,9 @@
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
     //bookDetailsViewController.priceLabel.text.font = [UIFont fontWithName:@"the_hungry_ghost" size:16.0];
+    
     //Register observer
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
 - (void)didReceiveMemoryWarning {
