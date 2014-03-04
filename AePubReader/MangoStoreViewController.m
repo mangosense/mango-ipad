@@ -77,7 +77,7 @@
     //Register observer
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     if(categoryflag){
-        //NSLog(@"Here is our category flagvalue");
+        NSLog(@"Here is our category flagvalue");
         [self itemType:TABLE_TYPE_CATEGORIES tappedWithDetail:categoryDictionary];
     }
     else{
