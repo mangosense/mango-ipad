@@ -1680,16 +1680,17 @@
         //Get JSON String
         bookJsonString = [self jsonStringForLocation:storyBook.localPathFile];
         
-        BOOL isDir;
-        NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
-        
         //If Downloaded, then fork it.
         //Else this is a newly created book. Keep it as it is.
-        if ([storyBook.downloaded boolValue]) {
+        NSRange forkStringRange = [[[storyBook.localPathFile componentsSeparatedByString:@"/"] lastObject] rangeOfString:@"fork"];
+        if ([storyBook.downloaded boolValue] && forkStringRange.location == NSNotFound) {
             _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
         } else {
             _editedBookPath = storyBook.localPathFile;
         }
+        
+        BOOL isDir;
+        NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
         
         if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
             [self createACopy];
