@@ -51,6 +51,7 @@
     _titleLabelArray=[NSArray arrayWithObjects:_labelone,_labelTwo,_labelThree,_labelFour,_labelFive, nil];
     
     _categoryTitleLabel.text = [_categorySelected objectForKey:NAME];
+    _categoryTitleLabel.font = [UIFont boldSystemFontOfSize:17];
     
     [self setupUI];
 }
@@ -190,11 +191,11 @@
                 
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
                 NSLog(@"Categories - %@, Selected Category - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"], [_categorySelected objectForKey:NAME]);
+
                 selectCategoryDict = [[NSDictionary alloc] initWithObjectsAndKeys:[_categorySelected objectForKey:NAME], @"title", nil, @"id", nil];
-                if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]]) {
+                if ([[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:[_categorySelected objectForKey:NAME]] || [[_categorySelected objectForKey:NAME] isEqualToString:ALL_BOOKS_CATEGORY]) {
                     [booksForSelectedCategory addObject:book];
                 }
-                
             }
         }
         _books = (NSArray *)booksForSelectedCategory;

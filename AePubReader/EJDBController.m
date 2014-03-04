@@ -143,7 +143,13 @@
                 imageLayer.id=layerDict[@"id"];
                 NSLog(@"for %@ %@",[layerDict objectForKey:TYPE],layerDict[@"url"]);
                 imageLayer.url=layerDict[@"url"];
-                imageLayer.alignment=layerDict[@"alignment"];
+                if ([[layerDict allKeys] containsObject:@"alignment"]) {
+                    if (![layerDict[@"alignment"] isEqual:[NSNull null]]) {
+                        imageLayer.alignment=layerDict[@"alignment"];
+                    }
+                } else {
+                    imageLayer.alignment = @"middle";
+                }
                 if ([self insertOrUpdateObject:imageLayer]) {
                     [layerIdArray addObject:imageLayer.id];
                 }
@@ -192,15 +198,25 @@
                 audioLayer.id=layerDict[@"id"];
                 audioLayer.url=layerDict[@"url"];
                 if ([[layerDict allKeys] containsObject:@"wordTimes"]) {
-                    audioLayer.wordTimes=layerDict[@"wordTimes"];
+                    if (![layerDict[@"wordTimes"] isEqual:[NSNull null]]) {
+                        audioLayer.wordTimes=layerDict[@"wordTimes"];
+                    }
+                }
+                if (!audioLayer.wordTimes) {
+                    audioLayer.wordTimes = [NSArray array];
                 }
                 if ([[layerDict allKeys] containsObject:@"wordMap"]) {
-                    NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
-                    for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
-                        NSString *word=wordMap[@"word"];
-                        [mutableWordMap addObject:word];
+                    if (![layerDict[@"wordMap"] isEqual:[NSNull null]]) {
+                        NSMutableArray *mutableWordMap=[[NSMutableArray alloc]init];
+                        for (NSDictionary *wordMap in layerDict[@"wordMap"]) {
+                            NSString *word=wordMap[@"word"];
+                            [mutableWordMap addObject:word];
+                        }
+                        audioLayer.wordMap=mutableWordMap;
                     }
-                    audioLayer.wordMap=mutableWordMap;
+                }
+                if (!audioLayer.wordMap) {
+                    audioLayer.wordMap = [NSArray array];
                 }
                 
                 if ([self insertOrUpdateObject:audioLayer]) {

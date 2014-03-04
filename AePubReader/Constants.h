@@ -192,5 +192,6 @@
 #define PURCHASED_BOOKS 1
 #define LIVE_BOOKS 2
 #define FEATURED_BOOKS 3
+#define ALL_BOOKS_CATEGORY @"All Books"
 
 @end

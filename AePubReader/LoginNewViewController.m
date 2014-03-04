@@ -20,6 +20,8 @@
 
 @interface LoginNewViewController ()
 
+@property (nonatomic, assign) BOOL isLoginWithFb;
+
 @end
 
 @implementation LoginNewViewController
@@ -62,6 +64,8 @@
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
         [self goToNext:nil];
     }
+    
+    _isLoginWithFb = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,7 +100,10 @@
     [facebookDict setObject:[user objectForKey:USERNAME] forKey:USERNAME];
     [facebookDict setObject:[user objectForKey:NAME] forKey:NAME];
     
-    [self loginWithFacebook:[NSDictionary dictionaryWithDictionary:facebookDict]];
+    if (!_isLoginWithFb) {
+        _isLoginWithFb = YES;
+        [self loginWithFacebook:[NSDictionary dictionaryWithDictionary:facebookDict]];
+    }
 }
 
 // Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experience

@@ -274,8 +274,8 @@
         textLayer.fontSize = [NSNumber numberWithInt:30];
         textLayer.height = [NSNumber numberWithFloat:textFrame.size.height];
         textLayer.width = [NSNumber numberWithFloat:textFrame.size.width];
-        textLayer.leftRatio = [NSNumber numberWithFloat:924.0f/textFrame.origin.x];
-        textLayer.topRatio = [NSNumber numberWithFloat:600.0f/textFrame.origin.y];
+        textLayer.leftRatio = [NSNumber numberWithFloat:924.0f/MAX(textFrame.origin.x, 0.01f)];
+        textLayer.topRatio = [NSNumber numberWithFloat:600.0f/MAX(textFrame.origin.y, 0.01f)];
         if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
             NSLog(@"Successfully updated textlayer");
             MangoTextLayer *savedLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
@@ -843,9 +843,12 @@
                 }];
             }
         }
+        
+        pageThumbnail.showDeleteButton = YES;
     } else {
         UIImage *image = [UIImage imageNamed:@"addnewpage.png"];
         [pageThumbnail.thumbnailImageView setImage:image];
+        pageThumbnail.showDeleteButton = NO;
     }
     
     return pageThumbnail;
@@ -971,6 +974,8 @@
     if ([appDelegate.ejdbController insertOrUpdateObject:currentPage]) {
         NSLog(@"Success Updating Page");
     }
+    
+    [pagesCarousel reloadItemAtIndex:index animated:YES];
     
 }
 
@@ -1167,7 +1172,7 @@
         }
     }
 
-    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
@@ -1191,22 +1196,26 @@
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:30.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             [audioMappingViewcontroller.customView setNeedsDisplay];
             NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
             NSMutableArray *wordMap=[[NSMutableArray alloc]init];
-            for (NSDictionary *temp in wordMapDict ) {
-                NSString *word=temp[@"word"];
-                [wordMap addObject:word];
+            if (![wordMapDict isEqual:[NSNull null]]) {
+                for (NSDictionary *temp in wordMapDict ) {
+                    NSString *word=temp[@"word"];
+                    [wordMap addObject:word];
+                }
             }
             wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
-            NSArray *cues=[layerDict objectForKey:CUES];
             
+            if (![[layerDict objectForKey:CUES] isEqual:[NSNull null]]) {
+                NSArray *cues=[layerDict objectForKey:CUES];
+                audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
+            }
 
             audioMappingViewcontroller.customView.text=wordMapDict;
-            audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
             }else{
@@ -1266,7 +1275,7 @@
             
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:30.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
@@ -1339,6 +1348,12 @@
             
             textOnPage = textLayer.actualText;
             _textFrame = CGRectMake(0, 0, 600, 400);
+            if ([textLayer.leftRatio isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                textLayer.leftRatio = [NSNumber numberWithFloat:1000.0f];
+            }
+            if ([textLayer.topRatio isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                textLayer.topRatio = [NSNumber numberWithFloat:1000.0f];
+            }
             _textFrame = CGRectMake(924.0f/[textLayer.leftRatio floatValue], 600.0f/[textLayer.topRatio floatValue], [textLayer.width floatValue], MAX([textLayer.height floatValue], 100));
             NSLog(@"Rendered Text fRame: %@", NSStringFromCGRect(_textFrame));
             NSLog(@"Rendered height = %f", [textLayer.height floatValue]);
@@ -1672,16 +1687,17 @@
         //Get JSON String
         bookJsonString = [self jsonStringForLocation:storyBook.localPathFile];
         
-        BOOL isDir;
-        NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
-        
         //If Downloaded, then fork it.
         //Else this is a newly created book. Keep it as it is.
-        if ([storyBook.downloaded boolValue]) {
+        NSRange forkStringRange = [[[storyBook.localPathFile componentsSeparatedByString:@"/"] lastObject] rangeOfString:@"fork"];
+        if ([storyBook.downloaded boolValue] && forkStringRange.location == NSNotFound) {
             _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
         } else {
             _editedBookPath = storyBook.localPathFile;
         }
+        
+        BOOL isDir;
+        NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
         
         if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
             [self createACopy];

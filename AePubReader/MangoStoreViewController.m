@@ -74,8 +74,8 @@
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
     //bookDetailsViewController.priceLabel.text.font = [UIFont fontWithName:@"the_hungry_ghost" size:16.0];
+    
     //Register observer
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     if(categoryflag){
         NSLog(@"Here is our category flagvalue");
         [self itemType:TABLE_TYPE_CATEGORIES tappedWithDetail:categoryDictionary];
@@ -84,6 +84,7 @@
         _tableType = TABLE_TYPE_MAIN_STORE;
         [self getAllAgeGroups];
     }
+    //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -313,7 +314,6 @@
 }
 
 - (void)setupInitialUI {
-    
     
     CGRect viewFrame = self.view.bounds;
     

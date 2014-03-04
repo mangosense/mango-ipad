@@ -83,7 +83,7 @@ static UIAlertView *alertViewLoading;
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
        _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
         CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
-      
+        
         self.window.rootViewController = nav;
         [self.window makeKeyAndVisible];
     } else {
@@ -95,6 +95,8 @@ static UIAlertView *alertViewLoading;
         _loginViewController=[[LoginViewController alloc]init];
         nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
         }
+        
+        
         self.window.rootViewController = nav;
  
         [self.window makeKeyAndVisible];

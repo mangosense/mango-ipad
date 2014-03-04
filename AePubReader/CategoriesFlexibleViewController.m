@@ -114,13 +114,51 @@
 
 }
 
+#pragma mark - Get Books Count
+
+- (NSDictionary *)bookCountForCategory {
+    NSMutableDictionary *bookCountDict = [NSMutableDictionary dictionary];
+    
+    for (NSDictionary *categoryDict in _categoriesArray) {
+        [bookCountDict setObject:[NSNumber numberWithInt:0] forKey:[categoryDict objectForKey:NAME]];
+    }
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *allBooks = [appDelegate.dataModel getAllUserBooks];
+    
+    for (Book *book in allBooks) {
+        NSString *jsonLocation=book.localPathFile;
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+        NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+        NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+        jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+        
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
+        
+        NSLog(@"Categories - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]);
+        for (NSString *category in [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]) {
+            int bookCount = [[bookCountDict objectForKey:category] intValue];
+            bookCount += 1;
+            [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:category];
+        }
+    }
+    
+    [bookCountDict setObject:[NSNumber numberWithInt:[allBooks count]] forKey:ALL_BOOKS_CATEGORY];
+    
+    return bookCountDict;
+}
+
 #pragma mark - Setup UI
 
 - (void)setupUI {
+    NSDictionary *bookCountDict = [self bookCountForCategory];
+    NSLog(@"%@", bookCountDict);
+
     NSMutableArray *currentPageCategoriesArray = [[NSMutableArray alloc] init];
     
     NSArray *buttonsArray = [NSArray arrayWithObjects:_categoryButtonOne, _categoryButtonTwo, _categoryButtonThree, _categoryButtonFour, _categoryButtonFive, _categoryButtonSix, nil];
-    for (int i = NUMBER_OF_CATEGORIES_PER_PAGE*_pageNumber; i < NUMBER_OF_CATEGORIES_PER_PAGE*(_pageNumber + 1); i++) {
+    for (int i = NUMBER_OF_CATEGORIES_PER_PAGE*_pageNumber; i < MIN(NUMBER_OF_CATEGORIES_PER_PAGE*(_pageNumber + 1), [_categoriesArray count]); i++) {
         [currentPageCategoriesArray addObject:[_categoriesArray objectAtIndex:i]];
         UIButton *button = [buttonsArray objectAtIndex:i%NUMBER_OF_CATEGORIES_PER_PAGE];
         NSString *imageName;
@@ -136,26 +174,68 @@
             imageName = @"values.png";
         } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Classic Stories"]) {
             imageName = @"classics.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Animals and Nature"]) {
+            imageName = @"animals-and-nature.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"My Books"]) {
+            imageName = @"my-books.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"School Time"]) {
+            imageName = @"school-time.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Family and Friends"]) {
+            imageName = @"family-and-friends.png";
         } else {
             imageName = @"icon_my existing books.png";
         }
         [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        
+        if ([[bookCountDict objectForKey:[[_categoriesArray objectAtIndex:i] objectForKey:@"name"]] intValue] > 0) {
+            UILabel *bookcountLabel = [[UILabel alloc] initWithFrame:CGRectMake(button.frame.origin.x + button.frame.size.width - 30, button.frame.origin.y - 14, 44, 44)];
+            [bookcountLabel setBackgroundColor:COLOR_LIGHT_GREY];
+            [bookcountLabel setAlpha:0.8f];
+            [bookcountLabel setFont:[UIFont boldSystemFontOfSize:32.0f]];
+            [bookcountLabel setTextColor:[UIColor blackColor]];
+            [bookcountLabel setTextAlignment:NSTextAlignmentCenter];
+            [[bookcountLabel layer] setCornerRadius:22.0f];
+            [bookcountLabel setText:[NSString stringWithFormat:@"%d", [[bookCountDict objectForKey:[[_categoriesArray objectAtIndex:i] objectForKey:@"name"]] intValue]]];
+            [self.view addSubview:bookcountLabel];
+        }
     }
     
-    _categoryLabelOne.text = [[currentPageCategoriesArray objectAtIndex:0] objectForKey:NAME];
-    _categoryLabelTwo.text = [[currentPageCategoriesArray objectAtIndex:1] objectForKey:NAME];
-    _categoryLabelThree.text = [[currentPageCategoriesArray objectAtIndex:2] objectForKey:NAME];
-    _categoryLabelFour.text = [[currentPageCategoriesArray objectAtIndex:3] objectForKey:NAME];
-    _categoryLabelFive.text = [[currentPageCategoriesArray objectAtIndex:4] objectForKey:NAME];
-    _categoryLabelSix.text = [[currentPageCategoriesArray objectAtIndex:5] objectForKey:NAME];
-
-    _categoryButtonOne.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 0;
-    _categoryButtonTwo.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 1;
-    _categoryButtonThree.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 2;
-    _categoryButtonFour.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 3;
-    _categoryButtonFive.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 4;
-    _categoryButtonSix.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + 5;
-
+    for (int i = 0; i < [currentPageCategoriesArray count]; i++) {
+        switch (i) {
+            case 0:
+                _categoryLabelOne.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonOne.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 1:
+                _categoryLabelTwo.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonTwo.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 2:
+                _categoryLabelThree.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonThree.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 3:
+                _categoryLabelFour.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonFour.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 4:
+                _categoryLabelFive.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonFive.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            case 5:
+                _categoryLabelSix.text = [[currentPageCategoriesArray objectAtIndex:i] objectForKey:NAME];
+                _categoryButtonSix.tag = _pageNumber*NUMBER_OF_CATEGORIES_PER_PAGE + i;
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 #pragma mark - Post API
@@ -176,6 +256,7 @@
     if ([type isEqualToString:CATEGORIES]) {
         NSMutableArray *categoriesWithMyBooksCategoryArray = [NSMutableArray arrayWithArray:dataArray];
         [categoriesWithMyBooksCategoryArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"My Books", NAME, nil]];
+        [categoriesWithMyBooksCategoryArray insertObject:[NSDictionary dictionaryWithObjectsAndKeys:@"All Books", NAME, nil] atIndex:0];
         _categoriesArray = [NSArray arrayWithArray:categoriesWithMyBooksCategoryArray];
         
         [self setupUI];

@@ -61,7 +61,6 @@
 
     NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
     _pageNo=numberOfPages.integerValue;
-    _gamePageNumber = 0;
     
     _showButtons = YES;
     
@@ -227,6 +226,8 @@
         }
       
         
+    } else {
+        _pageNumber = _pageNo - 1;
     }
    
 }
@@ -338,15 +339,14 @@
         MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.id];
         _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:_book.localPathFile WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];
     } else {
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
-        if (!_pageView) {
-            _pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-            
-            NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-            int numberOfGames = [jsonDict objectForKey:NUMBER_OF_GAMES];
-            
-            NSArray *pagesArray = [jsonDict objectForKey:PAGES];
+        NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        int numberOfGames = [[jsonDict objectForKey:NUMBER_OF_GAMES] intValue];
+        NSArray *pagesArray = [jsonDict objectForKey:PAGES];
+
+        if (_pageNumber < [pagesArray count] - numberOfGames) {
+            _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
+        } else {
             NSMutableArray *gameNamesArray = [[NSMutableArray alloc] init];
             for (NSDictionary *pageDict in pagesArray) {
                 if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
@@ -355,18 +355,15 @@
             }
             
             if ([gameNamesArray count] > 0) {
-                NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_gamePageNumber] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
+                NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_pageNumber - ([pagesArray count] - numberOfGames)] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
                 _gameDataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
                 [_gameDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
                 UIWebView *gameView = [gameViewDict objectForKey:@"gameView"];
                 gameView.delegate = self;
                 
                 [_pageView addSubview:gameView];
-                _gamePageNumber++;
-                _gamePageNumber = MIN(numberOfGames - 1, _gamePageNumber);
             }
         }
-                
     }
     _pageView.frame=self.view.bounds;
     /*for (UIView *subview in [_pageView subviews]) {

@@ -37,6 +37,13 @@
     return self;
 }
 
+#define Setters
+
+- (void)setShowDeleteButton:(BOOL)showDeleteButton {
+    _showDeleteButton = showDeleteButton;
+    deleteButton.hidden = !_showDeleteButton;
+}
+
 #define Action Methods
 
 - (void)deleteButtonPressed {
