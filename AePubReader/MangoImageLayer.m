@@ -23,11 +23,11 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(url);
+    return NSDictionaryOfVariableBindings(url, alignment);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *keysArray = [NSArray arrayWithObjects:@"id", @"url", nil];
+    NSArray *keysArray = [NSArray arrayWithObjects:@"id", @"url", @"alignment", nil];
     for (NSString *key in keysArray)
     {
         if ([[dictionary allKeys] containsObject:key]) {

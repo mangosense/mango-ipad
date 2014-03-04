@@ -143,7 +143,11 @@
                 imageLayer.id=layerDict[@"id"];
                 NSLog(@"for %@ %@",[layerDict objectForKey:TYPE],layerDict[@"url"]);
                 imageLayer.url=layerDict[@"url"];
-                imageLayer.alignment=layerDict[@"alignment"];
+                if ([[layerDict allKeys] containsObject:@"alignment"]) {
+                    imageLayer.alignment=layerDict[@"alignment"];
+                } else {
+                    imageLayer.alignment = @"middle";
+                }
                 if ([self insertOrUpdateObject:imageLayer]) {
                     [layerIdArray addObject:imageLayer.id];
                 }
