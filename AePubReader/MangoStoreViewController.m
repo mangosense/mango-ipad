@@ -297,6 +297,8 @@
 
 - (void)setupInitialUI {
     _tableType = TABLE_TYPE_MAIN_STORE;
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self getAllAgeGroups];
     
     CGRect viewFrame = self.view.bounds;

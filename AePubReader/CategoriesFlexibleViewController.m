@@ -136,6 +136,14 @@
             imageName = @"values.png";
         } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Classic Stories"]) {
             imageName = @"classics.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Animals and Nature"]) {
+            imageName = @"animals-and-nature.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"My Books"]) {
+            imageName = @"my-books.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"School Time"]) {
+            imageName = @"school-time.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Family and Friends"]) {
+            imageName = @"family-and-friends.png";
         } else {
             imageName = @"icon_my existing books.png";
         }
