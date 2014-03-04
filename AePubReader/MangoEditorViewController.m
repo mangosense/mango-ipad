@@ -1189,22 +1189,26 @@
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:30.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             [audioMappingViewcontroller.customView setNeedsDisplay];
             NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
             NSMutableArray *wordMap=[[NSMutableArray alloc]init];
-            for (NSDictionary *temp in wordMapDict ) {
-                NSString *word=temp[@"word"];
-                [wordMap addObject:word];
+            if (![wordMapDict isEqual:[NSNull null]]) {
+                for (NSDictionary *temp in wordMapDict ) {
+                    NSString *word=temp[@"word"];
+                    [wordMap addObject:word];
+                }
             }
             wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
-            NSArray *cues=[layerDict objectForKey:CUES];
             
+            if (![[layerDict objectForKey:CUES] isEqual:[NSNull null]]) {
+                NSArray *cues=[layerDict objectForKey:CUES];
+                audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
+            }
 
             audioMappingViewcontroller.customView.text=wordMapDict;
-            audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
             }else{
@@ -1264,7 +1268,7 @@
             
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:30.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
