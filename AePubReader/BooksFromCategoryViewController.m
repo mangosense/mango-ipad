@@ -53,6 +53,9 @@
     _categoryTitleLabel.text = [_categorySelected objectForKey:NAME];
     _categoryTitleLabel.font = [UIFont boldSystemFontOfSize:17];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {    
     [self setupUI];
 }
 

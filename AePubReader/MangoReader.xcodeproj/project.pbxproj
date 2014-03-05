@@ -54,6 +54,8 @@
 		833DDD5817B8B689009BCA5C /* SmoothDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD5717B8B689009BCA5C /* SmoothDrawingView.m */; };
 		833DDD6217B8EDA5009BCA5C /* AudioRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */; };
 		833DDD6317B8EDA5009BCA5C /* AudioRecordingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */; };
+		8344C1E918C6FBF000DAA386 /* MangoBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8344C1E718C6FBF000DAA386 /* MangoBooksViewController.m */; };
+		8344C1EA18C6FBF000DAA386 /* MangoBooksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8344C1E818C6FBF000DAA386 /* MangoBooksViewController.xib */; };
 		834FCE11182D11F70000181B /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB5182D11F60000181B /* add_button.png */; };
 		834FCE12182D11F70000181B /* add_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB6182D11F60000181B /* add_button_pressed.png */; };
 		834FCE13182D11F70000181B /* addaudio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 834FCDB7182D11F60000181B /* addaudio_button.png */; };
@@ -1158,6 +1160,9 @@
 		833DDD5F17B8EDA5009BCA5C /* AudioRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordingViewController.h; sourceTree = "<group>"; };
 		833DDD6017B8EDA5009BCA5C /* AudioRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordingViewController.m; sourceTree = "<group>"; };
 		833DDD6117B8EDA5009BCA5C /* AudioRecordingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecordingViewController.xib; sourceTree = "<group>"; };
+		8344C1E618C6FBF000DAA386 /* MangoBooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoBooksViewController.h; sourceTree = "<group>"; };
+		8344C1E718C6FBF000DAA386 /* MangoBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoBooksViewController.m; sourceTree = "<group>"; };
+		8344C1E818C6FBF000DAA386 /* MangoBooksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoBooksViewController.xib; sourceTree = "<group>"; };
 		834FCDB5182D11F60000181B /* add_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_button.png; sourceTree = "<group>"; };
 		834FCDB6182D11F60000181B /* add_button_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_button_pressed.png; sourceTree = "<group>"; };
 		834FCDB7182D11F60000181B /* addaudio_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addaudio_button.png; sourceTree = "<group>"; };
@@ -3750,6 +3755,9 @@
 				AE0C9370183E06AC008E4D54 /* PageNewBookTypeViewController.h */,
 				AE0C9371183E06AC008E4D54 /* PageNewBookTypeViewController.m */,
 				AE0C9372183E06AC008E4D54 /* PageNewBookTypeViewController.xib */,
+				8344C1E618C6FBF000DAA386 /* MangoBooksViewController.h */,
+				8344C1E718C6FBF000DAA386 /* MangoBooksViewController.m */,
+				8344C1E818C6FBF000DAA386 /* MangoBooksViewController.xib */,
 			);
 			name = "LandingPage UI";
 			sourceTree = "<group>";
@@ -4756,6 +4764,7 @@
 				83E2D171184364EC00F8CDB6 /* editor_237.png in Resources */,
 				83BB3EAB185B560600BA5ED7 /* sequence_story_ref.jpg in Resources */,
 				AEDA4856169E7F9C00116C23 /* HighlightedStringOld.js in Resources */,
+				8344C1EA18C6FBF000DAA386 /* MangoBooksViewController.xib in Resources */,
 				83BB3EA5185B560600BA5ED7 /* match_images_words_ref.jpg in Resources */,
 				83E2D236184364EC00F8CDB6 /* editor_93.png in Resources */,
 				834FCE30182D11F70000181B /* imagebutton.png in Resources */,
@@ -5251,6 +5260,7 @@
 				AE396BB9181F7E3D009C68E7 /* PSTGridLayoutInfo.m in Sources */,
 				AE731C5316759D4500FE8F19 /* PurchaseFreeIphone.m in Sources */,
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
+				8344C1E918C6FBF000DAA386 /* MangoBooksViewController.m in Sources */,
 				AE4BB735183CD8D9004F20C5 /* CategoriesFlexibleViewController.m in Sources */,
 				AE5FC01F1677036900BB9AED /* FacebookIphoneLogin.m in Sources */,
 				AE1039C71845CE99008D122B /* MangoImageLayer.m in Sources */,
