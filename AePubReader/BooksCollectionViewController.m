@@ -164,8 +164,15 @@
                 [self.navigationController.navigationBar setHidden:YES];
                 [self.navigationController pushViewController:newBookEditorViewController animated:YES];
             } else {
+                
                 MangoStoreViewController *controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
-                [controller setCategoryFlagValue:1];
+                if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"] || [[_categorySelected valueForKey:@"name"] isEqualToString:@"My Books"]) {
+                    [controller setCategoryFlagValue:0];
+                }
+                else{
+                    [controller setCategoryFlagValue:1];
+                }
+                
                 [controller setCategoryDictValue:[[NSDictionary alloc] initWithObjectsAndKeys:[_categorySelected objectForKey:NAME], @"title", nil, @"id", nil]];
                 [self.navigationController pushViewController:controller animated:YES];
             }
