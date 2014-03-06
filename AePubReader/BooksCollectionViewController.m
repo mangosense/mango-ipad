@@ -12,6 +12,8 @@
 #import "AePubReaderAppDelegate.h"
 #import "Book.h"
 #import "MangoEditorViewController.h"
+#import "MangoStoreViewController.h"
+#import "CoverViewControllerBetterBookType.h"
 
 @interface BooksCollectionViewController ()
 
@@ -37,6 +39,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     _allBooksArray = [self getAllBooks];
     if (!_allBooksArray) {
         _allBooksArray = [NSArray array];
@@ -141,7 +146,38 @@
 #pragma mark - UICollectionView Delegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    switch (indexPath.row) {
+        case 0: {
+            if (_toEdit) {
+                MangoEditorViewController *newBookEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                newBookEditorViewController.isNewBook = YES;
+                newBookEditorViewController.storyBook = nil;
+                [self.navigationController.navigationBar setHidden:YES];
+                [self.navigationController pushViewController:newBookEditorViewController animated:YES];
+            } else {
+                MangoStoreViewController *controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                [controller setCategoryFlagValue:1];
+                [controller setCategoryDictValue:[[NSDictionary alloc] initWithObjectsAndKeys:[_categorySelected objectForKey:NAME], @"title", nil, @"id", nil]];
+                [self.navigationController pushViewController:controller animated:YES];
+            }
+        }
+            break;
+            
+        default: {
+            Book *book = [_allBooksArray objectAtIndex:indexPath.row - 1];
+            if (_toEdit) {
+                MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                mangoEditorViewController.isNewBook = NO;
+                mangoEditorViewController.storyBook = book;
+                [self.navigationController.navigationBar setHidden:YES];
+                [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+            } else {
+                CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:book.id];
+                [self.navigationController pushViewController:coverController animated:YES];
+            }
+        }
+            break;
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
