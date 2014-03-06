@@ -145,7 +145,13 @@
             
         }
             break;
-            
+    /*    case 1:
+        {
+            //handle analytics view
+            MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+            [self presentViewController:analyticsViewController animated:YES completion:nil];
+        }*/
         default:
             break;
     }

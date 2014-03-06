@@ -154,7 +154,7 @@
                         <action selector="switchTabButtonClick:" destination="-1" eventType="touchUpInside" id="v9v-cq-SPG"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="09207B6C-118C-4B07-B0C2-D57DA1E60FCB" id="EnD-HH-hdL">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="6616016D-7105-4C4B-894B-C290165BEB5E" id="EnD-HH-hdL">
                     <rect key="frame" x="0.0" y="0.0" width="1034" height="768"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
@@ -176,7 +176,7 @@
         </view>
     </objects>
     <resources>
-        <image name="09207B6C-118C-4B07-B0C2-D57DA1E60FCB" width="1024" height="768">
+        <image name="6616016D-7105-4C4B-894B-C290165BEB5E" width="1024" height="768">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

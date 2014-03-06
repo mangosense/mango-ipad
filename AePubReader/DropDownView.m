@@ -144,7 +144,7 @@
 		
     }
     
-    cell.textLabel.font = [UIFont fontWithName:@"Chalkboard SE" size:14.0];
+    cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0];
 	cell.textLabel.text = [arrayData objectAtIndex:indexPath.row];
 		
 	return cell;

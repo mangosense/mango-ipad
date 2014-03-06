@@ -44,7 +44,7 @@
     _dropDownArrayData = [[NSMutableArray alloc] init];
     _descriptionLabel.editable = NO;
     
-    _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:100 paddingTop:-100 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:1 closeAnimationDuration:1];
+    _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:100 paddingTop:-100 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5];
     _dropDownView.delegate = self;
     
     
@@ -157,6 +157,13 @@
     } else {
         [self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
         //[_closeButton setEnabled:YES];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [_dropDownView closeAnimation];
     }
 }
 

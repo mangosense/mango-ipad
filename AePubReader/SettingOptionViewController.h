@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
+#import "MangoAnalyticsViewController.h"
+
 @interface SettingOptionViewController : UITableViewController
 @property(retain,nonatomic) NSArray *array;
 @property(retain,nonatomic) UINavigationController *controller;

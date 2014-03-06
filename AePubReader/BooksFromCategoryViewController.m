@@ -104,7 +104,12 @@
             } else {
                 
                 controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                if([[selectCategoryDict valueForKey:@"title"] isEqualToString:@"All Books"]|| [[selectCategoryDict valueForKey:@"title"] isEqualToString:@"My Books"]) {
+                    [controller setCategoryFlagValue:0];
+                }
+                else{
                 [controller setCategoryFlagValue:1];
+                }
                 [controller setCategoryDictValue:selectCategoryDict];
                 [self.navigationController pushViewController:controller animated:YES];
             }
