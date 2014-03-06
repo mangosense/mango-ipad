@@ -11,6 +11,7 @@
 #import "CustomScrollView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "CustomLabel.h"
+#import "MangoTextField.h"
 
 @protocol AudioMappingDelegate
 
@@ -54,5 +55,7 @@
 @property (nonatomic, strong) NSURL *audioUrl;
 @property (nonatomic, strong) NSString *textForMapping;
 @property (nonatomic, assign) id <AudioMappingDelegate> audioMappingDelegate;
+
+@property (nonatomic, strong) MangoTextField *mangoTextField;
 
 @end

@@ -13,6 +13,7 @@
 #import "MyStoriesBooksViewController.h"
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import "BooksCollectionViewController.h"
 
 #define NUMBER_OF_CATEGORIES_PER_PAGE 6
 
@@ -60,6 +61,10 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -77,10 +82,16 @@
     UIButton *button = (UIButton *)sender;
     NSDictionary *categorySelected = [_categoriesArray objectAtIndex:button.tag];
     
-    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    booksCollectionViewController.toEdit = NO;
+    booksCollectionViewController.categorySelected = categorySelected;
+    [self.navigationController pushViewController:booksCollectionViewController animated:YES];
+    
+    /// -----
+    /*BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
     booksCategoryViewController.categorySelected = categorySelected;
-    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
 }
 
 - (IBAction)homeButton:(id)sender {
@@ -126,25 +137,29 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *allBooks = [appDelegate.dataModel getAllUserBooks];
     
+    int allBooksCount = 0;
     for (Book *book in allBooks) {
-        NSString *jsonLocation=book.localPathFile;
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
-        NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-        NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-        jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-        
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
-        
-        NSLog(@"Categories - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]);
-        for (NSString *category in [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]) {
-            int bookCount = [[bookCountDict objectForKey:category] intValue];
-            bookCount += 1;
-            [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:category];
+        if ([appDelegate.ejdbController getBookForBookId:book.id]) {
+            NSString *jsonLocation=book.localPathFile;
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+            NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+            NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+            
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
+            
+            NSLog(@"Categories - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]);
+            for (NSString *category in [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]) {
+                int bookCount = [[bookCountDict objectForKey:category] intValue];
+                bookCount += 1;
+                [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:category];
+            }
+            allBooksCount += 1;
         }
     }
     
-    [bookCountDict setObject:[NSNumber numberWithInt:[allBooks count]] forKey:ALL_BOOKS_CATEGORY];
+    [bookCountDict setObject:[NSNumber numberWithInt:allBooksCount] forKey:ALL_BOOKS_CATEGORY];
     
     return bookCountDict;
 }

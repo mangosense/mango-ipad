@@ -20,6 +20,7 @@
 #import "HKCircularProgressLayer.h"
 #import "HKCircularProgressView.h"
 #import "MyStoriesBooksViewController.h"
+#import "BooksCollectionViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -235,9 +236,15 @@
     
     /// -----
     
-    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    /*BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit = NO;
-    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
+    
+    /// -----
+    
+    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    booksCollectionViewController.toEdit = NO;
+    [self.navigationController pushViewController:booksCollectionViewController animated:YES];
 }
 
 - (void)updateProgress:(NSNumber *)progress {
@@ -509,10 +516,16 @@
 #pragma mark - Book View Delegate
 
 - (void)openBookViewWithCategory:(NSDictionary *)categoryDict {
-    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    booksCollectionViewController.toEdit = NO;
+    booksCollectionViewController.categorySelected = categoryDict;
+    [self.navigationController pushViewController:booksCollectionViewController animated:YES];
+
+    /// -----
+    /*BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit = NO;
     booksCategoryViewController.categorySelected = categoryDict;
-    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
 }
 
 #pragma mark - Local Image Saving Delegate

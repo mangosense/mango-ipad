@@ -60,6 +60,12 @@
 #pragma mark - Delete Objects
 
 - (BOOL)deleteObject:(id)object {
+    MangoBook *book = (MangoBook *)object;
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.dataModel checkIfIdExists:book.id]) {
+        Book *coreDataBook = [appDelegate.dataModel getBookOfId:book.id];
+        [appDelegate.dataModel.dataModelContext deleteObject:coreDataBook];
+    }
     return [_collection removeObject:object];
 }
 

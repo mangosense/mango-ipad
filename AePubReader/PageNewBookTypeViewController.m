@@ -96,9 +96,9 @@
 }
 
 - (IBAction)BackButton:(id)sender {
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    [self.navigationController popToViewController:delegate.pageViewController animated:YES];
+    //AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popToViewController:delegate.pageViewController animated:YES];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{

@@ -24,6 +24,7 @@
 #import "DataModelControl.h"
 #import "ColoringToolsViewController.h"
 #import "MBProgressHUD.h"
+#import "MangoTextField.h"
 
 #define ENGLISH_TAG 9
 #define ANGRYBIRDS_ENGLISH_TAG 17
@@ -300,7 +301,7 @@
             _audioLayer.wordTimes = [[NSArray alloc] init];
             _audioLayer.url = @"";
         }
-        _audioLayer.wordMap = [newTextview.text componentsSeparatedByString:@" "];
+        _audioLayer.wordMap = [newTextview.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
@@ -748,7 +749,7 @@
             
             if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
                 _audioLayer = [[MangoAudioLayer alloc] init];
-                _audioLayer.wordMap = [textLayer.actualText componentsSeparatedByString:@" "];
+                _audioLayer.wordMap = [textLayer.actualText componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 _audioLayer.wordTimes = [[NSArray alloc] init];
                 _audioLayer.url = @"";
                 if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
@@ -995,7 +996,7 @@
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    NSLog(@"%@", jsonDict);
+
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
     NSDictionary *coverPageDict;
@@ -1009,7 +1010,6 @@
     NSArray *layersArray = [coverPageDict objectForKey:LAYERS];
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            NSLog(@"%@",[layerDict objectForKey:ASSET_URL]);
             coverPageImage = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         }
     }
@@ -1218,7 +1218,7 @@
             audioMappingViewcontroller.customView.text=wordMapDict;
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
-            }else{
+            } else {
                 NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewcontroller.customView.textFont, NSFontAttributeName, nil];
                 audioMappingViewcontroller.customView.space=   [[[NSAttributedString alloc] initWithString:@" " attributes:attributes] size];
             }
@@ -1241,7 +1241,7 @@
                     
                     CGFloat xOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
-                        xOrigin = MAX(1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1), 100);
+                        xOrigin = 1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
                         if (xOrigin >= 1024 || xOrigin < 0) {
                             xOrigin = 0;
                         }
@@ -1250,27 +1250,27 @@
                     
                     CGFloat yOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
-                        yOrigin = MAX(768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1), 100);
+                        yOrigin = 768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
                         if (yOrigin >= 768 || yOrigin < 0) {
                             yOrigin = 0;
                         }
                     }
                     
-                    CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
+                    //CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
                     
-                    textFrame = CGRectMake(xOrigin, yOrigin, textSize.width - 100, textSize.height + 100);
+                    textFrame = CGRectMake(xOrigin, yOrigin, [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
                     audioMappingViewcontroller.customView.frame = textFrame;
                 }
             }
             
             if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
-                audioMappingViewcontroller.customView.frame = CGRectMake(pageView.frame.size.width*0.65, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
+                textFrame = CGRectMake(pageView.frame.size.width*0.65, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
             } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
-                audioMappingViewcontroller.customView.frame = CGRectMake(0, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
+                textFrame = CGRectMake(0, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
             } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:TOP_ALIGN]) {
-                audioMappingViewcontroller.customView.frame = CGRectMake(0, pageView.frame.size.height*0.65, pageView.frame.size.width, pageView.frame.size.height*0.35);
+                textFrame = CGRectMake(0, pageView.frame.size.height*0.65, pageView.frame.size.width, pageView.frame.size.height*0.35);
             } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
-                audioMappingViewcontroller.customView.frame = CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.35);
+                textFrame = CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.35);
             }
             
             [pageView addSubview:audioMappingViewcontroller.view];
@@ -1279,8 +1279,12 @@
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
-            [pageView addSubview:audioMappingViewcontroller.customView];
-            
+            audioMappingViewcontroller.mangoTextField.text = textOnPage;
+            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.mangoTextField.frame = textFrame;
+            audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
+            [pageView addSubview:audioMappingViewcontroller.mangoTextField];
+
             audioMappingViewcontroller.textForMapping = textOnPage;
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
