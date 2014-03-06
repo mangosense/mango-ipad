@@ -687,6 +687,7 @@
 		83EE2CB918C5B2F600F4360A /* my-books.png in Resources */ = {isa = PBXBuildFile; fileRef = 83EE2CB518C5B2F600F4360A /* my-books.png */; };
 		83EE2CBA18C5B2F600F4360A /* school-time.png in Resources */ = {isa = PBXBuildFile; fileRef = 83EE2CB618C5B2F600F4360A /* school-time.png */; };
 		83F4F36D1833498900732315 /* AudioRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4F36C1833498900732315 /* AudioRecord.m */; };
+		83F542BB18C8A21D00FDACCA /* MangoTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F542BA18C8A21D00FDACCA /* MangoTextField.m */; };
 		AE031ABC1830D5FF0042236D /* lselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB61830D5FF0042236D /* lselected.png */; };
 		AE031ABD1830D5FF0042236D /* sselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB71830D5FF0042236D /* sselected.png */; };
 		AE031ABE1830D5FF0042236D /* eselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AE031AB81830D5FF0042236D /* eselected.png */; };
@@ -1861,6 +1862,8 @@
 		83EE2CB618C5B2F600F4360A /* school-time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "school-time.png"; sourceTree = "<group>"; };
 		83F4F36B1833498900732315 /* AudioRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecord.h; sourceTree = "<group>"; };
 		83F4F36C1833498900732315 /* AudioRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecord.m; sourceTree = "<group>"; };
+		83F542B918C8A21D00FDACCA /* MangoTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoTextField.h; sourceTree = "<group>"; };
+		83F542BA18C8A21D00FDACCA /* MangoTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoTextField.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE031AB61830D5FF0042236D /* lselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lselected.png; sourceTree = "<group>"; };
 		AE031AB71830D5FF0042236D /* sselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sselected.png; sourceTree = "<group>"; };
@@ -2781,6 +2784,8 @@
 				8353B31A1851A9A8009B3BD8 /* ColoringToolsViewController.xib */,
 				8310414318A3BE3D000514CE /* PageThumbnailView.h */,
 				8310414418A3BE3D000514CE /* PageThumbnailView.m */,
+				83F542B918C8A21D00FDACCA /* MangoTextField.h */,
+				83F542BA18C8A21D00FDACCA /* MangoTextField.m */,
 			);
 			name = "MangoEditor iPad";
 			sourceTree = "<group>";
@@ -5329,6 +5334,7 @@
 				AEC9B12516B6535B008CD1F5 /* TableOfContentsHandler.m in Sources */,
 				8310414518A3BE3D000514CE /* PageThumbnailView.m in Sources */,
 				AEC9B12916B665A5008CD1F5 /* EachCellOfTOC.m in Sources */,
+				83F542BB18C8A21D00FDACCA /* MangoTextField.m in Sources */,
 				835814841844833600670D71 /* MangoBook.m in Sources */,
 				29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */,
 				AE7FD7F51823B2B800C8DD88 /* DetailStoreViewController.m in Sources */,

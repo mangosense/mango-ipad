@@ -17,6 +17,8 @@
 @property (nonatomic, assign) CGFloat xDiffToCenter;
 @property (nonatomic, assign) CGFloat yDiffToCenter;
 
+@property (nonatomic, assign) int wordIndex;
+
 @end
 
 @implementation AudioMappingViewController
@@ -47,7 +49,13 @@
     [audioSpeedSlider setMaximumValue:1.0f];
     [audioSpeedSlider setMinimumValue:0.5f];
     [audioSpeedSlider setValue:1.0f];
+    
+    [_customView setHidden:YES];
+    _mangoTextField = [[MangoTextField alloc] init];
+    _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    _wordIndex = 0;
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     if (_player) {
@@ -65,7 +73,7 @@
 
 - (void)setTextForMapping:(NSString *)textForMappingAudio {
     textForMapping = textForMappingAudio;
-    _customView.text=[textForMapping componentsSeparatedByString:@" "];
+    _customView.text=[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     _totalWordCount=_cues.count;
     
@@ -211,7 +219,7 @@
 }
 
 - (IBAction)nextClick:(id)sender {
-    if (_customView.text.count>_index) {
+    /*if (_customView.text.count>_index) {
         NSString *string=[_customView.text objectAtIndex:_index];
             NSLog(@"custom view.text");
         CGSize size;
@@ -237,8 +245,14 @@
         _customView.width=size.width;
         [_customView setNeedsDisplay];
         _index++;
-    }
+    }*/
     
+    NSArray *subarray = [[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] subarrayWithRange:NSMakeRange(0, _wordIndex)];
+    NSString *subString = [subarray componentsJoinedByString:@" "];
+    
+    _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
+    _wordIndex += 1;
 }
 
 - (IBAction)previous:(id)sender {
@@ -300,8 +314,8 @@
 }
 -(void)update{
     
-    if (_index<_cues.count) {
-        NSNumber *number= _cues[_index];
+    if (_wordIndex<_cues.count) {
+        NSNumber *number= _cues[_wordIndex];
         NSLog(@"%f %@",_player.currentTime,_cues);
         if ((_player.currentTime)>=number.floatValue) {
             [self nextClick:nil];
@@ -432,10 +446,10 @@
 
 -(void)reset{
     _index=0;
-    _customView.x=0;
+    /*_customView.x=0;
     _customView.y=0;
     _customView.width=0;
-    _customView.height=0;
+    _customView.height=0;*/
     [_customView setNeedsDisplay];
 }
 
