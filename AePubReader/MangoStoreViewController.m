@@ -434,8 +434,8 @@
             [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
             [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
             [bookDetailsViewController.dropDownView.uiTableView reloadData];
-            
-            bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: -"];
+           
+            bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
             
             bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
             bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
@@ -698,7 +698,7 @@
         [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
         [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
         [bookDetailsViewController.dropDownView.uiTableView reloadData];
-        bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: -"];
+        bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
         
         bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
         bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];

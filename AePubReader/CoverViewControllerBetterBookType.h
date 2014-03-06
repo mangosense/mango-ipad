@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property(strong,nonatomic) NSString *identity;
 @property(strong,nonatomic) Book *book;
+@property(retain,nonatomic) UIPopoverController *popOverShare;
 
 - (IBAction)gameButtonTapped:(id)sender;
 

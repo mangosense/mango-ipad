@@ -13,6 +13,7 @@
 #import "PageNewBookTypeViewController.h"
 #import "MangoEditorViewController.h"
 #import "MangoGamesListViewController.h"
+#import <Parse/Parse.h>
 
 @interface CoverViewControllerBetterBookType ()
 
@@ -51,7 +52,6 @@
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
     
-    
     [self showOrHideGameButton];
 }
 - (IBAction)multipleLanguage:(id)sender {
@@ -75,6 +75,7 @@
     NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     choiceViewController.array = [jsonDict objectForKey:@"available_languages"];
+    //choiceViewController.array = [[NSArray alloc] initWithObjects:@"hfjdsh", @"dsfsdf", nil];
     choiceViewController.bookDict = jsonDict;
     
     [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -171,5 +172,49 @@
     }
 
 }
+
+- (IBAction)shareButton:(id)sender {
+    //[PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
+    UIButton *button=(UIButton *)sender;
+    NSString *ver=[UIDevice currentDevice].systemVersion;
+    if([ver floatValue]>5.1){
+        
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        MangoBook *book=[appDelegate.ejdbController.collection fetchObjectWithOID:_book.id];
+        NSString *textToShare=[_book.title stringByAppendingFormat:@"\n\nI found this cool book - %@ - on MangoReader!\n\n Read it here - %@ !", _book.title, [NSString stringWithFormat:@"www.mangoreader.com/live_stories/%@", book.id]];
+        
+        UIImage *image=[UIImage imageWithContentsOfFile:_book.localPathImageFile];
+        NSMutableArray *activityItems= [[NSMutableArray alloc] init];
+        if (textToShare) {
+            [activityItems addObject:textToShare];
+        }
+        if (image) {
+            [activityItems addObject:image];
+        }
+        
+        UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
+        _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
+        
+        [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        
+        return;
+    }
+    
+    /// for IOS 5 code below;
+    /* MFMailComposeViewController *mail;
+     
+     mail=[[MFMailComposeViewController alloc]init];
+     [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+     mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+     [mail setMailComposeDelegate:self];
+     NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
+     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+     [mail setMessageBody:body isHTML:NO];
+     [self presentModalViewController:mail animated:YES];*/
+    
+}
+
 
 @end

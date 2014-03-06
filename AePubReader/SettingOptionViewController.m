@@ -23,7 +23,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout",@"Analytics", nil];
     }
     return self;
 }
@@ -145,7 +145,13 @@
             
         }
             break;
-            
+        case 1:
+        {
+            //handle analytics view
+            MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+            [self presentViewController:analyticsViewController animated:YES completion:nil];
+        }
         default:
             break;
     }

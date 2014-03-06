@@ -36,6 +36,11 @@
 		68D2638E18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638D18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png */; };
 		68D2639018C61B63003AFE48 /* MangoTrash.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638F18C61B63003AFE48 /* MangoTrash.png */; };
 		68D2639218C62247003AFE48 /* deletebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2639118C62247003AFE48 /* deletebook.png */; };
+		68DB75FA18C6FE4A00819480 /* test_delete_book.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75F918C6FE4A00819480 /* test_delete_book.png */; };
+		68DB760018C7446400819480 /* MangoAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */; };
+		68DB760118C7446500819480 /* MangoAnalyticsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */; };
+		68DB760418C76AC500819480 /* MangoAnalyticsSingleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DB760318C76AC500819480 /* MangoAnalyticsSingleBookView.m */; };
+		68DB760618C76B0600819480 /* MangoAnalyticsSingleBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB760518C76B0600819480 /* MangoAnalyticsSingleBookView.xib */; };
 		68DD898F18C447D300A1CCC6 /* CloseDetailBookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
 		8309295918BDCA1600FA401E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309295818BDCA1600FA401E /* UserInfo.m */; };
@@ -1129,6 +1134,13 @@
 		68D2638D18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-ipad-signupnewbg.png"; sourceTree = "<group>"; };
 		68D2638F18C61B63003AFE48 /* MangoTrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoTrash.png; sourceTree = "<group>"; };
 		68D2639118C62247003AFE48 /* deletebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deletebook.png; sourceTree = "<group>"; };
+		68DB75F918C6FE4A00819480 /* test_delete_book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_delete_book.png; sourceTree = "<group>"; };
+		68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsViewController.h; sourceTree = "<group>"; };
+		68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsViewController.m; sourceTree = "<group>"; };
+		68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsViewController.xib; sourceTree = "<group>"; };
+		68DB760218C76AC500819480 /* MangoAnalyticsSingleBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsSingleBookView.h; sourceTree = "<group>"; };
+		68DB760318C76AC500819480 /* MangoAnalyticsSingleBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsSingleBookView.m; sourceTree = "<group>"; };
+		68DB760518C76B0600819480 /* MangoAnalyticsSingleBookView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsSingleBookView.xib; sourceTree = "<group>"; };
 		68DD898E18C447D300A1CCC6 /* CloseDetailBookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseDetailBookButton.png; sourceTree = "<group>"; };
 		8303ED6118485FF600BE7671 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		8309295718BDCA1600FA401E /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
@@ -2578,6 +2590,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				68DB75F918C6FE4A00819480 /* test_delete_book.png */,
 				68D2638D18C5EB21003AFE48 /* mangoreader-ipad-signupnewbg.png */,
 				68D2638B18C5E843003AFE48 /* SignUpBtn.png */,
 				68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */,
@@ -3741,6 +3754,12 @@
 				AE4BB729183CD743004F20C5 /* BooksFromCategoryViewController.xib */,
 				AE4BB732183CD8D9004F20C5 /* CategoriesFlexibleViewController.h */,
 				AE4BB733183CD8D9004F20C5 /* CategoriesFlexibleViewController.m */,
+				68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */,
+				68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */,
+				68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */,
+				68DB760218C76AC500819480 /* MangoAnalyticsSingleBookView.h */,
+				68DB760318C76AC500819480 /* MangoAnalyticsSingleBookView.m */,
+				68DB760518C76B0600819480 /* MangoAnalyticsSingleBookView.xib */,
 				AE4BB734183CD8D9004F20C5 /* CategoriesFlexibleViewController.xib */,
 				AE0C935C183DE5F4008E4D54 /* CoverViewControllerBetterBookType.h */,
 				AE0C935D183DE5F4008E4D54 /* CoverViewControllerBetterBookType.m */,
@@ -4330,6 +4349,7 @@
 				AE576059161AF46D00C6EEC6 /* playvideo.js in Resources */,
 				AEEB9B8716A40FAA00E91603 /* rangy.js in Resources */,
 				83E2D16C184364EC00F8CDB6 /* editor_232.png in Resources */,
+				68DB760118C7446500819480 /* MangoAnalyticsViewController.xib in Resources */,
 				83E2D232184364EC00F8CDB6 /* editor_9.png in Resources */,
 				FA3B29B7137440380055A954 /* SearchWebView.js in Resources */,
 				834FCE43182D11F70000181B /* playbuttonnew.png in Resources */,
@@ -4355,6 +4375,7 @@
 				83E2D22F184364EC00F8CDB6 /* editor_87.png in Resources */,
 				83E9AE23184DA3710025BBD6 /* txt.png in Resources */,
 				834FCE2F182D11F70000181B /* hitosync_button_pressed.png in Resources */,
+				68DB75FA18C6FE4A00819480 /* test_delete_book.png in Resources */,
 				AE4BB72F183CD796004F20C5 /* icons_next2.png in Resources */,
 				83E2D1FE184364EC00F8CDB6 /* editor_42.png in Resources */,
 				834FCE67182D11F70000181B /* underline_button.png in Resources */,
@@ -5058,6 +5079,7 @@
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
 				83E2D0ED184364EC00F8CDB6 /* editor_118.png in Resources */,
 				83E2D21B184364EC00F8CDB6 /* editor_69.png in Resources */,
+				68DB760618C76B0600819480 /* MangoAnalyticsSingleBookView.xib in Resources */,
 				83E2D19F184364EC00F8CDB6 /* editor_279.png in Resources */,
 				83E2D110184364EC00F8CDB6 /* editor_15.png in Resources */,
 				834FCE23182D11F70000181B /* collaborationbutton.png in Resources */,
@@ -5197,6 +5219,7 @@
 				AED0B6D7161419E800EE1FD7 /* FileDownloader.m in Sources */,
 				AE7FEDD8161580DF00C4B51D /* EpubReaderViewController.m in Sources */,
 				83E9AE2E184F2B6A0025BBD6 /* StoreCollectionHeaderView.m in Sources */,
+				68DB760018C7446400819480 /* MangoAnalyticsViewController.m in Sources */,
 				8353B31B1851A9A8009B3BD8 /* ColoringToolsViewController.m in Sources */,
 				AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */,
 				AE7FEDE51615A6EF00C4B51D /* ShadowButton.m in Sources */,
@@ -5331,6 +5354,7 @@
 				AE396BB0181F7E3D009C68E7 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				AE5B84E217AA546900EDC098 /* Cell.m in Sources */,
 				AE5B84E717AA548A00EDC098 /* LibraryCell.m in Sources */,
+				68DB760418C76AC500819480 /* MangoAnalyticsSingleBookView.m in Sources */,
 				AE5B84E817AA548A00EDC098 /* LibraryOldCell.m in Sources */,
 				8380486B1850586C006BBA47 /* AFURLResponseSerialization.m in Sources */,
 				AE5B84EB17AA54AF00EDC098 /* OldFooterView.m in Sources */,
