@@ -14,6 +14,7 @@
 #import "MangoStoreViewController.h"
 #import "MyStoriesBooksViewController.h"
 #import "CategoriesFlexibleViewController.h"
+#import "BooksCollectionViewController.h"
 
 @interface LandPageChoiceViewController ()
 
@@ -52,9 +53,14 @@
     [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
 
     /// -----
-    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    /*BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=YES;
-    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
+    
+    /// -----
+    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    booksCollectionViewController.toEdit = YES;
+    [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     
 }
 

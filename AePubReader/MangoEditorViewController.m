@@ -995,7 +995,7 @@
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    NSLog(@"%@", jsonDict);
+
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
     NSDictionary *coverPageDict;
@@ -1009,7 +1009,6 @@
     NSArray *layersArray = [coverPageDict objectForKey:LAYERS];
     for (NSDictionary *layerDict in layersArray) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
-            NSLog(@"%@",[layerDict objectForKey:ASSET_URL]);
             coverPageImage = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         }
     }

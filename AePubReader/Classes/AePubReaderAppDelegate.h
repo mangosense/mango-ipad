@@ -65,6 +65,7 @@
 +(void)showAlertViewiPad;
 +(void)hideTabBar:(UITabBarController *)tabbarcontroller;
 -(void)unzipExistingJsonBooks;
++ (UIImage*)maskImage:(UIImage *)image withMask:(UIImage *)maskImage;
 
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;

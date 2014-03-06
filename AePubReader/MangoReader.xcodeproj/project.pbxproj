@@ -276,6 +276,10 @@
 		83C67B2A18BF7D310019280D /* arrowsideleft.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C67B2918BF7D310019280D /* arrowsideleft.png */; };
 		83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */; };
 		83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */; };
+		83D5A1BA18C852A4000C12E9 /* BooksCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D5A1B818C852A4000C12E9 /* BooksCollectionViewController.m */; };
+		83D5A1BB18C852A4000C12E9 /* BooksCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83D5A1B918C852A4000C12E9 /* BooksCollectionViewController.xib */; };
+		83D5A1BE18C8566B000C12E9 /* BooksCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D5A1BD18C8566B000C12E9 /* BooksCollectionViewCell.m */; };
+		83D5A1C118C856F7000C12E9 /* BooksCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D5A1C018C856F7000C12E9 /* BooksCollectionHeaderView.m */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
 		83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB618111662004C975F /* AsyncDataDownloader.m */; };
 		83DD9BBA18113027004C975F /* StoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB918113027004C975F /* StoryPageView.m */; };
@@ -1429,6 +1433,13 @@
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
 		83CFB6C1184333AF0003E875 /* BaseViewAudoMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewAudoMapping.h; sourceTree = "<group>"; };
 		83CFB6C2184333AF0003E875 /* BaseViewAudoMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewAudoMapping.m; sourceTree = "<group>"; };
+		83D5A1B718C852A4000C12E9 /* BooksCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksCollectionViewController.h; sourceTree = "<group>"; };
+		83D5A1B818C852A4000C12E9 /* BooksCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksCollectionViewController.m; sourceTree = "<group>"; };
+		83D5A1B918C852A4000C12E9 /* BooksCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BooksCollectionViewController.xib; sourceTree = "<group>"; };
+		83D5A1BC18C8566B000C12E9 /* BooksCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksCollectionViewCell.h; sourceTree = "<group>"; };
+		83D5A1BD18C8566B000C12E9 /* BooksCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksCollectionViewCell.m; sourceTree = "<group>"; };
+		83D5A1BF18C856F7000C12E9 /* BooksCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksCollectionHeaderView.h; sourceTree = "<group>"; };
+		83D5A1C018C856F7000C12E9 /* BooksCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksCollectionHeaderView.m; sourceTree = "<group>"; };
 		83DD9BB118110D9D004C975F /* StoryJsonProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryJsonProcessor.h; sourceTree = "<group>"; };
 		83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryJsonProcessor.m; sourceTree = "<group>"; };
 		83DD9BB518111662004C975F /* AsyncDataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncDataDownloader.h; sourceTree = "<group>"; };
@@ -3758,6 +3769,13 @@
 				8344C1E618C6FBF000DAA386 /* MangoBooksViewController.h */,
 				8344C1E718C6FBF000DAA386 /* MangoBooksViewController.m */,
 				8344C1E818C6FBF000DAA386 /* MangoBooksViewController.xib */,
+				83D5A1B718C852A4000C12E9 /* BooksCollectionViewController.h */,
+				83D5A1B818C852A4000C12E9 /* BooksCollectionViewController.m */,
+				83D5A1B918C852A4000C12E9 /* BooksCollectionViewController.xib */,
+				83D5A1BC18C8566B000C12E9 /* BooksCollectionViewCell.h */,
+				83D5A1BD18C8566B000C12E9 /* BooksCollectionViewCell.m */,
+				83D5A1BF18C856F7000C12E9 /* BooksCollectionHeaderView.h */,
+				83D5A1C018C856F7000C12E9 /* BooksCollectionHeaderView.m */,
 			);
 			name = "LandingPage UI";
 			sourceTree = "<group>";
@@ -4541,6 +4559,7 @@
 				AE266FD9183B4E7E001A8CB8 /* classics.png in Resources */,
 				8353B3371851ABE1009B3BD8 /* scrol bar.png in Resources */,
 				834FCE45182D11F70000181B /* publishthisbook_button.png in Resources */,
+				83D5A1BB18C852A4000C12E9 /* BooksCollectionViewController.xib in Resources */,
 				834FCE2E182D11F70000181B /* hitosync_button.png in Resources */,
 				8353B32F1851ABE1009B3BD8 /* earase_2.png in Resources */,
 				AE9A1869165E583600B5E594 /* dropdown.png in Resources */,
@@ -5209,6 +5228,7 @@
 				8353B31B1851A9A8009B3BD8 /* ColoringToolsViewController.m in Sources */,
 				AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */,
 				AE7FEDE51615A6EF00C4B51D /* ShadowButton.m in Sources */,
+				83D5A1BE18C8566B000C12E9 /* BooksCollectionViewCell.m in Sources */,
 				83539E3E1839F4AC0096DBF8 /* AudioMappingViewController.m in Sources */,
 				AE396BBC181F7E3D009C68E7 /* PSTGridLayoutSection.m in Sources */,
 				83AB60A918AA326E004A040E /* MyStoriesBooksViewController.m in Sources */,
@@ -5327,6 +5347,7 @@
 				AE24BCDF181A92BA006CD354 /* iCarousel.m in Sources */,
 				AE1D51251752625D00D2F25E /* MyViewController.m in Sources */,
 				AE37CD67175278D500EA8653 /* LandscapeTextBookViewController.m in Sources */,
+				83D5A1BA18C852A4000C12E9 /* BooksCollectionViewController.m in Sources */,
 				AE73704A183C686B00054115 /* LoginNewViewController.m in Sources */,
 				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
 				AE396BB3181F7E3D009C68E7 /* PSTCollectionViewController.m in Sources */,
@@ -5368,6 +5389,7 @@
 				83E2D24618436C2A00F8CDB6 /* AssetCollectionViewLayout.m in Sources */,
 				833765CF17D09BCE00262C26 /* AccordionView.m in Sources */,
 				830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */,
+				83D5A1C118C856F7000C12E9 /* BooksCollectionHeaderView.m in Sources */,
 				AE266FDD183B4EBE001A8CB8 /* CategoriesViewController.m in Sources */,
 				839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */,
 				83AB60AD18AA36E9004A040E /* MyStoriesBookCell.m in Sources */,

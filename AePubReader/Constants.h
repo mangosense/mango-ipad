@@ -126,6 +126,7 @@
 #define SAVE_STORY @"livestories/%@/"
 #define NEW_STORY @"stories"
 #define FACEBOOK_LOGIN @"facebookapplogin.json"
+#define LIVE_STORIES_STORE @"live_stories.json"
 
 #pragma mark - API Parameter Keys
 
@@ -182,6 +183,7 @@
 #define STORE_BOOK_CELL_ID @"StoreBookCell"
 #define STORE_BOOK_CAROUSEL_CELL_ID @"StoreBookCarouselCell"
 #define HEADER_ID @"headerId"
+#define BOOK_CELL_ID @"BookCell"
 
 #pragma mark - My Stories
 

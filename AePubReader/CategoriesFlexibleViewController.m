@@ -13,6 +13,7 @@
 #import "MyStoriesBooksViewController.h"
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import "BooksCollectionViewController.h"
 
 #define NUMBER_OF_CATEGORIES_PER_PAGE 6
 
@@ -77,10 +78,16 @@
     UIButton *button = (UIButton *)sender;
     NSDictionary *categorySelected = [_categoriesArray objectAtIndex:button.tag];
     
-    BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
+    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    booksCollectionViewController.toEdit = NO;
+    booksCollectionViewController.categorySelected = categorySelected;
+    [self.navigationController pushViewController:booksCollectionViewController animated:YES];
+    
+    /// -----
+    /*BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
     booksCategoryViewController.toEdit=NO;
     booksCategoryViewController.categorySelected = categorySelected;
-    [self.navigationController pushViewController:booksCategoryViewController animated:YES];
+    [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
 }
 
 - (IBAction)homeButton:(id)sender {
