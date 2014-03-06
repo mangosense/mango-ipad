@@ -19,7 +19,8 @@
 
 @property (nonatomic, strong) NSArray *allBooksArray;
 @property (nonatomic, strong) UIPopoverController *popOverController;
-@property (nonatomic, strong)NSMutableDictionary *bookImageDictionary;
+@property (nonatomic, strong) NSMutableDictionary *bookImageDictionary;
+@property (nonatomic, assign) BOOL isDeleteMode;
 
 @end
 
@@ -128,7 +129,9 @@
     if (indexPath.row > 0) {
         Book *book = [_allBooksArray objectAtIndex:indexPath.row - 1];
         bookCell.book = book;
+        bookCell.isDeleteMode = _isDeleteMode;
     } else {
+        bookCell.isDeleteMode = NO;
         if (_toEdit) {
             bookCell.bookCoverImageView.image = [UIImage imageNamed:@"create-story-book-icon1.png"];
         } else {
@@ -165,15 +168,19 @@
             
         default: {
             Book *book = [_allBooksArray objectAtIndex:indexPath.row - 1];
-            if (_toEdit) {
-                MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
-                mangoEditorViewController.isNewBook = NO;
-                mangoEditorViewController.storyBook = book;
-                [self.navigationController.navigationBar setHidden:YES];
-                [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+            if (_isDeleteMode) {
+                [self deleteBook:book];
             } else {
-                CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:book.id];
-                [self.navigationController pushViewController:coverController animated:YES];
+                if (_toEdit) {
+                    MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                    mangoEditorViewController.isNewBook = NO;
+                    mangoEditorViewController.storyBook = book;
+                    [self.navigationController.navigationBar setHidden:YES];
+                    [self.navigationController pushViewController:mangoEditorViewController animated:YES];
+                } else {
+                    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:book.id];
+                    [self.navigationController pushViewController:coverController animated:YES];
+                }
             }
         }
             break;
@@ -215,6 +222,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)trashButtonTapped:(id)sender {
+    _isDeleteMode = !_isDeleteMode;
+    [_booksCollectionView reloadData];
+}
+
 #pragma mark - Settings Delegate Methods
 
 -(void)dismissPopOver{
@@ -235,6 +247,22 @@
         return [_bookImageDictionary objectForKey:book.id];
     }
     return nil;
+}
+
+#pragma mark - Delete Book
+
+- (void)deleteBook:(Book *)book {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    BOOL deleteSuccess = [appDelegate.ejdbController deleteObject:[appDelegate.ejdbController getBookForBookId:book.id]];
+    if (deleteSuccess) {
+        NSLog(@"Deleted Book");
+        _allBooksArray = [self getAllBooks];
+        if (!_allBooksArray) {
+            _allBooksArray = [NSArray array];
+        }
+        [_booksCollectionView reloadData];
+    }
+    
 }
 
 @end

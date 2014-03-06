@@ -280,6 +280,7 @@
 		83D5A1BB18C852A4000C12E9 /* BooksCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83D5A1B918C852A4000C12E9 /* BooksCollectionViewController.xib */; };
 		83D5A1BE18C8566B000C12E9 /* BooksCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D5A1BD18C8566B000C12E9 /* BooksCollectionViewCell.m */; };
 		83D5A1C118C856F7000C12E9 /* BooksCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D5A1C018C856F7000C12E9 /* BooksCollectionHeaderView.m */; };
+		83D5A1C318C87F55000C12E9 /* mango_delete_book.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D5A1C218C87F55000C12E9 /* mango_delete_book.png */; };
 		83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */; };
 		83DD9BB718111662004C975F /* AsyncDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB618111662004C975F /* AsyncDataDownloader.m */; };
 		83DD9BBA18113027004C975F /* StoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DD9BB918113027004C975F /* StoryPageView.m */; };
@@ -1440,6 +1441,7 @@
 		83D5A1BD18C8566B000C12E9 /* BooksCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksCollectionViewCell.m; sourceTree = "<group>"; };
 		83D5A1BF18C856F7000C12E9 /* BooksCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksCollectionHeaderView.h; sourceTree = "<group>"; };
 		83D5A1C018C856F7000C12E9 /* BooksCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksCollectionHeaderView.m; sourceTree = "<group>"; };
+		83D5A1C218C87F55000C12E9 /* mango_delete_book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mango_delete_book.png; sourceTree = "<group>"; };
 		83DD9BB118110D9D004C975F /* StoryJsonProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryJsonProcessor.h; sourceTree = "<group>"; };
 		83DD9BB218110D9E004C975F /* StoryJsonProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryJsonProcessor.m; sourceTree = "<group>"; };
 		83DD9BB518111662004C975F /* AsyncDataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncDataDownloader.h; sourceTree = "<group>"; };
@@ -3699,6 +3701,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				83D5A1C218C87F55000C12E9 /* mango_delete_book.png */,
 				68D2639118C62247003AFE48 /* deletebook.png */,
 				68D2638F18C61B63003AFE48 /* MangoTrash.png */,
 				AE0C9395183E3C60008E4D54 /* icon_my existing books.png */,
@@ -4430,6 +4433,7 @@
 				83E2D22B184364EC00F8CDB6 /* editor_83.png in Resources */,
 				83BB3EAD185B560600BA5ED7 /* true_false_ref.jpg in Resources */,
 				AE0C935B183DE117008E4D54 /* hungry.zip in Resources */,
+				83D5A1C318C87F55000C12E9 /* mango_delete_book.png in Resources */,
 				AE7FEE061615CF7000C4B51D /* logo.png in Resources */,
 				83E2D23B184364EC00F8CDB6 /* editor_98.png in Resources */,
 				83E2D22D184364EC00F8CDB6 /* editor_85.png in Resources */,

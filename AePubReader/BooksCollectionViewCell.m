@@ -48,6 +48,7 @@
     [super prepareForReuse];
     [_bookCoverImageView setImage:nil];
     _bookTitleLabel.text = @"";
+    _isDeleteMode = NO;
 }
 
 /*
@@ -75,6 +76,15 @@
 
 - (void)setBookImage:(UIImage *)image {
     _bookCoverImageView.image = image;
+}
+
+- (void)setIsDeleteMode:(BOOL)isDeleteMode {
+    _isDeleteMode = isDeleteMode;
+    if (_isDeleteMode) {
+        [_frameImageView setImage:[UIImage imageNamed:@"mango_delete_book.png"]];
+    } else {
+        [_frameImageView setImage:[UIImage imageNamed:@"circle1.png"]];
+    }
 }
 
 #pragma mark - Getting Book Info In Background

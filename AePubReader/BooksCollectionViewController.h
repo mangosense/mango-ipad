@@ -18,6 +18,7 @@
 - (IBAction)settingsButtonTapped:(id)sender;
 - (IBAction)homeButtonTapped:(id)sender;
 - (IBAction)libraryButtonTapped:(id)sender;
+- (IBAction)trashButtonTapped:(id)sender;
 
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;
