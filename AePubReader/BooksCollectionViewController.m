@@ -43,6 +43,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    if (_allBooksArray) {
+        _allBooksArray = nil;
+    }
+    if (_booksCollectionView) {
+        [_booksCollectionView removeFromSuperview];
+    }
     _allBooksArray = [self getAllBooks];
     if (!_allBooksArray) {
         _allBooksArray = [NSArray array];
@@ -239,7 +245,9 @@
     if (!_bookImageDictionary) {
         _bookImageDictionary = [[NSMutableDictionary alloc] init];
     }
-    [_bookImageDictionary setObject:image forKey:book.id];
+    if (image) {
+        [_bookImageDictionary setObject:image forKey:book.id];
+    }
 }
 
 - (UIImage *)getImageForBook:(Book *)book {
