@@ -119,7 +119,7 @@
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         _games.hidden = YES;
     } else {
-        _games.hidden = NO;
+        _games.hidden= NO;
     }
 }
 
