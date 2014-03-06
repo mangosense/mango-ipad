@@ -1103,7 +1103,13 @@
             [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewController.view setExclusiveTouch:YES];
             
-            [pageView addSubview:audioMappingViewController.customView];
+            //[pageView addSubview:audioMappingViewController.customView];
+            
+            audioMappingViewController.mangoTextField.text = textOnPage;
+            audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewController.mangoTextField.frame = textFrame;
+            audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
+            [pageView addSubview:audioMappingViewController.mangoTextField];
             
             audioMappingViewController.textForMapping = textOnPage;
             
