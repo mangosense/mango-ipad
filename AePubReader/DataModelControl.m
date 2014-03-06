@@ -75,7 +75,15 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
         NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
         NSArray *descp=@[desc];
         array=[array sortedArrayUsingDescriptors:descp];
-        
+    
+    NSMutableArray *existingBooksArray = [[NSMutableArray alloc] init];
+    for (Book *book in array) {
+        if ([self checkIfIdExists:book.id]) {
+            [existingBooksArray addObject:book];
+        }
+    }
+    array = [NSArray arrayWithArray:existingBooksArray];
+    
         return array;
 
 }

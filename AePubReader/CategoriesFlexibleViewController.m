@@ -137,25 +137,29 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *allBooks = [appDelegate.dataModel getAllUserBooks];
     
+    int allBooksCount = 0;
     for (Book *book in allBooks) {
-        NSString *jsonLocation=book.localPathFile;
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
-        NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-        NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-        jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-        
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
-        
-        NSLog(@"Categories - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]);
-        for (NSString *category in [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]) {
-            int bookCount = [[bookCountDict objectForKey:category] intValue];
-            bookCount += 1;
-            [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:category];
+        if ([appDelegate.ejdbController getBookForBookId:book.id]) {
+            NSString *jsonLocation=book.localPathFile;
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+            NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+            NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+            jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+            
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
+            
+            NSLog(@"Categories - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]);
+            for (NSString *category in [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]) {
+                int bookCount = [[bookCountDict objectForKey:category] intValue];
+                bookCount += 1;
+                [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:category];
+            }
+            allBooksCount += 1;
         }
     }
     
-    [bookCountDict setObject:[NSNumber numberWithInt:[allBooks count]] forKey:ALL_BOOKS_CATEGORY];
+    [bookCountDict setObject:[NSNumber numberWithInt:allBooksCount] forKey:ALL_BOOKS_CATEGORY];
     
     return bookCountDict;
 }

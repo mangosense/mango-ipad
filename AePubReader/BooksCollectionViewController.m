@@ -68,7 +68,7 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *booksForSelectedCategory = [[NSMutableArray alloc] init];
     for (Book *book in [appDelegate.dataModel getAllUserBooks]) {
-        if (book.localPathFile && _categorySelected) {
+        if (book.localPathFile && _categorySelected && [appDelegate.ejdbController getBookForBookId:book.id]) {
             NSString *jsonLocation=book.localPathFile;
             NSFileManager *fm = [NSFileManager defaultManager];
             NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
