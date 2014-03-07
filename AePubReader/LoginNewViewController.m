@@ -162,11 +162,21 @@
 #pragma mark - Action Methods
 
 - (IBAction)signIn:(id)sender {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSLog(@"Lengths are %d -- %d", _emailTextField.text.length, _passwordTextField.text.length);
     
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO Name:nil];
+    if((_emailTextField.text.length < 1) || (_passwordTextField.text.length < 1)){
+        
+        UIAlertView *loginAlertError = [[UIAlertView alloc] initWithTitle:@"Login Error" message:@"All fields are required" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [loginAlertError show];
+        return;
+    }
+    else{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        apiController.delegate = self;
+        [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO Name:nil];
+    }
 }
 
 - (void)goToNext {
@@ -224,6 +234,13 @@
     } else {
         UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your email and password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [loginFailureAlert show];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [self.view endEditing:YES];
     }
 }
 

@@ -475,7 +475,14 @@
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
                 [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
             }
-            bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+            
+            if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
+                bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+            }
+            else{
+                bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
+            }
+            
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
             
             bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
@@ -767,7 +774,14 @@
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
             [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
         }
-        bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        }
+        else{
+            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
+        }
+        
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
