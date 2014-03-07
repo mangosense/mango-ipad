@@ -136,7 +136,7 @@
 #define PAGE_NUMBER @"page"
 #define LIMIT @"limit"
 #define PLATFORM @"platform"
-#define IOS @"iOS"
+#define IOS @"ios"
 #define FACEBOOK_TOKEN_EXPIRATION_DATE @"expirationDate"
 
 #pragma mark - Table Types

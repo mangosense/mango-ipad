@@ -127,7 +127,7 @@
             [delegate reloadImage:(UIImage *)responseObject forUrl:urlString];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Image error: %@ \n Attempting to get cover image...", error);
+        //NSLog(@"Image error: %@ \n Attempting to get cover image...", error);
         [self getImageAtUrl:[urlString stringByReplacingOccurrencesOfString:@"banner" withString:@"cover"] withDelegate:delegate];
     }];
 
