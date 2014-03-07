@@ -542,6 +542,21 @@ void uncaughtExceptionHandler(NSException *exception) {
         }
     }
 }
+
++ (UIColor *)colorFromRgbString:(NSString *)rgbString {
+    NSScanner *scanner = [NSScanner scannerWithString:rgbString];
+    NSString *junk, *red, *green, *blue;
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&junk];
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet punctuationCharacterSet] intoString:&red];
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&junk];
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet punctuationCharacterSet] intoString:&blue];
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&junk];
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet punctuationCharacterSet] intoString:&green];
+    
+    UIColor *backgroundColor = [UIColor colorWithRed:red.intValue/255.0 green:green.intValue/255.0 blue:blue.intValue/255.0 alpha:1.0];
+    return backgroundColor;
+}
+
 + (UIColor *) colorFromHexString:(NSString *)hexString {
     NSString *cleanString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
     if([cleanString length] == 3) {
