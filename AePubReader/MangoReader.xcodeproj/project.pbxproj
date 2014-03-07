@@ -46,6 +46,7 @@
 		8309295918BDCA1600FA401E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309295818BDCA1600FA401E /* UserInfo.m */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
 		830F7BBE18C99A8900430625 /* doneTrash.png in Resources */ = {isa = PBXBuildFile; fileRef = 830F7BBD18C99A8900430625 /* doneTrash.png */; };
+		830F7BC118C9AE7800430625 /* matchimages.png in Resources */ = {isa = PBXBuildFile; fileRef = 830F7BC018C9AE7800430625 /* matchimages.png */; };
 		8310414518A3BE3D000514CE /* PageThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310414418A3BE3D000514CE /* PageThumbnailView.m */; };
 		8310414718A4EEFE000514CE /* button_my-stories.png in Resources */ = {isa = PBXBuildFile; fileRef = 8310414618A4EEFE000514CE /* button_my-stories.png */; };
 		831E746718A8BF69001976E4 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 831E746618A8BF69001976E4 /* white_page.jpeg */; };
@@ -1157,6 +1158,7 @@
 		830DE2A417D471E300399146 /* DrawingToolsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingToolsView.h; sourceTree = "<group>"; };
 		830DE2A517D471E300399146 /* DrawingToolsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingToolsView.m; sourceTree = "<group>"; };
 		830F7BBD18C99A8900430625 /* doneTrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doneTrash.png; sourceTree = "<group>"; };
+		830F7BC018C9AE7800430625 /* matchimages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = matchimages.png; path = ../matchimages.png; sourceTree = "<group>"; };
 		8310414318A3BE3D000514CE /* PageThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageThumbnailView.h; sourceTree = "<group>"; };
 		8310414418A3BE3D000514CE /* PageThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageThumbnailView.m; sourceTree = "<group>"; };
 		8310414618A4EEFE000514CE /* button_my-stories.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_my-stories.png"; sourceTree = "<group>"; };
@@ -3163,6 +3165,7 @@
 		83C1B51318AE5EA700624E1B /* GameIcons */ = {
 			isa = PBXGroup;
 			children = (
+				830F7BC018C9AE7800430625 /* matchimages.png */,
 				83C1B51418AE5EA700624E1B /* question_answer.png */,
 				83C1B51518AE5EA700624E1B /* sequence.png */,
 				83C1B51618AE5EA700624E1B /* sequenceimages.png */,
@@ -4405,6 +4408,7 @@
 				FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */,
 				83E2D230184364EC00F8CDB6 /* editor_88.png in Resources */,
 				FA881E501372CA9200FBD25F /* yellowslide.png in Resources */,
+				830F7BC118C9AE7800430625 /* matchimages.png in Resources */,
 				83E2D1AB184364EC00F8CDB6 /* editor_29.png in Resources */,
 				AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */,
 				83E2D165184364EC00F8CDB6 /* editor_226.png in Resources */,
@@ -5505,8 +5509,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "1FDF5A7C-FEC0-4777-A680-EBADF18A5D3F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1FDF5A7C-FEC0-4777-A680-EBADF18A5D3F";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -5549,8 +5553,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "1FDF5A7C-FEC0-4777-A680-EBADF18A5D3F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1FDF5A7C-FEC0-4777-A680-EBADF18A5D3F";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;

@@ -75,6 +75,9 @@
 
 - (IBAction)buyButtonTapped:(id)sender {
     if (_selectedProductId) {
+        //Temporarily Added For Direct Downloading
+        //[self itemReadyToUse:_selectedProductId];
+
         [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
     }
     else {
