@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "AFURLSessionManager.h"
 #import "AePubReaderAppDelegate.h"
+#import "MBProgressHUD.h"
 
 @interface MangoApiController ()
 
@@ -154,8 +155,9 @@
         NSLog(@"Login Response: %@", responseObject);
         
         if(![responseObject valueForKey:@"auth_token"]){
-            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:responseObject delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [responseError show];
+            //UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[responseObject valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+           // [responseError show];
+            [_delegate saveUserDetails:responseDict];
         }
         
         else if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
