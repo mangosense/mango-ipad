@@ -438,7 +438,7 @@
                 bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
             }
             else if([[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
-                bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Illustrated by: -"];
+                bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: -"];
             }
             
             if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]] && [[bookDict objectForKey:@"info"] objectForKey:@"tags"]){
@@ -737,7 +737,7 @@
         }
         
         else if([[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Illustrated by: -"];
+            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: -"];
         }
         
         [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
