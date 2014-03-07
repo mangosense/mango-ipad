@@ -430,23 +430,21 @@
             if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
             bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
             }
-            
             else if([[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
-                bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Narrated by: -"];
+                bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: -"];
             }
             
             if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
                 bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
             }
-            
             else if([[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
                 bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Illustrated by: -"];
             }
             
-            if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]] && [[bookDict objectForKey:@"info"] objectForKey:@"tags"]){
                 bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
             }
-            else if([[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            else if([[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]] || [[bookDict objectForKey:@"info"] objectForKey:@"tags"]){
                 bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
             }
             
@@ -462,7 +460,12 @@
             bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
             
             bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
-            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+            if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
+                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+            }
+            else {
+                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
+            }
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
             if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
                 bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
@@ -717,7 +720,7 @@
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
             bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
         }
-        else if([[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+        else{
             bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
         }
         
@@ -726,7 +729,7 @@
         }
         
         else if([[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Narrated by: -"];
+            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: -"];
         }
         
         if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
@@ -747,7 +750,14 @@
         bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
         
         bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
-        bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        }
+        else {
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
+        }
+        
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
