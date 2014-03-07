@@ -1290,8 +1290,12 @@
             audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
-            NSLog(@"Color int value: %d", [@"0xffffff" intValue]);
-            audioMappingViewcontroller.mangoTextField.textColor = UIColorFromRGB([@"0xffffff" intValue]);
+
+            unsigned result = 0;
+            NSScanner *scanner = [NSScanner scannerWithString:[[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] stringByTrimmingCharactersInSet:[NSCharacterSet symbolCharacterSet]]];
+            [scanner scanHexInt:&result];
+            audioMappingViewcontroller.mangoTextField.textColor = UIColorFromRGB(result);
+            
             [pageView addSubview:audioMappingViewcontroller.mangoTextField];
 
             audioMappingViewcontroller.textForMapping = textOnPage;
