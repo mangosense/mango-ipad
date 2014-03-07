@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageNewBookTypeViewController">
             <connections>
                 <outlet property="backButton" destination="ZgY-BU-pe6" id="JGh-rJ-E4T"/>
                 <outlet property="menuButton" destination="qUg-c9-QZ7" id="RI0-0N-Ake"/>
+                <outlet property="nextPageButton" destination="o6b-Ac-mCU" id="zYy-qT-Ps9"/>
                 <outlet property="playOrPauseButton" destination="cgX-74-zFh" id="fkW-W3-gwR"/>
+                <outlet property="previousPageButton" destination="8vW-iy-7Rc" id="M7a-8W-0x9"/>
                 <outlet property="rightView" destination="byr-W0-FeH" id="PSn-Mw-P6u"/>
                 <outlet property="showOptionButton" destination="qUg-c9-QZ7" id="hLM-s5-gzz"/>
                 <outlet property="view" destination="2" id="3"/>
