@@ -17,7 +17,7 @@
     if (self) {
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
-        [self setUserInteractionEnabled:NO];
+        [self setEditable:NO];
     }
     return self;
 }

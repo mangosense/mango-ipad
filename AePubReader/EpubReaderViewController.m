@@ -998,7 +998,7 @@ avgTime=avgTime/2;
     if(_playerDefault){
         _playerDefault=nil;
     }
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 
 //    self.navigationController.navigationBarHidden=NO;
 

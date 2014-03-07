@@ -205,7 +205,7 @@
 -(void)viewWillAppear:(BOOL)animated{
   
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     }
      
     [self.navigationController.navigationBar setHidden:NO];
@@ -213,7 +213,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
   
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     }
     [self.navigationController.navigationBar setHidden:YES];
 }
