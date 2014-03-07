@@ -40,7 +40,7 @@
     NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
-    [string addAttribute:NSBackgroundColorAttributeName value:COLOR_ORANGE range:range];
+    [string addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:range];
     [string addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [string length] - 1)];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
