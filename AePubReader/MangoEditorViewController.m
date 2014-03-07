@@ -1239,7 +1239,7 @@
             NSLog(@"%@",audioMappingViewcontroller.cues);
             [audioMappingViewcontroller.customView setNeedsDisplay];
             
-            if ([layerDict objectForKey:@"highlight"]) {
+            if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {
                 audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[layerDict objectForKey:@"highlight"]];
             } else {
                 audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
