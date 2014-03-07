@@ -199,7 +199,7 @@
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [Flurry logEvent:@"Login exited"];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 
     NSDate *exitTime = [NSDate date];
     NSTimeInterval timeOnLoginPage = [exitTime timeIntervalSinceDate:currentTime];

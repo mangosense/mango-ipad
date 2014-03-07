@@ -237,6 +237,12 @@
 
 - (IBAction)trashButtonTapped:(id)sender {
     _isDeleteMode = !_isDeleteMode;
+    UIButton *trashButton = (UIButton *)sender;
+    if (_isDeleteMode) {
+        [trashButton setImage:[UIImage imageNamed:@"doneTrash.png"] forState:UIControlStateNormal];
+    } else {
+        [trashButton setImage:[UIImage imageNamed:@"mango_delete_book.png"] forState:UIControlStateNormal];
+    }
     [_booksCollectionView reloadData];
 }
 

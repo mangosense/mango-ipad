@@ -46,7 +46,7 @@
     [dictionary setValue:_titleOfBook forKey:@"book title"];
     
     [Flurry logEvent:string withParameters:dictionary];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     self.navigationController.navigationBarHidden=NO;
 
     [self.navigationController popViewControllerAnimated:YES];
