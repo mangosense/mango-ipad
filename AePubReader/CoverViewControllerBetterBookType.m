@@ -52,6 +52,10 @@
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
     
+    NSData *jsonData = [jsonContents dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    [_languageLabel setTitle:[[jsonDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
+    
     [self showOrHideGameButton];
 }
 - (IBAction)multipleLanguage:(id)sender {

@@ -22,6 +22,8 @@
 @property(strong,nonatomic) Book *book;
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
+@property (nonatomic, strong) IBOutlet UIButton *languageLabel;
+
 - (IBAction)gameButtonTapped:(id)sender;
 
 @end

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoverViewControllerBetterBookType">
             <connections>
                 <outlet property="coverImageView" destination="T7N-ts-TeL" id="Gmv-EL-Y4D"/>
                 <outlet property="games" destination="8T9-Og-cmm" id="gQ9-1R-Fkl"/>
+                <outlet property="languageLabel" destination="qs6-Ii-CFn" id="K1m-IL-TkS"/>
                 <outlet property="titleLabel" destination="0n3-SY-7K6" id="HbJ-jP-lwi"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -25,8 +26,9 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qs6-Ii-CFn">
                     <rect key="frame" x="688" y="262" width="250" height="54"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" backgroundImage="icon_language_reference.png">
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" backgroundImage="icon_language_reference_blank.png">
+                        <color key="titleColor" red="0.44558848509999999" green="0.079257663470000003" blue="0.025229310410000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -118,7 +120,7 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_language_reference.png" width="250" height="54"/>
+        <image name="icon_language_reference_blank.png" width="250" height="54"/>
         <image name="icons_library.png" width="78" height="77"/>
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readbymyself.png" width="257" height="73"/>
