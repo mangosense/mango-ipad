@@ -1214,6 +1214,7 @@
                     [wordMap addObject:word];
                 }
             }
+            
             wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
             
             if (![[layerDict objectForKey:CUES] isEqual:[NSNull null]]) {
@@ -1289,6 +1290,12 @@
             audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
+
+            unsigned result = 0;
+            NSScanner *scanner = [NSScanner scannerWithString:[[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] stringByTrimmingCharactersInSet:[NSCharacterSet symbolCharacterSet]]];
+            [scanner scanHexInt:&result];
+            audioMappingViewcontroller.mangoTextField.textColor = UIColorFromRGB(result);
+            
             [pageView addSubview:audioMappingViewcontroller.mangoTextField];
 
             audioMappingViewcontroller.textForMapping = textOnPage;

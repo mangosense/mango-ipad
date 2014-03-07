@@ -166,6 +166,8 @@
 #define COLOR_DARK_RED [UIColor colorWithRed:77.0/255.0 green:14.0/255.0 blue:0.0/255.0 alpha:1.0f]
 //Dark Red: #9c351e (R:99 G:25 B:9)
 #define COLOR_BROWN [UIColor colorWithRed:99.0/255.0 green:25.0/255.0 blue:9.0/255.0 alpha:0.4f]
+//Color from HEX
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #pragma mark - Tags
 #pragma mark - MangoStoreView Controller
