@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MangoApiController.h"
 
-@protocol iCarouselImageCachingProtocol
+@protocol iCarouselImageCachingProtocol <NSObject>
 
 - (void)iCarouselSaveImage:(UIImage *)image ForUrl:(NSString *)imageUrl;
 

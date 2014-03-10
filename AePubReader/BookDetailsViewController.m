@@ -81,7 +81,7 @@
 - (IBAction)buyButtonTapped:(id)sender {
     if (_selectedProductId) {
         //Temporarily Added For Direct Downloading
-        //[self itemReadyToUse:_selectedProductId];
+        //[self itemReadyToUse:_selectedProductId ForTransaction:nil];
 
         [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
     }
@@ -119,6 +119,8 @@
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController downloadBookWithId:productId withDelegate:self ForTransaction:transactionId];
+    
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:[CargoBay sharedManager]];
 }
 
 #pragma mark - Post API Delegate

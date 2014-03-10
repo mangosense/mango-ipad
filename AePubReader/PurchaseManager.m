@@ -59,7 +59,7 @@
         {
             NSLog(@"Payment State: %d", transaction.transactionState);
             switch (transaction.transactionState) {
-                    
+                
                 case SKPaymentTransactionStatePurchased:
                 {
                     NSLog(@"Product Purchased!");
