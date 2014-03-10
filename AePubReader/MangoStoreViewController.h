@@ -26,7 +26,6 @@
 @property (nonatomic, strong) iCarousel *storiesCarousel;
 @property (nonatomic, assign) int tableType;
 
-
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;
 - (void)setCategoryFlagValue:(BOOL)value;

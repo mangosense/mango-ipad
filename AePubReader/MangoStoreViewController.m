@@ -427,18 +427,18 @@
             
             bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
             
-            if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+            if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
+                bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
             }
-            else if([[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
-                bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: -"];
+            else{
+                bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@""];
             }
             
-            if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
+            if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
                 bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
             }
-            else if([[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
-                bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: -"];
+            else{
+                bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@""];
             }
             
             if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]] && [[bookDict objectForKey:@"info"] objectForKey:@"tags"]){
@@ -722,7 +722,14 @@
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-        bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        
+        if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@""];
+        }
+        
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
             bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
@@ -731,20 +738,18 @@
             bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
         }
         
-        if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
+        if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
             bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
         }
-        
-        else if([[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: -"];
+        else{
+            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@""];
         }
         
-        if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
+        if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
             bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
         }
-        
-        else if([[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: -"];
+        else{
+            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@""];
         }
         
         [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];

@@ -228,6 +228,8 @@
         
     } else {
         _pageNumber = _pageNo - 1;
+        LastPageViewController *lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:nil WithId:[_book valueForKey:@"id"]];
+        [self.navigationController pushViewController:lastPage animated:YES];
     }
    
 }
@@ -347,7 +349,8 @@
         if (_pageNumber < [pagesArray count] - numberOfGames) {
             _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
         } else {
-            NSMutableArray *gameNamesArray = [[NSMutableArray alloc] init];
+            
+          /*  NSMutableArray *gameNamesArray = [[NSMutableArray alloc] init];
             for (NSDictionary *pageDict in pagesArray) {
                 if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
                     [gameNamesArray addObject:[pageDict objectForKey:NAME]];
@@ -362,7 +365,7 @@
                 gameView.delegate = self;
                 
                 [_pageView addSubview:gameView];
-            }
+            }*/
         }
     }
     _pageView.frame=self.view.bounds;

@@ -127,6 +127,7 @@
 #define NEW_STORY @"stories"
 #define FACEBOOK_LOGIN @"facebookapplogin.json"
 #define LIVE_STORIES_STORE @"live_stories.json"
+#define RECOMMENDED_STORIES @"livestories/recommended"
 
 #pragma mark - API Parameter Keys
 

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
 #import "Book.h"
+#import "LastPageViewController.h"
+
 @interface CoverViewControllerBetterBookType : UIViewController<DismissPopOver>
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;
@@ -23,5 +25,7 @@
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
 - (IBAction)gameButtonTapped:(id)sender;
+
+- (IBAction)lastPage:(id)sender;
 
 @end

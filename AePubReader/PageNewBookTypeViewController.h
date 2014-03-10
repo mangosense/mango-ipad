@@ -15,6 +15,8 @@
 #import "MangoEditorViewController.h"
 #import "DismissPopOver.h"
 #import "MangoBook.h"
+#import "LastPageViewController.h"
+
 @interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate>
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
