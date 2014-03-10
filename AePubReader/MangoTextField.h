@@ -10,6 +10,8 @@
 
 @interface MangoTextField : UITextView
 
+@property (nonatomic, strong) UIColor *highlightColor;
+
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length;
 
 @end

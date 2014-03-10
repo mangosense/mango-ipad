@@ -1239,6 +1239,12 @@
             NSLog(@"%@",audioMappingViewcontroller.cues);
             [audioMappingViewcontroller.customView setNeedsDisplay];
             
+            if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {
+                audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[layerDict objectForKey:@"highlight"]];
+            } else {
+                audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
+            }
+            
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             textFrame = CGRectMake(100, 100, 600, 400);
@@ -1291,10 +1297,11 @@
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
 
-            unsigned result = 0;
-            NSScanner *scanner = [NSScanner scannerWithString:[[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] stringByTrimmingCharactersInSet:[NSCharacterSet symbolCharacterSet]]];
-            [scanner scanHexInt:&result];
-            audioMappingViewcontroller.mangoTextField.textColor = UIColorFromRGB(result);
+            if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
+                audioMappingViewcontroller.mangoTextField.textColor = [AePubReaderAppDelegate colorFromHexString:[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"]];
+            } else {
+                audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
+            }
             
             [pageView addSubview:audioMappingViewcontroller.mangoTextField];
 

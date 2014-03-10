@@ -30,6 +30,7 @@
         [_bookTitleLabel setTextAlignment:NSTextAlignmentCenter];
         [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
         [_bookTitleLabel setTextColor:[UIColor brownColor]];
+        [_bookTitleLabel setNumberOfLines:2];
         
         [self addSubview:_bookTitleLabel];
         [self addSubview:_bookCoverImageView];
@@ -41,7 +42,7 @@
 - (void)layoutSubviews {
     [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];
     [_bookCoverImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];
-    [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width, 30)];
+    [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width, 40)];
 }
 
 - (void)prepareForReuse {

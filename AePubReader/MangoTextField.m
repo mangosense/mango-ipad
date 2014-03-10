@@ -18,6 +18,7 @@
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
         [self setEditable:NO];
+        _highlightColor = [UIColor yellowColor];
     }
     return self;
 }
@@ -40,8 +41,9 @@
     NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
-    [string addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:range];
+    [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
     [string addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [string length] - 1)];
+    [string addAttribute:NSForegroundColorAttributeName value:self.textColor range:NSMakeRange(0, [string length] - 1)];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
     [paragraphStyle setAlignment:NSTextAlignmentCenter];

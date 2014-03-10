@@ -49,5 +49,7 @@
 
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UIButton *menuButton;
+@property (nonatomic, strong) IBOutlet UIButton *previousPageButton;
+@property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
 
 @end

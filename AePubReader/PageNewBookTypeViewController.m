@@ -70,16 +70,19 @@
     
 }
 
+- (void)hideAllButtons:(BOOL)hide {
+    _showOptionButton.hidden = hide;
+    _backButton.hidden = hide;
+    _previousPageButton.hidden = hide;
+    _nextPageButton.hidden = hide;
+    if (hide) {
+        _rightView.hidden=YES;
+    }
+}
+
 - (void)didTap:(UITapGestureRecognizer *)gesture {
     _showButtons = !_showButtons;
-    
-    if (_showButtons) {
-        _showOptionButton.hidden = NO;
-        _backButton.hidden = NO;
-    } else {
-        _showOptionButton.hidden = YES;
-        _backButton.hidden = YES;
-    }
+    [self hideAllButtons:!_showButtons];
 }
 
 - (void)didReceiveMemoryWarning
@@ -247,13 +250,15 @@
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
             [self closeButton:nil];
+            _showButtons = NO;
+            [self hideAllButtons:!_showButtons];
         }
     } else {
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         [self loadPageWithOption:0];
         [self closeButton:nil];
-
-        
+        _showButtons = NO;
+        [self hideAllButtons:!_showButtons];
     }
 }
 

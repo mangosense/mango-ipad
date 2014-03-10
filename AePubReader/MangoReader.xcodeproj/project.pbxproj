@@ -54,6 +54,7 @@
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
 		830F7BBE18C99A8900430625 /* doneTrash.png in Resources */ = {isa = PBXBuildFile; fileRef = 830F7BBD18C99A8900430625 /* doneTrash.png */; };
 		830F7BC118C9AE7800430625 /* matchimages.png in Resources */ = {isa = PBXBuildFile; fileRef = 830F7BC018C9AE7800430625 /* matchimages.png */; };
+		830F7BC318CA08E900430625 /* icon_language_reference_blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 830F7BC218CA08E900430625 /* icon_language_reference_blank.png */; };
 		8310414518A3BE3D000514CE /* PageThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310414418A3BE3D000514CE /* PageThumbnailView.m */; };
 		8310414718A4EEFE000514CE /* button_my-stories.png in Resources */ = {isa = PBXBuildFile; fileRef = 8310414618A4EEFE000514CE /* button_my-stories.png */; };
 		831E746718A8BF69001976E4 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 831E746618A8BF69001976E4 /* white_page.jpeg */; };
@@ -1174,6 +1175,7 @@
 		830DE2A517D471E300399146 /* DrawingToolsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingToolsView.m; sourceTree = "<group>"; };
 		830F7BBD18C99A8900430625 /* doneTrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doneTrash.png; sourceTree = "<group>"; };
 		830F7BC018C9AE7800430625 /* matchimages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = matchimages.png; path = ../matchimages.png; sourceTree = "<group>"; };
+		830F7BC218CA08E900430625 /* icon_language_reference_blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_language_reference_blank.png; sourceTree = "<group>"; };
 		8310414318A3BE3D000514CE /* PageThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageThumbnailView.h; sourceTree = "<group>"; };
 		8310414418A3BE3D000514CE /* PageThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageThumbnailView.m; sourceTree = "<group>"; };
 		8310414618A4EEFE000514CE /* button_my-stories.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_my-stories.png"; sourceTree = "<group>"; };
@@ -3741,6 +3743,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				830F7BC218CA08E900430625 /* icon_language_reference_blank.png */,
 				83D5A1C218C87F55000C12E9 /* mango_delete_book.png */,
 				68D2639118C62247003AFE48 /* deletebook.png */,
 				68D2638F18C61B63003AFE48 /* MangoTrash.png */,
@@ -4865,6 +4868,7 @@
 				834FCE74182E084E0000181B /* pages_bg_right.png in Resources */,
 				AE0C9394183E22BA008E4D54 /* store_home_button.png in Resources */,
 				AEC85BB216AE86710094843B /* DetailHighlightViewController.xib in Resources */,
+				830F7BC318CA08E900430625 /* icon_language_reference_blank.png in Resources */,
 				AE2D35BD16B15902009E99A7 /* not.png in Resources */,
 				83E2D185184364EC00F8CDB6 /* editor_255.png in Resources */,
 				AE266FCD183B4E4F001A8CB8 /* categoryscreen.png in Resources */,
