@@ -282,10 +282,8 @@
             NSString *bookId = [dataDict objectForKey:@"id"];
             Book *bk=[delegate.dataModel getBookOfEJDBId:bookId];
             if (!bk) {
-                //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                
                 MangoApiController *apiController = [MangoApiController sharedApiController];
-                [apiController downloadBookWithId:bookId withDelegate:self];
+                [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
             }
         }
     }

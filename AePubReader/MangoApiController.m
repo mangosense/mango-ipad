@@ -72,8 +72,7 @@
 
 #pragma mark - API Methods
 
-- (void)validateReceiptWithData:(NSData *)rData  amount:(NSString *)amount storyId:(NSString *)storyId
-                          block:(void (^)(id response, NSInteger type, NSString * error))block {
+- (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
 
     NSString * userId = appDelegate.loggedInUserInfo.id;
@@ -199,7 +198,7 @@
 
 }
 
-- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate {
+- (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate ForTransaction:(NSString *)transactionId {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -228,7 +227,13 @@
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
         
-        NSURL *URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
+        NSURL *URL;
+        if (appDelegate.loggedInUserInfo) {
+            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
+        } else {
+            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId]];
+        }
+
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         NSProgress *downloadProgress;
         

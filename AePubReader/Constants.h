@@ -115,7 +115,8 @@
 #define GRADES @"grades.json"
 #define LOGIN @"sign_in"
 #define SIGN_UP @"sign_up"
-#define DOWNLOAD_STORY @"/livestories/%@/zipped?email=%@&auth_token=%@"
+#define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@"
+#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transactionId=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"
@@ -127,6 +128,8 @@
 #define NEW_STORY @"stories"
 #define FACEBOOK_LOGIN @"facebookapplogin.json"
 #define LIVE_STORIES_STORE @"live_stories.json"
+#define FREE_STORIES @"free_stories.json"
+#define LANGUAGES_FOR_BOOK @"available_languages"
 
 #pragma mark - API Parameter Keys
 

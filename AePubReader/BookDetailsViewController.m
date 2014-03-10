@@ -46,11 +46,16 @@
     
     _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:100 paddingTop:-100 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5];
     _dropDownView.delegate = self;
-    
-    
 	[self.view addSubview:_dropDownView.view];
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     
+    // take current payment queue
+    SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
+    // finish ALL transactions in queue
+    [currentQueue.transactions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [currentQueue finishTransaction:(SKPaymentTransaction *)obj];
+    }];
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -109,11 +114,11 @@
 
 #pragma mark - Purchased Manager Call Back
 
-- (void)itemReadyToUse:(NSString *)productId {
+- (void)itemReadyToUse:(NSString *)productId ForTransaction:(NSString *)transactionId {
     _bookId = productId;
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    [apiController downloadBookWithId:productId withDelegate:self];
+    [apiController downloadBookWithId:productId withDelegate:self ForTransaction:transactionId];
 }
 
 #pragma mark - Post API Delegate
