@@ -11,7 +11,9 @@
 #import "Book.h"
 #import "LastPageViewController.h"
 
-@interface CoverViewControllerBetterBookType : UIViewController<DismissPopOver>
+@interface CoverViewControllerBetterBookType : UIViewController<DismissPopOver, MangoPostApiProtocol>{
+    NSString *currentBookId;
+}
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;
 - (IBAction)optionsToReader:(id)sender;

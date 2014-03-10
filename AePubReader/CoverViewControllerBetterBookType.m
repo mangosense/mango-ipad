@@ -54,12 +54,20 @@
     
     NSData *jsonData = [jsonContents dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    currentBookId = [jsonDict objectForKey:@"id"];
     [_languageLabel setTitle:[[jsonDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
     
     [self showOrHideGameButton];
 }
 - (IBAction)multipleLanguage:(id)sender {
     UIButton *button=(UIButton *)sender;
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = LANGUAGES;
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:currentBookId forKey:@"story_id"];
+  //  [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
     _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
