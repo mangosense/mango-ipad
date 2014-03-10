@@ -130,6 +130,7 @@
 #define LIVE_STORIES_STORE @"live_stories.json"
 #define FREE_STORIES @"free_stories.json"
 #define LANGUAGES_FOR_BOOK @"available_languages"
+#define RECOMMENDED_STORIES @"livestories/recommended"
 
 #pragma mark - API Parameter Keys
 

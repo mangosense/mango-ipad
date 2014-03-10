@@ -197,6 +197,22 @@
             imageName = @"school-time.png";
         } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Family and Friends"]) {
             imageName = @"family-and-friends.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Action and Adventure"]) {
+            imageName = @"Action and Adventure.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Comics and Graphic Novels"]) {
+            imageName = @"Comics and Graphic Novels.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Financial Literacy"]) {
+            imageName = @"Financial Literacy.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"General and Miscellaneous"]) {
+            imageName = @"General and Miscellaneous.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Humour"]) {
+            imageName = @"Humour.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Mystery and Suspense"]) {
+            imageName = @"Mystery and Suspense.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Picture Books"]) {
+            imageName = @"Picture Books.png";
+        } else if ([[[_categoriesArray objectAtIndex:i] objectForKey:@"name"] isEqualToString:@"Science and Nature"]) {
+            imageName = @"Science and Nature.png";
         } else {
             imageName = @"icon_my existing books.png";
         }
