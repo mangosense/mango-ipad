@@ -107,8 +107,14 @@
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Get List Response: %@", responseObject);
+        NSArray *responseArray;
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            responseArray = [NSArray arrayWithObject:(NSDictionary *)responseObject];
+        } else {
+            responseArray = (NSArray *)responseObject;
+        }
         if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
-            [delegate reloadViewsWithArray:(NSArray *)responseObject ForType:methodName];
+            [delegate reloadViewsWithArray:responseArray ForType:methodName];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);

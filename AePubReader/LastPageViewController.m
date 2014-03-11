@@ -104,8 +104,6 @@
 
 - (IBAction)pushToCoverView:(id)sender{
     
-    //CoverViewControllerBetterBookType *moveToCoverView = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:_book.id];
-    
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
 }
 
@@ -150,6 +148,9 @@
                 if(button.tag == (i+1)){
                     
                     UIImage *pImage=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+                    CALayer *btnLayer = [button layer];
+                    [btnLayer setMasksToBounds:YES];
+                    [btnLayer setCornerRadius:20.0f];
                     [button setBackgroundImage:pImage forState:UIControlStateNormal];
                 }
             }
@@ -274,6 +275,11 @@
         return;
     }
     
+}
+
+- (IBAction)backButtonTap:(id)sender{
+    
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
 }
 
 @end

@@ -245,7 +245,7 @@
     if (_isDeleteMode) {
         [trashButton setImage:[UIImage imageNamed:@"doneTrash.png"] forState:UIControlStateNormal];
     } else {
-        [trashButton setImage:[UIImage imageNamed:@"mango_delete_book.png"] forState:UIControlStateNormal];
+        [trashButton setImage:[UIImage imageNamed:@"MangoTrash.png"] forState:UIControlStateNormal];
     }
     [_booksCollectionView reloadData];
 }

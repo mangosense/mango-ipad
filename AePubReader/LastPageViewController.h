@@ -36,6 +36,7 @@
 - (IBAction)gameButtonTapped:(id)sender;
 - (IBAction)bookTapped:(id)sender;
 - (IBAction)socialSharingOrLike :(id)sender;
+- (IBAction)backButtonTap:(id)sender;
 - (void) loadRecommendedBooks;
 
 @end

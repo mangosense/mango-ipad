@@ -126,8 +126,16 @@
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [_delegate dismissPopOver];
-    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
     
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",[_bookIDArray objectAtIndex:indexPath.row]]];
+   // [paramDict setObject:currentBookId forKey:@"story_id"];
+    [apiController getListOf:url ForParameters:nil withDelegate:self];
+    
+    /*
+    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [_bookDict objectForKey:@"title"];
@@ -142,6 +150,95 @@
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[_bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 800, 540);
+     */
+}
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type{
+    
+    NSLog(@"My array is %@", dataArray);
+    NSMutableArray *tempItemArray = [[NSMutableArray alloc] init];
+    tempItemArray = [NSMutableArray arrayWithArray:dataArray];
+    [self showBookDetailsForBook:tempItemArray[0]];
+}
+
+- (void)showBookDetailsForBook:(NSDictionary *)bookDict {
+    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    bookDetailsViewController.delegate = self;
+    NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
+    [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        
+        if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
+        }
+        
+        if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
+        [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+        [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+        [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
+        // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
+        
+        [bookDetailsViewController.dropDownView.uiTableView reloadData];
+        bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
+        
+        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        }
+        else {
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
+        }
+        
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+        }
+        else{
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+        }
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        }
+        else{
+            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
+        }
+        
+        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        
+        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+        bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+    }];
+    bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
 }
 
 #pragma mark - Get Languages
