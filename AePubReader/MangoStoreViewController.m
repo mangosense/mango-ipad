@@ -172,7 +172,7 @@
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
-   // [paramDict setObject:IOS forKey:PLATFORM];
+    [paramDict setObject:IOS forKey:PLATFORM];
 
     if ([type isEqualToString:AGE_GROUPS]) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -259,9 +259,9 @@
 
 #pragma mark - Purchased Manager Call Back
 
-- (void)itemReadyToUse:(NSString *)productId {
+- (void)itemReadyToUse:(NSString *)productId ForTransaction:(NSString *)transactionId {
     MangoApiController *apiController = [MangoApiController sharedApiController];
-    [apiController downloadBookWithId:productId withDelegate:self];
+    [apiController downloadBookWithId:productId withDelegate:self ForTransaction:transactionId];
     
     _selectedBookId = productId;
 }

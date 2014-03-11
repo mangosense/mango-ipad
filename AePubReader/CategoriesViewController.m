@@ -106,7 +106,7 @@ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication shared
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             
             MangoApiController *apiController = [MangoApiController sharedApiController];
-            [apiController downloadBookWithId:bookId withDelegate:self];
+            //[apiController downloadBookWithId:bookId withDelegate:self];
         }
     }
     //[self openBooks:nil];

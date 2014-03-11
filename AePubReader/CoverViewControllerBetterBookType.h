@@ -27,6 +27,7 @@
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
 @property (nonatomic, strong) IBOutlet UIButton *languageLabel;
+@property(strong, nonatomic) NSMutableArray *avilableLanguages;
 
 - (IBAction)gameButtonTapped:(id)sender;
 

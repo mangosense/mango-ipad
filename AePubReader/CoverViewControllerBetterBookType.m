@@ -63,10 +63,18 @@
     UIButton *button=(UIButton *)sender;
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
-    url = LANGUAGES;
+    url = LANGUAGES_FOR_BOOK;
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:currentBookId forKey:@"story_id"];
-  //  [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    
+}
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+   _avilableLanguages = [NSMutableArray arrayWithArray:dataArray];
+    NSMutableArray *languageArray = [[NSMutableArray alloc] init];
+    
     
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
@@ -74,7 +82,13 @@
     CGSize size=_popOverController.popoverContentSize;
     size.height=size.height-300;
     _popOverController.popoverContentSize=size;
-
+    choiceViewController.bookIDArray = [[NSMutableArray alloc] init];
+    for(int i=0; i< [_avilableLanguages count]; ++i){
+        [languageArray addObject:[_avilableLanguages[i] objectForKey:@"language"]];
+        NSLog(@"Print %@", [_avilableLanguages[i] objectForKey:@"language"]);
+        [choiceViewController.bookIDArray addObject:[_avilableLanguages[i] objectForKey:@"live_story_id"]];
+    }
+    
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
@@ -87,10 +101,10 @@
     NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     choiceViewController.array = [jsonDict objectForKey:@"available_languages"];
-    //choiceViewController.array = [[NSArray alloc] initWithObjects:@"hfjdsh", @"dsfsdf", nil];
+    choiceViewController.array = [[NSArray alloc] initWithArray:languageArray];
     choiceViewController.bookDict = jsonDict;
     
-    [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -227,5 +241,7 @@
      [self presentModalViewController:mail animated:YES];*/
     
 }
+
+
 
 @end

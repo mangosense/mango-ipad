@@ -59,6 +59,14 @@
 		8310414718A4EEFE000514CE /* button_my-stories.png in Resources */ = {isa = PBXBuildFile; fileRef = 8310414618A4EEFE000514CE /* button_my-stories.png */; };
 		831E746718A8BF69001976E4 /* white_page.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 831E746618A8BF69001976E4 /* white_page.jpeg */; };
 		8323A88118B4E325000A07AE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8323A88018B4E325000A07AE /* FacebookSDK.framework */; };
+		8323FFE918CDE508006C0DD0 /* Action and Adventure.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE118CDE508006C0DD0 /* Action and Adventure.png */; };
+		8323FFEA18CDE508006C0DD0 /* Comics and Graphic Novels.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE218CDE508006C0DD0 /* Comics and Graphic Novels.png */; };
+		8323FFEB18CDE508006C0DD0 /* Financial Literacy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE318CDE508006C0DD0 /* Financial Literacy.png */; };
+		8323FFEC18CDE508006C0DD0 /* General and Miscellaneous.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE418CDE508006C0DD0 /* General and Miscellaneous.png */; };
+		8323FFED18CDE508006C0DD0 /* Humour.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE518CDE508006C0DD0 /* Humour.png */; };
+		8323FFEE18CDE508006C0DD0 /* Mystery and Suspense.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE618CDE508006C0DD0 /* Mystery and Suspense.png */; };
+		8323FFEF18CDE508006C0DD0 /* Picture Books.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE718CDE508006C0DD0 /* Picture Books.png */; };
+		8323FFF018CDE508006C0DD0 /* Science and Nature.png in Resources */ = {isa = PBXBuildFile; fileRef = 8323FFE818CDE508006C0DD0 /* Science and Nature.png */; };
 		832CB92417B383EA0073F9C2 /* MovableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 832CB92317B383EA0073F9C2 /* MovableTextView.m */; };
 		833058A217F9901E00F48427 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A117F9901E00F48427 /* libz.1.1.3.dylib */; };
 		833058A417F9961A00F48427 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 833058A317F9961A00F48427 /* Accounts.framework */; };
@@ -1181,6 +1189,14 @@
 		8310414618A4EEFE000514CE /* button_my-stories.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_my-stories.png"; sourceTree = "<group>"; };
 		831E746618A8BF69001976E4 /* white_page.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white_page.jpeg; sourceTree = "<group>"; };
 		8323A88018B4E325000A07AE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		8323FFE118CDE508006C0DD0 /* Action and Adventure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Action and Adventure.png"; sourceTree = "<group>"; };
+		8323FFE218CDE508006C0DD0 /* Comics and Graphic Novels.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Comics and Graphic Novels.png"; sourceTree = "<group>"; };
+		8323FFE318CDE508006C0DD0 /* Financial Literacy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Financial Literacy.png"; sourceTree = "<group>"; };
+		8323FFE418CDE508006C0DD0 /* General and Miscellaneous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "General and Miscellaneous.png"; sourceTree = "<group>"; };
+		8323FFE518CDE508006C0DD0 /* Humour.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Humour.png; sourceTree = "<group>"; };
+		8323FFE618CDE508006C0DD0 /* Mystery and Suspense.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Mystery and Suspense.png"; sourceTree = "<group>"; };
+		8323FFE718CDE508006C0DD0 /* Picture Books.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Picture Books.png"; sourceTree = "<group>"; };
+		8323FFE818CDE508006C0DD0 /* Science and Nature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Science and Nature.png"; sourceTree = "<group>"; };
 		832CB92217B383EA0073F9C2 /* MovableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovableTextView.h; sourceTree = "<group>"; };
 		832CB92317B383EA0073F9C2 /* MovableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableTextView.m; sourceTree = "<group>"; };
 		832CB92B17B3B1110073F9C2 /* story.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = story.json; sourceTree = "<group>"; };
@@ -3668,6 +3684,14 @@
 		83EE2CB218C5B2F600F4360A /* CategoriesImages */ = {
 			isa = PBXGroup;
 			children = (
+				8323FFE118CDE508006C0DD0 /* Action and Adventure.png */,
+				8323FFE218CDE508006C0DD0 /* Comics and Graphic Novels.png */,
+				8323FFE318CDE508006C0DD0 /* Financial Literacy.png */,
+				8323FFE418CDE508006C0DD0 /* General and Miscellaneous.png */,
+				8323FFE518CDE508006C0DD0 /* Humour.png */,
+				8323FFE618CDE508006C0DD0 /* Mystery and Suspense.png */,
+				8323FFE718CDE508006C0DD0 /* Picture Books.png */,
+				8323FFE818CDE508006C0DD0 /* Science and Nature.png */,
 				83EE2CB318C5B2F600F4360A /* animals-and-nature.png */,
 				83EE2CB418C5B2F600F4360A /* family-and-friends.png */,
 				83EE2CB518C5B2F600F4360A /* my-books.png */,
@@ -4429,6 +4453,7 @@
 				AE266FC8183B4881001A8CB8 /* button_my stories.png in Resources */,
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				FA307A3D1371E2B000959622 /* ChapterListViewController.xib in Resources */,
+				8323FFEB18CDE508006C0DD0 /* Financial Literacy.png in Resources */,
 				834FCE31182D11F70000181B /* imagebutton_selected.png in Resources */,
 				FA881E4E1372CA9200FBD25F /* orangeslide.png in Resources */,
 				FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */,
@@ -4695,6 +4720,7 @@
 				834FCE44182D11F70000181B /* playbutton_selected.png in Resources */,
 				834FCE1F182D11F70000181B /* bold_button.png in Resources */,
 				8353B3381851ABE1009B3BD8 /* shape1.png in Resources */,
+				8323FFEC18CDE508006C0DD0 /* General and Miscellaneous.png in Resources */,
 				83E2D1ED184364EC00F8CDB6 /* editor_349.png in Resources */,
 				AE1C6C3216721EBB0090DFDD /* download-button-iphone3.png in Resources */,
 				68D2638218C5E385003AFE48 /* MangoNameLogo.png in Resources */,
@@ -4740,6 +4766,7 @@
 				AEDF1810168AC5020087064A /* Draw-control.png in Resources */,
 				AEDF1812168AC5020087064A /* game-control.png in Resources */,
 				AEDF1816168AC5020087064A /* library-icon.png in Resources */,
+				8323FFEE18CDE508006C0DD0 /* Mystery and Suspense.png in Resources */,
 				83E2D1C7184364EC00F8CDB6 /* editor_314.png in Resources */,
 				83E2D1CE184364EC00F8CDB6 /* editor_320.png in Resources */,
 				83E2D23A184364EC00F8CDB6 /* editor_97.png in Resources */,
@@ -4821,6 +4848,7 @@
 				83E2D1FB184364EC00F8CDB6 /* editor_4.png in Resources */,
 				83EE2CB918C5B2F600F4360A /* my-books.png in Resources */,
 				83AB60B518AC0F0F004A040E /* greenButton.png in Resources */,
+				8323FFF018CDE508006C0DD0 /* Science and Nature.png in Resources */,
 				834FCE6C182D11F70000181B /* yes_button_pressed.png in Resources */,
 				83E2D17D184364EC00F8CDB6 /* editor_248.png in Resources */,
 				AEF6A16416959B5E00ECAE7E /* ViewController.xib in Resources */,
@@ -4999,6 +5027,7 @@
 				83E2D209184364EC00F8CDB6 /* editor_52.png in Resources */,
 				AEB79382173B99F600301057 /* recordinmyvoicebutton.png in Resources */,
 				83E2D15D184364EC00F8CDB6 /* editor_219.png in Resources */,
+				8323FFEA18CDE508006C0DD0 /* Comics and Graphic Novels.png in Resources */,
 				AEB79384173BA48E00301057 /* bookinfobutton.png in Resources */,
 				83E2D1AD184364EC00F8CDB6 /* editor_291.png in Resources */,
 				83E9ADE4184DA2470025BBD6 /* MangoStoreViewController.xib in Resources */,
@@ -5117,8 +5146,10 @@
 				83E2D0E9184364EC00F8CDB6 /* editor_114.png in Resources */,
 				83BB3EC2185B5ADD00BA5ED7 /* jigsaw-puzzle.jpg in Resources */,
 				83BB3EA9185B560600BA5ED7 /* quiz_ref.jpg in Resources */,
+				8323FFED18CDE508006C0DD0 /* Humour.png in Resources */,
 				83E2D1CA184364EC00F8CDB6 /* editor_317.png in Resources */,
 				83C1B52118AE5EA700624E1B /* sequence.png in Resources */,
+				8323FFE918CDE508006C0DD0 /* Action and Adventure.png in Resources */,
 				68D2639218C62247003AFE48 /* deletebook.png in Resources */,
 				83E2D1B4184364EC00F8CDB6 /* editor_298.png in Resources */,
 				839DD8E817B50320003B62C8 /* topdot.png in Resources */,
@@ -5169,6 +5200,7 @@
 				83E2D14F184364EC00F8CDB6 /* editor_206.png in Resources */,
 				83E2D202184364EC00F8CDB6 /* editor_46.png in Resources */,
 				8357E6BC18AF498100770D27 /* 3.png in Resources */,
+				8323FFEF18CDE508006C0DD0 /* Picture Books.png in Resources */,
 				8353B3341851ABE1009B3BD8 /* 101.png in Resources */,
 				83E2D157184364EC00F8CDB6 /* editor_213.png in Resources */,
 				834FCE46182D11F70000181B /* publishthisbook_button_pressed.png in Resources */,

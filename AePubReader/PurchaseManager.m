@@ -64,7 +64,7 @@
                 {
                     NSLog(@"Product Purchased!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self validateReceipt:productId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    [self validateReceipt:productId ForTransactionId:transaction.transactionIdentifier amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                 }
                     break;
                     
@@ -79,7 +79,7 @@
                 {
                     NSLog(@"Product Restored!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self validateReceipt:productId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    [self validateReceipt:productId ForTransactionId:transaction.transactionIdentifier amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                 }
                     break;
                     
@@ -144,13 +144,13 @@
     return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
-- (void)validateReceipt:(NSString *)productId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
+- (void)validateReceipt:(NSString *)productId ForTransactionId:(NSString *)transactionId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
     //Use this when receipt_validate is error free
-    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
-            [delegate itemReadyToUse:productId];
+            [delegate itemReadyToUse:productId ForTransaction:transactionId];
             if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                 [delegate updateBookProgress:0];
             }
