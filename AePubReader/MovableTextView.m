@@ -36,6 +36,7 @@ CGPoint originalPoint;
         
         UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
         pinchRecognizer.delegate = self;
+        
         [self addGestureRecognizer:pinchRecognizer];
         
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
@@ -128,9 +129,10 @@ CGPoint originalPoint;
             originalPoint = CGPointMake(0.00, 0.00);
         }
         
+        [textDelegate saveFrame:self.frame AndText:self.text ForLayer:layerId];
     }
     [[self layer] setCornerRadius:self.frame.size.height/20];
-    
+    [textDelegate saveFrame:self.frame AndText:self.text ForLayer:layerId];
    // [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
 }
 
