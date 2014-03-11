@@ -160,6 +160,7 @@
 
 - (IBAction)bookTapped:(id)sender{
     if([sender tag]){
+        
         [self showBookDetailsForBook:_tempItemArray[[sender tag]-1]];
     }
 }

@@ -15,6 +15,7 @@
 #import "LoginNewViewController.h"
 #import "EJDBController.h"
 #import "UserInfo.h"
+#import "BookDetailsViewController.h"
 
 @class EPubViewController;
 @class LoginViewController;
@@ -68,6 +69,7 @@
 + (UIImage*)maskImage:(UIImage *)image withMask:(UIImage *)maskImage;
 + (UIColor *) colorFromHexString:(NSString *)hexString;
 + (UIColor *)colorFromRgbString:(NSString *)rgbString;
+- (void)showBookDetailsForBook:(NSDictionary *)bookDict WithDelegate:(id<BookViewProtocol>)delegate AndPresentingViewcontroller:(UIViewController *)presentingViewController;
 
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;
