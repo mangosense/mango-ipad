@@ -93,6 +93,7 @@
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", operation.request);
         if (responseObject != nil) { block(responseObject, 1, nil);}//Successful
         else { block(nil, 0, @"Response is nil.");}//Errored
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -242,26 +243,37 @@
 
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         NSProgress *downloadProgress;
+        __block BOOL isDataPresent;
         
         NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&downloadProgress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]];
-            return [documentsDirectoryPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", bookId]];
+            if (isDataPresent) {
+                NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]];
+                return [documentsDirectoryPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", bookId]];
+            }
+            return nil;
         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            NSLog(@"File downloaded to: %@", filePath);
-            
-            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate unzipExistingJsonBooks];
-            
-            if ([delegate respondsToSelector:@selector(bookDownloaded)]) {
-                [delegate bookDownloaded];
+            if (isDataPresent) {
+                NSLog(@"File downloaded to: %@", filePath);
+                
+                AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate unzipExistingJsonBooks];
+                
+                if ([delegate respondsToSelector:@selector(bookDownloaded)]) {
+                    [delegate bookDownloaded];
+                }
             }
         }];
         [downloadTask resume];
         
         [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-            NSLog(@"Progress… %lld", totalBytesWritten*100/totalBytesExpectedToWrite);
-            if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
-                [delegate updateBookProgress:[[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue]];
+            NSLog(@"Progress %lld/%lld = %lld", totalBytesWritten, totalBytesExpectedToWrite, totalBytesWritten*100/totalBytesExpectedToWrite);
+            if (totalBytesExpectedToWrite > 512*1000) {
+                isDataPresent = YES;
+            }
+            if (isDataPresent) {
+                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                    [delegate updateBookProgress:[[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue]];
+                }
             }
         }];
     }];
