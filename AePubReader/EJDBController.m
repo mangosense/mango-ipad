@@ -187,7 +187,11 @@
                 } else {
                     textLayer.topRatio = [NSNumber numberWithInt:500];
                 }
-                textLayer.leftRatio = [NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
+                if (![style[@"left_ratio"] isEqual:[NSNull null]]) {
+                    textLayer.leftRatio = [NSNumber numberWithFloat:MAX([style[@"left_ratio"] floatValue], 1)];
+                } else {
+                    textLayer.leftRatio = [NSNumber numberWithInt:500];
+                }
                 textLayer.height = [NSNumber numberWithFloat:MAX([style[@"height"] floatValue], 400)];
                 textLayer.width = [NSNumber numberWithFloat:MAX([style[@"width"] floatValue], 600)];
                 textLayer.imageAlignment = layerDict[IMAGE_ALIGNMENT];

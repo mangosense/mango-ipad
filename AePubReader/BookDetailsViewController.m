@@ -119,8 +119,6 @@
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController downloadBookWithId:productId withDelegate:self ForTransaction:transactionId];
-    
-    [[SKPaymentQueue defaultQueue] removeTransactionObserver:[CargoBay sharedManager]];
 }
 
 #pragma mark - Post API Delegate

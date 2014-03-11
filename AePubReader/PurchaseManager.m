@@ -64,7 +64,13 @@
                 {
                     NSLog(@"Product Purchased!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self validateReceipt:productId ForTransactionId:transaction.transactionIdentifier amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    NSString *transactionId;
+                    if (transaction.originalTransaction) {
+                        transactionId = transaction.originalTransaction.transactionIdentifier;
+                    } else {
+                        transactionId = transaction.transactionIdentifier;
+                    }
+                    [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                 }
                     break;
                     
@@ -79,7 +85,7 @@
                 {
                     NSLog(@"Product Restored!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                    [self validateReceipt:productId ForTransactionId:transaction.transactionIdentifier amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    [self validateReceipt:productId ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                 }
                     break;
                     
