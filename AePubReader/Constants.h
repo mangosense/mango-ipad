@@ -116,7 +116,7 @@
 #define LOGIN @"sign_in"
 #define SIGN_UP @"sign_up"
 #define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@"
-#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transactionId=%@"
+#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"
