@@ -48,13 +48,13 @@
     if (!textFont) {
         textFont = [UIFont systemFontOfSize:25.0f];
     }
-    [string addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [string length] - 1)];
+    [string addAttribute:NSFontAttributeName value:textFont range:NSMakeRange(0, [string length] - 1)];
 
     UIColor *textColor = self.textColor;
     if (!textColor) {
         textColor = [UIColor blackColor];
     }
-    [string addAttribute:NSForegroundColorAttributeName value:self.textColor range:NSMakeRange(0, [string length] - 1)];
+    [string addAttribute:NSForegroundColorAttributeName value:textColor range:NSMakeRange(0, [string length] - 1)];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
