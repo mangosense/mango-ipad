@@ -131,7 +131,7 @@
     
     //[apiController getImageAtUrl:urlString withDelegate:self];
     _tempItemArray = [NSMutableArray arrayWithArray:dataArray];
-    for(int i = 0; i< 5; ++i){
+    for(int i = 0; i< _tempItemArray.count; ++i){
         NSString *imageURLString = [NSString stringWithFormat:@"http://www.mangoreader.com%@",[_tempItemArray[i] objectForKey:@"cover"]];
 
         

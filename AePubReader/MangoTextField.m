@@ -42,14 +42,18 @@
     
     NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
     [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
-    [string addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [string length] - 1)];
-    NSLog(@"length %d", [string length]);
+    
+    [string addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [string length])];
 
-    [string addAttribute:NSForegroundColorAttributeName value:self.textColor range:NSMakeRange(0, [string length] - 1)];
+    UIColor *fontColor = self.textColor;
+    if (!fontColor) {
+        fontColor = [UIColor blackColor];
+    }
+    [string addAttribute:NSForegroundColorAttributeName value:fontColor range:NSMakeRange(0, [string length])];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length] - 1)];
+    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
 
     [self setAttributedText:string];
 }
