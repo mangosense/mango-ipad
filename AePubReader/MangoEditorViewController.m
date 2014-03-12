@@ -729,6 +729,7 @@
             NSArray *itemsArray = [NSArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
             pageTextView.text = [itemsArray objectAtIndex:index];
             pageTextView.delegate = self;
+            pageTextView.textDelegate = self;
             [pageImageView addSubview:pageTextView];
             
             AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -1072,7 +1073,12 @@
             audioMappingViewController.customView.backgroundColor = [UIColor clearColor];
             
             if (readingOption == READ_TO_ME) {
-                [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
+                if(audioData == nil){
+                    readingOption = 1;
+                }
+                else{
+                    [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
+                }
             }
             NSLog(@"%@",audioMappingViewController.cues);
             [audioMappingViewController.customView setNeedsDisplay];

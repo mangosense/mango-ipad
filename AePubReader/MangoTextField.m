@@ -36,13 +36,24 @@
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
-    
+    NSLog(@"length %d", [string length]);
+
     NSArray *words = [self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
     [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
+    
+    UIFont *textFont = self.font;
+    if (!textFont) {
+        textFont = [UIFont systemFontOfSize:25.0f];
+    }
     [string addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [string length] - 1)];
+
+    UIColor *textColor = self.textColor;
+    if (!textColor) {
+        textColor = [UIColor blackColor];
+    }
     [string addAttribute:NSForegroundColorAttributeName value:self.textColor range:NSMakeRange(0, [string length] - 1)];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;

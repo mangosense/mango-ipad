@@ -36,6 +36,7 @@ CGPoint originalPoint;
         
         UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
         pinchRecognizer.delegate = self;
+        
         [self addGestureRecognizer:pinchRecognizer];
         
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
@@ -92,7 +93,7 @@ CGPoint originalPoint;
     [[self layer] setBackgroundColor:[[UIColor lightGrayColor] CGColor]];
 }
 
-/*
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
     UITouch *touch = [[event allTouches] anyObject];
@@ -112,7 +113,6 @@ CGPoint originalPoint;
 //tap geture recognizer -->
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
-    
     CGPoint translation = [recognizer translationInView:self.superview];
     
     if(((recognizer.view.center.x + translation.x) - self.frame.size.width/2) > 0 && ((recognizer.view.center.y + translation.y) - self.frame.size.height/2) > 0 && ((recognizer.view.center.x + translation.x) + self.frame.size.width/2) < (self.superview.frame.size.width) && ((recognizer.view.center.y + translation.y)+self.frame.size.height/2) < (self.superview.frame.size.height)){
@@ -124,7 +124,11 @@ CGPoint originalPoint;
                                              recognizer.view.center.y + translation.y);
         
         [recognizer setTranslation:CGPointMake(0, 0) inView:self.superview];
+        
+        [textDelegate saveFrame:recognizer.view.frame AndText:self.text ForLayer:layerId];
+        
         if(recognizer.state == UIGestureRecognizerStateEnded){
+            
             originalPoint = CGPointMake(0.00, 0.00);
         }
         
