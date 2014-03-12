@@ -66,6 +66,7 @@
     [_imageButton setFrame:CGRectMake(_textButton.frame.origin.x + _textButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
 
     _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20);
+    
 }
 
 - (void)getImageForUrl:(NSString *)urlString {
@@ -86,8 +87,9 @@
 #pragma mark - Reuse
 
 - (void)prepareForReuse {
+    [_bookImageView setImage:nil];
+
     [super prepareForReuse];
-    _bookImageView.image = nil;
 }
 
 #pragma mark - Post API Delegate
