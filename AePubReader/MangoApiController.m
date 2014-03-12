@@ -207,25 +207,7 @@
 
 - (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate ForTransaction:(NSString *)transactionId {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:bookId];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    AFHTTPRequestOperation *op = [manager GET:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY, bookId, [[userDefaults objectForKey:EMAIL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [userDefaults objectForKey:AUTH_TOKEN]]
-                                   parameters:nil
-                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                          NSLog(@"successful download to %@", path);
-                                          if ([delegate respondsToSelector:@selector(getBookAtPath:)]) {
-                                              [delegate getBookAtPath:[NSURL URLWithString:path]];
-                                          }
-                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                          NSLog(@"Error: %@", error);
-                                      }];
-    op.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];*/
-    
-    //////--------
-    
+        
     if (!_downloadOperationQueue) {
         _downloadOperationQueue = [[NSOperationQueue alloc] init];
         [_downloadOperationQueue setMaxConcurrentOperationCount:1];

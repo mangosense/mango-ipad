@@ -70,7 +70,7 @@
                         <action selector="socialSharingOrLike:" destination="-1" eventType="touchUpInside" id="pRL-zF-CA6"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MYN-Kg-b7a">
+                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MYN-Kg-b7a">
                     <rect key="frame" x="0.0" y="410" width="1024" height="358"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -115,7 +115,7 @@
     url = RECOMMENDED_STORIES;
     [paramDict setObject:story_Id_value forKey:@"story_id"];
     [paramDict setObject:IOS forKey:PLATFORM];
-    [MBProgressHUD showHUDAddedTo:_recommendedView animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
 
@@ -126,7 +126,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    [MBProgressHUD hideAllHUDsForView:_recommendedView animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     //MangoApiController *apiController = [MangoApiController sharedApiController];
     
     //[apiController getImageAtUrl:urlString withDelegate:self];
@@ -160,6 +160,7 @@
 
 - (IBAction)bookTapped:(id)sender{
     if([sender tag]){
+        
         [self showBookDetailsForBook:_tempItemArray[[sender tag]-1]];
     }
 }

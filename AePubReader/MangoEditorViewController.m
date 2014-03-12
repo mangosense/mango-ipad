@@ -1073,7 +1073,12 @@
             audioMappingViewController.customView.backgroundColor = [UIColor clearColor];
             
             if (readingOption == READ_TO_ME) {
-                [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
+                if(audioData == nil){
+                    readingOption = 1;
+                }
+                else{
+                    [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
+                }
             }
             NSLog(@"%@",audioMappingViewController.cues);
             [audioMappingViewController.customView setNeedsDisplay];
