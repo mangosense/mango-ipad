@@ -58,7 +58,7 @@
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length] - 1)];
+    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
 
     [self setAttributedText:string];
 }

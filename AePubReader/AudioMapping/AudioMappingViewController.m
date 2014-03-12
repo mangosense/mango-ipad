@@ -219,6 +219,7 @@
 }
 
 - (IBAction)nextClick:(id)sender {
+    
     /*if (_customView.text.count>_index) {
         NSString *string=[_customView.text objectAtIndex:_index];
             NSLog(@"custom view.text");
