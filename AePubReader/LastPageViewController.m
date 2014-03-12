@@ -115,7 +115,7 @@
     url = RECOMMENDED_STORIES;
     [paramDict setObject:story_Id_value forKey:@"story_id"];
     [paramDict setObject:IOS forKey:PLATFORM];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:_recommendedView animated:YES];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
 
@@ -126,7 +126,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:_recommendedView animated:YES];
     //MangoApiController *apiController = [MangoApiController sharedApiController];
     
     //[apiController getImageAtUrl:urlString withDelegate:self];
