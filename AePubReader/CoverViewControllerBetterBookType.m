@@ -105,7 +105,11 @@
     choiceViewController.array = [[NSArray alloc] initWithArray:languageArray];
     choiceViewController.bookDict = jsonDict;
     
+    if(choiceViewController.array.count>0){
+        
     [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
