@@ -248,12 +248,17 @@
         _index++;
     }*/
     
+    if (!textForMapping || [[textForMapping stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+        textForMapping = _mangoTextField.text;
+    }
     NSArray *subarray = [[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] subarrayWithRange:NSMakeRange(0, _wordIndex)];
     NSString *subString = [subarray componentsJoinedByString:@" "];
     
     _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
     [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
-    _wordIndex += 1;
+    if (_wordIndex < [[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] count] - 1) {
+        _wordIndex += 1;
+    }
 }
 
 - (IBAction)previous:(id)sender {
@@ -486,6 +491,7 @@
     [audioMappingDelegate saveAudioMapping];
     
     [_customView removeFromSuperview];
+    [_mangoTextField removeFromSuperview];
     [self.view removeFromSuperview];
     [_timer invalidate];
     

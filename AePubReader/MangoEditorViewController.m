@@ -2125,7 +2125,8 @@ enum
     audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
     
     [pageImageView addSubview:audioMappingViewController.customView];
-      audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
+
+    audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
     audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:_audioLayer.wordTimes];
 
     audioMappingViewController.customView.text=_audioLayer.wordMap;
@@ -2136,6 +2137,13 @@ enum
     audioMappingViewController.audioUrl = _audioUrl;
     [pageImageView bringSubviewToFront:audioMappingViewController.view];
     
+    audioMappingViewController.mangoTextField.text = [audioMappingViewController.customView.text componentsJoinedByString:@" "];
+    audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    audioMappingViewController.mangoTextField.frame = CGRectMake(audioMappingViewController.view.frame.origin.x, audioMappingViewController.view.frame.origin.y + audioMappingViewController.view.frame.size.height, audioMappingViewController.view.frame.size.width, audioMappingViewController.view.frame.size.height);
+    audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
+    
+    [pageImageView addSubview:audioMappingViewController.mangoTextField];
+
     for (UIView *subview in [pageImageView subviews]) {
         if ([subview isKindOfClass:[MovableTextView class]]) {
             audioMappingViewController.customView.frame = subview.frame;

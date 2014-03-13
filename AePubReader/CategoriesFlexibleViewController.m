@@ -57,6 +57,7 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (_pageNumber == 0 && !appDelegate.arePurchasesDownloading) {
         [self getAllPurchasedBooks];
+        [self getAllFreeBooks];
         appDelegate.arePurchasesDownloading = YES;
     }
 }
@@ -291,16 +292,28 @@
         _categoriesArray = [NSArray arrayWithArray:categoriesWithMyBooksCategoryArray];
         
         [self setupUI];
-    } else if ([type isEqualToString:PURCHASED_STORIES]) {
+    } else if ([type isEqualToString:PURCHASED_STORIES] || [type isEqualToString:FREE_STORIES]) {
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
+        int numberOfBooksForDownload = 0;
         for (NSDictionary *dataDict in dataArray) {
             NSString *bookId = [dataDict objectForKey:@"id"];
             Book *bk=[delegate.dataModel getBookOfEJDBId:bookId];
             if (!bk) {
                 MangoApiController *apiController = [MangoApiController sharedApiController];
                 [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
+                numberOfBooksForDownload += 1;
             }
+        }
+        
+        if (numberOfBooksForDownload > 0) {
+            UIAlertView *booksDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"Downloading Books" message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            if ([type isEqualToString:PURCHASED_STORIES]) {
+                [booksDownloadAlertView setMessage:@"Your purchased books are being downloaded in the background."];
+            } else {
+                [booksDownloadAlertView setMessage:@"You have 5 free books from MangoReader! They will be downloaded in the background, while you continue exploring the app."];
+            }
+            [booksDownloadAlertView show];
         }
     }
 }
@@ -314,7 +327,16 @@
     [apiController getListOf:CATEGORIES ForParameters:nil withDelegate:self];
 }
 
-#pragma mark - Get Purchased Books
+#pragma mark - Get Books
+
+-(void)getAllFreeBooks {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.loggedInUserInfo) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
+    }
+}
 
 - (void)getAllPurchasedBooks {
     MangoApiController *apiController = [MangoApiController sharedApiController];
