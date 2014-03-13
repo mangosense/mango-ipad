@@ -18,6 +18,7 @@
 @property(strong,nonatomic) NSString *identity;
 @property(strong,nonatomic) Book *book;
 
+@property(strong, nonatomic) IBOutlet UIView *recommendedBooksView;
 @property(strong,nonatomic) IBOutlet UIButton *book1;
 @property(strong,nonatomic) IBOutlet UIButton *book2;
 @property(strong,nonatomic) IBOutlet UIButton *book3;
