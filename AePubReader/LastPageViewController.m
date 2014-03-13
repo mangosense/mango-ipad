@@ -135,7 +135,7 @@
         NSString *imageURLString = [NSString stringWithFormat:@"http://www.mangoreader.com%@",[_tempItemArray[i] objectForKey:@"cover"]];
 
         
-        for (UIView* view in [self.view subviews]) {
+        for (UIView* view in [_recommendedBooksView subviews]) {
             if([view isKindOfClass:[UILabel class]]){
                 UILabel *label = (UILabel*)view;
                 if(label.tag == (i+1)){
