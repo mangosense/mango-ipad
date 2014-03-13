@@ -41,7 +41,7 @@
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
     if([_book.title isEqualToString:@"My Book"]){
-        
+        self.recommendedBooksView.hidden = YES;
     }
     else{
         
@@ -115,7 +115,7 @@
     url = RECOMMENDED_STORIES;
     [paramDict setObject:story_Id_value forKey:@"story_id"];
     [paramDict setObject:IOS forKey:PLATFORM];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.recommendedBooksView animated:YES];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
 
@@ -126,7 +126,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.recommendedBooksView animated:YES];
     //MangoApiController *apiController = [MangoApiController sharedApiController];
     
     //[apiController getImageAtUrl:urlString withDelegate:self];

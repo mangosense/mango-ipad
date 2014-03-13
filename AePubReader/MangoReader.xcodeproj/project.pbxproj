@@ -21,13 +21,14 @@
 		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		680E43A318D176E800274E5D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7E023415E388F3001F520B /* libz.dylib */; };
+		680E43AD18D1781300274E5D /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 680E43AA18D1780800274E5D /* libEJDBKit.a */; };
 		6831E1E518CA05EA000E0D26 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6831E1E318CA05EA000E0D26 /* LastPageViewController.m */; };
 		6831E1E618CA05EA000E0D26 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */; };
 		68576C0F18BF3CA4005766C9 /* Read-now.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C0E18BF3CA4005766C9 /* Read-now.png */; };
 		68576C1318BF44BE005766C9 /* without-text.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C1218BF44BE005766C9 /* without-text.png */; };
 		68A15FB018BC991A00DB1AF0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FAF18BC991A00DB1AF0 /* Parse.framework */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
-		68A15FB518BC9CB900DB1AF0 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */; };
 		68A15FB918BC9F4A00DB1AF0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */; };
 		68CACAC218C0D256000FF135 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CACAC018C0D256000FF135 /* down.png */; };
 		68CACAC318C0D256000FF135 /* button_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CACAC118C0D256000FF135 /* button_back.png */; };
@@ -1105,19 +1106,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		68A15DB418BC951D00DB1AF0 /* PBXContainerItemProxy */ = {
+		680E43A918D1780800274E5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */;
+			containerPortal = 680E43A418D1780700274E5D /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
 			remoteInfo = EJDBKit;
 		};
-		68A15DB618BC951D00DB1AF0 /* PBXContainerItemProxy */ = {
+		680E43AB18D1780800274E5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */;
+			containerPortal = 680E43A418D1780700274E5D /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
+		};
+		680E43AE18D1781800274E5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 680E43A418D1780700274E5D /* EJDBKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
+			remoteInfo = EJDBKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1144,12 +1152,12 @@
 		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		680E43A418D1780700274E5D /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		6831E1E218CA05EA000E0D26 /* LastPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastPageViewController.h; sourceTree = "<group>"; };
 		6831E1E318CA05EA000E0D26 /* LastPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastPageViewController.m; sourceTree = "<group>"; };
 		6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController.xib; sourceTree = "<group>"; };
 		68576C0E18BF3CA4005766C9 /* Read-now.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Read-now.png"; sourceTree = "<group>"; };
 		68576C1218BF44BE005766C9 /* without-text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "without-text.png"; sourceTree = "<group>"; };
-		68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../../Downloads/EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		68A15FAF18BC991A00DB1AF0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -2469,7 +2477,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68A15FB518BC9CB900DB1AF0 /* libEJDBKit.a in Frameworks */,
+				680E43AD18D1781300274E5D /* libEJDBKit.a in Frameworks */,
+				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
 				68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */,
 				298CE7031875ACF5007BE021 /* Parse.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
@@ -2548,6 +2557,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				680E43A418D1780700274E5D /* EJDBKit.xcodeproj */,
 				68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */,
 				68A15FAF18BC991A00DB1AF0 /* Parse.framework */,
 				83AB60A518AA322D004A040E /* My Stories */,
@@ -2563,7 +2573,6 @@
 				29A650FC18979E6F00A33A15 /* iCarouselImageView.m */,
 				835FE3E71863299E009D2BC7 /* MBProgressHUD.h */,
 				835FE3E81863299E009D2BC7 /* MBProgressHUD.m */,
-				68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */,
 				8370893D185F161900946376 /* Login */,
 				83BB3EAE185B565800BA5ED7 /* Mango Games */,
 				838048501850586C006BBA47 /* AFNetworking */,
@@ -2777,11 +2786,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		68A15DAF18BC951C00DB1AF0 /* Products */ = {
+		680E43A518D1780700274E5D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */,
-				68A15DB718BC951D00DB1AF0 /* EJDBKitTests.xctest */,
+				680E43AA18D1780800274E5D /* libEJDBKit.a */,
+				680E43AC18D1780800274E5D /* EJDBKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4342,6 +4351,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				680E43AF18D1781800274E5D /* PBXTargetDependency */,
 			);
 			name = MangoReader;
 			productName = AePubReader;
@@ -4395,8 +4405,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 68A15DAF18BC951C00DB1AF0 /* Products */;
-					ProjectRef = 68A15DAE18BC951C00DB1AF0 /* EJDBKit.xcodeproj */;
+					ProductGroup = 680E43A518D1780700274E5D /* Products */;
+					ProjectRef = 680E43A418D1780700274E5D /* EJDBKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -4408,18 +4418,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		68A15DB518BC951D00DB1AF0 /* libEJDBKit.a */ = {
+		680E43AA18D1780800274E5D /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libEJDBKit.a;
-			remoteRef = 68A15DB418BC951D00DB1AF0 /* PBXContainerItemProxy */;
+			remoteRef = 680E43A918D1780800274E5D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68A15DB718BC951D00DB1AF0 /* EJDBKitTests.xctest */ = {
+		680E43AC18D1780800274E5D /* EJDBKitTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
-			remoteRef = 68A15DB618BC951D00DB1AF0 /* PBXContainerItemProxy */;
+			remoteRef = 680E43AB18D1780800274E5D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -5516,6 +5526,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		680E43AF18D1781800274E5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EJDBKit;
+			targetProxy = 680E43AE18D1781800274E5D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		AE59B53216817B7600DC55EC /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -5575,8 +5593,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
+				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = NO;
@@ -5619,8 +5637,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B4B51109-4E5D-403C-9CC8-DF44320EB727";
+				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = NO;
