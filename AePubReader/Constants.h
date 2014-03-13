@@ -128,7 +128,7 @@
 #define NEW_STORY @"stories"
 #define FACEBOOK_LOGIN @"facebookapplogin.json"
 #define LIVE_STORIES_STORE @"live_stories.json"
-#define FREE_STORIES @"free_stories.json"
+#define FREE_STORIES @"livestories/free_stories.json"
 #define LANGUAGES_FOR_BOOK @"livestories/available_languages"
 #define RECOMMENDED_STORIES @"livestories/recommended"
 #define LIVE_STORIES_WITH_ID @"livestories"
