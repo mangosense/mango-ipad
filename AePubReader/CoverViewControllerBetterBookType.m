@@ -66,6 +66,7 @@
     url = LANGUAGES_FOR_BOOK;
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:currentBookId forKey:@"story_id"];
+    [paramDict setObject:IOS forKey:PLATFORM];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
     
 }

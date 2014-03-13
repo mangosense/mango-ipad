@@ -163,6 +163,7 @@
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    [_delegate dismissPopOver];
     bookDetailsViewController.delegate = self;
     NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
@@ -239,7 +240,7 @@
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
-    [_delegate dismissPopOver];
+    
 }
 
 #pragma mark - Get Languages
