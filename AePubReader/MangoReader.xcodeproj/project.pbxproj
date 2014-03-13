@@ -946,7 +946,6 @@
 		AE7FEF31161F1C7800181CE8 /* purchased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7FEF30161F1C7800181CE8 /* purchased@2x.png */; };
 		AE801341169AD24700EE536A /* CustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801340169AD24700EE536A /* CustomNavViewController.m */; };
 		AE801345169AEB8000EE536A /* CustomTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE801344169AEB8000EE536A /* CustomTabViewController.m */; };
-		AE8CA74A183C758B006BA6BA /* kokku.zip in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA748183C758B006BA6BA /* kokku.zip */; };
 		AE8CA74C183C9C68006BA6BA /* icons_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8CA74B183C9C68006BA6BA /* icons_settings.png */; };
 		AE8CA74F183C9E0F006BA6BA /* SettingOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE8CA74E183C9E0F006BA6BA /* SettingOptionViewController.m */; };
 		AE8D260B166DBCAA00156F43 /* EpubReaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE8D260A166DBCAA00156F43 /* EpubReaderViewController.xib */; };
@@ -2251,7 +2250,6 @@
 		AE801340169AD24700EE536A /* CustomNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavViewController.m; sourceTree = "<group>"; };
 		AE801343169AEB8000EE536A /* CustomTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabViewController.h; sourceTree = "<group>"; };
 		AE801344169AEB8000EE536A /* CustomTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTabViewController.m; sourceTree = "<group>"; };
-		AE8CA748183C758B006BA6BA /* kokku.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = kokku.zip; sourceTree = "<group>"; };
 		AE8CA74B183C9C68006BA6BA /* icons_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_settings.png; sourceTree = "<group>"; };
 		AE8CA74D183C9E0F006BA6BA /* SettingOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingOptionViewController.h; sourceTree = "<group>"; };
 		AE8CA74E183C9E0F006BA6BA /* SettingOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingOptionViewController.m; sourceTree = "<group>"; };
@@ -3810,7 +3808,6 @@
 				AE4BB72E183CD796004F20C5 /* icons_next2.png */,
 				AE4BB725183CD5B5004F20C5 /* nav.png */,
 				AE8CA74B183C9C68006BA6BA /* icons_settings.png */,
-				AE8CA748183C758B006BA6BA /* kokku.zip */,
 				AE737050183C6D1700054115 /* icon_signin.png */,
 				AE73704E183C6B9100054115 /* icon_skip_signin.png */,
 				AE73704C183C69D900054115 /* login page_bg.png */,
@@ -4688,7 +4685,6 @@
 				AE266FC0183B45D7001A8CB8 /* LandPageChoiceViewController.xib in Resources */,
 				83E2D116184364EC00F8CDB6 /* editor_155.png in Resources */,
 				83E2D218184364EC00F8CDB6 /* editor_66.png in Resources */,
-				AE8CA74A183C758B006BA6BA /* kokku.zip in Resources */,
 				AE8D260B166DBCAA00156F43 /* EpubReaderViewController.xib in Resources */,
 				AE8D261B166DD48800156F43 /* DetailViewController.xib in Resources */,
 				AE63ECDB166F135E0027CBB8 /* Default-568h@2x.png in Resources */,
