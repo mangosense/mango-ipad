@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageNewBookTypeViewController">
             <connections>
                 <outlet property="backButton" destination="ZgY-BU-pe6" id="JGh-rJ-E4T"/>
+                <outlet property="languageAvailButton" destination="8dT-is-hLD" id="rw9-z6-jpk"/>
                 <outlet property="menuButton" destination="qUg-c9-QZ7" id="RI0-0N-Ake"/>
                 <outlet property="nextPageButton" destination="o6b-Ac-mCU" id="zYy-qT-Ps9"/>
                 <outlet property="playOrPauseButton" destination="cgX-74-zFh" id="fkW-W3-gwR"/>

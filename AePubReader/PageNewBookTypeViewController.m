@@ -193,7 +193,23 @@
 - (IBAction)changeLanguage:(id)sender {
     [PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
-    UIButton *button=(UIButton *)sender;
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = LANGUAGES_FOR_BOOK;
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:_bookId forKey:@"story_id"];
+    [paramDict setObject:IOS forKey:PLATFORM];
+    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    
+    
+
+}
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    _avilableLanguages = [NSMutableArray arrayWithArray:dataArray];
+    NSMutableArray *languageArray = [[NSMutableArray alloc] init];
+    
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
     _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
@@ -201,9 +217,37 @@
     size.height=size.height-300;
     _pop.popoverContentSize=size;
     
-    [_pop presentPopoverFromRect:button.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
-
+    choiceViewController.bookIDArray = [[NSMutableArray alloc] init];
+    for(int i=0; i< [_avilableLanguages count]; ++i){
+        [languageArray addObject:[_avilableLanguages[i] objectForKey:@"language"]];
+        NSLog(@"Print %@", [_avilableLanguages[i] objectForKey:@"language"]);
+        [choiceViewController.bookIDArray addObject:[_avilableLanguages[i] objectForKey:@"live_story_id"]];
+    }
+    
+    NSString *jsonLocation=_book.localPathFile;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+    //  NSLog(@"json location %@",jsonLocation);
+    NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    
+    NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    choiceViewController.array = [jsonDict objectForKey:@"available_languages"];
+    choiceViewController.array = [[NSArray alloc] initWithArray:languageArray];
+    choiceViewController.bookDict = jsonDict;
+    
+    if(choiceViewController.array.count>0){
+        
+        [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    
+  //  [_pop presentPopoverFromRect:button.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
+
+
 - (IBAction)previousButton:(id)sender {
     if (_pageNumber==1) {
         //[self BackButton:nil];
