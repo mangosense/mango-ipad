@@ -227,6 +227,7 @@
             [bookcountLabel setTextColor:[UIColor blackColor]];
             [bookcountLabel setTextAlignment:NSTextAlignmentCenter];
             [[bookcountLabel layer] setCornerRadius:22.0f];
+            [bookcountLabel setClipsToBounds:YES];
             [bookcountLabel setText:[NSString stringWithFormat:@"%d", [[bookCountDict objectForKey:[[_categoriesArray objectAtIndex:i] objectForKey:@"name"]] intValue]]];
             [self.view addSubview:bookcountLabel];
         }
