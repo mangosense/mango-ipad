@@ -238,6 +238,8 @@
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        
+        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     
