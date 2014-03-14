@@ -241,7 +241,7 @@
     
     if(choiceViewController.array.count>0){
         
-        [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        [_pop presentPopoverFromRect:_languageAvailButton.frame inView:_rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     }
     
   //  [_pop presentPopoverFromRect:button.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
