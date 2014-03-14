@@ -75,6 +75,7 @@
     
     NSLog(@"Data array %d", dataArray.count);
     if(![dataArray count]){
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         return;
     }
     
@@ -102,7 +103,7 @@
         }
     }
     else{
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary *bookDict = [[NSDictionary alloc]init];
         bookDict = dataArray[0];
         _bookTitleLabel.text = [bookDict objectForKey:@"title"];
@@ -254,7 +255,7 @@
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
 	
-   
+   [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
         MangoApiController *apiController = [MangoApiController sharedApiController];

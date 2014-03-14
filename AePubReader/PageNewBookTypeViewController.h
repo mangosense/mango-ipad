@@ -17,7 +17,7 @@
 #import "MangoBook.h"
 #import "LastPageViewController.h"
 
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate>
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
 - (IBAction)closeButton:(id)sender;
@@ -26,7 +26,7 @@
 - (IBAction)changeLanguage:(id)sender;
 @property(assign,nonatomic) NSInteger option;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger )option BookId:(NSString *)bookId;
-@property(assign,nonatomic) NSInteger bookId;
+@property(assign,nonatomic) NSString *bookId;
 @property (weak, nonatomic) IBOutlet UIView *viewBase;
 @property (weak, nonatomic) IBOutlet UIView *rightView;
 @property (weak, nonatomic) IBOutlet UIButton *showOptionButton;
@@ -46,10 +46,12 @@
 -(void)loadPageWithOption:(NSInteger)option;
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 @property(retain,nonatomic) UIPopoverController *menuPopoverController;
+@property(strong, nonatomic) NSMutableArray *avilableLanguages;
 
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UIButton *menuButton;
 @property (nonatomic, strong) IBOutlet UIButton *previousPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
+@property (nonatomic, strong) IBOutlet UIButton *languageAvailButton;
 
 @end
