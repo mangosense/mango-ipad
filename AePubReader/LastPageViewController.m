@@ -146,11 +146,13 @@
                 
                 UIButton *button = (UIButton*)view;
                 if(button.tag == (i+1)){
-                    
+                    button.userInteractionEnabled = YES;
                     UIImage *pImage=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
                     CALayer *btnLayer = [button layer];
                     [btnLayer setMasksToBounds:YES];
-                    [btnLayer setCornerRadius:20.0f];
+                    [btnLayer setCornerRadius:15.0f];
+                    [btnLayer setBorderWidth:3.0f];
+                    [btnLayer setBorderColor:[UIColor brownColor].CGColor];
                     [button setBackgroundImage:pImage forState:UIControlStateNormal];
                 }
             }
@@ -168,7 +170,7 @@
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
     bookDetailsViewController.delegate = self;
-    NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
+  //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
@@ -203,12 +205,12 @@
         }
         
         [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
-        [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
-        [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
-        [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
+      //  [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+      //  [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+       // [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
         // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
         
-        [bookDetailsViewController.dropDownView.uiTableView reloadData];
+        //[bookDetailsViewController.dropDownView.uiTableView reloadData];
         bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
         
         bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
@@ -236,10 +238,11 @@
         else{
             bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
         }
-        
+        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
