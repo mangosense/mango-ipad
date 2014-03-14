@@ -60,7 +60,7 @@
     [self showOrHideGameButton];
 }
 - (IBAction)multipleLanguage:(id)sender {
-    UIButton *button=(UIButton *)sender;
+    //UIButton *button=(UIButton *)sender;
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
     url = LANGUAGES_FOR_BOOK;

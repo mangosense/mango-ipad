@@ -418,7 +418,7 @@
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (_featuredStoriesArray) {
         NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
-        NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
+      //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
         BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
         bookDetailsViewController.delegate = self;
         
@@ -451,12 +451,12 @@
             
             [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
            // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
-            [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
-            [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
-            [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
+           // [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+           // [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+            //[bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
             
             
-            [bookDetailsViewController.dropDownView.uiTableView reloadData];
+          //  [bookDetailsViewController.dropDownView.uiTableView reloadData];
            
             bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
             
@@ -485,6 +485,8 @@
             }
             
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+            
+            [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
             
             bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
             bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
@@ -720,7 +722,7 @@
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
     bookDetailsViewController.delegate = self;
-    NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
+  //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
@@ -755,12 +757,17 @@
         }
         
         [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
-        [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
-        [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
-        [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
+       // [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+     //   [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+        
+        //NSDictionary *tempDict = [[NSDictionary alloc] initWithObjectsAndKeys:[[bookDict objectForKey:@"info"] objectForKey:@"language"], @"Language", [bookDict valueForKey:@"id"], @"Id", nil];
+        
+       // bookDetailsViewController.dropDownSelectedItemData = [[NSMutableArray alloc] initWithObjects:tempDict, nil];
+        
+        //[bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
        // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
         
-        [bookDetailsViewController.dropDownView.uiTableView reloadData];
+       // [bookDetailsViewController.dropDownView.uiTableView reloadData];
         bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
         
         bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
@@ -790,6 +797,7 @@
         }
         
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];

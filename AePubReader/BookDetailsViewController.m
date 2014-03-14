@@ -36,17 +36,19 @@
     return self;
 }
 
+- (void)setIdOfDisplayBook:(NSString *)book_Id {
+    
+    _displayBookID = book_Id;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _bookImageView.layer.cornerRadius = 3.0;
     _dropDownArrayData = [[NSMutableArray alloc] init];
+    _dropDownIdArrayData = [[NSMutableArray alloc] init];
     _descriptionLabel.editable = NO;
-    
-    _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:100 paddingTop:-100 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5];
-    _dropDownView.delegate = self;
-	[self.view addSubview:_dropDownView.view];
     
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
@@ -56,6 +58,122 @@
     }];
     
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+}
+
+- (void) availLanguagedata{
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = LANGUAGES_FOR_BOOK;
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:_displayBookID forKey:@"story_id"];
+    [paramDict setObject:IOS forKey:PLATFORM];
+    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+}
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    NSLog(@"Data array %d", dataArray.count);
+    if(![dataArray count]){
+        return;
+    }
+    
+    if([type isEqualToString:@"livestories/available_languages"]){
+        NSMutableArray *tempDataArray = [[NSMutableArray alloc]init];
+        _dropDownArrayData = [[NSMutableArray alloc] init];
+        _dropDownIdArrayData = [[NSMutableArray alloc] init];
+        tempDataArray = [NSMutableArray arrayWithArray:dataArray];
+        for(int i=0; i< [tempDataArray count]; ++i){
+            
+            [_dropDownArrayData addObject:[tempDataArray[i] objectForKey:@"language"]];
+            NSLog(@"Print %@", [tempDataArray[i] objectForKey:@"language"]);
+            [_dropDownIdArrayData addObject:[tempDataArray[i] objectForKey:@"live_story_id"]];
+        }
+        
+        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:100 paddingTop:-100 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:0.1 closeAnimationDuration:0.5];
+        _dropDownView.delegate = self;
+        
+        [self.view addSubview:_dropDownView.view];
+        
+        [_dropDownView.uiTableView reloadData];
+        
+        if(_dropDownIdArrayData.count >0){
+            [self.dropDownView openAnimation];
+        }
+    }
+    else{
+        
+        NSDictionary *bookDict = [[NSDictionary alloc]init];
+        bookDict = dataArray[0];
+        _bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        
+        if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
+            _bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            _bookWrittenBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            _bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
+        }
+        else{
+            _bookTags.text = [NSString stringWithFormat:@"Tags: -"];
+        }
+        
+        if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
+            _bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            _bookNarrateBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
+            _bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            _bookIllustratedBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        //[bookDetailsViewController.dropDownView.uiTableView reloadData];
+        _bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
+        
+        _ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
+            _readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        }
+        else {
+            _readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
+        }
+        
+        _numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+            _priceLabel.text = [NSString stringWithFormat:@"FREE"];
+            [_buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+        }
+        else{
+            _priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+            [_buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+        }
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
+            _categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
+        }
+        else{
+            _categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
+        }
+        
+        _descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        
+        _selectedProductId = [bookDict objectForKey:@"id"];
+        _imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        
+        [self getImageForUrl:[_imageUrlString stringByReplacingOccurrencesOfString:@"banner" withString:@"leftright"]];
+    }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,24 +254,33 @@
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
 	
-    if([[_dropDownArrayData objectAtIndex:returnIndex] isEqualToString:@"Record new language"]){
-        //Implement recording in new language
-    }
-    else{
+   
+    
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
-    }
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        NSString *url;
+        url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",[_dropDownIdArrayData objectAtIndex:returnIndex]]];
+    
+    _displayBookID = [_dropDownIdArrayData objectAtIndex:returnIndex];
+    _selectedProductId = _displayBookID;
+    
+        [apiController getListOf:url ForParameters:nil withDelegate:self];
+
 	//handle book language response here ...
 }
 
+
+
 -(IBAction)dropDownActionButtonClick{
-    
-    if(_dropDownArrayData.count>1){
-        _dropDownButton.userInteractionEnabled = YES;
-        [self.dropDownView openAnimation];
-    }
-    else{
-        _dropDownButton.userInteractionEnabled = NO;
-    }
+    [self availLanguagedata];
+ 
+//    if(_dropDownArrayData.count>0){
+//        _dropDownButton.userInteractionEnabled = YES;
+//     //   [self.dropDownView openAnimation];
+//    }
+//    else{
+//        _dropDownButton.userInteractionEnabled = NO;
+//    }
 }
 
 - (void)updateBookProgress:(int)progress {
