@@ -10,6 +10,13 @@
 
 @implementation UserInfo
 
+@synthesize id;
+@synthesize authToken;
+@synthesize email;
+@synthesize facebookExpirationDate;
+@synthesize username;
+@synthesize name;
+
 - (NSString *)type {
     return NSStringFromClass([self class]);
 }
@@ -19,7 +26,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(_authToken, _email);
+    return NSDictionaryOfVariableBindings(authToken, email);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
@@ -34,12 +41,12 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     UserInfo *userInfo = [[UserInfo alloc] init];
-    [userInfo setEmail:_email];
-    [userInfo setId:_id];
-    [userInfo setFacebookExpirationDate:_facebookExpirationDate];
-    [userInfo setAuthToken:_authToken];
-    [userInfo setUsername:_username];
-    [userInfo setName:_name];
+    [userInfo setEmail:email];
+    [userInfo setId:id];
+    [userInfo setFacebookExpirationDate:facebookExpirationDate];
+    [userInfo setAuthToken:authToken];
+    [userInfo setUsername:username];
+    [userInfo setName:name];
     return userInfo;
 }
 
