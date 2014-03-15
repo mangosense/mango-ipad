@@ -187,7 +187,9 @@
         default: {
             Book *book = [_allBooksArray objectAtIndex:indexPath.row - 1];
             if (_isDeleteMode) {
-                UIAlertView *deleteBookAlert = [[UIAlertView alloc] initWithTitle:@"Delete Book" message:@"Are you sure you want to delete this book" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to delete the book - %@", [book valueForKeyPath:@"title"]];
+                
+                UIAlertView *deleteBookAlert = [[UIAlertView alloc] initWithTitle:@"Delete Book" message:alertMessage delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
                 [deleteBookAlert show];
                 deleteBookIndex = indexPath.row -1;
               //  [self deleteBook:book];
