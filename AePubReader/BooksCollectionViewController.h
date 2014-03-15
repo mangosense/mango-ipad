@@ -22,6 +22,7 @@
 - (IBAction)homeButtonTapped:(id)sender;
 - (IBAction)libraryButtonTapped:(id)sender;
 - (IBAction)trashButtonTapped:(id)sender;
+- (void) setDeleteButtonVisible;
 
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;

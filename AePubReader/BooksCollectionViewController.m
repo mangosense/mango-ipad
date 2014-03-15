@@ -35,6 +35,11 @@
     return self;
 }
 
+- (void) setDeleteButtonVisible{
+    
+    self.deleteButton.hidden = NO;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

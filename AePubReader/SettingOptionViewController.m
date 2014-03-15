@@ -11,7 +11,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "EJDBController.h"
 #import "UserInfo.h"
-#import "BooksCollectionViewController.m"
+#import "BooksCollectionViewController.h"
 
 @interface SettingOptionViewController ()
 
@@ -154,6 +154,14 @@
             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
             [self presentViewController:analyticsViewController animated:YES completion:nil];
         }
+            break;
+            
+        case 2:{
+            BooksCollectionViewController *booksCollectionView = [[BooksCollectionViewController alloc] init];
+            [booksCollectionView setDeleteButtonVisible];
+            [_dismissDelegate dismissPopOver];
+        }
+            break;
             
         default:
             break;

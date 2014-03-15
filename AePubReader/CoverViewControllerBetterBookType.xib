@@ -24,7 +24,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qs6-Ii-CFn">
-                    <rect key="frame" x="688" y="262" width="250" height="54"/>
+                    <rect key="frame" x="688" y="220" width="250" height="54"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <state key="normal" backgroundImage="icon_language_reference_blank.png">
@@ -36,7 +36,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a language" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="37s-Xh-j5S">
-                    <rect key="frame" x="689" y="224" width="245" height="36"/>
+                    <rect key="frame" x="689" y="182" width="245" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="23"/>
                     <color key="textColor" red="0.44558848509999999" green="0.079257663470000003" blue="0.025229310410000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -53,7 +53,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4pM-Eb-YqF">
-                    <rect key="frame" x="685" y="372" width="257" height="73"/>
+                    <rect key="frame" x="685" y="315" width="257" height="73"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="icons_readtome.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -63,7 +63,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sH3-wh-aiZ">
-                    <rect key="frame" x="685" y="453" width="257" height="73"/>
+                    <rect key="frame" x="685" y="398" width="257" height="73"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="icons_readbymyself.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -87,7 +87,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8T9-Og-cmm">
-                    <rect key="frame" x="688" y="534" width="257" height="73"/>
+                    <rect key="frame" x="688" y="556" width="257" height="73"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="icons_play games.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -104,9 +104,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lic-2a-KZW">
-                    <rect key="frame" x="306" y="639" width="71" height="71"/>
+                    <rect key="frame" x="687" y="479" width="257" height="71"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="sharebutton.png">
+                    <state key="normal" image="icons_shareActual.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -125,8 +125,8 @@
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readbymyself.png" width="257" height="73"/>
         <image name="icons_readtome.png" width="257" height="73"/>
+        <image name="icons_shareActual.png" width="257" height="73"/>
         <image name="reader_bookcover_bg.png" width="1024" height="768"/>
         <image name="rectangle_books.png" width="592" height="449"/>
-        <image name="sharebutton.png" width="71" height="71"/>
     </resources>
 </document>
