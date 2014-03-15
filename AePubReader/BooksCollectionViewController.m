@@ -182,7 +182,10 @@
         default: {
             Book *book = [_allBooksArray objectAtIndex:indexPath.row - 1];
             if (_isDeleteMode) {
-                [self deleteBook:book];
+                UIAlertView *deleteBookAlert = [[UIAlertView alloc] initWithTitle:@"Delete Book" message:@"Are you sure you want to delete this book" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                [deleteBookAlert show];
+                deleteBookIndex = indexPath.row -1;
+              //  [self deleteBook:book];
             } else {
                 if (_toEdit) {
                     MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
@@ -197,6 +200,17 @@
             }
         }
             break;
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    Book *book = [_allBooksArray objectAtIndex:deleteBookIndex];
+    if(buttonIndex == 1){
+        NSLog(@"delete");
+        [self deleteBook:book];
+    }
+    else{
+        [_deleteButton setImage:[UIImage imageNamed:@"doneTrash.png"] forState:UIControlStateNormal];
     }
 }
 

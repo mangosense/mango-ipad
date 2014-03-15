@@ -16,6 +16,7 @@
                 <outlet property="book4Label" destination="lMl-ye-e5t" id="eeN-b0-H15"/>
                 <outlet property="book5" destination="x7e-fd-IkQ" id="Har-k3-XgK"/>
                 <outlet property="book5Label" destination="YGC-Am-81a" id="lyq-5e-58D"/>
+                <outlet property="games" destination="Mp2-ba-5Gs" id="1re-Xj-MgC"/>
                 <outlet property="recommendedBooksView" destination="exv-6o-7BB" id="vMq-I6-zcq"/>
                 <outlet property="titleLabel" destination="26B-95-ER5" id="fGR-O0-L9O"/>
                 <outlet property="view" destination="2" id="3"/>
@@ -38,7 +39,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2E-cq-r6Y">
-                    <rect key="frame" x="244" y="182" width="257" height="73"/>
+                    <rect key="frame" x="227" y="202" width="257" height="73"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" image="icons_readagain.png">
@@ -49,7 +50,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mp2-ba-5Gs">
-                    <rect key="frame" x="523" y="182" width="257" height="73"/>
+                    <rect key="frame" x="384" y="324" width="257" height="73"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" image="icons_play games.png">
@@ -60,7 +61,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="meC-hr-FkA">
-                    <rect key="frame" x="385" y="295" width="314" height="110"/>
+                    <rect key="frame" x="485" y="184" width="314" height="110"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" image="icons_shareActual.png">

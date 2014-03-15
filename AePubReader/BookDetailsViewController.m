@@ -91,7 +91,7 @@
             [_dropDownIdArrayData addObject:[tempDataArray[i] objectForKey:@"live_story_id"]];
         }
         
-        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:-70 paddingLeft:0 paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
+        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:-70 paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
         _dropDownView.delegate = self;
         
         [self.view addSubview:_dropDownView.view];

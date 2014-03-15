@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+
 @property(retain,nonatomic) DataSourceForLinear *linear;
 @property(retain,nonatomic) DataSourceForLinearOld *oldLinear;
 @end

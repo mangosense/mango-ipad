@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property(strong,nonatomic) NSString *identity;
 @property(strong,nonatomic) Book *book;
+@property (weak, nonatomic) IBOutlet UIButton *games;
 
 @property(strong, nonatomic) IBOutlet UIView *recommendedBooksView;
 @property(strong,nonatomic) IBOutlet UIButton *book1;
