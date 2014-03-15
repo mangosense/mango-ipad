@@ -24,7 +24,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout",@"Analytics",@"Delete Book", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout",@"Analytics", nil];
     }
     return self;
 }
@@ -157,9 +157,7 @@
             break;
             
         case 2:{
-            BooksCollectionViewController *booksCollectionView = [[BooksCollectionViewController alloc] init];
-            [booksCollectionView setDeleteButtonVisible];
-            [_dismissDelegate dismissPopOver];
+            
         }
             break;
             
