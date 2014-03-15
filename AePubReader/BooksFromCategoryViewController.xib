@@ -26,6 +26,7 @@
                 <outlet property="labelTwo" destination="o1X-EC-qjJ" id="vbE-3e-8Rf"/>
                 <outlet property="labelone" destination="AZj-hG-Ut8" id="gCa-4a-Gbv"/>
                 <outlet property="libraryBtn" destination="Akj-vj-fbc" id="o9Y-v5-2eJ"/>
+                <outlet property="settingButton" destination="YFW-rH-I4q" id="Lxe-B1-CZl"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>

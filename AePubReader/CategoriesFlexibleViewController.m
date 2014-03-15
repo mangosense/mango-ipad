@@ -60,6 +60,13 @@
         [self getAllFreeBooks];
         appDelegate.arePurchasesDownloading = YES;
     }
+    
+    _settingQuesArray = [[NSArray alloc] init];
+    // Do any additional setup after loading the view from its nib.
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *pListpath = [bundle pathForResource:@"SettingsQues" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:pListpath];
+    _settingQuesArray = [dictionary valueForKey:@"Problems"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,12 +110,39 @@
 }
 
 - (IBAction)settingsButton:(id)sender {
-    UIButton *button=(UIButton *) sender;
-    SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-    settingsViewController.dismissDelegate=self;
-    settingsViewController.controller=self.navigationController;
-    _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-    [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    int rNo = arc4random()%8;
+    settingQuesNo = rNo;
+    
+    UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
+    [settingAlert show];
+    
+//    UIButton *button=(UIButton *) sender;
+//    SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+//    settingsViewController.dismissDelegate=self;
+//    settingsViewController.controller=self.navigationController;
+//    _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+//    [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if([alertView.title isEqualToString:@"SOLVE"]){
+        
+        if((settingQuesNo % 2) == buttonIndex){
+            NSLog(@"CORRECT");
+            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+            settingsViewController.dismissDelegate = self;
+            settingsViewController.controller = self.navigationController;
+            _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+            [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            
+        }
+        else{
+            NSLog(@"WRONG");
+        }
+        
+    }
 }
 
 - (IBAction)nextButtonTapped:(id)sender {

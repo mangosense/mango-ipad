@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Problems</key>
+	<array>
+		<dict>
+			<key>ques</key>
+			<string>Find  2 + 3 =</string>
+			<key>sol1</key>
+			<string>5</string>
+			<key>sol2</key>
+			<string>6</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Cow is ......</string>
+			<key>sol1</key>
+			<string>Bird</string>
+			<key>sol2</key>
+			<string>Animal</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Find  6 - 2 =</string>
+			<key>sol1</key>
+			<string>4</string>
+			<key>sol2</key>
+			<string>8</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Color of sky is ......</string>
+			<key>sol1</key>
+			<string>Orange</string>
+			<key>sol2</key>
+			<string>Blue</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Find  4 x 5 =</string>
+			<key>sol1</key>
+			<string>20</string>
+			<key>sol2</key>
+			<string>25</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Duck is ......</string>
+			<key>sol1</key>
+			<string>Animal</string>
+			<key>sol2</key>
+			<string>Bird</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Find  15 / 3 = </string>
+			<key>sol1</key>
+			<string>5</string>
+			<key>sol2</key>
+			<string>3</string>
+		</dict>
+		<dict>
+			<key>ques</key>
+			<string>Find  8 + 3 = </string>
+			<key>sol1</key>
+			<string>10</string>
+			<key>sol2</key>
+			<string>11</string>
+		</dict>
+	</array>
+</dict>
+</plist>

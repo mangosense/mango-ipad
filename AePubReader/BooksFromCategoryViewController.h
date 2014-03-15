@@ -50,6 +50,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *categoryTitleLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;
 
+
 -(IBAction)deleteBook:(id)sender;
 
 @end

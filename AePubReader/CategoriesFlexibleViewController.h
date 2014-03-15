@@ -11,7 +11,9 @@
 #import "MangoApiController.h"
 
 
-@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol>
+@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol>{
+    int settingQuesNo;
+}
 - (IBAction)openBooks:(id)sender;
 - (IBAction)homeButton:(id)sender;
 - (IBAction)settingsButton:(id)sender;
@@ -20,6 +22,9 @@
 @property(retain,nonatomic) UIPopoverController *popOverController;
 @property (nonatomic, assign) int pageNumber;
 @property (nonatomic, strong) NSArray *categoriesArray;
+
+@property (nonatomic, strong) IBOutlet UIButton *settingButton;
+@property (nonatomic, retain) NSArray *settingQuesArray;
 
 @property (nonatomic, strong) IBOutlet UIButton *categoryButtonOne;
 @property (nonatomic, strong) IBOutlet UIButton *categoryButtonTwo;

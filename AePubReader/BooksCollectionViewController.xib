@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="deleteButton" destination="oju-ZC-gW1" id="C78-uI-gKE"/>
                 <outlet property="headerLabel" destination="yPP-Z5-PXB" id="0g4-AG-xRU"/>
+                <outlet property="settingButton" destination="zRF-F0-Qv8" id="dnF-4R-nTv"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
