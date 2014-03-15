@@ -11,6 +11,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "EJDBController.h"
 #import "UserInfo.h"
+#import "BooksCollectionViewController.m"
 
 @interface SettingOptionViewController ()
 
@@ -23,7 +24,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout",@"Analytics", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout",@"Analytics",@"Delete Book", nil];
     }
     return self;
 }
@@ -145,6 +146,7 @@
             
         }
             break;
+            
         case 1:
         {
             //handle analytics view
@@ -152,6 +154,7 @@
             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
             [self presentViewController:analyticsViewController animated:YES completion:nil];
         }
+            
         default:
             break;
     }
