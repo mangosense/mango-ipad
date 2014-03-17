@@ -1080,7 +1080,7 @@
                     [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
                 }
             }
-            NSLog(@"%@",audioMappingViewController.cues);
+            //NSLog(@"%@",audioMappingViewController.cues);
             [audioMappingViewController.customView setNeedsDisplay];
             
         } else if ([layer isKindOfClass:[MangoTextLayer class]]) {
@@ -1242,7 +1242,7 @@
             if (readingOption == READ_TO_ME) {
                 [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
             }
-            NSLog(@"%@",audioMappingViewcontroller.cues);
+            //NSLog(@"%@",audioMappingViewcontroller.cues);
             [audioMappingViewcontroller.customView setNeedsDisplay];
             
             if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {

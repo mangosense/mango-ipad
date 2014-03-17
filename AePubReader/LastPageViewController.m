@@ -47,6 +47,8 @@
         
         [self loadRecommendedBooks:_book.id];
     }
+    
+    [self showOrHideGameButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,6 +74,15 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     NSLog(@"%@", jsonDict);
     return jsonDict;
+}
+
+- (void)showOrHideGameButton {
+    NSDictionary *jsonDict = [self getJsonDictForBook];
+    if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
+        _games.hidden = YES;
+    } else {
+        _games.hidden= NO;
+    }
 }
 
 - (IBAction)gameButtonTapped:(id)sender {

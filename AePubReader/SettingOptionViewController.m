@@ -11,6 +11,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "EJDBController.h"
 #import "UserInfo.h"
+#import "BooksCollectionViewController.h"
 
 @interface SettingOptionViewController ()
 
@@ -145,6 +146,7 @@
             
         }
             break;
+            
         case 1:
         {
             //handle analytics view
@@ -152,6 +154,13 @@
             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
             [self presentViewController:analyticsViewController animated:YES completion:nil];
         }
+            break;
+            
+        case 2:{
+            
+        }
+            break;
+            
         default:
             break;
     }

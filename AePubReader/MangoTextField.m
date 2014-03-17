@@ -36,7 +36,7 @@
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
-    NSLog(@"length %d", [string length]);
+    //NSLog(@"length %d", [string length]);
 
     NSMutableArray *words = [NSMutableArray arrayWithArray:[self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     NSMutableArray *wordsToDelete = [NSMutableArray array];

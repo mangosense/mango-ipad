@@ -38,6 +38,8 @@
 		68CAD97118CDAE2400804496 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CAD97018CDAE2400804496 /* twitter.png */; };
 		68CAD97318CDB21F00804496 /* Mango_google.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CAD97218CDB21F00804496 /* Mango_google.png */; };
 		68CAD97518CDD05800804496 /* icons_shareActual.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CAD97418CDD05800804496 /* icons_shareActual.png */; };
+		68D18CA318D4CBBE00FB150C /* SettingsQues.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D18CA218D4CBBE00FB150C /* SettingsQues.plist */; };
+		68D18CA518D4D5AC00FB150C /* SettingsQues.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D18CA218D4CBBE00FB150C /* SettingsQues.plist */; };
 		68D2638218C5E385003AFE48 /* MangoNameLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638118C5E385003AFE48 /* MangoNameLogo.png */; };
 		68D2638818C5E57F003AFE48 /* MangoSignUpBoximage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */; };
 		68D2638C18C5E843003AFE48 /* SignUpBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638B18C5E843003AFE48 /* SignUpBtn.png */; };
@@ -1170,6 +1172,7 @@
 		68CAD97018CDAE2400804496 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
 		68CAD97218CDB21F00804496 /* Mango_google.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mango_google.png; sourceTree = "<group>"; };
 		68CAD97418CDD05800804496 /* icons_shareActual.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_shareActual.png; sourceTree = "<group>"; };
+		68D18CA218D4CBBE00FB150C /* SettingsQues.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SettingsQues.plist; sourceTree = "<group>"; };
 		68D2638118C5E385003AFE48 /* MangoNameLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoNameLogo.png; sourceTree = "<group>"; };
 		68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoSignUpBoximage.png; sourceTree = "<group>"; };
 		68D2638B18C5E843003AFE48 /* SignUpBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUpBtn.png; sourceTree = "<group>"; };
@@ -3978,6 +3981,7 @@
 				AE59B53B16817B7600DC55EC /* Default.png */,
 				AE59B53D16817B7600DC55EC /* Default@2x.png */,
 				AE59B53F16817B7600DC55EC /* Default-568h@2x.png */,
+				68D18CA218D4CBBE00FB150C /* SettingsQues.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4439,6 +4443,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68D18CA518D4D5AC00FB150C /* SettingsQues.plist in Resources */,
 				83E2D15B184364EC00F8CDB6 /* editor_217.png in Resources */,
 				83E2D11E184364EC00F8CDB6 /* editor_162.png in Resources */,
 				83E2D100184364EC00F8CDB6 /* editor_135.png in Resources */,
@@ -5293,6 +5298,7 @@
 				AE59B53E16817B7600DC55EC /* Default@2x.png in Resources */,
 				AE59B54016817B7600DC55EC /* Default-568h@2x.png in Resources */,
 				AE59B54616817B7600DC55EC /* ViewController.xib in Resources */,
+				68D18CA318D4CBBE00FB150C /* SettingsQues.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

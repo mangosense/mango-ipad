@@ -56,6 +56,9 @@
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     currentBookId = [jsonDict objectForKey:@"id"];
     [_languageLabel setTitle:[[jsonDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
+    if (_languageLabel.titleLabel.text == nil) {
+        [_languageLabel setTitle:@"English" forState:UIControlStateNormal];
+    }
     
     [self showOrHideGameButton];
 }

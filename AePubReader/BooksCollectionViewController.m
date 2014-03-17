@@ -35,10 +35,16 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _settingQuesArray = [[NSArray alloc] init];
     // Do any additional setup after loading the view from its nib.
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *pListpath = [bundle pathForResource:@"SettingsQues" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:pListpath];
+    _settingQuesArray = [dictionary valueForKey:@"Problems"];
     
 }
 
@@ -155,6 +161,10 @@
 #pragma mark - UICollectionView Delegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"Index Path %@", [_categorySelected objectForKey:NAME]);
+    if([[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]){
+        _toEdit = YES;
+    }
     switch (indexPath.row) {
         case 0: {
             if (_toEdit) {
@@ -182,7 +192,12 @@
         default: {
             Book *book = [_allBooksArray objectAtIndex:indexPath.row - 1];
             if (_isDeleteMode) {
-                [self deleteBook:book];
+                NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to delete the book - %@", [book valueForKeyPath:@"title"]];
+                
+                UIAlertView *deleteBookAlert = [[UIAlertView alloc] initWithTitle:@"Delete Book" message:alertMessage delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                [deleteBookAlert show];
+                deleteBookIndex = indexPath.row -1;
+              //  [self deleteBook:book];
             } else {
                 if (_toEdit) {
                     MangoEditorViewController *mangoEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
@@ -198,6 +213,36 @@
         }
             break;
     }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if([alertView.title isEqualToString:@"Delete Book"]){
+        Book *book = [_allBooksArray objectAtIndex:deleteBookIndex];
+        if(buttonIndex == 1){
+            NSLog(@"delete");
+            [self deleteBook:book];
+        }
+        else{
+            [_deleteButton setImage:[UIImage imageNamed:@"doneTrash.png"] forState:UIControlStateNormal];
+        }
+    }
+    else if([alertView.title isEqualToString:@"SOLVE"]){
+        
+        if((settingQuesNo % 2) == buttonIndex){
+            NSLog(@"CORRECT");
+            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+            settingsViewController.dismissDelegate = self;
+            settingsViewController.controller = self.navigationController;
+            _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+            [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            
+        }
+        else{
+            NSLog(@"WRONG");
+        }
+        
+    }
+    
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -221,13 +266,18 @@
 #pragma mark - Action Methods
 
 - (IBAction)settingsButtonTapped:(id)sender {
-    UIButton *button=(UIButton *) sender;
-    SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-    settingsViewController.dismissDelegate = self;
-    settingsViewController.controller = self.navigationController;
-    _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-    [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    int rNo = arc4random()%8;
+    settingQuesNo = rNo;
+    
+    UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
+    [settingAlert show];
+    
+   // UIButton *button=(UIButton *) sender;
+    
 }
+
+
 
 - (IBAction)homeButtonTapped:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

@@ -294,6 +294,8 @@
 
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
+            NSLog(@"Timer: %@", _audioMappingViewController.timer);
+            _audioMappingViewController.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:_audioMappingViewController selector:@selector(update) userInfo:nil repeats:YES];
             [self closeButton:nil];
             _showButtons = NO;
             [self hideAllButtons:!_showButtons];
