@@ -233,7 +233,7 @@
             settingsViewController.controller = self.navigationController;
             _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
             [_popOverController setPopoverContentSize:CGSizeMake(300, 88)];
-            [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
             
         }
         else{
