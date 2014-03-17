@@ -38,7 +38,15 @@
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
     NSLog(@"length %d", [string length]);
 
-    NSArray *words = [self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSMutableArray *words = [NSMutableArray arrayWithArray:[self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    NSMutableArray *wordsToDelete = [NSMutableArray array];
+    for (NSString *word in words) {
+        if ([word length] == 0) {
+            [wordsToDelete addObject:word];
+        }
+    }
+    [words removeObjectsInArray:wordsToDelete];
+    
     NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];

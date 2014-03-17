@@ -205,7 +205,7 @@
     x+=40;
     _scrollView.total=x;
     _scrollView.contentSize=CGSizeMake(x, 50);
-    NSLog(@"%@",_cues);
+    //NSLog(@"%@",_cues);
 }
 - (NSString *)applicationDocumentsDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -251,12 +251,23 @@
     if (!textForMapping || [[textForMapping stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
         textForMapping = _mangoTextField.text;
     }
-    NSArray *subarray = [[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] subarrayWithRange:NSMakeRange(0, _wordIndex)];
-    NSString *subString = [subarray componentsJoinedByString:@" "];
     
     _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    
+    NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    NSMutableArray *wordsToDelete = [NSMutableArray array];
+    for (NSString *word in words) {
+        if ([word length] == 0) {
+            [wordsToDelete addObject:word];
+        }
+    }
+    [words removeObjectsInArray:wordsToDelete];
+
+    NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
+    NSString *subString = [subarray componentsJoinedByString:@" "];
+
     [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
-    if (_wordIndex < [[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] count] - 1) {
+    if (_wordIndex < [words count] - 1) {
         _wordIndex += 1;
     }
 }
@@ -322,12 +333,12 @@
     
     if (_wordIndex<_cues.count) {
         NSNumber *number= _cues[_wordIndex];
-        NSLog(@"%f %@",_player.currentTime,_cues);
+        //NSLog(@"%f %@",_player.currentTime,_cues);
         if ((_player.currentTime)>=number.floatValue) {
             [self nextClick:nil];
         }
     }
-    NSLog(@"update in timer");
+    //NSLog(@"update in timer");
     [self showProgress];
 }
 -(void)showProgress{
