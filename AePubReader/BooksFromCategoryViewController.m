@@ -82,8 +82,8 @@
     settingsViewController.dismissDelegate=self;
     settingsViewController.controller=self.navigationController;
     _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+    [_popOverController setPopoverContentSize:CGSizeMake(300, 88)];
     [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-
 }
 
 - (IBAction)booksButtonclicked:(id)sender {
