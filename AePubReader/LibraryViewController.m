@@ -297,7 +297,7 @@
     
 }
 - (IBAction)showStoreViewController:(id)sender {
-    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+//    NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
   //  UINavigationController *navigationStore=[[UINavigationController alloc]initWithRootViewController:controller];
     //navigationStore.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
    // [self presentViewController:navigationStore animated:YES completion:nil];
@@ -307,7 +307,7 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
                            forView:self.navigationController.view cache:NO];
     
-    [self.navigationController pushViewController:controller animated:YES];
+//    [self.navigationController pushViewController:controller animated:YES];
     [UIView commitAnimations];
 
     

@@ -28,7 +28,6 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "TimeRange.h"
-#import "NewStoreCoverViewController.h"
 #import "NewStoreViewControlleriPad.h"
 #import "CustomNavViewController.h"
 #import "LandPageChoiceViewController.h"
@@ -105,7 +104,7 @@
     _liveViewController=[[LiveViewController alloc]initWithNibName:@"LiveViewController" bundle:nil];
    /* editorViewController = [[EditorViewController alloc] initWithNibName:@"EditorViewController" bundle:nil];*/
    
- _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
+// _storeNewViewController=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil];
     _storeViewControlleriPad=[[NewStoreViewControlleriPad alloc]initWithStyle:UITableViewStylePlain];
     CustomNavViewController *navigationLibrary=[[CustomNavViewController alloc]initWithRootViewController:_library];
    // CustomNavViewController *navigationPurchase=[[CustomNavViewController alloc]initWithRootViewController:_store];
@@ -114,8 +113,8 @@
       /* UINavigationController *editorNavigationController = [[UINavigationController alloc] initWithRootViewController:editorViewController];*/
      storiesViewController = [[StoriesViewController alloc] initWithNibName:@"StoriesViewController" bundle:nil];
     CustomNavViewController *storiesNavigationController = [[CustomNavViewController alloc] initWithRootViewController:storiesViewController];
-    CustomNavViewController *customNav=[[CustomNavViewController alloc]initWithRootViewController:_storeNewViewController];
-    _tabBarController.viewControllers=@[ navigationLibrary,storiesNavigationController,customNav];//, navigationStore];
+//    CustomNavViewController *customNav=[[CustomNavViewController alloc]initWithRootViewController:_storeNewViewController];
+//    _tabBarController.viewControllers=@[ navigationLibrary,storiesNavigationController,customNav];//, navigationStore];
 
     [self.navigationController pushViewController:_tabBarController animated:YES];
     [_tabBarController.tabBar setHidden:YES];
