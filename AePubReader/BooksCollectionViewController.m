@@ -162,9 +162,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Index Path %@", [_categorySelected objectForKey:NAME]);
-    if([[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]){
-        _toEdit = YES;
-    }
+
     switch (indexPath.row) {
         case 0: {
             if (_toEdit) {
