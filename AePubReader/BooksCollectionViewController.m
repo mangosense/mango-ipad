@@ -144,7 +144,7 @@
         bookCell.isDeleteMode = _isDeleteMode;
     } else {
         bookCell.isDeleteMode = NO;
-        if (_toEdit) {
+        if (_toEdit || [[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]) {
             bookCell.bookCoverImageView.image = [UIImage imageNamed:@"create-story-book-icon1.png"];
         } else {
             bookCell.bookCoverImageView.image = [UIImage imageNamed:@"icons_getmorebooks.png"];
@@ -165,7 +165,7 @@
 
     switch (indexPath.row) {
         case 0: {
-            if (_toEdit) {
+            if (_toEdit || [[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]) {
                 MangoEditorViewController *newBookEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                 newBookEditorViewController.isNewBook = YES;
                 newBookEditorViewController.storyBook = nil;
@@ -174,7 +174,7 @@
             } else {
                 
                 MangoStoreViewController *controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
-                if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"] || [[_categorySelected valueForKey:@"name"] isEqualToString:@"My Books"]) {
+                if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]/* || [[_categorySelected valueForKey:@"name"] isEqualToString:@"My Books"]*/) {
                     [controller setCategoryFlagValue:0];
                 }
                 else{
