@@ -225,15 +225,21 @@
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
-    if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
-        [self saveUserInfo:userDetailsDictionary];
-        
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [self goToNext:nil];
-    } else {
-        UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your email and password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [loginFailureAlert show];
+    
+    if (userDetailsDictionary.count) {
+        if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
+            [self saveUserInfo:userDetailsDictionary];
+            
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [self goToNext:nil];
+        } else {
+            UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [loginFailureAlert show];
+        }
+    }
+    else{
+        UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"Your internet status appears to be offline" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [responseError show];
     }
 }
 

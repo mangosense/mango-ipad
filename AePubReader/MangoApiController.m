@@ -118,6 +118,10 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
         if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
             [delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
         }
@@ -172,11 +176,10 @@
         
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
-        if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
-           [_delegate saveUserDetails:nil];
-            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [responseError show];
-        }
+        
+            if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
+                [_delegate saveUserDetails:nil];
+            }
     }];
 }
 
