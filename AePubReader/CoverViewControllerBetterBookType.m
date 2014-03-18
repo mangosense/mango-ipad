@@ -175,7 +175,7 @@
     NSString *jsonContent = [self getJsonContentForBook];
     NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    NSLog(@"%@", jsonDict);
+
     return jsonDict;
 }
 

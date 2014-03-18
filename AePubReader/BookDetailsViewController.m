@@ -14,6 +14,7 @@
 #import "Constants.h"
 #import "BooksFromCategoryViewController.h"
 #import "AePubReaderAppDelegate.h"
+#import "CoverViewControllerBetterBookType.h"
 
 @interface BookDetailsViewController ()
 
@@ -203,7 +204,17 @@
 
        // [self itemReadyToUse:_selectedProductId ForTransaction:nil];
 
-        [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+        AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+        Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
+        
+        if (bk) {
+            if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
+                [_delegate openBook:bk];
+            }
+            [self closeDetails:nil];
+        } else {
+            [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+        }
     }
     else {
         NSLog(@"Product dose not have relative Id");

@@ -16,7 +16,7 @@
 + (PageInfo *)pageInfoForJsonString:(NSDictionary *)jsonDict {
     PageInfo *pageInfo = [[PageInfo alloc] init];
     
-    NSLog(@"%@", jsonDict);
+
     for (NSDictionary *layerDict in [jsonDict objectForKey:LAYERS]) {
         if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
             pageInfo.backgroundImage = [UIImage imageNamed:[layerDict objectForKey:ASSET_URL]];

@@ -21,6 +21,7 @@
 #import "HKCircularProgressView.h"
 #import "MyStoriesBooksViewController.h"
 #import "BooksCollectionViewController.h"
+#import "CoverViewControllerBetterBookType.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -539,6 +540,15 @@
     booksCategoryViewController.toEdit = NO;
     booksCategoryViewController.categorySelected = categoryDict;
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
+}
+
+- (void)openBook:(Book *)bk {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    [self.navigationController pushViewController:coverController animated:YES];
 }
 
 #pragma mark - Local Image Saving Delegate

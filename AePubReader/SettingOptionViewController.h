@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
 #import "MangoAnalyticsViewController.h"
+#import "MangoApiController.h"
+#import "PurchaseManager.h"
+#import <StoreKit/StoreKit.h>
 
-@interface SettingOptionViewController : UITableViewController
+@interface SettingOptionViewController : UITableViewController <PurchaseManagerProtocol, MangoPostApiProtocol, SKProductsRequestDelegate>
 @property(retain,nonatomic) NSArray *array;
 @property(retain,nonatomic) UINavigationController *controller;
 @property(assign,nonatomic) id<DismissPopOver> dismissDelegate;
