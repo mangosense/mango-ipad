@@ -172,11 +172,10 @@
         
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
-        if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
-           [_delegate saveUserDetails:nil];
-            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [responseError show];
-        }
+        
+            if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
+                [_delegate saveUserDetails:nil];
+            }
     }];
 }
 

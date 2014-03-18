@@ -87,15 +87,25 @@
 #pragma mark - PostAPI Delegate Method
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
-    if (userDetailsDictionary) {        
+    if (userDetailsDictionary) {
+        
+        if(![userDetailsDictionary objectForKey:@"statusMessage"]){
         [_delegate saveUserInfo:userDetailsDictionary];
         
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self donePressed:nil];
         [_delegate goToNext];
+        }
+        else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[userDetailsDictionary objectForKey:@"statusMessage"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        }
     }
     else{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"Please check your internet connection, you are offline !!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
         return;
     }
 }
