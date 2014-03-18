@@ -9,7 +9,6 @@
 #import "PopViewDetailsViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
-#import "Reachability.h"
 #import "Flurry.h"
 @interface PopViewDetailsViewController ()
 
@@ -28,9 +27,8 @@
 
 - (IBAction)downloadBook:(id)sender {
     [self.parentViewController dismissModalViewControllerAnimated:YES];
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    [reachability startNotifier];
-     // if (status==ReachableViaWiFi) {
+
+    // if (status==ReachableViaWiFi) {
     long freeSpace=[self getFreeDiskspace];
     if (freeSpace<_size) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Error" message:@"There is no sufficient space in your device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
