@@ -7,7 +7,6 @@
 //
 
 #import "LandPageChoiceViewController.h"
-#import "NewStoreCoverViewController.h"
 #import "CustomNavViewController.h"
 #import "CategoriesViewController.h"
 #import "BooksFromCategoryViewController.h"

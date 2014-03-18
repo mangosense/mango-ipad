@@ -10,7 +10,6 @@
 #import <MessageUI/MessageUI.h>
 #import <StoreKit/StoreKit.h>
 #import "Book.h"
-#import "NewStoreCoverViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface LoginViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,NSURLConnectionDataDelegate, FBLoginViewDelegate>
@@ -41,7 +40,6 @@
 @property(strong,nonatomic)NSMutableData *data;
 @property(strong,nonatomic)UIAlertView *alertView;
 @property(strong,nonatomic)UITabBarController *tabBarController;
-@property(strong,nonatomic)NewStoreCoverViewController *storeNewViewController;
 -(void)goToNext;
 -(void)transactionRestored;
 -(void)transactionFailed;

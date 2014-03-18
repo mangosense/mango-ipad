@@ -12,6 +12,8 @@
 #import "EJDBController.h"
 #import "UserInfo.h"
 #import "BooksCollectionViewController.h"
+#import "PurchaseManager.h"
+#import "CargoBay.h"
 
 @interface SettingOptionViewController ()
 
@@ -24,7 +26,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout",@"Analytics", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases", nil];
     }
     return self;
 }
@@ -149,10 +151,49 @@
             
         case 1:
         {
+            //Restore Purchases
+            /*SKReceiptRefreshRequest *refreshReceiptRequest = [[SKReceiptRefreshRequest alloc] init];
+            refreshReceiptRequest.delegate = self;
+            [refreshReceiptRequest start];*/
+            
+            [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+            [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+                NSLog(@"Updated Transactions: %@", transactions);
+                
+                for (SKPaymentTransaction *transaction in transactions)
+                {
+                    NSLog(@"Payment State: %d", transaction.transactionState);
+                    switch (transaction.transactionState) {
+                        case SKPaymentTransactionStateFailed:
+                        {
+                            NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
+                            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                        }
+                            break;
+                            
+                        case SKPaymentTransactionStateRestored:
+                        {
+                            NSLog(@"Product Restored!");
+                            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+                            Book *bk=[appDelegate.dataModel getBookOfEJDBId:transaction.originalTransaction.payment.productIdentifier];
+                            if (!bk) {
+                                [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                            }
+                        }
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                }
+            }];
+            [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+
             //handle analytics view
-            MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            /*MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-            [self presentViewController:analyticsViewController animated:YES completion:nil];
+            [self presentViewController:analyticsViewController animated:YES completion:nil];*/
         }
             break;
             
@@ -165,4 +206,88 @@
             break;
     }
 }
+
+- (void)validateReceipt:(NSString *)productId ForTransactionId:(NSString *)transactionId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
+    //Use this when receipt_validate is error free
+    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+        if (type == 1) {
+            NSLog(@"SuccessResponse:%@", response);
+            //If Succeed.
+            [delegate itemReadyToUse:productId ForTransaction:transactionId];
+            if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                [delegate updateBookProgress:0];
+            }
+        }
+        else {
+            NSLog(@"ReceiptError:%@", error);
+        }
+    }];
+}
+
+#pragma mark - Purchased Manager Call Back
+
+- (void)itemReadyToUse:(NSString *)productId ForTransaction:(NSString *)transactionId {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    Book *bk=[appDelegate.dataModel getBookOfEJDBId:productId];
+    if (!bk) {
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        [apiController downloadBookWithId:productId withDelegate:self ForTransaction:transactionId];
+    }
+}
+
+#pragma mark - Receipt Refresh Delegate
+
+- (void)requestDidFinish:(SKRequest *)request {
+    if([request isKindOfClass:[SKReceiptRefreshRequest class]])
+    {
+        //SKReceiptRefreshRequest
+        NSURL *receiptUrl = [[NSBundle mainBundle] appStoreReceiptURL];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[receiptUrl path]]) {
+            NSLog(@"App Receipt exists");
+
+            [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+            [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+                NSLog(@"Updated Transactions: %@", transactions);
+                
+                for (SKPaymentTransaction *transaction in transactions)
+                {
+                    NSLog(@"Payment State: %d", transaction.transactionState);
+                    switch (transaction.transactionState) {
+                        case SKPaymentTransactionStateFailed:
+                        {
+                            NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
+                            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                        }
+                            break;
+                            
+                        case SKPaymentTransactionStateRestored:
+                        {
+                            NSLog(@"Product Restored!");
+                            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                            [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:nil storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                        }
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                }
+            }];
+            [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+        } else {
+            NSLog(@"Receipt request done but there is no receipt");
+            
+            // This can happen if the user cancels the login screen for the store.
+            // If we get here it means there is no receipt and an attempt to get it failed because the user cancelled the login.
+            //[self trackFailedAttempt];
+        }
+    }
+}
+
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+    NSLog(@"Request %@", request);
+    NSLog(@"Response %@", response);
+    NSLog(@"Products %@", response.products);
+}
+
 @end

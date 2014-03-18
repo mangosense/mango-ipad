@@ -107,7 +107,6 @@
 - (void)parseBookJson:(NSData *)bookJsonData WithId:(NSNumber *)numberId AtLocation:(NSString *)filePath {
     if (bookJsonData) {
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:bookJsonData options:NSJSONReadingAllowFragments error:nil];
-        NSLog(@"%@", jsonDict);
         
         MangoBook *book = [[MangoBook alloc] init];
         book.id = [jsonDict objectForKey:@"id"];

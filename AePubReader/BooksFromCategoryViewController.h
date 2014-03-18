@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
 #import "Book.h"
-#import "NewStoreCoverViewController.h"
 #import "MangoApiController.h"
 
 @interface BooksFromCategoryViewController : UIViewController<DismissPopOver, MangoPostApiProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout> {

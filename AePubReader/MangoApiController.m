@@ -247,17 +247,19 @@
         }];
         [downloadTask resume];
         
-        [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-            NSLog(@"Progress %lld/%lld = %lld", totalBytesWritten, totalBytesExpectedToWrite, totalBytesWritten*100/totalBytesExpectedToWrite);
-            if (totalBytesExpectedToWrite > 512*1000) {
-                isDataPresent = YES;
-            }
-            if (isDataPresent) {
-                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
-                    [delegate updateBookProgress:[[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue]];
+        if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+            [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+
+                if (totalBytesExpectedToWrite > 512*1000) {
+                    isDataPresent = YES;
                 }
-            }
-        }];
+                if (isDataPresent) {
+                    if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                        [delegate updateBookProgress:[[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue]];
+                    }
+                }
+            }];
+        }
     }];
 }
 

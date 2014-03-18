@@ -10,10 +10,13 @@
 #import <UIKit/UIKit.h>
 #import "MangoApiController.h"
 #import "PurchaseManager.h"
+#import "Book.h"
 
 @protocol BookViewProtocol <NSObject>
 
+@optional
 - (void)openBookViewWithCategory:(NSDictionary *)categoryDict;
+- (void)openBook:(Book *)bk;
 
 @end
 
