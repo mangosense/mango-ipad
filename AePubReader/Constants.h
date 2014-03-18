@@ -132,6 +132,7 @@
 #define LANGUAGES_FOR_BOOK @"livestories/available_languages"
 #define RECOMMENDED_STORIES @"livestories/recommended"
 #define LIVE_STORIES_WITH_ID @"livestories"
+#define OLD_STORY_INFO @"livestories/%@/info"
 
 #pragma mark - API Parameter Keys
 
