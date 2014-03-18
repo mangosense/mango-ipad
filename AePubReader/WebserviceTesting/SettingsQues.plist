@@ -16,9 +16,9 @@
 			<key>ques</key>
 			<string>Cow is ......</string>
 			<key>sol1</key>
-			<string>Bird</string>
+			<string> a Bird</string>
 			<key>sol2</key>
-			<string>Animal</string>
+			<string>an Animal</string>
 		</dict>
 		<dict>
 			<key>ques</key>
@@ -30,7 +30,7 @@
 		</dict>
 		<dict>
 			<key>ques</key>
-			<string>Color of sky is ......</string>
+			<string>Color of the sky is ......</string>
 			<key>sol1</key>
 			<string>Orange</string>
 			<key>sol2</key>
@@ -48,9 +48,9 @@
 			<key>ques</key>
 			<string>Duck is ......</string>
 			<key>sol1</key>
-			<string>Animal</string>
+			<string>an Animal</string>
 			<key>sol2</key>
-			<string>Bird</string>
+			<string>a Bird</string>
 		</dict>
 		<dict>
 			<key>ques</key>
