@@ -103,6 +103,30 @@
     }];
 }
 
+- (void)getObject:(NSString *)methodName ForParameters:(NSDictionary *)paramsDict WithDelegate:(id <MangoPostApiProtocol>) delegate {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [manager GET:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([delegate respondsToSelector:@selector(reloadWithObject:ForType:)]) {
+            NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];
+            SKPaymentTransaction *transaction = [paramsDict objectForKey:@"transaction"];
+            if ([methodName isEqualToString:[NSString stringWithFormat:OLD_STORY_INFO, transaction.originalTransaction.payment.productIdentifier]]) {
+                [responseDict setObject:transaction forKey:@"transaction"];
+            }
+            [delegate reloadWithObject:responseDict ForType:methodName];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Get Object Error: %@", error);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        if ([delegate respondsToSelector:@selector(reloadWithObject:ForType:)]) {
+            [delegate reloadWithObject:nil ForType:methodName];
+        }
+    }];
+
+}
+
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -173,7 +197,6 @@
         else if ([_delegate respondsToSelector:@selector(saveUserDetails:)]) {
             [_delegate saveUserDetails:responseDict];
         }
-        
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
         

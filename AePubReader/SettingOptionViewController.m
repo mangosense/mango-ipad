@@ -178,7 +178,13 @@
                             AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
                             Book *bk=[appDelegate.dataModel getBookOfEJDBId:transaction.originalTransaction.payment.productIdentifier];
                             if (!bk) {
-                                [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                                if ([[[transaction.originalTransaction.payment.productIdentifier componentsSeparatedByCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]] componentsJoinedByString:@""] length] == 0) {
+                                    NSLog(@"%@", transaction.originalTransaction.payment.productIdentifier);
+                                    MangoApiController *apiController = [MangoApiController sharedApiController];
+                                    [apiController getObject:[NSString stringWithFormat:OLD_STORY_INFO, transaction.originalTransaction.payment.productIdentifier] ForParameters:[NSDictionary dictionaryWithObject:transaction forKey:@"transaction"] WithDelegate:self];
+                                } else {
+                                    [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                                }
                             }
                         }
                             break;
@@ -222,6 +228,15 @@
             NSLog(@"ReceiptError:%@", error);
         }
     }];
+}
+
+- (void)reloadWithObject:(NSDictionary *)responseObject ForType:(NSString *)type {
+    SKPaymentTransaction *transaction = [responseObject objectForKey:@"transaction"];
+
+    if ([type isEqualToString:[NSString stringWithFormat:OLD_STORY_INFO, transaction.originalTransaction.payment.productIdentifier]]) {
+        
+        [self validateReceipt:[responseObject objectForKey:@"id"] ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+    }
 }
 
 #pragma mark - Purchased Manager Call Back
