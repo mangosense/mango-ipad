@@ -13,6 +13,7 @@
 
 @optional
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type;
+- (void)reloadWithObject:(NSDictionary *)responseObject ForType:(NSString *)type;
 - (void)reloadImage:(UIImage *)image forUrl:(NSString *)urlString;
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary;
 - (void)getBookAtPath:(NSURL *)filePath;
@@ -30,6 +31,7 @@
 + (id)sharedApiController;
 
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate;
+- (void)getObject:(NSString *)methodName ForParameters:(NSDictionary *)paramsDict WithDelegate:(id <MangoPostApiProtocol>) delegate;
 - (void)getImageAtUrl:(NSString *)urlString withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew Name:(NSString *)name;
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON;
