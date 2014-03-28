@@ -449,10 +449,17 @@
     NSLog(@"Total pages : %d", _pageNo);
     NSLog(@"current grade level : %@", _bookGradeLevel);
     NSLog(@"Current book url : %@", _bookImageURL);*/
-    
+    NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
-    [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
-    [query1 whereKey:@"bookID" equalTo:_bookId];
+    if(_loginUserEmail == nil){
+        _loginUserEmail = @"nil";
+        [query1 whereKey:@"deviceIDValue" equalTo:udid];
+        [query1 whereKey:@"bookID" equalTo:_bookId];
+    }
+    else{
+        [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
+        [query1 whereKey:@"bookID" equalTo:_bookId];
+    }
     [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if(!error){
             NSLog(@"user current page is %d", [[object valueForKey:@"currentPage"] integerValue]);
@@ -486,6 +493,7 @@
         else{
             NSLog(@"object not found here then add object here...");
             PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
+            [userObject setObject:udid forKey:@"deviceIDValue"];
             [userObject setObject:_loginUserEmail forKey:@"email_ID"];
             [userObject setObject:@"Harish" forKey:@"userName"];
             [userObject setObject:_bookId forKey:@"bookID"];
