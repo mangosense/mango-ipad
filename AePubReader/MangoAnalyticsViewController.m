@@ -35,7 +35,7 @@
     _arrayCollectionData = [[NSArray alloc] init];
     
     _dropDownArrayData = [[NSMutableArray alloc] initWithObjects:@"Week", @"Month", @"Year", nil];
-    _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:35 heightTableView:100 paddingTop:-30 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:1 closeAnimationDuration:1];
+    _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:36 heightTableView:100 paddingTop:-38 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:1 closeAnimationDuration:1];
     _dropDownView.delegate = self;
     
 	[self.view addSubview:_dropDownView.view];
@@ -56,7 +56,7 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     
-    __block int booksRead =0, pagesRead =0, timeCompleted =0;
+    __block int booksRead =0, pagesRead =0, timeCompleted =0, activitiesTotal = 0;
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query = [PFQuery queryWithClassName:@"Analytics"];
     if(_loginUserEmail == nil){
@@ -75,6 +75,7 @@
                 booksRead = booksRead + [[_arrayCollectionData[i] valueForKey:@"bookCompleted"] integerValue];
                 pagesRead = pagesRead + [[_arrayCollectionData[i] valueForKey:@"pagesCompleted"] integerValue];
                 timeCompleted = timeCompleted + [[_arrayCollectionData[i] valueForKey:@"readingTime"] integerValue];
+                activitiesTotal = activitiesTotal + [[_arrayCollectionData[i] valueForKey:@"activityCount"] integerValue];
             }
             NSLog(@"all objects are %d - %d - %d", booksRead, pagesRead, timeCompleted);
             
@@ -97,6 +98,7 @@
             
             _labelTotalPagesRead.text = [NSString stringWithFormat:@"%d", pagesRead];
             _labelStoriesCompleted.text = [NSString stringWithFormat:@"%d", booksRead];
+            _labelAllActivities.text = [NSString stringWithFormat:@"%d", activitiesTotal];
             
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }
@@ -165,8 +167,8 @@
             int secValue = (int)timeValue;
             cell.readForLabel.text = [NSString stringWithFormat:@"%d sec", secValue];
         }
-        
-        cell.Activity1Label.text = @"0 min \n 0 points";
+        int activityValue = [[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"activityCount"] intValue] ;
+        cell.Activity1Label.text = [NSString stringWithFormat:@"%d", activityValue];
     }
     
     return cell;
