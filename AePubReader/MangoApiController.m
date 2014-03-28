@@ -292,6 +292,7 @@
 - (void)saveBookWithId:(NSString *)bookId AndJSON:(NSString *)bookJSON {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
+    
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
     NSString *methodName = [NSString stringWithFormat:SAVE_STORY, bookId];

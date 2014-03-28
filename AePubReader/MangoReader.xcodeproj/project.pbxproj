@@ -21,11 +21,15 @@
 		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		6805D8A318DC64FA00DDB0C7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC08DC11656B3D00067C47B /* StoreKit.framework */; };
 		680E43A318D176E800274E5D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7E023415E388F3001F520B /* libz.dylib */; };
+		682AA68D18D9AD070006951D /* MangoAnalyticsSingleViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */; };
+		682AA68F18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */; };
 		6831E1E518CA05EA000E0D26 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6831E1E318CA05EA000E0D26 /* LastPageViewController.m */; };
 		6831E1E618CA05EA000E0D26 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */; };
 		68576C0F18BF3CA4005766C9 /* Read-now.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C0E18BF3CA4005766C9 /* Read-now.png */; };
 		68576C1318BF44BE005766C9 /* without-text.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C1218BF44BE005766C9 /* without-text.png */; };
+		68610BF218DB0EF80034FF32 /* Analytics_Dropdown_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68610BF118DB0EF80034FF32 /* Analytics_Dropdown_btn.png */; };
 		68A15FB018BC991A00DB1AF0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FAF18BC991A00DB1AF0 /* Parse.framework */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68A15FB918BC9F4A00DB1AF0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */; };
@@ -48,8 +52,6 @@
 		68DB75FA18C6FE4A00819480 /* test_delete_book.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75F918C6FE4A00819480 /* test_delete_book.png */; };
 		68DB760018C7446400819480 /* MangoAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */; };
 		68DB760118C7446500819480 /* MangoAnalyticsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */; };
-		68DB760418C76AC500819480 /* MangoAnalyticsSingleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DB760318C76AC500819480 /* MangoAnalyticsSingleBookView.m */; };
-		68DB760618C76B0600819480 /* MangoAnalyticsSingleBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB760518C76B0600819480 /* MangoAnalyticsSingleBookView.xib */; };
 		8303ED6218485FF600BE7671 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8303ED6118485FF600BE7671 /* Parse.framework */; };
 		8309295918BDCA1600FA401E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309295818BDCA1600FA401E /* UserInfo.m */; };
 		830DE2A617D471E300399146 /* DrawingToolsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830DE2A517D471E300399146 /* DrawingToolsView.m */; };
@@ -597,7 +599,6 @@
 		AEB7AE0C16B949A2009844B0 /* toc.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB7AE0B16B949A2009844B0 /* toc.png */; };
 		AEB7AE0E16B95607009844B0 /* tmangot.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB7AE0D16B95607009844B0 /* tmangot.png */; };
 		AEB7AE1016B95674009844B0 /* srbar.png in Resources */ = {isa = PBXBuildFile; fileRef = AEB7AE0F16B95674009844B0 /* srbar.png */; };
-		AEC08DC21656B3D00067C47B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC08DC11656B3D00067C47B /* StoreKit.framework */; };
 		AEC70E1616D4C34700A191D2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC70E1516D4C34700A191D2 /* CoreMedia.framework */; };
 		AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC70E1716D4C35100A191D2 /* CoreVideo.framework */; };
 		AEC70E1A16D4C35E00A191D2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */; };
@@ -749,11 +750,15 @@
 		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		682AA68B18D9AD070006951D /* MangoAnalyticsSingleViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsSingleViewCell.h; sourceTree = "<group>"; };
+		682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsSingleViewCell.m; sourceTree = "<group>"; };
+		682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsSingleViewCell.xib; sourceTree = "<group>"; };
 		6831E1E218CA05EA000E0D26 /* LastPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastPageViewController.h; sourceTree = "<group>"; };
 		6831E1E318CA05EA000E0D26 /* LastPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastPageViewController.m; sourceTree = "<group>"; };
 		6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController.xib; sourceTree = "<group>"; };
 		68576C0E18BF3CA4005766C9 /* Read-now.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Read-now.png"; sourceTree = "<group>"; };
 		68576C1218BF44BE005766C9 /* without-text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "without-text.png"; sourceTree = "<group>"; };
+		68610BF118DB0EF80034FF32 /* Analytics_Dropdown_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics_Dropdown_btn.png; sourceTree = "<group>"; };
 		68A15FAF18BC991A00DB1AF0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -776,9 +781,6 @@
 		68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsViewController.h; sourceTree = "<group>"; };
 		68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsViewController.m; sourceTree = "<group>"; };
 		68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsViewController.xib; sourceTree = "<group>"; };
-		68DB760218C76AC500819480 /* MangoAnalyticsSingleBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsSingleBookView.h; sourceTree = "<group>"; };
-		68DB760318C76AC500819480 /* MangoAnalyticsSingleBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsSingleBookView.m; sourceTree = "<group>"; };
-		68DB760518C76B0600819480 /* MangoAnalyticsSingleBookView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsSingleBookView.xib; sourceTree = "<group>"; };
 		8303ED6118485FF600BE7671 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		8309295718BDCA1600FA401E /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		8309295818BDCA1600FA401E /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
@@ -1658,6 +1660,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6805D8A318DC64FA00DDB0C7 /* StoreKit.framework in Frameworks */,
 				83AED03518D873D7007CE253 /* libEJDBKit.a in Frameworks */,
 				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
 				68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */,
@@ -1680,7 +1683,6 @@
 				AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */,
 				AE5FC01C167701DC00BB9AED /* Social.framework in Frameworks */,
 				AE43C744161057DA00970739 /* Security.framework in Frameworks */,
-				AEC08DC21656B3D00067C47B /* StoreKit.framework in Frameworks */,
 				AE525E77161D748700CDB400 /* MapKit.framework in Frameworks */,
 				AE7FEDE71615ADC000C4B51D /* QuartzCore.framework in Frameworks */,
 				AEA7687616117357002B9FDC /* CoreData.framework in Frameworks */,
@@ -2425,6 +2427,7 @@
 				83E9ADF0184DA3710025BBD6 /* home_button.png */,
 				83E9ADF2184DA3710025BBD6 /* home_button_brown.png */,
 				83E9ADF3184DA3710025BBD6 /* home_button_brown_pressed.png */,
+				68610BF118DB0EF80034FF32 /* Analytics_Dropdown_btn.png */,
 				83E9ADF4184DA3710025BBD6 /* home_button_pressed.png */,
 				83E9ADF5184DA3710025BBD6 /* icon_1.png */,
 				83E9ADF6184DA3710025BBD6 /* icon_1_pressed.png */,
@@ -2598,9 +2601,9 @@
 				68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */,
 				68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */,
 				68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */,
-				68DB760218C76AC500819480 /* MangoAnalyticsSingleBookView.h */,
-				68DB760318C76AC500819480 /* MangoAnalyticsSingleBookView.m */,
-				68DB760518C76B0600819480 /* MangoAnalyticsSingleBookView.xib */,
+				682AA68B18D9AD070006951D /* MangoAnalyticsSingleViewCell.h */,
+				682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */,
+				682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */,
 				AE4BB734183CD8D9004F20C5 /* CategoriesFlexibleViewController.xib */,
 				AE0C935C183DE5F4008E4D54 /* CoverViewControllerBetterBookType.h */,
 				AE0C935D183DE5F4008E4D54 /* CoverViewControllerBetterBookType.m */,
@@ -3414,6 +3417,7 @@
 				AED53B391691B6410061A600 /* Sample.xib in Resources */,
 				AED77757169431200043E3D4 /* header-toolbar-slider.png in Resources */,
 				AE73704F183C6B9100054115 /* icon_skip_signin.png in Resources */,
+				68610BF218DB0EF80034FF32 /* Analytics_Dropdown_btn.png in Resources */,
 				AE266FDE183B4EBE001A8CB8 /* CategoriesViewController.xib in Resources */,
 				AE6B855116945DD300E17358 /* loading.png in Resources */,
 				AEF6A155169596CE00ECAE7E /* WebPageViewController.xib in Resources */,
@@ -3566,6 +3570,7 @@
 				83C1B52818AE5EA700624E1B /* memory.png in Resources */,
 				AE0C937E183E07EC008E4D54 /* bluepatch_for_reader_interface_menu3.png in Resources */,
 				AE0C9377183E0743008E4D54 /* icons_back.png in Resources */,
+				682AA68F18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib in Resources */,
 				83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */,
 				83ACB3EC18D9813E00EA3BFC /* gamecentre_bg.jpg in Resources */,
 				8353B3391851ABE1009B3BD8 /* shape2.png in Resources */,
@@ -3581,7 +3586,6 @@
 				83A0EF2E18B37CEE00BC687D /* create-story-book-icon1.png in Resources */,
 				83C1B52018AE5EA700624E1B /* question_answer.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
-				68DB760618C76B0600819480 /* MangoAnalyticsSingleBookView.xib in Resources */,
 				834FCE23182D11F70000181B /* collaborationbutton.png in Resources */,
 				834FCE29182D11F70000181B /* edittool_selected.png in Resources */,
 				839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */,
@@ -3683,6 +3687,7 @@
 				83CFB6C3184333AF0003E875 /* BaseViewAudoMapping.m in Sources */,
 				AE75375216103B6900761697 /* LibraryViewController.m in Sources */,
 				83347A221830E9ED002891EA /* ItemsListViewController.m in Sources */,
+				682AA68D18D9AD070006951D /* MangoAnalyticsSingleViewCell.m in Sources */,
 				AEA7687A16117CF7002B9FDC /* Books.xcdatamodeld in Sources */,
 				AEA768E01611DA82002B9FDC /* DataModelControl.m in Sources */,
 				AED0B6D7161419E800EE1FD7 /* FileDownloader.m in Sources */,
@@ -3826,7 +3831,6 @@
 				AE396BB0181F7E3D009C68E7 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				AE5B84E217AA546900EDC098 /* Cell.m in Sources */,
 				AE5B84E717AA548A00EDC098 /* LibraryCell.m in Sources */,
-				68DB760418C76AC500819480 /* MangoAnalyticsSingleBookView.m in Sources */,
 				AE5B84E817AA548A00EDC098 /* LibraryOldCell.m in Sources */,
 				8380486B1850586C006BBA47 /* AFURLResponseSerialization.m in Sources */,
 				AE5B84EB17AA54AF00EDC098 /* OldFooterView.m in Sources */,
