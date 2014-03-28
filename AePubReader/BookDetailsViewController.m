@@ -202,7 +202,7 @@
     if (_selectedProductId) {
         //Temporarily Added For Direct Downloading
 
-        [self itemReadyToUse:_selectedProductId ForTransaction:nil];
+        //[self itemReadyToUse:_selectedProductId ForTransaction:nil];
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
@@ -213,7 +213,7 @@
             }
             [self closeDetails:nil];
         } else {
-           // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+            [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
         }
     }
     else {
