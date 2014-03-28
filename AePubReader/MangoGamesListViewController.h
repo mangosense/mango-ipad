@@ -20,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *gameTitleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *gameDescriptionLabel;
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
+@property (nonatomic, strong) NSString *loginUserEmail;
 
 - (IBAction)closeGames:(id)sender;
 
