@@ -34,7 +34,9 @@
         _bookId=bookID;
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book= [delegate.dataModel getBookOfId:bookID];
-        _pageNumber=1;
+        _loginUserEmail = delegate.loggedInUserInfo.email;
+        
+                _pageNumber=1;
         NSLog(@"%@",_book.edited);
         
     }
@@ -45,7 +47,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    self.timeCalculate = [NSDate date];
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
@@ -63,6 +65,8 @@
     _pageNo=numberOfPages.integerValue;
     
     _showButtons = YES;
+    
+    _loginUserName = @"User";
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
     tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
@@ -114,7 +118,7 @@
 }
 
 - (IBAction)shareButton:(id)sender {
-    [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+//    [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -166,7 +170,7 @@
                     break;
                     
                 case 1: {
-                    [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+//                    [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.storyBook=_book;
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
@@ -191,7 +195,7 @@
 }
 
 - (IBAction)changeLanguage:(id)sender {
-    [PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+//    [PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
@@ -262,7 +266,7 @@
 }
 
 - (IBAction)nextButton:(id)sender {
-    _pageNumber++;
+    ++_pageNumber;
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
         
@@ -285,12 +289,12 @@
 - (IBAction)playOrPauseButton:(id)sender {
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
-            [PFAnalytics trackEvent:EVENT_AUDIO_PAUSED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+//            [PFAnalytics trackEvent:EVENT_AUDIO_PAUSED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
             
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player pause];
         }else{
-            [PFAnalytics trackEvent:EVENT_AUDIO_PLAYED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+//            [PFAnalytics trackEvent:EVENT_AUDIO_PLAYED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
 
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
@@ -310,7 +314,7 @@
 }
 
 - (IBAction)openGameCentre:(id)sender {
-    [PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+//    [PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -434,6 +438,80 @@
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 
     }
+}
+
+- (void) viewDidDisappear:(BOOL)animated{
+    
+    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+ /*   NSLog(@"Time taken: %f", [[NSDate date] timeIntervalSinceDate:self.timeCalculate]);
+    NSLog(@"Current book title : %@",_book.title);
+    NSLog(@"Pages completed : %d",_pageNumber+1);
+    NSLog(@"Total pages : %d", _pageNo);
+    NSLog(@"current grade level : %@", _bookGradeLevel);
+    NSLog(@"Current book url : %@", _bookImageURL);*/
+    
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
+    [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
+    [query1 whereKey:@"bookID" equalTo:_bookId];
+    [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if(!error){
+            NSLog(@"user current page is %d", [[object valueForKey:@"currentPage"] integerValue]);
+            NSLog(@"user time spent is %d", [[object valueForKey:@"readingTime"] integerValue]);
+            float totalTime = [[object valueForKey:@"readingTime"] floatValue] + timeEndValue;
+            
+            [object setObject:[NSNumber numberWithFloat:totalTime] forKey:@"readingTime"];
+            
+            [object setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"currentPage"];
+            
+            int totalpagesNo = [[object valueForKey:@"pagesCompleted"] floatValue] + _pageNumber+1;
+            [object setObject:[NSNumber numberWithInt:totalpagesNo] forKey:@"pagesCompleted"];
+            
+            if(_pageNumber+1 >= _pageNo){
+                NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
+                if([[object valueForKey:@"bookCompleted"] integerValue]){
+                    [object setObject:[NSNumber numberWithInt:([[object valueForKey:@"timesNumberBookCompleted"] integerValue]+1)] forKey:@"timesNumberBookCompleted"];
+                }
+                else{
+                    [object setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
+                    [object setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+                }
+            }
+            else{
+               // no need to set as pages are not completed
+            }
+            
+            //[object setObject:@"111111" forKey:@"activityPoints"];
+            [object saveInBackground];
+        }
+        else{
+            NSLog(@"object not found here then add object here...");
+            PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
+            [userObject setObject:_loginUserEmail forKey:@"email_ID"];
+            [userObject setObject:@"Harish" forKey:@"userName"];
+            [userObject setObject:_bookId forKey:@"bookID"];
+            [userObject setObject:[NSNumber numberWithInt:_pageNumber+1]  forKey:@"currentPage"];
+            [userObject setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
+            [userObject setObject:_book.title forKey:@"bookTitle"];
+            [userObject setObject:_bookGradeLevel forKey:@"gradeLevel"];
+            [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityCount"];
+            [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityPoints"];
+            [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"readingTime"];
+            [userObject setObject:_bookImageURL forKey:@"bookCoverImageURL"];
+            [userObject setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"pagesCompleted"];
+            
+            if(_pageNumber+1 >= _pageNo){
+                NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
+                [userObject setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
+                [userObject setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+            }
+            else{
+                [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];
+                [userObject setObject:[NSNumber numberWithInt:0] forKey:@"timesNumberBookCompleted"];
+            }
+            
+            [userObject saveInBackground];
+        }
+    }];
 }
 
 @end

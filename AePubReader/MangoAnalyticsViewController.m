@@ -7,6 +7,9 @@
 //
 
 #import "MangoAnalyticsViewController.h"
+#import "MangoAnalyticsSingleViewCell.h"
+#import "AePubReaderAppDelegate.h"
+#import <Parse/Parse.h>
 
 @interface MangoAnalyticsViewController ()
 
@@ -19,6 +22,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        _loginUserEmail = delegate.loggedInUserInfo.email;
     }
     return self;
 }
@@ -26,154 +31,151 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [_storiesReadCarousel setType:iCarouselTypeLinear];
-    _storiesReadCarousel.centerItemWhenSelected = YES;
     
-    _testArray = [[NSArray alloc] initWithObjects:@"pagepng", @"pagepng" ,@"pagepng" ,@"pagepng" ,@"pagepng" ,@"pagepng" ,@"pagepng" @"pagepng", @"pagepng", @"pagepng", nil];
+    _arrayCollectionData = [[NSArray alloc] init];
     
-    _dropDownArrayData = [[NSMutableArray alloc] initWithObjects:@"Last Week", @"Last Month", @"Last Year", nil];
+    _dropDownArrayData = [[NSMutableArray alloc] initWithObjects:@"Week", @"Month", @"Year", nil];
     _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:35 heightTableView:100 paddingTop:-30 paddingLeft:-5 paddingRight:-10 refView:_dropDownButton animation:BLENDIN openAnimationDuration:1 closeAnimationDuration:1];
     _dropDownView.delegate = self;
     
 	[self.view addSubview:_dropDownView.view];
     
-    [_storiesReadCarousel reloadData];
-    [_storiesReadCarousel scrollToOffset:1.5 duration:0.1];
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    flowLayout.itemSize = CGSizeMake(248.0, 490.0);
+    [self.bookDataDisplayView setCollectionViewLayout:flowLayout];
+    
+    // Register the colleciton cell
+    [self.bookDataDisplayView registerNib:[UINib nibWithNibName:@"MangoAnalyticsSingleViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"LOADING PLEASE WAIT...";
     
     // Do any additional setup after loading the view from its nib.
 }
 
-- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
+- (void) viewDidAppear:(BOOL)animated{
     
-    return [_testArray count];
-}
-
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
-{
-    MangoAnalyticsSingleBookView *analyticsSingleView = [[MangoAnalyticsSingleBookView alloc] init];
-   // analyticsSingleView.backgroundColor = [UIColor lightGrayColor];
-    UIImageView *bookImage =[[UIImageView alloc] initWithFrame:CGRectMake(8,20,213,213)];
-    bookImage.image=[UIImage imageNamed:@"test_delete_book.png"];
-    [analyticsSingleView addSubview:bookImage];
-    
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(16, 266, 98, 21)];
-    label1.backgroundColor=[UIColor clearColor];
-    label1.textColor=[UIColor blackColor];
-    label1.userInteractionEnabled=NO;
-    label1.text= @"Grade level:";
-    [analyticsSingleView addSubview:label1];
-    
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(16, 301, 98, 21)];
-    label2.backgroundColor=[UIColor clearColor];
-    label2.textColor=[UIColor blackColor];
-    label2.userInteractionEnabled=NO;
-    label2.text= @"Read for:";
-    [analyticsSingleView addSubview:label2];
-    
-    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(16, 333, 110, 21)];
-    label3.backgroundColor=[UIColor clearColor];
-    label3.textColor=[UIColor blackColor];
-    label3.userInteractionEnabled=NO;
-    label3.text= @"Current page:";
-    [analyticsSingleView addSubview:label3];
-    
-    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(16, 367, 98, 21)];
-    label4.backgroundColor=[UIColor clearColor];
-    label4.textColor=[UIColor blackColor];
-    label4.userInteractionEnabled=NO;
-    label4.text= @"Activity 1:";
-    [analyticsSingleView addSubview:label4];
-    
-    UILabel *label5 = [[UILabel alloc] initWithFrame:CGRectMake(16, 418, 98, 21)];
-    label5.backgroundColor=[UIColor clearColor];
-    label5.textColor=[UIColor blackColor];
-    label5.userInteractionEnabled=NO;
-    label5.text= @"Activity 2:";
-    [analyticsSingleView addSubview:label5];
-    
-    UILabel *lblGradeLevel = [[UILabel alloc] initWithFrame:CGRectMake(114, 265, 115, 22)];
-    lblGradeLevel.backgroundColor=[UIColor clearColor];
-    lblGradeLevel.textColor = [UIColor orangeColor];
-    lblGradeLevel.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:(19.0)];
-    lblGradeLevel.userInteractionEnabled=NO;
-    lblGradeLevel.text= @"Grade";
-    [analyticsSingleView addSubview:lblGradeLevel];
-    
-    UILabel *lblReadFor = [[UILabel alloc] initWithFrame:CGRectMake(106, 300, 115, 22)];
-    lblReadFor.backgroundColor=[UIColor clearColor];
-    lblReadFor.textColor=[UIColor orangeColor];
-    lblReadFor.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:(19.0)];
-    lblReadFor.userInteractionEnabled=NO;
-    lblReadFor.text= @"Read";
-    [analyticsSingleView addSubview:lblReadFor];
-    
-    UILabel *lblCurrentPage = [[UILabel alloc] initWithFrame:CGRectMake(123, 332, 115, 22)];
-    lblCurrentPage.backgroundColor=[UIColor clearColor];
-    lblCurrentPage.textColor=[UIColor orangeColor];
-    lblCurrentPage.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:(19.0)];
-    lblCurrentPage.userInteractionEnabled=NO;
-    lblCurrentPage.text= @"Current";
-    [analyticsSingleView addSubview:lblCurrentPage];
-    
-    UILabel *lblActivity1 = [[UILabel alloc] initWithFrame:CGRectMake(112, 366, 115, 22)];
-    lblActivity1.backgroundColor=[UIColor clearColor];
-    lblActivity1.textColor=[UIColor orangeColor];
-    lblActivity1.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:(19.0)];
-    lblActivity1.userInteractionEnabled=NO;
-    lblActivity1.text= @"Activity";
-    [analyticsSingleView addSubview:lblActivity1];
-    
-    UILabel *lblActivity2 = [[UILabel alloc] initWithFrame:CGRectMake(112, 417, 115, 22)];
-    lblActivity2.backgroundColor=[UIColor clearColor];
-    lblActivity2.textColor=[UIColor orangeColor];
-    lblActivity2.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:(19.0)];
-    lblActivity2.userInteractionEnabled=NO;
-    lblActivity2.text= @"Activity";
-    [analyticsSingleView addSubview:lblActivity2];
-    
-    UIView *seperateView = [[UIView alloc] initWithFrame:CGRectMake(239, 231, 2, 227)];
-    seperateView.backgroundColor = [UIColor lightGrayColor];
-    [analyticsSingleView addSubview:seperateView];
-    
-    [analyticsSingleView setFrame:CGRectMake(0, 0, 241, 490)];
-    [[analyticsSingleView layer] setCornerRadius:12];
-    [analyticsSingleView setClipsToBounds:YES];
-    return analyticsSingleView;
-    
-}
-
-
-
-- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
-{
-    //customize carousel display
-    switch (option)
-    {
-        case iCarouselOptionWrap:
-        {
-            //normally you would hard-code this to YES or NO
-            return NO;
-        }
-        case iCarouselOptionSpacing:
-        {
-            //add a bit of spacing between the item views
-            return value * 1.05f;
-        }
-        case iCarouselOptionFadeMax:
-        {
-            if (carousel.type == iCarouselTypeCustom)
-            {
-                //set opacity based on distance from camera
-                return 0.0f;
+    __block int booksRead =0, pagesRead =0, timeCompleted =0;
+    PFQuery *query = [PFQuery queryWithClassName:@"Analytics"];
+    [query whereKey:@"email_ID" equalTo:_loginUserEmail];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if(!error){
+            //NSLog(@"all objects are %d", objects.count);
+            _arrayCollectionData = [NSArray arrayWithArray:objects];
+            [_bookDataDisplayView reloadData];
+            
+            for (int i =0; i< _arrayCollectionData.count; ++i) {
+                booksRead = booksRead + [[_arrayCollectionData[i] valueForKey:@"bookCompleted"] integerValue];
+                pagesRead = pagesRead + [[_arrayCollectionData[i] valueForKey:@"pagesCompleted"] integerValue];
+                timeCompleted = timeCompleted + [[_arrayCollectionData[i] valueForKey:@"readingTime"] integerValue];
             }
-            return value;
+            NSLog(@"all objects are %d - %d - %d", booksRead, pagesRead, timeCompleted);
+            
+            if(timeCompleted >= 3600){
+                NSInteger hours = floor(timeCompleted/(60*60));
+                NSInteger minutes = floor((timeCompleted/60) - hours * 60);
+                _labelTotalTimeSpent.text = [NSString stringWithFormat:@"%d hrs %d min", hours, minutes];
+            }
+            
+            if((timeCompleted <3600) && (timeCompleted > 60)){
+                NSInteger minutes = floor(timeCompleted/60);
+                NSInteger second = floor(timeCompleted - minutes * 60);
+                _labelTotalTimeSpent.text = [NSString stringWithFormat:@"%d min %d sec", minutes, second];
+            }
+            else{
+                int secValue = (int)timeCompleted;
+                _labelTotalTimeSpent.text = [NSString stringWithFormat:@"%d sec", secValue];
+            }
+
+            
+            _labelTotalPagesRead.text = [NSString stringWithFormat:@"%d", pagesRead];
+            _labelStoriesCompleted.text = [NSString stringWithFormat:@"%d", booksRead];
+            
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }
-        default:
-        {
-            return value;
+        else{
+            NSLog(@"No objects are found");
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }
+    }];
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _arrayCollectionData.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    MangoAnalyticsSingleViewCell *cell = (MangoAnalyticsSingleViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ViewCell" forIndexPath:indexPath];
+    
+//    if (cell == nil) {
+//		NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MangoAnalyticsSingleViewCell" owner:self options:nil];
+//		for (id oneObject in nib)
+//			if ([oneObject isKindOfClass:[MangoAnalyticsSingleViewCell class]])
+//				cell = (MangoAnalyticsSingleViewCell *)oneObject;
+//    }
+    
+    NSLog(@"count value is %d",_arrayCollectionData.count);
+    if(!(_dropDownArrayData.count == 0)){
+        
+        float timeValue = [[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"readingTime"] integerValue];
+        
+        NSString *pageslabel = [NSString stringWithFormat:@"%@ of %@",[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"currentPage"], [[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"availablePage"]];
+        cell.bookTitlelabel.text = [[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"bookTitle"];
+        cell.gradeLabel.text = [[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"gradeLevel"];
+        cell.currentPageLabel.text = pageslabel;
+        
+        NSURL *url = [NSURL URLWithString:[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"bookCoverImageURL"]];
+        
+        CALayer *imgLayer = [cell.bookCoverImageView layer];
+        [imgLayer setMasksToBounds:YES];
+        [imgLayer setCornerRadius:107.0f];
+        [imgLayer setBorderWidth:8.0f];
+        [imgLayer setBorderColor:[UIColor orangeColor].CGColor];
+        
+        [self downloadImageWithURL:url completionBlock:^(BOOL succeeded, NSData *data) {
+            if (succeeded) {
+                cell.bookCoverImageView.image = [[UIImage alloc] initWithData:data];
+            }
+        }];
+        
+        if(timeValue >= 3600){
+            NSInteger hours = floor(timeValue/(60*60));
+            NSInteger minutes = floor((timeValue/60) - hours * 60);
+            cell.readForLabel.text = [NSString stringWithFormat:@"%d hrs %d min", hours, minutes];
+        }
+        
+        if((timeValue <3600) && (timeValue > 60)){
+            NSInteger minutes = floor(timeValue/60);
+            NSInteger second = floor(timeValue - minutes * 60);
+            cell.readForLabel.text = [NSString stringWithFormat:@"%d min %d sec", minutes, second];
+        }
+        else{
+            int secValue = (int)timeValue;
+            cell.readForLabel.text = [NSString stringWithFormat:@"%d sec", secValue];
+        }
+        
+        cell.Activity1Label.text = @"0 min \n 0 points";
     }
+    
+    return cell;
+}
+
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *data))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            completionBlock(YES, data);
+        } else {
+            completionBlock(NO, nil);
+        }
+    }];
 }
 
 

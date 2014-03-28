@@ -13,6 +13,8 @@
 
 @interface CoverViewControllerBetterBookType : UIViewController<DismissPopOver, MangoPostApiProtocol>{
     NSString *currentBookId;
+    NSString *currentBookGradeLevel;
+    NSString *currentBookImageURL;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;

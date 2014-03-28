@@ -12,6 +12,7 @@
 #import "Book.h"
 #import "BookDetailsViewController.h"
 
+
 @interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol>
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;

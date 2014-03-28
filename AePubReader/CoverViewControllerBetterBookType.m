@@ -55,6 +55,11 @@
     NSData *jsonData = [jsonContents dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     currentBookId = [jsonDict objectForKey:@"id"];
+    
+    currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
+    
+    currentBookImageURL = [[NSString stringWithFormat:@"http://www.mangoreader.com/live_stories/%@/%@",[jsonDict objectForKey:@"id"], [jsonDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"res/" withString:@"res/cover_"];
+    
     [_languageLabel setTitle:[[jsonDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
     if (_languageLabel.titleLabel.text == nil) {
         [_languageLabel setTitle:@"English" forState:UIControlStateNormal];
@@ -125,7 +130,9 @@
 - (IBAction)optionsToReader:(id)sender {
     UIButton *button=(UIButton *)sender;
     PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
-      
+    controller.bookGradeLevel = currentBookGradeLevel;
+    //add full image url
+    controller.bookImageURL = currentBookImageURL;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -142,7 +149,7 @@
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+    jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     return jsonContent;
