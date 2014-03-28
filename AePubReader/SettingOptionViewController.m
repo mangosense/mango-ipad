@@ -26,7 +26,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases",@"Analytics", nil];
     }
     return self;
 }
@@ -195,15 +195,15 @@
                 }
             }];
             [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-
-            //handle analytics view
-            /*MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
-            analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-            [self presentViewController:analyticsViewController animated:YES completion:nil];*/
         }
             break;
             
         case 2:{
+            [_dismissDelegate dismissPopOver];
+            //handle analytics view
+            MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+             [self presentViewController:analyticsViewController animated:YES completion:nil];
             
         }
             break;

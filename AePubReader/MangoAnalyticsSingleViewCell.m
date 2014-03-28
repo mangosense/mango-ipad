@@ -1,29 +1,32 @@
 //
-//  MangoAnalyticsSingleBookView.m
+//  MangoAnalyticsSingleViewCell.m
 //  MangoReader
 //
-//  Created by Harish on 3/5/14.
+//  Created by Harish on 3/19/14.
 //
 //
 
-#import "MangoAnalyticsSingleBookView.h"
+#import "MangoAnalyticsSingleViewCell.h"
 
-@implementation MangoAnalyticsSingleBookView
+@implementation MangoAnalyticsSingleViewCell
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        UILabel *label = [[UILabel alloc] initWithFrame:frame];
-        label.text = @"Test";
-        [self addSubview:label];
         
-        _analayticsGradeLevel.text = @"2nd - 3rd";
     }
     return self;
 }
 
+
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    
+    // Configure the view for the selected state
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -92,7 +92,7 @@
             [_dropDownIdArrayData addObject:[tempDataArray[i] objectForKey:@"live_story_id"]];
         }
         
-        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:-70 paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
+        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:-65 paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
         _dropDownView.delegate = self;
         
         [self.view addSubview:_dropDownView.view];
@@ -202,7 +202,7 @@
     if (_selectedProductId) {
         //Temporarily Added For Direct Downloading
 
-       // [self itemReadyToUse:_selectedProductId ForTransaction:nil];
+        [self itemReadyToUse:_selectedProductId ForTransaction:nil];
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
@@ -213,7 +213,7 @@
             }
             [self closeDetails:nil];
         } else {
-            [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+           // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
         }
     }
     else {

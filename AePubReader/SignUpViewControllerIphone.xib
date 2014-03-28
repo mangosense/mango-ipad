@@ -96,7 +96,7 @@
         </view>
     </objects>
     <resources>
-        <image name="mangoreader-iphone5-signup.png" width="1136" height="640"/>
+        <image name="mangoreader-iphone5-signup.png" width="1024" height="768"/>
         <image name="sign-up-button-iphone3.png" width="90" height="29"/>
     </resources>
 </document>
