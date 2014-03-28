@@ -57,8 +57,14 @@
 - (void) viewDidAppear:(BOOL)animated{
     
     __block int booksRead =0, pagesRead =0, timeCompleted =0;
+    NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query = [PFQuery queryWithClassName:@"Analytics"];
-    [query whereKey:@"email_ID" equalTo:_loginUserEmail];
+    if(_loginUserEmail == nil){
+        [query whereKey:@"deviceIDValue" equalTo:udid];
+    }
+    else{
+        [query whereKey:@"email_ID" equalTo:_loginUserEmail];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if(!error){
             //NSLog(@"all objects are %d", objects.count);
