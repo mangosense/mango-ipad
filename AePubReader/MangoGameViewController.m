@@ -38,6 +38,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    
+    NSLog(@"game played");
+}
+
 #pragma mark - UIWebView Delegate
 
 -(void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{

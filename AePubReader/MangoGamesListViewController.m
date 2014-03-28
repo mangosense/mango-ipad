@@ -9,6 +9,7 @@
 #import "MangoGamesListViewController.h"
 #import "MangoEditorViewController.h"
 #import "MangoGameViewController.h"
+#import "AePubReaderAppDelegate.h"
 #import <Parse/Parse.h>
 
 #define GAME_DRAW @"draw"
@@ -37,6 +38,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        _loginUserEmail = delegate.loggedInUserInfo.email;
     }
     return self;
 }
@@ -82,6 +86,58 @@
     
     _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
     [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
+    
+    NSData *jsonData = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    NSString * currentBookId = [jsonDict objectForKey:@"id"];
+    NSString *currentBookTitle = [jsonDict objectForKey:@"title"];
+    NSString * currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
+    
+    NSString * currentBookImageURL = [[NSString stringWithFormat:@"http://www.mangoreader.com/live_stories/%@/%@",[jsonDict objectForKey:@"id"], [jsonDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"res/" withString:@"res/cover_"];
+    
+    NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
+    if(_loginUserEmail == nil){
+        _loginUserEmail = @"nil";
+        [query1 whereKey:@"deviceIDValue" equalTo:udid];
+        [query1 whereKey:@"bookID" equalTo:currentBookId];
+    }
+    else{
+        [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
+        [query1 whereKey:@"bookID" equalTo:currentBookId];
+    }
+    [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if(!error){
+            NSLog(@"Book data found");
+            
+            int totalActivityNo = [[object valueForKey:@"activityCount"] intValue] + 1;
+            [object setObject:[NSNumber numberWithInt:totalActivityNo] forKey:@"activityCount"];
+            [object saveInBackground];
+            
+        }
+        else{
+            NSLog(@"Book data not foun, so need to create");
+            
+            PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
+            [userObject setObject:udid forKey:@"deviceIDValue"];
+            [userObject setObject:_loginUserEmail forKey:@"email_ID"];
+            [userObject setObject:currentBookId forKey:@"bookID"];
+            [userObject setObject:[NSNumber numberWithInt:0]  forKey:@"currentPage"];
+            [userObject setObject:[NSNumber numberWithInt:0]forKey:@"availablePage"];
+            [userObject setObject:currentBookTitle forKey:@"bookTitle"];
+            [userObject setObject:currentBookGradeLevel forKey:@"gradeLevel"];
+            [userObject setObject:[NSNumber numberWithInt:1] forKey:@"activityCount"];
+            [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityPoints"];
+            [userObject setObject:[NSNumber numberWithFloat:0.0] forKey:@"readingTime"];
+            [userObject setObject:currentBookImageURL forKey:@"bookCoverImageURL"];
+            [userObject setObject:[NSNumber numberWithInt:0.0] forKey:@"pagesCompleted"];
+            [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];
+            [userObject setObject:[NSNumber numberWithInt:0] forKey:@"timesNumberBookCompleted"];
+            
+            [userObject saveInBackground];
+        }
+    }];
     
     UIWebView *webview = [gameViewDict objectForKey:@"gameView"];
     webview.delegate = self;
