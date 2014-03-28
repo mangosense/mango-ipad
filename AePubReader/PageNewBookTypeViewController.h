@@ -17,7 +17,9 @@
 #import "MangoBook.h"
 #import "LastPageViewController.h"
 
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>{
+    
+}
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
 - (IBAction)closeButton:(id)sender;
@@ -53,5 +55,12 @@
 @property (nonatomic, strong) IBOutlet UIButton *previousPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *languageAvailButton;
+
+@property (nonatomic, strong) NSDate *timeCalculate;
+@property (nonatomic, strong) NSString *bookGradeLevel;
+@property (nonatomic, strong) NSString *bookImageURL;
+@property (nonatomic, strong) NSString *loginUserEmail;
+@property (nonatomic, strong) NSString *loginUserName;
+
 
 @end
