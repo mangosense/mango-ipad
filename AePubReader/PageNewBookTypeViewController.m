@@ -470,6 +470,8 @@
             
             [object setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"currentPage"];
             
+            [object setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
+            
             int totalpagesNo = [[object valueForKey:@"pagesCompleted"] floatValue] + _pageNumber+1;
             [object setObject:[NSNumber numberWithInt:totalpagesNo] forKey:@"pagesCompleted"];
             
