@@ -297,4 +297,13 @@
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
 }
 
+- (void)openBook:(Book *)bk {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    [self.navigationController pushViewController:coverController animated:YES];
+}
+
 @end
