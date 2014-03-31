@@ -158,17 +158,35 @@
                 UIButton *button = (UIButton*)view;
                 if(button.tag == (i+1)){
                     button.userInteractionEnabled = YES;
-                    UIImage *pImage=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+                   // UIImage *pImage=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
                     CALayer *btnLayer = [button layer];
                     [btnLayer setMasksToBounds:YES];
                     [btnLayer setCornerRadius:15.0f];
                     [btnLayer setBorderWidth:3.0f];
                     [btnLayer setBorderColor:[UIColor brownColor].CGColor];
-                    [button setBackgroundImage:pImage forState:UIControlStateNormal];
+                   // [button setBackgroundImage:pImage forState:UIControlStateNormal];
+                    [self downloadImageWithURL:[NSURL URLWithString:imageURLString] completionBlock:^(BOOL succeeded, NSData *data) {
+                        if (succeeded) {
+                          //  button.imageView.image = [[UIImage alloc] initWithData:data];
+                            [button setBackgroundImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+                        }
+                    }];
                 }
             }
         }
     }
+}
+
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *data))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            completionBlock(YES, data);
+        } else {
+            completionBlock(NO, nil);
+        }
+    }];
 }
 
 - (IBAction)bookTapped:(id)sender{

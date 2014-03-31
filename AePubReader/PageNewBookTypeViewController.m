@@ -443,27 +443,20 @@
 - (void) viewDidDisappear:(BOOL)animated{
     
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
- /*   NSLog(@"Time taken: %f", [[NSDate date] timeIntervalSinceDate:self.timeCalculate]);
-    NSLog(@"Current book title : %@",_book.title);
-    NSLog(@"Pages completed : %d",_pageNumber+1);
-    NSLog(@"Total pages : %d", _pageNo);
-    NSLog(@"current grade level : %@", _bookGradeLevel);
-    NSLog(@"Current book url : %@", _bookImageURL);*/
+    
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
+    [query1 whereKey:@"bookID" equalTo:_bookId];
     if(_loginUserEmail == nil){
         _loginUserEmail = @"nil";
         [query1 whereKey:@"deviceIDValue" equalTo:udid];
-        [query1 whereKey:@"bookID" equalTo:_bookId];
     }
     else{
         [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
-        [query1 whereKey:@"bookID" equalTo:_bookId];
     }
     [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if(!error){
-            NSLog(@"user current page is %d", [[object valueForKey:@"currentPage"] integerValue]);
-            NSLog(@"user time spent is %d", [[object valueForKey:@"readingTime"] integerValue]);
+            
             float totalTime = [[object valueForKey:@"readingTime"] floatValue] + timeEndValue;
             
             [object setObject:[NSNumber numberWithFloat:totalTime] forKey:@"readingTime"];
