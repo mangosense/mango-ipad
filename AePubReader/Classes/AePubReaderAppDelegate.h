@@ -16,6 +16,7 @@
 #import "EJDBController.h"
 #import "UserInfo.h"
 #import "BookDetailsViewController.h"
+#import "CoverViewControllerBetterBookType.h"
 
 @class EPubViewController;
 @class LoginViewController;
@@ -75,5 +76,7 @@
 @property(retain,nonatomic) UIViewController *pageViewController;
 
 @property (nonatomic, strong) EJDBController *ejdbController;
+@property (nonatomic, strong) NSString *mangoStoryId;
+@property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
 
 @end

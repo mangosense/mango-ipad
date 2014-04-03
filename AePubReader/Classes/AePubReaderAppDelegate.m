@@ -96,9 +96,17 @@ static UIAlertView *alertViewLoading;
     } else {
         CustomNavViewController *nav;
         if (uiNew) {
-            _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
-            nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
-        }else{
+            NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+
+            if (path) {
+                _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
+            } else {
+                _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+            }
+            
+        } else {
         _loginViewController=[[LoginViewController alloc]init];
         nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
         }
@@ -194,12 +202,20 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 -(void)unzipExistingJsonBooks{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
+    if (path) {
+        epubFles = [NSArray arrayWithObject:@"MangoStory"];
+    }
     
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+        if (path) {
+            epubLocation = path;
+        }
         NSString *value=[string stringByDeletingPathExtension];
         
         NSLog(@"EpubLocation: %@, Value: %@", epubLocation, value);
@@ -221,8 +237,21 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles firstObject]];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
-    [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
-    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if (path) {
+        dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] error:nil];
+        epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
+        NSString *actualJsonLocation = [[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] stringByAppendingPathComponent:[epubFles firstObject]];
+        NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+        _mangoStoryId = [jsonDict objectForKey:@"id"];
+
+        [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]]];
+
+        _coverController.identity = _mangoStoryId;
+    } else {
+        [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
+    }
 }
 
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{

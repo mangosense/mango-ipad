@@ -26,17 +26,31 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _identity=identity;
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-       _book= [delegate.dataModel getBookOfId:identity];
-        NSLog(@"%@",_book.edited);
+        if (identity) {
+            _identity=identity;
+            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            _book= [delegate.dataModel getBookOfId:identity];
+            NSLog(@"%@",_book.edited);
+        }
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)setIdentity:(NSString *)identity {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if (path) {
+        _identity = identity;
+        AePubReaderAppDelegate *delegate = (AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        _book = [delegate.dataModel getBookOfId:identity];
+        NSLog(@"%@",_book.edited);
+        
+        [self initialSetup];
+        
+        [_backButton setHidden:YES];
+    }
+}
+
+- (void)initialSetup {
     _titleLabel.text=_book.title;
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -44,11 +58,11 @@
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-  //  NSLog(@"json location %@",jsonLocation);
+    //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-  //  NSLog(@"json contents %@",jsonContents);
+    //  NSLog(@"json contents %@",jsonContents);
     UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
-
+    
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
     
@@ -67,16 +81,26 @@
     
     [self showOrHideGameButton];
 }
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.navigationController.navigationBarHidden=YES;
+    if (_identity) {
+        [self initialSetup];
+    }
+}
 - (IBAction)multipleLanguage:(id)sender {
     //UIButton *button=(UIButton *)sender;
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    NSString *url;
-    url = LANGUAGES_FOR_BOOK;
-    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:currentBookId forKey:@"story_id"];
-    [paramDict setObject:IOS forKey:PLATFORM];
-    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
-    
+    if (![[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        NSString *url;
+        url = LANGUAGES_FOR_BOOK;
+        NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+        [paramDict setObject:currentBookId forKey:@"story_id"];
+        [paramDict setObject:IOS forKey:PLATFORM];
+        [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    }
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
