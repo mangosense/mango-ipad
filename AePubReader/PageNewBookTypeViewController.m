@@ -53,10 +53,15 @@
 {
     [super viewDidLoad];
     
-    if(!userEmail){
+    if(!userEmail) {
+        if (!userDeviceID) {
+            userDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+            appDelegate.deviceId = userDeviceID;
+        }
         ID = userDeviceID;
     }
-    else{
+    else {
         ID = userEmail;
     }
     
@@ -252,23 +257,26 @@
 - (IBAction)changeLanguage:(id)sender {
     //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
+    if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The multiple language feature is only available in the MangoReader app. Please download it to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [editAlertView show];
+    } else {
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        NSString *url;
+        url = LANGUAGES_FOR_BOOK;
+        NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+        [paramDict setObject:_bookId forKey:@"story_id"];
+        [paramDict setObject:IOS forKey:PLATFORM];
+        [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    }
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID : _bookId,
                                  PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
-                            
+                                 
                                  };
     [PFAnalytics trackEvent:READBOOK_CHANGE_LANGUAGE dimensions:dimensions];
-    
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    NSString *url;
-    url = LANGUAGES_FOR_BOOK;
-    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:_bookId forKey:@"story_id"];
-    [paramDict setObject:IOS forKey:PLATFORM];
-    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
-    
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
