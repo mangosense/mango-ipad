@@ -189,9 +189,14 @@
 }
 
 - (IBAction)editButton:(id)sender {
-    UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Create your own version" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    editAlertView.tag = FORK_TAG;
-    [editAlertView show];
+    if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The 'edit' feature is only available in the MangoReader app. Please download the MangoReader app to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [editAlertView show];
+    } else {
+        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Create your own version" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        editAlertView.tag = FORK_TAG;
+        [editAlertView show];
+    }
 }
 
 - (IBAction)changeLanguage:(id)sender {

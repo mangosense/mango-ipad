@@ -18,6 +18,8 @@
 }
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;
+@property (nonatomic, weak) IBOutlet UIButton *backButton;
+
 - (IBAction)optionsToReader:(id)sender;
 - (IBAction)libraryButtonClicked:(id)sender;
 @property(strong,nonatomic)UIPopoverController *popOverController;
@@ -34,5 +36,6 @@
 - (IBAction)gameButtonTapped:(id)sender;
 
 - (IBAction)lastPage:(id)sender;
+
 
 @end
