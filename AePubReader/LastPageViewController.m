@@ -31,6 +31,9 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book= [delegate.dataModel getBookOfId:identity];
         NSLog(@"%@",_book.edited);
+        
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -38,6 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
     if([_book.title isEqualToString:@"My Book"]){
@@ -86,6 +97,15 @@
 }
 
 - (IBAction)gameButtonTapped:(id)sender {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _book.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:LASTPAGE_PLAYGAMES dimensions:dimensions];
+    
     NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -114,6 +134,14 @@
 }
 
 - (IBAction)pushToCoverView:(id)sender{
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _book.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:LASTPAGE_READ_AGAIN dimensions:dimensions];
     
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
 }
@@ -270,6 +298,15 @@
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: _book.id,
+                                     PARAMETER_RECOMMEND_BOOKID : [bookDict objectForKey:@"id"]
+                                     
+                                     };
+        [PFAnalytics trackEvent:LASTPAGE_RECOMMENDED_BOOK dimensions:dimensions];
+        
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
@@ -280,7 +317,13 @@
 - (IBAction)socialSharingOrLike :(id)sender{
     //action for social sharing or like of the app
     
-    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _book.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:LASTPAGE_SHARE dimensions:dimensions];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

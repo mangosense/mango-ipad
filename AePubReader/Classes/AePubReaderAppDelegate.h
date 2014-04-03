@@ -76,4 +76,6 @@
 
 @property (nonatomic, strong) EJDBController *ejdbController;
 
+@property (nonatomic, strong) NSString *deviceId;
+
 @end
