@@ -84,7 +84,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="optionsToReader:" destination="-1" eventType="touchUpInside" id="elS-fp-AcX"/>
+                        <action selector="bookCoverSelection:" destination="-1" eventType="touchUpInside" id="sc6-yl-2YK"/>
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8T9-Og-cmm">

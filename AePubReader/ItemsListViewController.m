@@ -6,6 +6,7 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
 #import "ItemsListViewController.h"
 #import "AudioRecord.h"
 #import "MBProgressHUD.h"
@@ -26,6 +27,10 @@ int menuLanguage = 0;
 {
     self = [super initWithStyle:style];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -34,6 +39,13 @@ int menuLanguage = 0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -208,6 +220,14 @@ int menuLanguage = 0;
             break;
     }
     NSLog(@"TableType: %d", self.tableType);
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_GROUP: [detailsDict valueForKey:@"title"]
+                                 };
+    [PFAnalytics trackEvent:STORE_FILTER dimensions:dimensions];
+    
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
 }
 

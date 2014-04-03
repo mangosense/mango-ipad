@@ -13,6 +13,9 @@
 
 @interface BooksFromCategoryViewController : UIViewController<DismissPopOver, MangoPostApiProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout> {
     NSDictionary *selectCategoryDict;
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 - (IBAction)homeButton:(id)sender;
 - (IBAction)libraryButton:(id)sender;

@@ -98,6 +98,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -107,6 +111,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 
     [self renderEditorPage:0];
     [pagesCarousel scrollToItemAtIndex:3 animated:YES];
@@ -244,6 +255,30 @@
         NSLog(@"Dismissed");
     }];
     
+    if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+        NSLog(@"Camera");
+        NSDictionary *dimensions = @{
+                                     
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                     
+                                     };
+        [PFAnalytics trackEvent:EDITOR_ADD_CAMERA_IMAGE dimensions:dimensions];
+    }
+    else{
+      NSLog(@"library");
+        NSDictionary *dimensions = @{
+                                     
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                     
+                                     };
+        [PFAnalytics trackEvent:EDITOR_ADD_LIBRARY_IMAGE dimensions:dimensions];
+    }
+    
+    
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
     // Request to save the image to camera roll
@@ -257,6 +292,16 @@
             arrayOfEditorImages = [NSArray arrayWithArray:mutableImagesArray];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = [arrayOfEditorImages count] - 1;
+            
+            NSDictionary *dimensions = @{
+                                         
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                         
+                                         };
+            [PFAnalytics trackEvent:EDITOR_ADD_LIBRARY_IMAGE dimensions:dimensions];
+            
             [self addImageForButton:button];
         }
     }];
@@ -421,6 +466,14 @@
         [self addAssetToView];
     }
     [menuPopoverController dismissPopoverAnimated:YES];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_ADD_IMAGE dimensions:dimensions];
     
     stickerView = [[UIView alloc] initWithFrame:CGRectMake(pageImageView.center.x - 90, pageImageView.center.y - 90, 140, 180)];
     [stickerView setUserInteractionEnabled:YES];
@@ -625,6 +678,14 @@
 
 - (IBAction)mangoButtonTapped:(id)sender {
     
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_MANGO_TAP dimensions:dimensions];
+    
     bookJsonString = [self jsonForBook:_mangoStoryBook];
     NSData *data = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -650,6 +711,7 @@
 
 - (IBAction)menuButtonTapped:(id)sender {
     MenuTableViewController *menuTableViewController = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    menuTableViewController.bookId = _mangoStoryBook.id;
     menuTableViewController.popDelegate = self;
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:menuTableViewController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
@@ -665,6 +727,15 @@
 }
 
 - (IBAction)textButtonTapped:(id)sender {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_ADD_TEXT dimensions:dimensions];
+    
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
@@ -681,6 +752,15 @@
 }
 
 - (IBAction)audioButtonTapped:(id)sender {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_RECORD_PLAY dimensions:dimensions];
+    
     ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
     audioListController.tableType = TABLE_TYPE_AUDIO_RECORDINGS;
@@ -711,7 +791,7 @@
     
     ColoringToolsViewController *coloringToolsController = [[ColoringToolsViewController alloc] initWithNibName:@"ColoringToolsViewController" bundle:nil];
     coloringToolsController.delegate = self;
-    
+    coloringToolsController.bookId = _mangoStoryBook.id;
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:coloringToolsController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, 193) animated:YES];
     [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
@@ -918,6 +998,15 @@
 #pragma mark - Page Delete Delegate Method
 
 - (void)deletePageNumber:(int)pageNumber {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_DELETE_PAGE dimensions:dimensions];
+    
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
     if (pageNumber < [mutablePagesArray count]) {
@@ -1592,6 +1681,15 @@
 }
 
 - (void)createEmptyPage {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_ADD_NEW_PAGE dimensions:dimensions];
+    
     MangoPage *newPage = [[MangoPage alloc] init];
     newPage.pageable_id = _mangoStoryBook.id;
     newPage.name = [NSString stringWithFormat:@"%d", [_mangoStoryBook.pages count]];

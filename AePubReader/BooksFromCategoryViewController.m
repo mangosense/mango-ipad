@@ -34,6 +34,9 @@
     if (self) {
         // Custom initialization
         _inital=index;
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -53,6 +56,12 @@
     
     _categoryTitleLabel.text = [_categorySelected objectForKey:NAME];
     _categoryTitleLabel.font = [UIFont boldSystemFontOfSize:17];
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
     
 }
 
@@ -105,6 +114,15 @@
             } else {
                 
                 controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                
+                NSDictionary *dimensions = @{
+                                             PARAMETER_USER_ID : ID,
+                                             PARAMETER_DEVICE: IOS,
+                                             PARAMETER_BOOK_CATEGORY_VALUE:[selectCategoryDict valueForKey:@"title"]
+                                             
+                                             };
+                [PFAnalytics trackEvent:DETAIL_CATEGORY_GET_MORE_BOOKS dimensions:dimensions];
+                
                 if([[selectCategoryDict valueForKey:@"title"] isEqualToString:@"All Books"]|| [[selectCategoryDict valueForKey:@"title"] isEqualToString:@"My Books"]) {
                     [controller setCategoryFlagValue:0];
                 }

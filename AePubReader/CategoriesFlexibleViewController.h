@@ -13,6 +13,9 @@
 
 @interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol>{
     int settingQuesNo;
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 - (IBAction)openBooks:(id)sender;
 - (IBAction)homeButton:(id)sender;

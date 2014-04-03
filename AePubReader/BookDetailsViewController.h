@@ -21,7 +21,10 @@
 @end
 
 @interface BookDetailsViewController : UIViewController <MangoPostApiProtocol, PurchaseManagerProtocol, DropDownViewDelegate>{
-    
+ 
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 
 @property (nonatomic, strong) NSString *selectedProductId;

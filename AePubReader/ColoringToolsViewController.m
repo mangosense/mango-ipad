@@ -6,7 +6,9 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
 #import "ColoringToolsViewController.h"
+#import "Constants.h"
 
 #define RED_BUTTON_TAG 1
 #define YELLOW_BUTTON_TAG 2
@@ -47,6 +49,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -54,6 +59,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -116,6 +129,13 @@
         default:
             break;
     }
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _bookId,
+                                 
+                                 };
+    [PFAnalytics trackEvent:EDITOR_DOODLE_TAP dimensions:dimensions];
 }
 
 - (IBAction)sliderValueChanged:(id)sender {

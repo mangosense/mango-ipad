@@ -15,6 +15,10 @@
     NSString *currentBookId;
     NSString *currentBookGradeLevel;
     NSString *currentBookImageURL;
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;
@@ -34,7 +38,7 @@
 @property(strong, nonatomic) NSMutableArray *avilableLanguages;
 
 - (IBAction)gameButtonTapped:(id)sender;
-
+- (IBAction)bookCoverSelection:(id)sender;
 - (IBAction)lastPage:(id)sender;
 
 

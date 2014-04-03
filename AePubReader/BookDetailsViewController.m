@@ -33,6 +33,9 @@
     if (self) {
         // Custom initialization
         [_bookImageView setContentMode:UIViewContentModeScaleAspectFill];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -50,6 +53,13 @@
     _dropDownArrayData = [[NSMutableArray alloc] init];
     _dropDownIdArrayData = [[NSMutableArray alloc] init];
     _descriptionLabel.editable = NO;
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
     
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
@@ -73,6 +83,14 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _displayBookID,
+                                 PARAMETER_BOOK_LANGUAGE : _dropDownButton.titleLabel.text
+                                 };
+    [PFAnalytics trackEvent:BOOK_DETAIL_AVAILABLE_LANGUAGE dimensions:dimensions];
     
     NSLog(@"Data array %d", dataArray.count);
     if(![dataArray count]){
@@ -203,6 +221,13 @@
         //Temporarily Added For Direct Downloading
 
         //[self itemReadyToUse:_selectedProductId ForTransaction:nil];
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _displayBookID
+                                     };
+        [PFAnalytics trackEvent:BOOK_DETAIL_BUY_BOOK dimensions:dimensions];
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
