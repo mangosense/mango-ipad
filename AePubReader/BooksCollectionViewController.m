@@ -30,6 +30,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -45,6 +49,13 @@
     NSString *pListpath = [bundle pathForResource:@"SettingsQues" ofType:@"plist"];
     NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:pListpath];
     _settingQuesArray = [dictionary valueForKey:@"Problems"];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
     
 }
 
@@ -122,6 +133,13 @@
     } else {
         _headerLabel.text = [_categorySelected objectForKey:NAME];
     }
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_CATEGORY_VALUE: _headerLabel.text,
+                                 
+                                 };
+    [PFAnalytics trackEvent:MYSTORIES_CATEGORY_SELECT dimensions:dimensions];
 }
 
 #pragma mark - UICollectionView Datasource Methods
@@ -167,6 +185,12 @@
         case 0: {
             if (_toEdit || [[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]) {
                 MangoEditorViewController *newBookEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                NSDictionary *dimensions = @{
+                                             PARAMETER_USER_ID : ID,
+                                             PARAMETER_DEVICE: IOS,
+                                             
+                                             };
+                [PFAnalytics trackEvent:CREATESTORY_NEWBOOK dimensions:dimensions];
                 newBookEditorViewController.isNewBook = YES;
                 newBookEditorViewController.storyBook = nil;
                 [self.navigationController.navigationBar setHidden:YES];
@@ -174,7 +198,16 @@
             } else {
                 
                 MangoStoreViewController *controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
-                if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]/* || [[_categorySelected valueForKey:@"name"] isEqualToString:@"My Books"]*/) {
+                
+                NSDictionary *dimensions = @{
+                                             PARAMETER_USER_ID : ID,
+                                             PARAMETER_DEVICE: IOS,
+                                             PARAMETER_BOOK_CATEGORY_VALUE:[_categorySelected valueForKey:@"name"]
+                                             
+                                             };
+                [PFAnalytics trackEvent:DETAIL_CATEGORY_GET_MORE_BOOKS dimensions:dimensions];
+                
+                if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]) {
                     [controller setCategoryFlagValue:0];
                 }
                 else{
@@ -202,9 +235,27 @@
                     mangoEditorViewController.isNewBook = NO;
                     mangoEditorViewController.storyBook = book;
                     [self.navigationController.navigationBar setHidden:YES];
+                    
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID : book.id
+                                                 
+                                                 };
+                    [PFAnalytics trackEvent:CREATESTORY_SELECT_BOOK dimensions:dimensions];
+                    
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
                 } else {
                     CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:book.id];
+                    
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID : book.id
+                                                 
+                                                 };
+                    [PFAnalytics trackEvent:DETAIL_CATEGORY_BOOK_SELECT dimensions:dimensions];
+                    
                     [self.navigationController pushViewController:coverController animated:YES];
                 }
             }
@@ -228,6 +279,22 @@
         
         if((settingQuesNo % 2) == buttonIndex){
             NSLog(@"CORRECT");
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_SETTINGS_QUES_SOL:[NSString stringWithFormat:@"%d", (BOOL)YES],
+                                         
+                                         };
+            [PFAnalytics trackEvent:SETTING_QUES dimensions:dimensions];
+            
+            NSDictionary *dimensions1 = @{
+                                          PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         
+                                         };
+            [PFAnalytics trackEvent:SETTINGS dimensions:dimensions1];
+            
             SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
             settingsViewController.dismissDelegate = self;
             settingsViewController.controller = self.navigationController;
@@ -238,6 +305,13 @@
         }
         else{
             NSLog(@"WRONG");
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)NO],
+                                         
+                                         };
+            [PFAnalytics trackEvent:SETTING_QUES dimensions:dimensions];
         }
         
     }
@@ -271,8 +345,6 @@
     
     UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
     [settingAlert show];
-    
-   // UIButton *button=(UIButton *) sender;
     
 }
 
@@ -329,6 +401,14 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     BOOL deleteSuccess = [appDelegate.ejdbController deleteObject:[appDelegate.ejdbController getBookForBookId:book.id]];
     if (deleteSuccess) {
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID :book.id                                     
+                                     };
+        [PFAnalytics trackEvent:DELETE_BOOK dimensions:dimensions];
+        
         NSLog(@"Deleted Book");
         _allBooksArray = [self getAllBooks];
         if (!_allBooksArray) {

@@ -41,6 +41,8 @@
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _loginUserEmail = delegate.loggedInUserInfo.email;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -48,6 +50,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
     // Do any additional setup after loading the view from its nib.
     _gamesArray = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"word-search-game.jpg"], [UIImage imageNamed:@"memory-puzzle.jpg"], [UIImage imageNamed:@"jigsaw-puzzle.jpg"], nil];
     [_gamesCarousel setType:iCarouselTypeCoverFlow];
@@ -93,6 +102,14 @@
     NSString * currentBookId = [jsonDict objectForKey:@"id"];
     NSString *currentBookTitle = [jsonDict objectForKey:@"title"];
     NSString * currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: currentBookId,
+                                 PARAMETER_GAME_NAME : gameName
+                                 
+                                 };
+    [PFAnalytics trackEvent:GAMES dimensions:dimensions];
     
     NSString * currentBookImageURL = [[NSString stringWithFormat:@"http://www.mangoreader.com/live_stories/%@/%@",[jsonDict objectForKey:@"id"], [jsonDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"res/" withString:@"res/cover_"];
     

@@ -17,7 +17,12 @@
 
 @end
 
-@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol>
+@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol>{
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+}
 - (IBAction)signUp:(id)sender;
 - (IBAction)donePressed:(id)sender;
 

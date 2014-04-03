@@ -13,7 +13,12 @@
 #import "PurchaseManager.h"
 #import <StoreKit/StoreKit.h>
 
-@interface SettingOptionViewController : UITableViewController <PurchaseManagerProtocol, MangoPostApiProtocol, SKProductsRequestDelegate>
+@interface SettingOptionViewController : UITableViewController <PurchaseManagerProtocol, MangoPostApiProtocol, SKProductsRequestDelegate>{
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+}
 @property(retain,nonatomic) NSArray *array;
 @property(retain,nonatomic) UINavigationController *controller;
 @property(assign,nonatomic) id<DismissPopOver> dismissDelegate;

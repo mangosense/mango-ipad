@@ -13,6 +13,10 @@
 @interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage>{
     int deleteBookIndex;
     int settingQuesNo;
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;

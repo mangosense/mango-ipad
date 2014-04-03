@@ -31,6 +31,9 @@
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             _book= [delegate.dataModel getBookOfId:identity];
             NSLog(@"%@",_book.edited);
+            
+            userEmail = delegate.loggedInUserInfo.email;
+            userDeviceID = delegate.deviceId;
         }
     }
     return self;
@@ -43,6 +46,9 @@
         AePubReaderAppDelegate *delegate = (AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book = [delegate.dataModel getBookOfId:identity];
         NSLog(@"%@",_book.edited);
+        
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         
         [self initialSetup];
         
@@ -63,6 +69,13 @@
     //  NSLog(@"json contents %@",jsonContents);
     UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
     
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
     
@@ -79,6 +92,7 @@
         [_languageLabel setTitle:@"English" forState:UIControlStateNormal];
     }
     
+    
     [self showOrHideGameButton];
 }
 
@@ -93,6 +107,15 @@
 - (IBAction)multipleLanguage:(id)sender {
     //UIButton *button=(UIButton *)sender;
     if (![[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_LANGUAGE : _languageLabel.titleLabel.text,
+                                     PARAMETER_BOOK_ID : [_book valueForKey:@"bookId"]
+                                     
+                                     };
+        [PFAnalytics trackEvent:BOOKCOVER_AVAILABLE_LANGUAGE dimensions:dimensions];
+
         MangoApiController *apiController = [MangoApiController sharedApiController];
         NSString *url;
         url = LANGUAGES_FOR_BOOK;
@@ -107,7 +130,6 @@
     
    _avilableLanguages = [NSMutableArray arrayWithArray:dataArray];
     NSMutableArray *languageArray = [[NSMutableArray alloc] init];
-    
     
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
@@ -148,6 +170,24 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)bookCoverSelection:(id)sender {
+    UIButton *button=(UIButton *)sender;
+    PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
+    controller.bookGradeLevel = currentBookGradeLevel;
+    //add full image url
+    controller.bookImageURL = currentBookImageURL;
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _identity
+                                 
+                                 };
+    [PFAnalytics trackEvent:BOOKCOVER_PLAY_GAMES dimensions:dimensions];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 
@@ -212,6 +252,15 @@
 
 - (IBAction)gameButtonTapped:(id)sender {
     NSDictionary *jsonDict = [self getJsonDictForBook];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : [jsonDict objectForKey:@"story_id"]
+                                 
+                                 };
+    [PFAnalytics trackEvent:BOOKCOVER_PLAY_GAMES dimensions:dimensions];
+    
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [noGamesAlert show];
@@ -239,7 +288,14 @@
 }
 
 - (IBAction)shareButton:(id)sender {
-    //[PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : [_book valueForKey:@"bookId"]
+                                 
+                                 };
+    [PFAnalytics trackEvent:BOOKCOVER_SHARE dimensions:dimensions];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

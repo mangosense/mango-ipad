@@ -36,6 +36,10 @@
     IBOutlet UIButton *playStoryButton;
     IBOutlet UIButton *doodleButton;
     
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    
     IBOutlet iCarousel *pagesCarousel;
     
     int recordEncoding;

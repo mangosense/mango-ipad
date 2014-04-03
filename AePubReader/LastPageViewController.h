@@ -13,7 +13,11 @@
 #import "BookDetailsViewController.h"
 
 
-@interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol>
+@interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol>{
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+}
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property(strong,nonatomic) NSString *identity;

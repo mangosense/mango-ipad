@@ -79,4 +79,6 @@
 @property (nonatomic, strong) NSString *mangoStoryId;
 @property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
 
+@property (nonatomic, strong) NSString *deviceId;
+
 @end

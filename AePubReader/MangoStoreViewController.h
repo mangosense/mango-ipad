@@ -21,6 +21,9 @@
     
     NSInteger categoryflag;
     NSDictionary *categoryDictionary;
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;

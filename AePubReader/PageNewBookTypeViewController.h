@@ -19,6 +19,9 @@
 
 @interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>{
     
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;

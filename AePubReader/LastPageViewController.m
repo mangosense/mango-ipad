@@ -31,6 +31,9 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book= [delegate.dataModel getBookOfId:identity];
         NSLog(@"%@",_book.edited);
+        
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -38,6 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
     if([_book.title isEqualToString:@"My Book"] || [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
@@ -86,6 +97,15 @@
 }
 
 - (IBAction)gameButtonTapped:(id)sender {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _book.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:LASTPAGE_PLAYGAMES dimensions:dimensions];
+    
     NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -114,6 +134,14 @@
 }
 
 - (IBAction)pushToCoverView:(id)sender{
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _book.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:LASTPAGE_READ_AGAIN dimensions:dimensions];
     
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
 }
@@ -158,17 +186,35 @@
                 UIButton *button = (UIButton*)view;
                 if(button.tag == (i+1)){
                     button.userInteractionEnabled = YES;
-                    UIImage *pImage=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+                   // UIImage *pImage=[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
                     CALayer *btnLayer = [button layer];
                     [btnLayer setMasksToBounds:YES];
                     [btnLayer setCornerRadius:15.0f];
                     [btnLayer setBorderWidth:3.0f];
                     [btnLayer setBorderColor:[UIColor brownColor].CGColor];
-                    [button setBackgroundImage:pImage forState:UIControlStateNormal];
+                   // [button setBackgroundImage:pImage forState:UIControlStateNormal];
+                    [self downloadImageWithURL:[NSURL URLWithString:imageURLString] completionBlock:^(BOOL succeeded, NSData *data) {
+                        if (succeeded) {
+                          //  button.imageView.image = [[UIImage alloc] initWithData:data];
+                            [button setBackgroundImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+                        }
+                    }];
                 }
             }
         }
     }
+}
+
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *data))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            completionBlock(YES, data);
+        } else {
+            completionBlock(NO, nil);
+        }
+    }];
 }
 
 - (IBAction)bookTapped:(id)sender{
@@ -252,6 +298,15 @@
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: _book.id,
+                                     PARAMETER_RECOMMEND_BOOKID : [bookDict objectForKey:@"id"]
+                                     
+                                     };
+        [PFAnalytics trackEvent:LASTPAGE_RECOMMENDED_BOOK dimensions:dimensions];
+        
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
@@ -262,7 +317,13 @@
 - (IBAction)socialSharingOrLike :(id)sender{
     //action for social sharing or like of the app
     
-    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _book.id,
+                                 
+                                 };
+    [PFAnalytics trackEvent:LASTPAGE_SHARE dimensions:dimensions];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -299,6 +360,15 @@
     } else {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
     }
+}
+
+- (void)openBook:(Book *)bk {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    [self.navigationController pushViewController:coverController animated:YES];
 }
 
 @end
