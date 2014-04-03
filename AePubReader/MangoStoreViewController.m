@@ -52,6 +52,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -86,6 +89,14 @@
         _tableType = TABLE_TYPE_MAIN_STORE;
         [self getAllAgeGroups];
     }
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
@@ -304,6 +315,13 @@
         case TABLE_TYPE_SEARCH: {
             url = LIVE_STORIES_SEARCH;
             [paramDict setObject:filterName forKey:@"q"];
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_SEARCH_KEYWORD: filterName
+                                         };
+            [PFAnalytics trackEvent:STORE_SEARCH dimensions:dimensions];
+
         }
             break;
             
@@ -486,6 +504,14 @@
             }
             
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_BOOK_ID : [bookDict objectForKey:@"id"]
+                                             
+                                         };
+            [PFAnalytics trackEvent:STORE_FEATURED_BOOK dimensions:dimensions];
             
             [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
             
@@ -805,6 +831,15 @@
         else{
             bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
         }
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: [bookDict objectForKey:@"id"],
+                                     PARAMETER_BOOK_AGE_GROUP :[[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "],
+                                     
+                                     };
+        [PFAnalytics trackEvent:STORE_AGE_STORE_BOOK dimensions:dimensions];
         
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];

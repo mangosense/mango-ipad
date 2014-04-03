@@ -27,6 +27,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
+        
         // Custom initialization
     }
     return self;
@@ -67,6 +71,13 @@
     NSString *pListpath = [bundle pathForResource:@"SettingsQues" ofType:@"plist"];
     NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:pListpath];
     _settingQuesArray = [dictionary valueForKey:@"Problems"];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -131,6 +142,22 @@
         
         if((settingQuesNo % 2) == buttonIndex){
             NSLog(@"CORRECT");
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID: ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)YES],
+                                         
+                                         };
+            [PFAnalytics trackEvent:MySTORIES_SETTINGS_QUES dimensions:dimensions];
+            
+            NSDictionary *dimensions1 = @{
+                                          PARAMETER_USER_ID : ID,
+                                          PARAMETER_DEVICE: IOS,
+                                          
+                                          };
+            [PFAnalytics trackEvent:MYSTORIES_SETTINGS dimensions:dimensions1];
+            
             SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
             settingsViewController.dismissDelegate = self;
             settingsViewController.controller = self.navigationController;
@@ -141,8 +168,15 @@
         }
         else{
             NSLog(@"WRONG");
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)NO],
+                                         
+                                         };
+            [PFAnalytics trackEvent:MySTORIES_SETTINGS_QUES dimensions:dimensions];
         }
-        
     }
 }
 

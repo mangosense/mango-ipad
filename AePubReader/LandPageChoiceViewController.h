@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "StoriesViewController.h"
-@interface LandPageChoiceViewController : UIViewController
+@interface LandPageChoiceViewController : UIViewController{
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+}
 - (IBAction)creatAStory:(id)sender;
 - (IBAction)openFreeStories:(id)sender;
 - (IBAction)store:(id)sender;

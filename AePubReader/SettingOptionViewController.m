@@ -27,6 +27,9 @@
     if (self) {
         // Custom initialization
         _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases",@"Analytics", nil];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -41,6 +44,12 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,6 +136,14 @@
 
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_SETTINGS_VALUE: [_array objectAtIndex:indexPath.row]
+                                 };
+    [PFAnalytics trackEvent:SETTINGS_VALUE dimensions:dimensions];
+    
     switch (indexPath.row) {
         case 0:
         {

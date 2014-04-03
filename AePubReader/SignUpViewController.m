@@ -27,6 +27,10 @@
         // Custom initialization
         //_data=[[NSMutableData alloc]init];
         _loginViewController=loginViewController;
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -95,6 +99,15 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self donePressed:nil];
         [_delegate goToNext];
+            
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                    PARAMETER_DEVICE: IOS,
+                                    PARAMETER_SIGNUP_EMAIL : _email.text
+                                         
+                                         };
+        [PFAnalytics trackEvent:SIGN_UP dimensions:dimensions];
+            
         }
         else{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[userDetailsDictionary objectForKey:@"statusMessage"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

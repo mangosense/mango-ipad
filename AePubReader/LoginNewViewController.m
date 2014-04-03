@@ -31,12 +31,16 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
+    _udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden=YES;
@@ -47,6 +51,7 @@
     
     // Set this loginUIViewController to be the loginView button's delegate
     loginView.delegate = self;
+    
     
     // Align the button in the center horizontally
     loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
@@ -64,8 +69,11 @@
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
         [self goToNext:nil];
     }
-    
+    appDelegate.deviceId = _udid;
     _isLoginWithFb = NO;
+    
+    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -185,11 +193,30 @@
 }
 
 - (IBAction)goToNext:(id)sender {
+    
+    ID = _udid;
+   
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 
+                                 };
+    [PFAnalytics trackEvent:SKIP_SIGN_IN dimensions:dimensions];
+    
     LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
     [self.navigationController pushViewController:landingPageViewController animated:YES];
 }
 
 - (IBAction)signUp:(id)sender {
+    
+    ID = _udid;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 
+                                 };
+    [PFAnalytics trackEvent:SIGN_UP_VIEW dimensions:dimensions];
+    
     SignUpViewController *signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
     signupViewController.delegate = self;
     signupViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
@@ -218,6 +245,14 @@
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
     [self saveUserInfo:facebookDetailsDictionary];
     
+    ID = [facebookDetailsDictionary objectForKey:@"email"];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_FACEBOOK_ID : ID
+                                 };
+    [PFAnalytics trackEvent:FACEBOOK_LOGIN dimensions:dimensions];
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     [self goToNext:nil];
 }
@@ -229,6 +264,13 @@
     if (userDetailsDictionary.count) {
         if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
             [self saveUserInfo:userDetailsDictionary];
+            ID = [userDetailsDictionary objectForKey:@"email"];
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         
+                                         };
+            [PFAnalytics trackEvent:SIGN_IN dimensions:dimensions];
             
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [self goToNext:nil];

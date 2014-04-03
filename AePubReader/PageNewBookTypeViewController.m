@@ -17,6 +17,8 @@
 
 @interface PageNewBookTypeViewController ()
 
+@property (nonatomic, strong) NSDate *openingTime;
+
 @property (nonatomic, assign) NSInteger gamePageNumber;
 @property (nonatomic, strong) NSMutableDictionary *gameDataDict;
 @property (nonatomic, assign) BOOL showButtons;
@@ -25,6 +27,8 @@
 
 @implementation PageNewBookTypeViewController
 @synthesize menuPopoverController;
+@synthesize openingTime;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger)option BookId:(NSString *)bookID
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -38,6 +42,8 @@
         
                 _pageNumber=1;
         NSLog(@"%@",_book.edited);
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         
     }
     return self;
@@ -46,6 +52,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
+    openingTime = [NSDate date];
+    
     // Do any additional setup after loading the view from its nib.
     self.timeCalculate = [NSDate date];
     NSString *jsonLocation=_book.localPathFile;
@@ -97,7 +113,13 @@
 
 - (IBAction)ShowOptions:(id)sender {
     _rightView.hidden=NO;
-
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId
+                                 
+                                 };
+    [PFAnalytics trackEvent:READBOOK_OPTIONS dimensions:dimensions];
     UIButton *button=(UIButton *)sender;
     button.hidden=YES;
 }
@@ -118,7 +140,15 @@
 }
 
 - (IBAction)shareButton:(id)sender {
-    [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+   // [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId,
+                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                
+                                 };
+    [PFAnalytics trackEvent:READBOOK_SHARE dimensions:dimensions];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -166,11 +196,31 @@
             switch (buttonIndex) {
                 case 0: {
                     [alertView dismissWithClickedButtonIndex:buttonIndex animated:YES];
+                    
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID : _bookId,
+                                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                                 PARAMETER_BOOL_ISNEW_VERSION :[NSNumber numberWithBool:NO]
+                                                 };
+                    [PFAnalytics trackEvent:READBOOK_NEW_VERSION dimensions:dimensions];
+                    
                 }
                     break;
                     
                 case 1: {
-                    [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+                   // [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+                    
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID : _bookId,
+                                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                                 PARAMETER_BOOL_ISNEW_VERSION :[NSNumber numberWithBool:YES]
+                                                 };
+                    [PFAnalytics trackEvent:READBOOK_NEW_VERSION dimensions:dimensions];
+                    
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.storyBook=_book;
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
@@ -195,7 +245,16 @@
 }
 
 - (IBAction)changeLanguage:(id)sender {
-    [PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId,
+                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                            
+                                 };
+    [PFAnalytics trackEvent:READBOOK_CHANGE_LANGUAGE dimensions:dimensions];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
@@ -205,8 +264,6 @@
     [paramDict setObject:IOS forKey:PLATFORM];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
     
-    
-
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
@@ -254,6 +311,16 @@
 
 
 - (IBAction)previousButton:(id)sender {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId,
+                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                 
+                                 };
+    [PFAnalytics trackEvent:READBOOK_PREVIOUS_PAGE dimensions:dimensions];
+    
     if (_pageNumber==1) {
         //[self BackButton:nil];
         [self.navigationController popViewControllerAnimated:YES];
@@ -267,6 +334,16 @@
 
 - (IBAction)nextButton:(id)sender {
     ++_pageNumber;
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId,
+                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                 
+                                 };
+    [PFAnalytics trackEvent:READBOOK_NEXT_PAGE dimensions:dimensions];
+    
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
         
@@ -287,14 +364,39 @@
 }
 
 - (IBAction)playOrPauseButton:(id)sender {
+    
+    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+    
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
-            [PFAnalytics trackEvent:EVENT_AUDIO_PAUSED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+            //[PFAnalytics trackEvent:EVENT_AUDIO_PAUSED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_BOOK_ID : _bookId,
+                                         PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                         PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue],
+                                         PARAMETER_BOOL_ISPLAYING : [NSString stringWithFormat:@"%d", (BOOL)YES]
+                                         
+                                         };
+            [PFAnalytics trackEvent:READBOOK_ISAUDIO_PLAYING dimensions:dimensions];
             
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player pause];
         }else{
-            [PFAnalytics trackEvent:EVENT_AUDIO_PLAYED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+            //[PFAnalytics trackEvent:EVENT_AUDIO_PLAYED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_BOOK_ID : _bookId,
+                                         PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                         PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue],
+                                         PARAMETER_BOOL_ISPLAYING : [NSString stringWithFormat:@"%d", (BOOL)NO]
+                                         
+                                         };
+            [PFAnalytics trackEvent:READBOOK_ISAUDIO_PLAYING dimensions:dimensions];
 
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
@@ -305,6 +407,18 @@
             [self hideAllButtons:!_showButtons];
         }
     } else {
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _bookId,
+                                     PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                     PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                                     
+                                     };
+        [PFAnalytics trackEvent:READBOOK_PLAY_PAUSE dimensions:dimensions];
+        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+        
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         [self loadPageWithOption:0];
         [self closeButton:nil];
@@ -314,7 +428,17 @@
 }
 
 - (IBAction)openGameCentre:(id)sender {
-    [PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+    //[PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId,
+                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                 PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                                 };
+    [PFAnalytics trackEvent:READBOOK_PLAYGAMES dimensions:dimensions];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -432,9 +556,23 @@
     }*/
     [self.viewBase addSubview:_pageView];
     if (option==0) {
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _bookId
+                                     
+                                     };
+        [PFAnalytics trackEvent:BOOKCOVER_READ_TO_ME dimensions:dimensions];
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
 
     }else{
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _bookId
+                                     
+                                     };
+        [PFAnalytics trackEvent:BOOKCOVER_READ_BY_MYSELF dimensions:dimensions];
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 
     }
@@ -443,6 +581,15 @@
 - (void) viewDidDisappear:(BOOL)animated{
     
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _bookId,
+                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                                 PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                                 };
+    [PFAnalytics trackEvent:READBOOK_CLOSE dimensions:dimensions];
     
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
@@ -472,6 +619,13 @@
                 NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
                 if([[object valueForKey:@"bookCompleted"] integerValue]){
                     [object setObject:[NSNumber numberWithInt:([[object valueForKey:@"timesNumberBookCompleted"] integerValue]+1)] forKey:@"timesNumberBookCompleted"];
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID : _bookId,
+                                                 PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                                                 };
+                    [PFAnalytics trackEvent:READBOOK_BOOK_COMPLETE dimensions:dimensions];
                 }
                 else{
                     [object setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
@@ -506,6 +660,14 @@
                 NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
                 [userObject setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
                 [userObject setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+                
+                NSDictionary *dimensions = @{
+                                             PARAMETER_USER_ID : ID,
+                                             PARAMETER_DEVICE: IOS,
+                                             PARAMETER_BOOK_ID : _bookId,
+                                             PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                                             };
+                [PFAnalytics trackEvent:READBOOK_BOOK_COMPLETE dimensions:dimensions];
             }
             else{
                 [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];

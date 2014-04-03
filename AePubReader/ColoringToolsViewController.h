@@ -9,8 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "DrawingToolsView.h"
 
-@interface ColoringToolsViewController : UIViewController
+@interface ColoringToolsViewController : UIViewController{
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+}
 
+@property (nonatomic, strong) NSString *bookId;
 @property (nonatomic, assign) id <DrawingToolsDelegate> delegate;
 - (IBAction)colorButtonTapped:(id)sender;
 - (IBAction)sliderValueChanged:(id)sender;

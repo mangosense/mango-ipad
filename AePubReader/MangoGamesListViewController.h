@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 
-@interface MangoGamesListViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIWebViewDelegate>
+@interface MangoGamesListViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIWebViewDelegate>{
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+
+}
 
 @property (nonatomic, strong) NSString *folderLocation;
 @property (nonatomic, strong) NSString *jsonString;

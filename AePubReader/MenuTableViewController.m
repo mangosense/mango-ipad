@@ -6,6 +6,8 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
+#import "Constants.h"
 #import "MenuTableViewController.h"
 
 @interface MenuTableViewController ()
@@ -20,6 +22,10 @@
 {
     self = [super initWithStyle:style];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -28,6 +34,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -130,12 +143,24 @@
         case 0: {
             switch (indexPath.row) {
                 case 0: {
-                    
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID: _bookId,
+                                                 
+                                                 };
+                    [PFAnalytics trackEvent:EDITOR_CLOSE dimensions:dimensions];
                 }
                     break;
                     
                 case 1: {
-                    
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID: _bookId,
+                                                 
+                                                 };
+                    [PFAnalytics trackEvent:EDITOR_NEW_BOOK dimensions:dimensions];
                 }
                     break;
                     

@@ -14,8 +14,14 @@
 
 @end
 
-@interface MenuTableViewController : UITableViewController
+@interface MenuTableViewController : UITableViewController{
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
 
+}
+
+@property (nonatomic, strong) NSString *bookId;
 @property (nonatomic, assign) id <PopControllerDelegate> popDelegate;
 
 @end

@@ -25,6 +25,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -33,6 +37,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
     // Do any additional setup after loading the view from its nib.
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -57,6 +68,14 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
     
     /// -----
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS
+                                 
+                                 };
+    [PFAnalytics trackEvent:HOME_CREATE_STORY dimensions:dimensions];
+    
     BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.toEdit = YES;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
@@ -71,11 +90,26 @@
     //NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:NO];
     //[self.navigationController pushViewController:controller animated:YES];
     
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS
+                                 
+                                 };
+    [PFAnalytics trackEvent:HOME_STORE_VIEW dimensions:dimensions];
+    
     MangoStoreViewController *storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
     [self.navigationController pushViewController:storeViewController animated:YES];
 }
 
 - (IBAction)myStories:(id)sender {
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS
+                                 
+                                 };
+    [PFAnalytics trackEvent:HOME_MY_STORIES dimensions:dimensions];
+    
     CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
     categoryFlexible.pageNumber = 0;
     [self.navigationController pushViewController:categoryFlexible animated:YES];
