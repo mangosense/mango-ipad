@@ -59,6 +59,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *previousPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *languageAvailButton;
+@property (nonatomic, strong) IBOutlet UIButton *editButton;
 
 @property (nonatomic, strong) NSDate *timeCalculate;
 @property (nonatomic, strong) NSString *bookGradeLevel;

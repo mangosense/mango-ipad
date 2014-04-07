@@ -55,10 +55,15 @@
     
     viewName = @"Book Read View";
     
-    if(!userEmail){
+    if(!userEmail) {
+        if (!userDeviceID) {
+            userDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+            appDelegate.deviceId = userDeviceID;
+        }
         ID = userDeviceID;
     }
-    else{
+    else {
         ID = userEmail;
     }
     
@@ -304,22 +309,31 @@
 }
 
 - (IBAction)editButton:(id)sender {
-    UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Create your own version" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    editAlertView.tag = FORK_TAG;
-    [editAlertView show];
+    if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The 'edit' feature is only available in the MangoReader app. Please download the MangoReader app to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [editAlertView show];
+    } else {
+        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Create your own version" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        editAlertView.tag = FORK_TAG;
+        [editAlertView show];
+    }
 }
 
 - (IBAction)changeLanguage:(id)sender {
     //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    NSString *url;
-    url = LANGUAGES_FOR_BOOK;
-    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:_bookId forKey:@"story_id"];
-    [paramDict setObject:IOS forKey:PLATFORM];
-    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
-    
+    if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The multiple language feature is only available in the MangoReader app. Please download it to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [editAlertView show];
+    } else {
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        NSString *url;
+        url = LANGUAGES_FOR_BOOK;
+        NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+        [paramDict setObject:_bookId forKey:@"story_id"];
+        [paramDict setObject:IOS forKey:PLATFORM];
+        [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    }
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {

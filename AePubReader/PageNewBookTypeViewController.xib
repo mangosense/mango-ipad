@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageNewBookTypeViewController">
             <connections>
                 <outlet property="backButton" destination="ZgY-BU-pe6" id="JGh-rJ-E4T"/>
+                <outlet property="editButton" destination="SV4-2c-bnZ" id="LtR-Zn-0rm"/>
                 <outlet property="languageAvailButton" destination="8dT-is-hLD" id="rw9-z6-jpk"/>
                 <outlet property="menuButton" destination="qUg-c9-QZ7" id="RI0-0N-Ake"/>
                 <outlet property="nextPageButton" destination="o6b-Ac-mCU" id="zYy-qT-Ps9"/>
