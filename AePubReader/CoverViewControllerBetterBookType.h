@@ -19,6 +19,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;

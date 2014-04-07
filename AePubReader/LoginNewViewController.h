@@ -16,6 +16,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 - (IBAction)signIn:(id)sender;
 - (IBAction)goToNext:(id)sender;

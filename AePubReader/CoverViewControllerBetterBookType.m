@@ -40,6 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    viewName = @"Book cover view";
     _titleLabel.text=_book.title;
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -80,6 +81,7 @@
 }
 - (IBAction)multipleLanguage:(id)sender {
     //UIButton *button=(UIButton *)sender;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -87,7 +89,22 @@
                                  PARAMETER_BOOK_ID : [_book valueForKey:@"bookId"]
                                  
                                  };
-    [PFAnalytics trackEvent:BOOKCOVER_AVAILABLE_LANGUAGE dimensions:dimensions];
+    [delegate trackEvent:[BOOKCOVER_AVAILABLE_LANGUAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOKCOVER_AVAILABLE_LANGUAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOKCOVER_AVAILABLE_LANGUAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_languageLabel.titleLabel.text forKey:@"bookLanguage"];
+    [userObject setObject:[_book valueForKey:@"bookId"] forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
     url = LANGUAGES_FOR_BOOK;
@@ -130,7 +147,7 @@
     choiceViewController.array = [jsonDict objectForKey:@"available_languages"];
     choiceViewController.array = [[NSArray alloc] initWithArray:languageArray];
     choiceViewController.bookDict = jsonDict;
-    
+    choiceViewController.language = _languageLabel.titleLabel.text;
     if(choiceViewController.array.count>0){
         
     [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -146,6 +163,7 @@
 
 - (IBAction)bookCoverSelection:(id)sender {
     UIButton *button=(UIButton *)sender;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
     controller.bookGradeLevel = currentBookGradeLevel;
     //add full image url
@@ -157,7 +175,20 @@
                                  PARAMETER_BOOK_ID : _identity
                                  
                                  };
-    [PFAnalytics trackEvent:BOOKCOVER_PLAY_GAMES dimensions:dimensions];
+    [delegate trackEvent:[BOOKCOVER_SELECTION valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOKCOVER_SELECTION valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOKCOVER_SELECTION valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_identity forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -165,12 +196,66 @@
 
 - (IBAction)optionsToReader:(id)sender {
     UIButton *button=(UIButton *)sender;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
     controller.bookGradeLevel = currentBookGradeLevel;
     //add full image url
     controller.bookImageURL = currentBookImageURL;
+    
+    if([sender tag] == 1){
+        NSLog(@"Read by myself");
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _identity
+                                     
+                                     };
+        [delegate trackEvent:[BOOKCOVER_READ_BY_MYSELF valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[BOOKCOVER_READ_BY_MYSELF valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [BOOKCOVER_READ_BY_MYSELF valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_identity forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
+    }
+    else{
+        NSLog(@"Read to me");
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _identity
+                                     
+                                     };
+        [delegate trackEvent:[BOOKCOVER_READ_TO_ME valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[BOOKCOVER_READ_TO_ME valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [BOOKCOVER_READ_TO_ME valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_identity forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
+    }
+    
     [self.navigationController pushViewController:controller animated:YES];
 }
+
 
 - (IBAction)libraryButtonClicked:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -223,6 +308,7 @@
 }
 
 - (IBAction)gameButtonTapped:(id)sender {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *jsonDict = [self getJsonDictForBook];
     
     NSDictionary *dimensions = @{
@@ -231,7 +317,20 @@
                                  PARAMETER_BOOK_ID : [jsonDict objectForKey:@"story_id"]
                                  
                                  };
-    [PFAnalytics trackEvent:BOOKCOVER_PLAY_GAMES dimensions:dimensions];
+    [delegate trackEvent:[BOOKCOVER_PLAY_GAMES valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOKCOVER_PLAY_GAMES valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOKCOVER_PLAY_GAMES valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:[jsonDict objectForKey:@"story_id"] forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -260,14 +359,27 @@
 }
 
 - (IBAction)shareButton:(id)sender {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID : [_book valueForKey:@"bookId"]
                                  
                                  };
-    [PFAnalytics trackEvent:BOOKCOVER_SHARE dimensions:dimensions];
+    [delegate trackEvent:[BOOKCOVER_SHARE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOKCOVER_SHARE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOKCOVER_SHARE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:[_book valueForKey:@"bookId"] forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

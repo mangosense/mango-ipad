@@ -53,6 +53,8 @@
 {
     [super viewDidLoad];
     
+    viewName = @"Book Read View";
+    
     if(!userEmail){
         ID = userDeviceID;
     }
@@ -112,6 +114,7 @@
 }
 
 - (IBAction)ShowOptions:(id)sender {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     _rightView.hidden=NO;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
@@ -119,7 +122,21 @@
                                  PARAMETER_BOOK_ID : _bookId
                                  
                                  };
-    [PFAnalytics trackEvent:READBOOK_OPTIONS dimensions:dimensions];
+    [delegate trackEvent:[READBOOK_OPTIONS valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[READBOOK_OPTIONS valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [READBOOK_OPTIONS valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_bookId forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     UIButton *button=(UIButton *)sender;
     button.hidden=YES;
 }
@@ -141,6 +158,7 @@
 
 - (IBAction)shareButton:(id)sender {
    // [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -148,7 +166,22 @@
                                  PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
                                 
                                  };
-    [PFAnalytics trackEvent:READBOOK_SHARE dimensions:dimensions];
+    [delegate trackEvent:[READBOOK_SHARE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[READBOOK_SHARE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [READBOOK_SHARE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_bookId forKey:@"bookID"];
+    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -191,6 +224,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     switch (alertView.tag) {
         case FORK_TAG: {
             switch (buttonIndex) {
@@ -204,7 +238,22 @@
                                                  PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
                                                  PARAMETER_BOOL_ISNEW_VERSION :[NSNumber numberWithBool:NO]
                                                  };
-                    [PFAnalytics trackEvent:READBOOK_NEW_VERSION dimensions:dimensions];
+                    [delegate trackEvent:[READBOOK_NEW_VERSION valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[READBOOK_NEW_VERSION valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [READBOOK_NEW_VERSION valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:viewName forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+                    [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
                     
                 }
                     break;
@@ -219,7 +268,23 @@
                                                  PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
                                                  PARAMETER_BOOL_ISNEW_VERSION :[NSNumber numberWithBool:YES]
                                                  };
-                    [PFAnalytics trackEvent:READBOOK_NEW_VERSION dimensions:dimensions];
+                    [delegate trackEvent:[READBOOK_NEW_VERSION valueForKey:@"description"] dimensions:dimensions];
+                    [delegate trackEvent:[READBOOK_NEW_VERSION valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[READBOOK_NEW_VERSION valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [READBOOK_NEW_VERSION valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:viewName forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+                    [userObject setObject:[NSNumber numberWithBool:YES] forKey:@"boolValue"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.storyBook=_book;
@@ -246,15 +311,6 @@
 
 - (IBAction)changeLanguage:(id)sender {
     //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
-    
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID : _bookId,
-                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
-                            
-                                 };
-    [PFAnalytics trackEvent:READBOOK_CHANGE_LANGUAGE dimensions:dimensions];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
@@ -299,7 +355,8 @@
     choiceViewController.array = [jsonDict objectForKey:@"available_languages"];
     choiceViewController.array = [[NSArray alloc] initWithArray:languageArray];
     choiceViewController.bookDict = jsonDict;
-    
+    choiceViewController.language = [[jsonDict objectForKey:@"info"] objectForKey:@"language"];
+    choiceViewController.isReadPage = 1;
     if(choiceViewController.array.count>0){
         
         [_pop presentPopoverFromRect:_languageAvailButton.frame inView:_rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
@@ -311,15 +368,6 @@
 
 
 - (IBAction)previousButton:(id)sender {
-    
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID : _bookId,
-                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
-                                 
-                                 };
-    [PFAnalytics trackEvent:READBOOK_PREVIOUS_PAGE dimensions:dimensions];
     
     if (_pageNumber==1) {
         //[self BackButton:nil];
@@ -334,15 +382,6 @@
 
 - (IBAction)nextButton:(id)sender {
     ++_pageNumber;
-    
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID : _bookId,
-                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
-                                 
-                                 };
-    [PFAnalytics trackEvent:READBOOK_NEXT_PAGE dimensions:dimensions];
     
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
@@ -364,6 +403,7 @@
 }
 
 - (IBAction)playOrPauseButton:(id)sender {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     
@@ -380,7 +420,23 @@
                                          PARAMETER_BOOL_ISPLAYING : [NSString stringWithFormat:@"%d", (BOOL)YES]
                                          
                                          };
-            [PFAnalytics trackEvent:READBOOK_ISAUDIO_PLAYING dimensions:dimensions];
+            [delegate trackEvent:[READBOOK_READTOME_AUDIO_PLAYING valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[READBOOK_READTOME_AUDIO_PLAYING valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [READBOOK_READTOME_AUDIO_PLAYING valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:_bookId forKey:@"bookID"];
+            [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+            [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+            [userObject setObject:[NSNumber numberWithBool:YES] forKey:@"boolValue"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
             
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player pause];
@@ -396,7 +452,23 @@
                                          PARAMETER_BOOL_ISPLAYING : [NSString stringWithFormat:@"%d", (BOOL)NO]
                                          
                                          };
-            [PFAnalytics trackEvent:READBOOK_ISAUDIO_PLAYING dimensions:dimensions];
+            [delegate trackEvent:[READBOOK_READTOME_AUDIO_PLAYING valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[READBOOK_READTOME_AUDIO_PLAYING valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [READBOOK_READTOME_AUDIO_PLAYING valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:_bookId forKey:@"bookID"];
+            [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+            [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+            [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
 
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
@@ -416,7 +488,23 @@
                                      PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                      
                                      };
-        [PFAnalytics trackEvent:READBOOK_PLAY_PAUSE dimensions:dimensions];
+        [delegate trackEvent:[READBOOK_MYSELF_PLAY_PAUSE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[READBOOK_MYSELF_PLAY_PAUSE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [READBOOK_MYSELF_PLAY_PAUSE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_bookId forKey:@"bookID"];
+        [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+        [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
@@ -430,7 +518,7 @@
 - (IBAction)openGameCentre:(id)sender {
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     //[PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -438,7 +526,23 @@
                                  PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
                                  PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                  };
-    [PFAnalytics trackEvent:READBOOK_PLAYGAMES dimensions:dimensions];
+    [delegate trackEvent:[READBOOK_PLAYGAMES valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[READBOOK_PLAYGAMES valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [READBOOK_PLAYGAMES valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_bookId forKey:@"bookID"];
+    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+    [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -556,23 +660,11 @@
     }*/
     [self.viewBase addSubview:_pageView];
     if (option==0) {
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID : _bookId
-                                     
-                                     };
-        [PFAnalytics trackEvent:BOOKCOVER_READ_TO_ME dimensions:dimensions];
+        
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
 
     }else{
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID : _bookId
-                                     
-                                     };
-        [PFAnalytics trackEvent:BOOKCOVER_READ_BY_MYSELF dimensions:dimensions];
+        
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 
     }
@@ -581,7 +673,7 @@
 - (void) viewDidDisappear:(BOOL)animated{
     
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -589,7 +681,22 @@
                                  PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
                                  PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                  };
-    [PFAnalytics trackEvent:READBOOK_CLOSE dimensions:dimensions];
+    [delegate trackEvent:[READBOOK_CLOSE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[READBOOK_CLOSE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [READBOOK_CLOSE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_bookId forKey:@"bookID"];
+    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+    [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
@@ -625,7 +732,22 @@
                                                  PARAMETER_BOOK_ID : _bookId,
                                                  PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                                  };
-                    [PFAnalytics trackEvent:READBOOK_BOOK_COMPLETE dimensions:dimensions];
+                    [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:viewName forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+                    [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
                 }
                 else{
                     [object setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
@@ -667,7 +789,22 @@
                                              PARAMETER_BOOK_ID : _bookId,
                                              PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                              };
-                [PFAnalytics trackEvent:READBOOK_BOOK_COMPLETE dimensions:dimensions];
+                [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];
+                PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
+                [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
+                [userObject setObject:viewName forKey:@"viewName"];
+                [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                [userObject setObject:_bookId forKey:@"bookID"];
+                [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+                [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+                if(userEmail){
+                    [userObject setObject:ID forKey:@"emailID"];
+                }
+                [userObject setObject:IOS forKey:@"device"];
+                [userObject saveInBackground];
             }
             else{
                 [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];

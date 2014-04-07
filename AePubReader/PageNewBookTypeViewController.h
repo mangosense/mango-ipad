@@ -22,6 +22,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;

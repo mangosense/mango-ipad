@@ -17,6 +17,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;

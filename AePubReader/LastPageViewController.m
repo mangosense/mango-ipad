@@ -41,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    viewName = @"Book Last Page";
     if(!userEmail){
         ID = userDeviceID;
     }
@@ -97,14 +97,27 @@
 }
 
 - (IBAction)gameButtonTapped:(id)sender {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _book.id,
                                  
                                  };
-    [PFAnalytics trackEvent:LASTPAGE_PLAYGAMES dimensions:dimensions];
+    [delegate trackEvent:[LASTPAGE_PLAYGAMES valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[LASTPAGE_PLAYGAMES valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [LASTPAGE_PLAYGAMES valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_book.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
@@ -134,14 +147,27 @@
 }
 
 - (IBAction)pushToCoverView:(id)sender{
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _book.id,
                                  
                                  };
-    [PFAnalytics trackEvent:LASTPAGE_READ_AGAIN dimensions:dimensions];
+    [delegate trackEvent:[LASTPAGE_READ_AGAIN valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[LASTPAGE_READ_AGAIN valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [LASTPAGE_READ_AGAIN valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_book.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
 }
@@ -227,6 +253,7 @@
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
     bookDetailsViewController.delegate = self;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
   //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
@@ -305,7 +332,21 @@
                                      PARAMETER_RECOMMEND_BOOKID : [bookDict objectForKey:@"id"]
                                      
                                      };
-        [PFAnalytics trackEvent:LASTPAGE_RECOMMENDED_BOOK dimensions:dimensions];
+        [delegate trackEvent:[LASTPAGE_RECOMMENDED_BOOK valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[LASTPAGE_RECOMMENDED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [LASTPAGE_RECOMMENDED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_book.id forKey:@"bookID"];
+        [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"recommendBookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
@@ -316,14 +357,27 @@
 
 - (IBAction)socialSharingOrLike :(id)sender{
     //action for social sharing or like of the app
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _book.id,
                                  
                                  };
-    [PFAnalytics trackEvent:LASTPAGE_SHARE dimensions:dimensions];
+    [delegate trackEvent:[LASTPAGE_SHARE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[LASTPAGE_SHARE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [LASTPAGE_SHARE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_book.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

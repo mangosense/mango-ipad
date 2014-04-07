@@ -37,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    viewName = @"Setings View";
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -136,13 +136,26 @@
 
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_SETTINGS_VALUE: [_array objectAtIndex:indexPath.row]
                                  };
-    [PFAnalytics trackEvent:SETTINGS_VALUE dimensions:dimensions];
+    [delegate trackEvent:[SETTINGS_VALUE  valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[SETTINGS_VALUE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [SETTINGS_VALUE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:[_array objectAtIndex:indexPath.row] forKey:@"settingsValue"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     switch (indexPath.row) {
         case 0:

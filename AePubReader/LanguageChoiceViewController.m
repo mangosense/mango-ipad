@@ -6,6 +6,7 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
 #import "LanguageChoiceViewController.h"
 #import "BookDetailsViewController.h"
 #import "Constants.h"
@@ -21,6 +22,9 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
 
     }
     return self;
@@ -29,6 +33,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -126,8 +136,8 @@
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //[_delegate dismissPopOver];
-    
     MangoApiController *apiController = [MangoApiController sharedApiController];
+    newLanguage = [_array objectAtIndex:indexPath.row];
     NSString *url;
     url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",[_bookIDArray objectAtIndex:indexPath.row]]];
    // [paramDict setObject:currentBookId forKey:@"story_id"];
@@ -154,6 +164,46 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type{
+    
+    AePubReaderAppDelegate *delegate = (AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    NSDictionary *EVENT;
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_LANGUAGE : _language,
+                                 PARAMETER_BOOK_ID : [dataArray[0] valueForKey:@"id"],
+                                 PARAMETER_BOOK_NEW_LANGUAGE_SELECT : newLanguage
+                                 };
+    
+    if(_isReadPage){
+        
+        EVENT = READBOOK_CHANGE_LANGUAGE;
+        [PFAnalytics trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+        [userObject setObject:@"Book Read View" forKey:@"viewName"];
+        
+    }
+    else{
+        
+        EVENT = BOOKCOVER_NEW_LANGUAGE;
+        [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+        [userObject setObject:@"Book cover view" forKey:@"viewName"];
+    }
+    
+    [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:[dataArray[0] valueForKey:@"id"] forKey:@"bookID"];
+    [userObject setObject:_language forKey:@"bookLanguage"];
+    [userObject setObject:newLanguage forKey:@"bookNewLanguageSelect"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     NSLog(@"My array is %@", dataArray);
     NSMutableArray *tempItemArray = [[NSMutableArray alloc] init];
