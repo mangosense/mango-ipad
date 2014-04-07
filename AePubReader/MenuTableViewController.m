@@ -138,7 +138,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Index path row %d -- %d", indexPath.section, indexPath.row);
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     switch (indexPath.section) {
         case 0: {
             switch (indexPath.row) {
@@ -149,7 +150,21 @@
                                                  PARAMETER_BOOK_ID: _bookId,
                                                  
                                                  };
-                    [PFAnalytics trackEvent:EDITOR_CLOSE dimensions:dimensions];
+                    [delegate trackEvent:[EDITOR_CLOSE valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[EDITOR_CLOSE valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [EDITOR_CLOSE valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:@"Story editor" forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
+                    
                 }
                     break;
                     
@@ -160,7 +175,21 @@
                                                  PARAMETER_BOOK_ID: _bookId,
                                                  
                                                  };
-                    [PFAnalytics trackEvent:EDITOR_NEW_BOOK dimensions:dimensions];
+                    [delegate trackEvent:[EDITOR_NEW_BOOK valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[EDITOR_NEW_BOOK valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [EDITOR_NEW_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:@"Story editor" forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
+                    
                 }
                     break;
                     

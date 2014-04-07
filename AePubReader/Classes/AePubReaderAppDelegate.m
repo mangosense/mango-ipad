@@ -53,6 +53,12 @@ static UIAlertView *alertViewLoading;
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
+    _country = [locale displayNameForKey: NSLocaleCountryCode value: countryCode];
+    NSString *countrylang = [locale objectForKey: NSLocaleLanguageCode];
+    _language = [locale displayNameForKey:NSLocaleLanguageCode value:countrylang];
+    
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:LOGIN]]];
@@ -213,6 +219,17 @@ void uncaughtExceptionHandler(NSException *exception) {
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
     }
 }
+
+//Analytics
+
+- (void)trackEvent:(NSString *)event dimensions:(NSDictionary *)dimensions {
+    NSMutableDictionary *dimensionDict = [NSMutableDictionary dictionaryWithDictionary:dimensions];
+    [dimensionDict setObject:_country forKey:PARAMETER_DEVICE_COUNTRY];
+    [dimensionDict setObject:_language forKey:PARAMETER_DEVICE_LANGUAGE];
+    
+    [PFAnalytics trackEvent:event dimensions:dimensionDict];
+}
+
 
 -(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];

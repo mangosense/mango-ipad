@@ -102,6 +102,12 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
+        if(!userEmail){
+            ID = userDeviceID;
+        }
+        else{
+            ID = userEmail;
+        }
         // Custom initialization
     }
     return self;
@@ -111,14 +117,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    if(!userEmail){
-        ID = userDeviceID;
-    }
-    else{
-        ID = userEmail;
-    }
-
+    viewName = @"Story editor";
     [self renderEditorPage:0];
     [pagesCarousel scrollToItemAtIndex:3 animated:YES];
 }
@@ -246,6 +245,7 @@
 #pragma mark - UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (photoPopoverController) {
         if ([photoPopoverController isPopoverVisible]) {
             [photoPopoverController dismissPopoverAnimated:true];
@@ -261,10 +261,24 @@
                                      
                                      PARAMETER_USER_ID : ID,
                                      PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                     PARAMETER_BOOK_ID: storyBook.bookId,
                                      
                                      };
-        [PFAnalytics trackEvent:EDITOR_ADD_CAMERA_IMAGE dimensions:dimensions];
+        [delegate trackEvent:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:storyBook.bookId forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
     }
     else{
       NSLog(@"library");
@@ -272,10 +286,24 @@
                                      
                                      PARAMETER_USER_ID : ID,
                                      PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                     PARAMETER_BOOK_ID: storyBook.bookId,
                                      
                                      };
-        [PFAnalytics trackEvent:EDITOR_ADD_LIBRARY_IMAGE dimensions:dimensions];
+        [delegate trackEvent:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:storyBook.bookId forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
     }
     
     
@@ -292,16 +320,7 @@
             arrayOfEditorImages = [NSArray arrayWithArray:mutableImagesArray];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = [arrayOfEditorImages count] - 1;
-            
-            NSDictionary *dimensions = @{
-                                         
-                                         PARAMETER_USER_ID : ID,
-                                         PARAMETER_DEVICE: IOS,
-                                         PARAMETER_BOOK_ID: _mangoStoryBook.id,
-                                         
-                                         };
-            [PFAnalytics trackEvent:EDITOR_ADD_LIBRARY_IMAGE dimensions:dimensions];
-            
+                    
             [self addImageForButton:button];
         }
     }];
@@ -466,14 +485,28 @@
         [self addAssetToView];
     }
     [menuPopoverController dismissPopoverAnimated:YES];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 PARAMETER_BOOK_ID: storyBook.bookId,
                                  
                                  };
-    [PFAnalytics trackEvent:EDITOR_ADD_IMAGE dimensions:dimensions];
+    [delegate trackEvent:[EDITOR_ADD_IMAGE valueForKey:@"value"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_ADD_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_ADD_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:storyBook.bookId forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     
     stickerView = [[UIView alloc] initWithFrame:CGRectMake(pageImageView.center.x - 90, pageImageView.center.y - 90, 140, 180)];
     [stickerView setUserInteractionEnabled:YES];
@@ -677,14 +710,38 @@
 #pragma mark - Action Methods
 
 - (IBAction)mangoButtonTapped:(id)sender {
-    
-    NSDictionary *dimensions = @{
+    NSString *bookId;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if([sender tag] ==1){
+        if(!storyBook.id){
+            NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+            bookId = [jsonDict valueForKey:@"id"];
+        }
+        else{
+            bookId = storyBook.id;
+        }
+        NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 PARAMETER_BOOK_ID: bookId,
                                  
                                  };
-    [PFAnalytics trackEvent:EDITOR_MANGO_TAP dimensions:dimensions];
+        [delegate trackEvent:[EDITOR_MANGO_TAP valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_MANGO_TAP valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_MANGO_TAP valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:bookId forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+    }
     
     bookJsonString = [self jsonForBook:_mangoStoryBook];
     NSData *data = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -727,14 +784,27 @@
 }
 
 - (IBAction)textButtonTapped:(id)sender {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 PARAMETER_BOOK_ID: storyBook.id,
                                  
                                  };
-    [PFAnalytics trackEvent:EDITOR_ADD_TEXT dimensions:dimensions];
+    [delegate trackEvent:[EDITOR_ADD_TEXT valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_ADD_TEXT valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_ADD_TEXT valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:storyBook.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
@@ -752,14 +822,27 @@
 }
 
 - (IBAction)audioButtonTapped:(id)sender {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _mangoStoryBook.id,
                                  
                                  };
-    [PFAnalytics trackEvent:EDITOR_RECORD_PLAY dimensions:dimensions];
+    [delegate trackEvent:[EDITOR_RECORD_PLAY valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
@@ -943,7 +1026,7 @@
        // pagesCarousel.contentView.layer.borderWidth = 2.0f;
         
     } else {
-        [self createEmptyPage];
+        [self createEmptyPage :0];
         [pagesCarousel reloadData];
         [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
     }
@@ -998,14 +1081,27 @@
 #pragma mark - Page Delete Delegate Method
 
 - (void)deletePageNumber:(int)pageNumber {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _mangoStoryBook.id,
                                  
                                  };
-    [PFAnalytics trackEvent:EDITOR_DELETE_PAGE dimensions:dimensions];
+    [delegate trackEvent:[EDITOR_DELETE_PAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_DELETE_PAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_DELETE_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
@@ -1680,15 +1776,41 @@
     }
 }
 
-- (void)createEmptyPage {
+- (void)createEmptyPage :(int)val {
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
-                                 
-                                 };
-    [PFAnalytics trackEvent:EDITOR_ADD_NEW_PAGE dimensions:dimensions];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookId;
+    if(val ==1){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookId = [jsonDict valueForKey:@"id"];
+        
+    }
+    else{
+        bookId = storyBook.bookId;
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: bookId,
+                                     
+                                     };
+        [delegate trackEvent:[EDITOR_ADD_NEW_PAGE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_ADD_NEW_PAGE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_ADD_NEW_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:bookId forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+    }
+    
+   
     
     MangoPage *newPage = [[MangoPage alloc] init];
     newPage.pageable_id = _mangoStoryBook.id;
@@ -1805,7 +1927,7 @@
             
             //Create Empty Page
             [self createCoverPage];
-            [self createEmptyPage];
+            [self createEmptyPage :1];
         }
     } else {
         _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];

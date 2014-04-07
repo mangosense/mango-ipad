@@ -13,6 +13,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 - (IBAction)creatAStory:(id)sender;
 - (IBAction)openFreeStories:(id)sender;

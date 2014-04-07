@@ -39,7 +39,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
-    
+    NSString *viewName;
     IBOutlet iCarousel *pagesCarousel;
     
     int recordEncoding;

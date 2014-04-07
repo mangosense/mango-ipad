@@ -48,6 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    viewName = @"Book Detail View Page";
     // Do any additional setup after loading the view from its nib.
     _bookImageView.layer.cornerRadius = 3.0;
     _dropDownArrayData = [[NSMutableArray alloc] init];
@@ -84,14 +85,6 @@
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID : _displayBookID,
-                                 PARAMETER_BOOK_LANGUAGE : _dropDownButton.titleLabel.text
-                                 };
-    [PFAnalytics trackEvent:BOOK_DETAIL_AVAILABLE_LANGUAGE dimensions:dimensions];
-    
     NSLog(@"Data array %d", dataArray.count);
     if(![dataArray count]){
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -110,7 +103,8 @@
             [_dropDownIdArrayData addObject:[tempDataArray[i] objectForKey:@"live_story_id"]];
         }
         
-        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:-65 paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
+        int paddingTopValue = -(33+33*_dropDownIdArrayData.count);
+        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:paddingTopValue paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
         _dropDownView.delegate = self;
         
         [self.view addSubview:_dropDownView.view];
@@ -219,7 +213,8 @@
 - (IBAction)buyButtonTapped:(id)sender {
     if (_selectedProductId) {
         //Temporarily Added For Direct Downloading
-
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         //[self itemReadyToUse:_selectedProductId ForTransaction:nil];
         
         NSDictionary *dimensions = @{
@@ -227,7 +222,20 @@
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID : _displayBookID
                                      };
-        [PFAnalytics trackEvent:BOOK_DETAIL_BUY_BOOK dimensions:dimensions];
+        [delegate trackEvent:[BOOK_DETAIL_BUY_BOOK valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[BOOK_DETAIL_BUY_BOOK valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [BOOK_DETAIL_BUY_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_displayBookID forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
 
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
@@ -293,6 +301,31 @@
 	
    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _displayBookID,
+                                 PARAMETER_BOOK_LANGUAGE : _dropDownButton.titleLabel.text,
+                                 PARAMETER_BOOK_NEW_LANGUAGE_SELECT : [_dropDownArrayData objectAtIndex:returnIndex]
+                                 };
+    [delegate trackEvent:[BOOK_DETAIL_NEW_LANGUAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOK_DETAIL_NEW_LANGUAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOK_DETAIL_NEW_LANGUAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_displayBookID forKey:@"bookID"];
+    [userObject setObject: _dropDownButton.titleLabel.text forKey:@"bookLanguage"];
+    [userObject setObject: [_dropDownArrayData objectAtIndex:returnIndex] forKey:@"bookNewLanguageSelect"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
         MangoApiController *apiController = [MangoApiController sharedApiController];
         NSString *url;
@@ -310,6 +343,29 @@
 
 -(IBAction)dropDownActionButtonClick{
     [self availLanguagedata];
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _displayBookID,
+                                 PARAMETER_BOOK_LANGUAGE : _dropDownButton.titleLabel.text
+                                 };
+    [delegate trackEvent:[BOOK_DETAIL_AVAILABLE_LANGUAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOK_DETAIL_AVAILABLE_LANGUAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOK_DETAIL_AVAILABLE_LANGUAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_displayBookID forKey:@"bookID"];
+    [userObject setObject: _dropDownButton.titleLabel.text forKey:@"bookLanguage"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
  
 //    if(_dropDownArrayData.count>0){
 //        _dropDownButton.userInteractionEnabled = YES;

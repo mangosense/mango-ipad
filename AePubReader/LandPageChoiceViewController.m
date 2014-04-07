@@ -37,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    viewName = @"Home page";
     if(!userEmail){
         ID = userDeviceID;
     }
@@ -68,15 +68,29 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
     
     /// -----
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS
                                  
                                  };
-    [PFAnalytics trackEvent:HOME_CREATE_STORY dimensions:dimensions];
+    [delegate trackEvent:[HOME_CREATE_STORY valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[HOME_CREATE_STORY valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [HOME_CREATE_STORY valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    if(userEmail){
+        [userObject setObject:userEmail forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    booksCollectionViewController.fromCreateStoryView = 1;
     booksCollectionViewController.toEdit = YES;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     
@@ -89,26 +103,50 @@
 - (IBAction)store:(id)sender {
     //NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:NO];
     //[self.navigationController pushViewController:controller animated:YES];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS
                                  
                                  };
-    [PFAnalytics trackEvent:HOME_STORE_VIEW dimensions:dimensions];
+    [delegate trackEvent:[HOME_STORE_VIEW valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[HOME_STORE_VIEW valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [HOME_STORE_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    if(userEmail){
+        [userObject setObject:userEmail forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     MangoStoreViewController *storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
     [self.navigationController pushViewController:storeViewController animated:YES];
 }
 
 - (IBAction)myStories:(id)sender {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS
                                  
                                  };
-    [PFAnalytics trackEvent:HOME_MY_STORIES dimensions:dimensions];
+    [delegate trackEvent:[HOME_MY_STORIES valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[HOME_STORE_VIEW valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [HOME_STORE_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    if(userEmail){
+        [userObject setObject:userEmail forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
     categoryFlexible.pageNumber = 0;

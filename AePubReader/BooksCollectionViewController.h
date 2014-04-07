@@ -17,6 +17,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
@@ -32,5 +33,6 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;
+@property (nonatomic, assign) int fromCreateStoryView;
 
 @end
