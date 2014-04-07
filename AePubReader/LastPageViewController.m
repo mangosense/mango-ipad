@@ -51,10 +51,10 @@
     
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
-    if([_book.title isEqualToString:@"My Book"]){
+    if([_book.title isEqualToString:@"My Book"] || [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
         self.recommendedBooksView.hidden = YES;
     }
-    else{
+    else {
         
         [self loadRecommendedBooks:_book.id];
     }
@@ -408,8 +408,12 @@
 }
 
 - (IBAction)backButtonTap:(id)sender{
-    
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if (path) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
+    }
 }
 
 - (void)openBook:(Book *)bk {
