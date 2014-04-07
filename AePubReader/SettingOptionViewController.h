@@ -18,6 +18,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 @property(retain,nonatomic) NSArray *array;
 @property(retain,nonatomic) UINavigationController *controller;

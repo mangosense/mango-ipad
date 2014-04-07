@@ -25,6 +25,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 
 @property (nonatomic, strong) NSString *selectedProductId;

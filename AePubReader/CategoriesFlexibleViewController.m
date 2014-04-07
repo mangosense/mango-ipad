@@ -51,6 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    viewName = @"My Stories View";
     // Do any additional setup after loading the view from its nib.
     if (!_categoriesArray) {
         [self getAllCategories];
@@ -100,10 +101,32 @@
     
     UIButton *button = (UIButton *)sender;
     NSDictionary *categorySelected = [_categoriesArray objectAtIndex:button.tag];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.toEdit = NO;
     booksCollectionViewController.categorySelected = categorySelected;
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_CATEGORY_VALUE: [categorySelected valueForKey:@"name"],
+                                 
+                                 };
+    [delegate trackEvent:[MYSTORIES_CATEGORY_SELECT valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[MYSTORIES_CATEGORY_SELECT valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [MYSTORIES_CATEGORY_SELECT valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:[categorySelected valueForKey:@"name"] forKey:@"categorySelect"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     
     /// -----
@@ -137,7 +160,7 @@
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
+   AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if([alertView.title isEqualToString:@"SOLVE"]){
         
         if((settingQuesNo % 2) == buttonIndex){
@@ -149,14 +172,41 @@
                                          PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)YES],
                                          
                                          };
-            [PFAnalytics trackEvent:MySTORIES_SETTINGS_QUES dimensions:dimensions];
+            [delegate trackEvent:[MySTORIES_SETTINGS_QUES valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[MySTORIES_SETTINGS_QUES valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [MySTORIES_SETTINGS_QUES valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:[NSNumber numberWithBool:YES] forKey:@"boolValue"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+            
             
             NSDictionary *dimensions1 = @{
                                           PARAMETER_USER_ID : ID,
                                           PARAMETER_DEVICE: IOS,
                                           
                                           };
-            [PFAnalytics trackEvent:MYSTORIES_SETTINGS dimensions:dimensions1];
+            
+            [delegate trackEvent:[MYSTORIES_SETTINGS valueForKey:@"description"]  dimensions:dimensions1];
+            
+            [userObject setObject:[MYSTORIES_SETTINGS valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [MYSTORIES_SETTINGS valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
             
             SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
             settingsViewController.dismissDelegate = self;
@@ -175,7 +225,20 @@
                                          PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)NO],
                                          
                                          };
-            [PFAnalytics trackEvent:MySTORIES_SETTINGS_QUES dimensions:dimensions];
+            [delegate trackEvent:[MySTORIES_SETTINGS_QUES valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[MySTORIES_SETTINGS_QUES valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [MySTORIES_SETTINGS_QUES valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
         }
     }
 }

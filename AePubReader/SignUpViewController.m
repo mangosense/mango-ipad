@@ -38,7 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    viewName = @"Sign Up";
     [_password setSecureTextEntry:YES];
     [_confirmPassword setSecureTextEntry:YES];
 }
@@ -93,6 +93,7 @@
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     if (userDetailsDictionary) {
         
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         if(![userDetailsDictionary objectForKey:@"statusMessage"]){
         [_delegate saveUserInfo:userDetailsDictionary];
         
@@ -101,12 +102,22 @@
         [_delegate goToNext];
             
         NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
+                                    PARAMETER_USER_ID :delegate.deviceId,
                                     PARAMETER_DEVICE: IOS,
                                     PARAMETER_SIGNUP_EMAIL : _email.text
                                          
                                          };
-        [PFAnalytics trackEvent:SIGN_UP dimensions:dimensions];
+        [delegate trackEvent:[SIGN_UP_USER valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[SIGN_UP_USER valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [SIGN_UP_USER valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:_email.text forKey:@"emailID"];
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
             
         }
         else{

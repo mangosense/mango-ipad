@@ -75,6 +75,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
+    viewName = @"Store Page";
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
@@ -139,13 +141,14 @@
 }
 
 - (IBAction)filterSelected:(id)sender {
+
     [self.searchTextField resignFirstResponder];
     self.searchTextField = nil;
     
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, 250)];
     textTemplatesListViewController.delegate = self;
-    
+    textTemplatesListViewController.filterTag = [sender tag];
     UIButton *button = (UIButton *)sender;
     switch (button.tag) {
         case CATEGORY_TAG: {
@@ -282,7 +285,7 @@
 
 - (void)getFilteredStories:(NSString *)filterName {
     filterName = [filterName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     MangoApiController *apiController = [MangoApiController sharedApiController];
     
     NSString *url;
@@ -320,8 +323,20 @@
                                          PARAMETER_DEVICE: IOS,
                                          PARAMETER_SEARCH_KEYWORD: filterName
                                          };
-            [PFAnalytics trackEvent:STORE_SEARCH dimensions:dimensions];
-
+            [delegate trackEvent:[STORE_SEARCH valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[STORE_SEARCH valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [STORE_SEARCH valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:filterName forKey:@"storeSearchKey"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
         }
             break;
             
@@ -439,6 +454,7 @@
         NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
       //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
         BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         bookDetailsViewController.delegate = self;
         
         [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
@@ -511,7 +527,21 @@
                                          PARAMETER_BOOK_ID : [bookDict objectForKey:@"id"]
                                              
                                          };
-            [PFAnalytics trackEvent:STORE_FEATURED_BOOK dimensions:dimensions];
+            [delegate trackEvent:[STORE_FEATURED_BOOK valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"bookID"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+
             
             [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
             
@@ -762,6 +792,7 @@
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
         if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
             bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
@@ -839,7 +870,20 @@
                                      PARAMETER_BOOK_AGE_GROUP :[[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "],
                                      
                                      };
-        [PFAnalytics trackEvent:STORE_AGE_STORE_BOOK dimensions:dimensions];
+        [delegate trackEvent:[STORE_AGE_STORE_BOOK valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[STORE_AGE_STORE_BOOK valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [STORE_AGE_STORE_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
         
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
