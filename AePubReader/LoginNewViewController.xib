@@ -29,7 +29,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="goToNext:" destination="-1" eventType="touchUpInside" id="s50-JT-CUQ"/>
+                        <action selector="goToNextSkip:" destination="-1" eventType="touchUpInside" id="Bda-Cw-6Ec"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign in to MangoReader" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LIz-IY-JM5">

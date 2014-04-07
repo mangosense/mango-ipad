@@ -16,6 +16,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
+    NSString *viewName;
 }
 - (IBAction)openBooks:(id)sender;
 - (IBAction)homeButton:(id)sender;

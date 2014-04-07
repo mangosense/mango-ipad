@@ -40,7 +40,7 @@
 - (void)viewDidLoad
 {
     _udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-
+    viewName = @"Login Page";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden=YES;
@@ -67,7 +67,7 @@
     NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
     if ([userInfoObjects count] > 0) {
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
-        [self goToNext:nil];
+        [self goToNext];
     }
     appDelegate.deviceId = _udid;
     _isLoginWithFb = NO;
@@ -192,8 +192,9 @@
     [self.navigationController pushViewController:landingPageViewController animated:YES];
 }
 
-- (IBAction)goToNext:(id)sender {
+- (IBAction)goToNextSkip:(id)sender {
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     ID = _udid;
    
     NSDictionary *dimensions = @{
@@ -201,21 +202,39 @@
                                  PARAMETER_DEVICE: IOS,
                                  
                                  };
-    [PFAnalytics trackEvent:SKIP_SIGN_IN dimensions:dimensions];
+    [delegate trackEvent:[SKIP_SIGN_IN valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[SKIP_SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [SKIP_SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:ID forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
     [self.navigationController pushViewController:landingPageViewController animated:YES];
 }
 
 - (IBAction)signUp:(id)sender {
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     ID = _udid;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  
                                  };
-    [PFAnalytics trackEvent:SIGN_UP_VIEW dimensions:dimensions];
+    [delegate trackEvent:[SIGN_UP_VIEW valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[SIGN_UP_VIEW valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [SIGN_UP_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:ID forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     SignUpViewController *signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
     signupViewController.delegate = self;
@@ -244,7 +263,7 @@
 
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
     [self saveUserInfo:facebookDetailsDictionary];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     ID = [facebookDetailsDictionary objectForKey:@"email"];
     
     NSDictionary *dimensions = @{
@@ -252,15 +271,26 @@
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_FACEBOOK_ID : ID
                                  };
-    [PFAnalytics trackEvent:FACEBOOK_LOGIN dimensions:dimensions];
+    [delegate trackEvent:[LOGIN_FACEBOOK valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[LOGIN_FACEBOOK valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject:[LOGIN_FACEBOOK valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:ID forKey:@"emailID"];
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    [self goToNext:nil];
+    [self goToNext];
 }
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (userDetailsDictionary.count) {
         if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
             [self saveUserInfo:userDetailsDictionary];
@@ -270,10 +300,22 @@
                                          PARAMETER_DEVICE: IOS,
                                          
                                          };
-            [PFAnalytics trackEvent:SIGN_IN dimensions:dimensions];
+            [delegate trackEvent: [SIGN_IN valueForKey:@"description"] dimensions:dimensions];
+            
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:ID forKey:@"emailID"];
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+            
             
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [self goToNext:nil];
+            [self goToNext];
         } else {
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];

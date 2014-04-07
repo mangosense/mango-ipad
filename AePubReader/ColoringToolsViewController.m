@@ -80,7 +80,7 @@
 
 - (IBAction)colorButtonTapped:(id)sender {
     UIButton *button = (UIButton *)sender;
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     switch (button.tag) {
         case RED_BUTTON_TAG:
         case YELLOW_BUTTON_TAG:
@@ -135,7 +135,21 @@
                                  PARAMETER_BOOK_ID: _bookId,
                                  
                                  };
-    [PFAnalytics trackEvent:EDITOR_DOODLE_TAP dimensions:dimensions];
+    [delegate trackEvent:[EDITOR_DOODLE_TAP valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_DOODLE_TAP valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_DOODLE_TAP valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:@"Story editor" forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_bookId forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
 }
 
 - (IBAction)sliderValueChanged:(id)sender {

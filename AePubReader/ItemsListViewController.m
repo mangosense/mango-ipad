@@ -39,7 +39,8 @@ int menuLanguage = 0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    viewName =@"Store Page";
+    storeBooksType = [[NSArray alloc] initWithObjects:@"Categories", @"Age_Group", @"Languages", @"Grade", nil];
     if(!userEmail){
         ID = userDeviceID;
     }
@@ -76,6 +77,7 @@ int menuLanguage = 0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"indexpath %d", indexPath.row);
     static NSString *CellIdentifier = @"Cell";
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -193,6 +195,7 @@ int menuLanguage = 0;
     NSString *detail;
     NSMutableDictionary *detailsDict = [NSMutableDictionary dictionary];
     
+    
     switch (self.tableType) {
         case TABLE_TYPE_TEXT_TEMPLATES: {
             [delegate itemType:self.tableType tappedAtIndex:indexPath.row withDetail:nil];
@@ -220,13 +223,27 @@ int menuLanguage = 0;
             break;
     }
     NSLog(@"TableType: %d", self.tableType);
-    
+    AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_GROUP: [detailsDict valueForKey:@"title"]
                                  };
-    [PFAnalytics trackEvent:STORE_FILTER dimensions:dimensions];
+    [delegate1 trackEvent:[STORE_FILTER valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[STORE_FILTER valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [STORE_FILTER valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate1.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate1.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate1.language forKey:@"deviceLanguage"];
+    [userObject setObject:[detailsDict valueForKey:@"title"] forKey:@"storeFilter"];
+    [userObject setObject:[storeBooksType objectAtIndex: _filterTag-1] forKey:@"storeBookGroup"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
 }
