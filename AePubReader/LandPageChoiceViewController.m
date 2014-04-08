@@ -123,8 +123,19 @@
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
     
-    MangoStoreViewController *storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
-    [self.navigationController pushViewController:storeViewController animated:YES];
+    
+    MangoStoreViewController *storeViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController_iPhone" bundle:nil];
+    }
+    else{
+        storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
+    }
+    
+        [self.navigationController pushViewController:storeViewController animated:YES];
+    
 }
 
 - (IBAction)myStories:(id)sender {
@@ -148,7 +159,16 @@
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
     
-    CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
+    CategoriesFlexibleViewController *categoryFlexible;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController_iPhone" bundle:nil];
+    }
+    else{
+        categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
+    }
+    
     categoryFlexible.pageNumber = 0;
     [self.navigationController pushViewController:categoryFlexible animated:YES];
 }

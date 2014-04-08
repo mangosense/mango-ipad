@@ -48,6 +48,11 @@
        [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -102,7 +107,17 @@
     UIButton *button = (UIButton *)sender;
     NSDictionary *categorySelected = [_categoriesArray objectAtIndex:button.tag];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    
+    BooksCollectionViewController *booksCollectionViewController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
+    }
+    else{
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    }
+    
+   // booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.toEdit = NO;
     booksCollectionViewController.categorySelected = categorySelected;
     
@@ -245,7 +260,15 @@
 
 - (IBAction)nextButtonTapped:(id)sender {
     if ((_pageNumber+ 1)*NUMBER_OF_CATEGORIES_PER_PAGE < [_categoriesArray count]) {
-        CategoriesFlexibleViewController *categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
+        
+        CategoriesFlexibleViewController *categoryFlexible;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController_iPhone" bundle:nil];
+        }
+        else{
+            categoryFlexible=[[CategoriesFlexibleViewController alloc]initWithNibName:@"CategoriesFlexibleViewController" bundle:nil];
+        }
         categoryFlexible.pageNumber = _pageNumber + 1;
         categoryFlexible.categoriesArray = _categoriesArray;
         

@@ -56,6 +56,11 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)initialSetup {
     viewName = @"Book cover view";
 
@@ -193,7 +198,16 @@
 - (IBAction)bookCoverSelection:(id)sender {
     UIButton *button=(UIButton *)sender;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
+    PageNewBookTypeViewController *controller;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController_iPhone" bundle:nil WithOption:button.tag BookId:_identity];
+        
+    }
+    else{
+        controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
+    }
+    
     controller.bookGradeLevel = currentBookGradeLevel;
     //add full image url
     controller.bookImageURL = currentBookImageURL;
@@ -226,7 +240,18 @@
 - (IBAction)optionsToReader:(id)sender {
     UIButton *button=(UIButton *)sender;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    PageNewBookTypeViewController *controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
+    
+    
+    PageNewBookTypeViewController *controller;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController_iPhone" bundle:nil WithOption:button.tag BookId:_identity];
+        
+    }
+    else{
+        controller=[[PageNewBookTypeViewController alloc]initWithNibName:@"PageNewBookTypeViewController" bundle:nil WithOption:button.tag BookId:_identity];
+    }
+
     controller.bookGradeLevel = currentBookGradeLevel;
     //add full image url
     controller.bookImageURL = currentBookImageURL;

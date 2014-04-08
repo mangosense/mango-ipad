@@ -40,6 +40,11 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)setIdOfDisplayBook:(NSString *)book_Id {
     
     _displayBookID = book_Id;

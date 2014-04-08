@@ -94,8 +94,10 @@ static UIAlertView *alertViewLoading;
     }
     
     if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
-       _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
-        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
+        //LoginNewViewController_iPhone
+        self.loginController = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+     //  _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
+        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
         
         self.window.rootViewController = nav;
         [self.window makeKeyAndVisible];
@@ -105,7 +107,16 @@ static UIAlertView *alertViewLoading;
             NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
 
             if (path) {
-                _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+                }
+                else{
+                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                }
+                
+               // _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
                 nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
             } else {
                 _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
