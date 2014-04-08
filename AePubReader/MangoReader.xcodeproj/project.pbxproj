@@ -1762,9 +1762,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */,
-				3FD8B0E418EDBAD3003A2DED /* FacebookSDK.framework */,
-				3FD8B0E218EDBABA003A2DED /* Parse.framework */,
+				83AED02918D873CA007CE253 /* EJDBKit.xcodeproj */,
+				68A15FB818BC9F4A00DB1AF0 /* FacebookSDK.framework */,
+				68A15FAF18BC991A00DB1AF0 /* Parse.framework */,
 				83AB60A518AA322D004A040E /* My Stories */,
 				83AB609E18A9F642004A040E /* HKProgressView */,
 				831E746618A8BF69001976E4 /* white_page.jpeg */,
