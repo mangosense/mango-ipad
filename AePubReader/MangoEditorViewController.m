@@ -1207,7 +1207,15 @@
 #define READ_BY_MYSELF 1
 
 + (UIView *)readerPage:(int)pageNumber ForEditedStory:(MangoBook *)storyBook WithFolderLocation:(NSString *)folderLocation WithAudioMappingViewController:(AudioMappingViewController *)audioMappingViewController andDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
-    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    UIView *pageView;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 480, 320)];
+    }
+    else{
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    }
+    
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -1369,7 +1377,16 @@
         }
     }
 
-    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    UIView *pageView;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
+        
+    }
+    else{
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    }
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     NSArray *layersArray = [pageDict objectForKey:LAYERS];

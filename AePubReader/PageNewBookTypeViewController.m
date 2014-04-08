@@ -49,6 +49,11 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -410,7 +415,17 @@
         
     } else {
         _pageNumber = _pageNo - 1;
-        LastPageViewController *lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:nil WithId:[_book valueForKey:@"id"]];
+        
+        LastPageViewController *lastPage;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController_iPhone" bundle:nil WithId:[_book valueForKey:@"id"]];
+        }
+        else{
+            lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:nil WithId:[_book valueForKey:@"id"]];
+        }
+        
         [self.navigationController pushViewController:lastPage animated:YES];
     }
    
