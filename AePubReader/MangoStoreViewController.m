@@ -64,6 +64,11 @@
     categoryflag = value;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)setCategoryDictValue:(NSDictionary*)categoryInfoDict {
     categoryDictionary = [[NSDictionary alloc] initWithDictionary:categoryInfoDict];
 }
@@ -98,6 +103,8 @@
     else{
         ID = userEmail;
     }
+    
+    
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
@@ -186,7 +193,14 @@
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [paramDict setObject:[NSNumber numberWithInt:4] forKey:LIMIT];
+    }
+    else{
+        [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
+    }
+    
     [paramDict setObject:IOS forKey:PLATFORM];
 
     if ([type isEqualToString:AGE_GROUPS]) {
@@ -256,8 +270,15 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
     
     /// -----
+    BooksCollectionViewController *booksCollectionViewController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
+    }
+    else{
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    }
     
-    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.toEdit = NO;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
 }
@@ -358,9 +379,17 @@
 - (void)setupInitialUI {
     
     CGRect viewFrame = self.view.bounds;
-    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 45, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-50) collectionViewLayout:layout];
+        
+    }
+    else{
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
+    }
+    
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
     [_booksCollectionView registerClass:[StoreBookCarouselCell class] forCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID];
@@ -427,7 +456,16 @@
     iCarouselImageView *storyImageView = (iCarouselImageView *)[view viewWithTag:iCarousel_VIEW_TAG];
     
     if (!storyImageView) {
-        storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
+        
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 120)];
+        }
+        else{
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
+        }
+        
         storyImageView.delegate = self;
     }
     [storyImageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -453,7 +491,18 @@
     if (_featuredStoriesArray) {
         NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
       //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
-        BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        
+        BookDetailsViewController *bookDetailsViewController;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+            
+        }
+        else{
+            bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        }
+        
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         bookDetailsViewController.delegate = self;
         
@@ -586,7 +635,16 @@
 #pragma mark - Book View Delegate
 
 - (void)openBookViewWithCategory:(NSDictionary *)categoryDict {
-    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    BooksCollectionViewController *booksCollectionViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
+    }
+    else{
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    }
+    
     booksCollectionViewController.toEdit = NO;
     booksCollectionViewController.categorySelected = categoryDict;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
@@ -687,7 +745,15 @@
                 StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
                 
                 if (!_storiesCarousel) {
-                    _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                    
+                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                        
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 120)];
+                    }
+                    else{
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                        
+                    }
                     _storiesCarousel.delegate = self;
                     _storiesCarousel.dataSource = self;
                     _storiesCarousel.type = iCarouselTypeCoverFlow;
@@ -741,7 +807,14 @@
             if(indexPath.section != 0) {
                 StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
                 headerView.titleLabel.textColor = COLOR_DARK_RED;
-                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+                }
+                else{
+                    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+                }
+                
                 headerView.titleLabel.text = [[self.ageGroupsFoundInResponse[indexPath.section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
                 headerView.section = indexPath.section;
                 headerView.delegate = self;
@@ -770,7 +843,13 @@
             headerView.titleLabel.font = [UIFont boldSystemFontOfSize:22];
             
             [headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
-            [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 100, headerView.frame.size.height)];
+            }
+            else{
+                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
+            }
             
             if(liveStoriesFiltered) {
                 headerView.seeAllButton.hidden = NO;
@@ -786,7 +865,18 @@
 #pragma mark - UICollectionView Delegate
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
-    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    
+    BookDetailsViewController *bookDetailsViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+        
+    }
+    else{
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    }
+    
     bookDetailsViewController.delegate = self;
   //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
@@ -941,7 +1031,15 @@
         default:
             break;
     }
-    return UIEdgeInsetsMake(20, 20, 0, 0);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        return UIEdgeInsetsMake(20, 10, 0, 0);
+    }
+    else{
+     return UIEdgeInsetsMake(20, 20, 0, 0);
+    }
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -960,7 +1058,15 @@
     switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if (indexPath.section == 0) {
-                return CGSizeMake(984, 240);
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    return CGSizeMake(984, 130);
+                }
+                else{
+                    return CGSizeMake(984, 240);
+                }
+                
+                
             }
         }
             break;
@@ -969,7 +1075,13 @@
             break;
     }
     
-    return CGSizeMake(150, 240);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        return CGSizeMake(110, 170);
+    }
+    else{
+        return CGSizeMake(150, 240);
+    }
 }
 
 #pragma mark - Private Methods

@@ -66,6 +66,11 @@
     
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     if (_allBooksArray) {
         _allBooksArray = nil;
@@ -127,7 +132,14 @@
     CGRect viewFrame = self.view.bounds;
 
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 90, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame) - 150) collectionViewLayout:layout];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 45, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
+    }
+    else{
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 90, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame) - 150) collectionViewLayout:layout];
+    }
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
     [_booksCollectionView registerClass:[BooksCollectionViewCell class] forCellWithReuseIdentifier:BOOK_CELL_ID];
@@ -210,7 +222,14 @@
                 [self.navigationController pushViewController:newBookEditorViewController animated:YES];
             } else {
                 
-                MangoStoreViewController *controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                MangoStoreViewController *controller;
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController_iPhone" bundle:nil];
+                    
+                }
+                else{
+                    controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                }
                 
                 NSDictionary *dimensions = @{
                                              PARAMETER_USER_ID : ID,
@@ -286,7 +305,17 @@
                     
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
                 } else {
-                    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:book.id];
+                    
+                    CoverViewControllerBetterBookType *coverController;
+                    
+                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                        
+                        coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:book.id];
+                        
+                    }
+                    else{
+                        coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:book.id];
+                    }
                     
                     NSDictionary *dimensions = @{
                                                  PARAMETER_USER_ID : ID,
@@ -438,7 +467,7 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(40, 30, 0, 30);
+    return UIEdgeInsetsMake(40, 30, 0, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -446,11 +475,19 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(200, 240);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return CGSizeMake(160, 100);
+        
+    }
+    else{
+            return CGSizeMake(200, 240);
+    }
+    
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 60.0f;
+    return 30.0f;
 }
 
 #pragma mark - Action Methods

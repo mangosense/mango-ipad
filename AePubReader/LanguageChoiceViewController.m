@@ -212,8 +212,19 @@
 }
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
-    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-    [_delegate dismissPopOver];
+    BookDetailsViewController *bookDetailsViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+        [_delegate dismissPopOver];
+        
+    }
+    else{
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        [_delegate dismissPopOver];
+    }
+    
     bookDetailsViewController.delegate = self;
     NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];

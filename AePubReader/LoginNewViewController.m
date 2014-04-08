@@ -51,14 +51,41 @@
     
     // Set this loginUIViewController to be the loginView button's delegate
     loginView.delegate = self;
-    
+
     
     // Align the button in the center horizontally
-    loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 175, loginView.frame.size.width, loginView.frame.size.height);
+        for (id obj in loginView.subviews)
+        {
+            if ([obj isKindOfClass:[UIButton class]])
+            {
+                UIButton * loginButton =  obj;
+                UIImage *loginImage = [UIImage imageNamed:@"facebook_login.png"];
+                [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
+                [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
+                [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+                [loginButton setFrame:CGRectMake(34,20,150,28)];
+                
+            }
+            if ([obj isKindOfClass:[UILabel class]])
+            {
+                UILabel * loginLabel =  obj;
+                loginLabel.text = @"";
+                //loginLabel.textAlignment = UITextAlignmentCenter;
+                loginLabel.frame = CGRectMake(0,0,0,0);
+            }
+            
+            
+        }
+    }
+    else{
+        loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
+    }
     
     // Align the button in the center vertically
     //loginView.center = self.view.center;
-    
     
     // Add the button to the view
     [self.view addSubview:loginView];
@@ -188,7 +215,16 @@
 }
 
 - (void)goToNext {
-    LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    
+    LandPageChoiceViewController *landingPageViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+    }
+    else{
+        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    }
     [self.navigationController pushViewController:landingPageViewController animated:YES];
 }
 
@@ -213,7 +249,16 @@
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
     
-    LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    LandPageChoiceViewController *landingPageViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+       
+        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+    }
+    else{
+        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    }
+    
     [self.navigationController pushViewController:landingPageViewController animated:YES];
 }
 
@@ -236,7 +281,14 @@
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
     
-    SignUpViewController *signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    SignUpViewController *signupViewController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController_iPhone" bundle:nil];
+    }
+    else{
+        signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    }
+
     signupViewController.delegate = self;
     signupViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:signupViewController animated:YES completion:nil];
