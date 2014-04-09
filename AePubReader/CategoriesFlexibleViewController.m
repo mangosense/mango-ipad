@@ -375,14 +375,24 @@
         [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         
         if ([[bookCountDict objectForKey:[[_categoriesArray objectAtIndex:i] objectForKey:@"name"]] intValue] > 0) {
-            UILabel *bookcountLabel = [[UILabel alloc] initWithFrame:CGRectMake(button.frame.origin.x + button.frame.size.width - 30, button.frame.origin.y - 14, 44, 44)];
+            UILabel *bookcountLabel;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                bookcountLabel = [[UILabel alloc] initWithFrame:CGRectMake(button.frame.origin.x + button.frame.size.width - 22, button.frame.origin.y - 14, 32, 32)];
+                [bookcountLabel setFont:[UIFont boldSystemFontOfSize:16.0f]];
+                [[bookcountLabel layer] setCornerRadius:16.0f];
+            }
+            else{
+                bookcountLabel = [[UILabel alloc] initWithFrame:CGRectMake(button.frame.origin.x + button.frame.size.width - 30, button.frame.origin.y - 14, 44, 44)];
+                [bookcountLabel setFont:[UIFont boldSystemFontOfSize:32.0f]];
+                [[bookcountLabel layer] setCornerRadius:22.0f];
+            }
+
             [bookcountLabel setBackgroundColor:COLOR_LIGHT_GREY];
             [bookcountLabel setAlpha:0.8f];
-            [bookcountLabel setFont:[UIFont boldSystemFontOfSize:32.0f]];
             [bookcountLabel setTextColor:[UIColor blackColor]];
             [bookcountLabel setTextAlignment:NSTextAlignmentCenter];
-            [[bookcountLabel layer] setCornerRadius:22.0f];
-            [bookcountLabel setClipsToBounds:YES];
+                        [bookcountLabel setClipsToBounds:YES];
             [bookcountLabel setText:[NSString stringWithFormat:@"%d", [[bookCountDict objectForKey:[[_categoriesArray objectAtIndex:i] objectForKey:@"name"]] intValue]]];
             [self.view addSubview:bookcountLabel];
         }

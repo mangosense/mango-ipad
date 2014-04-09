@@ -174,7 +174,7 @@ int menuLanguage = 0;
             break;
             
         case TABLE_TYPE_TEXT_TEMPLATES: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
