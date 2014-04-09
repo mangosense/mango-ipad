@@ -110,13 +110,12 @@ static UIAlertView *alertViewLoading;
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     
-                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
                 }
                 else {
-                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
                 }
                 
-                _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
                 nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
             } else {
                 _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
