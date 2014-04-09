@@ -54,7 +54,15 @@
     
     UIFont *textFont = self.font;
     if (!textFont) {
-        textFont = [UIFont systemFontOfSize:25.0f];
+        
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            textFont = [UIFont systemFontOfSize:15.0f];
+        }
+        else{
+            textFont = [UIFont systemFontOfSize:25.0f];
+        }
     }
     [string addAttribute:NSFontAttributeName value:textFont range:NSMakeRange(0, [string length] - 1)];
 

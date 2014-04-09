@@ -153,7 +153,7 @@
     self.searchTextField = nil;
     
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, 250)];
+    [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 150, 150)];
     textTemplatesListViewController.delegate = self;
     textTemplatesListViewController.filterTag = [sender tag];
     UIButton *button = (UIButton *)sender;
@@ -183,7 +183,7 @@
     }
     
     self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
-    [self.filterPopoverController setPopoverContentSize:CGSizeMake(250, 250)];
+    [self.filterPopoverController setPopoverContentSize:CGSizeMake(150, 250)];
     self.filterPopoverController.delegate = self;
     [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
     [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -383,7 +383,7 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 45, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-50) collectionViewLayout:layout];
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 35, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-38) collectionViewLayout:layout];
         
     }
     else{

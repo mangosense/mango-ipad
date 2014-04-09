@@ -1347,7 +1347,15 @@
     
     for (NSDictionary *readerPageDict in readerPagesArray) {
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:gameName]) {
-            UIWebView *gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+            UIWebView *gameWebView;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
+            }
+            else{
+                gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+            }
+            
             NSString *filePath = [[folderLocation stringByAppendingFormat:@"/games/%@/index.html", [readerPageDict objectForKey:PAGE_NAME]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSLog(@"%@", filePath);
             [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
