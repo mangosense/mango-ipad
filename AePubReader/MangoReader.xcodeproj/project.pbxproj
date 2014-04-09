@@ -217,7 +217,6 @@
 		835FE3E91863299E009D2BC7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 835FE3E81863299E009D2BC7 /* MBProgressHUD.m */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
-		83628A6318F4825100AA3CA4 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 83628A6218F4825100AA3CA4 /* MangoStory.zip */; };
 		83708941185F166600946376 /* MangoSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370893F185F166600946376 /* MangoSignupViewController.m */; };
 		83708942185F166600946376 /* MangoSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83708940185F166600946376 /* MangoSignupViewController.xib */; };
 		83738ED1189BE4C7006FC1C8 /* bedtimestories.png in Resources */ = {isa = PBXBuildFile; fileRef = 83738ED0189BE4C7006FC1C8 /* bedtimestories.png */; };
@@ -1013,7 +1012,6 @@
 		83603C5017CB776B000DA2CE /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		83603C5117CB776B000DA2CE /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
 		83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenuItem.m; sourceTree = "<group>"; };
-		83628A6218F4825100AA3CA4 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
 		8370893E185F166600946376 /* MangoSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoSignupViewController.h; sourceTree = "<group>"; };
 		8370893F185F166600946376 /* MangoSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoSignupViewController.m; sourceTree = "<group>"; };
 		83708940185F166600946376 /* MangoSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoSignupViewController.xib; sourceTree = "<group>"; };
@@ -1788,7 +1786,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				83628A6218F4825100AA3CA4 /* MangoStory.zip */,
 				835CD1CB18F46C7800B5A12F /* FacebookSDK.framework */,
 				835CD1C918F46C5B00B5A12F /* Parse.framework */,
 				835CD1BA18F46C2000B5A12F /* EJDBKit.xcodeproj */,
@@ -3317,7 +3314,6 @@
 				FA881E4F1372CA9200FBD25F /* slider_ball.png in Resources */,
 				FA881E501372CA9200FBD25F /* yellowslide.png in Resources */,
 				830F7BC118C9AE7800430625 /* matchimages.png in Resources */,
-				83628A6318F4825100AA3CA4 /* MangoStory.zip in Resources */,
 				AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */,
 				83E9AE23184DA3710025BBD6 /* txt.png in Resources */,
 				834FCE2F182D11F70000181B /* hitosync_button_pressed.png in Resources */,
