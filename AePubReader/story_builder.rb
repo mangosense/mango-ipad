@@ -73,6 +73,11 @@ module Clockwork
 			builder = config.builder
 			builder.clean
 			builder.build
+
+
+			#TODO
+			#1-Upload the app to app store using phantom
+			#2-Update the story app status to live
 		end
 
 	
