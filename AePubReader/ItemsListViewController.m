@@ -47,7 +47,7 @@ int menuLanguage = 0;
     else{
         ID = userEmail;
     }
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -246,6 +246,11 @@ int menuLanguage = 0;
     [userObject saveInBackground];
     
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        [self dismissViewControllerAnimated:self.view completion:nil];
+    }
 }
 
 #pragma mark - Setters
