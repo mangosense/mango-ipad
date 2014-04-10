@@ -76,12 +76,7 @@
     //  NSLog(@"json contents %@",jsonContents);
     UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
     
-    if(!userEmail){
-        ID = userDeviceID;
-    }
-    else{
-        ID = userEmail;
-    }
+    ID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
@@ -270,7 +265,7 @@
         [userObject setObject:[BOOKCOVER_READ_BY_MYSELF valueForKey:@"value"] forKey:@"eventName"];
         [userObject setObject: [BOOKCOVER_READ_BY_MYSELF valueForKey:@"description"] forKey:@"eventDescription"];
         [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:ID forKey:@"deviceIDValue"];
         [userObject setObject:delegate.country forKey:@"deviceCountry"];
         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
         [userObject setObject:_identity forKey:@"bookID"];
@@ -295,7 +290,7 @@
         [userObject setObject:[BOOKCOVER_READ_TO_ME valueForKey:@"value"] forKey:@"eventName"];
         [userObject setObject: [BOOKCOVER_READ_TO_ME valueForKey:@"description"] forKey:@"eventDescription"];
         [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:ID forKey:@"deviceIDValue"];
         [userObject setObject:delegate.country forKey:@"deviceCountry"];
         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
         [userObject setObject:_identity forKey:@"bookID"];
@@ -369,14 +364,13 @@
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID : [jsonDict objectForKey:@"story_id"]
-                                 
                                  };
     [delegate trackEvent:[BOOKCOVER_PLAY_GAMES valueForKey:@"description"] dimensions:dimensions];
     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
     [userObject setObject:[BOOKCOVER_PLAY_GAMES valueForKey:@"value"] forKey:@"eventName"];
     [userObject setObject: [BOOKCOVER_PLAY_GAMES valueForKey:@"description"] forKey:@"eventDescription"];
     [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:ID forKey:@"deviceIDValue"];
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
     [userObject setObject:[jsonDict objectForKey:@"story_id"] forKey:@"bookID"];
@@ -435,7 +429,7 @@
     [userObject setObject:[BOOKCOVER_SHARE valueForKey:@"value"] forKey:@"eventName"];
     [userObject setObject: [BOOKCOVER_SHARE valueForKey:@"description"] forKey:@"eventDescription"];
     [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:ID forKey:@"deviceIDValue"];
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
     [userObject setObject:[_book valueForKey:@"bookId"] forKey:@"bookID"];
