@@ -148,10 +148,9 @@
 }
 
 - (IBAction)filterSelected:(id)sender {
-
+    
     [self.searchTextField resignFirstResponder];
     self.searchTextField = nil;
-    
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 150, 150)];
     textTemplatesListViewController.delegate = self;
@@ -182,11 +181,25 @@
             break;
     }
     
-    self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
-    [self.filterPopoverController setPopoverContentSize:CGSizeMake(150, 250)];
-    self.filterPopoverController.delegate = self;
-    [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
-    [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:textTemplatesListViewController animated:YES completion:nil];
+        
+      /*  _viewiPhonePopup = [[UIViewController alloc] init];
+        // [_viewiPhonePopup setBackgroundColor:[UIColor clearColor]];
+        _viewiPhonePopup.layer.cornerRadius = 5;
+        _viewiPhonePopup.layer.masksToBounds = YES;
+        [_viewiPhonePopup addSubview:textTemplatesListViewController.tableView];
+        [self.view addSubview:_viewiPhonePopup];*/
+    }
+    else{
+        self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
+        [self.filterPopoverController setPopoverContentSize:CGSizeMake(150, 250)];
+        self.filterPopoverController.delegate = self;
+        [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+        [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    
+   
 }
 
 #pragma mark - Post API Delegate
@@ -460,7 +473,7 @@
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 120)];
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 110)];
         }
         else{
             storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
@@ -840,15 +853,16 @@
             
             [headerView.titleLabel setFrame:CGRectMake(headerView.frame.origin.x + 200, 0, headerView.frame.size.width - 400, headerView.frame.size.height)];
             headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
-            headerView.titleLabel.font = [UIFont boldSystemFontOfSize:22];
             
             [headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                 
-                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 100, headerView.frame.size.height)];
+                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 90, headerView.frame.size.height)];
+                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:16];
             }
             else{
                 [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
+                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:22];
             }
             
             if(liveStoriesFiltered) {
@@ -1023,7 +1037,7 @@
     switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if(section == 0) {
-                return UIEdgeInsetsMake(10, 0, 10, 0);
+                return UIEdgeInsetsMake(0, 0, 10, 0);
             }
         }
             break;
@@ -1034,7 +1048,7 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        return UIEdgeInsetsMake(20, 10, 0, 0);
+        return UIEdgeInsetsMake(-5, 15, 0, 20);
     }
     else{
      return UIEdgeInsetsMake(20, 20, 0, 0);
@@ -1060,7 +1074,7 @@
             if (indexPath.section == 0) {
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    return CGSizeMake(984, 130);
+                    return CGSizeMake(984, 115);
                 }
                 else{
                     return CGSizeMake(984, 240);
