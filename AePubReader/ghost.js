@@ -65,7 +65,7 @@ var GhostUploader = (function(){
 					console.log(url_to_go)
 					return url_to_go;
 				})
-				self.handleManageApps(0)
+				self.handleManageApps()
 			})
 		},
 
@@ -129,10 +129,20 @@ var GhostUploader = (function(){
 							//break the app
 					}
 
+					// goto next step by clicking continue button
+
+					$('.continueActionButton').click()
 
 				},self.story_config)
+
+				self.fill_2nd_step();
 			})
+		},
+
+		fill_2nd_step: function() {
+
 		}
+
 	}	
 
 })().init()
