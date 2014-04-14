@@ -87,12 +87,50 @@ var GhostUploader = (function(){
 		fill_1st_step: function() {
 			self=this;
 			casper.thenOpen('https://itunesconnect.apple.com'+this.url_to_go,function() {
-				this.evaluate(function() {
+				this.evaluate(function(config) {
 					console.log("Page url " + window.location.href);
-					// $('#default-language-popup option').filter(function() {
-					// 	if ($(this).text() == )
-					// })
-				})
+
+					// fill the language
+
+					lang_found = $('#default-language-popup option').filter(function() {
+						return ($(this).text() == config['language'])
+					})
+					if lang_found
+						lang_found.prop('selected',true)
+					else
+						$('#default-language-popup option').filter(function() {
+							return ($(this).text() == 'English')
+						}).prop('selected',true)
+
+					// fill the app name
+
+					$('#appNameUpdateContainerId input[type="text"]').val(config['name'])
+
+					//fill the SKU number
+
+					$('#sKUNumberTooltipId').parent().find('input[type="text"]').val(config['sku'])
+
+					// fill the bundle id
+
+					bundle_found = $('primary-popup option').filter(function() {
+						return ($(this).text() == config['bundle_id'])
+					})
+
+					if bundle_found
+						bundle_found.prop('selected',true);
+					else
+						//Break the app
+
+					// fill the bundle id suffix if available
+					if ($('.bundleIdWildcard').is(':visible')){
+						if (config['bundle_id_suffix'])
+							$('#wildcardSuffix').val(config['bundle_id_suffix'])
+						else
+							//break the app
+					}
+
+
+				},self.story_config)
 			})
 		}
 	}	
