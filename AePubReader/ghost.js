@@ -4,10 +4,11 @@ var GhostUploader = (function(){
 	return {
 		url_to_go : '',
 		casper:'',
+		story_config:null,
 		init: function() {
 			casper = require('casper').create({
 				 clientScripts:  [
-			        'js/jquery.min.js',      /
+			        'js/jquery.min.js',      
 			        'js/underscore-min.js'   
 			    ]
 			});
@@ -20,8 +21,15 @@ var GhostUploader = (function(){
 
 			casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36');
 			
+			this.loadConfig()
 			this.start()
 
+		},
+		loadConfig: function() {
+			var fs = require('fs')
+			var data = fs.read('story.json')
+			this.story_config = JSON.parse(data)
+			//casper.echo(story_config['new app']['name'])
 		},
 		start: function() {
 			self = this;
@@ -40,7 +48,7 @@ var GhostUploader = (function(){
 			self=this;
 			casper.then(function() {
 
-				url_to_go = this.evaluate(function() {
+				self.url_to_go = this.evaluate(function() {
 					console.log("Page url " + window.location.href);
 					var sins = $('.singlewide')
 					console.log(sins.length)
@@ -63,12 +71,13 @@ var GhostUploader = (function(){
 
 		handleManageApps: function() {
 			self=this;
-			casper.thenOpen('https://itunesconnect.apple.com'+url_to_go,function() {
-				url_to_go = this.evaluate(function() {
+			casper.thenOpen('https://itunesconnect.apple.com'+this.url_to_go,function() {
+				self.url_to_go = this.evaluate(function(oops) {
+					console.log('url to go :' + oops.url_to_go)
 					console.log("Page url " + window.location.href);
 					console.log($('.upload-app-button a').attr('href'));
 					return $('.upload-app-button a').attr('href')
-				})
+				},self)
 				
 				self.fill_1st_step()
 				
@@ -77,7 +86,7 @@ var GhostUploader = (function(){
 
 		fill_1st_step: function() {
 			self=this;
-			casper.thenOpen('https://itunesconnect.apple.com'+url_to_go,function() {
+			casper.thenOpen('https://itunesconnect.apple.com'+this.url_to_go,function() {
 				this.evaluate(function() {
 					console.log("Page url " + window.location.href);
 					// $('#default-language-popup option').filter(function() {
@@ -93,39 +102,6 @@ var GhostUploader = (function(){
 
 
 
-
-
-// function clickManageApps() {
-	
-// }
-
-    
-// function handleManageApps() {
-// 	this.thenOpen('https://itunesconnect.apple.com'+url_to_go,function() {
-// 		url_to_go = this.evaluate(function() {
-// 			console.log("Page url " + window.location.href);
-// 			console.log($('.upload-app-button a').attr('href'));
-// 			return $('.upload-app-button a').attr('href')
-// 		})
-		
-// 		fill_1st_step.call(this)
-		
-// 	})
-
-
-// }
-
-// function fill_1st_step() {
-// 	this.thenOpen('https://itunesconnect.apple.com'+url_to_go,function() {
-// 		this.evaluate(function() {
-// 			console.log("Page url " + window.location.href);
-// 			// $('#default-language-popup option').filter(function() {
-// 			// 	if ($(this).text() == )
-// 			// })
-// 		})
-// 	})
-	
-// }
 
 
 
