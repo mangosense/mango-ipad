@@ -57,6 +57,7 @@
 {
     [super viewDidLoad];
     viewName = @"My Stories View";
+    popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     if (!_categoriesArray) {
         [self getAllCategories];
@@ -166,12 +167,6 @@
     UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
     [settingAlert show];
     
-//    UIButton *button=(UIButton *) sender;
-//    SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-//    settingsViewController.dismissDelegate=self;
-//    settingsViewController.controller=self.navigationController;
-//    _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-//    [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -223,13 +218,35 @@
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
             
-            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-            settingsViewController.dismissDelegate = self;
-            settingsViewController.controller = self.navigationController;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+              /*  if (!_popoverControlleriPhone) {
+                    
+                    SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+                    settingsViewController.dismissDelegate = self;
+                    settingsViewController.controller = self.navigationController;
+                    _popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
+                    _popoverControlleriPhone.delegate = self;
+                    [_popoverControlleriPhone setPopoverContentSize:CGSizeMake(150, 132)];
+                    [_popoverControlleriPhone setPassthroughViews:[NSArray arrayWithObjects:self.view, nil]];
+                    
+                    [_popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+                    
+                } else {
+                    [_popoverControlleriPhone dismissPopoverAnimated:YES];
+                    _popoverControlleriPhone = nil;
+                }*/
+                
+            }
+            else{
+                
+                SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+                settingsViewController.dismissDelegate = self;
+                settingsViewController.controller = self.navigationController;
             _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
             [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
             [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            
+            }
         }
         else{
             NSLog(@"WRONG");

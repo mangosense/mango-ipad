@@ -9,14 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
 #import "MangoApiController.h"
+#import "WEPopoverController.h"
 
-
-@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol>{
+@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol,WEPopoverControllerDelegate, UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate>{
     int settingQuesNo;
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    Class popoverClass;
 }
 - (IBAction)openBooks:(id)sender;
 - (IBAction)homeButton:(id)sender;
@@ -42,5 +43,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelFour;
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelFive;
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelSix;
+@property (nonatomic, strong) WEPopoverController *popoverControlleriPhone;
 
 @end
