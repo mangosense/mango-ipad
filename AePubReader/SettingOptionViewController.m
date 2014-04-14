@@ -14,6 +14,7 @@
 #import "BooksCollectionViewController.h"
 #import "PurchaseManager.h"
 #import "CargoBay.h"
+#import "MangoSubscriptionViewController.h"
 
 @interface SettingOptionViewController ()
 
@@ -26,7 +27,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases",@"Analytics", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases",@"Analytics", @"Subscribe", nil];
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
@@ -235,6 +236,15 @@
              analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
              [self presentViewController:analyticsViewController animated:YES completion:nil];
             
+        }
+            break;
+            
+        case 3: {
+            MangoSubscriptionViewController *subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+            subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self presentViewController:subscriptionViewController animated:YES completion:^{
+                
+            }];
         }
             break;
             
