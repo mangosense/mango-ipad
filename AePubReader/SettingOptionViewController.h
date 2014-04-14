@@ -13,7 +13,7 @@
 #import "PurchaseManager.h"
 #import <StoreKit/StoreKit.h>
 
-@interface SettingOptionViewController : UITableViewController <PurchaseManagerProtocol, MangoPostApiProtocol, SKProductsRequestDelegate>{
+@interface SettingOptionViewController : UITableViewController <PurchaseManagerProtocol, MangoPostApiProtocol, SKProductsRequestDelegate, UITableViewDataSource, UITableViewDelegate>{
     
     NSString *userEmail;
     NSString *userDeviceID;

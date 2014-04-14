@@ -20,6 +20,7 @@
 @end
 
 @implementation CoverViewControllerBetterBookType
+@synthesize popoverControlleriPhone;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity
 {
@@ -151,10 +152,36 @@
     
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
-    _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-    CGSize size=_popOverController.popoverContentSize;
-    size.height=size.height-300;
-    _popOverController.popoverContentSize=size;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        
+      //  if (!self.popoverControlleriPhone) {
+            
+            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:choiceViewController] ;
+            CGSize size=popoverControlleriPhone.popoverContentSize;
+            size.height=size.height-300;
+            popoverControlleriPhone.popoverContentSize=size;
+          //  self.popoverControlleriPhone.delegate = self;
+          //  self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            
+      //      [self.popoverControlleriPhone presentPopoverFromRect:button.frame
+         //                                                 inView:self.view
+         //                               //permittedArrowDirections:UIPopoverArrowDirectionUp
+            //                                            animated:YES];
+            
+            
+   //     } else {
+   //         [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+          //  self.popoverControlleriPhone = nil;
+   //     }
+        
+    }
+    else{
+        _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+        CGSize size=_popOverController.popoverContentSize;
+        size.height=size.height-300;
+        _popOverController.popoverContentSize=size;
+    }
     choiceViewController.bookIDArray = [[NSMutableArray alloc] init];
     for(int i=0; i< [_avilableLanguages count]; ++i){
         [languageArray addObject:[_avilableLanguages[i] objectForKey:@"language"]];
@@ -178,8 +205,25 @@
     choiceViewController.bookDict = jsonDict;
     choiceViewController.language = _languageLabel.titleLabel.text;
     if(choiceViewController.array.count>0){
+     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+       if (!self.popoverControlleriPhone) {
+           self.popoverControlleriPhone.delegate = self;
+           self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+         
+               [self.popoverControlleriPhone presentPopoverFromRect:_languageLabel.frame
+                                                          inView:self.view
+                                        permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                     animated:YES];
+         
+         
+       } else {
+                  [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+                  self.popoverControlleriPhone = nil;
+       }
+    }
         
-    [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    else{ [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+     }
     }
     
 }

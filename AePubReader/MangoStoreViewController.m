@@ -47,6 +47,7 @@
 
 @synthesize filterPopoverController;
 @synthesize liveStoriesFiltered;
+@synthesize popoverControlleriPhone;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -82,6 +83,7 @@
     [super viewDidLoad];
     NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
     viewName = @"Store Page";
+    popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
@@ -182,14 +184,24 @@
     }
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [self presentViewController:textTemplatesListViewController animated:YES completion:nil];
+    
+        if (!self.popoverControlleriPhone) {
+            
+            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:textTemplatesListViewController] ;
+            self.popoverControlleriPhone.delegate = self;
+            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            
+            [self.popoverControlleriPhone presentPopoverFromRect:button.frame
+                                                    inView:self.view
+                                  permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                  animated:YES];
+            
+          
+        } else {
+            [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+            self.popoverControlleriPhone = nil;
+        }
         
-      /*  _viewiPhonePopup = [[UIViewController alloc] init];
-        // [_viewiPhonePopup setBackgroundColor:[UIColor clearColor]];
-        _viewiPhonePopup.layer.cornerRadius = 5;
-        _viewiPhonePopup.layer.masksToBounds = YES;
-        [_viewiPhonePopup addSubview:textTemplatesListViewController.tableView];
-        [self.view addSubview:_viewiPhonePopup];*/
     }
     else{
         self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
@@ -417,6 +429,7 @@
 
 - (void)itemType:(int)itemType tappedWithDetail:(NSDictionary *)detailDict {
     [self.filterPopoverController dismissPopoverAnimated:YES];
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
     NSString *detailId = [detailDict objectForKey:@"id"];
     NSString *detailTitle = [detailDict objectForKey:@"title"];
     

@@ -10,8 +10,9 @@
 #import "DismissPopOver.h"
 #import "Book.h"
 #import "LastPageViewController.h"
+#import "WEPopoverController.h" 
 
-@interface CoverViewControllerBetterBookType : UIViewController<DismissPopOver, MangoPostApiProtocol>{
+@interface CoverViewControllerBetterBookType : UIViewController<DismissPopOver, MangoPostApiProtocol, UITableViewDataSource, UITableViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate>{
     NSString *currentBookId;
     NSString *currentBookGradeLevel;
     NSString *currentBookImageURL;
@@ -20,6 +21,7 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    Class popoverClass;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;
@@ -37,6 +39,7 @@
 
 @property (nonatomic, strong) IBOutlet UIButton *languageLabel;
 @property(strong, nonatomic) NSMutableArray *avilableLanguages;
+@property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
 
 - (IBAction)gameButtonTapped:(id)sender;
 - (IBAction)bookCoverSelection:(id)sender;

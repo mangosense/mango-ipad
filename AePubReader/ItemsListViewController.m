@@ -32,13 +32,30 @@ int menuLanguage = 0;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
         // Custom initialization
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            self.tableView.contentInset = UIEdgeInsetsMake(-37, 0, -37, 0);
+            if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
+                self.preferredContentSize = CGSizeMake(150, 110);
+            } else {
+                self.contentSizeForViewInPopover = CGSizeMake(150, 110);
+            }
+        }
     }
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cellSize = 30;
+        fontSize = 14;
+    }
+    else{
+        cellSize = 44;
+        fontSize = 24;
+    }
     viewName =@"Store Page";
     storeBooksType = [[NSArray alloc] initWithObjects:@"Categories", @"Age_Group", @"Languages", @"Grade", nil];
     if(!userEmail){
@@ -54,6 +71,8 @@ int menuLanguage = 0;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -87,7 +106,9 @@ int menuLanguage = 0;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     cell.textLabel.numberOfLines = 100;
-    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:12];
+    }
     switch (tableType) {
         case TABLE_TYPE_AUDIO_RECORDINGS: {
             AudioRecord *audioRecord = [itemsListArray objectAtIndex:indexPath.row];
@@ -174,17 +195,17 @@ int menuLanguage = 0;
             break;
             
         case TABLE_TYPE_TEXT_TEMPLATES: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(cellSize, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(250, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
         case TABLE_TYPE_LANGUAGE: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(cellSize, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
         default: {
-            return MAX(44, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(cellSize, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME] sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
     }
@@ -248,7 +269,7 @@ int menuLanguage = 0;
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [self setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        
         [self dismissViewControllerAnimated:self.view completion:nil];
     }
 }
