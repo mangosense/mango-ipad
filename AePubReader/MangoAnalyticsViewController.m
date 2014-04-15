@@ -46,7 +46,14 @@
     [self.bookDataDisplayView setCollectionViewLayout:flowLayout];
     
     // Register the colleciton cell
-    [self.bookDataDisplayView registerNib:[UINib nibWithNibName:@"MangoAnalyticsSingleViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [self.bookDataDisplayView registerNib:[UINib nibWithNibName:@"MangoAnalyticsSingleViewCell_iPhone" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+    }
+    else{
+        [self.bookDataDisplayView registerNib:[UINib nibWithNibName:@"MangoAnalyticsSingleViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+    }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"LOADING PLEASE WAIT...";

@@ -17,7 +17,7 @@
 #import "PurchaseManager.h"
 #import "BookDetailsViewController.h"
 
-@interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, iCarouselImageCachingProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, PurchaseManagerProtocol ,UITextFieldDelegate, BookViewProtocol>{
+@interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, iCarouselImageCachingProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, PurchaseManagerProtocol ,UITextFieldDelegate, BookViewProtocol, UITableViewDataSource, UITableViewDelegate>{
     
     NSInteger categoryflag;
     NSDictionary *categoryDictionary;
@@ -29,6 +29,7 @@
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;
 @property (nonatomic, assign) int tableType;
+@property (nonatomic, strong) UIViewController *viewiPhonePopup;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;

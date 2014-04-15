@@ -47,7 +47,7 @@ int menuLanguage = 0;
     else{
         ID = userEmail;
     }
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -174,7 +174,7 @@ int menuLanguage = 0;
             break;
             
         case TABLE_TYPE_TEXT_TEMPLATES: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
@@ -246,6 +246,11 @@ int menuLanguage = 0;
     [userObject saveInBackground];
     
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        [self dismissViewControllerAnimated:self.view completion:nil];
+    }
 }
 
 #pragma mark - Setters

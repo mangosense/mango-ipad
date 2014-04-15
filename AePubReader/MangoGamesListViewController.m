@@ -81,7 +81,15 @@
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
     UIImageView *storyImageView = [[UIImageView alloc] init];
-    [storyImageView setFrame:CGRectMake(0, 0, 400, 350)];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [storyImageView setFrame:CGRectMake(0, 0, 160, 150)];
+    }
+    else{
+        [storyImageView setFrame:CGRectMake(0, 0, 400, 350)];
+    }
+    
     [storyImageView setImage:[UIImage imageNamed:[_gameNames objectAtIndex:index]]];
     [[storyImageView layer] setCornerRadius:12];
     [storyImageView setClipsToBounds:YES];
