@@ -52,7 +52,14 @@
     
     [_customView setHidden:YES];
     _mangoTextField = [[MangoTextField alloc] init];
-    _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:15.0f];
+    }
+    else{
+        _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    }
     _wordIndex = 0;
 }
 
@@ -252,7 +259,13 @@
         textForMapping = _mangoTextField.text;
     }
     
-    _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:15.0f];
+    }
+    else{
+         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    }
     
     NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     NSMutableArray *wordsToDelete = [NSMutableArray array];

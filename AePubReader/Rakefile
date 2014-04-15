@@ -20,13 +20,14 @@ namespace :mango do
 		config = target.config(:Debug)
 		config.product_name = "Mango Story App" #or title of the story
 		config.iphoneos_deployment_target = '7.0'
-		
+
 		#set the app info here
 		config.info_plist do |info|
 			info.version = info.version.to_i + 1
-			info.display_name = 'Bully bug'
-			info.identifier = 'com.mangosense.storyapp.sa1222222'
+			info.display_name = ENV['title']
+			info.identifier = "com.mangosense.storyapp.#{ENV['app_id']}" #uniqe story id at last
 		end
+
 		builder = config.builder
 		builder.clean
 		builder.build

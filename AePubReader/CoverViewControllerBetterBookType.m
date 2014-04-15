@@ -384,7 +384,17 @@
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [noGamesAlert show];
     } else {
-        MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+        
+        MangoGamesListViewController *gamesListViewController;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController_iPhone" bundle:nil];
+        }
+        else{
+            gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+        }
+        
         gamesListViewController.jsonString = [self getJsonContentForBook];
         gamesListViewController.folderLocation = _book.localPathFile;
         NSMutableArray *gameNames = [[NSMutableArray alloc] init];

@@ -144,9 +144,15 @@
 		
     }
     
-    cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:12.0];
+    }
+    else{
+        cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0];
+    }
 	cell.textLabel.text = [arrayData objectAtIndex:indexPath.row];
-		
+    cell.textLabel.textColor = [UIColor darkGrayColor];
 	return cell;
 	
 }	
