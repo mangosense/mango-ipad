@@ -10,8 +10,9 @@
 #import "DismissPopOver.h"
 #import "MangoApiController.h"
 #import "WEPopoverController.h"
+#import "SettingOptionViewController.h"
 
-@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol,WEPopoverControllerDelegate, UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol,WEPopoverControllerDelegate, UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate, ShowAnalyticsView>{
     int settingQuesNo;
     NSString *userEmail;
     NSString *userDeviceID;
