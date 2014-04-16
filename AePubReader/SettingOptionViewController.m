@@ -31,6 +31,16 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+           // self.tableView.contentInset = UIEdgeInsetsMake(37, 0, 37, 0);
+            if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
+                self.preferredContentSize = CGSizeMake(150, 110);
+            } else {
+                self.contentSizeForViewInPopover = CGSizeMake(150, 110);
+            }
+        }
+        
     }
     return self;
 }
@@ -39,12 +49,14 @@
 {
     [super viewDidLoad];
     viewName = @"Setings View";
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
     if(!userEmail){
         ID = userDeviceID;
     }
@@ -70,7 +82,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    NSLog(@"count  %d", _array.count);
     return _array.count;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = 40;
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,6 +102,10 @@
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+    }
+    
     cell.textLabel.text=[_array objectAtIndex:indexPath.row];
     return cell;
 }
@@ -230,11 +254,21 @@
             break;
             
         case 2:{
-            [_dismissDelegate dismissPopOver];
+            
             //handle analytics view
-            MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
-             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-             [self presentViewController:analyticsViewController animated:YES completion:nil];
+            MangoAnalyticsViewController *analyticsViewController;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                [_dismissDelegate dismissPopOver];
+                [_analyticsDelegate showAnalyticsView];
+            }
+            else{
+                [_dismissDelegate dismissPopOver];
+                analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+                analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+                [self presentViewController:analyticsViewController animated:YES completion:nil];
+            }
+            
             
         }
             break;

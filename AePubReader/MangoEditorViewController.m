@@ -1172,9 +1172,11 @@
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
 
-    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+ //   NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    int totalpages = [[jsonDict objectForKey:@"page_count"] intValue];
 
-    return [NSNumber numberWithInt:[readerPagesArray count]];
+    return [NSNumber numberWithInt:totalpages];
 }
 
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
@@ -1418,7 +1420,7 @@
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             [audioMappingViewcontroller.customView setNeedsDisplay];
@@ -1470,8 +1472,8 @@
                     
                     CGFloat xOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
-                        xOrigin = 1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
-                        if (xOrigin >= 1024 || xOrigin < 0) {
+                        xOrigin = pageView.frame.size.width/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
+                        if (xOrigin >= pageView.frame.size.width || xOrigin < 0) {
                             xOrigin = 0;
                         }
                     }
@@ -1479,15 +1481,16 @@
                     
                     CGFloat yOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
-                        yOrigin = 768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
-                        if (yOrigin >= 768 || yOrigin < 0) {
+                        yOrigin = pageView.frame.size.height/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
+                        if (yOrigin >= pageView.frame.size.height || yOrigin < 0) {
                             yOrigin = 0;
                         }
                     }
                     
                     //CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
                     
-                    textFrame = CGRectMake(xOrigin, yOrigin, [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                    textFrame = CGRectMake(xOrigin, yOrigin, pageView.frame.size.width*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue]/1024.0f, pageView.frame.size.height*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]/768.0f);
+                    
                     audioMappingViewcontroller.customView.frame = textFrame;
                 }
             }
@@ -1504,12 +1507,12 @@
             
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
             audioMappingViewcontroller.mangoTextField.text = textOnPage;
-            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
 
@@ -2338,7 +2341,7 @@ enum
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     [pageImageView addSubview:audioMappingViewController.view];
     
-    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:15];
     audioMappingViewController.customView.frame = textFrame;
     
     [pageImageView addSubview:audioMappingViewController.customView];
@@ -2383,7 +2386,7 @@ enum
     [pageImageView bringSubviewToFront:audioMappingViewController.view];
     
     audioMappingViewController.mangoTextField.text = [audioMappingViewController.customView.text componentsJoinedByString:@" "];
-    audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageImageView.frame.size.height * 25.0f/768.0f];
     audioMappingViewController.mangoTextField.frame = CGRectMake(audioMappingViewController.view.frame.origin.x, audioMappingViewController.view.frame.origin.y + audioMappingViewController.view.frame.size.height, audioMappingViewController.view.frame.size.width, audioMappingViewController.view.frame.size.height);
     audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
     
