@@ -11,7 +11,7 @@
 #import "BooksCollectionViewCell.h"
 #import "WEPopoverController.h"
 
-@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage, WEPopoverControllerDelegate, UIPopoverControllerDelegate>{
+@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage, WEPopoverControllerDelegate, UIPopoverControllerDelegate, ShowAnalyticsView>{
     int deleteBookIndex;
     int settingQuesNo;
     

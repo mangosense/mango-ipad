@@ -108,6 +108,10 @@
     _backButton.hidden = hide;
     _previousPageButton.hidden = hide;
     _nextPageButton.hidden = hide;
+    
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+    self.popoverControlleriPhone = nil;
+    
     if (hide) {
         _rightView.hidden=YES;
     }
@@ -165,6 +169,9 @@
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;
     _showOptionButton.hidden=NO;
+
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+    self.popoverControlleriPhone = nil;
 }
 
 - (IBAction)shareButton:(id)sender {
@@ -656,6 +663,11 @@
 }
 -(void)dismissPopOver{
     [_pop dismissPopoverAnimated:YES];
+    
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+    self.popoverControlleriPhone = nil;
+        
+     
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     [_audioMappingViewController.timer invalidate];

@@ -481,9 +481,10 @@
             [settingsViewController.view setFrame:CGRectMake(0, 0, 50, 150)];
             settingsViewController.dismissDelegate = self;
             settingsViewController.controller = self.navigationController;
+            settingsViewController.analyticsDelegate = self;
             self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
             self.popoverControlleriPhone.delegate = self;
-            [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(300, 132)];
+            [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(200, 132)];
             self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
             
             [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -552,6 +553,14 @@
     int rNo = arc4random()%8;
     settingQuesNo = rNo;
     
+    if (_popoverControlleriPhone){
+        
+        [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+        self.popoverControlleriPhone = nil;
+        
+        return;
+    }
+    
     UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
     [settingAlert show];
     
@@ -584,9 +593,14 @@
 
 -(void)dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
+    [_popoverControlleriPhone dismissPopoverAnimated:YES];
+    
+}
+
+- (void) showAnalyticsView{
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [_popoverControlleriPhone dismissPopoverAnimated:YES];
+        
         MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
         analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
         [self presentViewController:analyticsViewController animated:YES completion:nil];

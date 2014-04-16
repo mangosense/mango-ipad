@@ -101,6 +101,10 @@
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+    }
+    
     cell.textLabel.text=[_array objectAtIndex:indexPath.row];
     return cell;
 }
@@ -254,9 +258,11 @@
             MangoAnalyticsViewController *analyticsViewController;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     
-                    [_dismissDelegate dismissPopOver];
+                [_dismissDelegate dismissPopOver];
+                [_analyticsDelegate showAnalyticsView];
             }
             else{
+                [_dismissDelegate dismissPopOver];
                 analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
                 analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
                 [self presentViewController:analyticsViewController animated:YES completion:nil];
