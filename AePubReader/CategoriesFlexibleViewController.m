@@ -179,6 +179,10 @@
     
 }
 
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+    self.popoverControlleriPhone = nil;
+}
+
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
     if(settingSol){
@@ -281,7 +285,7 @@
             self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
             self.popoverControlleriPhone.delegate = self;
             [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(200, 132)];
-            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            self.popoverControlleriPhone.passthroughViews = nil;
             
             [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
             
@@ -576,5 +580,6 @@
         [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
     }
 }
+
 
 @end
