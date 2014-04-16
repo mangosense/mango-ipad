@@ -1172,9 +1172,11 @@
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
 
-    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+ //   NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    int totalpages = [[jsonDict objectForKey:@"page_count"] intValue];
 
-    return [NSNumber numberWithInt:[readerPagesArray count]];
+    return [NSNumber numberWithInt:totalpages];
 }
 
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
