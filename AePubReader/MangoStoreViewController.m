@@ -687,7 +687,15 @@
     NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
     [appDelegate.dataModel displayAllData];
     
-    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    CoverViewControllerBetterBookType *coverController;
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:identity];
+    }
+    else{
+        coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    }
+    
     [self.navigationController pushViewController:coverController animated:YES];
 }
 
