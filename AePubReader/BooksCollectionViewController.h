@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SettingOptionViewController.h"
 #import "BooksCollectionViewCell.h"
+#import "WEPopoverController.h"
 
-@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage>{
+@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage, WEPopoverControllerDelegate, UIPopoverControllerDelegate>{
     int deleteBookIndex;
     int settingQuesNo;
     
@@ -18,6 +19,9 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    
+    Class popoverClass;
+    BOOL settingSol;
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
@@ -34,5 +38,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;
 @property (nonatomic, assign) int fromCreateStoryView;
+@property (nonatomic, strong) WEPopoverController *popoverControlleriPhone;
 
 @end

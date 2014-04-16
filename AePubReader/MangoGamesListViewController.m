@@ -47,6 +47,11 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -180,9 +185,11 @@
     
     UIWebView *webview = [gameViewDict objectForKey:@"gameView"];
     webview.delegate = self;
+    webview.scalesPageToFit = YES;
     webview.frame = self.view.frame;
     [webview setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
     [[webview scrollView] setBounces:NO];
+    
     [self.view addSubview:webview];
     
     [self.view bringSubviewToFront:_closeButton];

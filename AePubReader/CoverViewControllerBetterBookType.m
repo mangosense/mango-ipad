@@ -20,7 +20,7 @@
 @end
 
 @implementation CoverViewControllerBetterBookType
-@synthesize popoverControlleriPhone;
+@synthesize popoverControlleriPhone, popOverShareiPhone;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity
 {
@@ -102,6 +102,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    popoverClass = [WEPopoverController class];
     self.navigationController.navigationBarHidden=YES;
     if (_identity) {
         [self initialSetup];
@@ -151,37 +153,9 @@
     NSMutableArray *languageArray = [[NSMutableArray alloc] init];
     
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    [choiceViewController.view setFrame:CGRectMake(0, 0, 150, 150)];
     choiceViewController.delegate=self;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        
-      //  if (!self.popoverControlleriPhone) {
-            
-            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:choiceViewController] ;
-            CGSize size=popoverControlleriPhone.popoverContentSize;
-            size.height=size.height-300;
-            popoverControlleriPhone.popoverContentSize=size;
-          //  self.popoverControlleriPhone.delegate = self;
-          //  self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
-            
-      //      [self.popoverControlleriPhone presentPopoverFromRect:button.frame
-         //                                                 inView:self.view
-         //                               //permittedArrowDirections:UIPopoverArrowDirectionUp
-            //                                            animated:YES];
-            
-            
-   //     } else {
-   //         [self.popoverControlleriPhone dismissPopoverAnimated:YES];
-          //  self.popoverControlleriPhone = nil;
-   //     }
-        
-    }
-    else{
-        _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-        CGSize size=_popOverController.popoverContentSize;
-        size.height=size.height-300;
-        _popOverController.popoverContentSize=size;
-    }
+    
     choiceViewController.bookIDArray = [[NSMutableArray alloc] init];
     for(int i=0; i< [_avilableLanguages count]; ++i){
         [languageArray addObject:[_avilableLanguages[i] objectForKey:@"language"]];
@@ -207,6 +181,8 @@
     if(choiceViewController.array.count>0){
      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
        if (!self.popoverControlleriPhone) {
+           
+           self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:choiceViewController] ;
            self.popoverControlleriPhone.delegate = self;
            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
          
@@ -222,7 +198,13 @@
        }
     }
         
-    else{ [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    else{
+        _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+        CGSize size=_popOverController.popoverContentSize;
+        size.height=size.height-300;
+        _popOverController.popoverContentSize=size;
+        
+        [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
      }
     }
     
@@ -355,6 +337,7 @@
 }
 -(void) dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
+    [popoverControlleriPhone dismissPopoverAnimated:YES];
 }
 
 - (NSString *)getJsonContentForBook {
@@ -501,10 +484,20 @@
         }
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
-        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
-        _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
+        activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll,];
         
-        [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+            [self presentViewController:activity animated:YES completion:nil];
+         }
+        
+        else{
+            _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
+        
+            [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        }
         
         return;
     }

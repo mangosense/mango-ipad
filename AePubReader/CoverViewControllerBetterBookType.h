@@ -40,6 +40,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *languageLabel;
 @property(strong, nonatomic) NSMutableArray *avilableLanguages;
 @property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
+@property(retain,nonatomic) WEPopoverController *popOverShareiPhone;
 
 - (IBAction)gameButtonTapped:(id)sender;
 - (IBAction)bookCoverSelection:(id)sender;
