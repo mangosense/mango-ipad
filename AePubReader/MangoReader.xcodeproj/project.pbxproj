@@ -2053,16 +2053,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3FECB20818F68D9600C9AB56 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3FECB20E18F68D9600C9AB56 /* libEJDBKit.a */,
-				3FECB21018F68D9600C9AB56 /* EJDBKitTests.xctest */,
-				3FECB21218F68D9600C9AB56 /* EJDBKitTests64.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		68624C7318F7DE190035A3F1 /* Popover */ = {
 			isa = PBXGroup;
 			children = (
@@ -4214,7 +4204,7 @@
 				PROVISIONING_PROFILE = "F748C4AA-96F5-4069-8AD3-19234379661E";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F748C4AA-96F5-4069-8AD3-19234379661E";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
@@ -4260,7 +4250,7 @@
 				PROVISIONING_PROFILE = "F748C4AA-96F5-4069-8AD3-19234379661E";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F748C4AA-96F5-4069-8AD3-19234379661E";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
@@ -4350,7 +4340,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 arm7s";
 			};
 			name = Debug;
@@ -4373,7 +4363,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 arm7s";
 			};
 			name = Release;
