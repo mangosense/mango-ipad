@@ -485,7 +485,7 @@
             self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
             self.popoverControlleriPhone.delegate = self;
             [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(200, 132)];
-            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            self.popoverControlleriPhone.passthroughViews = nil;
             
             [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
             
@@ -594,7 +594,11 @@
 -(void)dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
     [_popoverControlleriPhone dismissPopoverAnimated:YES];
-    
+    self.popoverControlleriPhone = nil;
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+    self.popoverControlleriPhone = nil;
 }
 
 - (void) showAnalyticsView{
