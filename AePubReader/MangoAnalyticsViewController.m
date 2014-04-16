@@ -42,16 +42,18 @@
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flowLayout.itemSize = CGSizeMake(248.0, 490.0);
+    
+    
     [self.bookDataDisplayView setCollectionViewLayout:flowLayout];
     
     // Register the colleciton cell
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
+        flowLayout.itemSize = CGSizeMake(185.0, 177.0);
         [self.bookDataDisplayView registerNib:[UINib nibWithNibName:@"MangoAnalyticsSingleViewCell_iPhone" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
     }
     else{
+        flowLayout.itemSize = CGSizeMake(248.0, 490.0);
         [self.bookDataDisplayView registerNib:[UINib nibWithNibName:@"MangoAnalyticsSingleViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
     }
     
@@ -59,6 +61,12 @@
     hud.labelText = @"LOADING PLEASE WAIT...";
     
     // Do any additional setup after loading the view from its nib.
+}
+
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated{
@@ -148,9 +156,20 @@
         NSURL *url = [NSURL URLWithString:[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"bookCoverImageURL"]];
         
         CALayer *imgLayer = [cell.bookCoverImageView layer];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            [imgLayer setCornerRadius:45.0f];
+            [imgLayer setBorderWidth:4.0f];
+        }
+        else{
+            
+            [imgLayer setCornerRadius:107.0f];
+            [imgLayer setBorderWidth:8.0f];
+            
+        }
         [imgLayer setMasksToBounds:YES];
-        [imgLayer setCornerRadius:107.0f];
-        [imgLayer setBorderWidth:8.0f];
+        
         [imgLayer setBorderColor:[UIColor orangeColor].CGColor];
         
         [self downloadImageWithURL:url completionBlock:^(BOOL succeeded, NSData *data) {

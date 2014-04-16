@@ -28,6 +28,7 @@
 @implementation PageNewBookTypeViewController
 @synthesize menuPopoverController;
 @synthesize openingTime;
+@synthesize popoverControlleriPhone;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithOption:(NSInteger)option BookId:(NSString *)bookID
 {
@@ -57,7 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    popoverClass = [WEPopoverController class];
     viewName = @"Book Read View";
     
     if(!userEmail) {
@@ -107,6 +108,10 @@
     _backButton.hidden = hide;
     _previousPageButton.hidden = hide;
     _nextPageButton.hidden = hide;
+    
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+    self.popoverControlleriPhone = nil;
+    
     if (hide) {
         _rightView.hidden=YES;
     }
@@ -164,6 +169,9 @@
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;
     _showOptionButton.hidden=NO;
+
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+    self.popoverControlleriPhone = nil;
 }
 
 - (IBAction)shareButton:(id)sender {
@@ -212,9 +220,15 @@
         
         UIActivityViewController *activity=[[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
         activity.excludedActivityTypes=@[UIActivityTypeCopyToPasteboard,UIActivityTypePostToWeibo,UIActivityTypeAssignToContact,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeSaveToCameraRoll];
-        _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
         
-        [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            [self presentViewController:activity animated:YES completion:nil];
+        }
+        else{
+            _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
+            [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        }
         
         return;
     }
@@ -348,10 +362,11 @@
     
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
-    _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-    CGSize size=_pop.popoverContentSize;
-    size.height=size.height-300;
-    _pop.popoverContentSize=size;
+    
+//    _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+//    CGSize size=_pop.popoverContentSize;
+//    size.height=size.height-300;
+//    _pop.popoverContentSize=size;
     
     choiceViewController.bookIDArray = [[NSMutableArray alloc] init];
     for(int i=0; i< [_avilableLanguages count]; ++i){
@@ -377,12 +392,34 @@
     choiceViewController.language = [[jsonDict objectForKey:@"info"] objectForKey:@"language"];
     choiceViewController.isReadPage = 1;
     if(choiceViewController.array.count>0){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            if (!self.popoverControlleriPhone) {
+                
+                self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:choiceViewController] ;
+                self.popoverControlleriPhone.delegate = self;
+                self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+                
+                [self.popoverControlleriPhone presentPopoverFromRect:_languageAvailButton.frame
+                                                              inView:self.rightView
+                                            permittedArrowDirections:UIPopoverArrowDirectionRight
+                                                            animated:YES];
+                
+                
+            } else {
+                [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+                self.popoverControlleriPhone = nil;
+            }
+        }
         
-        [_pop presentPopoverFromRect:_languageAvailButton.frame inView:_rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        else{
+            _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+            CGSize size=_pop.popoverContentSize;
+            size.height=size.height-300;
+            _pop.popoverContentSize=size;
+            
+            [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
     }
-    
-    
-  //  [_pop presentPopoverFromRect:button.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
 
@@ -580,7 +617,14 @@
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [noGamesAlert show];
     } else {
-        MangoGamesListViewController *gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+        MangoGamesListViewController *gamesListViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController_iPhone" bundle:nil];
+        }
+        else{
+            gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
+        }
         gamesListViewController.jsonString = _jsonContent;
         gamesListViewController.folderLocation = _book.localPathFile;
         
@@ -619,6 +663,11 @@
 }
 -(void)dismissPopOver{
     [_pop dismissPopoverAnimated:YES];
+    
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+    self.popoverControlleriPhone = nil;
+        
+     
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     [_audioMappingViewController.timer invalidate];

@@ -23,6 +23,7 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    Class popoverClass;
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
@@ -66,6 +67,7 @@
 @property (nonatomic, strong) NSString *bookImageURL;
 @property (nonatomic, strong) NSString *loginUserEmail;
 @property (nonatomic, strong) NSString *loginUserName;
+@property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
 
 
 @end

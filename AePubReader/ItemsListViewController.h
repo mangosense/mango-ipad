@@ -27,6 +27,8 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    int cellSize;
+    int fontSize;
 }
 
 @property (nonatomic, strong) NSMutableArray *itemsListArray;

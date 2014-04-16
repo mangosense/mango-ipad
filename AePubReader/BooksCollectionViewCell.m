@@ -43,10 +43,10 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width -90, self.frame.size.width-90)];
-        [_bookCoverImageView setFrame:CGRectMake(0, 0, self.frame.size.width-90, self.frame.size.width-90)];
-        [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width -90, 30)];
-        [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:12.0f]];
+        [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width -65, self.frame.size.width-65)];
+        [_bookCoverImageView setFrame:CGRectMake(0, 0, self.frame.size.width-65, self.frame.size.width-65)];
+        [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width -65, 30)];
+        [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:11.0f]];
     }
     else{
         [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];

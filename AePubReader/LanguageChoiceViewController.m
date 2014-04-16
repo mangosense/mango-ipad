@@ -22,6 +22,16 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            self.tableView.contentInset = UIEdgeInsetsMake(-37, 0, -37, 0);
+            if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
+                self.preferredContentSize = CGSizeMake(150, 110);
+            } else {
+                self.contentSizeForViewInPopover = CGSizeMake(150, 110);
+            }
+        }
+        
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
@@ -32,12 +42,20 @@
 
 - (void)viewDidLoad
 {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    userEmail = delegate.loggedInUserInfo.email;
+    userDeviceID = delegate.deviceId;
+    
     [super viewDidLoad];
     if(!userEmail){
         ID = userDeviceID;
     }
     else{
         ID = userEmail;
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
     }
 
     // Uncomment the following line to preserve selection between presentations.
@@ -79,6 +97,11 @@
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:12];
+    }
+    
     cell.textLabel.text=[_array objectAtIndex:indexPath.row];
     
     return cell;
@@ -169,11 +192,21 @@
     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
     NSDictionary *EVENT;
     
+    NSString *val;
+    
+    if(!dataArray.count){
+        val = @"No id available";
+    }
+    
+    else{
+        val = [dataArray[0] valueForKey:@"id"];
+    }
+    
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_LANGUAGE : _language,
-                                 PARAMETER_BOOK_ID : [dataArray[0] valueForKey:@"id"],
+                                 PARAMETER_BOOK_ID : val,
                                  PARAMETER_BOOK_NEW_LANGUAGE_SELECT : newLanguage
                                  };
     
@@ -196,7 +229,7 @@
     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:[dataArray[0] valueForKey:@"id"] forKey:@"bookID"];
+    [userObject setObject:val forKey:@"bookID"];
     [userObject setObject:_language forKey:@"bookLanguage"];
     [userObject setObject:newLanguage forKey:@"bookNewLanguageSelect"];
     if(userEmail){
@@ -228,7 +261,7 @@
     bookDetailsViewController.delegate = self;
     NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+    [self.view.window.rootViewController presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         
         if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
