@@ -249,11 +249,19 @@
             break;
             
         case 2:{
-            [_dismissDelegate dismissPopOver];
+            
             //handle analytics view
-            MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
-             analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-             [self presentViewController:analyticsViewController animated:YES completion:nil];
+            MangoAnalyticsViewController *analyticsViewController;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                    [_dismissDelegate dismissPopOver];
+            }
+            else{
+                analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+                analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+                [self presentViewController:analyticsViewController animated:YES completion:nil];
+            }
+            
             
         }
             break;

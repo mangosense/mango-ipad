@@ -14,6 +14,7 @@
 #import "MangoEditorViewController.h"
 #import "MangoStoreViewController.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoAnalyticsViewController.h"
 
 @interface BooksCollectionViewController ()
 
@@ -43,6 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    popoverClass = [WEPopoverController class];
     if(_fromCreateStoryView){
         
         viewName = @"Create book";
@@ -135,7 +137,7 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 45, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 45, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-78) collectionViewLayout:layout];
     }
     else{
         _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 90, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame) - 150) collectionViewLayout:layout];
@@ -418,13 +420,7 @@
             }
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
-            
-            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-            settingsViewController.dismissDelegate = self;
-            settingsViewController.controller = self.navigationController;
-            _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-            [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
-            [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            settingSol = YES;
             
         }
         else{
@@ -464,10 +460,64 @@
     
 }
 
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if(settingSol){
+        [self displaySettings];
+        settingSol = NO;
+    }
+    
+}
+
+
+-(void)displaySettings {
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        if (!_popoverControlleriPhone) {
+            
+            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+            [settingsViewController.view setFrame:CGRectMake(0, 0, 50, 150)];
+            settingsViewController.dismissDelegate = self;
+            settingsViewController.controller = self.navigationController;
+            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
+            self.popoverControlleriPhone.delegate = self;
+            [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(300, 132)];
+            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            
+            [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            
+        } else {
+            [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+            self.popoverControlleriPhone = nil;
+        }
+        
+    }
+    
+    else{
+        
+        SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+        settingsViewController.dismissDelegate = self;
+        settingsViewController.controller = self.navigationController;
+        _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+        [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
+        [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    
+}
+
+
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(40, 30, 0, 0);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        return UIEdgeInsetsMake(15, 60, 0, 0);
+    }
+    else{
+        return UIEdgeInsetsMake(40, 30, 0, 0);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -477,7 +527,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return CGSizeMake(160, 100);
+        return CGSizeMake(160, 125);
         
     }
     else{
@@ -487,7 +537,12 @@
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 30.0f;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return 10.0f;
+    }
+    else{
+        return 30.0f;
+    }
 }
 
 #pragma mark - Action Methods
@@ -529,6 +584,13 @@
 
 -(void)dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [_popoverControlleriPhone dismissPopoverAnimated:YES];
+        MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
+        analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+        [self presentViewController:analyticsViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - SaveBookImage Delegate

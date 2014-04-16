@@ -164,9 +164,20 @@
     int rNo = arc4random()%8;
     settingQuesNo = rNo;
     
+    
     UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
+    
     [settingAlert show];
     
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if(settingSol){
+        [self displaySettings];
+        settingSol = NO;
+    }
+
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -218,36 +229,9 @@
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
             
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                
-              /*  if (!_popoverControlleriPhone) {
-                    
-                    SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-                    settingsViewController.dismissDelegate = self;
-                    settingsViewController.controller = self.navigationController;
-                    _popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
-                    _popoverControlleriPhone.delegate = self;
-                    [_popoverControlleriPhone setPopoverContentSize:CGSizeMake(150, 132)];
-                    [_popoverControlleriPhone setPassthroughViews:[NSArray arrayWithObjects:self.view, nil]];
-                    
-                    [_popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-                    
-                } else {
-                    [_popoverControlleriPhone dismissPopoverAnimated:YES];
-                    _popoverControlleriPhone = nil;
-                }*/
-                
-            }
-            else{
-                
-                SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-                settingsViewController.dismissDelegate = self;
-                settingsViewController.controller = self.navigationController;
-            _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-            [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
-            [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            }
+            settingSol = YES;
         }
+        
         else{
             NSLog(@"WRONG");
             
@@ -275,6 +259,42 @@
     }
 }
 
+-(void)displaySettings {
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        if (!_popoverControlleriPhone) {
+            
+            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+            [settingsViewController.view setFrame:CGRectMake(0, 0, 50, 150)];
+            settingsViewController.dismissDelegate = self;
+            settingsViewController.controller = self.navigationController;
+            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
+            self.popoverControlleriPhone.delegate = self;
+            [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(300, 132)];
+            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            
+            [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            
+        } else {
+            [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+            self.popoverControlleriPhone = nil;
+        }
+        
+    }
+    
+    else{
+        
+        SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+        settingsViewController.dismissDelegate = self;
+        settingsViewController.controller = self.navigationController;
+        _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+        [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
+        [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    
+}
+
 - (IBAction)nextButtonTapped:(id)sender {
     if ((_pageNumber+ 1)*NUMBER_OF_CATEGORIES_PER_PAGE < [_categoriesArray count]) {
         
@@ -295,7 +315,13 @@
 
 -(void)dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
-
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [_popoverControlleriPhone dismissPopoverAnimated:YES];
+        MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
+        analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+        [self presentViewController:analyticsViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Get Books Count

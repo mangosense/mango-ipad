@@ -18,6 +18,7 @@
     NSString *ID;
     NSString *viewName;
     Class popoverClass;
+    BOOL settingSol;
 }
 - (IBAction)openBooks:(id)sender;
 - (IBAction)homeButton:(id)sender;
