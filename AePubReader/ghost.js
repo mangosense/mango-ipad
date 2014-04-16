@@ -426,7 +426,8 @@ var GhostUploader = (function(){
 				}
 
 
-				window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button img').click()
+				//window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button img').click()
+				window.jQuery('#versionInitForm').submit()
 
 			},self.story_config)
 
