@@ -227,18 +227,27 @@ var GhostUploader = (function(){
 						'filedata' : self.story_config['image_path']+'/large_icon.png'
 				});
 
-			
 				this.waitForSelector('.lcUploaderImage.LargeApplicationIcon',function() {
 					//Upload screen shots
-					if (self.story_config['screenshots_count']){
+					while (self.story_config['screenshots_count']!=0){
 						this.fill('form[name="FileUploadForm_iPadScreenshots"]',{
-							'filedata' : self.story_config['image_path']+'/screenshots/1.jpg'
+							'filedata' : self.story_config['image_path']+'/screenshots/'+self.story_config['screenshots_count']+'.png'
 						});
 
-						this.waitForSelector('.lcUploaderImage.iPadScreenshot',function() {
+						this.echo('Screen shot upload count : '+self.story_config['screenshots_count'])
+						this.wait(5000,function() {
+								this.capture(self.story_config['screenshots_count']+'screen.png')
+							})
+						this.waitWhileVisible('#iPadScreenshots .lcUploadSpinner',function() {
+							if (self.story_config['screenshots_count']==1)
+								self.fill_last_form()
+						},function() {
+							this.wait(5000,function() {
+								this.capture('image_timed_out.png')
+							})
+						},40000)
 
-							self.fill_last_form()
-						},null,20000)
+						self.story_config['screenshots_count'] = self.story_config['screenshots_count']-1
 					}
 				},null,20000)
 
