@@ -87,15 +87,27 @@
                     <rect key="frame" x="0.0" y="174" width="568" height="145"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMt-ud-1m1">
-                            <rect key="frame" x="119" y="30" width="355" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uMt-ud-1m1">
+                            <rect key="frame" x="178" y="30" width="281" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="MangoReader App for More Interactive kids books">
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal">
+                                <string key="title">MangoReader - Interactive kids books with animations, Read-Along Educational stories for Children, Parents and Teachers, learning games, mango reader</string>
                                 <color key="titleColor" red="0.47128109060000001" green="0.02223251389" blue="0.074662656270000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="mangoReaderAppStoreLink:" destination="-1" eventType="touchUpInside" id="yif-w4-jyf"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5U-Gv-eEr">
+                            <rect key="frame" x="113" y="28" width="60" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="mangoreader-app-icon-120x120.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="mangoReaderAppStoreLink:" destination="-1" eventType="touchUpInside" id="w6q-jc-hL3"/>
                             </connections>
                         </button>
                     </subviews>
@@ -224,6 +236,7 @@
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readagain.png" width="257" height="73"/>
         <image name="icons_shareActual.png" width="257" height="73"/>
+        <image name="mangoreader-app-icon-120x120.png" width="120" height="120"/>
         <image name="reader_bookcover_bg.png" width="1024" height="768"/>
     </resources>
 </document>
