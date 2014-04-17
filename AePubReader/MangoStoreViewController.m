@@ -106,7 +106,13 @@
         ID = userEmail;
     }
     
-    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        displayStoryNo = 4;
+        
+    }
+    else{
+        displayStoryNo = 6;
+    }
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
@@ -719,10 +725,11 @@
                 return 1;
             } else {
                 NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
+                
                 if ([liveStoriesFiltered objectForKey:ageGroup]) {
-                    return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
+                    return MIN(displayStoryNo, [[liveStoriesFiltered objectForKey:ageGroup] count]);
                 }
-                return 6;
+                return displayStoryNo;
             }
         }
             break;
