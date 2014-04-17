@@ -281,7 +281,7 @@ var GhostUploader = (function(){
 				// Apple rating element values are totally fucked up. For some elemenets it is 1,2,3, for some 1,2,3 or 1,3,5
 				// Instead of relying on the rating value to find the correct element, we ll use the physcial order the elements arranged
 				// So in input config file, the rating values against each field is just order
-				// 1 - None, 2 - Infrequent/Mild,  3  - Frequent/Intense
+				// 0 - None, 1 - Infrequent/Mild,  2  - Frequent/Intense
 				_.each(config['app_rating'],function(rating,field) {
 					switch(field){
 						case 'cartoon' :
@@ -489,7 +489,7 @@ var GhostUploader = (function(){
 				this.wait(5000,function() {
 					this.capture('fill_compliance_form.png')
 				})
-				
+
 				this.evaluate(function() {
 					// Set the export compliance (Does you app designed to use Cryptography? Nope)
 					window.jQuery('.export-comp-wrapper #second-set .export-comp-question-group:visible').each(function() {
