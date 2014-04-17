@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *games;
 
 @property(strong, nonatomic) IBOutlet UIView *recommendedBooksView;
+@property(strong, nonatomic) IBOutlet UIView *mangoreaderLinkView;
 @property(strong,nonatomic) IBOutlet UIButton *book1;
 @property(strong,nonatomic) IBOutlet UIButton *book2;
 @property(strong,nonatomic) IBOutlet UIButton *book3;
@@ -45,6 +46,7 @@
 - (IBAction)bookTapped:(id)sender;
 - (IBAction)socialSharingOrLike :(id)sender;
 - (IBAction)backButtonTap:(id)sender;
+- (IBAction)mangoReaderAppStoreLink:(id)sender;
 - (void) loadRecommendedBooks;
 
 @end

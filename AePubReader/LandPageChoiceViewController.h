@@ -19,5 +19,6 @@
 - (IBAction)openFreeStories:(id)sender;
 - (IBAction)store:(id)sender;
 - (IBAction)myStories:(id)sender;
+
 @property(retain,nonatomic)StoriesViewController *storiesViewController;
 @end

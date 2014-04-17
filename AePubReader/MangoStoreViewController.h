@@ -27,6 +27,7 @@
     NSString *ID;
     NSString *viewName;
     Class popoverClass;
+    int displayStoryNo;
 }
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;

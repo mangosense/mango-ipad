@@ -65,6 +65,13 @@
     }
     
     [self showOrHideGameButton];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if (path){
+        
+        _recommendedBooksView.hidden = YES;
+        _mangoreaderLinkView.hidden = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -444,6 +451,13 @@
     } else {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
     }
+}
+
+- (IBAction)mangoReaderAppStoreLink:(id)sender{
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                @"itms-apps://itunes.apple.com/us/app/mangoreader-interactive-kids/id568003822?mt=8&uo=4"]];
+    
 }
 
 - (void)openBook:(Book *)bk {

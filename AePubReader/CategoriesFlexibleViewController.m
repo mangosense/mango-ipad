@@ -12,6 +12,7 @@
 #import "SettingOptionViewController.h"
 #import "MyStoriesBooksViewController.h"
 #import "Constants.h"
+#import "Reachability.h"
 #import "MBProgressHUD.h"
 #import "BooksCollectionViewController.h"
 
@@ -53,6 +54,15 @@
     return YES;
 }
 
+
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -89,6 +99,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
+    if(![self connected])
+    {
+        // not connected
+//        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Network Connection Error" message:@"Nerwork failed please check your internet connection" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -267,6 +283,12 @@
             }
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
+        }
+    }
+    else if([alertView.title isEqualToString:@"Network Connection Error"]){
+        
+        if(buttonIndex ==0){
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
