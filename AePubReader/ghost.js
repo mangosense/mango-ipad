@@ -439,18 +439,21 @@ var GhostUploader = (function(){
 		},
 
 		complete_setup: function() {
+			self=this;
 			casper.waitForSelector('#appInfoLightboxUpdate',function() {
 
 				this.wait(5000,function() {
-					this.capture('final.png')
+					this.capture('complete_setup.png')
 				})
 
 				this.echo('Got in')
  				this.echo(this.getTitle());
 				this.evaluate(function() {
-					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button img').click()
+					//window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button img').click()
+					window.jQuery('.app-icon.ios').find('a').click();
 				})
 
+				self.set_app_ready_state();
 
 
 			},function() {
@@ -459,7 +462,55 @@ var GhostUploader = (function(){
 			},40000);
 
 
+		},
+
+		set_app_ready_state: function() {
+			self=this;
+			
+			casper.waitForSelector('#versionInfoLightboxUpdate', function() {
+
+				this.wait(5000,function() {
+					this.capture('set_app_ready_state.png')
+				})
+			
+				this.evaluate(function() {
+					// Click Ready to upload binary
+					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button input').click()
+				})
+
+				self.fill_compliance_form();
+
+			});
+		},
+		
+		fill_compliance_form: function() {
+			casper.waitForSelector('.export-comp-wrapper', function() {
+
+				this.wait(5000,function() {
+					this.capture('fill_compliance_form.png')
+				})
+				
+				this.evaluate(function() {
+					// Set the export compliance (Does you app designed to use Cryptography? Nope)
+					window.jQuery('.export-comp-wrapper #second-set .export-comp-question-group:visible').each(function() {
+						window.jQuery(this).find('input[value="false"]').click()
+					})
+
+					// Set Content rights
+					window.jQuery('#thirdpartyQuestion .export-comp-radio:visible').each(function() {
+							window.jQuery(this).find('input[value="false"]').click()
+					})
+
+					// Set Advertising Identifier
+					window.jQuery('#idfa-radio').parents('.export-comp-radio').find('input[value="false"]').click()
+
+					// Click save
+					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button input').click()
+				})
+			})
 		}
+
+
 
 	}	
 
