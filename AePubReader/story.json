@@ -1,0 +1,55 @@
+{
+    "language": "en",
+    "name": "When Pigs Fly 4",
+    "bundle_id": "Mango Story - com.mangosense.MangoStory.*",
+    "bundle_id_suffix": "21311231231313123121",
+    "availability_date": "Apr 14 2014",
+    "price tier": 0,
+    "discount": false,
+    "version": "1.0",
+    "copyright": "2014 MangoSense Pvt. Ltd",
+    "primary_category": "Book",
+    "secondary_category": "Education",
+    "app_rating": {
+      "cartoon":0,
+      "realistic_violence":0,
+      "sadistic_realistic_violence":0,
+      "profanity_crude_humor":0,
+      "mature_themes":0,
+      "horror_themes":0,
+      "alchocol_drug_ref":0,
+      "simulated_gambling":0,
+      "sexual_content_nudity":0,
+      "graphic_sexual_content_nudity":0
+    },
+    "kids_app" : {
+      "age_group" : "0"
+     },
+    "image_path":"/Users/mangoreader/Desktop/mangoreader/mango-story/AePubReader/images",
+    "screenshots_count" : 3,
+    "description": "Ralph wants a bicycle, but as everyone tells him, cows don't ride bicycles! His father unwittingly offers a glimmer of hope when he tells Ralph he can have a bicycle \"when pigs fly.\" But cows don't ride bikes and pigs don't fly, right? \"We'll soon see about that,\" says a determined Ralph. This enchanting award-winning picture book with vivid, witty illustrations shows young readers that sheer willpower can triumph over all the no's in the world.",
+    "keywords": [
+      "English",
+      "Action and Adventure",
+      "Adventure"
+    ],
+    "support_url": "http://mangoreader.com",
+    "marketing_url": "http://mangoreader.com",
+    "privacy_policy_url": "http://mangoreader.com",
+    "first_name" : "Jagdish",
+    "last_name"  : "Repaswal",
+    "email"  : "jagdish@mangosense.com",
+    "phone"  : "+919503034573",
+    "review_notes" : "",
+    "demo_account" : {
+      "user_name" : "",
+      "password"  : ""
+    },
+    "EULA" : {
+      "text" : "",
+      "countries" : "all or comma seperated country names"
+    }
+
+
+
+}
