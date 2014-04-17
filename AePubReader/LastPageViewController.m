@@ -58,6 +58,7 @@
     // Do any additional setup after loading the view from its nib.
     if([_book.title isEqualToString:@"My Book"] || [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
         self.recommendedBooksView.hidden = YES;
+        self.mangoreaderLinkView.hidden = NO;
     }
     else {
         
@@ -65,13 +66,7 @@
     }
     
     [self showOrHideGameButton];
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path){
-        
-        _recommendedBooksView.hidden = YES;
-        _mangoreaderLinkView.hidden = NO;
-    }
+   
 }
 
 - (void)didReceiveMemoryWarning
