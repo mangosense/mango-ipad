@@ -32,7 +32,7 @@ require 'mini_magick'
 		# }
 		# story_ids = JSON.parse res.body
 
-		story_ids = ['52d012a569702d01d4f60c00']
+		story_ids = ['52d0263869702d0905990000']
 
 		story_ids.each do |story_id|
 		
@@ -133,6 +133,9 @@ require 'mini_magick'
 			end
 
 
+			#TODO copy the game screen shots as well
+
+
 
 
   			#create app icons using the cover image
@@ -149,7 +152,7 @@ require 'mini_magick'
 			story_config = JSON.load File.open 'story.json'
 			story_config['language'] = story_info['info']['language']
 
-			story_config['name'] = story_info['title']
+			story_config['name'] = story_info['title'] + ' By MangoReader'
 			story_config['sku'] = story_id
 			story_config['bundle_id_suffix'] = story_id
 			require 'date'

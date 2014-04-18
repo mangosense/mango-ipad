@@ -212,7 +212,7 @@ var GhostUploader = (function(){
 				})
 
 				self.upload_images();
-			},null,20000)
+			},null,40000)
 		},
 
 		upload_images: function() {
@@ -249,11 +249,9 @@ var GhostUploader = (function(){
 					// console.log('Current spinner exists : ' + current_spinner.length)
 					// console.log('Current spinner is '+ (!current_spinner.is(':visible') ? 'not' : '') +' visible')
 					if (!main_spinner.is(':visible') && (!current_spinner.is(':visible') || current_spinner.length == 0)){
-						console.log('true')
 						return true;
 					}
 					else{
-						console.log('false')
 						return false;
 					}
 				},self.image_count)
@@ -267,15 +265,18 @@ var GhostUploader = (function(){
 					'filedata' : self.story_config['image_path']+'/screenshots/'+self.image_count+'.png'
 				});
 				if (self.story_config['screenshots_count'] > 0){
+
 					self.handle_upload_screenshot();
 				}
 
-			},null,20000)
+			},null,60000)
 
 			casper.then(function() {
 				if (self.story_config['screenshots_count'] == 0){
 					this.echo('Going to fill last form')
-					self.fill_last_form()
+					this.wait(20000,function() {
+						self.fill_last_form()
+					})
 				}
 			})
 		},
@@ -481,9 +482,9 @@ var GhostUploader = (function(){
 
 				this.echo('Got in')
  				this.echo(this.getTitle());
-				this.evaluate(function() {
+				self.url_to_go =  this.evaluate(function() {
 					//window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button img').click()
-					window.jQuery('.app-icon.ios').find('a').click();
+					return window.jQuery('.app-icon.ios').find('.blue-btn').attr('href')
 				})
 
 				self.set_app_ready_state();
@@ -500,11 +501,9 @@ var GhostUploader = (function(){
 		set_app_ready_state: function() {
 			self=this;
 			
-			casper.waitForSelector('#versionInfoLightboxUpdate', function() {
+			casper.thenOpen('https://itunesconnect.apple.com'+this.url_to_go,function() {
 
-				this.wait(5000,function() {
-					this.capture('set_app_ready_state.png')
-				})
+				this.capture('set_app_ready_state.png')
 			
 				this.evaluate(function() {
 					// Click Ready to upload binary
@@ -513,7 +512,7 @@ var GhostUploader = (function(){
 
 				self.fill_compliance_form();
 
-			},null,40000);
+			});
 		},
 		
 		fill_compliance_form: function() {
@@ -540,7 +539,10 @@ var GhostUploader = (function(){
 					// Click save
 					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button input').click()
 				})
-			},null,40000)
+			},function() {
+					this.echo('Timed out now')
+					this.capture('timed_out.png')
+			},40000)
 		}
 
 
