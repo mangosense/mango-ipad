@@ -32,7 +32,7 @@ require 'mini_magick'
 		# }
 		# story_ids = JSON.parse res.body
 
-		story_ids = ['532c147e69702d30a5030000']
+		story_ids = ['52d012a569702d01d4f60c00']
 
 		story_ids.each do |story_id|
 		
@@ -56,12 +56,12 @@ require 'mini_magick'
 
 			#download
 
-			# File.open("MangoStory.zip", "wb") do |saved_file|
-			#   # the following "open" is provided by open-uri
-			#   open("http://api.mangoreader.com/api/v2/livestories/#{story_id}/zipped?auth_token=#{auth_token}&email=rameshvel@gmail.com", "rb") do |read_file|
-			#     saved_file.write(read_file.read)
-			#   end
-			# end
+			File.open("MangoStory.zip", "wb") do |saved_file|
+			  # the following "open" is provided by open-uri
+			  open("http://api.mangoreader.com/api/v2/livestories/#{story_id}/zipped?auth_token=#{auth_token}&email=rameshvel@gmail.com", "rb") do |read_file|
+			    saved_file.write(read_file.read)
+			  end
+			end
 
 
 			
@@ -99,11 +99,16 @@ require 'mini_magick'
 
 			#create a cover image with 1024x1024 resolution to be used while uploading
 			image = MiniMagick::Image.open 'cover.png'
-			image.resize  '1024x1024'
+			image.resize  '1024x1024!'
 			image.quality  100
 			image.format 'png'
-			image.write "app-cover.png"
+			image.write "images/large_icon.png"
 
+
+			image = MiniMagick::Image.open 'cover.png'
+			image.resize  '1024x768!'
+			image.quality 100
+			image.format 'png'
 			image.write "images/screenshots/1.png"
 
 			#copy 3 images to images/en folder. These will be treated as iPad screen shots whe upload
@@ -115,24 +120,19 @@ require 'mini_magick'
 						if entry.name.start_with?('res') && (entry.name != 'res') && (entry.name.end_with?('.png') || entry.name.end_with?('.jpg'))
 							extn = entry.name.split('.').last
 							File.delete "images/screenshots/#{img_count}.#{extn}" if File.exists? "images/screenshots/#{img_count}.#{extn}"
-							entry.extract "images/screenshots/#{img_count}.#{extn}"
+							image = MiniMagick::Image.read entry.get_input_stream.read
+							image.resize  '1024x768!'
+							image.quality 100
+							image.format 'png'
+							image.write "images/screenshots/#{img_count}.png"
+							#entry.extract "images/screenshots/#{img_count}.#{extn}"
 							img_count=img_count+1
 						end
 					end
 				end
 			end
 
-			# Conver all screenshots to png. That way its easier for ghost.js to upload without worrying about the file extension
-			Dir.foreach('images/screenshots') do |item|
-				next if item == '.' or item == '..' or item == '.DS_Store'
-				name, extn = item.split('.')
-				puts item
-				image = MiniMagick::Image.open "images/screenshots/#{item}"
-				image.resize  '1024x768'
-				image.format 'png'
-				File.delete "images/screenshots/#{item}"
-				image.write "images/screenshots/#{name}.png"
-			end
+
 
 
   			#create app icons using the cover image
