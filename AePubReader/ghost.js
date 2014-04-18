@@ -256,16 +256,15 @@ var GhostUploader = (function(){
 					}
 				},self.image_count)
 			}, function() {
-				self.story_config['screenshots_count'] = self.story_config['screenshots_count']-1;
-				self.image_count++;
-				this.echo('Screen shot upload count : '+self.image_count)
-				this.capture(self.image_count+'screen.png')
-				
-				this.fill('form[name="FileUploadForm_iPadScreenshots"]',{
-					'filedata' : self.story_config['image_path']+'/screenshots/'+self.image_count+'.png'
-				});
-				if (self.story_config['screenshots_count'] > 0){
-
+				if (self.image_count < 3) {
+					self.story_config['screenshots_count'] = self.story_config['screenshots_count']-1;
+					self.image_count++;
+					this.echo('Screen shot upload count : '+self.image_count)
+					this.capture(self.image_count+'screen.png')
+					
+					this.fill('form[name="FileUploadForm_iPadScreenshots"]',{
+						'filedata' : self.story_config['image_path']+'/screenshots/'+self.image_count+'.png'
+					});
 					self.handle_upload_screenshot();
 				}
 
@@ -274,7 +273,7 @@ var GhostUploader = (function(){
 			casper.then(function() {
 				if (self.story_config['screenshots_count'] == 0){
 					this.echo('Going to fill last form')
-					this.wait(20000,function() {
+					this.wait(10000,function() {
 						self.fill_last_form()
 					})
 				}
