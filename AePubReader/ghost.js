@@ -228,32 +228,56 @@ var GhostUploader = (function(){
 				});
 
 				this.waitForSelector('.lcUploaderImage.LargeApplicationIcon',function() {
-					//Upload screen shots
-					while (self.story_config['screenshots_count']!=0){
-						this.fill('form[name="FileUploadForm_iPadScreenshots"]',{
-							'filedata' : self.story_config['image_path']+'/screenshots/'+self.story_config['screenshots_count']+'.png'
-						});
+					this.echo('I am in')
+					self.image_count = 0
+					self.handle_upload_screenshot()
+				},null,40000)
 
-						this.echo('Screen shot upload count : '+self.story_config['screenshots_count'])
-						this.wait(5000,function() {
-								this.capture(self.story_config['screenshots_count']+'screen.png')
-							})
-						this.waitWhileVisible('#iPadScreenshots .lcUploadSpinner',function() {
-							if (self.story_config['screenshots_count']==1)
-								self.fill_last_form()
-						},function() {
-							this.wait(5000,function() {
-								this.capture('image_timed_out.png')
-							})
-						},40000)
 
-						self.story_config['screenshots_count'] = self.story_config['screenshots_count']-1
+			},null,40000);
+
+		},
+
+		handle_upload_screenshot: function() {
+			self=this
+			casper.waitFor(function() {
+				return this.evaluate(function(image_count) {
+					main_spinner = window.jQuery('#iPadScreenshots .lcUploadSpinner')
+					//console.log('Main spinner exists : ' + main_spinner.length)
+					// console.log('Main spinner is '+ (!main_spinner.is(':visible') ? 'not' : '') +' visible');
+					current_spinner = window.jQuery('#iPadScreenshots .lcUploaderImage:eq('+(image_count)+') .lcUploaderImageWellSpinner');
+					// console.log('Current spinner exists : ' + current_spinner.length)
+					// console.log('Current spinner is '+ (!current_spinner.is(':visible') ? 'not' : '') +' visible')
+					if (!main_spinner.is(':visible') && (!current_spinner.is(':visible') || current_spinner.length == 0)){
+						console.log('true')
+						return true;
 					}
-				},null,20000)
+					else{
+						console.log('false')
+						return false;
+					}
+				},self.image_count)
+			}, function() {
+				self.story_config['screenshots_count'] = self.story_config['screenshots_count']-1;
+				self.image_count++;
+				this.echo('Screen shot upload count : '+self.image_count)
+				this.capture(self.image_count+'screen.png')
+				
+				this.fill('form[name="FileUploadForm_iPadScreenshots"]',{
+					'filedata' : self.story_config['image_path']+'/screenshots/'+self.image_count+'.png'
+				});
+				if (self.story_config['screenshots_count'] > 0){
+					self.handle_upload_screenshot();
+				}
 
+			},null,20000)
 
-			},null,20000);
-
+			casper.then(function() {
+				if (self.story_config['screenshots_count'] == 0){
+					this.echo('Going to fill last form')
+					self.fill_last_form()
+				}
+			})
 		},
 
 
@@ -489,7 +513,7 @@ var GhostUploader = (function(){
 
 				self.fill_compliance_form();
 
-			});
+			},null,40000);
 		},
 		
 		fill_compliance_form: function() {
@@ -516,7 +540,7 @@ var GhostUploader = (function(){
 					// Click save
 					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button input').click()
 				})
-			})
+			},null,40000)
 		}
 
 
