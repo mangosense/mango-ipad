@@ -58,6 +58,7 @@
     // Do any additional setup after loading the view from its nib.
     if([_book.title isEqualToString:@"My Book"] || [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
         self.recommendedBooksView.hidden = YES;
+        self.mangoreaderLinkView.hidden = NO;
     }
     else {
         
@@ -65,6 +66,7 @@
     }
     
     [self showOrHideGameButton];
+   
 }
 
 - (void)didReceiveMemoryWarning
@@ -444,6 +446,13 @@
     } else {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
     }
+}
+
+- (IBAction)mangoReaderAppStoreLink:(id)sender{
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                @"itms-apps://itunes.apple.com/us/app/mangoreader-interactive-kids/id568003822?mt=8&uo=4"]];
+    
 }
 
 - (void)openBook:(Book *)bk {
