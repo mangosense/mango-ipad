@@ -844,7 +844,7 @@
             PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
             [userObject setObject:udid forKey:@"deviceIDValue"];
             [userObject setObject:_loginUserEmail forKey:@"email_ID"];
-            [userObject setObject:@"Harish" forKey:@"userName"];
+           // [userObject setObject:@"Harish" forKey:@"userName"];
             [userObject setObject:_bookId forKey:@"bookID"];
             [userObject setObject:[NSNumber numberWithInt:_pageNumber+1]  forKey:@"currentPage"];
             [userObject setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
