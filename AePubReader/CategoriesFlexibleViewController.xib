@@ -19,7 +19,11 @@
                 <outlet property="categoryLabelSix" destination="U5l-GR-3gG" id="T5V-pQ-hdf"/>
                 <outlet property="categoryLabelThree" destination="Yz7-M1-SuS" id="caB-5W-lMM"/>
                 <outlet property="categoryLabelTwo" destination="mQ0-nS-m18" id="sDO-9N-Idq"/>
+                <outlet property="labelProblem" destination="Bzv-Ir-aaP" id="UCj-Xh-4Mf"/>
                 <outlet property="settingButton" destination="k7t-dD-sYk" id="63C-B8-xq2"/>
+                <outlet property="settingsProbSupportView" destination="p7E-fE-hQO" id="u9c-vO-dRL"/>
+                <outlet property="settingsProbView" destination="iBx-oI-DYY" id="GZB-uM-Azh"/>
+                <outlet property="textQuesSolution" destination="2AV-5c-pDd" id="2UP-fe-v8i"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -188,6 +192,71 @@
                         <action selector="nextButtonTapped:" destination="-1" eventType="touchUpInside" id="q6z-mF-C3v"/>
                     </connections>
                 </button>
+                <view hidden="YES" contentMode="scaleToFill" id="p7E-fE-hQO" customClass="UIControl">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="backgroundTap:" destination="-1" eventType="touchDown" id="W92-i9-I4L"/>
+                    </connections>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" id="iBx-oI-DYY">
+                    <rect key="frame" x="312" y="147" width="402" height="269"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quesBgPic.png" id="X7z-bl-F7L">
+                            <rect key="frame" x="10" y="25" width="372" height="232"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quesTextBg.png" id="ee5-BI-mt7">
+                            <rect key="frame" x="66" y="133" width="260" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" id="2AV-5c-pDd">
+                            <rect key="frame" x="91" y="136" width="210" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type your answer in the box." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MQB-aM-UiF">
+                            <rect key="frame" x="43" y="51" width="307" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7ha-dx-fmG">
+                            <rect key="frame" x="120" y="191" width="152" height="53"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                            <state key="normal" title="Done" backgroundImage="greenButton.png">
+                                <color key="titleColor" red="1" green="0.96587061890000003" blue="0.98984843349999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="doneProblem:" destination="-1" eventType="touchUpInside" id="Qva-bg-93S"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FiC-JW-ixG">
+                            <rect key="frame" x="353" y="6" width="46" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="closebutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeSettingProblemView:" destination="-1" eventType="touchUpInside" id="aOZ-wK-y5R"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bzv-Ir-aaP">
+                            <rect key="frame" x="91" y="84" width="210" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -196,9 +265,13 @@
     </objects>
     <resources>
         <image name="categoryscreen_bg.png" width="1024" height="768"/>
+        <image name="closebutton.png" width="48" height="48"/>
+        <image name="greenButton.png" width="235" height="63"/>
         <image name="icons_back2.png" width="83" height="167"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_next2.png" width="83" height="167"/>
         <image name="icons_settings.png" width="78" height="77"/>
+        <image name="quesBgPic.png" width="302" height="202"/>
+        <image name="quesTextBg.png" width="242" height="54"/>
     </resources>
 </document>

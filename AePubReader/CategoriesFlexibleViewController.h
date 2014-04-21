@@ -20,18 +20,26 @@
     NSString *viewName;
     Class popoverClass;
     BOOL settingSol;
+    int quesSolution;
 }
 - (IBAction)openBooks:(id)sender;
 - (IBAction)homeButton:(id)sender;
 - (IBAction)settingsButton:(id)sender;
 - (IBAction)nextButtonTapped:(id)sender;
+- (IBAction)doneProblem:(id)sender;
+- (IBAction)closeSettingProblemView:(id)sender;
+- (IBAction)backgroundTap:(id)sender;
 
 @property(retain,nonatomic) UIPopoverController *popOverController;
 @property (nonatomic, assign) int pageNumber;
 @property (nonatomic, strong) NSArray *categoriesArray;
 
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 @property (nonatomic, retain) NSArray *settingQuesArray;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+@property (nonatomic, retain) IBOutlet UILabel *labelProblem;
 
 @property (nonatomic, strong) IBOutlet UIButton *categoryButtonOne;
 @property (nonatomic, strong) IBOutlet UIButton *categoryButtonTwo;
