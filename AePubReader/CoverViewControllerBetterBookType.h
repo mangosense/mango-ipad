@@ -45,6 +45,6 @@
 - (IBAction)gameButtonTapped:(id)sender;
 - (IBAction)bookCoverSelection:(id)sender;
 - (IBAction)lastPage:(id)sender;
-
+- (IBAction)moveToPromoPage:(id)sender;
 
 @end

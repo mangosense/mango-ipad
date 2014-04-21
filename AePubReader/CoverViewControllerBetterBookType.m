@@ -14,6 +14,7 @@
 #import "MangoEditorViewController.h"
 #import "MangoGamesListViewController.h"
 #import <Parse/Parse.h>
+#import "MangoPromoPageViewController.h"
 
 @interface CoverViewControllerBetterBookType ()
 
@@ -516,6 +517,22 @@
     
 }
 
+- (IBAction)moveToPromoPage:(id)sender{
+    
+    MangoPromoPageViewController *promoPageView;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        promoPageView=[[MangoPromoPageViewController alloc]initWithNibName:@"MangoPromoPageViewController_iPhone" bundle:nil];
+        
+    }
+    else{
+        promoPageView =[[MangoPromoPageViewController alloc]initWithNibName:@"MangoPromoPageViewController" bundle:nil];
+    }
+
+    promoPageView.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:promoPageView animated:YES completion:nil];
+    
+}
 
 
 @end

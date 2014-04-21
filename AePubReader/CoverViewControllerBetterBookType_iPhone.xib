@@ -34,7 +34,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="feC-us-2TT">
-                    <rect key="frame" x="45" y="54" width="293" height="28"/>
+                    <rect key="frame" x="45" y="50" width="293" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
                     <color key="textColor" red="0.44558848509999999" green="0.079257663470000003" blue="0.025229310410000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -45,7 +45,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38n-8p-lao">
-                    <rect key="frame" x="46" y="85" width="293" height="209"/>
+                    <rect key="frame" x="46" y="84" width="293" height="209"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="rectangle_books.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -111,6 +111,16 @@
                     </state>
                     <connections>
                         <action selector="gameButtonTapped:" destination="-1" eventType="touchUpInside" id="3Ii-dy-12Q"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e67-da-yvH">
+                    <rect key="frame" x="8" y="290" width="46" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="moveToPromoPage:" destination="-1" eventType="touchUpInside" id="eVJ-de-TTE"/>
                     </connections>
                 </button>
             </subviews>
