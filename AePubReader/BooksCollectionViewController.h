@@ -22,6 +22,7 @@
     
     Class popoverClass;
     BOOL settingSol;
+    int quesSolution;
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
@@ -30,10 +31,19 @@
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 @property (nonatomic, retain) NSArray *settingQuesArray;
 
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+@property (nonatomic, retain) IBOutlet UILabel *labelProblem;
+
 - (IBAction)settingsButtonTapped:(id)sender;
 - (IBAction)homeButtonTapped:(id)sender;
 - (IBAction)libraryButtonTapped:(id)sender;
 - (IBAction)trashButtonTapped:(id)sender;
+
+- (IBAction)doneProblem:(id)sender;
+- (IBAction)closeSettingProblemView:(id)sender;
+- (IBAction)backgroundTap:(id)sender;
 
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;

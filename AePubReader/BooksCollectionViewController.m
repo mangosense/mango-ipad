@@ -44,6 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _settingsProbSupportView.alpha = 0.4f;
     popoverClass = [WEPopoverController class];
     if(_fromCreateStoryView){
         
@@ -85,6 +86,12 @@
         _allBooksArray = [NSArray array];
     }
     [self setupUI];
+    
+    [self.view bringSubviewToFront:[_settingsProbSupportView superview]];
+    [self.view bringSubviewToFront:[_settingsProbView superview]];
+    [[_settingsProbSupportView superview] bringSubviewToFront:_settingsProbSupportView];
+    [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -349,7 +356,64 @@
     }
 }
 
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+- (void) qusetionForSettings{
+    _settingsProbSupportView.hidden = NO;
+    _settingsProbView.hidden = NO;
+    NSArray *operation = [[NSArray alloc] initWithObjects:@"X", @"+", nil];
+    int val1 =  arc4random()%10;
+    int val2 =  arc4random()%10;
+    int rand = arc4random()%2;
+    _labelProblem.text = [NSString stringWithFormat:@"What is %d %@ %d = ?",val1, [operation objectAtIndex:rand],val2 ];
+    quesSolution = [self calculate:val1 :val2 :[operation objectAtIndex:rand]];
+}
+
+- (int) calculate: (int) value1 :(int)value2 : (NSString *)op{
+    
+    if([op isEqualToString:@"X"]){
+        return (value1 * value2);
+    }
+    
+    else return (value1 + value2);
+}
+
+- (IBAction)doneProblem:(id)sender{
+    [_textQuesSolution resignFirstResponder];
+    if([_textQuesSolution.text intValue]  == quesSolution){
+        
+        settingSol = YES;
+        NSLog(@"dddoonnee");
+    }
+    else{
+        settingSol = NO;
+    }
+    _textQuesSolution.text = @"";
+    _settingsProbView.hidden = YES;
+    _settingsProbSupportView.hidden = YES;
+    [self displaySettingsOrNot];
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+    self.popoverControlleriPhone = nil;
+}
+
+- (void)displaySettingsOrNot {
+    
+    if(settingSol){
+        [self displaySettings];
+        settingSol = NO;
+    }
+    
+}
+
+- (IBAction)closeSettingProblemView:(id)sender{
+    [_textQuesSolution resignFirstResponder];
+    _textQuesSolution.text = @"";
+    _settingsProbView.hidden = YES;
+    _settingsProbSupportView.hidden = YES;
+}
+
+/*- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if([alertView.title isEqualToString:@"Delete Book"]){
         Book *book = [_allBooksArray objectAtIndex:deleteBookIndex];
@@ -458,17 +522,17 @@
         
     }
     
-}
+}*/
 
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+/*- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
     if(settingSol){
         [self displaySettings];
         settingSol = NO;
     }
     
-}
+}*/
 
 
 -(void)displaySettings {
@@ -561,8 +625,10 @@
         return;
     }
     
-    UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
-    [settingAlert show];
+    [self qusetionForSettings];
+    
+  /*  UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
+    [settingAlert show];*/
     
 }
 
@@ -597,9 +663,9 @@
     self.popoverControlleriPhone = nil;
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+/*- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
     self.popoverControlleriPhone = nil;
-}
+}*/
 
 - (void) showAnalyticsView{
     
@@ -671,6 +737,11 @@
         }
         [_booksCollectionView reloadData];
     }
+    
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [_textQuesSolution resignFirstResponder];
     
 }
 
