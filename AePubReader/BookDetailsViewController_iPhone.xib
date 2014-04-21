@@ -114,9 +114,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPm-YR-giw">
-                    <rect key="frame" x="0.0" y="10" width="57" height="34"/>
+                    <rect key="frame" x="5" y="5" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="newBack.png">
+                    <state key="normal" backgroundImage="icons_library.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -150,7 +150,7 @@
     </objects>
     <resources>
         <image name="button_back.png" width="212" height="39"/>
-        <image name="newBack.png" width="78" height="77"/>
+        <image name="icons_library.png" width="78" height="77"/>
         <image name="without-text.png" width="235" height="63"/>
     </resources>
 </document>

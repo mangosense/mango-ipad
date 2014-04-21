@@ -1417,6 +1417,7 @@
                 [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, 1024, pageView.frame.size.height)];
             }
             [pageView addSubview:backgroundImageView];
+            [pageView sendSubviewToBack:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
@@ -1445,7 +1446,7 @@
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
             } else {
                 NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewcontroller.customView.textFont, NSFontAttributeName, nil];
-                audioMappingViewcontroller.customView.space=   [[[NSAttributedString alloc] initWithString:@" " attributes:attributes] size];
+                audioMappingViewcontroller.customView.space=   audioMappingViewcontroller.mangoTextField.frame.size;
             }
             
             audioMappingViewcontroller.index=0;
@@ -1455,18 +1456,18 @@
                 [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
             }
             //NSLog(@"%@",audioMappingViewcontroller.cues);
-            [audioMappingViewcontroller.customView setNeedsDisplay];
             
             if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {
                 audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[layerDict objectForKey:@"highlight"]];
             } else {
                 audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
             }
+            NSLog(@"MangoTxt Frame: %@", NSStringFromCGRect(audioMappingViewcontroller.mangoTextField.frame));
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             textFrame = CGRectMake(100, 100, 600, 400);
-
+            
             if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
                 if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
                     

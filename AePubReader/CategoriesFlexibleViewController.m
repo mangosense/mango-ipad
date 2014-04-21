@@ -66,6 +66,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _settingsProbSupportView.alpha = 0.4f;
     viewName = @"My Stories View";
     popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
@@ -95,9 +96,11 @@
     else{
         ID = userEmail;
     }
+    [self.view bringSubviewToFront:[_settingsProbView superview]];
+    [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 
     if(![self connected])
     {
@@ -105,6 +108,10 @@
 //        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Network Connection Error" message:@"Nerwork failed please check your internet connection" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
 //        [alert show];
     }
+    [self.view bringSubviewToFront:[_settingsProbSupportView superview]];
+    [self.view bringSubviewToFront:[_settingsProbView superview]];
+    [[_settingsProbView superview] bringSubviewToFront:_settingsProbSupportView];
+    [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -188,18 +195,55 @@
         return;
     }
     
+    [self qusetionForSettings];
     
-    UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
+   /* UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
     
-    [settingAlert show];
+    [settingAlert show];*/
     
+}
+
+- (void) qusetionForSettings{
+    _settingsProbView.hidden = NO;
+    _settingsProbSupportView.hidden = NO;
+    NSArray *operation = [[NSArray alloc] initWithObjects:@"X", @"+", nil];
+    int val1 =  arc4random()%10;
+    int val2 =  arc4random()%10;
+    int rand = arc4random()%2;
+    _labelProblem.text = [NSString stringWithFormat:@"What is %d %@ %d = ?",val1, [operation objectAtIndex:rand],val2 ];
+    quesSolution = [self calculate:val1 :val2 :[operation objectAtIndex:rand]];
+}
+
+- (int) calculate: (int) value1 :(int)value2 : (NSString *)op{
+    
+    if([op isEqualToString:@"X"]){
+        return (value1 * value2);
+    }
+    
+    else return (value1 + value2);
+}
+
+- (IBAction)doneProblem:(id)sender{
+    [_textQuesSolution resignFirstResponder];
+    if([_textQuesSolution.text intValue]  == quesSolution){
+        
+        settingSol = YES;
+        NSLog(@"dddoonnee");
+    }
+    else{
+        settingSol = NO;
+    }
+    _textQuesSolution.text = @"";
+    _settingsProbView.hidden = YES;
+    _settingsProbSupportView.hidden = YES;
+    [self displaySettingsOrNot];
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
     self.popoverControlleriPhone = nil;
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+- (void)displaySettingsOrNot {
     
     if(settingSol){
         [self displaySettings];
@@ -208,7 +252,14 @@
 
 }
 
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (IBAction)closeSettingProblemView:(id)sender{
+    [_textQuesSolution resignFirstResponder];
+    _textQuesSolution.text = @"";
+    _settingsProbSupportView.hidden = YES;
+    _settingsProbView.hidden = YES;
+}
+
+/*- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if([alertView.title isEqualToString:@"SOLVE"]){
         
@@ -291,7 +342,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
-}
+}*/
 
 -(void)displaySettings {
     
@@ -601,6 +652,11 @@
         
         [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
     }
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [_textQuesSolution resignFirstResponder];
+    
 }
 
 
