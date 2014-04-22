@@ -1869,11 +1869,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				83CFB0B418FBA316006EAA82 /* EJDBKit.xcodeproj */,
-=======
-				686F18991905650300B47DA8 /* EJDBKit.xcodeproj */,
->>>>>>> e7264c5344a81ba12cafdd8eff805f2831421e42
 				834AC1C718F6811100CECA4D /* Subscription */,
 				68624C7318F7DE190035A3F1 /* Popover */,
 				835CD1CB18F46C7800B5A12F /* FacebookSDK.framework */,
