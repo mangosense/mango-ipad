@@ -18,6 +18,7 @@
 @required
 
 - (void) showAnalyticsView;
+- (void) showSubscriptionView;
 
 @end
 
