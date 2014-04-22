@@ -11,8 +11,7 @@
 @implementation SubscriptionInfo
 
 @synthesize id;
-@synthesize expirationDate;
-@synthesize type;
+@synthesize subscriptionType;
 
 - (NSString *)type {
     return NSStringFromClass([self class]);
@@ -23,11 +22,11 @@
 }
 
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(expirationDate, type);
+    return NSDictionaryOfVariableBindings(subscriptionType);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *array=[NSArray arrayWithObjects:@"id", @"expirationDate", @"type", nil];
+    NSArray *array=[NSArray arrayWithObjects:@"id", @"subscriptionType", nil];
     for (NSString *key in array)
     {
         if ([[dictionary allKeys] containsObject:key]) {
@@ -39,8 +38,7 @@
 - (id)copyWithZone:(NSZone *)zone {
     SubscriptionInfo *subscriptionInfo = [[SubscriptionInfo alloc] init];
     [subscriptionInfo setId:id];
-    [subscriptionInfo setExpirationDate:expirationDate];
-    [subscriptionInfo setType:type];
+    [subscriptionInfo setSubscriptionType:subscriptionType];
     return subscriptionInfo;
 }
 

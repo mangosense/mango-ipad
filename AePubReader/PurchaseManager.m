@@ -103,6 +103,8 @@
     [MBProgressHUD showHUDAddedTo:loadingView animated:YES];
     [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {
         if (products.count) {
+            [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
+
             NSLog(@"Products: %@", products);
             //Initialise payment queue
             SKProduct * product = products[0];

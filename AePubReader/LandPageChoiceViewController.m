@@ -48,6 +48,12 @@
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     delegate.controller=self;
+    
+    //Check if user is subscribed to any plan
+    NSArray *subscriptionPlans = [delegate.ejdbController getAllSubscriptionObjects];
+    if ([subscriptionPlans count] > 0) {
+        delegate.subscriptionInfo = [subscriptionPlans lastObject];
+    }
 }
 
 - (void)didReceiveMemoryWarning
