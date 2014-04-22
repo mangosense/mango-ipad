@@ -22,6 +22,7 @@
 #import "MyStoriesBooksViewController.h"
 #import "BooksCollectionViewController.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoSubscriptionViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -115,6 +116,15 @@
     }
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!appDelegate.subscriptionInfo) {
+        MangoSubscriptionViewController *subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:^{
+            
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

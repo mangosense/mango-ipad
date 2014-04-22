@@ -17,6 +17,7 @@
 #import "UserInfo.h"
 #import "BookDetailsViewController.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "SubscriptionInfo.h"
 
 @class EPubViewController;
 @class LoginViewController;
@@ -54,6 +55,7 @@
 @property (strong,nonatomic) LoginNewViewController *loginController;
 
 @property (nonatomic, strong) UserInfo *loggedInUserInfo;
+@property (nonatomic, strong) SubscriptionInfo *subscriptionInfo;
 @property (nonatomic, assign) BOOL arePurchasesDownloading;
 
 -(void)removeBackDirectory;

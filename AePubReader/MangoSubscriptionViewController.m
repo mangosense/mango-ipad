@@ -7,6 +7,8 @@
 //
 
 #import "MangoSubscriptionViewController.h"
+#import "SubscriptionInfo.h"
+#import "AePubReaderAppDelegate.h"
 
 #define MONTHLY_TAG 9
 #define QUARTERLY_TAG 29
@@ -71,11 +73,11 @@
     UIButton *button = (UIButton *)sender;
     NSString *productId;
     if (button.tag == MONTHLY_TAG) {
-        productId = @"MonthlySubscription9";
+        productId = @"mrmonthly1";
     } else if (button.tag == QUARTERLY_TAG) {
-        productId = @"QuarterlySubscription29";
+        productId = @"mrmonthly1";
     } else if (button.tag == YEARLY_TAG) {
-        productId = @"YearlySubscription99";
+        productId = @"mrmonthly1";
     }
     
     [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
@@ -84,7 +86,16 @@
 #pragma mark - PurchaseManager Delegate Methods
 
 - (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
+    SubscriptionInfo *subscriptionInfo = [[SubscriptionInfo alloc] init];
+    subscriptionInfo.id = productID;
+    subscriptionInfo.subscriptionType = @"mrmonthly1";
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfo]) {
+        appDelegate.subscriptionInfo = subscriptionInfo;
+    }
 }
 
 - (void)updateBookProgress:(int)progress {

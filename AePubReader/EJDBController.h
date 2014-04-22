@@ -26,6 +26,7 @@
 - (void)parseBookJson:(NSData *)bookJsonData WithId:(NSNumber *)numberId AtLocation:(NSString *)filePath;
 
 - (NSArray *)getAllUserInfoObjects;
+- (NSArray *)getAllSubscriptionObjects;
 - (UserInfo *)getUserInfoForId:(NSString *)userId;
 - (MangoBook *)getBookForBookId:(NSString *)bookId;
 - (MangoPage *)getPageForPageId:(NSString *)pageId;

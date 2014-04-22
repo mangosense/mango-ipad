@@ -20,7 +20,6 @@
 		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
-		3FECB21618F68E0200C9AB56 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECB20E18F68D9600C9AB56 /* libEJDBKit.a */; };
 		6805D8A318DC64FA00DDB0C7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC08DC11656B3D00067C47B /* StoreKit.framework */; };
 		6806835218F2C5FF00D4609D /* SignUpViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */; };
 		6806835418F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835318F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib */; };
@@ -397,7 +396,6 @@
 		83EE2CBA18C5B2F600F4360A /* school-time.png in Resources */ = {isa = PBXBuildFile; fileRef = 83EE2CB618C5B2F600F4360A /* school-time.png */; };
 		83F4F36D1833498900732315 /* AudioRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4F36C1833498900732315 /* AudioRecord.m */; };
 		83F542BB18C8A21D00FDACCA /* MangoTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F542BA18C8A21D00FDACCA /* MangoTextField.m */; };
-		83FAB73919051EC400342E16 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 83FAB73819051EC400342E16 /* MangoStory.zip */; };
 		AE0890A51823B3B70028035F /* DetailViewControllerStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0890A31823B3B70028035F /* DetailViewControllerStore.m */; };
 		AE0890A61823B3B70028035F /* DetailViewControllerStore.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE0890A41823B3B70028035F /* DetailViewControllerStore.xib */; };
 		AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0B8F25162BEA4D00D16A02 /* LoginDirectly.m */; };
@@ -1271,7 +1269,6 @@
 		83F4F36C1833498900732315 /* AudioRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecord.m; sourceTree = "<group>"; };
 		83F542B918C8A21D00FDACCA /* MangoTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoTextField.h; sourceTree = "<group>"; };
 		83F542BA18C8A21D00FDACCA /* MangoTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoTextField.m; sourceTree = "<group>"; };
-		83FAB73819051EC400342E16 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MangoReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MangoReader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AE0890A21823B3B70028035F /* DetailViewControllerStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewControllerStore.h; sourceTree = "<group>"; };
 		AE0890A31823B3B70028035F /* DetailViewControllerStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewControllerStore.m; sourceTree = "<group>"; };
@@ -1853,7 +1850,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				83FAB73819051EC400342E16 /* MangoStory.zip */,
 				83CFB0B418FBA316006EAA82 /* EJDBKit.xcodeproj */,
 				834AC1C718F6811100CECA4D /* Subscription */,
 				68624C7318F7DE190035A3F1 /* Popover */,
@@ -3721,7 +3717,6 @@
 				AE138F36182B5F4200F36C99 /* DownloadViewControlleriPhone.xib in Resources */,
 				8357E6C018AF498100770D27 /* 1.png in Resources */,
 				834FCE5B182D11F70000181B /* stopsync_button.png in Resources */,
-				83FAB73919051EC400342E16 /* MangoStory.zip in Resources */,
 				834FCE3F182D11F70000181B /* pagesbutton.png in Resources */,
 				AE0C9355183DB401008E4D54 /* icons_library.png in Resources */,
 				AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */,
@@ -4178,8 +4173,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4214,8 +4209,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "84387442-5BF3-4E1A-954A-EA63455E11B4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4227,8 +4222,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4260,8 +4255,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "84387442-5BF3-4E1A-954A-EA63455E11B4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4349,8 +4344,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "E00843EB-60D9-4225-AB67-E173BF293120";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E00843EB-60D9-4225-AB67-E173BF293120";
+				PROVISIONING_PROFILE = "84387442-5BF3-4E1A-954A-EA63455E11B4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4372,8 +4367,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "E00843EB-60D9-4225-AB67-E173BF293120";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E00843EB-60D9-4225-AB67-E173BF293120";
+				PROVISIONING_PROFILE = "84387442-5BF3-4E1A-954A-EA63455E11B4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
