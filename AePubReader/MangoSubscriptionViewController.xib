@@ -46,6 +46,9 @@
                                     <state key="normal" title="Subscribe Now">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="subscribeButtonTapped:" destination="-1" eventType="touchUpInside" id="3yN-cj-cgy"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.89951371170000005" green="0.89951371170000005" blue="0.89951371170000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -110,6 +113,9 @@
                                     <state key="normal" title="Subscribe Now">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="subscribeButtonTapped:" destination="-1" eventType="touchUpInside" id="1BR-ZM-E9T"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.89951371173469385" green="0.89951371173469385" blue="0.89951371173469385" alpha="1" colorSpace="calibratedRGB"/>
@@ -174,6 +180,9 @@
                                     <state key="normal" title="Subscribe Now">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="subscribeButtonTapped:" destination="-1" eventType="touchUpInside" id="myD-rk-5hC"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.89951371170000005" green="0.89951371170000005" blue="0.89951371170000005" alpha="1" colorSpace="calibratedRGB"/>
