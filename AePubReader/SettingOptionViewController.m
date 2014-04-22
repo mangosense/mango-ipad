@@ -274,11 +274,19 @@
             break;
             
         case 3: {
-            MangoSubscriptionViewController *subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
-            subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            [self presentViewController:subscriptionViewController animated:YES completion:^{
+            
+            MangoSubscriptionViewController *subscriptionViewController;
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                [_dismissDelegate dismissPopOver];
+                [_analyticsDelegate showSubscriptionView];
+            }
+            else{
                 
-            }];
+                subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                [self presentViewController:subscriptionViewController animated:YES completion:nil];
+            }
+            
         }
             break;
             

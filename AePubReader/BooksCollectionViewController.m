@@ -15,6 +15,7 @@
 #import "MangoStoreViewController.h"
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoAnalyticsViewController.h"
+#import "MangoSubscriptionViewController.h"
 
 @interface BooksCollectionViewController ()
 
@@ -676,6 +677,17 @@
         [self presentViewController:analyticsViewController animated:YES completion:nil];
     }
 }
+
+- (void) showSubscriptionView{
+    
+    MangoSubscriptionViewController *subscriptionViewController;
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        subscriptionViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+    }
+}
+
 
 #pragma mark - SaveBookImage Delegate
 

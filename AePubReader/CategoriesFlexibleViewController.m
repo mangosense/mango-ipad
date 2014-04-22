@@ -15,6 +15,7 @@
 #import "Reachability.h"
 #import "MBProgressHUD.h"
 #import "BooksCollectionViewController.h"
+#import "MangoSubscriptionViewController.h"
 
 #define NUMBER_OF_CATEGORIES_PER_PAGE 6
 
@@ -83,12 +84,12 @@
         appDelegate.arePurchasesDownloading = YES;
     }
     
-    _settingQuesArray = [[NSArray alloc] init];
+/*    _settingQuesArray = [[NSArray alloc] init];
     // Do any additional setup after loading the view from its nib.
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *pListpath = [bundle pathForResource:@"SettingsQues" ofType:@"plist"];
     NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:pListpath];
-    _settingQuesArray = [dictionary valueForKey:@"Problems"];
+    _settingQuesArray = [dictionary valueForKey:@"Problems"];*/
     
     if(!userEmail){
         ID = userDeviceID;
@@ -413,6 +414,16 @@
         MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
         analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
         [self presentViewController:analyticsViewController animated:YES completion:nil];
+    }
+}
+
+- (void) showSubscriptionView{
+    
+    MangoSubscriptionViewController *subscriptionViewController;
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        subscriptionViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
     }
 }
 
