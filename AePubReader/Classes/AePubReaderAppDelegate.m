@@ -281,6 +281,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+//save with folder name
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{
     ZipArchive* za = [[ZipArchive alloc] init];
    // NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
