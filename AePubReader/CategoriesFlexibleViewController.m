@@ -229,7 +229,7 @@
     if([_textQuesSolution.text intValue]  == quesSolution){
         
         settingSol = YES;
-        NSLog(@"dddoonnee");
+        
     }
     else{
         settingSol = NO;
