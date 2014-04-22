@@ -37,6 +37,11 @@
     return userInfoObjects;
 }
 
+- (NSArray *)getAllSubscriptionObjects {
+    NSArray *subscriptionInfoObjects = [_db findObjectsWithQuery:@{@"subscriptionType":@{@"$exists":@YES}} inCollection:_collection error:nil];
+    return subscriptionInfoObjects;
+}
+
 - (UserInfo *)getUserInfoForId:(NSString *)userId {
     UserInfo *userInfo = [_collection fetchObjectWithOID:userId];
     return userInfo;

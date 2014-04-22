@@ -233,7 +233,7 @@
 
 - (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate ForTransaction:(NSString *)transactionId {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
+    
     if (!_downloadOperationQueue) {
         _downloadOperationQueue = [[NSOperationQueue alloc] init];
         [_downloadOperationQueue setMaxConcurrentOperationCount:1];

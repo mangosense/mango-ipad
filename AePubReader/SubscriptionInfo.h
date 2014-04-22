@@ -11,7 +11,6 @@
 @interface SubscriptionInfo : NSObject
 
 @property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *expirationDate;
-@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *subscriptionType;
 
 @end
