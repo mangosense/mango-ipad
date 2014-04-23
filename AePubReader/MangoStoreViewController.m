@@ -119,7 +119,16 @@
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!appDelegate.subscriptionInfo) {
-        MangoSubscriptionViewController *subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        
+        MangoSubscriptionViewController *subscriptionViewController;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentViewController:subscriptionViewController animated:YES completion:^{
             
@@ -221,7 +230,7 @@
     }
     else{
         self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
-        [self.filterPopoverController setPopoverContentSize:CGSizeMake(150, 250)];
+        [self.filterPopoverController setPopoverContentSize:CGSizeMake(250, 250)];
         self.filterPopoverController.delegate = self;
         [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
         [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -745,7 +754,10 @@
             break;
             
         default: {
+            
             return [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] count];
+           
+           
         }
             break;
     }
