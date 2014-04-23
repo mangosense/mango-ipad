@@ -25,8 +25,17 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)viewDidLoad
