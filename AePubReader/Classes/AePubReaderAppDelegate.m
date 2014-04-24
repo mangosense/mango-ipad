@@ -118,7 +118,14 @@ static UIAlertView *alertViewLoading;
                 
                 nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
             } else {
-                _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                
+                
+                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+                 }
+                 else{
+                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                 }
                 nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
             }
             
