@@ -70,7 +70,15 @@
                     } else {
                         transactionId = transaction.transactionIdentifier;
                     }
-                    [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    /*[self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];*/
+                    
+                    
+                    [[CargoBay sharedManager] verifyTransaction:transaction password:nil success:^(NSDictionary *receipt) {
+                        NSLog(@"Receipt------: %@", receipt);
+                    } failure:^(NSError *error) {
+                        NSLog(@"Error  --------%d (%@)", [error code], [error localizedDescription]);
+                    }];
+                    
                 }
                     break;
                     
@@ -158,7 +166,7 @@
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
-            [delegate itemReadyToUse:productId ForTransaction:transactionId];
+            [delegate itemReadyToUse:productId ForTransaction:transactionId]; 
             if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                 [delegate updateBookProgress:0];
             }

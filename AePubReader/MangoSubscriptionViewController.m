@@ -10,6 +10,7 @@
 #import "SubscriptionInfo.h"
 #import "AePubReaderAppDelegate.h"
 
+
 #define MONTHLY_TAG 9
 #define QUARTERLY_TAG 29
 #define YEARLY_TAG 99
@@ -81,6 +82,7 @@
 - (IBAction)subscribeButtonTapped:(id)sender {
     UIButton *button = (UIButton *)sender;
     NSString *productId;
+    
     if (button.tag == MONTHLY_TAG) {
         productId = @"mrmonthly1";
     } else if (button.tag == QUARTERLY_TAG) {
@@ -109,6 +111,7 @@
 
 - (void)updateBookProgress:(int)progress {
     
+  
 }
 
 @end
