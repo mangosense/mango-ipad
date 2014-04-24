@@ -22,7 +22,13 @@ var GhostUploader = (function(){
 			casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36');
 			
 			this.loadConfig()
-			this.start()
+			mode  = casper.cli.options['mode']
+			if (mode=="app"){
+				this.createApp()
+			}else if (mode=="profile"){
+				this.createProfile();
+			}
+			
 
 		},
 		loadConfig: function() {
@@ -31,19 +37,118 @@ var GhostUploader = (function(){
 			this.story_config = JSON.parse(data)
 			//casper.echo(story_config['']['name'])
 		},
-		start: function() {
+		createProfile: function() {
+			self=this;
+			casper.echo('I am in profile')
+			casper.start('https://developer.apple.com/account',function() {
+				 this.echo(this.getCurrentUrl());
+				 this.evaluate(function() {
+				 	console.log(decodeURIComponent(window.location.href));
+				 })
+
+				 this.fill('form[name="appleConnectForm"]',
+						{
+							'theAccountName':self.story_config['user_name'],
+							'theAccountPW':self.story_config['password']
+						},true);
+				 self.changeProfile()
+			})
+			casper.run()
+		},
+		createApp: function() {
 			self = this;
 			casper.start('https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa', function() {
 			    this.echo(this.getTitle());
 			    this.fill('form[name="appleConnectForm"]',
 						{
-							'theAccountName':'apple@edesii.com',
-							'theAccountPW':'Mango1234'
+							'theAccountName':self.story_config['user_name'],
+							'theAccountPW':self.story_config['password']
 						},true);
 			    self.clickManageApps()
 			});
 			casper.run();
 		},
+
+		createAppIdentifier: function() {
+			self=this;
+			casper.thenOpen('https://developer.apple.com/account/ios/identifiers/bundle/bundleCreate.action',function() {
+				this.waitUntilVisible('input[name="appIdName"]',function() {
+					this.echo('name is visible')
+					form_fields = {}
+					form_fields['appIdName'] = 'MangoStory ' + self.story_config['story_id']
+					form_fields['prefix'] = self.story_config['teamId']
+					form_fields['type'] = self.story_config['id_type']
+					form_fields[((self.story_config['id_type'] == "explicit") ? 'explicitIdentifier' :  'wildcardIdentifier' )] =  self.story_config['bundle_id']
+					this.fill('form[name="bundleSave"]',form_fields,true)
+
+					this.waitForSelector('form[name="bundleSubmit"]',function() {
+						this.click('.bottom-buttons .submit');
+					})
+
+				})
+			})
+		},
+
+		changeProfile: function() {
+			self.this;
+			casper.thenOpen('https://developer.apple.com/account/ios/profile/profileList.action?type=production',function() {
+				this.evaluate(function(config) {
+					console.log('changing profile')
+
+					// Find our profile row
+					grid_row  = window.jQuery('#gbox_grid-table tr').filter(function() {
+						return (window.jQuery(this).find('td').filter(function() {
+							return (window.jQuery(this).text() == "Mango Story As An App")
+						}).length > 0)
+					})
+
+					// Expand it
+					grid_row.click();
+
+					// Click edit
+					grid_row.next().find('.validButtons .edit-button').click()
+
+					
+				},self.story_config)
+
+				self.changeAppId()
+				
+			})
+		},
+
+		changeAppId: function() {
+			self=this;
+			casper.waitUntilVisible('form[name="profileEdit"]',function() {
+				this.echo('Inside profile edit')
+				this.evaluate(function(config) {
+					window.jQuery('select[name="appIdId"] option').filter(function() {
+						return (window.jQuery(this).text().indexOf(config['bundle_id']) > -1)
+					}).attr('selected',true);
+
+					window.jQuery('.bottom-buttons .submit').click()
+				},self.story_config)
+				
+				self.downloadProfile()
+
+			},function() {
+				this.capture('edit_timeout.png')
+			},40000)
+
+		},
+
+		downloadProfile: function() {
+			casper.waitForSelector('.downloadForm',function() {
+				console.log('Inside download form')
+				download_url  = 'https://developer.apple.com' + this.evaluate(function() {
+					return window.jQuery('.downloadForm .button.blue').attr('href');
+				})
+				this.download(download_url,'MangoStory.mobileprovision');
+
+			},function() {
+				this.capture('download_timeout.png')
+			},40000)
+		},
+
 		clickManageApps: function() {
 			self=this;
 			casper.then(function() {
@@ -111,7 +216,7 @@ var GhostUploader = (function(){
 
 					//fill the SKU number
 
-					window.jQuery('#sKUNumberTooltipId').parent().find('input[type="text"]').val(config['bundle_id_suffix']);
+					window.jQuery('#sKUNumberTooltipId').parent().find('input[type="text"]').val(config['sku']);
 
 
 					// Logging all bundle ids
@@ -228,7 +333,6 @@ var GhostUploader = (function(){
 				});
 
 				this.waitForSelector('.lcUploaderImage.LargeApplicationIcon',function() {
-					this.echo('I am in')
 					self.image_count = 0
 					self.handle_upload_screenshot()
 				},null,40000)
@@ -310,57 +414,69 @@ var GhostUploader = (function(){
 
 				// -- Ratings info
 
-				// Set the ratings
-				// Apple rating element values are totally fucked up. For some elemenets it is 1,2,3, for some 1,2,3 or 1,3,5
-				// Instead of relying on the rating value to find the correct element, we ll use the physcial order the elements arranged
-				// So in input config file, the rating values against each field is just order
-				// 0 - None, 1 - Infrequent/Mild,  2  - Frequent/Intense
-				_.each(config['app_rating'],function(rating,field) {
-					switch(field){
-						case 'cartoon' :
-							// name="1" is actual apple reference for the rating field name
-							// Its hard coded, there is no way to do it except this
-							// eq is to find the element at index
-							window.jQuery('input[name="1"]').eq(rating).attr('checked',true);
-							break;
-						case 'realistic_violence' :
-							window.jQuery('input[name="2"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'sadistic_realistic_violence' :
-							window.jQuery('input[name="9"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'profanity_crude_humor' :
-							window.jQuery('input[name="4"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'mature_themes' :
-							window.jQuery('input[name="6"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'horror_themes' :
-							window.jQuery('input[name="8"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'alchocol_drug_ref' :
-							window.jQuery('input[name="5"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'simulated_gambling' :
-							window.jQuery('input[name="7"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'sexual_content_nudity' :
-							window.jQuery('input[name="3"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-						case 'graphic_sexual_content_nudity' :
-							window.jQuery('input[name="10"]').eq(rating).attr('checked',true);
-							window.updateRating();
-							break;
-					}
-				})
+				if (config['app_rating_all']==null){
+					// Set the ratings
+					// Apple rating element values are totally fucked up. For some elemenets it is 1,2,3, for some 1,2,3 or 1,3,5
+					// Instead of relying on the rating value to find the correct element, we ll use the physcial order the elements arranged
+					// So in input config file, the rating values against each field is just order
+					// 0 - None, 1 - Infrequent/Mild,  2  - Frequent/Intense
+					_.each(config['app_rating'],function(rating,field) {
+						switch(field){
+							case 'cartoon' :
+								// name="1" is actual apple reference for the rating field name
+								// Its hard coded, there is no way to do it except this
+								// eq is to find the element at index
+								window.jQuery('input[name="1"]').eq(rating).attr('checked',true);
+								break;
+							case 'realistic_violence' :
+								window.jQuery('input[name="2"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'sadistic_realistic_violence' :
+								window.jQuery('input[name="9"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'profanity_crude_humor' :
+								window.jQuery('input[name="4"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'mature_themes' :
+								window.jQuery('input[name="6"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'horror_themes' :
+								window.jQuery('input[name="8"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'alchocol_drug_ref' :
+								window.jQuery('input[name="5"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'simulated_gambling' :
+								window.jQuery('input[name="7"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'sexual_content_nudity' :
+								window.jQuery('input[name="3"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'graphic_sexual_content_nudity' :
+								window.jQuery('input[name="10"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+							case 'medical_treatment_info' : 
+								window.jQuery('input[name="11"]').eq(rating).attr('checked',true);
+								window.updateRating();
+								break;
+						}
+					})
+				}else {
+					// Update all app ratings field with same option (Ex: For kids app)
+					window.jQuery('.add-rating tr').each(function() {
+						window.jQuery(this).find('td.mapping').eq(config['app_rating_all']+1).find('input').click()
+						window.updateRating();
+					})
+				}
 
 				
 
@@ -515,8 +631,9 @@ var GhostUploader = (function(){
 		},
 		
 		fill_compliance_form: function() {
+			self=this;
 			casper.waitForSelector('.export-comp-wrapper', function() {
-
+				self.current_url = this.getCurrentUrl();
 				this.wait(5000,function() {
 					this.capture('fill_compliance_form.png')
 				})
@@ -537,11 +654,27 @@ var GhostUploader = (function(){
 
 					// Click save
 					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button input').click()
+
+
 				})
+
+				self.endAppCreation()
+
 			},function() {
 					this.echo('Timed out now')
 					this.capture('timed_out.png')
 			},40000)
+		},
+
+		endAppCreation: function() {
+			self=this;
+			casper.waitFor(function() {
+				return this.evaluate(function(current_url) {
+					return (decodeURIComponent(window.location.href) != current_url)
+				},self.current_url)
+			},function() {
+				this.exit()
+			})
 		}
 
 
