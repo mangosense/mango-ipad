@@ -174,7 +174,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GET UNLIMITED ACCESS TO OVER 100 STORIES IN 10 LANGUAGES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lol-N8-rzW">
-                    <rect key="frame" x="64" y="31" width="440" height="25"/>
+                    <rect key="frame" x="64" y="30" width="440" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                     <color key="textColor" red="0.42203443880000002" green="0.28395663310000002" blue="0.1448279083" alpha="1" colorSpace="calibratedRGB"/>

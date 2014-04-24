@@ -93,15 +93,15 @@ static UIAlertView *alertViewLoading;
         [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
     }
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
-        //LoginNewViewController_iPhone
-        self.loginController = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
-     //  _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
-        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
-        
-        self.window.rootViewController = nav;
-        [self.window makeKeyAndVisible];
-    } else {
+//    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
+//        //LoginNewViewController_iPhone
+//        self.loginController = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+//     //  _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
+//        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+//        
+//        self.window.rootViewController = nav;
+//        [self.window makeKeyAndVisible];
+//    } else {
         CustomNavViewController *nav;
         if (uiNew) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
@@ -131,7 +131,7 @@ static UIAlertView *alertViewLoading;
         self.window.rootViewController = nav;
  
         [self.window makeKeyAndVisible];
-    }
+//    }
         
     [self addSkipBackupAttribute];
     

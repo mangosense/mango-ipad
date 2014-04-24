@@ -115,7 +115,7 @@
         displayStoryNo = 6;
     }
     
-    //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!appDelegate.subscriptionInfo) {

@@ -754,7 +754,6 @@
 
 - (IBAction)backgroundTap:(id)sender {
     [_textQuesSolution resignFirstResponder];
-    
 }
 
 @end
