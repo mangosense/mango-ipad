@@ -15,6 +15,7 @@
 #import "MangoGamesListViewController.h"
 #import <Parse/Parse.h>
 #import "MangoPromoPageViewController.h"
+#import "MBProgressHUD.h"
 
 @interface CoverViewControllerBetterBookType ()
 
@@ -65,7 +66,6 @@
 
 - (void)initialSetup {
     viewName = @"Book cover view";
-
     _titleLabel.text=_book.title;
     NSString *jsonLocation=_book.localPathFile;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -76,10 +76,11 @@
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     //  NSLog(@"json contents %@",jsonContents);
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
     
     ID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
     
