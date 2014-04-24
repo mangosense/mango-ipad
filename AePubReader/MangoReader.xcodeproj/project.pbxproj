@@ -20,7 +20,8 @@
 		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
-		6805D8A318DC64FA00DDB0C7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC08DC11656B3D00067C47B /* StoreKit.framework */; };
+		3FCF866F19069A580081D20C /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 3FCF866E19069A580081D20C /* MangoStory.zip */; };
+		3FCF867119069FCF0081D20C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FCF867019069FCF0081D20C /* StoreKit.framework */; };
 		6806835218F2C5FF00D4609D /* SignUpViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */; };
 		6806835418F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835318F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib */; };
 		6806835618F2D75D00D4609D /* newBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 6806835518F2D75D00D4609D /* newBack.png */; };
@@ -820,6 +821,8 @@
 		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		3FCF866E19069A580081D20C /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
+		3FCF867019069FCF0081D20C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController_iPhone.xib; sourceTree = "<group>"; };
 		6806835318F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandPageChoiceViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -1649,7 +1652,6 @@
 		AEB7AE0B16B949A2009844B0 /* toc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toc.png; sourceTree = "<group>"; };
 		AEB7AE0D16B95607009844B0 /* tmangot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmangot.png; sourceTree = "<group>"; };
 		AEB7AE0F16B95674009844B0 /* srbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = srbar.png; sourceTree = "<group>"; };
-		AEC08DC11656B3D00067C47B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AEC70E1516D4C34700A191D2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		AEC70E1716D4C35100A191D2 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		AEC70E1916D4C35E00A191D2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1794,7 +1796,6 @@
 				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
 				686F18A21905651E00B47DA8 /* libEJDBKit.a in Frameworks */,
 				68E0699D190543C80098A3B3 /* (null) in Frameworks */,
-				6805D8A318DC64FA00DDB0C7 /* StoreKit.framework in Frameworks */,
 				68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */,
 				835CD1CA18F46C5B00B5A12F /* Parse.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
@@ -1820,6 +1821,7 @@
 				AE43C712161054B900970739 /* CFNetwork.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				AE43C70F1610548900970739 /* libxml2.dylib in Frameworks */,
+				3FCF867119069FCF0081D20C /* StoreKit.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				AE9C3CB0171805D900ABAC86 /* libFlurry.a in Frameworks */,
@@ -1870,6 +1872,7 @@
 			isa = PBXGroup;
 			children = (
 				834AC1C718F6811100CECA4D /* Subscription */,
+				3FCF866E19069A580081D20C /* MangoStory.zip */,
 				68624C7318F7DE190035A3F1 /* Popover */,
 				835CD1CB18F46C7800B5A12F /* FacebookSDK.framework */,
 				835CD1C918F46C5B00B5A12F /* Parse.framework */,
@@ -2033,6 +2036,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FCF867019069FCF0081D20C /* StoreKit.framework */,
 				68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */,
 				83E723CF17BA10FD0083DBD6 /* AssetsLibrary.framework */,
 				AE3F981A16D637C70052C85C /* CoreFoundation.framework */,
@@ -2045,7 +2049,6 @@
 				837D27F3180D3BC000469D1C /* Twitter.framework */,
 				833058A317F9961A00F48427 /* Accounts.framework */,
 				833058A117F9901E00F48427 /* libz.1.1.3.dylib */,
-				AEC08DC11656B3D00067C47B /* StoreKit.framework */,
 				AE525E88161D8AD400CDB400 /* AdSupport.framework */,
 				AE525E74161D747B00CDB400 /* CoreLocation.framework */,
 				AE525E76161D748700CDB400 /* MapKit.framework */,
@@ -3366,6 +3369,14 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = LNHPT8X9T3;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -3537,6 +3548,7 @@
 				AE73704B183C686B00054115 /* LoginNewViewController.xib in Resources */,
 				AE7FEF29161F1AC400181CE8 /* library@2x.png in Resources */,
 				834FCE3B182D11F70000181B /* movetool.png in Resources */,
+				3FCF866F19069A580081D20C /* MangoStory.zip in Resources */,
 				834FCE5F182D11F70000181B /* syncpause.png in Resources */,
 				68CD69F118F80334003BAD0D /* popoverArrowDownSimple.png in Resources */,
 				AE7FEF2B161F1B1700181CE8 /* purchased.png in Resources */,
@@ -4218,8 +4230,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4254,8 +4266,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4267,8 +4279,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4300,8 +4312,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4389,8 +4401,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "84387442-5BF3-4E1A-954A-EA63455E11B4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
+				PROVISIONING_PROFILE = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4412,8 +4424,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "84387442-5BF3-4E1A-954A-EA63455E11B4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84387442-5BF3-4E1A-954A-EA63455E11B4";
+				PROVISIONING_PROFILE = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
