@@ -100,12 +100,12 @@
         [self getAllAgeGroups];
     }
     
-    if(!userEmail){
+  /*  if(!userEmail){
         ID = userDeviceID;
     }
     else{
         ID = userEmail;
-    }
+    }*/
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         displayStoryNo = 4;
@@ -118,6 +118,10 @@
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+
+    
+ /*   NSLog(@"print data %@", book1);
     if (!appDelegate.subscriptionInfo) {
         
         MangoSubscriptionViewController *subscriptionViewController;
@@ -130,10 +134,79 @@
             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
         }
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:subscriptionViewController animated:YES completion:^{
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+    }*/
+    
+//    else{
+    
+    if(!userEmail){
+        ID = userDeviceID;
+        if(appDelegate.subscriptionInfo){
+            //provide access
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                }
+                else{
+                    MangoSubscriptionViewController *subscriptionViewController;
+                    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                        
+                        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+                    }
+                    else{
+                        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                    }
+                    subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                    [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                }
+                
+            }];
+        }
+        
+        else{
+            //no access
+            MangoSubscriptionViewController *subscriptionViewController;
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                
+                subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+            }
+            else{
+                subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+            }
+            subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        }
+    }
+    else{
+        
+        ID = userEmail;
+        
+        [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+            NSLog(@"type --- %d", type);
+            if ([[response objectForKey:@"status"] integerValue] == 1){
+               //user is already subscribed then no need to push subscription view
+                NSLog(@"You are already subscribed");
+            }
+            else{
+                MangoSubscriptionViewController *subscriptionViewController;
+                if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    
+                    subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+                }
+                else{
+                    subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                }
+                subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                [self presentViewController:subscriptionViewController animated:YES completion:nil];
+            }
             
         }];
     }
+ //   }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -242,6 +315,7 @@
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -250,8 +324,9 @@
     else{
         [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
     }
+   
+       // [paramDict setObject:IOS forKey:PLATFORM];
     
-    [paramDict setObject:IOS forKey:PLATFORM];
 
     if ([type isEqualToString:AGE_GROUPS]) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -268,6 +343,9 @@
         
         //Get Featured Stories
         if (!_featuredStoriesArray) {
+           
+            [paramDict setObject:IOS forKey:PLATFORM];
+        
             [apiController getListOf:FEATURED_STORIES ForParameters:paramDict withDelegate:self];
         }
         
@@ -363,7 +441,9 @@
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
-    [paramDict setObject:IOS forKey:PLATFORM];
+    
+    //[paramDict setObject:IOS forKey:PLATFORM];
+    
     
     switch (_tableType) {
         case TABLE_TYPE_CATEGORIES: {
@@ -605,11 +685,11 @@
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
             if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
                 bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-                [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+            //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
             }
             else{
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-                [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+                //[bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
             }
             
             if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
@@ -1003,11 +1083,11 @@
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+       //     [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
         }
         else{
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+      //      [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
         }
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){

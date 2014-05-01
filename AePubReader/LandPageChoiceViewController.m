@@ -40,9 +40,11 @@
     viewName = @"Home page";
     if(!userEmail){
         ID = userDeviceID;
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"loginLock.png"] forState:UIControlStateNormal];
     }
     else{
         ID = userEmail;
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
     }
     // Do any additional setup after loading the view from its nib.
     
@@ -179,7 +181,10 @@
     [self.navigationController pushViewController:categoryFlexible animated:YES];
 }
 
-
+- (IBAction)backToLoginView:(id)sender{
+    
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+}
 
 
 @end

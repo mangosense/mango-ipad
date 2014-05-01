@@ -19,6 +19,9 @@
 - (IBAction)openFreeStories:(id)sender;
 - (IBAction)store:(id)sender;
 - (IBAction)myStories:(id)sender;
+- (IBAction)backToLoginView:(id)sender;
 
 @property(retain,nonatomic)StoriesViewController *storiesViewController;
+@property (nonatomic, retain) IBOutlet UIButton *backToLogin;
+
 @end

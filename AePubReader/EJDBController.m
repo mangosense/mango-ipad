@@ -38,8 +38,8 @@
 }
 
 - (NSArray *)getAllSubscriptionObjects {
-    NSArray *subscriptionInfoObjects = [_db findObjectsWithQuery:@{@"subscriptionType":@{@"$exists":@YES}} inCollection:_collection error:nil];
-    return subscriptionInfoObjects;
+    NSArray *userSubscriptionObjects = [_db findObjectsWithQuery:@{@"subscriptionProductId":@{@"$exists":@YES}} inCollection:_collection error:nil];
+    return userSubscriptionObjects;
 }
 
 - (UserInfo *)getUserInfoForId:(NSString *)userId {

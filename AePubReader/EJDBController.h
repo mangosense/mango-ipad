@@ -15,6 +15,7 @@
 #import "MangoTextLayer.h"
 #import "MangoAudioLayer.h"
 #import "UserInfo.h"
+#import "SubscriptionInfo.h"
 
 @interface EJDBController : NSObject
 
@@ -26,6 +27,7 @@
 - (void)parseBookJson:(NSData *)bookJsonData WithId:(NSNumber *)numberId AtLocation:(NSString *)filePath;
 
 - (NSArray *)getAllUserInfoObjects;
+- (NSArray *)getAllSubscriptionInfoObjects;
 - (NSArray *)getAllSubscriptionObjects;
 - (UserInfo *)getUserInfoForId:(NSString *)userId;
 - (MangoBook *)getBookForBookId:(NSString *)bookId;

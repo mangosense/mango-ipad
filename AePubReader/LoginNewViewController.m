@@ -18,6 +18,7 @@
 #import <Social/Social.h>
 #import "AePubReaderAppDelegate.h"
 
+
 @interface LoginNewViewController ()
 
 @property (nonatomic, assign) BOOL isLoginWithFb;
@@ -91,6 +92,7 @@
     [self.view addSubview:loginView];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
     if ([userInfoObjects count] > 0) {
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
@@ -98,8 +100,6 @@
     }
     appDelegate.deviceId = _udid;
     _isLoginWithFb = NO;
-    
-    
 
 }
 
@@ -230,36 +230,8 @@
 
 - (IBAction)goToNextSkip:(id)sender {
     
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    ID = _udid;
-   
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 
-                                 };
-    [delegate trackEvent:[SKIP_SIGN_IN valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[SKIP_SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [SKIP_SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:ID forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
-    
-    LandPageChoiceViewController *landingPageViewController;
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-       
-        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
-    }
-    else{
-        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
-    }
-    
-    [self.navigationController pushViewController:landingPageViewController animated:YES];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Skip Signin" message:@"Are you sure you want to skip signin and free 5 books" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    [alert show];
 }
 
 - (IBAction)signUp:(id)sender {
@@ -383,6 +355,51 @@
     UITouch * touch = [touches anyObject];
     if(touch.phase == UITouchPhaseBegan) {
         [self.view endEditing:YES];
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if([alertView.title isEqualToString:@"Skip Signin"]){
+        
+        if(buttonIndex == 1){
+            
+            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            ID = _udid;
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         
+                                         };
+            [delegate trackEvent:[SKIP_SIGN_IN valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[SKIP_SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [SKIP_SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:ID forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+            
+            LandPageChoiceViewController *landingPageViewController;
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+            }
+            else{
+                landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+            }
+            
+            [self.navigationController pushViewController:landingPageViewController animated:YES];
+            
+        }
+        else{
+            
+            
+        }
     }
 }
 

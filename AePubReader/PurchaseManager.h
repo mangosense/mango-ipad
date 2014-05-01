@@ -10,7 +10,7 @@
 
 @protocol PurchaseManagerProtocol <NSObject>
 
-- (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId;
+- (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId withReciptData:(NSData*)recipt andAmount:(NSString *)amount;
 - (void)updateBookProgress:(int)progress;
 
 @end

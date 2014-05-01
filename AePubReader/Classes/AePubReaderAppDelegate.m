@@ -14,11 +14,11 @@
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 #import "Base64.h"
-
+#import "MangoApiController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "MBProgressHUD.h"
-
+#import "MangoSubscriptionViewController.h"
 #import "BooksFromCategoryViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
@@ -50,6 +50,11 @@ static UIAlertView *alertViewLoading;
    //My test account id and key
     [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
                        clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
@@ -403,6 +408,32 @@ void uncaughtExceptionHandler(NSException *exception) {
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive.
      */
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    NSArray *userSubscriptionObjects = [delegate.ejdbController getAllSubscriptionObjects];
+    if ([userSubscriptionObjects count] > 0) {
+        delegate.subscriptionInfo = [userSubscriptionObjects lastObject];
+    }
+    
+    if(delegate.subscriptionInfo){
+        
+        NSString *productId = delegate.subscriptionInfo.subscriptionProductId;
+        NSString *transctionId = delegate.subscriptionInfo.subscriptionTransctionId;
+        NSString *amount = delegate.subscriptionInfo.subscriptionAmount;
+        NSData *recieptData = delegate.subscriptionInfo.subscriptionReceiptData;
+        
+        [[MangoApiController sharedApiController] validateReceiptWithData:recieptData ForTransaction:transctionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+            // [delegate itemReadyToUse:productId ForTransaction:transactionId];
+            if ([response objectForKey:@"status"]) {
+                NSLog(@"SuccessResponse:%@", response);
+              //  MangoSubscriptionViewController *mangoSunscription = [[MangoSubscriptionViewController alloc] init];
+               // [mangoSunscription itemReadyToUse:productId ForTransaction:transctionId withReciptData:recieptData andAmount:amount];
+            }
+            else {
+                NSLog(@"ReceiptError:%@", error);
+            }
+        }];
+    }
 }
 
 
@@ -649,5 +680,19 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:newDeviceToken];
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
+
 @end
 

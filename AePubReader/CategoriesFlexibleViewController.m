@@ -16,6 +16,8 @@
 #import "MBProgressHUD.h"
 #import "BooksCollectionViewController.h"
 #import "MangoSubscriptionViewController.h"
+#import "MangoDetailSettingsViewController.h"
+#import "MangoDashboardTabViewController.h"
 
 #define NUMBER_OF_CATEGORIES_PER_PAGE 6
 
@@ -313,8 +315,33 @@
 - (void)displaySettingsOrNot {
     
     if(settingSol){
-        [self displaySettings];
+       // [self displaySettings];
         settingSol = NO;
+        
+        MangoDashboardTabViewController *dashBoardView = [[MangoDashboardTabViewController alloc] initWithNibName:@"MangoDashboardTabViewController" bundle:nil];
+        
+        //[defaults setObject:subCell.subName.text forKey:@"STUDENT_SUBJECT"];
+        dashBoardView.navigationController.navigationBarHidden = NO;
+        //[self.navigationController pushViewController:dashBoardView animated:NO];
+        [self presentViewController:dashBoardView animated:YES completion:nil];
+        
+        
+      /*  MangoDetailSettingsViewController *settingsViewController;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            settingsViewController = [[MangoDetailSettingsViewController alloc] initWithNibName:@"MangoDetailSettingsViewController_iPhone" bundle:nil];
+            
+        }
+        else{
+            settingsViewController = [[MangoDetailSettingsViewController alloc] initWithNibName:@"MangoDetailSettingsViewController" bundle:nil];
+        }
+
+        [settingsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+        [self presentViewController:settingsViewController animated:YES completion:^(void) {
+        }];
+        
+        settingsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);*/
     }
 
 }

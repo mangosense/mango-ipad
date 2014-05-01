@@ -24,6 +24,10 @@
         // Custom initialization
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _loginUserEmail = delegate.loggedInUserInfo.email;
+        self.title = @"Second Tab";
+        [[[self tabBarController] tabBar] setSelectionIndicatorImage:[UIImage imageNamed:@"selected"]];
+
+        self.tabBarItem.image = [UIImage imageNamed:@"facebook_login.png"];
     }
     return self;
 }
@@ -234,6 +238,11 @@
 -(IBAction)backView:(id)sender{
     
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(IBAction)hide{
+    
+    _subview.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning

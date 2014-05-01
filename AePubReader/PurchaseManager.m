@@ -70,14 +70,7 @@
                     } else {
                         transactionId = transaction.transactionIdentifier;
                     }
-                    /*[self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];*/
-                    
-                    
-                    [[CargoBay sharedManager] verifyTransaction:transaction password:nil success:^(NSDictionary *receipt) {
-                        NSLog(@"Receipt------: %@", receipt);
-                    } failure:^(NSError *error) {
-                        NSLog(@"Error  --------%d (%@)", [error code], [error localizedDescription]);
-                    }];
+                    [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                     
                 }
                     break;
@@ -162,13 +155,17 @@
 
 - (void)validateReceipt:(NSString *)productId ForTransactionId:(NSString *)transactionId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
     //Use this when receipt_validate is error free
+    NSLog(@"%@", receiptData);
     [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
-        if (type == 1) {
+       // [delegate itemReadyToUse:productId ForTransaction:transactionId];
+        if ([[response objectForKey:@"status"] integerValue] == 1) {
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
-            [delegate itemReadyToUse:productId ForTransaction:transactionId]; 
+            //[delegate itemReadyToUse:productId ForTransaction:transactionId];
+            [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData andAmount:amount];
             if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
-                [delegate updateBookProgress:0];
+               // [delegate updateBookProgress:0];
+                
             }
         }
         else {

@@ -11,7 +11,10 @@
 @implementation SubscriptionInfo
 
 @synthesize id;
-@synthesize subscriptionType;
+@synthesize subscriptionProductId;
+@synthesize subscriptionTransctionId;
+@synthesize subscriptionReceiptData;
+@synthesize subscriptionAmount;
 
 - (NSString *)type {
     return NSStringFromClass([self class]);
@@ -21,24 +24,65 @@
     return @"id";
 }
 
+
 - (NSDictionary *)toDictionary {
-    return NSDictionaryOfVariableBindings(subscriptionType);
+    //   NSLog(@"todictionary");
+    return NSDictionaryOfVariableBindings(subscriptionProductId, subscriptionTransctionId, subscriptionReceiptData, subscriptionAmount);
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary {
-    NSArray *array=[NSArray arrayWithObjects:@"id", @"subscriptionType", nil];
+    NSArray *array=[NSArray arrayWithObjects:@"id", @"subscriptionProductId", @"subscriptionTransctionId", @"subscriptionReceiptData", @"subscriptionAmount", nil];
     for (NSString *key in array)
     {
         if ([[dictionary allKeys] containsObject:key]) {
             [self setValue:[dictionary objectForKey:key] forKey:key];
         }
     }
+    // NSLog(@"fromDictionary");
 }
+
+
+/*- (NSDictionary *)toDictionary
+{
+    return @{@"type" : [self type],@"productid" : subscriptionProductId, @"transctionid" : subscriptionTransctionId, @"reciptdata" : subscriptionReceiptData, @"amount" : subscriptionAmount};
+}*/
+
+/*- (NSDictionary *)toDictionary {
+    return NSDictionaryOfVariableBindings(subscriptionProductId);
+}*/
+
+/*- (void)fromDictionary:(NSDictionary *)dictionary {
+    NSArray *array=[NSArray arrayWithObjects:@"subscriptionProductId", @"subscriptionTransctionId", @"subscriptionReceiptData", @"subscriptionAmount", nil];
+    for (NSString *key in array)
+    {
+        if ([[dictionary allKeys] containsObject:key]) {
+            [self setValue:[dictionary objectForKey:key] forKey:key];
+        }
+    }
+}*/
+
+/*- (void)fromDictionary:(NSDictionary *)dictionary
+{
+    for (NSString *key in [dictionary keyEnumerator])
+    {
+        [self setValue:[dictionary objectForKey:key] forKey:key];
+    }
+}
+
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    value = [key isEqual:@"type"] ? [self type] : [NSNull null];
+}*/
 
 - (id)copyWithZone:(NSZone *)zone {
     SubscriptionInfo *subscriptionInfo = [[SubscriptionInfo alloc] init];
+    
     [subscriptionInfo setId:id];
-    [subscriptionInfo setSubscriptionType:subscriptionType];
+    [subscriptionInfo setSubscriptionProductId:subscriptionProductId];
+    [subscriptionInfo setSubscriptionTransctionId:subscriptionTransctionId];
+    [subscriptionInfo setSubscriptionReceiptData:subscriptionReceiptData];
+    [subscriptionInfo setSubscriptionAmount:subscriptionAmount];
+    
     return subscriptionInfo;
 }
 

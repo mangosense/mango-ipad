@@ -33,4 +33,7 @@
 
 -(IBAction)dropDownActionButtonClick;
 
+@property (nonatomic, strong) IBOutlet UIView *subview;
+-(IBAction)hide;
+
 @end
