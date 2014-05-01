@@ -14,6 +14,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		28BABABD190E3323005909DF /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28BABABC190E3323005909DF /* FacebookSDK.framework */; };
 		292217D1189B8FF3009D4216 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 292217D0189B8FF3009D4216 /* PurchaseManager.m */; };
 		29A650FD18979E6F00A33A15 /* iCarouselImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A650FC18979E6F00A33A15 /* iCarouselImageView.m */; };
 		29B9FED91883DDDA00772921 /* MangoStoreCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B9FED81883DDDA00772921 /* MangoStoreCollectionViewController.m */; };
@@ -252,7 +253,6 @@
 		8358148B184487FB00670D71 /* MangoPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148A184487FB00670D71 /* MangoPage.m */; };
 		83581490184489D100670D71 /* MangoLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8358148F184489D100670D71 /* MangoLayer.m */; };
 		835CD1CA18F46C5B00B5A12F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835CD1C918F46C5B00B5A12F /* Parse.framework */; };
-		835CD1CC18F46C7800B5A12F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835CD1CB18F46C7800B5A12F /* FacebookSDK.framework */; };
 		835FE3E91863299E009D2BC7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 835FE3E81863299E009D2BC7 /* MBProgressHUD.m */; };
 		83603C5417CB7D39000DA2CE /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5017CB776B000DA2CE /* AwesomeMenu.m */; };
 		83603C5617CB7D39000DA2CE /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83603C5217CB776B000DA2CE /* AwesomeMenuItem.m */; };
@@ -822,6 +822,7 @@
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* MangoReader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoReader_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28BABABC190E3323005909DF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		292217CF189B8FF3009D4216 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseManager.h; sourceTree = "<group>"; };
 		292217D0189B8FF3009D4216 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseManager.m; sourceTree = "<group>"; };
 		29A650FB18979E6F00A33A15 /* iCarouselImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarouselImageView.h; sourceTree = "<group>"; };
@@ -1101,7 +1102,6 @@
 		8358148E184489D100670D71 /* MangoLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoLayer.h; sourceTree = "<group>"; };
 		8358148F184489D100670D71 /* MangoLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoLayer.m; sourceTree = "<group>"; };
 		835CD1C918F46C5B00B5A12F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		835CD1CB18F46C7800B5A12F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		835FE3E71863299E009D2BC7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		835FE3E81863299E009D2BC7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		83603C4F17CB776B000DA2CE /* AwesomeMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenu.h; sourceTree = "<group>"; };
@@ -1819,6 +1819,7 @@
 				83E723D017BA10FD0083DBD6 /* AssetsLibrary.framework in Frameworks */,
 				AE3F981B16D637C70052C85C /* CoreFoundation.framework in Frameworks */,
 				AEC70E1A16D4C35E00A191D2 /* OpenGLES.framework in Frameworks */,
+				28BABABD190E3323005909DF /* FacebookSDK.framework in Frameworks */,
 				83C8B67517FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a in Frameworks */,
 				AEC70E1816D4C35100A191D2 /* CoreVideo.framework in Frameworks */,
 				AEC70E1616D4C34700A191D2 /* CoreMedia.framework in Frameworks */,
@@ -1827,7 +1828,6 @@
 				AE5FC01C167701DC00BB9AED /* Social.framework in Frameworks */,
 				AE43C744161057DA00970739 /* Security.framework in Frameworks */,
 				AE525E77161D748700CDB400 /* MapKit.framework in Frameworks */,
-				835CD1CC18F46C7800B5A12F /* FacebookSDK.framework in Frameworks */,
 				AE7FEDE71615ADC000C4B51D /* QuartzCore.framework in Frameworks */,
 				AEA7687616117357002B9FDC /* CoreData.framework in Frameworks */,
 				AE43C742161057CB00970739 /* MobileCoreServices.framework in Frameworks */,
@@ -1885,9 +1885,9 @@
 			isa = PBXGroup;
 			children = (
 				686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */,
+				28BABABC190E3323005909DF /* FacebookSDK.framework */,
 				834AC1C718F6811100CECA4D /* Subscription */,
 				68624C7318F7DE190035A3F1 /* Popover */,
-				835CD1CB18F46C7800B5A12F /* FacebookSDK.framework */,
 				835CD1C918F46C5B00B5A12F /* Parse.framework */,
 				83AB60A518AA322D004A040E /* My Stories */,
 				83AB609E18A9F642004A040E /* HKProgressView */,
@@ -4440,8 +4440,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
+				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4463,8 +4463,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
-				PROVISIONING_PROFILE = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AD21F22B-368F-4C1F-AFAA-70E1766978A9";
+				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
