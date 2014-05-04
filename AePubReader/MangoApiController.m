@@ -125,7 +125,7 @@
         paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId};
     }
     else{
-        paramDict = @{ @"transaction_id":@"0", @"udid":deviceId};
+        paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId};
     }
     strMethod = SubscriptionStatus;
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];

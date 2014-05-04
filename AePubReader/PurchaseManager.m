@@ -65,6 +65,7 @@
                     NSLog(@"Product Purchased!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                     NSString *transactionId;
+                    
                     if (transaction.originalTransaction) {
                         transactionId = transaction.originalTransaction.transactionIdentifier;
                     } else {
