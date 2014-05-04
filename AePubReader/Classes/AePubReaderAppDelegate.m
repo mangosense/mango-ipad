@@ -14,11 +14,11 @@
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 #import "Base64.h"
-
+#import "MangoApiController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "MBProgressHUD.h"
-
+#import "MangoSubscriptionViewController.h"
 #import "BooksFromCategoryViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
@@ -44,12 +44,17 @@ static UIAlertView *alertViewLoading;
     
     _prek=NO;
     //Parse
-//    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-//                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
    //My test account id and key
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                       clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+   // [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+   //                    clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
@@ -403,6 +408,57 @@ void uncaughtExceptionHandler(NSException *exception) {
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive.
      */
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    NSArray *userSubscriptionObjects = [delegate.ejdbController getAllSubscriptionObjects];
+    if ([userSubscriptionObjects count] > 0) {
+        delegate.subscriptionInfo = [userSubscriptionObjects lastObject];
+    }
+    
+    if(delegate.subscriptionInfo){
+        
+        NSDate *myDate = [NSDate date];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //[dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName: @"PST"]];
+        NSString *myCurrentDateString = [dateFormatter stringFromDate:myDate];
+        NSDate *myCurrentDate = [dateFormatter dateFromString:myCurrentDateString];
+        NSDate *expDate = [dateFormatter dateFromString:delegate.subscriptionInfo.subscriptionExpireDate];
+        
+        NSComparisonResult result;
+        
+        result = [myCurrentDate compare:expDate]; // comparing two dates
+        
+        if(result==NSOrderedAscending)
+            NSLog(@"Product has validity");
+        else{
+            NSLog(@"Product is expired then send the request to the server");
+            
+            NSString *productId = delegate.subscriptionInfo.subscriptionProductId;
+            NSString *transctionId = delegate.subscriptionInfo.subscriptionTransctionId;
+            NSString *amount = delegate.subscriptionInfo.subscriptionAmount;
+            NSData *recieptData = delegate.subscriptionInfo.subscriptionReceiptData;
+            
+            [[MangoApiController sharedApiController] validateReceiptWithData:recieptData ForTransaction:transctionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+                // [delegate itemReadyToUse:productId ForTransaction:transactionId];
+                if ([[response objectForKey:@"status"] integerValue] == 1) {
+                    NSLog(@"SuccessResponse:%@", response);
+                    [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+                    
+                    //  MangoSubscriptionViewController *mangoSunscription = [[MangoSubscriptionViewController alloc] init];
+                    // [mangoSunscription itemReadyToUse:productId ForTransaction:transctionId withReciptData:recieptData andAmount:amount];
+                }
+                else {
+                    NSLog(@"ReceiptError:%@", error);
+                    [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
+                }
+            }];
+            
+        }
+    }
+    [prefs synchronize];
 }
 
 
@@ -649,5 +705,19 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:newDeviceToken];
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
+
 @end
 

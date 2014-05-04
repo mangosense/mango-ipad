@@ -9,6 +9,7 @@
 #import "MangoSubscriptionViewController.h"
 #import "SubscriptionInfo.h"
 #import "AePubReaderAppDelegate.h"
+#import "CargoBay.h"
 
 
 #define MONTHLY_TAG 9
@@ -29,6 +30,7 @@
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
+        userId = delegate.loggedInUserInfo.id;
         userDeviceID = delegate.deviceId;
     }
     return self;
@@ -43,6 +45,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+   // datePicker.timeZone = [NSTimeZone timeZoneWithName: @"PST"];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     [self setupInitialUI];
 }
 
@@ -84,34 +96,98 @@
     NSString *productId;
     
     if (button.tag == MONTHLY_TAG) {
-        productId = @"mrmonthly1";
+        productId = @"535a2218566173e8e9070000";
     } else if (button.tag == QUARTERLY_TAG) {
-        productId = @"mrmonthly1";
+        productId = @"535a228f566173e8e9090000";
     } else if (button.tag == YEARLY_TAG) {
-        productId = @"mrmonthly1";
+        productId = @"535a2316566173e8e90b0000";
     }
     
     [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+    
+   /* NSString* str = @"teststring";
+    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [self itemReadyToUse:productId ForTransaction:@"535a2316566173e8e90b0000" withReciptData:data andAmount:@"12"];*/
 }
 
 #pragma mark - PurchaseManager Delegate Methods
 
-- (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId {
+- (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId withReciptData:(NSData*)recipt Amount:(NSString *)amount  andExpireDate:(NSString *)exp_Date{
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
-    SubscriptionInfo *subscriptionInfo = [[SubscriptionInfo alloc] init];
-    subscriptionInfo.id = productID;
-    subscriptionInfo.subscriptionType = @"mrmonthly1";
-    
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfo]) {
-        appDelegate.subscriptionInfo = subscriptionInfo;
+    SubscriptionInfo *subscriptionInfoData = [[SubscriptionInfo alloc] init];
+    if(!userId){
+        subscriptionInfoData.id = productID;
+    }
+    else{
+        subscriptionInfoData.id = userId;
+    }
+    subscriptionInfoData.subscriptionProductId = productID;
+    subscriptionInfoData.subscriptionTransctionId = transactionId;
+    subscriptionInfoData.subscriptionReceiptData = recipt;
+    subscriptionInfoData.subscriptionAmount = amount;
+    subscriptionInfoData.subscriptionExpireDate = exp_Date;
+    
+    if (appDelegate.subscriptionInfo) {
+        [appDelegate.ejdbController deleteSubscriptionObject:appDelegate.subscriptionInfo];
+    }
+    
+    NSLog(@"Product value found as %d", [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData]);
+    [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData];
+    if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData]) {
+        appDelegate.subscriptionInfo = subscriptionInfoData;
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
-- (void)updateBookProgress:(int)progress {
+- (void)updateBookProgress:(int)progress{
     
-  
 }
+
+/*- (IBAction)restoreSubscription:(id)sender{
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+        NSLog(@"Updated Transactions: %@", transactions);
+        
+        for (SKPaymentTransaction *transaction in transactions)
+        {
+            NSLog(@"Payment State: %d", transaction.transactionState);
+            switch (transaction.transactionState) {
+                case SKPaymentTransactionStateFailed:
+                {
+                    NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                }
+                    break;
+                    
+                case SKPaymentTransactionStateRestored:
+                {
+                    NSLog(@"Product Restored!");
+                    
+                    NSString *transactionId;
+                    if (transaction.originalTransaction) {
+                        transactionId = transaction.originalTransaction.transactionIdentifier;
+                    } else {
+                        transactionId = transaction.transactionIdentifier;
+                    }
+               //     [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    
+                    
+                   
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }];
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}*/
+
 
 @end

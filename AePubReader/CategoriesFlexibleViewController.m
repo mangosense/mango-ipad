@@ -15,7 +15,14 @@
 #import "Reachability.h"
 #import "MBProgressHUD.h"
 #import "BooksCollectionViewController.h"
-#import "MangoSubscriptionViewController.h"
+#import "MangoDetailSettingsViewController.h"
+
+#import "MangoDashbProfileViewController.h"
+#import "MangoAnalyticsViewController.h"
+#import "MangoDashbHelpViewController.h"
+#import "MangoFeedbackViewController.h"
+
+
 
 #define NUMBER_OF_CATEGORIES_PER_PAGE 6
 
@@ -313,8 +320,44 @@
 - (void)displaySettingsOrNot {
     
     if(settingSol){
-        [self displaySettings];
+       // [self displaySettings];
         settingSol = NO;
+        
+        UITabBarController *tabBarController = [[UITabBarController alloc] init];
+        
+        MangoAnalyticsViewController *viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+        viewCtr1.navigationController.navigationBarHidden=YES;
+        
+        MangoDashbProfileViewController *viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
+        viewCtr2.navigationController.navigationBarHidden=YES;
+        
+        MangoDashbHelpViewController *viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
+        viewCtr3.navigationController.navigationBarHidden=YES;
+        
+        MangoFeedbackViewController *viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
+        viewCtr4.navigationController.navigationBarHidden=YES;
+        
+        tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1,viewCtr2, viewCtr3, viewCtr4, nil];
+        
+       // [self presentViewController:tabBarController animated:YES completion:nil];
+        [self.navigationController pushViewController:tabBarController animated:YES];
+        
+      /*  MangoDetailSettingsViewController *settingsViewController;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            settingsViewController = [[MangoDetailSettingsViewController alloc] initWithNibName:@"MangoDetailSettingsViewController_iPhone" bundle:nil];
+            
+        }
+        else{
+            settingsViewController = [[MangoDetailSettingsViewController alloc] initWithNibName:@"MangoDetailSettingsViewController" bundle:nil];
+        }
+
+        [settingsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+        [self presentViewController:settingsViewController animated:YES completion:^(void) {
+        }];
+        
+        settingsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);*/
     }
 
 }
@@ -485,12 +528,12 @@
 
 - (void) showSubscriptionView{
     
-    MangoSubscriptionViewController *subscriptionViewController;
+  /*  MangoSubscriptionViewController *subscriptionViewController;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
         subscriptionViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
         [self presentViewController:subscriptionViewController animated:YES completion:nil];
-    }
+    }*/
 }
 
 #pragma mark - Get Books Count

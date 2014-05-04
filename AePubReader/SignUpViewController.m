@@ -53,6 +53,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     viewName = @"Sign Up";
     [_password setSecureTextEntry:YES];
     [_confirmPassword setSecureTextEntry:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,7 +79,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 
 - (IBAction)signUp:(id)sender {
     [self.view endEditing:NO];
-    if (_email.text.length==0 || _password.text.length==0 || _confirmPassword.text.length==0 || _nameFull.text.length==0) {
+    if (_email.text.length==0 || _password.text.length==0 || _nameFull.text.length==0) {
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Message" message:@"All fields are required" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
         return;
@@ -114,8 +115,6 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         [_delegate saveUserInfo:userDetailsDictionary];
         
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [self donePressed:nil];
-        [_delegate goToNext];
             
         NSDictionary *dimensions = @{
                                     PARAMETER_USER_ID :delegate.deviceId,
@@ -134,6 +133,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             [userObject setObject:_email.text forKey:@"emailID"];
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
+            [self donePressed:nil];
+            [_delegate goToNext];
             
         }
         else{
@@ -226,8 +227,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             break;
             
         case PASSWORD_TAG:
-            if((textField.text.length < 8)&&(textField.text.length > 0)){
-                UIAlertView *wrongPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Weak Password Strength" message:@"Password field's length should be more than 7" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            if((textField.text.length < 6)&&(textField.text.length > 0)){
+                UIAlertView *wrongPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Weak Password Strength" message:@"Password field's length should be more than 5 characters" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 
                 [wrongPasswordAlert show];
                 _password.text = @"";
@@ -235,11 +236,11 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             break;
             
         case CONFIRM_PASSWORD_TAG:
-            if (![textField.text isEqualToString:_password.text]) {
+           /* if (![textField.text isEqualToString:_password.text]) {
                 UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Passwords don't match" message:@"Password and Confirm Password don't match" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
                 [alertView show];
                 _confirmPassword.text = @"";
-            }
+            }*/
             break;
             
         default:

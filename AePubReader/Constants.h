@@ -193,7 +193,8 @@
 
 #pragma mark - URL's
 
-#define BASE_URL @"http://api.mangoreader.com/api/v2"
+//#define BASE_URL @"http://api.mangoreader.com/api/v2"
+#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
 //192.168.2.28:3001/api/v2
@@ -202,6 +203,10 @@
 #pragma mark - API Method Names
 //Validate receipt
 #define ReceiptValidate_SignedIn @"receipt_validate.json"
+
+#define SubscriptionValidate @"validate/subscription/receipt.json" //done
+#define SubscriptionStatus @"validate/subscription/status" //either user id else transction id
+
 #define ReceiptValidate_NotSignedIn @"receipt_validate_without_signed_in.json"
 
 #define LIVE_STORIES @"livestories.json"

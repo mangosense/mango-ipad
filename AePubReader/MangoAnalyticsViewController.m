@@ -24,6 +24,8 @@
         // Custom initialization
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _loginUserEmail = delegate.loggedInUserInfo.email;
+        self.title = @"My Analytics";
+        
     }
     return self;
 }
@@ -31,6 +33,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!appDelegate.loggedInUserInfo){
+        _loginButton.titleLabel.text  = @"Login";
+    }
     
     _arrayCollectionData = [[NSArray alloc] init];
     
@@ -233,7 +240,25 @@
 
 -(IBAction)backView:(id)sender{
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)logoutUser:(id)sender{
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.loggedInUserInfo) {
+        UserInfo *loggedInUserInfo = [appDelegate.ejdbController getUserInfoForId:appDelegate.loggedInUserInfo.id];
+        [appDelegate.ejdbController deleteObject:loggedInUserInfo];
+        
+        appDelegate.loggedInUserInfo = nil;
+    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+}
+
+-(IBAction)hide{
+    
+    _subview.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning

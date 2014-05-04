@@ -15,6 +15,7 @@
 #import "BooksFromCategoryViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoSubscriptionViewController.h"
 
 @interface BookDetailsViewController ()
 
@@ -36,6 +37,7 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
+       self.view.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     }
     return self;
 }
@@ -67,6 +69,50 @@
         ID = userEmail;
     }
     
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    if(!validSubscription){
+        
+        if(appDelegate.subscriptionInfo){
+            //provide access
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+                    NSLog(@"You are already subscribed");
+                }
+                else{
+                    [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+                }
+                
+            }];
+        }
+        
+        else{
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                    [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+                }
+                else{
+                    [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+                }
+                
+            }];
+        }
+    }
+    else{
+        [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+    }
+    
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
     // finish ALL transactions in queue
@@ -75,6 +121,11 @@
     }];
     
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    
+   // self.view.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, 0, 776, 575);
 }
 
 - (void) availLanguagedata{
@@ -179,11 +230,11 @@
         _numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             _priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            [_buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+           // [_buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
         }
         else{
             _priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            [_buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+           // [_buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
         }
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
@@ -225,7 +276,8 @@
 #pragma mark - Action Methods
 
 - (IBAction)buyButtonTapped:(id)sender {
-    if (_selectedProductId) {
+    //if (_selectedProductId) {
+    if([_buyButton.titleLabel.text isEqualToString:@"Read Now"]){
         //Temporarily Added For Direct Downloading
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -260,11 +312,24 @@
             }
             [self closeDetails:nil];
         } else {
-            [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+           // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+            
+            [self itemReadyToUse:_selectedProductId ForTransaction:nil];
         }
     }
     else {
         NSLog(@"Product dose not have relative Id");
+        
+        MangoSubscriptionViewController *subscriptionViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
     }
 }
 

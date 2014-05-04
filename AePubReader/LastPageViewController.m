@@ -15,6 +15,8 @@
 #import "MangoGamesListViewController.h"
 #import "MangoStoreViewController.h"
 #import <Parse/Parse.h>
+#import "MangoSubscriptionViewController.h"
+#import "CargoBay.h"
 
 @interface LastPageViewController ()
 
@@ -66,6 +68,74 @@
     }
     
     [self showOrHideGameButton];
+    
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    if(!validSubscription){
+        
+        if(appDelegate.subscriptionInfo){
+            //provide access
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                }
+                else{
+                        
+                        MangoSubscriptionViewController *subscriptionViewController;
+                        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                            
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+                        }
+                        else{
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                        }
+                        [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
+                        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                    
+                }
+                
+            }];
+        }
+        
+        else{
+            
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                }
+                else{
+                    
+                        MangoSubscriptionViewController *subscriptionViewController;
+                        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                            
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+                        }
+                        else{
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                        }
+                        [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
+                        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                }
+                
+            }];
+        }
+        
+    }
+    
    
 }
 
@@ -335,11 +405,11 @@
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+       //     [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
         }
         else{
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+        //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
         }
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){

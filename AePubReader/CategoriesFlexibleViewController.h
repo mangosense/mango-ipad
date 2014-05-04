@@ -37,7 +37,7 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
-@property (nonatomic, retain) NSArray *settingQuesArray;
+//@property (nonatomic, retain) NSArray *settingQuesArray;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
 

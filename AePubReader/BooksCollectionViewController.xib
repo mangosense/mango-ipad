@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -8,11 +8,6 @@
             <connections>
                 <outlet property="deleteButton" destination="oju-ZC-gW1" id="C78-uI-gKE"/>
                 <outlet property="headerLabel" destination="yPP-Z5-PXB" id="0g4-AG-xRU"/>
-                <outlet property="labelProblem" destination="PqP-Fu-xXN" id="ymo-yh-xZP"/>
-                <outlet property="settingButton" destination="zRF-F0-Qv8" id="dnF-4R-nTv"/>
-                <outlet property="settingsProbSupportView" destination="54l-9R-OD1" id="qGN-d7-NDG"/>
-                <outlet property="settingsProbView" destination="caA-E6-T37" id="OVL-HS-AQA"/>
-                <outlet property="textQuesSolution" destination="vI4-cj-qZQ" id="8Ae-oJ-JQo"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -35,16 +30,6 @@
                         <action selector="homeButtonTapped:" destination="-1" eventType="touchUpInside" id="zsR-UJ-XEG"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRF-F0-Qv8">
-                    <rect key="frame" x="943" y="10" width="78" height="77"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icons_settings.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="settingsButtonTapped:" destination="-1" eventType="touchUpInside" id="uw8-X8-w6i"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-1a-9ct">
                     <rect key="frame" x="96" y="10" width="78" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -63,7 +48,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oju-ZC-gW1">
-                    <rect key="frame" x="857" y="10" width="78" height="77"/>
+                    <rect key="frame" x="934" y="16" width="78" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="MangoTrash.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -72,71 +57,6 @@
                         <action selector="trashButtonTapped:" destination="-1" eventType="touchUpInside" id="F03-Wg-cD7"/>
                     </connections>
                 </button>
-                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="54l-9R-OD1" customClass="UIControl">
-                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <action selector="backgroundTap:" destination="-1" eventType="touchDown" id="vOV-Qn-b3p"/>
-                    </connections>
-                </view>
-                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="caA-E6-T37">
-                    <rect key="frame" x="294" y="134" width="414" height="278"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="quesBgPic.png" translatesAutoresizingMaskIntoConstraints="NO" id="6O3-Ii-gQj">
-                            <rect key="frame" x="17" y="39" width="372" height="232"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="quesTextBg.png" translatesAutoresizingMaskIntoConstraints="NO" id="vn4-Yg-LYY">
-                            <rect key="frame" x="73" y="147" width="260" height="48"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vI4-cj-qZQ">
-                            <rect key="frame" x="98" y="150" width="210" height="45"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                        </textField>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type your answer in the box." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v0l-XW-8AM">
-                            <rect key="frame" x="50" y="65" width="307" height="32"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILq-MG-sAl">
-                            <rect key="frame" x="127" y="205" width="152" height="53"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                            <state key="normal" title="Done" backgroundImage="greenButton.png">
-                                <color key="titleColor" red="1" green="0.96587061890000003" blue="0.98984843349999996" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="doneProblem:" destination="-1" eventType="touchUpInside" id="17U-As-2YO"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="He8-Pf-5fm">
-                            <rect key="frame" x="360" y="20" width="46" height="46"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="closebutton.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="closeSettingProblemView:" destination="-1" eventType="touchUpInside" id="7J8-mj-mbi"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PqP-Fu-xXN">
-                            <rect key="frame" x="98" y="98" width="210" height="32"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -145,13 +65,8 @@
     </objects>
     <resources>
         <image name="MangoTrash.png" width="78" height="77"/>
-        <image name="closebutton.png" width="48" height="48"/>
-        <image name="greenButton.png" width="235" height="63"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_library.png" width="78" height="77"/>
-        <image name="icons_settings.png" width="78" height="77"/>
         <image name="libraryscreen_loading_bg.png" width="1024" height="768"/>
-        <image name="quesBgPic.png" width="302" height="202"/>
-        <image name="quesTextBg.png" width="242" height="54"/>
     </resources>
 </document>

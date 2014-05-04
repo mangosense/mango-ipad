@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EJDBKit/BSONArchiving.h"
 
-@interface SubscriptionInfo : NSObject
+@interface SubscriptionInfo : NSObject<BSONArchiving,NSCopying>
 
 @property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *subscriptionType;
+@property (nonatomic, strong) NSString *subscriptionProductId;
+@property (nonatomic, strong) NSString *subscriptionTransctionId;
+@property (nonatomic, strong) NSData *subscriptionReceiptData;
+@property (nonatomic, strong) NSString *subscriptionAmount;
+@property (nonatomic, strong) NSString *subscriptionExpireDate;
 
 @end

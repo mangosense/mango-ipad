@@ -36,6 +36,8 @@
     self = [super init];
     if (self) {
         
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        deviceid = delegate.deviceId;
     }
     return self;
 }
@@ -74,21 +76,25 @@
 
 - (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-
+    NSString * password = @"3c4367bb610d4e52af02de9cb63b2233";
     NSString * userId = appDelegate.loggedInUserInfo.id;
     NSString * authToken = appDelegate.loggedInUserInfo.authToken;
     NSString * strMethod;
     NSDictionary *paramDict;
+   // [self checkRecipt:rData :password];
+  //  [self checkRecipt:rData passItunes:password];
     
     NSString *base64TxReceiptStr = [self base64EncodedStringFromData:rData];
     
     if (userId.length>5 && authToken.length >0) {
-        strMethod = ReceiptValidate_SignedIn;
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"story_id":storyId};
+        //strMethod = ReceiptValidate_SignedIn;
+        strMethod = SubscriptionValidate;
+      //  paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"story_id":storyId};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid};
     }
     else {
-        strMethod = ReceiptValidate_NotSignedIn;
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"story_id":storyId};
+        strMethod = SubscriptionValidate;
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid};
     }
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
@@ -103,6 +109,78 @@
     }];
 }
 
+
+- (void) validateSubscription :(NSString *)TransctionId andDeviceId:(NSString *)deviceId block:(void (^)(id response, NSInteger type, NSString * error))block {
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString * userId = appDelegate.loggedInUserInfo.id;
+    
+    NSString * strMethod;
+    NSDictionary *paramDict;
+    if(userId){
+        
+        paramDict = @{ @"user_id":userId, @"udid":deviceId};
+    }
+    else if((!userId) && (TransctionId)) {
+        paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId};
+    }
+    else{
+        paramDict = @{ @"transaction_id":@"0", @"udid":deviceId};
+    }
+    strMethod = SubscriptionStatus;
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", operation.request);
+        if (responseObject != nil) { block(responseObject, 1, nil);}//Successful
+        else { block(nil, 0, @"Response is nil.");}//Errored
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Request:: %@", operation.request);
+        NSLog(@"ResponseString:: %@", operation.responseString);
+        block(nil, 0, [error localizedDescription]);//Errored
+    }];
+    
+}
+
+
+-(void) checkRecipt : (NSData *)reciptdata passItunes :(NSString *) passstr{
+    
+    NSData *receipt; // Sent to the server by the device
+    
+    receipt = reciptdata;
+    
+    // Create the JSON object that describes the request
+    NSError *error;
+    NSDictionary *requestContents = @{
+                                      @"receipt-data": [receipt base64EncodedStringWithOptions:0],
+                                      @"password" : passstr
+                                      };
+    NSData *requestData = [NSJSONSerialization dataWithJSONObject:requestContents
+                                                          options:0
+                                                            error:&error];
+    
+    if (!requestData) { /* ... Handle error ... */ }
+    
+    // Create a POST request with the receipt data.
+    NSURL *storeURL = [NSURL URLWithString:@"https://sandbox.itunes.apple.com/verifyReceipt"];
+    NSMutableURLRequest *storeRequest = [NSMutableURLRequest requestWithURL:storeURL];
+    [storeRequest setHTTPMethod:@"POST"];
+    [storeRequest setHTTPBody:requestData];
+    
+    // Make a connection to the iTunes Store on a background queue.
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:storeRequest queue:queue
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                               if (connectionError) {
+                                   /* ... Handle error ... */
+                               } else {
+                                   NSError *error;
+                                   NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                                   if (!jsonResponse) { /* ... Handle error ...*/ }
+                                   /* ... Send a response back to the device ... */
+                               }
+                           }];
+    
+}
 - (void)getObject:(NSString *)methodName ForParameters:(NSDictionary *)paramsDict WithDelegate:(id <MangoPostApiProtocol>) delegate {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager GET:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -247,6 +325,7 @@
             URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
         } else {
             URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId]];
+            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
         }
 
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];

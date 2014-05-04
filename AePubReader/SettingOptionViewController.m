@@ -301,7 +301,7 @@
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
-            [delegate itemReadyToUse:productId ForTransaction:transactionId];
+         //   [delegate itemReadyToUse:productId ForTransaction:transactionId];
             if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                 [delegate updateBookProgress:0];
             }

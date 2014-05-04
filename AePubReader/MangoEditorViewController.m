@@ -246,6 +246,16 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookid;
+    if(!storyBook.id){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookid = [jsonDict valueForKey:@"id"];
+    }
+    else{
+        bookid = storyBook.id;
+    }
+    
     if (photoPopoverController) {
         if ([photoPopoverController isPopoverVisible]) {
             [photoPopoverController dismissPopoverAnimated:true];
@@ -261,7 +271,7 @@
                                      
                                      PARAMETER_USER_ID : ID,
                                      PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: storyBook.bookId,
+                                     PARAMETER_BOOK_ID: bookid,
                                      
                                      };
         [delegate trackEvent:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] dimensions:dimensions];
@@ -272,7 +282,7 @@
         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
         [userObject setObject:delegate.country forKey:@"deviceCountry"];
         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:storyBook.bookId forKey:@"bookID"];
+        [userObject setObject:bookid forKey:@"bookID"];
         if(userEmail){
             [userObject setObject:ID forKey:@"emailID"];
         }
@@ -286,7 +296,7 @@
                                      
                                      PARAMETER_USER_ID : ID,
                                      PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: storyBook.bookId,
+                                     PARAMETER_BOOK_ID: bookid,
                                      
                                      };
         [delegate trackEvent:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] dimensions:dimensions];
@@ -297,7 +307,7 @@
         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
         [userObject setObject:delegate.country forKey:@"deviceCountry"];
         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:storyBook.bookId forKey:@"bookID"];
+        [userObject setObject:bookid forKey:@"bookID"];
         if(userEmail){
             [userObject setObject:ID forKey:@"emailID"];
         }
@@ -486,10 +496,20 @@
     }
     [menuPopoverController dismissPopoverAnimated:YES];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookid;
+    if(!storyBook.id){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookid = [jsonDict valueForKey:@"id"];
+    }
+    else{
+        bookid = storyBook.id;
+    }
+    
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: storyBook.bookId,
+                                 PARAMETER_BOOK_ID: bookid,
                                  
                                  };
     [delegate trackEvent:[EDITOR_ADD_IMAGE valueForKey:@"value"] dimensions:dimensions];
@@ -500,7 +520,7 @@
     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:storyBook.bookId forKey:@"bookID"];
+    [userObject setObject:bookid forKey:@"bookID"];
     if(userEmail){
         [userObject setObject:ID forKey:@"emailID"];
     }
@@ -785,10 +805,20 @@
 
 - (IBAction)textButtonTapped:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookid;
+    if(!storyBook.id){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookid = [jsonDict valueForKey:@"id"];
+    }
+    else{
+        bookid = storyBook.id;
+    }
+    
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: storyBook.id,
+                                 PARAMETER_BOOK_ID: bookid,
                                  
                                  };
     [delegate trackEvent:[EDITOR_ADD_TEXT valueForKey:@"description"] dimensions:dimensions];
@@ -799,7 +829,7 @@
     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:storyBook.id forKey:@"bookID"];
+    [userObject setObject:bookid forKey:@"bookID"];
     if(userEmail){
         [userObject setObject:ID forKey:@"emailID"];
     }
@@ -1810,13 +1840,28 @@
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *bookId;
     if(val ==1){
+        
         NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-        bookId = [jsonDict valueForKey:@"id"];
-        
+        if(!storyBook.id){
+            bookId = [jsonDict valueForKey:@"id"];
+        }
+        else{
+            bookId = storyBook.id;
+        }
+            
     }
     else{
-        bookId = storyBook.bookId;
+        
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        if(!storyBook.id){
+            bookId = [jsonDict valueForKey:@"id"];
+        }
+        else{
+            bookId = storyBook.id;
+        }
+        
         NSDictionary *dimensions = @{
                                      PARAMETER_USER_ID : ID,
                                      PARAMETER_DEVICE: IOS,

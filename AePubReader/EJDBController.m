@@ -38,8 +38,12 @@
 }
 
 - (NSArray *)getAllSubscriptionObjects {
-    NSArray *subscriptionInfoObjects = [_db findObjectsWithQuery:@{@"subscriptionType":@{@"$exists":@YES}} inCollection:_collection error:nil];
-    return subscriptionInfoObjects;
+    NSArray *userSubscriptionObjects = [_db findObjectsWithQuery:@{@"subscriptionProductId":@{@"$exists":@YES}} inCollection:_collection error:nil];
+    return userSubscriptionObjects;
+}
+
+- (BOOL)deleteSubscriptionObject:(SubscriptionInfo *)subInfo {
+    return [_collection removeObject:subInfo];
 }
 
 - (UserInfo *)getUserInfoForId:(NSString *)userId {

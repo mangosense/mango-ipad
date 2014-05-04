@@ -15,6 +15,12 @@
 #import "CategoriesFlexibleViewController.h"
 #import "BooksCollectionViewController.h"
 
+#import "MangoDashbProfileViewController.h"
+#import "MangoAnalyticsViewController.h"
+#import "MangoDashbHelpViewController.h"
+#import "MangoFeedbackViewController.h"
+
+
 @interface LandPageChoiceViewController ()
 
 @end
@@ -37,12 +43,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _settingsProbSupportView.alpha = 0.4f;
     viewName = @"Home page";
     if(!userEmail){
         ID = userDeviceID;
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"loginLock.png"] forState:UIControlStateNormal];
     }
     else{
         ID = userEmail;
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
     }
     // Do any additional setup after loading the view from its nib.
     
@@ -179,7 +188,157 @@
     [self.navigationController pushViewController:categoryFlexible animated:YES];
 }
 
+- (IBAction)backToLoginView:(id)sender{
+    
+    if([_backToLogin.currentBackgroundImage isEqual:[UIImage imageNamed:@"loginLock.png"]]){
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+    }
+    else{
+        
+        [self qusetionForSettings];
+    }
+}
 
+- (void) qusetionForSettings{
+    _settingsProbView.hidden = NO;
+    _settingsProbSupportView.hidden = NO;
+    NSArray *operation = [[NSArray alloc] initWithObjects:@"X", @"+", nil];
+    int val1 =  arc4random()%10;
+    int val2 =  arc4random()%10;
+    int rand = arc4random()%2;
+    _labelProblem.text = [NSString stringWithFormat:@"What is %d %@ %d = ?",val1, [operation objectAtIndex:rand],val2 ];
+    quesSolution = [self calculate:val1 :val2 :[operation objectAtIndex:rand]];
+}
+
+- (int) calculate: (int) value1 :(int)value2 : (NSString *)op{
+    
+    if([op isEqualToString:@"X"]){
+        return (value1 * value2);
+    }
+    
+    else return (value1 + value2);
+}
+
+- (IBAction)doneProblem:(id)sender{
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    
+    NSDictionary *dimensions1 = @{
+                                  PARAMETER_USER_ID : ID,
+                                  PARAMETER_DEVICE: IOS,
+                                  
+                                  };
+    
+    [delegate trackEvent:[MYSTORIES_SETTINGS valueForKey:@"description"]  dimensions:dimensions1];
+    
+    [userObject setObject:[MYSTORIES_SETTINGS valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [MYSTORIES_SETTINGS valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
+    [_textQuesSolution resignFirstResponder];
+    
+    if([_textQuesSolution.text intValue]  == quesSolution){
+        
+        settingSol = YES;
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID: ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)YES],
+                                     
+                                     };
+        [delegate trackEvent:[MySTORIES_SETTINGS_QUES valueForKey:@"description"] dimensions:dimensions];
+        
+        [userObject setObject:[MySTORIES_SETTINGS_QUES valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [MySTORIES_SETTINGS_QUES valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:[NSNumber numberWithBool:settingSol] forKey:@"boolValue"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
+    }
+    else{
+        settingSol = NO;
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)NO],
+                                     
+                                     };
+        [delegate trackEvent:[MySTORIES_SETTINGS_QUES valueForKey:@"description"] dimensions:dimensions];
+        [userObject setObject:[MySTORIES_SETTINGS_QUES valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [MySTORIES_SETTINGS_QUES valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:[NSNumber numberWithBool:settingSol] forKey:@"boolValue"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
+    }
+    _textQuesSolution.text = @"";
+    _settingsProbView.hidden = YES;
+    _settingsProbSupportView.hidden = YES;
+    [self displaySettingsOrNot];
+}
+
+- (void)displaySettingsOrNot {
+    
+    if(settingSol){
+        // [self displaySettings];
+        settingSol = NO;
+        
+        UITabBarController *tabBarController = [[UITabBarController alloc] init];
+        
+        MangoAnalyticsViewController *viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+        viewCtr1.navigationController.navigationBarHidden=YES;
+        
+        MangoDashbProfileViewController *viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
+        viewCtr2.navigationController.navigationBarHidden=YES;
+        
+        MangoDashbHelpViewController *viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
+        viewCtr3.navigationController.navigationBarHidden=YES;
+        
+        MangoFeedbackViewController *viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
+        viewCtr4.navigationController.navigationBarHidden=YES;
+        
+        tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1,viewCtr2, viewCtr3, viewCtr4, nil];
+        
+        // [self presentViewController:tabBarController animated:YES completion:nil];
+        [self.navigationController pushViewController:tabBarController animated:YES];
+    }
+}
+
+- (IBAction)closeSettingProblemView:(id)sender{
+    [_textQuesSolution resignFirstResponder];
+    _textQuesSolution.text = @"";
+    _settingsProbSupportView.hidden = YES;
+    _settingsProbView.hidden = YES;
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [_textQuesSolution resignFirstResponder];
+    
+}
 
 
 @end

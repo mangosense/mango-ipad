@@ -28,9 +28,14 @@
 @property (nonatomic, strong) IBOutlet UICollectionView *bookDataDisplayView;
 
 @property (nonatomic, strong) NSString *loginUserEmail;
+@property (nonatomic,retain) IBOutlet UIButton *loginButton;
 
 -(IBAction)backView:(id)sender;
 
 -(IBAction)dropDownActionButtonClick;
+- (IBAction)logoutUser:(id)sender;
+
+@property (nonatomic, strong) IBOutlet UIView *subview;
+-(IBAction)hide;
 
 @end

@@ -15,6 +15,10 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28BABABD190E3323005909DF /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28BABABC190E3323005909DF /* FacebookSDK.framework */; };
+		28CFD9811914D96100D683CE /* MangoDashbHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28CFD97F1914D96100D683CE /* MangoDashbHelpViewController.m */; };
+		28CFD9821914D96100D683CE /* MangoDashbHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28CFD9801914D96100D683CE /* MangoDashbHelpViewController.xib */; };
+		28CFD9861914D9EB00D683CE /* MangoFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28CFD9841914D9EB00D683CE /* MangoFeedbackViewController.m */; };
+		28CFD9871914D9EB00D683CE /* MangoFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28CFD9851914D9EB00D683CE /* MangoFeedbackViewController.xib */; };
 		292217D1189B8FF3009D4216 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 292217D0189B8FF3009D4216 /* PurchaseManager.m */; };
 		29A650FD18979E6F00A33A15 /* iCarouselImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A650FC18979E6F00A33A15 /* iCarouselImageView.m */; };
 		29B9FED91883DDDA00772921 /* MangoStoreCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B9FED81883DDDA00772921 /* MangoStoreCollectionViewController.m */; };
@@ -35,12 +39,16 @@
 		6831E1E618CA05EA000E0D26 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */; };
 		68576C0F18BF3CA4005766C9 /* Read-now.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C0E18BF3CA4005766C9 /* Read-now.png */; };
 		68576C1318BF44BE005766C9 /* without-text.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C1218BF44BE005766C9 /* without-text.png */; };
+		685FE864190C5F5F002A71E5 /* MangoDashbProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 685FE862190C5F5F002A71E5 /* MangoDashbProfileViewController.m */; };
+		685FE865190C5F5F002A71E5 /* MangoDashbProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 685FE863190C5F5F002A71E5 /* MangoDashbProfileViewController.xib */; };
 		68610BF218DB0EF80034FF32 /* Analytics_Dropdown_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68610BF118DB0EF80034FF32 /* Analytics_Dropdown_btn.png */; };
 		68624C7D18F7DE190035A3F1 /* UIBarButtonItem+WEPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 68624C7518F7DE190035A3F1 /* UIBarButtonItem+WEPopover.m */; };
 		68624C7E18F7DE190035A3F1 /* WEPopoverContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68624C7718F7DE190035A3F1 /* WEPopoverContainerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		68624C7F18F7DE190035A3F1 /* WEPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68624C7918F7DE190035A3F1 /* WEPopoverController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		68624C8018F7DE190035A3F1 /* WETouchableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68624C7C18F7DE190035A3F1 /* WETouchableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		686C38C6190EF30600E1E922 /* loginLock.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C38C5190EF30600E1E922 /* loginLock.png */; };
 		686F18A21905651E00B47DA8 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 686F189F1905650300B47DA8 /* libEJDBKit.a */; };
+		687BE436190D463E00380E38 /* Logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 687BE435190D463E00380E38 /* Logout.png */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68B57DF918F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */; };
 		68B57DFB18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */; };
@@ -85,11 +93,14 @@
 		68D3D82018D8527F00E1E1A5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEBA8D2163518A90023AE51 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		68D4F2A41902D5CE00986584 /* quesBgPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D4F2A31902D5CE00986584 /* quesBgPic.png */; };
 		68D4F2A61902DA5500986584 /* quesTextBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D4F2A51902DA5500986584 /* quesTextBg.png */; };
+		68D8B278190BF5910051FEA1 /* signup_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D8B277190BF5910051FEA1 /* signup_btn.png */; };
 		68DAE5CC18CB03770011D82A /* icons_readagain.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DAE5CB18CB03770011D82A /* icons_readagain.png */; };
 		68DB41B918F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB41B818F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib */; };
 		68DB75FA18C6FE4A00819480 /* test_delete_book.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75F918C6FE4A00819480 /* test_delete_book.png */; };
 		68DB760018C7446400819480 /* MangoAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */; };
 		68DB760118C7446500819480 /* MangoAnalyticsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */; };
+		68DC47D71910CD2300BBF4B4 /* MangoDetailSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DC47D51910CD2300BBF4B4 /* MangoDetailSettingsViewController.m */; };
+		68DC47D81910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */; };
 		68DEEAA3190651F100538206 /* MangoSubscriptionViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DEEAA2190651F100538206 /* MangoSubscriptionViewController_iPhone.xib */; };
 		68DEFA7418F2A79100A6C490 /* LoginNewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DEFA7318F2A79100A6C490 /* LoginNewViewController_iPhone.xib */; };
 		68E069891905123E0098A3B3 /* MangoPromoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E069871905123E0098A3B3 /* MangoPromoPageViewController.m */; };
@@ -823,6 +834,12 @@
 		28A0AAE50D9B0CCF005BE974 /* MangoReader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoReader_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28BABABC190E3323005909DF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		28CFD97E1914D96100D683CE /* MangoDashbHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoDashbHelpViewController.h; sourceTree = "<group>"; };
+		28CFD97F1914D96100D683CE /* MangoDashbHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoDashbHelpViewController.m; sourceTree = "<group>"; };
+		28CFD9801914D96100D683CE /* MangoDashbHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoDashbHelpViewController.xib; sourceTree = "<group>"; };
+		28CFD9831914D9EB00D683CE /* MangoFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoFeedbackViewController.h; sourceTree = "<group>"; };
+		28CFD9841914D9EB00D683CE /* MangoFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoFeedbackViewController.m; sourceTree = "<group>"; };
+		28CFD9851914D9EB00D683CE /* MangoFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoFeedbackViewController.xib; sourceTree = "<group>"; };
 		292217CF189B8FF3009D4216 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseManager.h; sourceTree = "<group>"; };
 		292217D0189B8FF3009D4216 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseManager.m; sourceTree = "<group>"; };
 		29A650FB18979E6F00A33A15 /* iCarouselImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarouselImageView.h; sourceTree = "<group>"; };
@@ -851,6 +868,9 @@
 		6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController.xib; sourceTree = "<group>"; };
 		68576C0E18BF3CA4005766C9 /* Read-now.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Read-now.png"; sourceTree = "<group>"; };
 		68576C1218BF44BE005766C9 /* without-text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "without-text.png"; sourceTree = "<group>"; };
+		685FE861190C5F5F002A71E5 /* MangoDashbProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoDashbProfileViewController.h; sourceTree = "<group>"; };
+		685FE862190C5F5F002A71E5 /* MangoDashbProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoDashbProfileViewController.m; sourceTree = "<group>"; };
+		685FE863190C5F5F002A71E5 /* MangoDashbProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoDashbProfileViewController.xib; sourceTree = "<group>"; };
 		68610BF118DB0EF80034FF32 /* Analytics_Dropdown_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics_Dropdown_btn.png; sourceTree = "<group>"; };
 		68624C7418F7DE190035A3F1 /* UIBarButtonItem+WEPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WEPopover.h"; sourceTree = "<group>"; };
 		68624C7518F7DE190035A3F1 /* UIBarButtonItem+WEPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WEPopover.m"; sourceTree = "<group>"; };
@@ -862,7 +882,9 @@
 		68624C7B18F7DE190035A3F1 /* WETouchableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WETouchableView.h; sourceTree = "<group>"; };
 		68624C7C18F7DE190035A3F1 /* WETouchableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WETouchableView.m; sourceTree = "<group>"; };
 		686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
+		686C38C5190EF30600E1E922 /* loginLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginLock.png; sourceTree = "<group>"; };
 		686F18991905650300B47DA8 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
+		687BE435190D463E00380E38 /* Logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logout.png; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewControllerBetterBookType_iPhone.xib; sourceTree = "<group>"; };
 		68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageNewBookTypeViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -906,12 +928,16 @@
 		68D2638F18C61B63003AFE48 /* MangoTrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoTrash.png; sourceTree = "<group>"; };
 		68D4F2A31902D5CE00986584 /* quesBgPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quesBgPic.png; sourceTree = "<group>"; };
 		68D4F2A51902DA5500986584 /* quesTextBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quesTextBg.png; sourceTree = "<group>"; };
+		68D8B277190BF5910051FEA1 /* signup_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signup_btn.png; sourceTree = "<group>"; };
 		68DAE5CB18CB03770011D82A /* icons_readagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_readagain.png; sourceTree = "<group>"; };
 		68DB41B818F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoGamesListViewController_iPhone.xib; sourceTree = "<group>"; };
 		68DB75F918C6FE4A00819480 /* test_delete_book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_delete_book.png; sourceTree = "<group>"; };
 		68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsViewController.h; sourceTree = "<group>"; };
 		68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsViewController.m; sourceTree = "<group>"; };
 		68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsViewController.xib; sourceTree = "<group>"; };
+		68DC47D41910CD2300BBF4B4 /* MangoDetailSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoDetailSettingsViewController.h; sourceTree = "<group>"; };
+		68DC47D51910CD2300BBF4B4 /* MangoDetailSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoDetailSettingsViewController.m; sourceTree = "<group>"; };
+		68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoDetailSettingsViewController.xib; sourceTree = "<group>"; };
 		68DEEAA2190651F100538206 /* MangoSubscriptionViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoSubscriptionViewController_iPhone.xib; sourceTree = "<group>"; };
 		68DEFA7318F2A79100A6C490 /* LoginNewViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginNewViewController_iPhone.xib; sourceTree = "<group>"; };
 		68E069861905123E0098A3B3 /* MangoPromoPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoPromoPageViewController.h; sourceTree = "<group>"; };
@@ -1892,6 +1918,7 @@
 				83AB60A518AA322D004A040E /* My Stories */,
 				83AB609E18A9F642004A040E /* HKProgressView */,
 				831E746618A8BF69001976E4 /* white_page.jpeg */,
+				68D8B277190BF5910051FEA1 /* signup_btn.png */,
 				8310414618A4EEFE000514CE /* button_my-stories.png */,
 				83738ED2189BE809006FC1C8 /* Checkmark.png */,
 				83738ED0189BE4C7006FC1C8 /* bedtimestories.png */,
@@ -1938,6 +1965,7 @@
 				AE7FEDEB1615BA1B00C4B51D /* CustomViews */,
 				AE7FEDD4161580AD00C4B51D /* epubReader */,
 				68CAD97418CDD05800804496 /* icons_shareActual.png */,
+				685FE850190C5C5E002A71E5 /* SettingsDashboard */,
 				AE266FCB183B488B001A8CB8 /* LandingPage UI */,
 				AE43C735161056DD00970739 /* Reachability */,
 				833DDD5E17B8ECD1009BCA5C /* Audio Recorder */,
@@ -2089,6 +2117,31 @@
 				3FD8B0F218EDBB1C003A2DED /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		685FE850190C5C5E002A71E5 /* SettingsDashboard */ = {
+			isa = PBXGroup;
+			children = (
+				687BE435190D463E00380E38 /* Logout.png */,
+				28CFD97E1914D96100D683CE /* MangoDashbHelpViewController.h */,
+				28CFD97F1914D96100D683CE /* MangoDashbHelpViewController.m */,
+				28CFD9801914D96100D683CE /* MangoDashbHelpViewController.xib */,
+				28CFD9831914D9EB00D683CE /* MangoFeedbackViewController.h */,
+				28CFD9841914D9EB00D683CE /* MangoFeedbackViewController.m */,
+				28CFD9851914D9EB00D683CE /* MangoFeedbackViewController.xib */,
+				685FE861190C5F5F002A71E5 /* MangoDashbProfileViewController.h */,
+				685FE862190C5F5F002A71E5 /* MangoDashbProfileViewController.m */,
+				685FE863190C5F5F002A71E5 /* MangoDashbProfileViewController.xib */,
+				68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */,
+				68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */,
+				68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */,
+				68C3949518F58A9E00A0A554 /* MangoAnalyticsViewController_iPhone.xib */,
+				682AA68B18D9AD070006951D /* MangoAnalyticsSingleViewCell.h */,
+				682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */,
+				682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */,
+				68C3949718F5914300A0A554 /* MangoAnalyticsSingleViewCell_iPhone.xib */,
+			);
+			name = SettingsDashboard;
 			sourceTree = "<group>";
 		};
 		68624C7318F7DE190035A3F1 /* Popover */ = {
@@ -2629,6 +2682,9 @@
 				6806835718F2DA8C00D4609D /* MangoStoreViewController_iPhone.xib */,
 				29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */,
 				6806835918F2E18A00D4609D /* search_store.png */,
+				68DC47D41910CD2300BBF4B4 /* MangoDetailSettingsViewController.h */,
+				68DC47D51910CD2300BBF4B4 /* MangoDetailSettingsViewController.m */,
+				68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */,
 				83AB60AF18ABF1CD004A040E /* BookDetailsViewController.h */,
 				83AB60B018ABF1CD004A040E /* BookDetailsViewController.m */,
 				83AB60B118ABF1CD004A040E /* BookDetailsViewController.xib */,
@@ -2775,6 +2831,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				686C38C5190EF30600E1E922 /* loginLock.png */,
 				6820336918F2C49400F543FC /* facebook_login.png */,
 				83AED02718D844FE007CE253 /* icon_signup.png */,
 				830F7BC218CA08E900430625 /* icon_language_reference_blank.png */,
@@ -2837,14 +2894,6 @@
 				AE4BB729183CD743004F20C5 /* BooksFromCategoryViewController.xib */,
 				AE4BB732183CD8D9004F20C5 /* CategoriesFlexibleViewController.h */,
 				AE4BB733183CD8D9004F20C5 /* CategoriesFlexibleViewController.m */,
-				68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */,
-				68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */,
-				68DB75FF18C7446400819480 /* MangoAnalyticsViewController.xib */,
-				68C3949518F58A9E00A0A554 /* MangoAnalyticsViewController_iPhone.xib */,
-				682AA68B18D9AD070006951D /* MangoAnalyticsSingleViewCell.h */,
-				682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */,
-				682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */,
-				68C3949718F5914300A0A554 /* MangoAnalyticsSingleViewCell_iPhone.xib */,
 				AE4BB734183CD8D9004F20C5 /* CategoriesFlexibleViewController.xib */,
 				68E7C79D18F3423600B519F8 /* CategoriesFlexibleViewController_iPhone.xib */,
 				AE0C935C183DE5F4008E4D54 /* CoverViewControllerBetterBookType.h */,
@@ -3545,6 +3594,7 @@
 				AE4BB72F183CD796004F20C5 /* icons_next2.png in Resources */,
 				83E2D1FE184364EC00F8CDB6 /* editor_42.png in Resources */,
 				834FCE67182D11F70000181B /* underline_button.png in Resources */,
+				687BE436190D463E00380E38 /* Logout.png in Resources */,
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
 				83AB60B318ABF1CD004A040E /* BookDetailsViewController.xib in Resources */,
 				FA11956613BA93F100025A2B /* EPubView.xib in Resources */,
@@ -3636,6 +3686,7 @@
 				AE266FD9183B4E7E001A8CB8 /* classics.png in Resources */,
 				8353B3371851ABE1009B3BD8 /* scrol bar.png in Resources */,
 				834FCE45182D11F70000181B /* publishthisbook_button.png in Resources */,
+				68DC47D81910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib in Resources */,
 				83D5A1BB18C852A4000C12E9 /* BooksCollectionViewController.xib in Resources */,
 				834FCE2E182D11F70000181B /* hitosync_button.png in Resources */,
 				8353B32F1851ABE1009B3BD8 /* earase_2.png in Resources */,
@@ -3806,6 +3857,7 @@
 				AEB7AE0816B94994009844B0 /* nh.png in Resources */,
 				834FCE47182D11F70000181B /* recordaudio_button.png in Resources */,
 				83BB3ECB185B61E600BA5ED7 /* MangoGameViewController.xib in Resources */,
+				28CFD9821914D96100D683CE /* MangoDashbHelpViewController.xib in Resources */,
 				AE266FD5183B4E7E001A8CB8 /* traditional.png in Resources */,
 				AEB7AE0A16B9499B009844B0 /* search.png in Resources */,
 				AEB7AE0C16B949A2009844B0 /* toc.png in Resources */,
@@ -3846,6 +3898,7 @@
 				83E9AE18184DA3710025BBD6 /* icon_3.png in Resources */,
 				83E2D1FC184364EC00F8CDB6 /* editor_40.png in Resources */,
 				83E9AE12184DA3710025BBD6 /* home_button_brown_pressed.png in Resources */,
+				68D8B278190BF5910051FEA1 /* signup_btn.png in Resources */,
 				68CD6A0118F80334003BAD0D /* popoverBgSimple.png in Resources */,
 				AE98BFEA173A65F500A7D209 /* CoverViewController.xib in Resources */,
 				8323FFEA18CDE508006C0DD0 /* Comics and Graphic Novels.png in Resources */,
@@ -3877,6 +3930,7 @@
 				AE37CD6F1752792100EA8653 /* LandscapePageViewController.xib in Resources */,
 				830F7BBE18C99A8900430625 /* doneTrash.png in Resources */,
 				AE37CD711752796700EA8653 /* LandscapePageiPhone.xib in Resources */,
+				685FE865190C5F5F002A71E5 /* MangoDashbProfileViewController.xib in Resources */,
 				AECC0ACD1754D2FA00CA5EEC /* StatsViewController.xib in Resources */,
 				68B57DFB18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib in Resources */,
 				83738ED1189BE4C7006FC1C8 /* bedtimestories.png in Resources */,
@@ -3938,6 +3992,7 @@
 				83C1B52018AE5EA700624E1B /* question_answer.png in Resources */,
 				834FCE34182D11F70000181B /* linespacing_button.png in Resources */,
 				6806835418F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib in Resources */,
+				686C38C6190EF30600E1E922 /* loginLock.png in Resources */,
 				834FCE23182D11F70000181B /* collaborationbutton.png in Resources */,
 				68B57DFD18F41018005A07C5 /* LastPageViewController_iPhone.xib in Resources */,
 				834FCE29182D11F70000181B /* edittool_selected.png in Resources */,
@@ -3988,6 +4043,7 @@
 				AE0C9382183E0933008E4D54 /* icons_play.png in Resources */,
 				83E2D203184364EC00F8CDB6 /* editor_47.png in Resources */,
 				6831E1E618CA05EA000E0D26 /* LastPageViewController.xib in Resources */,
+				28CFD9871914D9EB00D683CE /* MangoFeedbackViewController.xib in Resources */,
 				834FCE4B182D11F70000181B /* recording_stop_button.png in Resources */,
 				839F907B17E6D37C00BD1412 /* PublishViewController.xib in Resources */,
 				83E9AE08184DA3710025BBD6 /* bookframe.png in Resources */,
@@ -4054,6 +4110,7 @@
 				83E9AE2E184F2B6A0025BBD6 /* StoreCollectionHeaderView.m in Sources */,
 				68DB760018C7446400819480 /* MangoAnalyticsViewController.m in Sources */,
 				8353B31B1851A9A8009B3BD8 /* ColoringToolsViewController.m in Sources */,
+				685FE864190C5F5F002A71E5 /* MangoDashbProfileViewController.m in Sources */,
 				AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */,
 				AE7FEDE51615A6EF00C4B51D /* ShadowButton.m in Sources */,
 				83D5A1BE18C8566B000C12E9 /* BooksCollectionViewCell.m in Sources */,
@@ -4067,6 +4124,7 @@
 				AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */,
 				AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */,
 				8380486C1850586C006BBA47 /* AFURLSessionManager.m in Sources */,
+				68DC47D71910CD2300BBF4B4 /* MangoDetailSettingsViewController.m in Sources */,
 				314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */,
 				AEF8CDEF162EA8F000094C62 /* ShareButton.m in Sources */,
 				68E0699019051ACE0098A3B3 /* MangoPromoTableViewCell.m in Sources */,
@@ -4079,6 +4137,7 @@
 				AE919DC61657B0D90017802E /* RecieptValidation.m in Sources */,
 				839E0CD51834A20A00436237 /* MangoEditorViewController.m in Sources */,
 				838048651850586C006BBA47 /* AFHTTPRequestOperationManager.m in Sources */,
+				28CFD9811914D96100D683CE /* MangoDashbHelpViewController.m in Sources */,
 				AE68606C165A245400A8C9E8 /* PruchaseFree.m in Sources */,
 				83539E421839F4AC0096DBF8 /* CustomMappingView.m in Sources */,
 				AE6C8310165C918200881F82 /* FileDownloaderFromStore.m in Sources */,
@@ -4145,6 +4204,7 @@
 				83E2D242184368E100F8CDB6 /* AssetCell.m in Sources */,
 				AEEC651E16A56E56008530D7 /* SearchResultsViewController.m in Sources */,
 				83CFB0C518FD1641006EAA82 /* SubscriptionInfo.m in Sources */,
+				28CFD9861914D9EB00D683CE /* MangoFeedbackViewController.m in Sources */,
 				AED4C88516A82DF8009F462E /* TextViewViewController.m in Sources */,
 				AEC85BB116AE86710094843B /* DetailHighlightViewController.m in Sources */,
 				AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */,
@@ -4294,7 +4354,7 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -4340,7 +4400,7 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
