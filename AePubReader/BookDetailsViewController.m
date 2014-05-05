@@ -37,7 +37,7 @@
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
-       self.view.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
+       
     }
     return self;
 }
@@ -123,10 +123,7 @@
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
-- (void) viewWillAppear:(BOOL)animated{
-    
-   // self.view.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, 0, 776, 575);
-}
+
 
 - (void) availLanguagedata{
     
@@ -330,6 +327,7 @@
         }
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
     }
 }
 

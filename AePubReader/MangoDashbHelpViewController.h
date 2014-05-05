@@ -10,6 +10,7 @@
 
 @interface MangoDashbHelpViewController : UIViewController
 
+@property (nonatomic, strong) IBOutlet UICollectionView *helpImagesDisplayView;
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;
 - (IBAction)logoutUser:(id)sender;
 - (IBAction)moveToBack:(id)sender;

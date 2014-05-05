@@ -86,6 +86,9 @@
 #pragma mark - Action Methods
 
 - (IBAction)backButtonTapped:(id)sender {
+    [self.presentingViewController.presentingViewController
+     dismissViewControllerAnimated:YES
+     completion:nil];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];

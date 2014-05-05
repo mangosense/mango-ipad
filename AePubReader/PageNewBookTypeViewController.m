@@ -752,6 +752,15 @@
     
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookGrade;
+    
+    if(!_bookGradeLevel){
+        bookGrade = @"Not available";
+    }
+    else{
+        bookGrade = _bookGradeLevel;
+    }
+    
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -840,16 +849,17 @@
             [object saveInBackground];
         }
         else{
+            
             NSLog(@"object not found here then add object here...");
             PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
             [userObject setObject:udid forKey:@"deviceIDValue"];
-            [userObject setObject:_loginUserEmail forKey:@"email_ID"];
+            [userObject setObject:ID forKey:@"email_ID"];
            // [userObject setObject:@"Harish" forKey:@"userName"];
             [userObject setObject:_bookId forKey:@"bookID"];
             [userObject setObject:[NSNumber numberWithInt:_pageNumber+1]  forKey:@"currentPage"];
             [userObject setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
             [userObject setObject:_book.title forKey:@"bookTitle"];
-            [userObject setObject:_bookGradeLevel forKey:@"gradeLevel"];
+            [userObject setObject:bookGrade forKey:@"gradeLevel"];
             [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityCount"];
             [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityPoints"];
             [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"readingTime"];

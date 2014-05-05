@@ -107,7 +107,7 @@
                 _labelTotalTimeSpent.text = [NSString stringWithFormat:@"%d hrs %d min", hours, minutes];
             }
             
-            if((timeCompleted <3600) && (timeCompleted > 60)){
+            else if((timeCompleted <3600) && (timeCompleted > 60)){
                 NSInteger minutes = floor(timeCompleted/60);
                 NSInteger second = floor(timeCompleted - minutes * 60);
                 _labelTotalTimeSpent.text = [NSString stringWithFormat:@"%d min %d sec", minutes, second];
@@ -191,7 +191,7 @@
             cell.readForLabel.text = [NSString stringWithFormat:@"%d hrs %d min", hours, minutes];
         }
         
-        if((timeValue <3600) && (timeValue > 60)){
+        else if((timeValue <3600) && (timeValue > 60)){
             NSInteger minutes = floor(timeValue/60);
             NSInteger second = floor(timeValue - minutes * 60);
             cell.readForLabel.text = [NSString stringWithFormat:@"%d min %d sec", minutes, second];

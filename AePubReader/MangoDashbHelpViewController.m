@@ -8,7 +8,11 @@
 
 #import "MangoDashbHelpViewController.h"
 #import "AePubReaderAppDelegate.h"
-@interface MangoDashbHelpViewController ()
+#import "MangoDashHelperCell.h"
+
+@interface MangoDashbHelpViewController (){
+    NSArray *helpImages;
+}
 
 @end
 
@@ -24,6 +28,11 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,8 +40,53 @@
     if (!appDelegate.loggedInUserInfo){
         _loginButton.titleLabel.text  = @"Login";
     }
-    // Do any additional setup after loading the view from its nib.
+    
+    helpImages = [NSArray arrayWithObjects:@"nav.png", @"nav.png", @"nav.png", @"nav.png", @"nav.png", nil];
+    
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    [self.helpImagesDisplayView setCollectionViewLayout:flowLayout];
+    
+    flowLayout.itemSize = CGSizeMake(1024.0, 615.0);
+    [self.helpImagesDisplayView registerNib:[UINib nibWithNibName:@"MangoDashHelperCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+    
+    //[self.helpImagesDisplayView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
 }
+
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return helpImages.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    MangoDashHelperCell *cell = (MangoDashHelperCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ViewCell" forIndexPath:indexPath];
+    
+    //UIImageView *helpImageView = (UIImageView *)[cell viewWithTag:100];
+    cell.helpimage.image = [UIImage imageNamed:[helpImages objectAtIndex:indexPath.row]];
+    return cell;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 0.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 0.0;
+}
+
+// Layout: Set Edges
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    // return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
+    return UIEdgeInsetsMake(0,0,0,0);  // top, left, bottom, right
+}
+
+
 
 - (IBAction)moveToBack:(id)sender{
    

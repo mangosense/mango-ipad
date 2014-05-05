@@ -1204,7 +1204,11 @@
 
  //   NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
-    int totalpages = [[jsonDict objectForKey:@"page_count"] intValue];
+    int totalpages;
+    totalpages = [[jsonDict objectForKey:@"page_count"] intValue];
+    if(!totalpages){
+        totalpages = [[[jsonDict valueForKey:@"pages"] valueForKey:@"id"] count];
+    }
 
     return [NSNumber numberWithInt:totalpages];
 }
