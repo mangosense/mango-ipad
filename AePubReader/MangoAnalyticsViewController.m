@@ -68,8 +68,16 @@
     hud.labelText = @"LOADING PLEASE WAIT...";
     
     // Do any additional setup after loading the view from its nib.
+    
+    
 }
 
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
 
 - (BOOL)prefersStatusBarHidden
 {
@@ -77,6 +85,13 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Your internet connection appears to be offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     
     __block int booksRead =0, pagesRead =0, timeCompleted =0, activitiesTotal = 0;
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
@@ -179,11 +194,19 @@
         
         [imgLayer setBorderColor:[UIColor orangeColor].CGColor];
         
+        if([[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"bookCoverImageURL"] hasSuffix:@"/(null)"]){
+            NSLog(@"nsurl - %@", url);
+            cell.bookCoverImageView.image = [UIImage imageNamed:@"loading1.png"];
+        }
+        
+        else{
         [self downloadImageWithURL:url completionBlock:^(BOOL succeeded, NSData *data) {
             if (succeeded) {
-                cell.bookCoverImageView.image = [[UIImage alloc] initWithData:data];
+                    cell.bookCoverImageView.image = [[UIImage alloc] initWithData:data];
             }
-        }];
+
+        }];}
+        
         
         if(timeValue >= 3600){
             NSInteger hours = floor(timeValue/(60*60));

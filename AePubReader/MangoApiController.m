@@ -267,8 +267,8 @@
         NSLog(@"Login Response: %@", responseObject);
         
         if(![responseObject valueForKey:@"auth_token"]){
-            //UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[responseObject valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-           // [responseError show];
+            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[responseObject valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [responseError show];
             [_delegate saveUserDetails:responseDict];
         }
         
@@ -384,6 +384,34 @@
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Save Story Error: %@", error);
     }];
+}
+
+- (void) getSubscriptionProductsInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate{
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [manager GET:methodName parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Get List Response: %@", responseObject);
+        NSArray *responseArray;
+        if(([responseObject isKindOfClass:[NSArray class]]) && ([responseObject count] > 0)){
+            
+            [_delegate subscriptionSetup:responseObject];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Get List Error: %@", error);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
+            [delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
+        }
+    }];
+    
 }
 
 - (void)saveNewBookWithJSON:(NSString *)bookJSON {

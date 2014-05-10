@@ -17,7 +17,7 @@
 
 @end
 
-@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol>{
+@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol, FBLoginViewDelegate>{
     
     NSString *userEmail;
     NSString *userDeviceID;

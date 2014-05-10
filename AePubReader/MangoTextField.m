@@ -47,35 +47,36 @@
     }
     [words removeObjectsInArray:wordsToDelete];
     
-    NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
-    NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
-    [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
-    
-    UIFont *textFont = self.font;
-    if (!textFont) {
+    if ([words count]) {
+        NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
+        NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
+        [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        UIFont *textFont = self.font;
+        if (!textFont) {
             
-            textFont = [UIFont systemFontOfSize:15.0f];
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                textFont = [UIFont systemFontOfSize:15.0f];
+            }
+            else{
+                textFont = [UIFont systemFontOfSize:25.0f];
+            }
         }
-        else{
-            textFont = [UIFont systemFontOfSize:25.0f];
+        [string addAttribute:NSFontAttributeName value:textFont range:NSMakeRange(0, [string length] - 1)];
+        
+        UIColor *textColor = self.textColor;
+        if (!textColor) {
+            textColor = [UIColor blackColor];
         }
+        [string addAttribute:NSForegroundColorAttributeName value:textColor range:NSMakeRange(0, [string length] - 1)];
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
+        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
     }
-    [string addAttribute:NSFontAttributeName value:textFont range:NSMakeRange(0, [string length] - 1)];
-
-    UIColor *textColor = self.textColor;
-    if (!textColor) {
-        textColor = [UIColor blackColor];
-    }
-    [string addAttribute:NSForegroundColorAttributeName value:textColor range:NSMakeRange(0, [string length] - 1)];
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
-    [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
-
     [self setAttributedText:string];
 }
 

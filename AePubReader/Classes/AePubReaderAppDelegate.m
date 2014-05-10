@@ -20,8 +20,8 @@
 #import "MBProgressHUD.h"
 #import "MangoSubscriptionViewController.h"
 #import "BooksFromCategoryViewController.h"
-
 #import <FacebookSDK/FacebookSDK.h>
+#import "ATConnect.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
@@ -33,6 +33,17 @@ static UIAlertView *alertViewLoading;
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    for (NSString* family in [UIFont familyNames])
+//    {
+//        NSLog(@"%@", family);
+//        
+//        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+//        {
+//            NSLog(@"  %@", name);
+//        }
+//    }
+    
+    [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     //Cache
@@ -161,6 +172,8 @@ static UIAlertView *alertViewLoading;
     // You can find more information about why you need to add this line of code in our troubleshooting guide
     // https://developers.facebook.com/docs/ios/troubleshooting#objc
     [FBProfilePictureView class];
+    
+    [Appirater appLaunched:YES];
     
     return YES;
 }
@@ -712,6 +725,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
     [currentInstallation saveInBackground];
+}
+
+-(void)applicationWillEnterForeground:(UIApplication *)application{
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)application:(UIApplication *)application

@@ -26,6 +26,7 @@
 - (IBAction)backgroundTap:(id)sender;
 - (IBAction)closeSettingProblemView:(id)sender;
 
+
 @property(retain,nonatomic)StoriesViewController *storiesViewController;
 @property (nonatomic, retain) IBOutlet UIButton *backToLogin;
 

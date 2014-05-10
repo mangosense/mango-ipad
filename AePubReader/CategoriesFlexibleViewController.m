@@ -21,12 +21,13 @@
 #import "MangoAnalyticsViewController.h"
 #import "MangoDashbHelpViewController.h"
 #import "MangoFeedbackViewController.h"
+#import "ATConnect.h"
 
 
 
 #define NUMBER_OF_CATEGORIES_PER_PAGE 6
 
-@interface CategoriesFlexibleViewController ()
+@interface CategoriesFlexibleViewController () <UITabBarControllerDelegate>
 
 @end
 
@@ -324,22 +325,40 @@
         settingSol = NO;
         
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
+        tabBarController.delegate = self;
         
-        MangoAnalyticsViewController *viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+        MangoAnalyticsViewController *viewCtr1;
+        MangoDashbProfileViewController *viewCtr2;
+        MangoDashbHelpViewController *viewCtr3;
+        MangoFeedbackViewController *viewCtr4;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
+            viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController_iPhone" bundle:nil];
+            viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController_iPhone" bundle:nil];
+            viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController_iPhone" bundle:nil];
+        }
+           
+        else{
+            
+            viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
+            viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
+            viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
+        }
+        
+        viewCtr1.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
+        viewCtr2.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        viewCtr3.tabBarItem.image = [UIImage imageNamed:@"help.png"];
+        viewCtr4.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+    
         viewCtr1.navigationController.navigationBarHidden=YES;
-        
-        MangoDashbProfileViewController *viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
         viewCtr2.navigationController.navigationBarHidden=YES;
-        
-        MangoDashbHelpViewController *viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
         viewCtr3.navigationController.navigationBarHidden=YES;
-        
-        MangoFeedbackViewController *viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
         viewCtr4.navigationController.navigationBarHidden=YES;
         
         tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1,viewCtr2, viewCtr3, viewCtr4, nil];
         
-       // [self presentViewController:tabBarController animated:YES completion:nil];
         [self.navigationController pushViewController:tabBarController animated:YES];
         
       /*  MangoDetailSettingsViewController *settingsViewController;
@@ -536,6 +555,17 @@
     }*/
 }
 
+#pragma mark - UITabBarControllerDelegate
+
+/*
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    if (tabBarController.selectedIndex == 3) {
+        [[ATConnect sharedConnection] presentMessageCenterFromViewController:self];
+    }
+}*/
+
+
 #pragma mark - Get Books Count
 
 - (NSDictionary *)bookCountForCategory {
@@ -713,7 +743,9 @@
         _categoriesArray = [NSArray arrayWithArray:categoriesWithMyBooksCategoryArray];
         
         [self setupUI];
-    } else if ([type isEqualToString:PURCHASED_STORIES] || [type isEqualToString:FREE_STORIES]) {
+    } //else if ([type isEqualToString:PURCHASED_STORIES] || [type isEqualToString:FREE_STORIES])
+    else if ([type isEqualToString:FREE_STORIES])
+    {
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
         int numberOfBooksForDownload = 0;
@@ -730,7 +762,7 @@
         if (numberOfBooksForDownload > 0) {
             UIAlertView *booksDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"Downloading Books" message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             if ([type isEqualToString:PURCHASED_STORIES]) {
-                [booksDownloadAlertView setMessage:@"Your purchased books are being downloaded in the background."];
+               // [booksDownloadAlertView setMessage:@"Your purchased books are being downloaded in the background."];
             } else {
                 [booksDownloadAlertView setMessage:@"You have 5 free books from MangoReader! They will be downloaded in the background, while you continue exploring the app."];
             }

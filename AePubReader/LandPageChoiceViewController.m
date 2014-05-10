@@ -65,6 +65,11 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -72,6 +77,13 @@
 }
 
 - (IBAction)creatAStory:(id)sender {
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        UIAlertView *iphoneAlert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Create story feature is available only in iPad version!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [iphoneAlert show];
+        return;
+    }
     /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
     myStoriesBooksViewController.toEdit = YES;
     
@@ -309,21 +321,38 @@
         
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         
-        MangoAnalyticsViewController *viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+        MangoAnalyticsViewController *viewCtr1;
+        MangoDashbProfileViewController *viewCtr2;
+        MangoDashbHelpViewController *viewCtr3;
+        MangoFeedbackViewController *viewCtr4;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
+            viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController_iPhone" bundle:nil];
+            viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController_iPhone" bundle:nil];
+            viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController_iPhone" bundle:nil];
+        }
+        
+        else{
+            
+            viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
+            viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
+            viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
+        }
+        
+        viewCtr1.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
+        viewCtr2.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        viewCtr3.tabBarItem.image = [UIImage imageNamed:@"help.png"];
+        viewCtr4.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+        
         viewCtr1.navigationController.navigationBarHidden=YES;
-        
-        MangoDashbProfileViewController *viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
         viewCtr2.navigationController.navigationBarHidden=YES;
-        
-        MangoDashbHelpViewController *viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
         viewCtr3.navigationController.navigationBarHidden=YES;
-        
-        MangoFeedbackViewController *viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
         viewCtr4.navigationController.navigationBarHidden=YES;
         
         tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1,viewCtr2, viewCtr3, viewCtr4, nil];
         
-        // [self presentViewController:tabBarController animated:YES completion:nil];
         [self.navigationController pushViewController:tabBarController animated:YES];
     }
 }

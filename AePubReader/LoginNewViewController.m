@@ -38,6 +38,11 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     _udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
@@ -100,6 +105,13 @@
     }
     appDelegate.deviceId = _udid;
     _isLoginWithFb = NO;
+
+    
+    //if(!notFirstTimeHelpDisplay){
+        
+      //  [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
+        [self loadHelpImagesScroll];
+    //}
 
 }
 
@@ -402,5 +414,89 @@
         }
     }
 }
+
+//images for scroll view
+
+- (void)loadHelpImagesScroll{
+    
+    pageControlBeingUsed = NO;
+   // _imageHelpView.hidden = NO;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int notFirstTimeHelpDisplay = [[prefs valueForKey:@"FIRSTTIMEHELPDISPLAY"] integerValue];
+    if(!notFirstTimeHelpDisplay){
+    
+      [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
+        _imageHelpView.hidden = NO;
+    }
+    
+    
+	
+	NSArray *colors = [NSArray arrayWithObjects:[UIImage imageNamed:@"dashboard.jpg"], [UIImage imageNamed:@"createstory.jpg"], [UIImage imageNamed:@"readbar.jpg"],  [UIImage imageNamed:@"readpage.jpg"],  [UIImage imageNamed:@"store.jpg"],  [UIImage imageNamed:@"subscribe.jpg"], nil];
+	for (int i = 0; i < colors.count; i++) {
+		CGRect frame;
+		frame.origin.x = self.scrollView.frame.size.width * i;
+		frame.origin.y = 0;
+		frame.size = self.scrollView.frame.size;
+		
+		UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
+		//subview.backgroundColor = [colors objectAtIndex:i];
+        subview.image = [colors objectAtIndex:i];
+		[self.scrollView addSubview:subview];
+		
+	}
+	
+	self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * colors.count, self.scrollView.frame.size.height);
+	
+	self.pageControl.currentPage = 0;
+	self.pageControl.numberOfPages = colors.count;
+    
+    [self.view bringSubviewToFront:[_imageHelpView superview]];
+    [[_imageHelpView superview] bringSubviewToFront:_imageHelpView];
+    
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+	if (!pageControlBeingUsed) {
+		// Switch the indicator when more than 50% of the previous/next page is visible
+		CGFloat pageWidth = self.scrollView.frame.size.width;
+		int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+		self.pageControl.currentPage = page;
+	}
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+	pageControlBeingUsed = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	pageControlBeingUsed = NO;
+}
+
+- (IBAction)changePage {
+	// Update the scroll view to the appropriate page
+	CGRect frame;
+	frame.origin.x = self.scrollView.frame.size.width * self.pageControl.currentPage;
+	frame.origin.y = 0;
+	frame.size = self.scrollView.frame.size;
+	[self.scrollView scrollRectToVisible:frame animated:YES];
+	
+	// Keep track of when scrolls happen in response to the page control
+	// value changing. If we don't do this, a noticeable "flashing" occurs
+	// as the the scroll delegate will temporarily switch back the page
+	// number.
+	pageControlBeingUsed = YES;
+}
+
+- (IBAction)skipHelpPageView:(id)sender{
+    
+    _imageHelpView.hidden = YES;
+    
+}
+
+- (IBAction)showHelpPageView:(id)sender{
+    _imageHelpView.hidden = NO;
+}
+
 
 @end

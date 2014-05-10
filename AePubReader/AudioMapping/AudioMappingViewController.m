@@ -259,13 +259,13 @@
         textForMapping = _mangoTextField.text;
     }
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:12.0f];
-    }
-    else{
-         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
-    }
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+//        
+//         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:12.0f];
+//    }
+//    else{
+//         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+//    }
     
     NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     NSMutableArray *wordsToDelete = [NSMutableArray array];
@@ -275,14 +275,16 @@
         }
     }
     [words removeObjectsInArray:wordsToDelete];
-
-    NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
-    NSString *subString = [subarray componentsJoinedByString:@" "];
-
-    [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
-    if (_wordIndex < [words count] - 1) {
-        _wordIndex += 1;
+    if ([words count]) { //Parag
+        NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
+        NSString *subString = [subarray componentsJoinedByString:@" "];
+        
+        [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
+        if (_wordIndex < [words count] - 1) {
+            _wordIndex += 1;
+        }
     }
+    
 }
 
 - (IBAction)previous:(id)sender {
@@ -381,9 +383,11 @@
         UITextView *textView=[_array objectAtIndex:_anotherCues.count-1];
         textView.text=[[NSString alloc]initWithFormat:@"%@",number ];
         NSLog(@"%d",_index);
+//        _index++; //Parag
         _cues=nil;
         _cues=_anotherCues;
         [self sampleAudio];
+        [audioMappingDelegate saveAudioMapping];
     }
 }
 
@@ -497,6 +501,7 @@
 }
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+    NSLog(@"_cues %@",_cues);
     [_timer invalidate];
     _scrollView.progress=0;
     [_scrollView setNeedsDisplay];

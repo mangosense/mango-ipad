@@ -14,4 +14,8 @@
 - (IBAction)moveToBack:(id)sender;
 - (IBAction)logoutUser:(id)sender;
 
+- (IBAction)surveyView:(id)sender;
+- (IBAction)chatDisscussView:(id)sender;
+- (IBAction)rateApp:(id)sender;
+
 @end

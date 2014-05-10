@@ -17,7 +17,7 @@
 #import "MangoAnalyticsViewController.h"
 #import "MangoSubscriptionViewController.h"
 
-@interface BooksCollectionViewController ()
+@interface BooksCollectionViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSArray *allBooksArray;
 @property (nonatomic, strong) UIPopoverController *popOverController;
@@ -135,6 +135,17 @@
     }
     return nil;
 }
+
+
+#pragma mark - AlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self deleteBook:[_allBooksArray objectAtIndex:deleteBookIndex]];
+    }
+}
+
 
 #pragma mark - Setup UI
 
@@ -711,6 +722,7 @@
 
 - (void)deleteBook:(Book *)book {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *book_id = book.id;
     BOOL deleteSuccess = [appDelegate.ejdbController deleteObject:[appDelegate.ejdbController getBookForBookId:book.id]];
     if (deleteSuccess) {
         NSDictionary *EVENT;
@@ -718,7 +730,7 @@
         NSDictionary *dimensions = @{
                                      PARAMETER_USER_ID : ID,
                                      PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID :book.id                                     
+                                     PARAMETER_BOOK_ID :book_id
                                      };
         if(_fromCreateStoryView){
             EVENT = CREATESTORY_DELETE_BOOK;
@@ -735,7 +747,7 @@
         [userObject setObject:appDelegate.deviceId forKey:@"deviceIDValue"];
         [userObject setObject:appDelegate.country forKey:@"deviceCountry"];
         [userObject setObject:appDelegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:book.id forKey:@"bookID"];
+        [userObject setObject:book_id forKey:@"bookID"];
         if(userEmail){
             [userObject setObject:ID forKey:@"emailID"];
         }

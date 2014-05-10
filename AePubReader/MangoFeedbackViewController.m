@@ -8,6 +8,9 @@
 
 #import "MangoFeedbackViewController.h"
 #import "AePubReaderAppDelegate.h"
+#import "ATSurveys.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ATConnect.h"
 
 @interface MangoFeedbackViewController ()
 
@@ -20,7 +23,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"Feedback View";
+        self.title = @"Feedback & Support";
     }
     return self;
 }
@@ -38,6 +41,11 @@
         _loginButton.titleLabel.text  = @"Login";
     }
     // Do any additional setup after loading the view from its nib.
+    
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ATMessageCenterUnreadCountChangedNotification object:nil];
+	
+	[[ATConnect sharedConnection] engage:@"init" fromViewController:self];
 }
 
 - (IBAction)moveToBack:(id)sender{
@@ -56,6 +64,21 @@
     }
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
+- (IBAction)surveyView:(id)sender{
+    
+    if ([ATSurveys hasSurveyAvailableWithNoTags]) {
+        [ATSurveys presentSurveyControllerWithNoTagsFromViewController:self];
+    }
+    
+}
+
+- (IBAction)chatDisscussView:(id)sender{
+    
+    [[ATConnect sharedConnection] presentMessageCenterFromViewController:self];
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -188,6 +188,13 @@
     }
 }
 
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -601,6 +608,12 @@
     if (_featuredStoriesArray) {
         NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
       //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
+        if(![self connected])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
         
         BookDetailsViewController *bookDetailsViewController;
         
@@ -990,6 +1003,12 @@
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     
     BookDetailsViewController *bookDetailsViewController;
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Your internet connection appears to be offline, plase try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         

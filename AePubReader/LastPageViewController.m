@@ -87,6 +87,7 @@
                 if ([[response objectForKey:@"status"] integerValue] == 1){
                     
                     NSLog(@"You are already subscribed");
+                   // [self gotoReviews];
                 }
                 else{
                         
@@ -115,6 +116,7 @@
                 if ([[response objectForKey:@"status"] integerValue] == 1){
                     
                     NSLog(@"You are already subscribed");
+                   // [self gotoReviews];
                 }
                 else{
                     
@@ -328,7 +330,22 @@
     }];
 }
 
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
+
 - (IBAction)bookTapped:(id)sender{
+    
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     if([sender tag]){
         
         [self showBookDetailsForBook:_tempItemArray[[sender tag]-1]];
@@ -542,5 +559,19 @@
     
     [self.navigationController pushViewController:coverController animated:YES];
 }
+
+
+- (void)gotoReviews
+{
+    NSString *str = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa";
+    str = [NSString stringWithFormat:@"%@/wa/viewContentsUserReviews?", str];
+    str = [NSString stringWithFormat:@"%@type=Purple+Software&id=", str];
+    
+    // Here is the app id from itunesconnect
+    str = [NSString stringWithFormat:@"%@568003822", str];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+}
+
 
 @end

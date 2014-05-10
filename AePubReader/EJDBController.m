@@ -74,6 +74,7 @@
     if ([appDelegate.dataModel checkIfIdExists:book.id]) {
         Book *coreDataBook = [appDelegate.dataModel getBookOfId:book.id];
         [appDelegate.dataModel.dataModelContext deleteObject:coreDataBook];
+        [appDelegate.dataModel.dataModelContext save:nil];
     }
     return [_collection removeObject:object];
 }

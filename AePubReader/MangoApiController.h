@@ -21,6 +21,7 @@
 - (void)updateBookProgress:(int)progress;
 - (void)bookDownloaded;
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
+- (void)subscriptionSetup:(NSArray *)planArray;
 
 @end
 
@@ -45,4 +46,7 @@
 #pragma mark - Validate Receipt
 - (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;
 - (void) validateSubscription :(NSString *)userIdOrTransctionId andDeviceId:(NSString *)deviceId block:(void (^)(id response, NSInteger type, NSString * error))block;
+
+- (void) getSubscriptionProductsInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate;
+
 @end

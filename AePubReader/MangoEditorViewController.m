@@ -1406,6 +1406,212 @@
     return nil;
 }
 
+
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption ;
+{
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    NSDictionary *pageDict;
+    for (NSDictionary *readerPageDict in readerPagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        }
+    }
+    
+    UIView *pageView;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
+        
+    }
+    else{
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    }
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
+    
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    NSString *textOnPage;
+    CGRect textFrame;
+    NSData *audioData;
+    for (NSDictionary *layerDict in layersArray) {
+        AudioMappingViewController *audioMappingViewcontroller = nil; //Parag
+        if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO] || [[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
+            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+            audioMappingViewcontroller.audioMappingDelegate = delegate;
+        }
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]);
+            if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width*0.65, 768)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(pageView.frame.size.width*0.35, 0, pageView.frame.size.width*0.65, 768)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:TOP_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, 1024, pageView.frame.size.height*0.65)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, 1024, pageView.frame.size.height)];
+            }
+            [pageView addSubview:backgroundImageView];
+            [pageView sendSubviewToBack:backgroundImageView];
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
+            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
+            [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewcontroller.view setExclusiveTouch:YES];
+            [audioMappingViewcontroller.customView setNeedsDisplay];
+            NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
+            NSMutableArray *wordMap=[[NSMutableArray alloc]init];
+            if (![wordMapDict isEqual:[NSNull null]]) {
+                for (NSDictionary *temp in wordMapDict ) {
+                    NSString *word=temp[@"word"];
+                    [wordMap addObject:word];
+                }
+            }
+            
+            wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
+            
+            if (![[layerDict objectForKey:CUES] isEqual:[NSNull null]]) {
+                NSArray *cues=[layerDict objectForKey:CUES];
+                audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
+            }
+            
+            audioMappingViewcontroller.customView.text=wordMapDict;
+            if ([UIDevice currentDevice].systemVersion.integerValue<6) {
+                audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
+            } else {
+                NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewcontroller.customView.textFont, NSFontAttributeName, nil];
+                audioMappingViewcontroller.customView.space=   audioMappingViewcontroller.mangoTextField.frame.size;
+            }
+            
+            audioMappingViewcontroller.index=0;
+            audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
+            
+            if (readingOption == READ_TO_ME) {
+                if (![audioMappingViewcontroller.player isPlaying]) {
+                    [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
+                }
+            }
+            //NSLog(@"%@",audioMappingViewcontroller.cues);
+            
+            if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {
+                audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[layerDict objectForKey:@"highlight"]];
+            } else {
+                audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
+            }
+            NSLog(@"MangoTxt Frame: %@", NSStringFromCGRect(audioMappingViewcontroller.mangoTextField.frame));
+            
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
+            textOnPage = [layerDict objectForKey:TEXT];
+            textFrame = CGRectMake(100, 100, 600, 400);
+            
+            if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
+                if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
+                    
+                    CGFloat xOrigin = 0;
+                    if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
+                        xOrigin = pageView.frame.size.width/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
+                        if (xOrigin >= pageView.frame.size.width || xOrigin < 0) {
+                            xOrigin = 0;
+                        }
+                    }
+                    
+                    
+                    CGFloat yOrigin = 0;
+                    if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
+                        yOrigin = pageView.frame.size.height/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
+                        if (yOrigin >= pageView.frame.size.height || yOrigin < 0) {
+                            yOrigin = 0;
+                        }
+                    }
+                    
+                    //CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
+                    
+                    textFrame = CGRectMake(xOrigin, yOrigin, pageView.frame.size.width*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue]/1024.0f, pageView.frame.size.height*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]/768.0f);
+                    
+                    audioMappingViewcontroller.customView.frame = textFrame;
+                }
+            }
+            
+            if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
+                textFrame = CGRectMake(pageView.frame.size.width*0.65, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
+            } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
+                textFrame = CGRectMake(0, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
+            } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:TOP_ALIGN]) {
+                textFrame = CGRectMake(0, pageView.frame.size.height*0.65, pageView.frame.size.width, pageView.frame.size.height*0.35);
+            } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
+                textFrame = CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.35);
+            }
+            
+            [pageView addSubview:audioMappingViewcontroller.view];
+            [audioMappingViewcontroller.view setHidden:YES];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+            [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewcontroller.view setExclusiveTouch:YES];
+            
+            audioMappingViewcontroller.mangoTextField.text = textOnPage;
+            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+            audioMappingViewcontroller.mangoTextField.frame = textFrame;
+            audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
+            
+            if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
+                
+                NSString *colorString = [[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"];
+                colorString = [colorString stringByReplacingOccurrencesOfString:@"rgb("
+                                                                     withString:@""];
+                colorString = [colorString substringToIndex:[colorString length] - 1];
+                NSArray *components = [colorString componentsSeparatedByString:@","];
+                
+                UIColor *color = [UIColor colorWithRed:[[components objectAtIndex:0] floatValue]/255.f
+                                                 green:[[components objectAtIndex:1] floatValue]/255.f
+                                                  blue:[[components objectAtIndex:2] floatValue]/255.f
+                                                 alpha:1.f];
+                
+                //                audioMappingViewcontroller.mangoTextField.textColor = [AePubReaderAppDelegate colorFromHexString:];
+                audioMappingViewcontroller.mangoTextField.textColor = color;
+            } else {
+                audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
+            }
+            
+            [pageView addSubview:audioMappingViewcontroller.mangoTextField];
+            
+            audioMappingViewcontroller.textForMapping = textOnPage;
+            
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+            NSURL *asseturl = [layerDict objectForKey:@"url"];
+            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                CGImageRef iref = [rep fullResolutionImage];
+                if (iref) {
+                    UIImage *image = [UIImage imageWithCGImage:iref];
+                    backgroundImageView.image = image;
+                    [pageView addSubview:backgroundImageView];
+                }
+            } failureBlock:^(NSError *myerror) {
+                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+            }];
+        }
+        
+        
+        
+        //  else if([layerDict objectForKey:WORDMAP])
+    }
+    
+    if ([[pageView subviews] count] > 0) {
+        return pageView;
+    }
+    
+    return nil;
+}
+
+
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -1552,7 +1758,23 @@
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
 
             if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
-                audioMappingViewcontroller.mangoTextField.textColor = [AePubReaderAppDelegate colorFromHexString:[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"]];
+                
+                UIColor *color = nil;
+                NSString *colorString = [[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"];
+                if ([colorString hasPrefix:@"#"]) {
+                    color = [AePubReaderAppDelegate colorFromHexString:colorString];
+                } else {
+                    colorString = [colorString stringByReplacingOccurrencesOfString:@"rgb("
+                                                                         withString:@""];
+                    colorString = [colorString substringToIndex:[colorString length] - 1];
+                    NSArray *components = [colorString componentsSeparatedByString:@","];
+                    
+                    color = [UIColor colorWithRed:[[components objectAtIndex:0] floatValue]/255.f
+                                            green:[[components objectAtIndex:1] floatValue]/255.f
+                                             blue:[[components objectAtIndex:2] floatValue]/255.f
+                                            alpha:1.f];
+                }
+                 audioMappingViewcontroller.mangoTextField.textColor = color;
             } else {
                 audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
             }

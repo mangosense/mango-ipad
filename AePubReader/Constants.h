@@ -193,8 +193,8 @@
 
 #pragma mark - URL's
 
-//#define BASE_URL @"http://api.mangoreader.com/api/v2"
-#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
+#define BASE_URL @"http://api.mangoreader.com/api/v2"
+//#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
 //192.168.2.28:3001/api/v2
@@ -204,8 +204,11 @@
 //Validate receipt
 #define ReceiptValidate_SignedIn @"receipt_validate.json"
 
-#define SubscriptionValidate @"validate/subscription/receipt.json" //done
-#define SubscriptionStatus @"validate/subscription/status" //either user id else transction id
+//// New subscription API
+#define SubscriptionPlans @"subscriptions/plans"
+#define SubscriptionValidate @"subscriptions/validate/receipt.json" //done
+#define SubscriptionStatus @"subscriptions/validate/status" //either user id else transction id
+////
 
 #define ReceiptValidate_NotSignedIn @"receipt_validate_without_signed_in.json"
 
@@ -275,6 +278,8 @@
 #define COLOR_BROWN [UIColor colorWithRed:99.0/255.0 green:25.0/255.0 blue:9.0/255.0 alpha:0.4f]
 //Color from HEX
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define Rgb2UIColor(r, g, b)  [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:1.0]
 
 #pragma mark - Tags
 #pragma mark - MangoStoreView Controller

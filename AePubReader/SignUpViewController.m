@@ -13,6 +13,9 @@
 #import "Constants.h"
 #import "LandPageChoiceViewController.h"
 #import "MBProgressHUD.h"
+#import <Parse/Parse.h>
+#import <Social/Social.h>
+#import "FacebookLogin.h"
 
 CGFloat animatedDistance;
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
@@ -22,6 +25,8 @@ static const CGFloat PORTRAIT_KEYBOARD_HEIGHT = 216;
 static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 
 @interface SignUpViewController ()
+
+@property (nonatomic, assign) BOOL isLoginWithFb;
 
 @end
 
@@ -52,7 +57,43 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [super viewDidLoad];
     viewName = @"Sign Up";
     [_password setSecureTextEntry:YES];
-    [_confirmPassword setSecureTextEntry:YES];
+   // [_confirmPassword setSecureTextEntry:YES];
+    
+    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_likes"]];
+    
+    loginView.delegate = self;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        loginView.frame = CGRectMake(_password.frame.origin.x + _password.frame.size.width/2 - loginView.frame.size.width/2, 49, loginView.frame.size.width, loginView.frame.size.height);
+        for (id obj in loginView.subviews)
+        {
+            if ([obj isKindOfClass:[UIButton class]])
+            {
+                UIButton * loginButton =  obj;
+                UIImage *loginImage = [UIImage imageNamed:@"facebook_login.png"];
+                [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
+                [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
+                [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+                [loginButton setFrame:CGRectMake(34,20,150,28)];
+                
+            }
+            if ([obj isKindOfClass:[UILabel class]])
+            {
+                UILabel * loginLabel =  obj;
+                loginLabel.text = @"";
+                //loginLabel.textAlignment = UITextAlignmentCenter;
+                loginLabel.frame = CGRectMake(0,0,0,0);
+            }
+
+        }
+    }
+    else{
+        loginView.frame = CGRectMake(_password.frame.origin.x + _password.frame.size.width/2 - loginView.frame.size.width/2, 165, loginView.frame.size.width, loginView.frame.size.height);
+    }
+    
+    [self.view addSubview:loginView];
+    
+    _isLoginWithFb = NO;
     
 }
 
@@ -63,7 +104,89 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 }
 
 
+- (void)loginWithFacebook:(NSDictionary *)facebookDetailsDict {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    [apiController loginWithFacebookDetails:facebookDetailsDict];
+}
 
+
+#pragma mark - Facebook Login Methods
+
+// This method will be called when the user information has been fetched
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                            user:(id<FBGraphUser>)user {
+    NSLog(@"%@", user);
+    NSLog(@"FB Auth Token: %@", [[[FBSession activeSession] accessTokenData] accessToken]);
+    
+    NSMutableDictionary *facebookDict = [[NSMutableDictionary alloc] init];
+    [facebookDict setObject:[user objectForKey:EMAIL] forKey:EMAIL];
+    [facebookDict setObject:[user objectForKey:@"id"] forKey:@"id"];
+    [facebookDict setObject:[[[FBSession activeSession] accessTokenData] accessToken] forKey:AUTH_TOKEN];
+    [facebookDict setObject:[[[FBSession activeSession] accessTokenData] expirationDate] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
+    [facebookDict setObject:[user objectForKey:USERNAME] forKey:USERNAME];
+    [facebookDict setObject:[user objectForKey:NAME] forKey:NAME];
+    
+    if (!_isLoginWithFb) {
+        _isLoginWithFb = YES;
+        [self loginWithFacebook:[NSDictionary dictionaryWithDictionary:facebookDict]];
+    }
+}
+
+// Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experience
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+    
+}
+
+// Implement the loginViewShowingLoggedOutUser: delegate method to modify your app's UI for a logged-out user experience
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+    
+}
+
+// You need to override loginView:handleError in order to handle possible errors that can occur during login
+- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
+    NSString *alertMessage, *alertTitle;
+    
+    // If the user should perform an action outside of you app to recover,
+    // the SDK will provide a message for the user, you just need to surface it.
+    // This conveniently handles cases like Facebook password change or unverified Facebook accounts.
+    if ([FBErrorUtility shouldNotifyUserForError:error]) {
+        alertTitle = @"Facebook error";
+        alertMessage = [FBErrorUtility userMessageForError:error];
+        
+        // This code will handle session closures since that happen outside of the app.
+        // You can take a look at our error handling guide to know more about it
+        // https://developers.facebook.com/docs/ios/errors
+    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
+        alertTitle = @"Session Error";
+        alertMessage = @"Your current session is no longer valid. Please log in again.";
+        
+        // If the user has cancelled a login, we will do nothing.
+        // You can also choose to show the user a message if cancelling login will result in
+        // the user not being able to complete a task they had initiated in your app
+        // (like accessing FB-stored information or posting to Facebook)
+    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
+        NSLog(@"user cancelled login");
+        
+        // For simplicity, this sample handles other errors with a generic message
+        // You can checkout our error handling guide for more detailed information
+        // https://developers.facebook.com/docs/ios/errors
+    } else {
+        alertTitle  = @"Something went wrong";
+        alertMessage = @"Please try again later.";
+        NSLog(@"Unexpected error:%@", error);
+    }
+    
+    if (alertMessage) {
+        [[[UIAlertView alloc] initWithTitle:alertTitle
+                                    message:alertMessage
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    }
+}
 
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
@@ -145,7 +268,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     }
     else{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"Please check your internet connection, you are offline !!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"Some thing went wrong, please try later!!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
@@ -163,8 +286,9 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    UIInterfaceOrientation orientation =
-    [[UIApplication sharedApplication] statusBarOrientation];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        UIInterfaceOrientation orientation =
+            [[UIApplication sharedApplication] statusBarOrientation];
     
     
         CGRect textFieldRect =
@@ -209,6 +333,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         
         [self.view setFrame:viewFrame];
         [UIView commitAnimations];
+    }
     
 }
 // scrolls the view down if the view was scrolled up
@@ -227,8 +352,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             break;
             
         case PASSWORD_TAG:
-            if((textField.text.length < 6)&&(textField.text.length > 0)){
-                UIAlertView *wrongPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Weak Password Strength" message:@"Password field's length should be more than 5 characters" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            if((textField.text.length < 8)&&(textField.text.length > 0)){
+                UIAlertView *wrongPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Weak Password Strength" message:@"Password field's length should be more than 7 characters" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 
                 [wrongPasswordAlert show];
                 _password.text = @"";
@@ -246,6 +371,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         default:
             break;
     }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
     
     if (orientation == UIInterfaceOrientationLandscapeLeft ||
         orientation == UIInterfaceOrientationLandscapeRight)
@@ -268,6 +395,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         [self.view setFrame:viewFrame];
         [UIView commitAnimations];
     }
+    }
  
 }
 
@@ -282,9 +410,9 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         case PASSWORD_TAG:
             [_password becomeFirstResponder];
             break;
-        case CONFIRM_PASSWORD_TAG:
+       /* case CONFIRM_PASSWORD_TAG:
             [_confirmPassword becomeFirstResponder];
-            break;
+            break;*/
             
         case 3:
             [self signUp:nil];

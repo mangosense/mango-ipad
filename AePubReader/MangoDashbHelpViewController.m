@@ -23,7 +23,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"Help Desk View";
+        self.title = @"Help Desk";
     }
     return self;
 }
@@ -41,14 +41,24 @@
         _loginButton.titleLabel.text  = @"Login";
     }
     
-    helpImages = [NSArray arrayWithObjects:@"nav.png", @"nav.png", @"nav.png", @"nav.png", @"nav.png", nil];
+    helpImages = [NSArray arrayWithObjects:@"dashboard.jpg", @"createstory.jpg", @"store.jpg", @"readpage.jpg", @"readbar.jpg", @"subscribe.jpg", nil];
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     [self.helpImagesDisplayView setCollectionViewLayout:flowLayout];
     
-    flowLayout.itemSize = CGSizeMake(1024.0, 615.0);
-    [self.helpImagesDisplayView registerNib:[UINib nibWithNibName:@"MangoDashHelperCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        flowLayout.itemSize = CGSizeMake(568.0, 219.0);
+        [self.helpImagesDisplayView registerNib:[UINib nibWithNibName:@"MangoDashHelperCell_iPhone" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+        
+    }
+    else{
+        flowLayout.itemSize = CGSizeMake(1024.0, 615.0);
+        [self.helpImagesDisplayView registerNib:[UINib nibWithNibName:@"MangoDashHelperCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
+        
+        
+    }
     
     //[self.helpImagesDisplayView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
 }

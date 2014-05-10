@@ -18,6 +18,7 @@
 #import "BookDetailsViewController.h"
 #import "CoverViewControllerBetterBookType.h"
 #import "SubscriptionInfo.h"
+#import "Appirater.h"
 
 @class EPubViewController;
 @class LoginViewController;
