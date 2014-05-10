@@ -863,6 +863,20 @@
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
+		3F22640D191E70D400E5CD62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2846B3F6191E54A60062CEC7 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
+			remoteInfo = EJDBKitTests64;
+		};
+		3F226412191E70D400E5CD62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
+			remoteInfo = EJDBKitTests64;
+		};
 		3FD8B0ED18EDBB1C003A2DED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */;
@@ -873,20 +887,6 @@
 		3FD8B0EF18EDBB1C003A2DED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
-			remoteInfo = EJDBKitTests;
-		};
-		686AEEC41909160E00436F6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
-			remoteInfo = EJDBKit;
-		};
-		686AEEC61909160E00436F6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
@@ -971,7 +971,6 @@
 		2829CEAE191BDE2000B7EC80 /* verdana_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = verdana_bold.ttf; sourceTree = "<group>"; };
 		2829CEAF191BDE2000B7EC80 /* verdana_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = verdana_italic.ttf; sourceTree = "<group>"; };
 		2829CEB0191BDE2000B7EC80 /* verdana.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = verdana.ttf; sourceTree = "<group>"; };
-		2846B3F2191E538B0062CEC7 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		2846B3F6191E54A60062CEC7 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		286A59C51917779000B0C9D1 /* tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick.png; sourceTree = "<group>"; };
 		286A59C719177B4900B0C9D1 /* back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_button.png; sourceTree = "<group>"; };
@@ -1038,7 +1037,6 @@
 		68624C7A18F7DE190035A3F1 /* WEPopoverParentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverParentView.h; sourceTree = "<group>"; };
 		68624C7B18F7DE190035A3F1 /* WETouchableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WETouchableView.h; sourceTree = "<group>"; };
 		68624C7C18F7DE190035A3F1 /* WETouchableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WETouchableView.m; sourceTree = "<group>"; };
-		686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		686C38C5190EF30600E1E922 /* loginLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginLock.png; sourceTree = "<group>"; };
 		686F18991905650300B47DA8 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		687BE435190D463E00380E38 /* Logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logout.png; sourceTree = "<group>"; };
@@ -2119,16 +2117,12 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		2846B3F3191E538B0062CEC7 /* Products */ = {
-			isa = PBXGroup;
-			name = Products;
-			sourceTree = "<group>";
-		};
 		2846B3F7191E54A60062CEC7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				2846B3FC191E54A70062CEC7 /* libEJDBKit.a */,
 				2846B3FE191E54A70062CEC7 /* EJDBKitTests.xctest */,
+				3F22640E191E70D400E5CD62 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2156,14 +2150,12 @@
 			isa = PBXGroup;
 			children = (
 				2846B3F6191E54A60062CEC7 /* EJDBKit.xcodeproj */,
-				2846B3F2191E538B0062CEC7 /* EJDBKit.xcodeproj */,
 				280DBE2F191DF9710082BFBA /* New Group */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
 				280DBE2C191D6CF50082BFBA /* ATSurveys.h */,
 				28D111F1191E4B0400EF78B4 /* ATBackend.h */,
 				28D111F2191E4BFF00EF78B4 /* ATSurveysBackend.h */,
 				280DBE11191D0B5C0082BFBA /* ApptentiveConnect.xcodeproj */,
-				686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */,
 				28BABABC190E3323005909DF /* FacebookSDK.framework */,
 				834AC1C718F6811100CECA4D /* Subscription */,
 				68624C7318F7DE190035A3F1 /* Popover */,
@@ -2372,6 +2364,7 @@
 			children = (
 				3FD8B0EE18EDBB1C003A2DED /* libEJDBKit.a */,
 				3FD8B0F018EDBB1C003A2DED /* EJDBKitTests.xctest */,
+				3F226413191E70D400E5CD62 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2432,15 +2425,6 @@
 				68624C7C18F7DE190035A3F1 /* WETouchableView.m */,
 			);
 			path = Popover;
-			sourceTree = "<group>";
-		};
-		686AEEC01909160E00436F6A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				686AEEC51909160E00436F6A /* libEJDBKit.a */,
-				686AEEC71909160E00436F6A /* EJDBKitTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		686F189A1905650300B47DA8 /* Products */ = {
@@ -3751,20 +3735,12 @@
 					ProjectRef = 280DBE11191D0B5C0082BFBA /* ApptentiveConnect.xcodeproj */;
 				},
 				{
-					ProductGroup = 686AEEC01909160E00436F6A /* Products */;
-					ProjectRef = 686AEEBF1909160E00436F6A /* EJDBKit.xcodeproj */;
-				},
-				{
 					ProductGroup = 2846B3F7191E54A60062CEC7 /* Products */;
 					ProjectRef = 2846B3F6191E54A60062CEC7 /* EJDBKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 686F189A1905650300B47DA8 /* Products */;
 					ProjectRef = 686F18991905650300B47DA8 /* EJDBKit.xcodeproj */;
-				},
-				{
-					ProductGroup = 2846B3F3191E538B0062CEC7 /* Products */;
-					ProjectRef = 2846B3F2191E538B0062CEC7 /* EJDBKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 3FD8B0E818EDBB1C003A2DED /* Products */;
@@ -3819,6 +3795,20 @@
 			remoteRef = 2846B3FD191E54A70062CEC7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3F22640E191E70D400E5CD62 /* EJDBKitTests64.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests64.xctest;
+			remoteRef = 3F22640D191E70D400E5CD62 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3F226413191E70D400E5CD62 /* EJDBKitTests64.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests64.xctest;
+			remoteRef = 3F226412191E70D400E5CD62 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		3FD8B0EE18EDBB1C003A2DED /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -3831,20 +3821,6 @@
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
 			remoteRef = 3FD8B0EF18EDBB1C003A2DED /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		686AEEC51909160E00436F6A /* libEJDBKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libEJDBKit.a;
-			remoteRef = 686AEEC41909160E00436F6A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		686AEEC71909160E00436F6A /* EJDBKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests.xctest;
-			remoteRef = 686AEEC61909160E00436F6A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		686F1896190563AC00B47DA8 /* libEJDBKit.a */ = {
@@ -4738,12 +4714,12 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lstdc++",
@@ -4787,12 +4763,12 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lstdc++",
@@ -4880,8 +4856,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -4902,8 +4878,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
