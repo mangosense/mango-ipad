@@ -12,6 +12,7 @@
                 <outlet property="bookTitleLabel" destination="bf6-EC-jDG" id="Lbz-fo-KLs"/>
                 <outlet property="bookWrittenBy" destination="z4y-xn-UVn" id="L1R-Np-Plc"/>
                 <outlet property="buyButton" destination="XVh-xL-yWI" id="aI8-U6-8uJ"/>
+                <outlet property="categoriesLabel" destination="pzx-pk-mYe" id="Ra3-ZJ-CKd"/>
                 <outlet property="descriptionLabel" destination="93I-Z9-i25" id="b4z-oK-4xg"/>
                 <outlet property="dropDownButton" destination="XVe-fp-Nge" id="sUj-5W-Y5D"/>
                 <outlet property="view" destination="iN0-l3-epB" id="VOD-EO-SfJ"/>
@@ -125,6 +126,13 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzx-pk-mYe">
+                    <rect key="frame" x="529" y="181" width="30" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>

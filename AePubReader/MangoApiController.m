@@ -267,8 +267,8 @@
         NSLog(@"Login Response: %@", responseObject);
         
         if(![responseObject valueForKey:@"auth_token"]){
-            UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[responseObject valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [responseError show];
+            /*UIAlertView *responseError = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[responseObject valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [responseError show];*/
             [_delegate saveUserDetails:responseDict];
         }
         

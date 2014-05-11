@@ -4738,10 +4738,10 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
+					"\"$(SRCROOT)\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4749,6 +4749,27 @@
 					"-lstdc++",
 					"-ObjC",
 					"-all_load",
+					"-lApptentiveConnect",
+					"-framework",
+					Accelerate,
+					"-framework",
+					CoreData,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreText,
+					"-framework",
+					Foundation,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+					"-framework",
+					CoreTelephony,
+					"-framework",
+					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
 				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
@@ -4787,10 +4808,10 @@
 					"../framework/**",
 				);
 				INFOPLIST_FILE = "MangoReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
+					"\"$(SRCROOT)\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4798,6 +4819,27 @@
 					"-lstdc++",
 					"-ObjC",
 					"-all_load",
+					"-lApptentiveConnect",
+					"-framework",
+					Accelerate,
+					"-framework",
+					CoreData,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreText,
+					"-framework",
+					Foundation,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+					"-framework",
+					CoreTelephony,
+					"-framework",
+					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
 				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";

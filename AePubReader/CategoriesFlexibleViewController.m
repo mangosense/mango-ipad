@@ -744,7 +744,7 @@
         
         [self setupUI];
     } //else if ([type isEqualToString:PURCHASED_STORIES] || [type isEqualToString:FREE_STORIES])
-    else if ([type isEqualToString:FREE_STORIES])
+   /* else if ([type isEqualToString:FREE_STORIES])
     {
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
@@ -768,7 +768,7 @@
             }
             [booksDownloadAlertView show];
         }
-    }
+    }*/
 }
 
 #pragma mark - Get Categories

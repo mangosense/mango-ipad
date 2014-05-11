@@ -55,6 +55,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _buyButton.userInteractionEnabled = NO;
     viewName = @"Book Detail View Page";
     // Do any additional setup after loading the view from its nib.
     _bookImageView.layer.cornerRadius = 3.0;
@@ -89,7 +90,7 @@
                 else{
                     [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
                 }
-                
+                _buyButton.userInteractionEnabled = YES;
             }];
         }
         
@@ -105,12 +106,14 @@
                 else{
                     [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
                 }
+                _buyButton.userInteractionEnabled = YES;
                 
             }];
         }
     }
     else{
         [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+        _buyButton.userInteractionEnabled = YES;
     }
     
     // take current payment queue
@@ -273,6 +276,7 @@
 #pragma mark - Action Methods
 
 - (IBAction)buyButtonTapped:(id)sender {
+    _buyButton.userInteractionEnabled = NO;
     //if (_selectedProductId) {
     if([_buyButton.titleLabel.text isEqualToString:@"Read Now"]){
         //Temporarily Added For Direct Downloading
@@ -313,6 +317,7 @@
             
             [self itemReadyToUse:_selectedProductId ForTransaction:nil];
         }
+        _buyButton.userInteractionEnabled = YES;
     }
     else {
         NSLog(@"Product dose not have relative Id");

@@ -577,7 +577,7 @@
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 110)];
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 173, 134)];
         }
         else{
             storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
@@ -734,7 +734,12 @@
             
         case iCarouselOptionSpacing: {
             //add a bit of spacing between the item views
-            return value * 1.5f;
+            if([[UIDevice currentDevice] userInterfaceIdiom]== UIUserInterfaceIdiomPhone){
+                return value *1.7f;
+            }
+            else{
+                return value * 1.5f;
+            }
         }
         
         case iCarouselOptionFadeMax: {
@@ -883,7 +888,7 @@
                     
                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                         
-                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 120)];
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 130)];
                     }
                     else{
                         _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
@@ -1176,7 +1181,7 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        return UIEdgeInsetsMake(-5, 15, 0, 20);
+        return UIEdgeInsetsMake(-10, 15, 0, 20);
     }
     else{
      return UIEdgeInsetsMake(20, 20, 0, 0);
@@ -1202,7 +1207,7 @@
             if (indexPath.section == 0) {
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    return CGSizeMake(984, 115);
+                    return CGSizeMake(984, 130);
                 }
                 else{
                     return CGSizeMake(984, 240);
@@ -1219,7 +1224,7 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        return CGSizeMake(110, 170);
+        return CGSizeMake(110, 155);
     }
     else{
         return CGSizeMake(150, 240);

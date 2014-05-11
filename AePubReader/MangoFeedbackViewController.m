@@ -45,7 +45,7 @@
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
 	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ATMessageCenterUnreadCountChangedNotification object:nil];
 	
-	[[ATConnect sharedConnection] engage:@"init" fromViewController:self];
+	//[[ATConnect sharedConnection] engage:@"init" fromViewController:self];
 }
 
 - (IBAction)moveToBack:(id)sender{
