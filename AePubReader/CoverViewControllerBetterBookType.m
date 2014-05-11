@@ -17,6 +17,7 @@
 #import "MangoPromoPageViewController.h"
 #import "MBProgressHUD.h"
 
+
 @interface CoverViewControllerBetterBookType ()
 
 @end
@@ -109,17 +110,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     popoverClass = [WEPopoverController class];
     self.navigationController.navigationBarHidden=YES;
     if (_identity) {
         [self initialSetup];
     }
+    
 }
 - (IBAction)multipleLanguage:(id)sender {
     //UIButton *button=(UIButton *)sender;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    //new
     
+    //
+    _languageLabel.userInteractionEnabled = NO;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -155,7 +159,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    
+    _languageLabel.userInteractionEnabled = YES;
    _avilableLanguages = [NSMutableArray arrayWithArray:dataArray];
     NSMutableArray *languageArray = [[NSMutableArray alloc] init];
     
@@ -522,6 +526,7 @@
      [self presentModalViewController:mail animated:YES];*/
     
 }
+
 
 - (IBAction)moveToPromoPage:(id)sender{
     

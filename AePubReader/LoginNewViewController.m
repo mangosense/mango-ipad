@@ -421,13 +421,13 @@
     
     pageControlBeingUsed = NO;
    // _imageHelpView.hidden = NO;
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int notFirstTimeHelpDisplay = [[prefs valueForKey:@"FIRSTTIMEHELPDISPLAY"] integerValue];
-    if(!notFirstTimeHelpDisplay){
+  //  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+ //   int notFirstTimeHelpDisplay = [[prefs valueForKey:@"FIRSTTIMEHELPDISPLAY"] integerValue];
+   // if(!notFirstTimeHelpDisplay){
     
-      [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
-        _imageHelpView.hidden = NO;
-    }
+     // [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
+  //      _imageHelpView.hidden = NO;
+   // }
     
     
 	

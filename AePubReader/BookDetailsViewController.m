@@ -151,7 +151,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    
+    _dropDownButton.userInteractionEnabled = YES;
     NSLog(@"Data array %d", dataArray.count);
     if(![dataArray count]){
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -160,9 +160,11 @@
     
     if([type isEqualToString:@"livestories/available_languages"]){
         NSMutableArray *tempDataArray = [[NSMutableArray alloc]init];
+        NSMutableArray *tempDataArrayCanBeDuplicate = [[NSMutableArray alloc]init];
         _dropDownArrayData = [[NSMutableArray alloc] init];
         _dropDownIdArrayData = [[NSMutableArray alloc] init];
-        tempDataArray = [NSMutableArray arrayWithArray:dataArray];
+        tempDataArrayCanBeDuplicate = [NSMutableArray arrayWithArray:dataArray];
+        [tempDataArray addObjectsFromArray:[[NSSet setWithArray:tempDataArrayCanBeDuplicate] allObjects]];
         for(int i=0; i< [tempDataArray count]; ++i){
             
             [_dropDownArrayData addObject:[tempDataArray[i] objectForKey:@"language"]];
@@ -435,6 +437,8 @@
 
 
 -(IBAction)dropDownActionButtonClick{
+    
+    _dropDownButton.userInteractionEnabled = NO;
     [self availLanguagedata];
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;

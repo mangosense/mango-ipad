@@ -10,6 +10,7 @@
 #import "LanguageChoiceViewController.h"
 #import "BookDetailsViewController.h"
 #import "Constants.h"
+#import "BooksCollectionViewController.h"
 
 @interface LanguageChoiceViewController ()
 
@@ -65,6 +66,9 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    BookDetailsViewController *bookDetailView = [[BookDetailsViewController alloc] init];
+    bookDetailView.delegate = self;
     
 }
 
@@ -348,6 +352,43 @@
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     
 }
+
+- (void)openBook:(Book *)bk {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Book is already available in your library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    /*    BooksCollectionViewController *coverController;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            coverController=[[BooksCollectionViewController alloc]initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
+        }
+        else{
+            coverController=[[BooksCollectionViewController alloc]initWithNibName:@"BooksCollectionViewController" bundle:nil];
+        }
+        
+    [self.navigationController popToViewController:coverController animated:YES];*/
+        
+
+ /*   AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+     CoverViewControllerBetterBookType *coverController;
+     
+     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+     
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:identity];
+     }
+     else{
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+     }
+     
+     [self.navigationController pushViewController:coverController animated:YES];*/
+}
+
 
 #pragma mark - Get Languages
 

@@ -344,6 +344,7 @@
 
 - (IBAction)changeLanguage:(id)sender {
     //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    _languageAvailButton.userInteractionEnabled = NO;
     
     if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
         UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The multiple language feature is only available in the MangoReader app. Please download it to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -360,6 +361,8 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    _languageAvailButton.userInteractionEnabled = YES;
     
     _avilableLanguages = [NSMutableArray arrayWithArray:dataArray];
     NSMutableArray *languageArray = [[NSMutableArray alloc] init];
