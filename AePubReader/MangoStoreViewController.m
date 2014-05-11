@@ -132,9 +132,12 @@
                 if ([[response objectForKey:@"status"] integerValue] == 1){
                     
                     NSLog(@"You are already subscribed");
+                    [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
+                    
                 }
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
+                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                     
                     if(!notFirstTimeDisplay){
                     
@@ -163,9 +166,12 @@
                 if ([[response objectForKey:@"status"] integerValue] == 1){
                     
                     NSLog(@"You are already subscribed");
+                    [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
                 }
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
+                    
+                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                     
                     if(!notFirstTimeDisplay){
                         MangoSubscriptionViewController *subscriptionViewController;

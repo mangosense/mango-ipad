@@ -77,7 +77,18 @@
     
     if(!validSubscription){
         
-        if(appDelegate.subscriptionInfo){
+        int isUserSubscribed = [[prefs valueForKey:@"USERISSUBSCRIBED"] integerValue];
+        
+        if(isUserSubscribed){
+            [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+            _buyButton.userInteractionEnabled = YES;
+        }
+        else{
+            
+            [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+            _buyButton.userInteractionEnabled = YES;
+        }
+       /* if(appDelegate.subscriptionInfo){
             //provide access
             
             [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
@@ -92,9 +103,9 @@
                 }
                 _buyButton.userInteractionEnabled = YES;
             }];
-        }
+        }*/
         
-        else{
+       /* else{
             
             [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
                 NSLog(@"type --- %d", type);
@@ -109,7 +120,7 @@
                 _buyButton.userInteractionEnabled = YES;
                 
             }];
-        }
+        }*/
     }
     else{
         [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
