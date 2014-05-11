@@ -787,7 +787,7 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (appDelegate.loggedInUserInfo) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
+        //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
     }
 }
 
