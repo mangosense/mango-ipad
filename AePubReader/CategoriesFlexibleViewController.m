@@ -792,7 +792,7 @@
 }
 
 - (void)getAllPurchasedBooks {
-    MangoApiController *apiController = [MangoApiController sharedApiController];
+/*    MangoApiController *apiController = [MangoApiController sharedApiController];
     
     NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -803,7 +803,7 @@
         [paramsdict setObject:appDelegate.loggedInUserInfo.email forKey:EMAIL];
         
         [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
-    }
+    }*/
 }
 
 - (IBAction)backgroundTap:(id)sender {
