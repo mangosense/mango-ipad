@@ -20,9 +20,11 @@
 
 @interface CoverViewControllerBetterBookType ()
 
+
 @end
 
 @implementation CoverViewControllerBetterBookType
+NSString *newIdentityValue;
 @synthesize popoverControlleriPhone, popOverShareiPhone;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity
@@ -41,6 +43,11 @@
         }
     }
     return self;
+}
+
++ (void)setIdentityValue:(NSString *)value {
+    
+    newIdentityValue = value;
 }
 
 - (void)setIdentity:(NSString *)identity {
@@ -115,6 +122,8 @@
     if (_identity) {
         [self initialSetup];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCoverViewWithNotification) name:@"ReloadCoverView" object:nil];
     
 }
 - (IBAction)multipleLanguage:(id)sender {
@@ -525,6 +534,15 @@
      [mail setMessageBody:body isHTML:NO];
      [self presentModalViewController:mail animated:YES];*/
     
+}
+
+
+- (void) reloadCoverViewWithNotification{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    _book= [delegate.dataModel getBookOfId:newIdentityValue];
+    _identity = newIdentityValue;
+    [self initialSetup];
 }
 
 

@@ -87,13 +87,13 @@
     [_textButton setFrame:CGRectMake(_buyBookButton.frame.origin.x + _buyBookButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
     [_imageButton setFrame:CGRectMake(_textButton.frame.origin.x + _textButton.frame.size.width, _frameImageView.frame.size.height + 3, 32, 37)];
 
-/*    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
         _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 102, 16);
     }
     else{
         _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 16);
-    }*/
+    }
     
     
 }

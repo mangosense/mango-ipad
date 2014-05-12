@@ -22,6 +22,7 @@
     NSString *ID;
     NSString *viewName;
     Class popoverClass;
+   
 }
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *games;
@@ -34,6 +35,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property(strong,nonatomic) NSString *identity;
+
 @property(strong,nonatomic) Book *book;
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
@@ -46,5 +48,6 @@
 - (IBAction)bookCoverSelection:(id)sender;
 - (IBAction)lastPage:(id)sender;
 - (IBAction)moveToPromoPage:(id)sender;
++ (void)setIdentityValue:(NSString *)value;
 
 @end

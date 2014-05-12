@@ -11,6 +11,7 @@
 #import "BookDetailsViewController.h"
 #import "Constants.h"
 #import "BooksCollectionViewController.h"
+#import "CoverViewControllerBetterBookType.h"
 
 @interface LanguageChoiceViewController ()
 
@@ -255,7 +256,25 @@
     NSLog(@"My array is %@", dataArray);
     NSMutableArray *tempItemArray = [[NSMutableArray alloc] init];
     tempItemArray = [NSMutableArray arrayWithArray:dataArray];
-    [self showBookDetailsForBook:tempItemArray[0]];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    Book *bk=[appDelegate.dataModel getBookOfEJDBId:val];
+    
+    if (bk) {
+        
+        if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
+            [self showBookDetailsForBook:tempItemArray[0]];
+        }
+        else{
+            
+            [self openBook:bk];
+            [_delegate dismissPopOver];
+        }
+        
+    } else {
+    
+        [self showBookDetailsForBook:tempItemArray[0]];
+    }
 }
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
@@ -355,22 +374,35 @@
 
 - (void)openBook:(Book *)bk {
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Book is already available in your library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+    
+    [CoverViewControllerBetterBookType setIdentityValue:identity];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
+    
+    if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Book is already available in your library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    /*    BooksCollectionViewController *coverController;
-        
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            
-            coverController=[[BooksCollectionViewController alloc]initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
-        }
-        else{
-            coverController=[[BooksCollectionViewController alloc]initWithNibName:@"BooksCollectionViewController" bundle:nil];
-        }
-        
+    
+     
+   /*  CoverViewControllerBetterBookType *coverController;
+     
+     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+     
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:identity];
+     }
+     else{
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+     }
+     
     [self.navigationController popToViewController:coverController animated:YES];*/
-        
+    
 
  /*   AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *identity=[NSString stringWithFormat:@"%@", bk.id];

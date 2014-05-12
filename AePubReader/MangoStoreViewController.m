@@ -681,14 +681,16 @@
                 bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
             }
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-            if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+            
+            bookDetailsViewController.priceLabel.text =  [[bookDict objectForKey:@"info"] valueForKey:@"language"];
+           // if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
                 bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
             //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-            }
-            else{
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+          //  }
+         //   else{
+         //   bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
                 //[bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-            }
+         //   }
             
             if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
                 bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
@@ -864,10 +866,12 @@
 
 - (void)setupCollectionViewCell:(StoreBookCell *)cell WithDict:(NSDictionary *)bookDict {
     if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-        cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
+       // cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
+        cell.bookPriceLabel.text = [[bookDict objectForKey:@"info"] valueForKey:@"language"];
     }
     else{
-        cell.bookPriceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+      //  cell.bookPriceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+        cell.bookPriceLabel.text = [[bookDict objectForKey:@"info"] valueForKey:@"language"];
     }
     cell.bookPriceLabel.font = [UIFont systemFontOfSize:14];
     
@@ -1090,14 +1094,17 @@
         }
         
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+        
+       // if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+          //  bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+            
        //     [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-        }
-        else{
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+      //  }
+      //  else{
+       //     bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
       //      [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-        }
+      //  }
+        bookDetailsViewController.priceLabel.text =  [[bookDict objectForKey:@"info"] valueForKey:@"language"];
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
             bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
