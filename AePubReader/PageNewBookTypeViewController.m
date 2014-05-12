@@ -105,6 +105,13 @@
     tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
     [self.view addGestureRecognizer:tapGesture];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissMyBookViewBackAgainToCover) name:@"DismissBookPageView" object:nil];
+    
+}
+
+- (void) dismissMyBookViewBackAgainToCover{
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)hideAllButtons:(BOOL)hide {
@@ -169,6 +176,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [_audioMappingViewController.timer invalidate];
     [_audioMappingViewController.player stop];
+    
+    
 }
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;

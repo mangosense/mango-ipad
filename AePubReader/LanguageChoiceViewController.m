@@ -263,13 +263,18 @@
     if (bk) {
         
         if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
-            [self showBookDetailsForBook:tempItemArray[0]];
+           // [self showBookDetailsForBook:tempItemArray[0]];
+            
+            [self openBook:bk];
+            
         }
         else{
             
+            
             [self openBook:bk];
-            [_delegate dismissPopOver];
+            
         }
+            [_delegate dismissPopOver];
         
     } else {
     
@@ -384,11 +389,12 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
     
     if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Book is already available in your library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        
+       // DismissBookPageView
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissBookPageView" object:self];
+        
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
     
      
    /*  CoverViewControllerBetterBookType *coverController;
