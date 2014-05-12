@@ -73,7 +73,7 @@
         
         _bookPriceLabel.textColor = COLOR_DARK_RED;
         
-//        [self addSubview:_bookPriceLabel];
+        [self addSubview:_bookPriceLabel];
 
     }
     return self;
