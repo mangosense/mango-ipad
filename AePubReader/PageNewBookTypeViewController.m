@@ -108,7 +108,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissMyBookViewBackAgainToCover) name:@"DismissBookPageView" object:nil];
     
 }
+- (void) dismissByLangSelection{
+   
+    [self.navigationController popViewControllerAnimated:YES];
+    refreshCover = true;
 
+}
 - (void) dismissMyBookViewBackAgainToCover{
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -173,12 +178,13 @@
     //[self.navigationController popToViewController:delegate.pageViewController animated:YES];
     
 }
--(void)viewWillDisappear:(BOOL)animated{
-    [_audioMappingViewController.timer invalidate];
+//-(void)viewWillDisappear:(BOOL)animated{
+    /*[_audioMappingViewController.timer invalidate];
     [_audioMappingViewController.player stop];
+    _audioMappingViewController.player = nil;
+    */
     
-    
-}
+//}
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;
     _showOptionButton.hidden=NO;
@@ -1088,7 +1094,10 @@
     }
 }
 
+
+
 - (void) viewDidDisappear:(BOOL)animated{
+    
     
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -1100,6 +1109,8 @@
     else{
         bookGrade = _bookGradeLevel;
     }
+    
+    
     
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
@@ -1241,7 +1252,11 @@
             
             [userObject saveInBackground];
         }
+        if (refreshCover){
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
+        }
     }];
+   
 }
 
 @end

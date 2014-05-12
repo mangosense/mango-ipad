@@ -24,6 +24,7 @@
     NSString *ID;
     NSString *viewName;
     Class popoverClass;
+    BOOL refreshCover;
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;

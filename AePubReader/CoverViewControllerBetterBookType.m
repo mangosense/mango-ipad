@@ -542,7 +542,11 @@ NSString *newIdentityValue;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     _book= [delegate.dataModel getBookOfId:newIdentityValue];
     _identity = newIdentityValue;
-    [self initialSetup];
+    
+    if (_identity) {
+        [self initialSetup];
+    }
+    
 }
 
 

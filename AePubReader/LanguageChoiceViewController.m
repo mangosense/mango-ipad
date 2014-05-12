@@ -262,18 +262,22 @@
     
     if (bk) {
         
-        if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
-           // [self showBookDetailsForBook:tempItemArray[0]];
-            
-            [self openBook:bk];
-            
-        }
-        else{
-            
-            
-            [self openBook:bk];
-            
-        }
+        [self openBook:bk];
+        [self closeDetails:nil];
+    
+    
+//        if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
+//           // [self showBookDetailsForBook:tempItemArray[0]];
+//            
+//            [self openBook:bk];
+//            
+//        }
+//        else{
+//            
+//            
+//            [self openBook:bk];
+//            
+//        }
             [_delegate dismissPopOver];
         
     } else {
@@ -386,12 +390,17 @@
     
     [CoverViewControllerBetterBookType setIdentityValue:identity];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
     
     if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
         
        // DismissBookPageView
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissBookPageView" object:self];
+        if ([self isMovingFromParentViewController])
+        {
+            
+                self.navigationController.delegate = nil;
+        }
+        
         
     }
     
@@ -425,6 +434,12 @@
      }
      
      [self.navigationController pushViewController:coverController animated:YES];*/
+}
+
+- (IBAction)closeDetails:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^(void) {
+        //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
+    }];
 }
 
 
