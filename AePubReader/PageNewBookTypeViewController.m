@@ -850,6 +850,7 @@
             textFrame = CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.35);
         }
         [pageView addSubview:audioMappingViewcontroller.view];
+        [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         [audioMappingViewcontroller.view setHidden:YES];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
         [audioMappingViewcontroller.view setExclusiveTouch:YES];
@@ -896,6 +897,9 @@
                 else if ([trimmedFamily hasPrefix:@"Helvetica"]){
                     fFamily = @"HelveticaNeue";
                 }
+                else if ([trimmedFamily hasPrefix:@"Arial"]){
+                    fFamily = @"ArialMT";
+                }
 
                 
                 NSString *trimmedStyle = [fontStyle stringByTrimmingCharactersInSet:
@@ -903,7 +907,7 @@
                 // Find the style of the family
                 NSString *fStyle;
                 if ([fontWeight hasPrefix:@"bold"] && [fontStyle isKindOfClass:NULL]){
-                    if([fFamily isEqualToString:@"TimesNewRomanPS"])
+                    if([fFamily isEqualToString:@"TimesNewRomanPS"] || [fFamily isEqualToString:@"ArialMT"])
                         fStyle = @"-BoldMT";
                     else if([fFamily isEqualToString:@"mono"])
                         fStyle = @"Bold";
@@ -913,7 +917,7 @@
                 }else if ([fontWeight hasPrefix:@"bold"] && [fontStyle hasPrefix:@"italic"]) {
                     if ([fFamily isEqualToString:@"Tahoma"])
                          fStyle = @"-BoldFauxItalic";
-                    else if ([fFamily isEqualToString:@"TimesNewRomanPS"])
+                    else if ([fFamily isEqualToString:@"TimesNewRomanPS"] || [fFamily isEqualToString:@"ArialMT"])
                           fStyle = @"-BoldItalicMT";
                     else if([fFamily isEqualToString:@"mono"])
                         fStyle = @"BoldOblique";
@@ -925,7 +929,7 @@
                 }else if ([fontStyle hasPrefix:@"bold"] && [fontWeight isKindOfClass:NULL]){
                     if ([fFamily isEqualToString:@"Tahoma"])
                         fStyle = @"-FauxItalic";
-                    else if ([fFamily isEqualToString:@"TimesNewRomanPS"])
+                    else if ([fFamily isEqualToString:@"TimesNewRomanPS"] || [fFamily isEqualToString:@"ArialMT"])
                         fStyle = @"-ItalicMT";
                     else if([fFamily isEqualToString:@"mono"])
                         fStyle = @"Oblique";
@@ -938,6 +942,15 @@
                     fStyle=@"";
                 }
                 
+                if(!fontSize){
+                    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                        fontSize = @"12";
+                    }
+                    else{
+                        fontSize = @"25";
+                    }
+                }
+                
                 font = [UIFont fontWithName:[fFamily stringByAppendingString:fStyle]
                                        size:[fontSize floatValue]];
             }
@@ -946,6 +959,7 @@
 
         audioMappingViewcontroller.mangoTextField.frame = textFrame;
         audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
+        [_pageView bringSubviewToFront:audioMappingViewcontroller.mangoTextField];
         
         if ([[textDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[textDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
             
@@ -973,6 +987,12 @@
             audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
         }
         [pageView addSubview:audioMappingViewcontroller.mangoTextField];
+        [pageView bringSubviewToFront:audioMappingViewcontroller.view];
+        
+        [pageView bringSubviewToFront:[audioMappingViewcontroller.view superview]];
+        // Now, inside that container view, get the "grandchildview" to front.
+        [[audioMappingViewcontroller.view superview] bringSubviewToFront:audioMappingViewcontroller.view];
+        
         audioMappingViewcontroller.textForMapping = textOnPage;
         
         NSString *audio_id = [textDict objectForKey:@"audio_id"];
@@ -1028,6 +1048,7 @@
             }
         }
     }
+    
     if ([[pageView subviews] count] > 0) {
         return pageView;
     }

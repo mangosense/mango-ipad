@@ -51,7 +51,7 @@
         
       //  _frameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130, 137)];
         [_frameImageView setImage:[UIImage imageNamed:@"bookframe.png"]];
-        [self addSubview:_frameImageView];
+       // [self addSubview:_frameImageView];
         
         /*readPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, _frameImageView.frame.size.height + 3, 64, 37)];
         [readPreviewButton setTitle:@"Read" forState:UIControlStateNormal];
