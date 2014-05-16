@@ -37,6 +37,12 @@
     return self;
 }
 
+- (void) checkIfViewFromBookDetail : (int) value{
+    
+    fromBookDetail = value;
+    
+}
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
@@ -45,6 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _settingsProbSupportView.alpha = 0.4f;
     // Do any additional setup after loading the view from its nib.
     
    // datePicker.timeZone = [NSTimeZone timeZoneWithName: @"PST"];
@@ -128,29 +135,74 @@
                     }
                 }
             }
-            
         }
-        
     }
 }
 
      
-     
-     
+#pragma show subscription plans or not
+
+- (IBAction)displySubacriptionOrNot:(id)sender{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    int parentalControlAge = ([yearString integerValue] - [_textQuesSolution.text integerValue]);
+    [_textQuesSolution resignFirstResponder];
+    if((parentalControlAge >= 13) && (parentalControlAge <=100)){
+        //show subscription plans
+        _settingsProbSupportView.hidden = YES;
+        _settingsProbView.hidden = YES;
+    }
+    else{
+        //close subscription plan
+        [self backButtonTapped:0];
+    }
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)backButtonTapped:(id)sender {
-    [self.presentingViewController.presentingViewController
-     dismissViewControllerAnimated:YES
-     completion:nil];
-    [self dismissViewControllerAnimated:YES completion:^{
+
+    if(fromBookDetail){
+        [self.presentingViewController.presentingViewController
+         dismissViewControllerAnimated:YES
+            completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
         
-    }];
+        }];
+    }
+    else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+//hide keyboard on background tap
+
+- (IBAction)backgroundTap:(id)sender {
+    [_textQuesSolution resignFirstResponder];
+    
+}
+
+#pragma buy product
+
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
 }
 
 - (IBAction)subscribeButtonTapped:(id)sender {
    // UIButton *button = (UIButton *)sender;
     NSString *productId;
+    
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     
     for(id object in _arraySubscriptionPlan){
         
@@ -172,11 +224,9 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //put progress hud here ...
     
-    
-   /* NSString* str = @"teststring";
-    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [self itemReadyToUse:productId ForTransaction:@"535a2316566173e8e90b0000" withReciptData:data andAmount:@"12"];*/
+    //Test Story as App//
+    //[self updateBookProgress:0];
+    //
 }
 
 #pragma mark - PurchaseManager Delegate Methods
@@ -211,10 +261,26 @@
 
 - (void)updateBookProgress:(int)progress{
     
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+    [alert show];
+    [self backButtonTapped:0];
+    
+    //Test for story as app HARISH
+/*    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if (path){
+        
+        [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+        
+        [_subscriptionDelegate loadLandingPage];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }*/
+    
+    //
 }
 
 /*- (IBAction)restoreSubscription:(id)sender{
-    
+ 
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
         NSLog(@"Updated Transactions: %@", transactions);

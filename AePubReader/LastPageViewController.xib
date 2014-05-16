@@ -200,8 +200,7 @@
                             <rect key="frame" x="297" y="86" width="538" height="72"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
-                            <state key="normal">
-                                <string key="title">MangoReader - Interactive kids books with animations, Read-Along Educational stories for Children, Parents and Teachers, learning games, mango reader</string>
+                            <state key="normal" title="Subscribe MangoReader  -  and turn Turn reading into your child's favorite activity">
                                 <color key="titleColor" red="0.47128109060000001" green="0.02223251389" blue="0.074662656270000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>

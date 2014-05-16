@@ -336,6 +336,7 @@
         NSLog(@"Product dose not have relative Id");
         
         MangoSubscriptionViewController *subscriptionViewController;
+        
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
@@ -343,6 +344,7 @@
         else{
             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
         }
+        [subscriptionViewController checkIfViewFromBookDetail:1];
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentViewController:subscriptionViewController animated:YES completion:nil];
         

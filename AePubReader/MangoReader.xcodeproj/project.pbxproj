@@ -863,20 +863,6 @@
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		3F22640D191E70D400E5CD62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2846B3F6191E54A60062CEC7 /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
-			remoteInfo = EJDBKitTests64;
-		};
-		3F226412191E70D400E5CD62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
-			remoteInfo = EJDBKitTests64;
-		};
 		3FD8B0ED18EDBB1C003A2DED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */;
@@ -2122,7 +2108,6 @@
 			children = (
 				2846B3FC191E54A70062CEC7 /* libEJDBKit.a */,
 				2846B3FE191E54A70062CEC7 /* EJDBKitTests.xctest */,
-				3F22640E191E70D400E5CD62 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2172,7 +2157,6 @@
 				29A650FB18979E6F00A33A15 /* iCarouselImageView.h */,
 				29A650FC18979E6F00A33A15 /* iCarouselImageView.m */,
 				835FE3E71863299E009D2BC7 /* MBProgressHUD.h */,
-				835FE3E81863299E009D2BC7 /* MBProgressHUD.m */,
 				8370893D185F161900946376 /* Login */,
 				83BB3EAE185B565800BA5ED7 /* Mango Games */,
 				838048501850586C006BBA47 /* AFNetworking */,
@@ -2364,7 +2348,6 @@
 			children = (
 				3FD8B0EE18EDBB1C003A2DED /* libEJDBKit.a */,
 				3FD8B0F018EDBB1C003A2DED /* EJDBKitTests.xctest */,
-				3F226413191E70D400E5CD62 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2924,6 +2907,7 @@
 		83E9ADDA184DA2050025BBD6 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				835FE3E81863299E009D2BC7 /* MBProgressHUD.m */,
 				68CACAC618C0D39C000FF135 /* DropDownView.m */,
 				68CACAC718C0D39D000FF135 /* DropDownView.h */,
 				83AB60B418AC0F0F004A040E /* greenButton.png */,
@@ -3793,20 +3777,6 @@
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
 			remoteRef = 2846B3FD191E54A70062CEC7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F22640E191E70D400E5CD62 /* EJDBKitTests64.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests64.xctest;
-			remoteRef = 3F22640D191E70D400E5CD62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F226413191E70D400E5CD62 /* EJDBKitTests64.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests64.xctest;
-			remoteRef = 3F226412191E70D400E5CD62 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3FD8B0EE18EDBB1C003A2DED /* libEJDBKit.a */ = {
@@ -4688,8 +4658,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4748,8 +4718,8 @@
 					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "76860BD3-BAAC-4A47-AA4A-53C484406321";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76860BD3-BAAC-4A47-AA4A-53C484406321";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4761,8 +4731,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = MangoReader.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jagdish Repaswal (FKU6U57CR3)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4818,8 +4788,8 @@
 					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "76860BD3-BAAC-4A47-AA4A-53C484406321";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76860BD3-BAAC-4A47-AA4A-53C484406321";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;

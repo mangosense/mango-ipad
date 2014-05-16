@@ -71,6 +71,8 @@
                     } else {
                         transactionId = transaction.transactionIdentifier;
                     }
+                    
+                    
                     [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                     
                 }
@@ -156,6 +158,11 @@
 
 - (void)validateReceipt:(NSString *)productId ForTransactionId:(NSString *)transactionId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
     //Use this when receipt_validate is error free
+    
+    //TEST for storyas app
+    [delegate updateBookProgress:0];
+    //Test end
+    
     NSLog(@"%@", receiptData);
     [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
        // [delegate itemReadyToUse:productId ForTransaction:transactionId];
@@ -165,9 +172,11 @@
             NSString *expireDate = [response objectForKey:@"expires_at"];
             [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
             [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
-           // if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
-               // [delegate updateBookProgress:0];
-            //}
+//            if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
+//                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+//                [delegate updateBookProgress:0];
+//                }
+//            }
         }
         else {
             NSLog(@"ReceiptError:%@", error);

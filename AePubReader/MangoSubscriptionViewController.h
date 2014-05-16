@@ -10,11 +10,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PurchaseManager.h"
 #import "MangoApiController.h"
+#import "LandPageChoiceViewController.h"
+
 
 
 @protocol SubscriptionProtocol <NSObject>
 
 - (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId withReciptData:(NSData*)recipt andAmount:(NSString *)amount;
+
+- (void)loadLandingPage;
 
 @end
 
@@ -24,6 +28,7 @@
     NSString *userDeviceID;
     NSString *userId;
     NSString *ID;
+    int fromBookDetail;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *monthlySubscriptionView;
@@ -46,11 +51,16 @@
 @property (nonatomic, strong) UIButton *buttonPlan1;
 @property (nonatomic, strong) UIButton *buttonPlan2;
 @property (nonatomic, strong) UIButton *buttonPlan3;
+@property (nonatomic, strong) id<SubscriptionProtocol> subscriptionDelegate;
 
-
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 
 - (IBAction)backButtonTapped:(id)sender;
-
 - (IBAction)restoreSubscription:(id)sender;
+- (void) checkIfViewFromBookDetail : (int) value;
+- (IBAction)displySubacriptionOrNot:(id)sender;
+- (IBAction)backgroundTap:(id)sender;
 
 @end

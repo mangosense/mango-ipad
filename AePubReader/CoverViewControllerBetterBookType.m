@@ -51,8 +51,12 @@ NSString *newIdentityValue;
 }
 
 - (void)setIdentity:(NSString *)identity {
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path) {
+    if ((path) && (!validSubscription)) {
         _identity = identity;
         AePubReaderAppDelegate *delegate = (AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         _book = [delegate.dataModel getBookOfId:identity];

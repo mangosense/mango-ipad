@@ -11,10 +11,11 @@
 #import "CoverViewControllerBetterBookType.h"
 #import "Book.h"
 #import "BookDetailsViewController.h"
+#import "MangoSubscriptionViewController.h"
 
 
 
-@interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol>{
+@interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol, SubscriptionProtocol>{
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;

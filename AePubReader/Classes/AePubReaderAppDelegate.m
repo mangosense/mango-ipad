@@ -54,13 +54,14 @@ static UIAlertView *alertViewLoading;
     _ejdbController = [[EJDBController alloc] initWithCollectionName:@"MangoCollection" andDatabaseName:@"MangoDb.db"];
     
     _prek=NO;
-    //Parse
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
-   //My test account id and key
+    //Parse MangoReader Original App -
    // [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-   //                    clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    
+   //MangoReader_Test app for testing
+    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
+                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
@@ -118,11 +119,14 @@ static UIAlertView *alertViewLoading;
 //        self.window.rootViewController = nav;
 //        [self.window makeKeyAndVisible];
 //    } else {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+        //validSubscription = 1;//test storyasapp
         CustomNavViewController *nav;
         if (uiNew) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
 
-            if (path) {
+            if ((path)&& (!validSubscription)) {
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     

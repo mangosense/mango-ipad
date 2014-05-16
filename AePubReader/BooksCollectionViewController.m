@@ -212,7 +212,7 @@
 #pragma mark - UICollectionView Delegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Index Path %@", [_categorySelected objectForKey:NAME]);
+   // NSLog(@"Index Path %@", [_categorySelected objectForKey:NAME]);
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     switch (indexPath.row) {
         case 0: {

@@ -15,8 +15,8 @@
 #import "MangoGamesListViewController.h"
 #import "MangoStoreViewController.h"
 #import <Parse/Parse.h>
-#import "MangoSubscriptionViewController.h"
 #import "CargoBay.h"
+#import "LandPageChoiceViewController.h"
 
 @interface LastPageViewController ()
 
@@ -92,6 +92,7 @@
                 else{
                         
                         MangoSubscriptionViewController *subscriptionViewController;
+                    subscriptionViewController.subscriptionDelegate = self;
                         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                             
                             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
@@ -121,6 +122,7 @@
                 else{
                     
                         MangoSubscriptionViewController *subscriptionViewController;
+                        subscriptionViewController.subscriptionDelegate = self;
                         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                             
                             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
@@ -558,6 +560,16 @@
     }
     
     [self.navigationController pushViewController:coverController animated:YES];
+}
+
+#pragma delegate move to landing page
+
+- (void)loadLandingPage{
+    
+    LandPageChoiceViewController *loadLandingPage;
+    loadLandingPage = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    [self.navigationController pushViewController:loadLandingPage animated:YES];
+    
 }
 
 
