@@ -269,15 +269,17 @@
     
     //Test for story as app HARISH
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path){
+    if (path && validUserSubscription){
         
         [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
         
         //LoginNewViewController *loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController" bundle:nil];
        // [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
         LandPageChoiceViewController *myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
-        
+    
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
         //now present this navigation controller as modally
         //[self presentModalViewController:navigationController animated:YES];
