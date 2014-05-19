@@ -16,6 +16,7 @@
     NSString *viewName;
     BOOL settingSol;
     int quesSolution;
+    NSString *udid;
 }
 - (IBAction)creatAStory:(id)sender;
 - (IBAction)openFreeStories:(id)sender;

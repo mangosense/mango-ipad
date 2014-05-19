@@ -16,6 +16,7 @@
 
 @protocol SubscriptionProtocol <NSObject>
 
+@optional
 - (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId withReciptData:(NSData*)recipt andAmount:(NSString *)amount;
 
 - (void)loadLandingPage;
@@ -51,7 +52,7 @@
 @property (nonatomic, strong) UIButton *buttonPlan1;
 @property (nonatomic, strong) UIButton *buttonPlan2;
 @property (nonatomic, strong) UIButton *buttonPlan3;
-@property (nonatomic, strong) id<SubscriptionProtocol> subscriptionDelegate;
+@property (nonatomic, assign) id <SubscriptionProtocol> subscriptionDelegate;
 
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;

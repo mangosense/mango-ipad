@@ -25,6 +25,8 @@
     NSString *viewName;
     Class popoverClass;
     BOOL refreshCover;
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;

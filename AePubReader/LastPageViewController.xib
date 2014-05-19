@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -193,28 +193,28 @@
                     </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M3B-67-wVo">
-                    <rect key="frame" x="0.0" y="418" width="1024" height="350"/>
+                    <rect key="frame" x="0.0" y="324" width="1024" height="444"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="55Y-IU-k2T">
-                            <rect key="frame" x="297" y="86" width="538" height="72"/>
+                            <rect key="frame" x="356" y="77" width="312" height="72"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
-                            <state key="normal" title="Subscribe MangoReader  -  and turn Turn reading into your child's favorite activity">
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                            <state key="normal" title="Subscribe MangoReader - and get unlimited access to over 500 stories">
                                 <color key="titleColor" red="0.47128109060000001" green="0.02223251389" blue="0.074662656270000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
-                                <action selector="mangoReaderAppStoreLink:" destination="-1" eventType="touchUpInside" id="tuT-88-ujY"/>
+                                <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="TUO-Dn-IqS"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TuY-dr-b9E">
-                            <rect key="frame" x="189" y="62" width="100" height="100"/>
+                            <rect key="frame" x="379" y="0.0" width="266" height="73"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="mangoreader-app-icon-120x120.png">
+                            <state key="normal" backgroundImage="subscribe_mangoreader.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="mangoReaderAppStoreLink:" destination="-1" eventType="touchUpInside" id="ntD-8G-1IO"/>
+                                <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="MSJ-Mx-G93"/>
                             </connections>
                         </button>
                     </subviews>
@@ -231,7 +231,7 @@
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readagain.png" width="257" height="73"/>
         <image name="icons_shareActual.png" width="257" height="73"/>
-        <image name="mangoreader-app-icon-120x120.png" width="120" height="120"/>
         <image name="reader_bookcover_bg.png" width="1024" height="768"/>
+        <image name="subscribe_mangoreader.png" width="257" height="73"/>
     </resources>
 </document>

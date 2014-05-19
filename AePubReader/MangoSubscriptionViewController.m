@@ -11,6 +11,8 @@
 #import "AePubReaderAppDelegate.h"
 #import "CargoBay.h"
 #import "Constants.h"
+#import "CustomNavViewController.h"
+#import "LandPageChoiceViewController.h"
 
 
 #define MONTHLY_TAG 9
@@ -225,7 +227,7 @@
     //put progress hud here ...
     
     //Test Story as App//
-    //[self updateBookProgress:0];
+   // [self updateBookProgress:0];
     //
 }
 
@@ -261,20 +263,27 @@
 
 - (void)updateBookProgress:(int)progress{
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+ /*   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
     [alert show];
-    [self backButtonTapped:0];
+    [self backButtonTapped:0];*/
     
     //Test for story as app HARISH
-/*    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     if (path){
         
         [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
         
-        [_subscriptionDelegate loadLandingPage];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }*/
+        //LoginNewViewController *loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController" bundle:nil];
+       // [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+        LandPageChoiceViewController *myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
+        //now present this navigation controller as modally
+        //[self presentModalViewController:navigationController animated:YES];
+        [self presentViewController:navigationController animated:YES completion:nil];
+        
+    }
     
     //
 }

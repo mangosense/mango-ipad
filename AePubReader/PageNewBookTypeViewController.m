@@ -77,6 +77,10 @@
         ID = userEmail;
     }
     
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
     openingTime = [NSDate date];
     
     // Do any additional setup after loading the view from its nib.
@@ -347,9 +351,21 @@
 }
 
 - (IBAction)editButton:(id)sender {
-    if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
-        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The 'edit' feature is only available in the MangoReader app. Please download the MangoReader app to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [editAlertView show];
+    if (!validUserSubscription && storyAsAppFilePath) {
+       // UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The 'edit' feature is only available in the MangoReader app. Please download the MangoReader app to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+       // [editAlertView show];
+        MangoSubscriptionViewController *subscriptionViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
+        
     } else {
         UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Create your own version" message:@"This will create a new version of this book which you can edit. The old version will be saved too. Do you want to continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         editAlertView.tag = FORK_TAG;
@@ -361,10 +377,10 @@
     //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     _languageAvailButton.userInteractionEnabled = NO;
     
-    if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+   /* if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
         UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The multiple language feature is only available in the MangoReader app. Please download it to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [editAlertView show];
-    } else {
+    } else {*/
         MangoApiController *apiController = [MangoApiController sharedApiController];
         NSString *url;
         url = LANGUAGES_FOR_BOOK;
@@ -372,7 +388,7 @@
         [paramDict setObject:_bookId forKey:@"story_id"];
         [paramDict setObject:IOS forKey:PLATFORM];
         [apiController getListOf:url ForParameters:paramDict withDelegate:self];
-    }
+  //  }
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {

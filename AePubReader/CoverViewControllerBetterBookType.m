@@ -160,7 +160,7 @@ NSString *newIdentityValue;
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
 
-    if (![[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+ //   if (![[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
         MangoApiController *apiController = [MangoApiController sharedApiController];
         NSString *url;
         url = LANGUAGES_FOR_BOOK;
@@ -168,7 +168,7 @@ NSString *newIdentityValue;
         [paramDict setObject:currentBookId forKey:@"story_id"];
         [paramDict setObject:IOS forKey:PLATFORM];
         [apiController getListOf:url ForParameters:paramDict withDelegate:self];
-    }
+  //  }
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {

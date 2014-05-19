@@ -20,6 +20,8 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -48,7 +50,7 @@
 - (IBAction)bookTapped:(id)sender;
 - (IBAction)socialSharingOrLike :(id)sender;
 - (IBAction)backButtonTap:(id)sender;
-- (IBAction)mangoReaderAppStoreLink:(id)sender;
 - (void) loadRecommendedBooks;
+- (IBAction)clickOnSubscribe:(id)sender;
 
 @end

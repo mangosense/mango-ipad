@@ -160,7 +160,7 @@
     //Use this when receipt_validate is error free
     
     //TEST for storyas app
-    [delegate updateBookProgress:0];
+    //[delegate updateBookProgress:0];
     //Test end
     
     NSLog(@"%@", receiptData);
@@ -172,11 +172,11 @@
             NSString *expireDate = [response objectForKey:@"expires_at"];
             [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
             [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
-//            if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
-//                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
-//                [delegate updateBookProgress:0];
-//                }
-//            }
+            if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
+                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                      [delegate updateBookProgress:0];
+                }
+            }
         }
         else {
             NSLog(@"ReceiptError:%@", error);

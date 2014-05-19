@@ -43,16 +43,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.hidden = YES;
     _settingsProbSupportView.alpha = 0.4f;
     viewName = @"Home page";
-    if(!userEmail){
-        ID = userDeviceID;
-        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"loginLock.png"] forState:UIControlStateNormal];
-    }
-    else{
-        ID = userEmail;
-        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
-    }
+    
     // Do any additional setup after loading the view from its nib.
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -63,6 +57,29 @@
     if ([subscriptionPlans count] > 0) {
         delegate.subscriptionInfo = [subscriptionPlans lastObject];
     }
+    
+    if(!userEmail){
+        ID = userDeviceID;
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"loginLock.png"] forState:UIControlStateNormal];
+    }
+    else{
+        ID = userEmail;
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
+    }
+    
+    if(!ID){
+        udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        delegate.deviceId = udid;
+        ID = udid;
+    }
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    NSString *storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if(storyAsAppFilePath && (validUserSubscription)){
+        [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
+    }
+    
 }
 
 - (BOOL)prefersStatusBarHidden

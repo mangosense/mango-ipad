@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <Social/Social.h>
 #import "AePubReaderAppDelegate.h"
+#import "CoverViewControllerBetterBookType.h"
 
 
 @interface LoginNewViewController ()
@@ -112,7 +113,13 @@
       //  [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
         [self loadHelpImagesScroll];
     //}
-
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if(storyAsAppFilePath && (!validUserSubscription)){
+        _helpButton.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -228,21 +235,44 @@
 
 - (void)goToNext {
     
-    LandPageChoiceViewController *landingPageViewController;
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    CoverViewControllerBetterBookType *coverViewController;
+    if(storyAsAppFilePath && (!validUserSubscription)){
         
-        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
+        }
+        else {
+            coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+        }
+        coverViewController.identity = _identity;
+        [self.navigationController pushViewController:coverViewController animated:YES];
     }
     else{
-        landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        LandPageChoiceViewController *landingPageViewController;
+    
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+            landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+        }
+        else{
+            landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        }
+        [self.navigationController pushViewController:landingPageViewController animated:YES];
     }
-    [self.navigationController pushViewController:landingPageViewController animated:YES];
 }
 
 - (IBAction)goToNextSkip:(id)sender {
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Skip Signin" message:@"Are you sure you want to skip unlimited access to interactive books!" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    NSString *alertMessage;
+    if(storyAsAppFilePath && (!validUserSubscription)){
+        alertMessage = @"Are you sure you want to skip";
+    }
+    else{
+        alertMessage = @"Are you sure you want to skip unlimited access to interactive books!";
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Skip Signin" message:alertMessage delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     [alert show];
 }
 
@@ -395,18 +425,32 @@
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
             
-            LandPageChoiceViewController *landingPageViewController;
-            
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            CoverViewControllerBetterBookType *coverViewController;
+            if(storyAsAppFilePath && (!validUserSubscription)){
                 
-                landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                    coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
+                }
+                else {
+                    coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                }
+                coverViewController.identity = _identity;
+                [self.navigationController pushViewController:coverViewController animated:YES];
             }
             else{
-                landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+                LandPageChoiceViewController *landingPageViewController;
+            
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                    landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+                }
+                else{
+                    landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+                }
+            
+                [self.navigationController pushViewController:landingPageViewController animated:YES];
             }
-            
-            [self.navigationController pushViewController:landingPageViewController animated:YES];
-            
         }
         else{
             
@@ -497,6 +541,5 @@
 - (IBAction)showHelpPageView:(id)sender{
     _imageHelpView.hidden = NO;
 }
-
 
 @end

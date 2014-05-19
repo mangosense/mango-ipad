@@ -17,6 +17,7 @@
 #import "UserInfo.h"
 #import "BookDetailsViewController.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "LandPageChoiceViewController.h"
 #import "SubscriptionInfo.h"
 #import "Appirater.h"
 
@@ -54,6 +55,7 @@
 @property (strong,nonatomic) SKProduct *product;
 @property (strong,nonatomic) SKPaymentTransaction *transaction;
 @property (strong,nonatomic) LoginNewViewController *loginController;
+@property (strong,nonatomic) LandPageChoiceViewController *landpageController;
 
 @property (nonatomic, strong) UserInfo *loggedInUserInfo;
 @property (nonatomic, strong) SubscriptionInfo *subscriptionInfo;

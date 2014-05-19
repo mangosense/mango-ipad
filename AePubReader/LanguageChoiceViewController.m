@@ -260,6 +260,29 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     Book *bk=[appDelegate.dataModel getBookOfEJDBId:val];
     
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if ((path) && (!validSubscription)) {
+        
+        [_delegate dismissPopOver];
+        
+        MangoSubscriptionViewController *subscriptionViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
+    }
+    
+    else{
+    
     if (bk) {
         
         [self openBook:bk];
@@ -268,14 +291,7 @@
     
 //        if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
 //           // [self showBookDetailsForBook:tempItemArray[0]];
-//            
-//            [self openBook:bk];
-//            
-//        }
-//        else{
-//            
-//            
-//            [self openBook:bk];
+
 //            
 //        }
             [_delegate dismissPopOver];
@@ -283,6 +299,7 @@
     } else {
     
         [self showBookDetailsForBook:tempItemArray[0]];
+    }
     }
 }
 

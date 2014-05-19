@@ -75,9 +75,9 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    
-    if(!validSubscription){
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if(!validUserSubscription){
         
         if(appDelegate.subscriptionInfo){
             //provide access
@@ -173,7 +173,13 @@
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         _games.hidden = YES;
     } else {
-        _games.hidden= NO;
+        
+        if(!validUserSubscription && storyAsAppFilePath){
+            _games.hidden= YES;
+        }
+        else{
+            _games.hidden= NO;
+        }
     }
 }
 
@@ -529,9 +535,18 @@
 }
 
 - (IBAction)backButtonTap:(id)sender{
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+    //three conditions path & valid subscription, path and non-valid and other
+    
+    if (storyAsAppFilePath) {
+        if(!validUserSubscription){
+        
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            //[self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
     } else {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
     }
@@ -566,24 +581,25 @@
 
 - (void)loadLandingPage{
     
-    LandPageChoiceViewController *loadLandingPage;
-    loadLandingPage = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
-    [self.navigationController pushViewController:loadLandingPage animated:YES];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 
+- (IBAction)clickOnSubscribe:(id)sender{
+    
+    MangoSubscriptionViewController *subscriptionViewController;
 
-- (void)gotoReviews
-{
-    NSString *str = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa";
-    str = [NSString stringWithFormat:@"%@/wa/viewContentsUserReviews?", str];
-    str = [NSString stringWithFormat:@"%@type=Purple+Software&id=", str];
-    
-    // Here is the app id from itunesconnect
-    str = [NSString stringWithFormat:@"%@568003822", str];
-    
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+    }
+    else{
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+    }
+
+    subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:subscriptionViewController animated:YES completion:nil];
 }
-
 
 @end
