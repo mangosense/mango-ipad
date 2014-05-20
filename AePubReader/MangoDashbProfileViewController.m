@@ -285,8 +285,8 @@
             productId = [object valueForKey:@"id"];
         }
     }
-
-    [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+    NSString *planProductId = [productId stringByAppendingString:@"_ios"];
+    [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     
 }
 
