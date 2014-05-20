@@ -43,11 +43,19 @@
 @property(strong, nonatomic) NSMutableArray *avilableLanguages;
 @property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
 @property(retain,nonatomic) WEPopoverController *popOverShareiPhone;
+@property(nonatomic, strong) IBOutlet UIButton *shareButton;
+
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 
 - (IBAction)gameButtonTapped:(id)sender;
 - (IBAction)bookCoverSelection:(id)sender;
 - (IBAction)lastPage:(id)sender;
 - (IBAction)moveToPromoPage:(id)sender;
 + (void)setIdentityValue:(NSString *)value;
+- (IBAction)displyParentalControl:(id)sender;
+- (IBAction)allowParentToShareOrNot:(id)sender;
+- (IBAction)closeParentalControl:(id)sender;
 
 @end

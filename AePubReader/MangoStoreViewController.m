@@ -115,7 +115,7 @@
         displayStoryNo = 6;
     }
     
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -226,12 +226,12 @@
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+//- (void)textFieldDidEndEditing:(UITextField *)textField {
     /*    MangoApiController *apiController = [MangoApiController sharedApiController];
      //    apiController.delegate = self;
      [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"] withDelegate:self];
      */
-}
+//}
 
 #pragma mark - Action Methods
 

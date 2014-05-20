@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -11,6 +11,10 @@
                 <outlet property="coverImageView" destination="T7N-ts-TeL" id="Gmv-EL-Y4D"/>
                 <outlet property="games" destination="8T9-Og-cmm" id="gQ9-1R-Fkl"/>
                 <outlet property="languageLabel" destination="qs6-Ii-CFn" id="K1m-IL-TkS"/>
+                <outlet property="settingsProbSupportView" destination="uLB-u5-RPr" id="ZYF-pG-8Iw"/>
+                <outlet property="settingsProbView" destination="JIZ-UH-rwA" id="cfD-mn-lPT"/>
+                <outlet property="shareButton" destination="lic-2a-KZW" id="Fnt-Zv-mjp"/>
+                <outlet property="textQuesSolution" destination="ohU-LK-OKd" id="uqA-WI-jhw"/>
                 <outlet property="titleLabel" destination="0n3-SY-7K6" id="HbJ-jP-lwi"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -111,9 +115,74 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="shareButton:" destination="-1" eventType="touchUpInside" id="7Ck-41-zeV"/>
+                        <action selector="displyParentalControl:" destination="-1" eventType="touchUpInside" id="ufb-6u-ZLe"/>
                     </connections>
                 </button>
+                <view hidden="YES" alpha="0.5" contentMode="scaleToFill" id="uLB-u5-RPr" customClass="UIControl">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="backgroundTap:" destination="-1" eventType="touchDown" id="x18-aj-Znq"/>
+                    </connections>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" id="JIZ-UH-rwA">
+                    <rect key="frame" x="311" y="162" width="402" height="269"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quesBgPic.png" id="49Y-Vq-gcv">
+                            <rect key="frame" x="10" y="25" width="372" height="232"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quesTextBg.png" id="rpS-gM-EJV">
+                            <rect key="frame" x="66" y="133" width="260" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" id="ohU-LK-OKd">
+                            <rect key="frame" x="91" y="136" width="210" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm that you are an Adult" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i8b-x4-m3n">
+                            <rect key="frame" x="43" y="51" width="307" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                            <color key="textColor" red="0.42975118890000003" green="0.042973864989999999" blue="0.066064984470000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                        <button opaque="NO" tag="-1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ou9-Dg-pYO">
+                            <rect key="frame" x="120" y="191" width="152" height="53"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                            <state key="normal" title="Done" backgroundImage="greenButton.png">
+                                <color key="titleColor" red="1" green="0.96587061890000003" blue="0.98984843349999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="allowParentToShareOrNot:" destination="-1" eventType="touchUpInside" id="ZVW-Ky-q4N"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="-1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yMp-Qv-ZzY">
+                            <rect key="frame" x="353" y="6" width="46" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="closebutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeParentalControl:" destination="-1" eventType="touchUpInside" id="pXB-aI-Xiu"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your birth year" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sub-7L-S3H">
+                            <rect key="frame" x="66" y="88" width="261" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -121,12 +190,16 @@
         </view>
     </objects>
     <resources>
+        <image name="closebutton.png" width="48" height="48"/>
+        <image name="greenButton.png" width="235" height="63"/>
         <image name="icon_language_reference_blank.png" width="250" height="54"/>
         <image name="icons_library.png" width="78" height="77"/>
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readbymyself.png" width="257" height="73"/>
         <image name="icons_readtome.png" width="257" height="73"/>
         <image name="icons_shareActual.png" width="257" height="73"/>
+        <image name="quesBgPic.png" width="302" height="202"/>
+        <image name="quesTextBg.png" width="242" height="54"/>
         <image name="reader_bookcover_bg.png" width="1024" height="768"/>
         <image name="rectangle_books.png" width="592" height="449"/>
     </resources>

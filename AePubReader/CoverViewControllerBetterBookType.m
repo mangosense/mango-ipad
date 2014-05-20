@@ -467,7 +467,43 @@ NSString *newIdentityValue;
 
 }
 
+- (IBAction)displyParentalControl:(id)sender{
+    
+    _settingsProbSupportView.hidden = NO;
+    _settingsProbView.hidden = NO;
+    
+}
+
+- (IBAction)allowParentToShareOrNot:(id)sender{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    int parentalControlAge = ([yearString integerValue] - [_textQuesSolution.text integerValue]);
+    [_textQuesSolution resignFirstResponder];
+    if((parentalControlAge >= 13) && (parentalControlAge <=100)){
+        //show subscription plans
+        
+        [self shareButton:0];
+    }
+    else{
+        //close subscription plan
+    }
+    _settingsProbSupportView.hidden = YES;
+    _settingsProbView.hidden = YES;
+    _textQuesSolution.text = @"";
+}
+
+- (IBAction)closeParentalControl:(id)sender{
+    
+    _settingsProbSupportView.hidden = YES;
+    _settingsProbView.hidden = YES;
+}
+
 - (IBAction)shareButton:(id)sender {
+    
+    
+    
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_ID : ID,
@@ -490,7 +526,7 @@ NSString *newIdentityValue;
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
     
-    UIButton *button=(UIButton *)sender;
+   // UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
     if([ver floatValue]>5.1){
         
@@ -520,7 +556,7 @@ NSString *newIdentityValue;
         else{
             _popOverShare=[[UIPopoverController alloc]initWithContentViewController:activity];
         
-            [_popOverShare presentPopoverFromRect:button.frame inView:button.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+            [_popOverShare presentPopoverFromRect:_shareButton.frame inView:_shareButton.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
         }
         
         return;
@@ -568,6 +604,12 @@ NSString *newIdentityValue;
 
     promoPageView.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:promoPageView animated:YES completion:nil];
+    
+}
+
+
+- (IBAction)backgroundTap:(id)sender {
+    [_textQuesSolution resignFirstResponder];
     
 }
 

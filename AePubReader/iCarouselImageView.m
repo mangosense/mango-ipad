@@ -33,9 +33,12 @@
     [MBProgressHUD hideAllHUDsForView:self animated:YES];
 
     [self setImage:image];
+    
     if (_delegate && [_delegate respondsToSelector:@selector(iCarouselSaveImage:ForUrl:)]) {
         [_delegate iCarouselSaveImage:image ForUrl:urlString];
     }
+    
+    
 }
 
 /*

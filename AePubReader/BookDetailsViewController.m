@@ -331,7 +331,7 @@
             
             [self itemReadyToUse:_selectedProductId ForTransaction:nil];
         }
-        _buyButton.userInteractionEnabled = YES;
+        //_buyButton.userInteractionEnabled = YES;
     }
     else {
         NSLog(@"Product dose not have relative Id");
@@ -397,6 +397,8 @@
 
 - (void)bookDownloaded {
     [self openBook:_bookId];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Complete" message:@"Your book is downloaded, go to my stories view" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{

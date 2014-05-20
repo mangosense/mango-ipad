@@ -64,6 +64,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *languageAvailButton;
 @property (nonatomic, strong) IBOutlet UIButton *editButton;
+@property(nonatomic, strong) IBOutlet UIButton *shareButton;
 
 @property (nonatomic, strong) NSDate *timeCalculate;
 @property (nonatomic, strong) NSString *bookGradeLevel;
@@ -71,6 +72,14 @@
 @property (nonatomic, strong) NSString *loginUserEmail;
 @property (nonatomic, strong) NSString *loginUserName;
 @property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
+
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
+- (IBAction)displyParentalControl:(id)sender;
+- (IBAction)allowParentToShareOrNot:(id)sender;
+- (IBAction)closeParentalControl:(id)sender;
 
 
 @end
