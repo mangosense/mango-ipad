@@ -66,6 +66,7 @@
     }
     
     [self setupInitialUI];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
 //- (void) viewWillAppear:(BOOL)animated{
@@ -167,16 +168,22 @@
 - (IBAction)backButtonTapped:(id)sender {
 
     if(fromBookDetail){
-        [self.presentingViewController.presentingViewController
+        /*[self.presentingViewController.presentedViewController
          dismissViewControllerAnimated:YES
             completion:nil];
         [self dismissViewControllerAnimated:YES completion:^{
         
-        }];
+        }];*/
+        [self dismissViewControllerAnimated:NO completion:nil];
+        
+        //[self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        
+
     }
     else{
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+
 }
 
 //hide keyboard on background tap
@@ -221,13 +228,13 @@
 //    } else if (button.tag == YEARLY_TAG) {
 //        productId = @"535a2316566173e8e90b0000";
 //    }
-    
-    [[PurchaseManager sharedManager] itemProceedToPurchase:productId storeIdentifier:productId withDelegate:self];
+    NSString *planProductId = [productId stringByAppendingString:@"_ios"];
+    [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //put progress hud here ...
     
     //Test Story as App//
-   // [self updateBookProgress:0];
+    //[self updateBookProgress:0];
     //
 }
 
@@ -263,12 +270,12 @@
 
 - (void)updateBookProgress:(int)progress{
     
- /*   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
     [alert show];
-    [self backButtonTapped:0];*/
+    [self backButtonTapped:0];
     
     //Test for story as app HARISH
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+ /*   NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
@@ -285,7 +292,7 @@
         //[self presentModalViewController:navigationController animated:YES];
         [self presentViewController:navigationController animated:YES completion:nil];
         
-    }
+    }*/
     
     //
 }
@@ -334,5 +341,11 @@
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }*/
 
+- (void) viewDidDisappear:(BOOL)animated {
+    if(fromBookDetail){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseDetailView" object:self];
+    }
+    
+}
 
 @end

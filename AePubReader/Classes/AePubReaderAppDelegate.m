@@ -497,8 +497,9 @@ void uncaughtExceptionHandler(NSException *exception) {
             }];
             
         }
+        [prefs synchronize];
     }
-    [prefs synchronize];
+    
 }
 
 

@@ -95,6 +95,12 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     
     _isLoginWithFb = NO;
     
+    [self.view bringSubviewToFront:[_settingsProbSupportView superview]];
+    [self.view bringSubviewToFront:[_settingsProbView superview]];
+    [[_settingsProbSupportView superview] bringSubviewToFront:_settingsProbSupportView];
+    [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
+
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -399,6 +405,30 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
  
 }
 
+#pragma display parental control
+
+- (IBAction)displyParentalControlOrNot:(id)sender{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    int parentalControlAge = ([yearString integerValue] - [_textQuesSolution.text integerValue]);
+    [_textQuesSolution resignFirstResponder];
+    if((parentalControlAge >= 13) && (parentalControlAge <=100)){
+        //show subscription plans
+        _settingsProbSupportView.hidden = YES;
+        _settingsProbView.hidden = YES;
+    }
+    else{
+        //close subscription plan
+        [self donePressed:0];
+    }
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [_textQuesSolution resignFirstResponder];
+    
+}
 
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

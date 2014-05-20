@@ -62,7 +62,7 @@
     
     // Align the button in the center horizontally
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+  /*  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 175, loginView.frame.size.width, loginView.frame.size.height);
         for (id obj in loginView.subviews)
         {
@@ -89,13 +89,13 @@
     }
     else{
         loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
-    }
+    }*/
     
     // Align the button in the center vertically
     //loginView.center = self.view.center;
     
     // Add the button to the view
-    [self.view addSubview:loginView];
+    //[self.view addSubview:loginView];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     

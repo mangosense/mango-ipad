@@ -37,6 +37,12 @@
 
 @property (nonatomic, assign) id <PostSignupDelegate> delegate;
 
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
 - (BOOL)validateEmailWithString:(NSString*)email;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil with:(LoginViewController *)loginViewController;
+
+- (IBAction)displyParentalControlOrNot:(id)sender;
 @end

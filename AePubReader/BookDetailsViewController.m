@@ -134,7 +134,8 @@
         [currentQueue finishTransaction:(SKPaymentTransaction *)obj];
     }];
     
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
 }
 
 
@@ -355,6 +356,10 @@
     [self dismissViewControllerAnimated:YES completion:^(void) {
         //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
     }];
+}
+
+- (void) closeDetailBookWithOutAnimation{
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)openBook:(NSString *)bookId {

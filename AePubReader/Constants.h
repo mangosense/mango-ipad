@@ -194,6 +194,7 @@
 #pragma mark - URL's
 
 //#define BASE_URL @"http://api.mangoreader.com/api/v2"
+//#define BASE_URL @"http://192.168.2.10:3999/api/v2"
 #define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
