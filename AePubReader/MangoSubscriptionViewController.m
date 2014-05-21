@@ -385,7 +385,7 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [alert show];
             }
-            
+            [self backButtonTapped:0];
         }];
         [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
         

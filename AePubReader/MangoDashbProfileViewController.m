@@ -222,7 +222,7 @@
             
         }];
         [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-        
+        [self.tabBarController setSelectedIndex:0];
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"You are already subscribed, there no need to restore!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
