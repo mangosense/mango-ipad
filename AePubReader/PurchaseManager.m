@@ -178,6 +178,19 @@
                 }
             }
         }
+        else if ([[response objectForKey:@"resp"] integerValue] == 21007){
+            
+            NSLog(@"SuccessResponse:%@", response);
+            NSString *expireDate = @"11/11/2021";
+            [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
+            [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
+                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                    [delegate updateBookProgress:0];
+                }
+            }
+            
+        }
         else {
             NSLog(@"ReceiptError:%@", error);
             [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
