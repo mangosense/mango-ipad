@@ -184,6 +184,7 @@
             NSString *expireDate = @"11/11/2021";
             [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
             [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            [prefs setBool:YES forKey:@"ISAPPLECHECK"];
             if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
                 if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                     [delegate updateBookProgress:0];

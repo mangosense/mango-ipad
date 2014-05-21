@@ -430,9 +430,42 @@
             //if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfo]) {
             appDelegate.subscriptionInfo = subscriptionInfoData;
             
+        }
+        
+        else if ([[response objectForKey:@"resp"] integerValue] == 21007) {
+            NSLog(@"SuccessResponse:%@", response);
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            [prefs setBool:YES forKey:@"ISAPPLECHECK"];
+            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+            SubscriptionInfo *subscriptionInfoData = [[SubscriptionInfo alloc] init];
+            if(!userId){
+                subscriptionInfoData.id = productId;
+            }
+            else{
+                subscriptionInfoData.id = userId;
+            }
+            subscriptionInfoData.subscriptionProductId = productId;
+            subscriptionInfoData.subscriptionTransctionId = transactionId;
+            subscriptionInfoData.subscriptionReceiptData = receiptData;
+            subscriptionInfoData.subscriptionAmount = amount;
+            subscriptionInfoData.subscriptionExpireDate = @"11/11/2021";
+            
+            NSLog(@"Product value found as %d", [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData]);
+            
+            if (appDelegate.subscriptionInfo) {
+                [appDelegate.ejdbController deleteSubscriptionObject:appDelegate.subscriptionInfo];
+            }
+            
+            [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData];
+            //if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfo]) {
+            appDelegate.subscriptionInfo = subscriptionInfoData;
+            
             
             
         }
+
+        
         else {
             NSLog(@"ReceiptError:%@", error);
             [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];

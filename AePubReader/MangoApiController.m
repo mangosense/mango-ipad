@@ -325,7 +325,20 @@
             URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
         } else {
             NSString *subscriptionMode = @"subscription";
-            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId,subscriptionMode]];
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            int validSubscription = [[prefs valueForKey:@"ISAPPLECHECK"]integerValue];
+            
+            if(validSubscription){
+                
+                NSString *authtokenTest = @"_-ggz5pYfg-BmBVgfbX8";
+                NSString *userIdTest = @"demo@mangosense.com";
+                
+                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userIdTest stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authtokenTest]];
+                
+            }
+            else{
+                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId,subscriptionMode]];
+            }
             //URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
         }
 
