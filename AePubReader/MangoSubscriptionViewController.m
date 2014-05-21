@@ -341,6 +341,108 @@
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }*/
 
+#pragma restore purchase 
+
+- (IBAction)restorePurchase:(id)sender{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    if(!validSubscription){
+        
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+        [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+            NSLog(@"Updated Transactions: %@", transactions);
+            
+            for (SKPaymentTransaction *transaction in transactions)
+            {
+                NSLog(@"Payment State: %d", transaction.transactionState);
+                switch (transaction.transactionState) {
+                    case SKPaymentTransactionStateFailed:
+                    {
+                        NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
+                        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    }
+                        break;
+                        
+                    case SKPaymentTransactionStateRestored:
+                    {
+                        NSLog(@"Product Restored!");
+                        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                        [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                        
+                        
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
+            if(transactions.count){
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            
+        }];
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+        
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"You are already subscribed, there no need to restore!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    
+}
+
+
+- (void)validateReceipt:(NSString *)productId ForTransactionId:(NSString *)transactionId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <SubscriptionProtocol>)delegate {
+    //Use this when receipt_validate is error free
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+        if ([[response objectForKey:@"status"] integerValue] == 1) {
+            NSLog(@"SuccessResponse:%@", response);
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+            SubscriptionInfo *subscriptionInfoData = [[SubscriptionInfo alloc] init];
+            if(!userId){
+                subscriptionInfoData.id = productId;
+            }
+            else{
+                subscriptionInfoData.id = userId;
+            }
+            subscriptionInfoData.subscriptionProductId = productId;
+            subscriptionInfoData.subscriptionTransctionId = transactionId;
+            subscriptionInfoData.subscriptionReceiptData = receiptData;
+            subscriptionInfoData.subscriptionAmount = amount;
+            subscriptionInfoData.subscriptionExpireDate = [response objectForKey:@"expires_at"];
+            
+            NSLog(@"Product value found as %d", [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData]);
+            
+            if (appDelegate.subscriptionInfo) {
+                [appDelegate.ejdbController deleteSubscriptionObject:appDelegate.subscriptionInfo];
+            }
+            
+            [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData];
+            //if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfo]) {
+            appDelegate.subscriptionInfo = subscriptionInfoData;
+            
+            
+            
+        }
+        else {
+            NSLog(@"ReceiptError:%@", error);
+            [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
+        }
+        [prefs synchronize];
+        
+    }];
+}
+
+
 - (void) viewDidDisappear:(BOOL)animated {
     if(fromBookDetail){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseDetailView" object:self];
