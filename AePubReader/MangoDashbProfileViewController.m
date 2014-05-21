@@ -196,8 +196,6 @@
                     {
                         NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
                         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Restore product failed !!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                        [alert show];
                     }
                         break;
                         
@@ -206,6 +204,7 @@
                         NSLog(@"Product Restored!");
                         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                         [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+            
                         
                     }
                         break;
@@ -214,8 +213,16 @@
                         break;
                 }
             }
+            
+            if(transactions.count){
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            
         }];
         [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+        
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"You are already subscribed, there no need to restore!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -258,16 +265,14 @@
             appDelegate.subscriptionInfo = subscriptionInfoData;
             isRestoreSuccess = 1;
             
+            
         }
         else {
             NSLog(@"ReceiptError:%@", error);
             [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
         }
         [prefs synchronize];
-        if(isRestoreSuccess){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
-        }
+        
     }];
 }
 
