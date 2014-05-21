@@ -279,7 +279,7 @@
     int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path && validUserSubscription){
+    if (path && !validUserSubscription){
         
         [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
         
@@ -291,7 +291,7 @@
         //now present this navigation controller as modally
         //[self presentModalViewController:navigationController animated:YES];
         [self presentViewController:navigationController animated:YES completion:nil];
-        
+        //[self backButtonTapped:0];
     }*/
     
     //

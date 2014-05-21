@@ -19,6 +19,10 @@
                 <outlet property="games" destination="Mp2-ba-5Gs" id="1re-Xj-MgC"/>
                 <outlet property="mangoreaderLinkView" destination="M3B-67-wVo" id="FGb-RB-hPb"/>
                 <outlet property="recommendedBooksView" destination="exv-6o-7BB" id="vMq-I6-zcq"/>
+                <outlet property="settingsProbSupportView" destination="1gt-ej-2GD" id="gyQ-G3-PpX"/>
+                <outlet property="settingsProbView" destination="D3m-IS-cYO" id="9Fw-gy-ES6"/>
+                <outlet property="shareButton" destination="meC-hr-FkA" id="wQT-jR-ipT"/>
+                <outlet property="textQuesSolution" destination="OFB-sX-IIc" id="iyx-Ki-KLw"/>
                 <outlet property="titleLabel" destination="26B-95-ER5" id="fGR-O0-L9O"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -69,7 +73,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="socialSharingOrLike:" destination="-1" eventType="touchUpInside" id="pRL-zF-CA6"/>
+                        <action selector="displyParentalControl:" destination="-1" eventType="touchUpInside" id="grx-QT-uKT"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exv-6o-7BB">
@@ -220,6 +224,71 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view hidden="YES" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1gt-ej-2GD" customClass="UIControl">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="backgroundTap:" destination="-1" eventType="touchDown" id="6zd-t0-ZEc"/>
+                    </connections>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D3m-IS-cYO">
+                    <rect key="frame" x="311" y="170" width="402" height="269"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="quesBgPic.png" translatesAutoresizingMaskIntoConstraints="NO" id="Um0-M6-8OQ">
+                            <rect key="frame" x="10" y="25" width="372" height="232"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="quesTextBg.png" translatesAutoresizingMaskIntoConstraints="NO" id="qBG-tb-DMg">
+                            <rect key="frame" x="66" y="133" width="260" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OFB-sX-IIc">
+                            <rect key="frame" x="91" y="136" width="210" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Confirm that you are an Adult" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LtR-9g-co5">
+                            <rect key="frame" x="43" y="51" width="307" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                            <color key="textColor" red="0.42975118890000003" green="0.042973864989999999" blue="0.066064984470000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fD-Ik-PuQ">
+                            <rect key="frame" x="120" y="191" width="152" height="53"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                            <state key="normal" title="Done" backgroundImage="greenButton.png">
+                                <color key="titleColor" red="1" green="0.96587061890000003" blue="0.98984843349999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="allowParentToShareOrNot:" destination="-1" eventType="touchUpInside" id="zAP-56-i2q"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Px-gj-MOh">
+                            <rect key="frame" x="353" y="6" width="46" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="closebutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeParentalControl:" destination="-1" eventType="touchUpInside" id="iNB-y2-w0g"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter your birth year" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7mu-nF-9Ua">
+                            <rect key="frame" x="66" y="88" width="261" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -227,10 +296,14 @@
         </view>
     </objects>
     <resources>
+        <image name="closebutton.png" width="48" height="48"/>
+        <image name="greenButton.png" width="235" height="63"/>
         <image name="icons_library.png" width="78" height="77"/>
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readagain.png" width="257" height="73"/>
         <image name="icons_shareActual.png" width="257" height="73"/>
+        <image name="quesBgPic.png" width="302" height="202"/>
+        <image name="quesTextBg.png" width="242" height="54"/>
         <image name="reader_bookcover_bg.png" width="1024" height="768"/>
         <image name="subscribe_mangoreader.png" width="257" height="73"/>
     </resources>

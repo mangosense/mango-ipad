@@ -256,8 +256,7 @@
             [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData];
             //if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfo]) {
             appDelegate.subscriptionInfo = subscriptionInfoData;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            isRestoreSuccess = 1;
             
         }
         else {
@@ -265,6 +264,10 @@
             [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
         }
         [prefs synchronize];
+        if(isRestoreSuccess){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
     }];
 }
 

@@ -22,6 +22,7 @@
     
     NSString *userId;
     NSString *userEmail;
+    int isRestoreSuccess;
 }
 
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;

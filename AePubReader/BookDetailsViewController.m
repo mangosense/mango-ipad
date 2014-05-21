@@ -55,7 +55,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _buyButton.userInteractionEnabled = NO;
+    //_buyButton.userInteractionEnabled = NO;
     viewName = @"Book Detail View Page";
     // Do any additional setup after loading the view from its nib.
     _bookImageView.layer.cornerRadius = 3.0;
@@ -136,6 +136,7 @@
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
+
 }
 
 
@@ -317,10 +318,16 @@
         }
         [userObject setObject:IOS forKey:@"device"];
         [userObject saveInBackground];
-
+        
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
-        
+        NSString *userTransctionId;
+        if(appDelegate.subscriptionInfo.subscriptionTransctionId){
+            
+            userTransctionId = appDelegate.subscriptionInfo.subscriptionTransctionId;
+            
+        }
+        //userTransctionId = @"1000000109171478";
         if (bk) {
             if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
                 [_delegate openBook:bk];
@@ -329,7 +336,7 @@
         } else {
            // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
             
-            [self itemReadyToUse:_selectedProductId ForTransaction:nil];
+            [self itemReadyToUse:_selectedProductId ForTransaction:userTransctionId];
         }
         //_buyButton.userInteractionEnabled = YES;
     }

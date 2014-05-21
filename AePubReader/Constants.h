@@ -193,9 +193,9 @@
 
 #pragma mark - URL's
 
-#define BASE_URL @"http://api.mangoreader.com/api/v2"
+//#define BASE_URL @"http://api.mangoreader.com/api/v2"
 //#define BASE_URL @"http://192.168.2.10:3999/api/v2"
-//#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
+#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
 //192.168.2.28:3001/api/v2
@@ -221,7 +221,7 @@
 #define LOGIN @"sign_in"
 #define SIGN_UP @"sign_up"
 #define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@"
-#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@"
+#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@&mode=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"

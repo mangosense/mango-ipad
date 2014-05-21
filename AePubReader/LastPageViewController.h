@@ -44,6 +44,13 @@
 @property(strong, nonatomic) NSMutableArray *tempItemArray;
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
+@property(nonatomic, strong) IBOutlet UIButton *shareButton;
+
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity;
 - (IBAction)pushToCoverView:(id)sender;
 - (IBAction)gameButtonTapped:(id)sender;
@@ -52,5 +59,9 @@
 - (IBAction)backButtonTap:(id)sender;
 - (void) loadRecommendedBooks;
 - (IBAction)clickOnSubscribe:(id)sender;
+
+- (IBAction)displyParentalControl:(id)sender;
+- (IBAction)allowParentToShareOrNot:(id)sender;
+- (IBAction)closeParentalControl:(id)sender;
 
 @end
