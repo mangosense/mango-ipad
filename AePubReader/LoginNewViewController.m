@@ -114,12 +114,6 @@
         [self loadHelpImagesScroll];
     //}
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if(storyAsAppFilePath && (!validUserSubscription)){
-        _helpButton.hidden = YES;
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -235,20 +229,6 @@
 
 - (void)goToNext {
     
-    CoverViewControllerBetterBookType *coverViewController;
-    if(storyAsAppFilePath && (!validUserSubscription)){
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
-        }
-        else {
-            coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-        }
-        coverViewController.identity = _identity;
-        [self.navigationController pushViewController:coverViewController animated:YES];
-    }
-    else{
         LandPageChoiceViewController *landingPageViewController;
     
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -259,18 +239,12 @@
             landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
         }
         [self.navigationController pushViewController:landingPageViewController animated:YES];
-    }
+
 }
 
 - (IBAction)goToNextSkip:(id)sender {
     
-    NSString *alertMessage;
-    if(storyAsAppFilePath && (!validUserSubscription)){
-        alertMessage = @"Are you sure you want to skip";
-    }
-    else{
-        alertMessage = @"Are you sure you want to skip unlimited access to interactive books!";
-    }
+    NSString *alertMessage = @"Are you sure you want to skip unlimited access to interactive books!";
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Skip Signin" message:alertMessage delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     [alert show];
@@ -425,20 +399,6 @@
             [userObject setObject:IOS forKey:@"device"];
             [userObject saveInBackground];
             
-            CoverViewControllerBetterBookType *coverViewController;
-            if(storyAsAppFilePath && (!validUserSubscription)){
-                
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    
-                    coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
-                }
-                else {
-                    coverViewController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-                }
-                coverViewController.identity = _identity;
-                [self.navigationController pushViewController:coverViewController animated:YES];
-            }
-            else{
                 LandPageChoiceViewController *landingPageViewController;
             
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -450,7 +410,7 @@
                 }
             
                 [self.navigationController pushViewController:landingPageViewController animated:YES];
-            }
+        
         }
         else{
             

@@ -9,7 +9,7 @@
 #import "AePubReaderAppDelegate.h"
 
 #import "Book.h"
-#import "CustomNavViewController.h"
+//#import "CustomNavViewController.h"
 #import "Flurry.h"
 #include <sys/xattr.h>
 #import "ZipArchive.h"
@@ -22,12 +22,13 @@
 #import "BooksFromCategoryViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "ATConnect.h"
+#import "MBProgressHUD.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
 
 //@synthesize window;
-@synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator;
+@synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator, nav;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -56,12 +57,12 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+ //   [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+  //                clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
    //MangoReader_Test app for testing
-//    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
-//                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
+    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
+                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
@@ -122,7 +123,7 @@ static UIAlertView *alertViewLoading;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
         //validSubscription = 1;//test storyasapp
-        CustomNavViewController *nav;
+        //CustomNavViewController *nav;
         if (uiNew) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
 
@@ -130,17 +131,18 @@ static UIAlertView *alertViewLoading;
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     
-                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
-                    _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
+                    
                 }
                 else {
-                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-                    _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                    
                 }
                 
-                nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
                 //nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
-                
+                nav=[[UINavigationController alloc]initWithRootViewController:_coverController];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.nav.view animated:YES];
+                hud.labelText = @"Loading Please Wait";
                 
             }
             else if((path)&& (validSubscription)){
@@ -155,7 +157,8 @@ static UIAlertView *alertViewLoading;
                     _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
                 }
                 
-                nav=[[CustomNavViewController alloc]initWithRootViewController:_landpageController];
+                //nav=[[CustomNavViewController alloc]initWithRootViewController:_landpageController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_landpageController];
             }
             
             else {
@@ -167,12 +170,14 @@ static UIAlertView *alertViewLoading;
                  else{
                      _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
                  }
-                nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+                //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_loginController];
             }
             
         } else {
         _loginViewController=[[LoginViewController alloc]init];
-        nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
+        //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
+            nav=[[UINavigationController alloc]initWithRootViewController:_loginViewController];
         }
         
         
@@ -268,18 +273,22 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 -(void)unzipExistingJsonBooks{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
 
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
-    if (path) {
+    if (path && !validUserSubscription )  {
         epubFles = [NSArray arrayWithObject:@"MangoStory"];
     }
     
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
-        if (path) {
+        if (path && !validUserSubscription) {
             epubLocation = path;
         }
         NSString *value=[string stringByDeletingPathExtension];
@@ -308,6 +317,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 
 -(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
     
@@ -315,7 +328,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path) {
+    if (path && !validUserSubscription) {
         dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] error:nil];
         epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
         NSString *actualJsonLocation = [[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] stringByAppendingPathComponent:[epubFles firstObject]];
@@ -325,8 +338,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 
         [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]]];
 
-       // _coverController.identity = _mangoStoryId;
-        _loginController.identity = _mangoStoryId;
+        _coverController.identity = _mangoStoryId;
+        //_loginController.identity = _mangoStoryId;
         
     } else {
         [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];

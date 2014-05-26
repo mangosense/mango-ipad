@@ -88,4 +88,6 @@
 @property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
 @property (nonatomic, strong) NSString *deviceId;
 
+@property (strong, nonatomic) UINavigationController *nav;
+
 @end

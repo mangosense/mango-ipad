@@ -278,7 +278,7 @@
         }
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentViewController:subscriptionViewController animated:YES completion:nil];
-        
+        [_delegate dismissPopOver];
     }
     
     else{
@@ -419,6 +419,11 @@
         }
         
         
+    }
+    
+    else{
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
     }
     
     

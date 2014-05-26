@@ -101,9 +101,11 @@
     NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
     _pageNo=numberOfPages.integerValue;
     
-    _showButtons = YES;
+    _showButtons = NO;
     
     _loginUserName = @"User";
+    
+    [self hideAllButtons:YES];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
     tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
@@ -111,16 +113,30 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissMyBookViewBackAgainToCover) name:@"DismissBookPageView" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigateToLandPage) name:@"DismissBook" object:nil];
+    
 }
-- (void) dismissByLangSelection{
-   
-    [self.navigationController popViewControllerAnimated:YES];
-    refreshCover = true;
 
-}
 - (void) dismissMyBookViewBackAgainToCover{
     
+    refreshCover = true;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) navigateToLandPage{
+    
+    LandPageChoiceViewController *myViewController;
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+    }
+    else{
+        myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+    [alert show];
+    [self.navigationController pushViewController:myViewController animated:YES];
 }
 
 - (void)hideAllButtons:(BOOL)hide {
@@ -507,6 +523,19 @@
     }else{
          _pageNumber--;
              [self loadPageWithOption:_option];
+        
+        CATransition *animation = [CATransition animation];
+        [animation setDelegate:self];
+        [animation setDuration:1.0f];
+        animation.startProgress = 0.4;
+        animation.endProgress   = 1;
+        [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+        [animation setType:@"pageCurl"];
+        [animation setSubtype:kCATransitionFromLeft];
+        [animation setRemovedOnCompletion:NO];
+        [animation setFillMode: @"extended"];
+        [animation setRemovedOnCompletion: NO];
+        [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
 
     }
 }
@@ -516,6 +545,20 @@
     
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
+        
+        
+        CATransition *animation = [CATransition animation];
+        [animation setDelegate:self];
+        [animation setDuration:1.0f];
+        animation.startProgress = 0.4;
+        animation.endProgress   = 1;
+        [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+        [animation setType:@"pageCurl"];
+        [animation setSubtype:kCATransitionFromRight];
+        [animation setRemovedOnCompletion:NO];
+        [animation setFillMode: @"extended"];
+        [animation setRemovedOnCompletion: NO];
+        [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
         
         /// default is icons_play.png
         if (_option==0) {
@@ -859,7 +902,7 @@
         AudioMappingViewController *audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
         [audioMappingViewControllers addObject:audioMappingViewcontroller];
         audioMappingViewcontroller.audioMappingDelegate = delegate;
-        audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
+        audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 24.0f/768.0f];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
         [audioMappingViewcontroller.view setExclusiveTouch:YES];
         [audioMappingViewcontroller.customView setNeedsDisplay];
@@ -908,7 +951,7 @@
         [audioMappingViewcontroller.view setExclusiveTouch:YES];
         
         audioMappingViewcontroller.mangoTextField.text = textOnPage;
-        UIFont *font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+        UIFont *font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*24.0f/768.0f];
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
         NSString *fontStyle = [[textDict objectForKey:@"style"] objectForKey:@"font-style"];
         NSString *fontWeight = [[textDict objectForKey:@"style"] objectForKey:@"font-weight"];
@@ -936,6 +979,9 @@
                     fFamily = @"Verdana";
                 } else if ([trimmedFamily  hasPrefix:@"Comic"]) {
                      fFamily = @"ComicSansMS";
+                }
+                else if ([trimmedFamily  hasPrefix:@"comic"]) {
+                    fFamily = @"ComicSansMS";
                 }
                 else if ([trimmedFamily  hasPrefix:@"mono"]) {
                     fFamily = @"FreeMono";
@@ -999,7 +1045,7 @@
                         fontSize = @"12";
                     }
                     else{
-                        fontSize = @"25";
+                        fontSize = @"24";
                     }
                 }
                 

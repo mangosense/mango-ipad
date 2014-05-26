@@ -23,9 +23,6 @@
 	
 	BOOL pageControlBeingUsed;
     
-    NSString *storyAsAppFilePath;
-    int validUserSubscription;
-    
 }
 - (IBAction)signIn:(id)sender;
 - (IBAction)goToNext:(id)sender;
@@ -39,8 +36,6 @@
 @property (nonatomic, retain) IBOutlet UIScrollView* scrollView;
 @property (nonatomic, retain) IBOutlet UIPageControl* pageControl;
 @property (nonatomic, retain) IBOutlet UIButton *helpButton;
-
-@property(strong,nonatomic) NSString *identity;
 
 - (IBAction)changePage;
 - (IBAction)skipHelpPageView:(id)sender;

@@ -165,6 +165,7 @@
     
     NSLog(@"%@", receiptData);
     [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+        //[delegate updateBookProgress:0];
        // [delegate itemReadyToUse:productId ForTransaction:transactionId];
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
         if ([[response objectForKey:@"status"] integerValue] == 1) {

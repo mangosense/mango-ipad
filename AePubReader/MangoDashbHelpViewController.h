@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MangoDashbHelpViewController : UIViewController
+@interface MangoDashbHelpViewController : UIViewController{
+    
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
+}
 
 @property (nonatomic, strong) IBOutlet UICollectionView *helpImagesDisplayView;
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;

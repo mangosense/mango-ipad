@@ -237,6 +237,7 @@
             [pagesCarousel reloadData];
             [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
         }
+        CFRelease(iref);
     } failureBlock:^(NSError *myerror) {
         NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
     }];

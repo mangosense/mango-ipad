@@ -10,7 +10,12 @@
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 
-@interface MangoAnalyticsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, DropDownViewDelegate>
+@interface MangoAnalyticsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, DropDownViewDelegate>{
+    
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
+
+}
 
 @property (nonatomic, strong) IBOutlet UILabel *labelUserLastStories;
 @property (nonatomic, strong) IBOutlet UILabel *labelUserSnapshot;

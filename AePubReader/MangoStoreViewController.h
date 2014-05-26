@@ -28,6 +28,9 @@
     NSString *viewName;
     Class popoverClass;
     int displayStoryNo;
+    
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
 }
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;

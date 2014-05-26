@@ -270,31 +270,39 @@
 
 - (void)updateBookProgress:(int)progress{
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
-    [alert show];
-    [self backButtonTapped:0];
-    
-    //Test for story as app HARISH
- /*   NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path && !validUserSubscription){
+    if (path && validUserSubscription){
         
-        [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+       /* LandPageChoiceViewController *myViewController;
         
-        //LoginNewViewController *loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController" bundle:nil];
-       // [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-        LandPageChoiceViewController *myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+        }
+        else{
+            myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        }
     
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
-        //now present this navigation controller as modally
-        //[self presentModalViewController:navigationController animated:YES];
-        [self presentViewController:navigationController animated:YES completion:nil];
-        //[self backButtonTapped:0];
-    }*/
+        //[navigationController pushViewController:myViewController animated:YES];
+        [self presentViewController:navigationController animated:YES completion:nil];*/
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LoadLandingPage" object:self];
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
     
-    //
+    else{
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+        [alert show];
+        [self backButtonTapped:0];
+        
+    }
+    
+    
 }
 
 /*- (IBAction)restoreSubscription:(id)sender{

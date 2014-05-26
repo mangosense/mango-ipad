@@ -37,10 +37,20 @@
 {
     [super viewDidLoad];
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
     if (!appDelegate.loggedInUserInfo){
         _loginButton.titleLabel.text  = @"Login";
     }
     // Do any additional setup after loading the view from its nib.
+    
+    if(validUserSubscription && storyAsAppFilePath){
+        
+        _loginButton.hidden = YES;
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ATMessageCenterUnreadCountChangedNotification object:nil];

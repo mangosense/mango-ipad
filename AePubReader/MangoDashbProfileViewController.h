@@ -23,6 +23,8 @@
     NSString *userId;
     NSString *userEmail;
     int isRestoreSuccess;
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
 }
 
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;

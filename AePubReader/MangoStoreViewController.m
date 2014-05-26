@@ -82,6 +82,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
     NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
     viewName = @"Store Page";
     popoverClass = [WEPopoverController class];
@@ -118,11 +122,8 @@
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
-    if(!validSubscription){
+    if(!validUserSubscription){
         
         if(appDelegate.subscriptionInfo){
             //provide access
@@ -236,8 +237,14 @@
 #pragma mark - Action Methods
 
 - (IBAction)goBackToStoryPage:(id)sender {
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-    //[self.navigationController popViewControllerAnimated:YES];
+
+    if(storyAsAppFilePath && validUserSubscription){
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    }
     
 }
 

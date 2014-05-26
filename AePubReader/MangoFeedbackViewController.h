@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MangoFeedbackViewController : UIViewController
+@interface MangoFeedbackViewController : UIViewController{
+    
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
+
+}
 
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;
 - (IBAction)moveToBack:(id)sender;

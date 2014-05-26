@@ -62,9 +62,11 @@
     
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
-    if(!validSubscription){
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
+    if(!validUserSubscription){
         
         if(appDelegate.subscriptionInfo){
             
@@ -105,7 +107,23 @@
     {
         _viewInfoDisplay.hidden = NO;
     }
+    
+    if(validUserSubscription && storyAsAppFilePath){
+        _viewInfoDisplay.hidden = NO;
+        _loginButton.hidden = YES;
+    }
 }
+
+
+- (void) viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    if(validSubscription){
+        _viewInfoDisplay.hidden = NO;
+    }
+}
+
 
 - (void)setupSubscriptionView:(UIView *)subscriptionView {
     [subscriptionView.layer setShadowColor:[[UIColor blackColor] CGColor]];

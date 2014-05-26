@@ -37,6 +37,11 @@
 {
     [super viewDidLoad];
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
     if (!appDelegate.loggedInUserInfo){
         _loginButton.titleLabel.text  = @"Login";
     }
@@ -58,6 +63,11 @@
         [self.helpImagesDisplayView registerNib:[UINib nibWithNibName:@"MangoDashHelperCell" bundle:nil] forCellWithReuseIdentifier:@"ViewCell"];
         
         
+    }
+    
+    if(validUserSubscription && storyAsAppFilePath){
+        
+        _loginButton.hidden = YES;
     }
     
     //[self.helpImagesDisplayView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];

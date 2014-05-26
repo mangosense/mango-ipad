@@ -88,15 +88,14 @@
                     </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zZI-Wv-Obe">
-                    <rect key="frame" x="0.0" y="174" width="568" height="145"/>
+                    <rect key="frame" x="0.0" y="131" width="568" height="188"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uMt-ud-1m1">
-                            <rect key="frame" x="178" y="30" width="281" height="56"/>
+                            <rect key="frame" x="178" y="30" width="227" height="53"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <state key="normal">
-                                <string key="title">MangoReader - Interactive kids books with animations, Read-Along Educational stories for Children, Parents and Teachers, learning games, mango reader</string>
+                            <state key="normal" title="Subscribe MangoReader - and get unlimited access to over 500 stories">
                                 <color key="titleColor" red="0.47128109060000001" green="0.02223251389" blue="0.074662656270000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -105,9 +104,9 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5U-Gv-eEr">
-                            <rect key="frame" x="113" y="28" width="60" height="60"/>
+                            <rect key="frame" x="230" y="3" width="137" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="mangoreader-app-icon-120x120.png">
+                            <state key="normal" backgroundImage="subscribe_mangoreader.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -308,9 +307,9 @@
         <image name="icons_play games.png" width="257" height="73"/>
         <image name="icons_readagain.png" width="257" height="73"/>
         <image name="icons_shareActual.png" width="257" height="73"/>
-        <image name="mangoreader-app-icon-120x120.png" width="120" height="120"/>
         <image name="quesBgPic.png" width="302" height="202"/>
         <image name="quesTextBg.png" width="242" height="54"/>
         <image name="reader_bookcover_bg.png" width="1024" height="768"/>
+        <image name="subscribe_mangoreader.png" width="257" height="73"/>
     </resources>
 </document>

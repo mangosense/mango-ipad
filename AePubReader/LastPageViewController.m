@@ -47,8 +47,11 @@
 
 - (void)viewDidLoad
 {
-    self.mangoreaderLinkView.hidden = YES;
+    
     [super viewDidLoad];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     viewName = @"Book Last Page";
     if(!userEmail){
         ID = userDeviceID;
@@ -59,9 +62,9 @@
     
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
-    if([_book.title isEqualToString:@"My Book"] || [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+    if([_book.title isEqualToString:@"My Book"] || (storyAsAppFilePath && !validUserSubscription)) {
         self.recommendedBooksView.hidden = YES;
-        //self.mangoreaderLinkView.hidden = NO;
+        self.mangoreaderLinkView.hidden = NO;
     }
     else {
         
@@ -70,14 +73,10 @@
     
     [self showOrHideGameButton];
     
-    
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     if(!validUserSubscription){
         
         if(appDelegate.subscriptionInfo){
@@ -265,7 +264,8 @@
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];
     
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
+   // [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(self.navigationController.viewControllers.count - 3)] animated:YES];
 }
 
 - (void) loadRecommendedBooks:(NSString *)story_Id_value{
@@ -572,16 +572,18 @@
 
 - (IBAction)backButtonTap:(id)sender{
     //three conditions path & valid subscription, path and non-valid and other
-    
+    NSLog(@"nav ctrs %@", self.navigationController.viewControllers);
     if (storyAsAppFilePath) {
-        if(!validUserSubscription){
+        /*if(!validUserSubscription){
         
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
             //[self.navigationController popToRootViewControllerAnimated:YES];
             [self.navigationController popViewControllerAnimated:YES];
-        }
+        }*/
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(self.navigationController.viewControllers.count - 3)] animated:YES];
+        
         
     } else {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];

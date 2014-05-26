@@ -88,10 +88,11 @@ NSString *newIdentityValue;
     //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     //  NSLog(@"json contents %@",jsonContents);
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
     
     ID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     _coverImageView.image=image;
     // Do any additional setup after loading the view from its nib.
@@ -121,6 +122,11 @@ NSString *newIdentityValue;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if(!delegate.deviceId){
+        delegate.deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        userDeviceID = delegate.deviceId;
+    }
     popoverClass = [WEPopoverController class];
     self.navigationController.navigationBarHidden=YES;
     if (_identity) {
@@ -129,7 +135,47 @@ NSString *newIdentityValue;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCoverViewWithNotification) name:@"ReloadCoverView" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DismissOtherViewAndLoadLangingpage) name:@"LoadLandingPage" object:nil];
+    
 }
+
+- (void) DismissOtherViewAndLoadLangingpage{
+    
+    NSLog(@"Views in stack are %@", self.navigationController.viewControllers);
+    
+    NSArray* viewControllerStack = [self.navigationController viewControllers];
+    
+    for(UIViewController *tempVC in viewControllerStack)
+    {
+        if(![tempVC isKindOfClass:[CoverViewControllerBetterBookType class]])
+        {
+            if([tempVC isKindOfClass:[PageNewBookTypeViewController class]]){
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissBook" object:self];
+                return;
+                
+            }
+            else{
+                [tempVC removeFromParentViewController];
+            }
+        }
+        
+    }
+    
+    LandPageChoiceViewController *myViewController;
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+    }
+    else{
+        myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+    [alert show];
+    [self.navigationController pushViewController:myViewController animated:YES];
+}
+
 - (IBAction)multipleLanguage:(id)sender {
     //UIButton *button=(UIButton *)sender;
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
