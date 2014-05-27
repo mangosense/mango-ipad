@@ -62,4 +62,6 @@
 -(IBAction)dropDownActionButtonClick;
 - (void)setIdOfDisplayBook:(NSString *)book_Id;
 
++ (int) booksDownloadingNo;
+
 @end

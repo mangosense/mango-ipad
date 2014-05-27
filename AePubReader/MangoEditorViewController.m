@@ -237,7 +237,7 @@
             [pagesCarousel reloadData];
             [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
         }
-        CFRelease(iref);
+        CGImageRelease(iref);
     } failureBlock:^(NSError *myerror) {
         NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
     }];
@@ -1034,6 +1034,7 @@
                         UIImage *image = [UIImage imageWithCGImage:iref];
                         [pageThumbnail.thumbnailImageView setImage:image];
                     }
+                    CGImageRelease(iref);
                 } failureBlock:^(NSError *myerror) {
                     NSLog(@"Couldn't get image - %@",[myerror localizedDescription]);
                 }];
@@ -1595,6 +1596,7 @@
                     backgroundImageView.image = image;
                     [pageView addSubview:backgroundImageView];
                 }
+                CGImageRelease(iref);
             } failureBlock:^(NSError *myerror) {
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];

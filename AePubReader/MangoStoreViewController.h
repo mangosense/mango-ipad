@@ -37,6 +37,8 @@
 @property (nonatomic, assign) int tableType;
 @property (nonatomic, strong) UIView *viewiPhonePopup;
 @property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
+@property (nonatomic , retain) IBOutlet UIView *viewDownloadCounter;
+@property (nonatomic, strong) IBOutlet UILabel *labelDownloadingCount;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;

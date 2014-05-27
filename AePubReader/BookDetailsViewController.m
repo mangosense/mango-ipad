@@ -28,6 +28,8 @@
 
 @implementation BookDetailsViewController
 
+static int booksDownloadingCount;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -40,6 +42,11 @@
        
     }
     return self;
+}
+
++ (int) booksDownloadingNo{
+    
+    return  booksDownloadingCount;
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -291,7 +298,16 @@
 #pragma mark - Action Methods
 
 - (IBAction)buyButtonTapped:(id)sender {
+    
+    if(booksDownloadingCount >= 3){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"You can download only 3 books at a time" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     _buyButton.userInteractionEnabled = NO;
+    booksDownloadingCount ++;
     //if (_selectedProductId) {
     if([_buyButton.titleLabel.text isEqualToString:@"Read Now"]){
         //Temporarily Added For Direct Downloading
@@ -330,6 +346,7 @@
         //userTransctionId = @"1000000109171478";
         if (bk) {
             if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
+                booksDownloadingCount --;
                 [_delegate openBook:bk];
             }
             [self closeDetails:nil];
@@ -404,6 +421,7 @@
 
 - (void)bookDownloaded {
     [self openBook:_bookId];
+    booksDownloadingCount --;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Complete" message:@"Your book is downloaded, go to my stories view" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [alert show];
 }

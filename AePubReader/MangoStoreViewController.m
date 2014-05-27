@@ -23,6 +23,7 @@
 #import "BooksCollectionViewController.h"
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoSubscriptionViewController.h"
+#import "BookDetailsViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -93,6 +94,15 @@
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
     //bookDetailsViewController.priceLabel.text.font = [UIFont fontWithName:@"the_hungry_ghost" size:16.0];
+    
+    _viewDownloadCounter.layer.cornerRadius = 3.0f;
+    [_viewDownloadCounter.layer setBorderWidth:0.5f];
+    [_viewDownloadCounter.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    [self.view bringSubviewToFront:[_viewDownloadCounter superview]];
+    [[_viewDownloadCounter superview] bringSubviewToFront:_viewDownloadCounter];
+    //add timer for the  automatic call
+    [self setDownloadCounter:0];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(setDownloadCounter:) userInfo:nil repeats:YES];
     
     //Register observer
     if(categoryflag){
@@ -193,6 +203,19 @@
         }
         
     }
+}
+
+-(void) setDownloadCounter:(NSTimer *)timer
+{
+    int noOfBooks = [BookDetailsViewController booksDownloadingNo];
+    NSLog(@"Calling... %d", noOfBooks);
+    if(noOfBooks == 0){
+        _viewDownloadCounter.hidden = YES;
+    }
+    else{
+        _viewDownloadCounter.hidden = NO;
+    }
+    _labelDownloadingCount.text = [NSString stringWithFormat:@"%d", noOfBooks];
 }
 
 - (BOOL)connected
