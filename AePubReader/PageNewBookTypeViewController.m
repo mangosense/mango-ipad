@@ -888,13 +888,13 @@
         [pageView addSubview:backgroundImageView];
         [backgroundImageView setImage:[UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [imageDict objectForKey:ASSET_URL]]]];
         if ([[imageDict objectForKey:ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
-            [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width*0.65, 768)];
+            [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width*0.65, pageView.frame.size.height)];
         } else if ([[imageDict objectForKey:ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
-            [backgroundImageView setFrame:CGRectMake(pageView.frame.size.width*0.35, 0, pageView.frame.size.width*0.65, 768)];
+            [backgroundImageView setFrame:CGRectMake(pageView.frame.size.width*0.35, 0, pageView.frame.size.width*0.65, pageView.frame.size.height)];
         } else if ([[imageDict objectForKey:ALIGNMENT] isEqualToString:TOP_ALIGN]) {
-            [backgroundImageView setFrame:CGRectMake(0, 0, 1024, pageView.frame.size.height*0.65)];
+            [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.65)];
         } else if ([[imageDict objectForKey:ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
-            [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, 1024, pageView.frame.size.height)];
+            [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, pageView.frame.size.width, pageView.frame.size.height)];
         }
     }
     [audioMappingViewControllers removeAllObjects];
@@ -1130,7 +1130,7 @@
                 if (readingOption == 0) {
                     NSNumber *order = [textDict objectForKey:@"order"];
                     if ([order isEqualToNumber:[NSNumber numberWithInt:0]] ||
-                        [order isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                        [order isEqualToNumber:[NSNumber numberWithInt:1]] || (order == nil)) {
                         if (![self isPlaying]) {
                             [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
                             _audioMappingViewController = audioMappingViewcontroller;

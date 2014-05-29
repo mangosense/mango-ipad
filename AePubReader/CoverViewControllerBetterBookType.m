@@ -433,7 +433,7 @@ NSString *newIdentityValue;
 
 - (UIImage*)maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
     
-	CGImageRef imgRef = [image CGImage];
+    CGImageRef imgRef = [image CGImage];
     CGImageRef maskRef = [maskImage CGImage];
     CGImageRef actualMask = CGImageMaskCreate(CGImageGetWidth(maskRef),
                                               CGImageGetHeight(maskRef),
@@ -442,7 +442,9 @@ NSString *newIdentityValue;
                                               CGImageGetBytesPerRow(maskRef),
                                               CGImageGetDataProvider(maskRef), NULL, false);
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
-    return [UIImage imageWithCGImage:masked];
+    UIImage *img = [UIImage imageWithCGImage:masked];
+    CGImageRelease(masked);
+    return img;
 }
 
 - (NSDictionary *)getJsonDictForBook {

@@ -98,8 +98,7 @@
     _viewDownloadCounter.layer.cornerRadius = 3.0f;
     [_viewDownloadCounter.layer setBorderWidth:0.5f];
     [_viewDownloadCounter.layer setBorderColor:[UIColor lightGrayColor].CGColor];
-    [self.view bringSubviewToFront:[_viewDownloadCounter superview]];
-    [[_viewDownloadCounter superview] bringSubviewToFront:_viewDownloadCounter];
+    
     //add timer for the  automatic call
     [self setDownloadCounter:0];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(setDownloadCounter:) userInfo:nil repeats:YES];
@@ -205,10 +204,16 @@
     }
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    
+    [self.view bringSubviewToFront:[_viewDownloadCounter superview]];
+    [[_viewDownloadCounter superview] bringSubviewToFront:_viewDownloadCounter];
+}
+
 -(void) setDownloadCounter:(NSTimer *)timer
 {
     int noOfBooks = [BookDetailsViewController booksDownloadingNo];
-    NSLog(@"Calling... %d", noOfBooks);
+   // NSLog(@"Calling... %d", noOfBooks);
     if(noOfBooks == 0){
         _viewDownloadCounter.hidden = YES;
     }

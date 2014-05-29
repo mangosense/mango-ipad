@@ -359,8 +359,18 @@
                 AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
                 [appDelegate unzipExistingJsonBooks];
                 
-                if ([delegate respondsToSelector:@selector(bookDownloaded)]) {
-                    [delegate bookDownloaded];
+                if(filePath){
+                    
+                    if ([delegate respondsToSelector:@selector(bookDownloaded)]) {
+                        [delegate bookDownloaded];
+                    }
+                }
+                
+                else{
+                    
+                    if ([delegate respondsToSelector:@selector(bookDownloadAborted)]) {
+                        [delegate bookDownloadAborted];
+                    }
                 }
             }
         }];

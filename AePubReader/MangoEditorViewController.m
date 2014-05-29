@@ -1797,6 +1797,7 @@
                     backgroundImageView.image = image;
                     [pageView addSubview:backgroundImageView];
                 }
+                CGImageRelease(iref);
             } failureBlock:^(NSError *myerror) {
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];

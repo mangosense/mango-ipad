@@ -20,6 +20,7 @@
 - (void)saveStoryId:(NSNumber *)storyId;
 - (void)updateBookProgress:(int)progress;
 - (void)bookDownloaded;
+- (void)bookDownloadAborted;
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
 - (void)subscriptionSetup:(NSArray *)planArray;
 

@@ -30,6 +30,16 @@
 
 static int booksDownloadingCount;
 
+-(NSMutableArray*) bookIdArray
+{
+    static NSMutableArray* theArray = nil;
+    if (theArray == nil)
+    {
+        theArray = [[NSMutableArray alloc] init];
+    }
+    return theArray;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -299,15 +309,19 @@ static int booksDownloadingCount;
 
 - (IBAction)buyButtonTapped:(id)sender {
     
-    if(booksDownloadingCount >= 3){
+   /* if([self bookIdArray].count >= 3){
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"You can download only 3 books at a time" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        return;
+    }*/
+        
+    if([self checkIfBookIdIsAvailable:_selectedProductId]){
+            
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
     
     _buyButton.userInteractionEnabled = NO;
-    booksDownloadingCount ++;
     //if (_selectedProductId) {
     if([_buyButton.titleLabel.text isEqualToString:@"Read Now"]){
         //Temporarily Added For Direct Downloading
@@ -346,13 +360,22 @@ static int booksDownloadingCount;
         //userTransctionId = @"1000000109171478";
         if (bk) {
             if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
-                booksDownloadingCount --;
+                [self deleteBookIdFromArray:_selectedProductId];
                 [_delegate openBook:bk];
             }
             [self closeDetails:nil];
         } else {
            // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
             
+            if(booksDownloadingCount >= 3){
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"You can download only 3 books at a time" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            }
+            
+            booksDownloadingCount ++;
+            [self addBookIdIntoArray:_selectedProductId];
             [self itemReadyToUse:_selectedProductId ForTransaction:userTransctionId];
         }
         //_buyButton.userInteractionEnabled = YES;
@@ -421,9 +444,19 @@ static int booksDownloadingCount;
 
 - (void)bookDownloaded {
     [self openBook:_bookId];
-    booksDownloadingCount --;
+    booksDownloadingCount--;
+    [self deleteBookIdFromArray:_bookId];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Complete" message:@"Your book is downloaded, go to my stories view" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [alert show];
+}
+
+- (void)bookDownloadAborted{
+    
+    [self deleteBookIdFromArray:_bookId];
+    booksDownloadingCount--;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Aborted" message:@"Book download aborted, please try again" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+    [self closeDetails:nil];
 }
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
@@ -544,6 +577,23 @@ static int booksDownloadingCount;
 
 - (void)hideHudOnButton {
     [_progressView removeFromSuperview];
+}
+
+- (void) addBookIdIntoArray :(NSString *)bookId{
+    
+    [[self bookIdArray] addObject:bookId];
+}
+
+- (void) deleteBookIdFromArray : (NSString *)bookId{
+    [[self bookIdArray] removeObject:bookId];
+}
+
+- (BOOL) checkIfBookIdIsAvailable :(NSString *)bookId{
+    
+    if([[self bookIdArray] containsObject:bookId])
+        return YES;
+    else
+        return  NO;
 }
 
 @end
