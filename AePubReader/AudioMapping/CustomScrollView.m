@@ -24,7 +24,8 @@
 // An empty implementation adversely affects performance during animation.*/
 - (void)drawRect:(CGRect)rect
 {
-    
+    self.minimumZoomScale = 1.0;
+    self.minimumZoomScale = 1.0;
     CGRect rectangle = CGRectMake(0, 0,_progress  ,rect.size.height-10);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetRGBFillColor(context, 240.0/255.0, 189.0/255.0, 35.0/255.0, 1.0);

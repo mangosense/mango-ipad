@@ -64,7 +64,6 @@
     popoverClass = [WEPopoverController class];
     audioMappingViewControllers = [[NSMutableArray alloc] init];
     viewName = @"Book Read View";
-    
     if(!userEmail) {
         if (!userDeviceID) {
             userDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
@@ -110,6 +109,8 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
     tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
     [self.view addGestureRecognizer:tapGesture];
+    
+    [self setupSwipeGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissMyBookViewBackAgainToCover) name:@"DismissBookPageView" object:nil];
     
@@ -513,9 +514,33 @@
     }
 }
 
+#pragma swipe gerture for page control
+
+-(void) setupSwipeGestureRecognizer {
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedScreen:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeRight];
+    
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedScreen:)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeLeft];
+}
+
+-(void)swipedScreen:(UISwipeGestureRecognizer*)gesture {
+    if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
+        // NSLog(@"Left");
+        [self nextButton:0];
+    }
+    if(gesture.direction == UISwipeGestureRecognizerDirectionRight) {
+        // NSLog(@"Right");
+        
+        [self previousButton:0];
+    }
+}
+
 
 - (IBAction)previousButton:(id)sender {
-    
+    //[emitter removeFromSuperlayer];
     if (_pageNumber==1) {
         //[self BackButton:nil];
         [self.navigationController popViewControllerAnimated:YES];
@@ -526,8 +551,8 @@
         
         CATransition *animation = [CATransition animation];
         [animation setDelegate:self];
-        [animation setDuration:1.0f];
-        animation.startProgress = 0.4;
+        [animation setDuration:0.7f];
+        animation.startProgress = 0.3;
         animation.endProgress   = 1;
         [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
         [animation setType:@"pageCurl"];
@@ -542,6 +567,7 @@
 
 - (IBAction)nextButton:(id)sender {
     ++_pageNumber;
+    //[emitter removeFromSuperlayer];
     
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
@@ -549,8 +575,8 @@
         
         CATransition *animation = [CATransition animation];
         [animation setDelegate:self];
-        [animation setDuration:1.0f];
-        animation.startProgress = 0.4;
+        [animation setDuration:0.7f];
+        animation.startProgress = 0.3;
         animation.endProgress   = 1;
         [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
         [animation setType:@"pageCurl"];
@@ -904,7 +930,7 @@
         audioMappingViewcontroller.audioMappingDelegate = delegate;
         audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 24.0f/768.0f];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
-        [audioMappingViewcontroller.view setExclusiveTouch:YES];
+        [audioMappingViewcontroller.view setExclusiveTouch:NO];
         [audioMappingViewcontroller.customView setNeedsDisplay];
         
         NSString *textOnPage = [textDict objectForKey:TEXT];
@@ -949,7 +975,7 @@
         [audioMappingViewcontroller.view setHidden:YES];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
         [audioMappingViewcontroller.view setExclusiveTouch:YES];
-        
+        audioMappingViewcontroller.mangoTextField.exclusiveTouch = NO;
         audioMappingViewcontroller.mangoTextField.text = textOnPage;
         UIFont *font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*24.0f/768.0f];
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
@@ -1058,7 +1084,7 @@
         audioMappingViewcontroller.mangoTextField.frame = textFrame;
         audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
         [_pageView bringSubviewToFront:audioMappingViewcontroller.mangoTextField];
-        
+        //audioMappingViewcontroller.mangoTextField.backgroundColor = [UIColor redColor];
         if ([[textDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[textDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
             
             UIColor *color = nil;
@@ -1085,6 +1111,8 @@
             audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
         }
         [pageView addSubview:audioMappingViewcontroller.mangoTextField];
+        //audioMappingViewcontroller.mangoTextField.frame.
+        audioMappingViewcontroller.mangoTextField.editable = NO;
         [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         
         [pageView bringSubviewToFront:[audioMappingViewcontroller.view superview]];
@@ -1382,5 +1410,57 @@
     [_textQuesSolution resignFirstResponder];
     
 }
+
+#pragma sparkle view
+
+/*- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    float multiplier = 0.5f;
+    
+    CGPoint pt = [[touches anyObject] locationInView:self.pageView];
+    
+    //Create the emitter layer
+    emitter = [CAEmitterLayer layer];
+    emitter.emitterPosition = pt;
+    emitter.emitterMode = kCAEmitterLayerOutline;
+    emitter.emitterShape = kCAEmitterLayerCircle;
+    emitter.renderMode = kCAEmitterLayerAdditive;
+    emitter.emitterSize = CGSizeMake(20 * multiplier, 0);
+    
+    //Create the emitter cell
+    CAEmitterCell* particle = [CAEmitterCell emitterCell];
+    particle.emissionLongitude = M_PI-1.0;
+    particle.birthRate = multiplier * 1000.0;
+    particle.lifetime = 0.4;
+    particle.lifetimeRange = multiplier * 0.15;
+    particle.velocity = 120;
+    particle.velocityRange = 60;
+    particle.emissionRange = 0.2;
+    particle.scaleSpeed = 0.2; // was 0.3
+    particle.color = [[[UIColor yellowColor] colorWithAlphaComponent:0.5f] CGColor];
+    particle.contents = (__bridge id)([UIImage imageNamed:@"not.png"].CGImage);
+    particle.name = @"particle";
+    
+    emitter.emitterCells = [NSArray arrayWithObject:particle];
+    [self.view.layer addSublayer:emitter];
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGPoint pt = [[touches anyObject] locationInView:self.pageView];
+    
+    // Disable implicit animations
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+    emitter.emitterPosition = pt;
+    [CATransaction commit];
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [emitter removeFromSuperlayer];
+    emitter = nil;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self touchesEnded:touches withEvent:event];
+}*/
 
 @end

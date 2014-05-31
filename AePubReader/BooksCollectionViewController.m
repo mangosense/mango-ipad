@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     _settingsProbSupportView.alpha = 0.4f;
-    popoverClass = [WEPopoverController class];
+    //popoverClass = [WEPopoverController class];
     if(_fromCreateStoryView){
         
         viewName = @"Create book";
@@ -405,14 +405,14 @@
     [self displaySettingsOrNot];
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+/*- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
     self.popoverControlleriPhone = nil;
-}
+}*/
 
 - (void)displaySettingsOrNot {
     
     if(settingSol){
-        [self displaySettings];
+        //[self displaySettings];
         settingSol = NO;
     }
     
@@ -547,7 +547,7 @@
 }*/
 
 
--(void)displaySettings {
+/*-(void)displaySettings {
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -582,7 +582,7 @@
         [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
     
-}
+}*/
 
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -626,22 +626,18 @@
 
 - (IBAction)settingsButtonTapped:(id)sender {
     
-    int rNo = arc4random()%8;
-    settingQuesNo = rNo;
+//    int rNo = arc4random()%8;
+//    settingQuesNo = rNo;
     
-    if (_popoverControlleriPhone){
+    /*if (_popoverControlleriPhone){
         
         [self.popoverControlleriPhone dismissPopoverAnimated:YES];
         self.popoverControlleriPhone = nil;
         
         return;
-    }
+    }*/
     
     [self qusetionForSettings];
-    
-  /*  UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
-    [settingAlert show];*/
-    
 }
 
 
@@ -671,8 +667,8 @@
 
 -(void)dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
-    [_popoverControlleriPhone dismissPopoverAnimated:YES];
-    self.popoverControlleriPhone = nil;
+    //[_popoverControlleriPhone dismissPopoverAnimated:YES];
+    //self.popoverControlleriPhone = nil;
 }
 
 /*- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{

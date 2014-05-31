@@ -88,7 +88,6 @@
 		682AA68D18D9AD070006951D /* MangoAnalyticsSingleViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */; };
 		682AA68F18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */; };
 		682FCB93192A3835007FCCAB /* subscribe_mangoreader.png in Resources */ = {isa = PBXBuildFile; fileRef = 682FCB92192A3835007FCCAB /* subscribe_mangoreader.png */; };
-		682FCB9D192A4B0C007FCCAB /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 682FCB9A192A4AF3007FCCAB /* libEJDBKit.a */; };
 		6831E1E518CA05EA000E0D26 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6831E1E318CA05EA000E0D26 /* LastPageViewController.m */; };
 		6831E1E618CA05EA000E0D26 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */; };
 		68576C0F18BF3CA4005766C9 /* Read-now.png in Resources */ = {isa = PBXBuildFile; fileRef = 68576C0E18BF3CA4005766C9 /* Read-now.png */; };
@@ -103,6 +102,9 @@
 		686C38C6190EF30600E1E922 /* loginLock.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C38C5190EF30600E1E922 /* loginLock.png */; };
 		687BE436190D463E00380E38 /* Logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 687BE435190D463E00380E38 /* Logout.png */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
+		68A9334F193895D600563E33 /* sparks.png in Resources */ = {isa = PBXBuildFile; fileRef = 68A9334E193895D600563E33 /* sparks.png */; };
+		68A93353193906DC00563E33 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 68A93352193906DC00563E33 /* MangoStory.zip */; };
+		68A9336B1939093800563E33 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A93366193908FC00563E33 /* libEJDBKit.a */; };
 		68B57DF918F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */; };
 		68B57DFB18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */; };
 		68B57DFD18F41018005A07C5 /* LastPageViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DFC18F41018005A07C5 /* LastPageViewController_iPhone.xib */; };
@@ -857,27 +859,6 @@
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		682FCB99192A4AF3007FCCAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 682FCB94192A4AF2007FCCAB /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
-			remoteInfo = EJDBKit;
-		};
-		682FCB9B192A4AF3007FCCAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 682FCB94192A4AF2007FCCAB /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
-			remoteInfo = EJDBKitTests;
-		};
-		682FCB9E192A4B14007FCCAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 682FCB94192A4AF2007FCCAB /* EJDBKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
-			remoteInfo = EJDBKit;
-		};
 		686F1895190563AC00B47DA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68E06994190543690098A3B3 /* EJDBKit.xcodeproj */;
@@ -905,6 +886,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
+		};
+		68A93365193908FC00563E33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
+		68A93367193908FC00563E33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
+			remoteInfo = EJDBKitTests;
+		};
+		68A933691939093000563E33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
+			remoteInfo = EJDBKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1006,7 +1008,6 @@
 		682AA68C18D9AD070006951D /* MangoAnalyticsSingleViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoAnalyticsSingleViewCell.m; sourceTree = "<group>"; };
 		682AA68E18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoAnalyticsSingleViewCell.xib; sourceTree = "<group>"; };
 		682FCB92192A3835007FCCAB /* subscribe_mangoreader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subscribe_mangoreader.png; sourceTree = "<group>"; };
-		682FCB94192A4AF2007FCCAB /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		6831E1E218CA05EA000E0D26 /* LastPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastPageViewController.h; sourceTree = "<group>"; };
 		6831E1E318CA05EA000E0D26 /* LastPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastPageViewController.m; sourceTree = "<group>"; };
 		6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController.xib; sourceTree = "<group>"; };
@@ -1029,6 +1030,9 @@
 		686F18991905650300B47DA8 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		687BE435190D463E00380E38 /* Logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logout.png; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		68A9334E193895D600563E33 /* sparks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparks.png; sourceTree = "<group>"; };
+		68A93352193906DC00563E33 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = MangoStory.zip; path = ../../../../Downloads/MangoStory.zip; sourceTree = "<group>"; };
+		68A93360193908FC00563E33 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewControllerBetterBookType_iPhone.xib; sourceTree = "<group>"; };
 		68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageNewBookTypeViewController_iPhone.xib; sourceTree = "<group>"; };
 		68B57DFC18F41018005A07C5 /* LastPageViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -1972,13 +1976,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				682FCB9D192A4B0C007FCCAB /* libEJDBKit.a in Frameworks */,
+				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
+				68A9336B1939093800563E33 /* libEJDBKit.a in Frameworks */,
 				280DBE28191D0F7C0082BFBA /* CoreTelephony.framework in Frameworks */,
 				280DBE25191D0C4E0082BFBA /* CoreText.framework in Frameworks */,
 				280DBE23191D0C320082BFBA /* Accelerate.framework in Frameworks */,
 				280DBE21191D0B850082BFBA /* libApptentiveConnect.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
 				68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */,
 				835CD1CA18F46C5B00B5A12F /* Parse.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
@@ -2113,7 +2117,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				682FCB94192A4AF2007FCCAB /* EJDBKit.xcodeproj */,
+				68A93360193908FC00563E33 /* EJDBKit.xcodeproj */,
+				68A93352193906DC00563E33 /* MangoStory.zip */,
 				280DBE2F191DF9710082BFBA /* New Group */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
 				280DBE2C191D6CF50082BFBA /* ATSurveys.h */,
@@ -2331,15 +2336,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		682FCB95192A4AF2007FCCAB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				682FCB9A192A4AF3007FCCAB /* libEJDBKit.a */,
-				682FCB9C192A4AF3007FCCAB /* EJDBKitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		685FE850190C5C5E002A71E5 /* SettingsDashboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -2401,6 +2397,15 @@
 			children = (
 				686F189F1905650300B47DA8 /* libEJDBKit.a */,
 				686F18A11905650300B47DA8 /* EJDBKitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		68A93361193908FC00563E33 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68A93366193908FC00563E33 /* libEJDBKit.a */,
+				68A93368193908FC00563E33 /* EJDBKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3057,6 +3062,7 @@
 			isa = PBXGroup;
 			children = (
 				682FCB92192A3835007FCCAB /* subscribe_mangoreader.png */,
+				68A9334E193895D600563E33 /* sparks.png */,
 				686C38C5190EF30600E1E922 /* loginLock.png */,
 				6820336918F2C49400F543FC /* facebook_login.png */,
 				83AED02718D844FE007CE253 /* icon_signup.png */,
@@ -3638,7 +3644,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				682FCB9F192A4B14007FCCAB /* PBXTargetDependency */,
+				68A9336A1939093000563E33 /* PBXTargetDependency */,
 				280DBE20191D0B7A0082BFBA /* PBXTargetDependency */,
 				280DBE1E191D0B730082BFBA /* PBXTargetDependency */,
 			);
@@ -3710,8 +3716,8 @@
 					ProjectRef = 686F18991905650300B47DA8 /* EJDBKit.xcodeproj */;
 				},
 				{
-					ProductGroup = 682FCB95192A4AF2007FCCAB /* Products */;
-					ProjectRef = 682FCB94192A4AF2007FCCAB /* EJDBKit.xcodeproj */;
+					ProductGroup = 68A93361193908FC00563E33 /* Products */;
+					ProjectRef = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 3FD8B0E818EDBB1C003A2DED /* Products */;
@@ -3766,20 +3772,6 @@
 			remoteRef = 3FD8B0EF18EDBB1C003A2DED /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		682FCB9A192A4AF3007FCCAB /* libEJDBKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libEJDBKit.a;
-			remoteRef = 682FCB99192A4AF3007FCCAB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		682FCB9C192A4AF3007FCCAB /* EJDBKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests.xctest;
-			remoteRef = 682FCB9B192A4AF3007FCCAB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		686F1896190563AC00B47DA8 /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -3806,6 +3798,20 @@
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
 			remoteRef = 686F18A01905650300B47DA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		68A93366193908FC00563E33 /* libEJDBKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libEJDBKit.a;
+			remoteRef = 68A93365193908FC00563E33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		68A93368193908FC00563E33 /* EJDBKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests.xctest;
+			remoteRef = 68A93367193908FC00563E33 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4157,6 +4163,7 @@
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
 				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
 				AE0C9380183E0924008E4D54 /* icons_pause.png in Resources */,
+				68A93353193906DC00563E33 /* MangoStory.zip in Resources */,
 				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
 				68CD69F518F80334003BAD0D /* popoverArrowLeftSimple.png in Resources */,
 				282814BC1918BA4800A6AD10 /* analytics.png in Resources */,
@@ -4287,6 +4294,7 @@
 				686C38C6190EF30600E1E922 /* loginLock.png in Resources */,
 				834FCE23182D11F70000181B /* collaborationbutton.png in Resources */,
 				68B57DFD18F41018005A07C5 /* LastPageViewController_iPhone.xib in Resources */,
+				68A9334F193895D600563E33 /* sparks.png in Resources */,
 				834FCE29182D11F70000181B /* edittool_selected.png in Resources */,
 				839BC5A117BDEAA400F1E9C5 /* StoriesViewController.xib in Resources */,
 				8353B3331851ABE1009B3BD8 /* 97.png in Resources */,
@@ -4614,10 +4622,10 @@
 			name = ApptentiveResources;
 			targetProxy = 280DBE1F191D0B7A0082BFBA /* PBXContainerItemProxy */;
 		};
-		682FCB9F192A4B14007FCCAB /* PBXTargetDependency */ = {
+		68A9336A1939093000563E33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = EJDBKit;
-			targetProxy = 682FCB9E192A4B14007FCCAB /* PBXContainerItemProxy */;
+			targetProxy = 68A933691939093000563E33 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4677,7 +4685,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lstdc++",
@@ -4747,7 +4755,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lstdc++",

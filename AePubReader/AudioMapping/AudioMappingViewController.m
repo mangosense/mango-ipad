@@ -43,6 +43,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     _listOfViews=[[NSMutableArray alloc]init];
     [_scrollView setBackgroundColor:COLOR_ORANGE];
     NSLog(@"%@", NSStringFromCGRect(_scrollView.frame));
@@ -52,13 +53,12 @@
     
     [_customView setHidden:YES];
     _mangoTextField = [[MangoTextField alloc] init];
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:12.0f];
     }
     else{
-        _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+        _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:24.0f];
     }
     _wordIndex = 0;
 }
@@ -114,7 +114,7 @@
         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(x, 0, size.width, size.height)];
         label.text=_customView.text[i];
         label.textAlignment=NSTextAlignmentCenter;
-        [_scrollView addSubview:label];
+       // [_scrollView addSubview:label];
         CGRect frame=label.frame;
         frame.origin.y=65;
         UITextField *textView=[[UITextField alloc]initWithFrame:frame];

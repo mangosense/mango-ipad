@@ -540,6 +540,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                                               CGImageGetBytesPerRow(maskRef),
                                               CGImageGetDataProvider(maskRef), NULL, false);
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
+    CGImageRelease(actualMask);
     UIImage *img = [UIImage imageWithCGImage:masked];
     CGImageRelease(masked);
     return img;

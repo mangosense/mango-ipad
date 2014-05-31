@@ -19,7 +19,7 @@
 @interface BooksCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) Book *book;
-@property (nonatomic, assign) id <SaveBookImage> delegate;
+@property (nonatomic, weak) id <SaveBookImage> delegate;
 @property (nonatomic, strong) UIImageView *bookCoverImageView;
 @property (nonatomic, assign) BOOL isDeleteMode;
 

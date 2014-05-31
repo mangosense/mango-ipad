@@ -27,6 +27,7 @@
     BOOL refreshCover;
     NSString *storyAsAppFilePath;
     int validUserSubscription;
+    //CAEmitterLayer *emitter;
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;

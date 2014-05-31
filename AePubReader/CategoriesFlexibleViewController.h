@@ -9,16 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "DismissPopOver.h"
 #import "MangoApiController.h"
-#import "WEPopoverController.h"
+//#import "WEPopoverController.h"
 #import "SettingOptionViewController.h"
 
-@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol,WEPopoverControllerDelegate, UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate, ShowAnalyticsView>{
-    int settingQuesNo;
+@interface CategoriesFlexibleViewController : UIViewController <DismissPopOver, MangoPostApiProtocol, UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate, ShowAnalyticsView>{
+    //int settingQuesNo;
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
-    Class popoverClass;
+    //Class popoverClass;
     BOOL settingSol;
     int quesSolution;
 }
@@ -30,7 +30,7 @@
 - (IBAction)closeSettingProblemView:(id)sender;
 - (IBAction)backgroundTap:(id)sender;
 
-@property(retain,nonatomic) UIPopoverController *popOverController;
+//@property(retain,nonatomic) UIPopoverController *popOverController;
 @property (nonatomic, assign) int pageNumber;
 @property (nonatomic, strong) NSArray *categoriesArray;
 
@@ -41,10 +41,10 @@
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
 
-@property (nonatomic, strong) IBOutlet UIButton *categoryButtonOne;
-@property (nonatomic, strong) IBOutlet UIButton *categoryButtonTwo;
-@property (nonatomic, strong) IBOutlet UIButton *categoryButtonThree;
-@property (nonatomic, strong) IBOutlet UIButton *categoryButtonFour;
+@property (nonatomic, weak) IBOutlet UIButton *categoryButtonOne;
+@property (nonatomic, weak) IBOutlet UIButton *categoryButtonTwo;
+@property (nonatomic, weak) IBOutlet UIButton *categoryButtonThree;
+@property (nonatomic, weak) IBOutlet UIButton *categoryButtonFour;
 @property (nonatomic, strong) IBOutlet UIButton *categoryButtonFive;
 @property (nonatomic, strong) IBOutlet UIButton *categoryButtonSix;
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelOne;
@@ -53,6 +53,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelFour;
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelFive;
 @property (nonatomic, strong) IBOutlet UILabel *categoryLabelSix;
-@property (nonatomic, strong) WEPopoverController *popoverControlleriPhone;
+//@property (nonatomic, strong) WEPopoverController *popoverControlleriPhone;
 
 @end

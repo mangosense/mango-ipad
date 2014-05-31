@@ -77,7 +77,7 @@
     [super viewDidLoad];
     _settingsProbSupportView.alpha = 0.4f;
     viewName = @"My Stories View";
-    popoverClass = [WEPopoverController class];
+    //popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     if (!_categoriesArray) {
         [self getAllCategories];
@@ -87,17 +87,10 @@
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (_pageNumber == 0 && !appDelegate.arePurchasesDownloading) {
-        [self getAllPurchasedBooks];
-        [self getAllFreeBooks];
+        //[self getAllPurchasedBooks];
+        //[self getAllFreeBooks];
         appDelegate.arePurchasesDownloading = YES;
     }
-    
-/*    _settingQuesArray = [[NSArray alloc] init];
-    // Do any additional setup after loading the view from its nib.
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSString *pListpath = [bundle pathForResource:@"SettingsQues" ofType:@"plist"];
-    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:pListpath];
-    _settingQuesArray = [dictionary valueForKey:@"Problems"];*/
     
     if(!userEmail){
         ID = userDeviceID;
@@ -130,12 +123,6 @@
 }
 
 - (IBAction)openBooks:(id)sender {
-    /*MyStoriesBooksViewController *myStoriesBooksViewController = [[MyStoriesBooksViewController alloc] initWithNibName:@"MyStoriesBooksViewController" bundle:nil];
-    myStoriesBooksViewController.toEdit = NO;
-    
-    [self.navigationController pushViewController:myStoriesBooksViewController animated:YES];*/
-    
-    /// -----
     
     UIButton *button = (UIButton *)sender;
     NSDictionary *categorySelected = [_categoriesArray objectAtIndex:button.tag];
@@ -193,23 +180,16 @@
 
 - (IBAction)settingsButton:(id)sender {
     
-    int rNo = arc4random()%8;
-    settingQuesNo = rNo;
+    //int rNo = arc4random()%8;
+    //settingQuesNo = rNo;
     
-    if (_popoverControlleriPhone){
-        
+    /*if (_popoverControlleriPhone){
         [self.popoverControlleriPhone dismissPopoverAnimated:YES];
         self.popoverControlleriPhone = nil;
-        
         return;
-    }
+    }*/
     
     [self qusetionForSettings];
-    
-   /* UIAlertView *settingAlert = [[UIAlertView alloc] initWithTitle:@"SOLVE" message:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"ques"] delegate:self cancelButtonTitle:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol1"] otherButtonTitles:[[_settingQuesArray objectAtIndex:rNo] valueForKey:@"sol2"], nil];
-    
-    [settingAlert show];*/
-    
 }
 
 - (void) qusetionForSettings{
@@ -314,9 +294,9 @@
     [self displaySettingsOrNot];
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+/*- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
     self.popoverControlleriPhone = nil;
-}
+}*/
 
 - (void)displaySettingsOrNot {
     
@@ -360,23 +340,6 @@
         tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1,viewCtr2, viewCtr3, viewCtr4, nil];
         
         [self.navigationController pushViewController:tabBarController animated:YES];
-        
-      /*  MangoDetailSettingsViewController *settingsViewController;
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            settingsViewController = [[MangoDetailSettingsViewController alloc] initWithNibName:@"MangoDetailSettingsViewController_iPhone" bundle:nil];
-            
-        }
-        else{
-            settingsViewController = [[MangoDetailSettingsViewController alloc] initWithNibName:@"MangoDetailSettingsViewController" bundle:nil];
-        }
-
-        [settingsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-        [self presentViewController:settingsViewController animated:YES completion:^(void) {
-        }];
-        
-        settingsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);*/
     }
 
 }
@@ -473,7 +436,7 @@
     }
 }*/
 
--(void)displaySettings {
+/*-(void)displaySettings {
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -503,12 +466,12 @@
         SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
         settingsViewController.dismissDelegate = self;
         settingsViewController.controller = self.navigationController;
-        _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-        [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
-        [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+     //   _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+    //    [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
+    //    [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
     
-}
+}*/
 
 - (IBAction)nextButtonTapped:(id)sender {
     if ((_pageNumber+ 1)*NUMBER_OF_CATEGORIES_PER_PAGE < [_categoriesArray count]) {
@@ -528,12 +491,11 @@
     }
 }
 
--(void)dismissPopOver{
-    [_popOverController dismissPopoverAnimated:YES];
+/*-(void)dismissPopOver{
+    //[_popOverController dismissPopoverAnimated:YES];
     [_popoverControlleriPhone dismissPopoverAnimated:YES];
     self.popoverControlleriPhone = nil;
-    
-}
+}*/
 
 - (void) showAnalyticsView{
     
@@ -782,17 +744,17 @@
 
 #pragma mark - Get Books
 
--(void)getAllFreeBooks {
+/*-(void)getAllFreeBooks {
     MangoApiController *apiController = [MangoApiController sharedApiController];
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (appDelegate.loggedInUserInfo) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
     }
-}
+}*/
 
-- (void)getAllPurchasedBooks {
-/*    MangoApiController *apiController = [MangoApiController sharedApiController];
+/*- (void)getAllPurchasedBooks {
+    MangoApiController *apiController = [MangoApiController sharedApiController];
     
     NSMutableDictionary *paramsdict = [[NSMutableDictionary alloc] init];
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -803,8 +765,8 @@
         [paramsdict setObject:appDelegate.loggedInUserInfo.email forKey:EMAIL];
         
         [apiController getListOf:PURCHASED_STORIES ForParameters:paramsdict withDelegate:self];
-    }*/
-}
+    }
+}*/
 
 - (IBAction)backgroundTap:(id)sender {
     [_textQuesSolution resignFirstResponder];

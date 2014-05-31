@@ -266,13 +266,14 @@
 
 - (IBAction)goBackToStoryPage:(id)sender {
 
-    if(storyAsAppFilePath && validUserSubscription){
+  //  if(storyAsAppFilePath && validUserSubscription){
         
         [self.navigationController popViewControllerAnimated:YES];
-    }
-    else{
-        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-    }
+  //  }
+   // else{
+       // [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+     //   [self.navigationController popViewControllerAnimated:YES];
+    //}
     
 }
 

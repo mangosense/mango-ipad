@@ -46,8 +46,8 @@
 }
 
 - (IBAction)backToLandingPage:(id)sender {
-AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
- UIViewController *controller=(UIViewController *)   delegate.controller;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    UIViewController *controller=(UIViewController *)  delegate.controller;
     [self.navigationController popToViewController:controller animated:YES];
 }
 

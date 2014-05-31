@@ -112,9 +112,11 @@
     
     NSString *jsonContents = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     UIImage *image = [MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
+    @autoreleasepool {
     [_delegate saveBookImage:[AePubReaderAppDelegate maskImage:image withMask:[UIImage imageNamed:@"circle2.png"]] ForBook:book];
     
-    [self performSelectorOnMainThread:@selector(setBookImage:) withObject:[AePubReaderAppDelegate maskImage:image withMask:[UIImage imageNamed:@"circle2.png"]] waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setBookImage:) withObject:[AePubReaderAppDelegate maskImage:image withMask:[UIImage imageNamed:@"circle2.png"]] waitUntilDone:YES];
+    }
 }
 
 @end

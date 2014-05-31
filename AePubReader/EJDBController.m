@@ -47,18 +47,23 @@
 }
 
 - (UserInfo *)getUserInfoForId:(NSString *)userId {
+
     UserInfo *userInfo = [_collection fetchObjectWithOID:userId];
     return userInfo;
 }
 
 - (MangoBook *)getBookForBookId:(NSString *)bookId {
+    @autoreleasepool {
     MangoBook *book = [_collection fetchObjectWithOID:bookId];
     return book;
+    }
 }
 
 - (MangoPage *)getPageForPageId:(NSString *)pageId {
+    @autoreleasepool {
     MangoPage *page = [_collection fetchObjectWithOID:pageId];
     return page;
+    }
 }
 
 - (id)getLayerForLayerId:(NSString *)layerId {
