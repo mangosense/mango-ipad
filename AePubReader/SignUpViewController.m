@@ -280,6 +280,51 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     }
 }
 
+#pragma facebook delegate method
+
+- (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
+    [self saveUserDetails:facebookDetailsDictionary];
+     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    ID = [facebookDetailsDictionary objectForKey:@"email"];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_FACEBOOK_ID : ID
+                                 };
+    [delegate trackEvent:[LOGIN_FACEBOOK valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[LOGIN_FACEBOOK valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject:[LOGIN_FACEBOOK valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:ID forKey:@"emailID"];
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [_delegate goToNext];
+}
+
+#pragma mark - User Info
+
+- (void)saveUserInfo:(NSDictionary *)userInfoDict {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    UserInfo *userInfo = [[UserInfo alloc] init];
+    userInfo.email = [userInfoDict objectForKey:EMAIL];
+    userInfo.id = [userInfoDict objectForKey:@"id"];
+    userInfo.authToken = [userInfoDict objectForKey:AUTH_TOKEN];
+    userInfo.facebookExpirationDate = [userInfoDict objectForKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
+    userInfo.username = [userInfoDict objectForKey:USERNAME];
+    userInfo.name = [userInfoDict objectForKey:NAME];
+    
+    [appDelegate.ejdbController insertOrUpdateObject:userInfo];
+    appDelegate.loggedInUserInfo = userInfo;
+}
+
 #pragma mark - UITextField Delegate Methods
 
 #define EMAIL_TAG 0

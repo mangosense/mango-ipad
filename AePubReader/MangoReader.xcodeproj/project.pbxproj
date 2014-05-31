@@ -103,7 +103,6 @@
 		687BE436190D463E00380E38 /* Logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 687BE435190D463E00380E38 /* Logout.png */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68A9334F193895D600563E33 /* sparks.png in Resources */ = {isa = PBXBuildFile; fileRef = 68A9334E193895D600563E33 /* sparks.png */; };
-		68A93353193906DC00563E33 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 68A93352193906DC00563E33 /* MangoStory.zip */; };
 		68A9336B1939093800563E33 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A93366193908FC00563E33 /* libEJDBKit.a */; };
 		68B57DF918F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */; };
 		68B57DFB18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */; };
@@ -1031,7 +1030,6 @@
 		687BE435190D463E00380E38 /* Logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logout.png; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A9334E193895D600563E33 /* sparks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparks.png; sourceTree = "<group>"; };
-		68A93352193906DC00563E33 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = MangoStory.zip; path = ../../../../Downloads/MangoStory.zip; sourceTree = "<group>"; };
 		68A93360193908FC00563E33 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewControllerBetterBookType_iPhone.xib; sourceTree = "<group>"; };
 		68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageNewBookTypeViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -2118,7 +2116,6 @@
 			isa = PBXGroup;
 			children = (
 				68A93360193908FC00563E33 /* EJDBKit.xcodeproj */,
-				68A93352193906DC00563E33 /* MangoStory.zip */,
 				280DBE2F191DF9710082BFBA /* New Group */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
 				280DBE2C191D6CF50082BFBA /* ATSurveys.h */,
@@ -4163,7 +4160,6 @@
 				AE0FF3EE16BB9480006258E1 /* WebViewControllerIphone.xib in Resources */,
 				AE1A9644170C2E15001A1344 /* stop-icon.png in Resources */,
 				AE0C9380183E0924008E4D54 /* icons_pause.png in Resources */,
-				68A93353193906DC00563E33 /* MangoStory.zip in Resources */,
 				AE21CAE91712A82A00A4877F /* ViewControllerBaseUrl.xib in Resources */,
 				68CD69F518F80334003BAD0D /* popoverArrowLeftSimple.png in Resources */,
 				282814BC1918BA4800A6AD10 /* analytics.png in Resources */,
