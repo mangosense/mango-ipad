@@ -6,6 +6,7 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
 #import "ItemsListViewController.h"
 #import "AudioRecord.h"
 #import "MBProgressHUD.h"
@@ -26,21 +27,52 @@ int menuLanguage = 0;
 {
     self = [super initWithStyle:style];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            self.tableView.contentInset = UIEdgeInsetsMake(-37, 0, -37, 0);
+            if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
+                self.preferredContentSize = CGSizeMake(150, 110);
+            } else {
+                self.contentSizeForViewInPopover = CGSizeMake(150, 110);
+            }
+        }
     }
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cellSize = 30;
+        fontSize = 14;
+    }
+    else{
+        cellSize = 44;
+        fontSize = 24;
+    }
+    viewName =@"Store Page";
+    storeBooksType = [[NSArray alloc] initWithObjects:@"Categories", @"Age_Group", @"Languages", @"Grade", nil];
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -64,6 +96,7 @@ int menuLanguage = 0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"indexpath %d", indexPath.row);
     static NSString *CellIdentifier = @"Cell";
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -73,7 +106,9 @@ int menuLanguage = 0;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     cell.textLabel.numberOfLines = 100;
-    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:12];
+    }
     switch (tableType) {
         case TABLE_TYPE_AUDIO_RECORDINGS: {
             AudioRecord *audioRecord = [itemsListArray objectAtIndex:indexPath.row];
@@ -160,17 +195,17 @@ int menuLanguage = 0;
             break;
             
         case TABLE_TYPE_TEXT_TEMPLATES: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(cellSize, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(250, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
         case TABLE_TYPE_LANGUAGE: {
-            return MAX(44, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(cellSize, [[itemsListArray objectAtIndex:indexPath.row] sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
             
         default: {
-            return MAX(44, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME] sizeWithFont:[UIFont systemFontOfSize:24] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
+            return MAX(cellSize, [[[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME] sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:NSLineBreakByWordWrapping].height);
         }
             break;
     }
@@ -180,6 +215,7 @@ int menuLanguage = 0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *detail;
     NSMutableDictionary *detailsDict = [NSMutableDictionary dictionary];
+    
     
     switch (self.tableType) {
         case TABLE_TYPE_TEXT_TEMPLATES: {
@@ -208,7 +244,34 @@ int menuLanguage = 0;
             break;
     }
     NSLog(@"TableType: %d", self.tableType);
+    AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_GROUP: [detailsDict valueForKey:@"title"]
+                                 };
+    [delegate1 trackEvent:[STORE_FILTER valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[STORE_FILTER valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [STORE_FILTER valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate1.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate1.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate1.language forKey:@"deviceLanguage"];
+    [userObject setObject:[detailsDict valueForKey:@"title"] forKey:@"storeFilter"];
+    [userObject setObject:[storeBooksType objectAtIndex: _filterTag-1] forKey:@"storeBookGroup"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [self dismissViewControllerAnimated:self.view completion:nil];
+    }
 }
 
 #pragma mark - Setters

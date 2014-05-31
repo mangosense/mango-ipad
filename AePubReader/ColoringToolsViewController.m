@@ -6,7 +6,9 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
 #import "ColoringToolsViewController.h"
+#import "Constants.h"
 
 #define RED_BUTTON_TAG 1
 #define YELLOW_BUTTON_TAG 2
@@ -47,6 +49,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -54,6 +59,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -67,7 +80,7 @@
 
 - (IBAction)colorButtonTapped:(id)sender {
     UIButton *button = (UIButton *)sender;
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     switch (button.tag) {
         case RED_BUTTON_TAG:
         case YELLOW_BUTTON_TAG:
@@ -116,6 +129,27 @@
         default:
             break;
     }
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _bookId,
+                                 
+                                 };
+    [delegate trackEvent:[EDITOR_DOODLE_TAP valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_DOODLE_TAP valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_DOODLE_TAP valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:@"Story editor" forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_bookId forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
 }
 
 - (IBAction)sliderValueChanged:(id)sender {

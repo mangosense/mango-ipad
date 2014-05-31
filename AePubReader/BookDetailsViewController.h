@@ -21,7 +21,11 @@
 @end
 
 @interface BookDetailsViewController : UIViewController <MangoPostApiProtocol, PurchaseManagerProtocol, DropDownViewDelegate>{
-    
+ 
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
 }
 
 @property (nonatomic, strong) NSString *selectedProductId;
@@ -51,11 +55,13 @@
 
 @property (nonatomic, retain) DropDownView *dropDownView;
 
-@property (nonatomic, assign) id <BookViewProtocol> delegate;
+@property (nonatomic, weak) id <BookViewProtocol> delegate;
 
 - (IBAction)buyButtonTapped:(id)sender;
 - (IBAction)closeDetails:(id)sender;
 -(IBAction)dropDownActionButtonClick;
 - (void)setIdOfDisplayBook:(NSString *)book_Id;
+
++ (int) booksDownloadingNo;
 
 @end

@@ -15,6 +15,7 @@
 #import "BooksFromCategoryViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoSubscriptionViewController.h"
 
 @interface BookDetailsViewController ()
 
@@ -27,14 +28,40 @@
 
 @implementation BookDetailsViewController
 
+static int booksDownloadingCount;
+
+-(NSMutableArray*) bookIdArray
+{
+    static NSMutableArray* theArray = nil;
+    if (theArray == nil)
+    {
+        theArray = [[NSMutableArray alloc] init];
+    }
+    return theArray;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
         [_bookImageView setContentMode:UIViewContentModeScaleAspectFill];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
+       
     }
     return self;
+}
+
++ (int) booksDownloadingNo{
+    
+    return  booksDownloadingCount;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)setIdOfDisplayBook:(NSString *)book_Id {
@@ -45,11 +72,77 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //_buyButton.userInteractionEnabled = NO;
+    viewName = @"Book Detail View Page";
     // Do any additional setup after loading the view from its nib.
     _bookImageView.layer.cornerRadius = 3.0;
     _dropDownArrayData = [[NSMutableArray alloc] init];
     _dropDownIdArrayData = [[NSMutableArray alloc] init];
     _descriptionLabel.editable = NO;
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    if(!validSubscription){
+        
+        int isUserSubscribed = [[prefs valueForKey:@"USERISSUBSCRIBED"] integerValue];
+        
+        if(isUserSubscribed){
+            [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+            _buyButton.userInteractionEnabled = YES;
+        }
+        else{
+            
+            [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+            _buyButton.userInteractionEnabled = YES;
+        }
+       /* if(appDelegate.subscriptionInfo){
+            //provide access
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+                    NSLog(@"You are already subscribed");
+                }
+                else{
+                    [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+                }
+                _buyButton.userInteractionEnabled = YES;
+            }];
+        }*/
+        
+       /* else{
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                    [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+                }
+                else{
+                    [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+                }
+                _buyButton.userInteractionEnabled = YES;
+                
+            }];
+        }*/
+    }
+    else{
+        [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+        _buyButton.userInteractionEnabled = YES;
+    }
     
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
@@ -58,8 +151,12 @@
         [currentQueue finishTransaction:(SKPaymentTransaction *)obj];
     }];
     
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
+
 }
+
+
 
 - (void) availLanguagedata{
     
@@ -73,7 +170,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
-    
+    _dropDownButton.userInteractionEnabled = YES;
     NSLog(@"Data array %d", dataArray.count);
     if(![dataArray count]){
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -82,9 +179,11 @@
     
     if([type isEqualToString:@"livestories/available_languages"]){
         NSMutableArray *tempDataArray = [[NSMutableArray alloc]init];
+        NSMutableArray *tempDataArrayCanBeDuplicate = [[NSMutableArray alloc]init];
         _dropDownArrayData = [[NSMutableArray alloc] init];
         _dropDownIdArrayData = [[NSMutableArray alloc] init];
-        tempDataArray = [NSMutableArray arrayWithArray:dataArray];
+        tempDataArrayCanBeDuplicate = [NSMutableArray arrayWithArray:dataArray];
+        [tempDataArray addObjectsFromArray:[[NSSet setWithArray:tempDataArrayCanBeDuplicate] allObjects]];
         for(int i=0; i< [tempDataArray count]; ++i){
             
             [_dropDownArrayData addObject:[tempDataArray[i] objectForKey:@"language"]];
@@ -92,7 +191,17 @@
             [_dropDownIdArrayData addObject:[tempDataArray[i] objectForKey:@"live_story_id"]];
         }
         
-        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:33 heightTableView:(33+33*_dropDownIdArrayData.count) paddingTop:-70 paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
+        int cellHeight;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            cellHeight = 26;
+        }
+        else{
+            cellHeight = 33;
+        }
+        
+        int paddingTopValue = -(cellHeight+cellHeight*_dropDownIdArrayData.count);
+        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:cellHeight heightTableView:(cellHeight+cellHeight*_dropDownIdArrayData.count) paddingTop:paddingTopValue paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
         _dropDownView.delegate = self;
         
         [self.view addSubview:_dropDownView.view];
@@ -153,11 +262,11 @@
         _numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             _priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            [_buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+           // [_buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
         }
         else{
             _priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            [_buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+           // [_buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
         }
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
@@ -199,25 +308,94 @@
 #pragma mark - Action Methods
 
 - (IBAction)buyButtonTapped:(id)sender {
-    if (_selectedProductId) {
+    
+   /* if([self bookIdArray].count >= 3){
+        
+        return;
+    }*/
+        
+    if([self checkIfBookIdIsAvailable:_selectedProductId]){
+            
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    _buyButton.userInteractionEnabled = NO;
+    //if (_selectedProductId) {
+    if([_buyButton.titleLabel.text isEqualToString:@"Read Now"]){
         //Temporarily Added For Direct Downloading
-
-       // [self itemReadyToUse:_selectedProductId ForTransaction:nil];
-
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        //[self itemReadyToUse:_selectedProductId ForTransaction:nil];
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID : _displayBookID
+                                     };
+        [delegate trackEvent:[BOOK_DETAIL_BUY_BOOK valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[BOOK_DETAIL_BUY_BOOK valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [BOOK_DETAIL_BUY_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_displayBookID forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
-        
+        NSString *userTransctionId;
+        if(appDelegate.subscriptionInfo.subscriptionTransctionId){
+            
+            userTransctionId = appDelegate.subscriptionInfo.subscriptionTransctionId;
+            
+        }
+        //userTransctionId = @"1000000109171478";
         if (bk) {
             if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
+                [self deleteBookIdFromArray:_selectedProductId];
                 [_delegate openBook:bk];
             }
             [self closeDetails:nil];
         } else {
-            [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+           // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
+            
+            if(booksDownloadingCount >= 3){
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"You can download only 3 books at a time" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            }
+            
+            booksDownloadingCount ++;
+            [self addBookIdIntoArray:_selectedProductId];
+            [self itemReadyToUse:_selectedProductId ForTransaction:userTransctionId];
         }
+        //_buyButton.userInteractionEnabled = YES;
     }
     else {
         NSLog(@"Product dose not have relative Id");
+        
+        MangoSubscriptionViewController *subscriptionViewController;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
+        [subscriptionViewController checkIfViewFromBookDetail:1];
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
     }
 }
 
@@ -225,6 +403,10 @@
     [self dismissViewControllerAnimated:YES completion:^(void) {
         //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
     }];
+}
+
+- (void) closeDetailBookWithOutAnimation{
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)openBook:(NSString *)bookId {
@@ -262,11 +444,49 @@
 
 - (void)bookDownloaded {
     [self openBook:_bookId];
+    booksDownloadingCount--;
+    [self deleteBookIdFromArray:_bookId];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Complete" message:@"Your book is downloaded, go to my stories view" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+- (void)bookDownloadAborted{
+    
+    [self deleteBookIdFromArray:_bookId];
+    booksDownloadingCount--;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Aborted" message:@"Book download aborted, please try again" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+    [self closeDetails:nil];
 }
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
 	
    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _displayBookID,
+                                 PARAMETER_BOOK_LANGUAGE : _dropDownButton.titleLabel.text,
+                                 PARAMETER_BOOK_NEW_LANGUAGE_SELECT : [_dropDownArrayData objectAtIndex:returnIndex]
+                                 };
+    [delegate trackEvent:[BOOK_DETAIL_NEW_LANGUAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOK_DETAIL_NEW_LANGUAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOK_DETAIL_NEW_LANGUAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_displayBookID forKey:@"bookID"];
+    [userObject setObject: _dropDownButton.titleLabel.text forKey:@"bookLanguage"];
+    [userObject setObject: [_dropDownArrayData objectAtIndex:returnIndex] forKey:@"bookNewLanguageSelect"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
         MangoApiController *apiController = [MangoApiController sharedApiController];
@@ -284,7 +504,32 @@
 
 
 -(IBAction)dropDownActionButtonClick{
+    
+    _dropDownButton.userInteractionEnabled = NO;
     [self availLanguagedata];
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID : _displayBookID,
+                                 PARAMETER_BOOK_LANGUAGE : _dropDownButton.titleLabel.text
+                                 };
+    [delegate trackEvent:[BOOK_DETAIL_AVAILABLE_LANGUAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[BOOK_DETAIL_AVAILABLE_LANGUAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [BOOK_DETAIL_AVAILABLE_LANGUAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_displayBookID forKey:@"bookID"];
+    [userObject setObject: _dropDownButton.titleLabel.text forKey:@"bookLanguage"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
  
 //    if(_dropDownArrayData.count>0){
 //        _dropDownButton.userInteractionEnabled = YES;
@@ -332,6 +577,23 @@
 
 - (void)hideHudOnButton {
     [_progressView removeFromSuperview];
+}
+
+- (void) addBookIdIntoArray :(NSString *)bookId{
+    
+    [[self bookIdArray] addObject:bookId];
+}
+
+- (void) deleteBookIdFromArray : (NSString *)bookId{
+    [[self bookIdArray] removeObject:bookId];
+}
+
+- (BOOL) checkIfBookIdIsAvailable :(NSString *)bookId{
+    
+    if([[self bookIdArray] containsObject:bookId])
+        return YES;
+    else
+        return  NO;
 }
 
 @end

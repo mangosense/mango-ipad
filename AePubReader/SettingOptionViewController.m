@@ -14,6 +14,7 @@
 #import "BooksCollectionViewController.h"
 #import "PurchaseManager.h"
 #import "CargoBay.h"
+#import "MangoSubscriptionViewController.h"
 
 @interface SettingOptionViewController ()
 
@@ -26,7 +27,20 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases", nil];
+        _array=[[NSArray alloc]initWithObjects:@"Logout", @"Restore In-App Purchases",@"Analytics", @"Subscribe", nil];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+           // self.tableView.contentInset = UIEdgeInsetsMake(37, 0, 37, 0);
+            if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
+                self.preferredContentSize = CGSizeMake(150, 110);
+            } else {
+                self.contentSizeForViewInPopover = CGSizeMake(150, 110);
+            }
+        }
+        
     }
     return self;
 }
@@ -34,13 +48,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    viewName = @"Setings View";
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,7 +82,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    NSLog(@"count  %d", _array.count);
     return _array.count;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = 40;
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -72,6 +102,10 @@
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+    }
+    
     cell.textLabel.text=[_array objectAtIndex:indexPath.row];
     return cell;
 }
@@ -127,6 +161,27 @@
 
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_SETTINGS_VALUE: [_array objectAtIndex:indexPath.row]
+                                 };
+    [delegate trackEvent:[SETTINGS_VALUE  valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[SETTINGS_VALUE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [SETTINGS_VALUE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:[_array objectAtIndex:indexPath.row] forKey:@"settingsValue"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     switch (indexPath.row) {
         case 0:
         {
@@ -195,15 +250,42 @@
                 }
             }];
             [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-
-            //handle analytics view
-            /*MangoAnalyticsViewController *analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
-            analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-            [self presentViewController:analyticsViewController animated:YES completion:nil];*/
         }
             break;
             
         case 2:{
+            
+            //handle analytics view
+            MangoAnalyticsViewController *analyticsViewController;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                [_dismissDelegate dismissPopOver];
+                [_analyticsDelegate showAnalyticsView];
+            }
+            else{
+                [_dismissDelegate dismissPopOver];
+                analyticsViewController = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+                analyticsViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+                [self presentViewController:analyticsViewController animated:YES completion:nil];
+            }
+            
+            
+        }
+            break;
+            
+        case 3: {
+            
+            MangoSubscriptionViewController *subscriptionViewController;
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                [_dismissDelegate dismissPopOver];
+                [_analyticsDelegate showSubscriptionView];
+            }
+            else{
+                
+                subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                [self presentViewController:subscriptionViewController animated:YES completion:nil];
+            }
             
         }
             break;
@@ -219,7 +301,7 @@
         if (type == 1) {
             NSLog(@"SuccessResponse:%@", response);
             //If Succeed.
-            [delegate itemReadyToUse:productId ForTransaction:transactionId];
+         //   [delegate itemReadyToUse:productId ForTransaction:transactionId];
             if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                 [delegate updateBookProgress:0];
             }

@@ -22,10 +22,18 @@
 @interface ItemsListViewController : UITableViewController <MangoPostApiProtocol> {
     NSMutableArray *itemsListArray;
     int tableType;
+    NSArray *storeBooksType;
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
+    int cellSize;
+    int fontSize;
 }
 
 @property (nonatomic, strong) NSMutableArray *itemsListArray;
 @property (nonatomic, assign) int tableType;
+@property (nonatomic, assign) int filterTag;
 @property (nonatomic, assign) id <ItemsDelegate> delegate;
 
 @end

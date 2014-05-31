@@ -6,9 +6,12 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
 #import "LanguageChoiceViewController.h"
 #import "BookDetailsViewController.h"
 #import "Constants.h"
+#import "BooksCollectionViewController.h"
+#import "CoverViewControllerBetterBookType.h"
 
 @interface LanguageChoiceViewController ()
 
@@ -21,6 +24,19 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            self.tableView.contentInset = UIEdgeInsetsMake(-37, 0, -37, 0);
+            if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
+                self.preferredContentSize = CGSizeMake(150, 110);
+            } else {
+                self.contentSizeForViewInPopover = CGSizeMake(150, 110);
+            }
+        }
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
 
     }
     return self;
@@ -28,7 +44,21 @@
 
 - (void)viewDidLoad
 {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    userEmail = delegate.loggedInUserInfo.email;
+    userDeviceID = delegate.deviceId;
+    
     [super viewDidLoad];
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -37,6 +67,9 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    BookDetailsViewController *bookDetailView = [[BookDetailsViewController alloc] init];
+    bookDetailView.delegate = self;
     
 }
 
@@ -47,6 +80,16 @@
 }
 
 #pragma mark - Table view data source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        return 32;
+    }
+    else{
+        return 44;
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -69,6 +112,11 @@
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        cell.textLabel.font = [UIFont systemFontOfSize:12];
+    }
+    
     cell.textLabel.text=[_array objectAtIndex:indexPath.row];
     
     return cell;
@@ -126,8 +174,8 @@
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //[_delegate dismissPopOver];
-    
     MangoApiController *apiController = [MangoApiController sharedApiController];
+    newLanguage = [_array objectAtIndex:indexPath.row];
     NSString *url;
     url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",[_bookIDArray objectAtIndex:indexPath.row]]];
    // [paramDict setObject:currentBookId forKey:@"story_id"];
@@ -155,19 +203,124 @@
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type{
     
+    AePubReaderAppDelegate *delegate = (AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    NSDictionary *EVENT;
+    
+    NSString *val;
+    
+    if(!dataArray.count){
+        val = @"No id available";
+    }
+    
+    else{
+        val = [dataArray[0] valueForKey:@"id"];
+    }
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_LANGUAGE : _language,
+                                 PARAMETER_BOOK_ID : val,
+                                 PARAMETER_BOOK_NEW_LANGUAGE_SELECT : newLanguage
+                                 };
+    
+    if(_isReadPage){
+        
+        EVENT = READBOOK_CHANGE_LANGUAGE;
+        [PFAnalytics trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+        [userObject setObject:@"Book Read View" forKey:@"viewName"];
+        
+    }
+    else{
+        
+        EVENT = BOOKCOVER_NEW_LANGUAGE;
+        [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+        [userObject setObject:@"Book cover view" forKey:@"viewName"];
+    }
+    
+    [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:val forKey:@"bookID"];
+    [userObject setObject:_language forKey:@"bookLanguage"];
+    [userObject setObject:newLanguage forKey:@"bookNewLanguageSelect"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     NSLog(@"My array is %@", dataArray);
     NSMutableArray *tempItemArray = [[NSMutableArray alloc] init];
     tempItemArray = [NSMutableArray arrayWithArray:dataArray];
-    [self showBookDetailsForBook:tempItemArray[0]];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    Book *bk=[appDelegate.dataModel getBookOfEJDBId:val];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if ((path) && (!validSubscription)) {
+        
+        [_delegate dismissPopOver];
+        
+        MangoSubscriptionViewController *subscriptionViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        [_delegate dismissPopOver];
+    }
+    
+    else{
+    
+    if (bk) {
+        
+        [self openBook:bk];
+        [self closeDetails:nil];
+    
+    
+//        if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
+//           // [self showBookDetailsForBook:tempItemArray[0]];
+
+//            
+//        }
+            [_delegate dismissPopOver];
+        
+    } else {
+    
+        [self showBookDetailsForBook:tempItemArray[0]];
+    }
+    }
 }
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
-    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-    [_delegate dismissPopOver];
+    BookDetailsViewController *bookDetailsViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+        [_delegate dismissPopOver];
+        
+    }
+    else{
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        [_delegate dismissPopOver];
+    }
+    
     bookDetailsViewController.delegate = self;
     NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-    [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+    [self.view.window.rootViewController presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         
         if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
@@ -220,11 +373,11 @@
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+        //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
         }
         else{
             bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+            //[bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
         }
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
@@ -244,6 +397,73 @@
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     
 }
+
+- (void)openBook:(Book *)bk {
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+    
+    [CoverViewControllerBetterBookType setIdentityValue:identity];
+    
+    
+    if([[NSString stringWithFormat:@"%@", [_delegate class]] isEqualToString:@"PageNewBookTypeViewController"]){
+        
+       // DismissBookPageView
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissBookPageView" object:self];
+        if ([self isMovingFromParentViewController])
+        {
+            
+                self.navigationController.delegate = nil;
+        }
+        
+        
+    }
+    
+    else{
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
+    }
+    
+    
+     
+   /*  CoverViewControllerBetterBookType *coverController;
+     
+     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+     
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:identity];
+     }
+     else{
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+     }
+     
+    [self.navigationController popToViewController:coverController animated:YES];*/
+    
+
+ /*   AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
+    [appDelegate.dataModel displayAllData];
+    
+     CoverViewControllerBetterBookType *coverController;
+     
+     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+     
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:identity];
+     }
+     else{
+     coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+     }
+     
+     [self.navigationController pushViewController:coverController animated:YES];*/
+}
+
+- (IBAction)closeDetails:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^(void) {
+        //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
+    }];
+}
+
 
 #pragma mark - Get Languages
 

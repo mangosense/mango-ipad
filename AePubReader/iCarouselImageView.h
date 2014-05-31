@@ -17,7 +17,7 @@
 
 @interface iCarouselImageView : UIImageView <MangoPostApiProtocol>
 
-@property (nonatomic, assign) id <iCarouselImageCachingProtocol> delegate;
+@property (nonatomic, weak) id <iCarouselImageCachingProtocol> delegate;
 
 - (void)getImageForUrl:(NSString *)urlString;
 

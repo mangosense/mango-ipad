@@ -37,6 +37,15 @@
     return userInfoObjects;
 }
 
+- (NSArray *)getAllSubscriptionObjects {
+    NSArray *userSubscriptionObjects = [_db findObjectsWithQuery:@{@"subscriptionProductId":@{@"$exists":@YES}} inCollection:_collection error:nil];
+    return userSubscriptionObjects;
+}
+
+- (BOOL)deleteSubscriptionObject:(SubscriptionInfo *)subInfo {
+    return [_collection removeObject:subInfo];
+}
+
 - (UserInfo *)getUserInfoForId:(NSString *)userId {
     UserInfo *userInfo = [_collection fetchObjectWithOID:userId];
     return userInfo;
@@ -65,6 +74,7 @@
     if ([appDelegate.dataModel checkIfIdExists:book.id]) {
         Book *coreDataBook = [appDelegate.dataModel getBookOfId:book.id];
         [appDelegate.dataModel.dataModelContext deleteObject:coreDataBook];
+        [appDelegate.dataModel.dataModelContext save:nil];
     }
     return [_collection removeObject:object];
 }

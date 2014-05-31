@@ -16,6 +16,10 @@
 #import "EJDBController.h"
 #import "UserInfo.h"
 #import "BookDetailsViewController.h"
+#import "CoverViewControllerBetterBookType.h"
+#import "LandPageChoiceViewController.h"
+#import "SubscriptionInfo.h"
+#import "Appirater.h"
 
 @class EPubViewController;
 @class LoginViewController;
@@ -51,8 +55,10 @@
 @property (strong,nonatomic) SKProduct *product;
 @property (strong,nonatomic) SKPaymentTransaction *transaction;
 @property (strong,nonatomic) LoginNewViewController *loginController;
+@property (strong,nonatomic) LandPageChoiceViewController *landpageController;
 
 @property (nonatomic, strong) UserInfo *loggedInUserInfo;
+@property (nonatomic, strong) SubscriptionInfo *subscriptionInfo;
 @property (nonatomic, assign) BOOL arePurchasesDownloading;
 
 -(void)removeBackDirectory;
@@ -70,10 +76,18 @@
 + (UIColor *) colorFromHexString:(NSString *)hexString;
 + (UIColor *)colorFromRgbString:(NSString *)rgbString;
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict WithDelegate:(id<BookViewProtocol>)delegate AndPresentingViewcontroller:(UIViewController *)presentingViewController;
+- (void)trackEvent:(NSString *)event dimensions:(NSDictionary *)dimensions;
 
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;
 
 @property (nonatomic, strong) EJDBController *ejdbController;
+@property (nonatomic, strong) NSString *language;
+@property (nonatomic, strong) NSString *country;
+@property (nonatomic, strong) NSString *mangoStoryId;
+@property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
+@property (nonatomic, strong) NSString *deviceId;
+
+@property (strong, nonatomic) UINavigationController *nav;
 
 @end

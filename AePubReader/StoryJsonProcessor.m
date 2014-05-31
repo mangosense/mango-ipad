@@ -36,6 +36,7 @@
                     UIImage *image = [UIImage imageWithCGImage:iref];
                     pageInfo.backgroundImage = image;
                 }
+                CGImageRelease(iref);
             } failureBlock:^(NSError *myerror) {
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];

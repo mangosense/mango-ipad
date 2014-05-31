@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 
-@interface MangoGamesListViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIWebViewDelegate>
+@interface MangoGamesListViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIWebViewDelegate>{
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
+}
 
 @property (nonatomic, strong) NSString *folderLocation;
 @property (nonatomic, strong) NSString *jsonString;
@@ -20,6 +25,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *gameTitleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *gameDescriptionLabel;
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
+@property (nonatomic, strong) NSString *loginUserEmail;
 
 - (IBAction)closeGames:(id)sender;
 

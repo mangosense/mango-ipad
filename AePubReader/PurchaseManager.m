@@ -65,12 +65,16 @@
                     NSLog(@"Product Purchased!");
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                     NSString *transactionId;
+                    
                     if (transaction.originalTransaction) {
                         transactionId = transaction.originalTransaction.transactionIdentifier;
                     } else {
                         transactionId = transaction.transactionIdentifier;
                     }
+                    
+                    
                     [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    
                 }
                     break;
                     
@@ -103,6 +107,8 @@
     [MBProgressHUD showHUDAddedTo:loadingView animated:YES];
     [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {
         if (products.count) {
+            [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
+
             NSLog(@"Products: %@", products);
             //Initialise payment queue
             SKProduct * product = products[0];
@@ -152,17 +158,44 @@
 
 - (void)validateReceipt:(NSString *)productId ForTransactionId:(NSString *)transactionId amount:(NSString *)amount storeIdentifier:(NSData *)receiptData withDelegate:(id <PurchaseManagerProtocol>)delegate {
     //Use this when receipt_validate is error free
+    
+    //TEST for storyas app
+    //[delegate updateBookProgress:0];
+    //Test end
+    
+    NSLog(@"%@", receiptData);
     [[MangoApiController sharedApiController] validateReceiptWithData:receiptData ForTransaction:transactionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
-        if (type == 1) {
+        //[delegate updateBookProgress:0];
+       // [delegate itemReadyToUse:productId ForTransaction:transactionId];
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        if ([[response objectForKey:@"status"] integerValue] == 1) {
             NSLog(@"SuccessResponse:%@", response);
-            //If Succeed.
-            [delegate itemReadyToUse:productId ForTransaction:transactionId];
-            if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
-                [delegate updateBookProgress:0];
+            NSString *expireDate = [response objectForKey:@"expires_at"];
+            [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
+            [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
+                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                      [delegate updateBookProgress:0];
+                }
             }
+        }
+        else if ([[response objectForKey:@"resp"] integerValue] == 21007){
+            
+            NSLog(@"SuccessResponse:%@", response);
+            NSString *expireDate = @"11/11/2021";
+            [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
+            [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            [prefs setBool:YES forKey:@"ISAPPLECHECK"];
+            if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
+                if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
+                    [delegate updateBookProgress:0];
+                }
+            }
+            
         }
         else {
             NSLog(@"ReceiptError:%@", error);
+            [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
         }
     }];
 }

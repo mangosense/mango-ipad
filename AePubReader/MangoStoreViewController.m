@@ -22,6 +22,8 @@
 #import "MyStoriesBooksViewController.h"
 #import "BooksCollectionViewController.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoSubscriptionViewController.h"
+#import "BookDetailsViewController.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -47,11 +49,15 @@
 
 @synthesize filterPopoverController;
 @synthesize liveStoriesFiltered;
+@synthesize popoverControlleriPhone;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -59,6 +65,11 @@
 - (void)setCategoryFlagValue:(BOOL)value {
     
     categoryflag = value;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)setCategoryDictValue:(NSDictionary*)categoryInfoDict {
@@ -72,10 +83,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
+    NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
+    viewName = @"Store Page";
+    popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
     [self setupInitialUI];
     //bookDetailsViewController.priceLabel.text.font = [UIFont fontWithName:@"the_hungry_ghost" size:16.0];
+    
+    _viewDownloadCounter.layer.cornerRadius = 3.0f;
+    [_viewDownloadCounter.layer setBorderWidth:0.5f];
+    [_viewDownloadCounter.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    
+    //add timer for the  automatic call
+    [self setDownloadCounter:0];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(setDownloadCounter:) userInfo:nil repeats:YES];
     
     //Register observer
     if(categoryflag){
@@ -86,7 +112,122 @@
         _tableType = TABLE_TYPE_MAIN_STORE;
         [self getAllAgeGroups];
     }
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        displayStoryNo = 4;
+        
+    }
+    else{
+        displayStoryNo = 6;
+    }
+    
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(!validUserSubscription){
+        
+        if(appDelegate.subscriptionInfo){
+            //provide access
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                    [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
+                    
+                }
+                else{
+                    int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
+                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                    
+                    if(!notFirstTimeDisplay){
+                    
+                        MangoSubscriptionViewController *subscriptionViewController;
+                        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                        
+                        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+                        }
+                        else{
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                        }
+                        [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
+                        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                    }
+                }
+                
+            }];
+        }
+        
+        else{
+            
+            
+            [[MangoApiController sharedApiController]validateSubscription:appDelegate.subscriptionInfo.subscriptionTransctionId andDeviceId:appDelegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    
+                    NSLog(@"You are already subscribed");
+                    [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
+                }
+                else{
+                    int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
+                    
+                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                    
+                    if(!notFirstTimeDisplay){
+                        MangoSubscriptionViewController *subscriptionViewController;
+                        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                        
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+                        }
+                        else{
+                            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+                        }
+                        [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
+                        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                    }
+                }
+                
+            }];
+        }
+        
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    
+    [self.view bringSubviewToFront:[_viewDownloadCounter superview]];
+    [[_viewDownloadCounter superview] bringSubviewToFront:_viewDownloadCounter];
+}
+
+-(void) setDownloadCounter:(NSTimer *)timer
+{
+    int noOfBooks = [BookDetailsViewController booksDownloadingNo];
+   // NSLog(@"Calling... %d", noOfBooks);
+    if(noOfBooks == 0){
+        _viewDownloadCounter.hidden = YES;
+    }
+    else{
+        _viewDownloadCounter.hidden = NO;
+    }
+    _labelDownloadingCount.text = [NSString stringWithFormat:@"%d", noOfBooks];
+}
+
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,27 +255,35 @@
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+//- (void)textFieldDidEndEditing:(UITextField *)textField {
     /*    MangoApiController *apiController = [MangoApiController sharedApiController];
      //    apiController.delegate = self;
      [apiController getListOf:LIVE_STORIES_SEARCH ForParameters:[NSDictionary dictionaryWithObject:textField.text forKey:@"q"] withDelegate:self];
      */
-}
+//}
 
 #pragma mark - Action Methods
 
 - (IBAction)goBackToStoryPage:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+
+    if(storyAsAppFilePath && validUserSubscription){
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    }
+    
 }
 
 - (IBAction)filterSelected:(id)sender {
+    
     [self.searchTextField resignFirstResponder];
     self.searchTextField = nil;
-    
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, 250)];
+    [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 150, 150)];
     textTemplatesListViewController.delegate = self;
-    
+    textTemplatesListViewController.filterTag = [sender tag];
     UIButton *button = (UIButton *)sender;
     switch (button.tag) {
         case CATEGORY_TAG: {
@@ -161,19 +310,52 @@
             break;
     }
     
-    self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
-    [self.filterPopoverController setPopoverContentSize:CGSizeMake(250, 250)];
-    self.filterPopoverController.delegate = self;
-    [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
-    [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    
+        if (!self.popoverControlleriPhone) {
+            
+            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:textTemplatesListViewController] ;
+            self.popoverControlleriPhone.delegate = self;
+            self.popoverControlleriPhone.passthroughViews = [NSArray arrayWithObject:self.view];
+            
+            [self.popoverControlleriPhone presentPopoverFromRect:button.frame
+                                                    inView:self.view
+                                  permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                  animated:YES];
+            
+          
+        } else {
+            [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+            self.popoverControlleriPhone = nil;
+        }
+        
+    }
+    else{
+        self.filterPopoverController = [[UIPopoverController alloc] initWithContentViewController:textTemplatesListViewController];
+        [self.filterPopoverController setPopoverContentSize:CGSizeMake(250, 250)];
+        self.filterPopoverController.delegate = self;
+        [self.filterPopoverController.contentViewController.view setBackgroundColor:COLOR_LIGHT_GREY];
+        [self.filterPopoverController presentPopoverFromRect:button.frame inView:self.view.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    
+   
 }
 
 #pragma mark - Post API Delegate
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
-    [paramDict setObject:IOS forKey:PLATFORM];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [paramDict setObject:[NSNumber numberWithInt:4] forKey:LIMIT];
+    }
+    else{
+        [paramDict setObject:[NSNumber numberWithInt:6] forKey:LIMIT];
+    }
+   
+       // [paramDict setObject:IOS forKey:PLATFORM];
+    
 
     if ([type isEqualToString:AGE_GROUPS]) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -190,6 +372,9 @@
         
         //Get Featured Stories
         if (!_featuredStoriesArray) {
+           
+            [paramDict setObject:IOS forKey:PLATFORM];
+        
             [apiController getListOf:FEATURED_STORIES ForParameters:paramDict withDelegate:self];
         }
         
@@ -242,8 +427,15 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
     
     /// -----
+    BooksCollectionViewController *booksCollectionViewController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
+    }
+    else{
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    }
     
-    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.toEdit = NO;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
 }
@@ -271,14 +463,16 @@
 
 - (void)getFilteredStories:(NSString *)filterName {
     filterName = [filterName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     MangoApiController *apiController = [MangoApiController sharedApiController];
     
     NSString *url;
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
-    [paramDict setObject:IOS forKey:PLATFORM];
+    
+    //[paramDict setObject:IOS forKey:PLATFORM];
+    
     
     switch (_tableType) {
         case TABLE_TYPE_CATEGORIES: {
@@ -304,6 +498,25 @@
         case TABLE_TYPE_SEARCH: {
             url = LIVE_STORIES_SEARCH;
             [paramDict setObject:filterName forKey:@"q"];
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_SEARCH_KEYWORD: filterName
+                                         };
+            [delegate trackEvent:[STORE_SEARCH valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[STORE_SEARCH valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [STORE_SEARCH valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:filterName forKey:@"storeSearchKey"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
         }
             break;
             
@@ -325,9 +538,17 @@
 - (void)setupInitialUI {
     
     CGRect viewFrame = self.view.bounds;
-    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 35, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-38) collectionViewLayout:layout];
+        
+    }
+    else{
+        _booksCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMinX(viewFrame), 80, CGRectGetWidth(viewFrame), CGRectGetHeight(viewFrame)-80) collectionViewLayout:layout];
+    }
+    
     _booksCollectionView.dataSource = self;
     _booksCollectionView.delegate =self;
     [_booksCollectionView registerClass:[StoreBookCarouselCell class] forCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID];
@@ -342,6 +563,7 @@
 
 - (void)itemType:(int)itemType tappedWithDetail:(NSDictionary *)detailDict {
     [self.filterPopoverController dismissPopoverAnimated:YES];
+    [self.popoverControlleriPhone dismissPopoverAnimated:YES];
     NSString *detailId = [detailDict objectForKey:@"id"];
     NSString *detailTitle = [detailDict objectForKey:@"title"];
     
@@ -394,7 +616,16 @@
     iCarouselImageView *storyImageView = (iCarouselImageView *)[view viewWithTag:iCarousel_VIEW_TAG];
     
     if (!storyImageView) {
-        storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
+        
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 173, 134)];
+        }
+        else{
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 400, 240)];
+        }
+        
         storyImageView.delegate = self;
     }
     [storyImageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -420,7 +651,25 @@
     if (_featuredStoriesArray) {
         NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
       //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
-        BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        if(![self connected])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
+        
+        BookDetailsViewController *bookDetailsViewController;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+            
+        }
+        else{
+            bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        }
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         bookDetailsViewController.delegate = self;
         
         [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
@@ -469,14 +718,16 @@
                 bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
             }
             bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-            if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+            
+            bookDetailsViewController.priceLabel.text =  [[bookDict objectForKey:@"info"] valueForKey:@"language"];
+           // if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
                 bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-                [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-            }
-            else{
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-                [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-            }
+            //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+          //  }
+         //   else{
+         //   bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+                //[bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+         //   }
             
             if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
                 bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
@@ -486,6 +737,28 @@
             }
             
             bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         PARAMETER_BOOK_ID : [bookDict objectForKey:@"id"]
+                                             
+                                         };
+            [delegate trackEvent:[STORE_FEATURED_BOOK valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"bookID"];
+            if(userEmail){
+                [userObject setObject:ID forKey:@"emailID"];
+            }
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+
             
             [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
             
@@ -506,7 +779,12 @@
             
         case iCarouselOptionSpacing: {
             //add a bit of spacing between the item views
-            return value * 1.5f;
+            if([[UIDevice currentDevice] userInterfaceIdiom]== UIUserInterfaceIdiomPhone){
+                return value *1.7f;
+            }
+            else{
+                return value * 1.5f;
+            }
         }
         
         case iCarouselOptionFadeMax: {
@@ -530,7 +808,16 @@
 #pragma mark - Book View Delegate
 
 - (void)openBookViewWithCategory:(NSDictionary *)categoryDict {
-    BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    BooksCollectionViewController *booksCollectionViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
+    }
+    else{
+        booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
+    }
+    
     booksCollectionViewController.toEdit = NO;
     booksCollectionViewController.categorySelected = categoryDict;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
@@ -547,7 +834,15 @@
     NSString *identity=[NSString stringWithFormat:@"%@", bk.id];
     [appDelegate.dataModel displayAllData];
     
-    CoverViewControllerBetterBookType *coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    CoverViewControllerBetterBookType *coverController;
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:identity];
+    }
+    else{
+        coverController=[[CoverViewControllerBetterBookType alloc]initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:identity];
+    }
+    
     [self.navigationController pushViewController:coverController animated:YES];
 }
 
@@ -571,16 +866,20 @@
                 return 1;
             } else {
                 NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:section-1] objectForKey:NAME];
+                
                 if ([liveStoriesFiltered objectForKey:ageGroup]) {
-                    return MIN(6, [[liveStoriesFiltered objectForKey:ageGroup] count]);
+                    return MIN(displayStoryNo, [[liveStoriesFiltered objectForKey:ageGroup] count]);
                 }
-                return 6;
+                return displayStoryNo;
             }
         }
             break;
             
         default: {
+            
             return [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] count];
+           
+           
         }
             break;
     }
@@ -604,10 +903,12 @@
 
 - (void)setupCollectionViewCell:(StoreBookCell *)cell WithDict:(NSDictionary *)bookDict {
     if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-        cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
+       // cell.bookPriceLabel.text = [NSString stringWithFormat:@"FREE"];
+        cell.bookPriceLabel.text = [[bookDict objectForKey:@"info"] valueForKey:@"language"];
     }
     else{
-        cell.bookPriceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+      //  cell.bookPriceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+        cell.bookPriceLabel.text = [[bookDict objectForKey:@"info"] valueForKey:@"language"];
     }
     cell.bookPriceLabel.font = [UIFont systemFontOfSize:14];
     
@@ -631,7 +932,15 @@
                 StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
                 
                 if (!_storiesCarousel) {
-                    _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                    
+                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                        
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 130)];
+                    }
+                    else{
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                        
+                    }
                     _storiesCarousel.delegate = self;
                     _storiesCarousel.dataSource = self;
                     _storiesCarousel.type = iCarouselTypeCoverFlow;
@@ -685,7 +994,14 @@
             if(indexPath.section != 0) {
                 StoreCollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_ID forIndexPath:indexPath];
                 headerView.titleLabel.textColor = COLOR_DARK_RED;
-                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+                }
+                else{
+                    headerView.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+                }
+                
                 headerView.titleLabel.text = [[self.ageGroupsFoundInResponse[indexPath.section-1] objectForKey:NAME] stringByAppendingString:@" Years"];
                 headerView.section = indexPath.section;
                 headerView.delegate = self;
@@ -711,10 +1027,17 @@
             
             [headerView.titleLabel setFrame:CGRectMake(headerView.frame.origin.x + 200, 0, headerView.frame.size.width - 400, headerView.frame.size.height)];
             headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
-            headerView.titleLabel.font = [UIFont boldSystemFontOfSize:22];
             
             [headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
-            [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 90, headerView.frame.size.height)];
+                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+            }
+            else{
+                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 200, headerView.frame.size.height)];
+                headerView.titleLabel.font = [UIFont boldSystemFontOfSize:22];
+            }
             
             if(liveStoriesFiltered) {
                 headerView.seeAllButton.hidden = NO;
@@ -730,12 +1053,30 @@
 #pragma mark - UICollectionView Delegate
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
-    BookDetailsViewController *bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    
+    BookDetailsViewController *bookDetailsViewController;
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Your internet connection appears to be offline, plase try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+        
+    }
+    else{
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    }
+    
     bookDetailsViewController.delegate = self;
   //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
     [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         
         if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
             bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
@@ -790,14 +1131,17 @@
         }
         
         bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-        }
-        else{
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-        }
+        
+       // if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+          //  bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+            
+       //     [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+      //  }
+      //  else{
+       //     bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+      //      [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+      //  }
+        bookDetailsViewController.priceLabel.text =  [[bookDict objectForKey:@"info"] valueForKey:@"language"];
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
             bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
@@ -805,6 +1149,28 @@
         else{
             bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
         }
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: [bookDict objectForKey:@"id"],
+                                     PARAMETER_BOOK_AGE_GROUP :[[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "],
+                                     
+                                     };
+        [delegate trackEvent:[STORE_AGE_STORE_BOOK valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[STORE_AGE_STORE_BOOK valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [STORE_AGE_STORE_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
         
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
@@ -854,7 +1220,7 @@
     switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if(section == 0) {
-                return UIEdgeInsetsMake(10, 0, 10, 0);
+                return UIEdgeInsetsMake(0, 0, 10, 0);
             }
         }
             break;
@@ -862,7 +1228,15 @@
         default:
             break;
     }
-    return UIEdgeInsetsMake(20, 20, 0, 0);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        return UIEdgeInsetsMake(-10, 15, 0, 20);
+    }
+    else{
+     return UIEdgeInsetsMake(20, 20, 0, 0);
+    }
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -881,7 +1255,15 @@
     switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if (indexPath.section == 0) {
-                return CGSizeMake(984, 240);
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    return CGSizeMake(984, 130);
+                }
+                else{
+                    return CGSizeMake(984, 240);
+                }
+                
+                
             }
         }
             break;
@@ -890,7 +1272,13 @@
             break;
     }
     
-    return CGSizeMake(150, 240);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        return CGSizeMake(110, 155);
+    }
+    else{
+        return CGSizeMake(150, 240);
+    }
 }
 
 #pragma mark - Private Methods

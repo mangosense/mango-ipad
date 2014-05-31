@@ -17,7 +17,17 @@
 #import "MangoBook.h"
 #import "LastPageViewController.h"
 
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>{
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
+    Class popoverClass;
+    BOOL refreshCover;
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
+}
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
 - (IBAction)closeButton:(id)sender;
@@ -53,5 +63,23 @@
 @property (nonatomic, strong) IBOutlet UIButton *previousPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *languageAvailButton;
+@property (nonatomic, strong) IBOutlet UIButton *editButton;
+@property(nonatomic, strong) IBOutlet UIButton *shareButton;
+
+@property (nonatomic, strong) NSDate *timeCalculate;
+@property (nonatomic, strong) NSString *bookGradeLevel;
+@property (nonatomic, strong) NSString *bookImageURL;
+@property (nonatomic, strong) NSString *loginUserEmail;
+@property (nonatomic, strong) NSString *loginUserName;
+@property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
+
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
+- (IBAction)displyParentalControl:(id)sender;
+- (IBAction)allowParentToShareOrNot:(id)sender;
+- (IBAction)closeParentalControl:(id)sender;
+
 
 @end

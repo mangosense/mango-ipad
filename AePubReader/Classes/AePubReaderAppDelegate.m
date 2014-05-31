@@ -9,30 +9,42 @@
 #import "AePubReaderAppDelegate.h"
 
 #import "Book.h"
-#import "CustomNavViewController.h"
+//#import "CustomNavViewController.h"
 #import "Flurry.h"
 #include <sys/xattr.h>
 #import "ZipArchive.h"
 #import "Base64.h"
-
+#import "MangoApiController.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import "MBProgressHUD.h"
-
+#import "MangoSubscriptionViewController.h"
 #import "BooksFromCategoryViewController.h"
-
 #import <FacebookSDK/FacebookSDK.h>
+#import "ATConnect.h"
+#import "MBProgressHUD.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
 
 //@synthesize window;
-@synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator;
+@synthesize managedObjectContext,managedObjectModel,persistentStoreCoordinator, nav;
 
 #pragma mark -
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    for (NSString* family in [UIFont familyNames])
+//    {
+//        NSLog(@"%@", family);
+//        
+//        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+//        {
+//            NSLog(@"  %@", name);
+//        }
+//    }
+    
+    [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     //Cache
@@ -43,10 +55,28 @@ static UIAlertView *alertViewLoading;
     _ejdbController = [[EJDBController alloc] initWithCollectionName:@"MangoCollection" andDatabaseName:@"MangoDb.db"];
     
     _prek=NO;
-    //Parse
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    
+    //Parse MangoReader Original App -
+ //   [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+  //                clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    
+   //MangoReader_Test app for testing
+    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
+                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
+    
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
+    
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
+    _country = [locale displayNameForKey: NSLocaleCountryCode value: countryCode];
+    NSString *countrylang = [locale objectForKey: NSLocaleLanguageCode];
+    _language = [locale displayNameForKey:NSLocaleLanguageCode value:countrylang];
+    
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:LOGIN]]];
@@ -81,27 +111,80 @@ static UIAlertView *alertViewLoading;
         [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
     }
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
-       _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
-        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewControllerIphone];
-        
-        self.window.rootViewController = nav;
-        [self.window makeKeyAndVisible];
-    } else {
-        CustomNavViewController *nav;
+//    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
+//        //LoginNewViewController_iPhone
+//        self.loginController = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+//     //  _loginViewControllerIphone=[[LoginViewControllerIphone alloc]initWithNibName:@"LoginViewControllerIphone" bundle:nil];
+//        CustomNavViewController *nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+//        
+//        self.window.rootViewController = nav;
+//        [self.window makeKeyAndVisible];
+//    } else {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+        //validSubscription = 1;//test storyasapp
+        //CustomNavViewController *nav;
         if (uiNew) {
-            _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
-            nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
-        }else{
+            NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+
+            if ((path)&& (!validSubscription)) {
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
+                    
+                }
+                else {
+                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                    
+                }
+                
+                //nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_coverController];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.nav.view animated:YES];
+                hud.labelText = @"Loading Please Wait";
+                
+            }
+            else if((path)&& (validSubscription)){
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    
+                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
+                    _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+                }
+                else {
+                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                    _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+                }
+                
+                //nav=[[CustomNavViewController alloc]initWithRootViewController:_landpageController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_landpageController];
+            }
+            
+            else {
+                
+                
+                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+                 }
+                 else{
+                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                 }
+                //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_loginController];
+            }
+            
+        } else {
         _loginViewController=[[LoginViewController alloc]init];
-        nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
+        //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
+            nav=[[UINavigationController alloc]initWithRootViewController:_loginViewController];
         }
         
         
         self.window.rootViewController = nav;
  
         [self.window makeKeyAndVisible];
-    }
+//    }
         
     [self addSkipBackupAttribute];
     
@@ -119,6 +202,8 @@ static UIAlertView *alertViewLoading;
     // You can find more information about why you need to add this line of code in our troubleshooting guide
     // https://developers.facebook.com/docs/ios/troubleshooting#objc
     [FBProfilePictureView class];
+    
+    [Appirater appLaunched:YES];
     
     return YES;
 }
@@ -188,12 +273,24 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 -(void)unzipExistingJsonBooks{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
+    if (path && !validUserSubscription )  {
+        epubFles = [NSArray arrayWithObject:@"MangoStory"];
+    }
     
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+        if (path && !validUserSubscription) {
+            epubLocation = path;
+        }
         NSString *value=[string stringByDeletingPathExtension];
         
         NSLog(@"EpubLocation: %@, Value: %@", epubLocation, value);
@@ -208,17 +305,48 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+//Analytics
+
+- (void)trackEvent:(NSString *)event dimensions:(NSDictionary *)dimensions {
+    NSMutableDictionary *dimensionDict = [NSMutableDictionary dictionaryWithDictionary:dimensions];
+    [dimensionDict setObject:_country forKey:PARAMETER_DEVICE_COUNTRY];
+    [dimensionDict setObject:_language forKey:PARAMETER_DEVICE_LANGUAGE];
+    
+    [PFAnalytics trackEvent:event dimensions:dimensionDict];
+}
+
+
 -(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
     
     NSString *actualJsonLocation=[locationDirectory stringByAppendingPathComponent:[epubFles firstObject]];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
-    [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
-    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    if (path && !validUserSubscription) {
+        dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] error:nil];
+        epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
+        NSString *actualJsonLocation = [[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] stringByAppendingPathComponent:[epubFles firstObject]];
+        NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+        _mangoStoryId = [jsonDict objectForKey:@"id"];
+
+        [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]]];
+
+        _coverController.identity = _mangoStoryId;
+        //_loginController.identity = _mangoStoryId;
+        
+    } else {
+        [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
+    }
 }
 
+//save with folder name
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{
     ZipArchive* za = [[ZipArchive alloc] init];
    // NSString *strPath=[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory],folderName];
@@ -333,6 +461,58 @@ void uncaughtExceptionHandler(NSException *exception) {
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive.
      */
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    NSArray *userSubscriptionObjects = [delegate.ejdbController getAllSubscriptionObjects];
+    if ([userSubscriptionObjects count] > 0) {
+        delegate.subscriptionInfo = [userSubscriptionObjects lastObject];
+    }
+    
+    if(delegate.subscriptionInfo){
+        
+        NSDate *myDate = [NSDate date];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //[dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName: @"PST"]];
+        NSString *myCurrentDateString = [dateFormatter stringFromDate:myDate];
+        NSDate *myCurrentDate = [dateFormatter dateFromString:myCurrentDateString];
+        NSDate *expDate = [dateFormatter dateFromString:delegate.subscriptionInfo.subscriptionExpireDate];
+        
+        NSComparisonResult result;
+        
+        result = [myCurrentDate compare:expDate]; // comparing two dates
+        
+        if(result==NSOrderedAscending)
+            NSLog(@"Product has validity");
+        else{
+            NSLog(@"Product is expired then send the request to the server");
+            
+            NSString *productId = delegate.subscriptionInfo.subscriptionProductId;
+            NSString *transctionId = delegate.subscriptionInfo.subscriptionTransctionId;
+            NSString *amount = delegate.subscriptionInfo.subscriptionAmount;
+            NSData *recieptData = delegate.subscriptionInfo.subscriptionReceiptData;
+            
+            [[MangoApiController sharedApiController] validateReceiptWithData:recieptData ForTransaction:transctionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+                // [delegate itemReadyToUse:productId ForTransaction:transactionId];
+                if ([[response objectForKey:@"status"] integerValue] == 1) {
+                    NSLog(@"SuccessResponse:%@", response);
+                    [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+                    
+                    //  MangoSubscriptionViewController *mangoSunscription = [[MangoSubscriptionViewController alloc] init];
+                    // [mangoSunscription itemReadyToUse:productId ForTransaction:transctionId withReciptData:recieptData andAmount:amount];
+                }
+                else {
+                    NSLog(@"ReceiptError:%@", error);
+                    [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
+                }
+            }];
+            
+        }
+        [prefs synchronize];
+    }
+    
 }
 
 
@@ -351,7 +531,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 + (UIImage*)maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
     
-	CGImageRef imgRef = [image CGImage];
+    CGImageRef imgRef = [image CGImage];
     CGImageRef maskRef = [maskImage CGImage];
     CGImageRef actualMask = CGImageMaskCreate(CGImageGetWidth(maskRef),
                                               CGImageGetHeight(maskRef),
@@ -360,7 +540,9 @@ void uncaughtExceptionHandler(NSException *exception) {
                                               CGImageGetBytesPerRow(maskRef),
                                               CGImageGetDataProvider(maskRef), NULL, false);
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
-    return [UIImage imageWithCGImage:masked];
+    UIImage *img = [UIImage imageWithCGImage:masked];
+    CGImageRelease(masked);
+    return img;
 }
 
 #pragma mark - After Download
@@ -579,5 +761,23 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:newDeviceToken];
+    [currentInstallation saveInBackground];
+}
+
+-(void)applicationWillEnterForeground:(UIApplication *)application{
+    [Appirater appEnteredForeground:YES];
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
+
 @end
 

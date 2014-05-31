@@ -17,6 +17,8 @@
 #import <Foundation/Foundation.h>
 #import <Social/Social.h>
 #import "AePubReaderAppDelegate.h"
+#import "CoverViewControllerBetterBookType.h"
+
 
 @interface LoginNewViewController ()
 
@@ -31,12 +33,21 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+
     }
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
+    _udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    viewName = @"Login Page";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden=YES;
@@ -47,25 +58,62 @@
     
     // Set this loginUIViewController to be the loginView button's delegate
     loginView.delegate = self;
+
     
     // Align the button in the center horizontally
-    loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
+    
+  /*  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 175, loginView.frame.size.width, loginView.frame.size.height);
+        for (id obj in loginView.subviews)
+        {
+            if ([obj isKindOfClass:[UIButton class]])
+            {
+                UIButton * loginButton =  obj;
+                UIImage *loginImage = [UIImage imageNamed:@"facebook_login.png"];
+                [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
+                [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
+                [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+                [loginButton setFrame:CGRectMake(34,20,150,28)];
+                
+            }
+            if ([obj isKindOfClass:[UILabel class]])
+            {
+                UILabel * loginLabel =  obj;
+                loginLabel.text = @"";
+                //loginLabel.textAlignment = UITextAlignmentCenter;
+                loginLabel.frame = CGRectMake(0,0,0,0);
+            }
+            
+            
+        }
+    }
+    else{
+        loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
+    }*/
     
     // Align the button in the center vertically
     //loginView.center = self.view.center;
     
-    
     // Add the button to the view
-    [self.view addSubview:loginView];
+    //[self.view addSubview:loginView];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
     if ([userInfoObjects count] > 0) {
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
-        [self goToNext:nil];
+        [self goToNext];
     }
-    
+    appDelegate.deviceId = _udid;
     _isLoginWithFb = NO;
+
+    
+    //if(!notFirstTimeHelpDisplay){
+        
+      //  [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
+        [self loadHelpImagesScroll];
+    //}
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -180,17 +228,55 @@
 }
 
 - (void)goToNext {
-    LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
-    [self.navigationController pushViewController:landingPageViewController animated:YES];
+    
+        LandPageChoiceViewController *landingPageViewController;
+    
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+            landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+        }
+        else{
+            landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+        }
+        [self.navigationController pushViewController:landingPageViewController animated:YES];
+
 }
 
-- (IBAction)goToNext:(id)sender {
-    LandPageChoiceViewController *landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
-    [self.navigationController pushViewController:landingPageViewController animated:YES];
+- (IBAction)goToNextSkip:(id)sender {
+    
+    NSString *alertMessage = @"Are you sure you want to skip unlimited access to interactive books!";
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Skip Signin" message:alertMessage delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    [alert show];
 }
 
 - (IBAction)signUp:(id)sender {
-    SignUpViewController *signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    ID = _udid;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 
+                                 };
+    [delegate trackEvent:[SIGN_UP_VIEW valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[SIGN_UP_VIEW valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [SIGN_UP_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:ID forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
+    SignUpViewController *signupViewController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController_iPhone" bundle:nil];
+    }
+    else{
+        signupViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    }
+
     signupViewController.delegate = self;
     signupViewController.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
     [self presentViewController:signupViewController animated:YES completion:nil];
@@ -217,21 +303,59 @@
 
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
     [self saveUserInfo:facebookDetailsDictionary];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    ID = [facebookDetailsDictionary objectForKey:@"email"];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_FACEBOOK_ID : ID
+                                 };
+    [delegate trackEvent:[LOGIN_FACEBOOK valueForKey:@"description"]  dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[LOGIN_FACEBOOK valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject:[LOGIN_FACEBOOK valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:ID forKey:@"emailID"];
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    [self goToNext:nil];
+    [self goToNext];
 }
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (userDetailsDictionary.count) {
         if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
             [self saveUserInfo:userDetailsDictionary];
+            ID = [userDetailsDictionary objectForKey:@"email"];
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         
+                                         };
+            [delegate trackEvent: [SIGN_IN valueForKey:@"description"] dimensions:dimensions];
+            
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:ID forKey:@"emailID"];
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+            
             
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [self goToNext:nil];
+            [self goToNext];
         } else {
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];
@@ -248,6 +372,134 @@
     if(touch.phase == UITouchPhaseBegan) {
         [self.view endEditing:YES];
     }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if([alertView.title isEqualToString:@"Skip Signin"]){
+        
+        if(buttonIndex == 1){
+            
+            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            ID = _udid;
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_ID : ID,
+                                         PARAMETER_DEVICE: IOS,
+                                         
+                                         };
+            [delegate trackEvent:[SKIP_SIGN_IN valueForKey:@"description"] dimensions:dimensions];
+            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+            [userObject setObject:[SKIP_SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
+            [userObject setObject: [SKIP_SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
+            [userObject setObject:viewName forKey:@"viewName"];
+            [userObject setObject:ID forKey:@"deviceIDValue"];
+            [userObject setObject:delegate.country forKey:@"deviceCountry"];
+            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+            [userObject setObject:IOS forKey:@"device"];
+            [userObject saveInBackground];
+            
+                LandPageChoiceViewController *landingPageViewController;
+            
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                    landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
+                }
+                else{
+                    landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
+                }
+            
+                [self.navigationController pushViewController:landingPageViewController animated:YES];
+        
+        }
+        else{
+            
+            
+        }
+    }
+}
+
+//images for scroll view
+
+- (void)loadHelpImagesScroll{
+    
+    pageControlBeingUsed = NO;
+   // _imageHelpView.hidden = NO;
+  //  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+ //   int notFirstTimeHelpDisplay = [[prefs valueForKey:@"FIRSTTIMEHELPDISPLAY"] integerValue];
+   // if(!notFirstTimeHelpDisplay){
+    
+     // [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
+  //      _imageHelpView.hidden = NO;
+   // }
+    
+    
+	
+	NSArray *colors = [NSArray arrayWithObjects:[UIImage imageNamed:@"dashboard.jpg"], [UIImage imageNamed:@"createstory.jpg"], [UIImage imageNamed:@"readbar.jpg"],  [UIImage imageNamed:@"readpage.jpg"],  [UIImage imageNamed:@"store.jpg"],  [UIImage imageNamed:@"subscribe.jpg"], nil];
+	for (int i = 0; i < colors.count; i++) {
+		CGRect frame;
+		frame.origin.x = self.scrollView.frame.size.width * i;
+		frame.origin.y = 0;
+		frame.size = self.scrollView.frame.size;
+		
+		UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
+		//subview.backgroundColor = [colors objectAtIndex:i];
+        subview.image = [colors objectAtIndex:i];
+		[self.scrollView addSubview:subview];
+		
+	}
+	
+	self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * colors.count, self.scrollView.frame.size.height);
+	
+	self.pageControl.currentPage = 0;
+	self.pageControl.numberOfPages = colors.count;
+    
+    [self.view bringSubviewToFront:[_imageHelpView superview]];
+    [[_imageHelpView superview] bringSubviewToFront:_imageHelpView];
+    
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+	if (!pageControlBeingUsed) {
+		// Switch the indicator when more than 50% of the previous/next page is visible
+		CGFloat pageWidth = self.scrollView.frame.size.width;
+		int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+		self.pageControl.currentPage = page;
+	}
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+	pageControlBeingUsed = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	pageControlBeingUsed = NO;
+}
+
+- (IBAction)changePage {
+	// Update the scroll view to the appropriate page
+	CGRect frame;
+	frame.origin.x = self.scrollView.frame.size.width * self.pageControl.currentPage;
+	frame.origin.y = 0;
+	frame.size = self.scrollView.frame.size;
+	[self.scrollView scrollRectToVisible:frame animated:YES];
+	
+	// Keep track of when scrolls happen in response to the page control
+	// value changing. If we don't do this, a noticeable "flashing" occurs
+	// as the the scroll delegate will temporarily switch back the page
+	// number.
+	pageControlBeingUsed = YES;
+}
+
+- (IBAction)skipHelpPageView:(id)sender{
+    
+    _imageHelpView.hidden = YES;
+    
+}
+
+- (IBAction)showHelpPageView:(id)sender{
+    _imageHelpView.hidden = NO;
 }
 
 @end

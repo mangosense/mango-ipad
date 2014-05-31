@@ -55,7 +55,7 @@
 		
 		self.view.layer.shadowColor = [[UIColor blackColor] CGColor];
 		
-		self.view.layer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+		self.view.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
 		
 		self.view.layer.shadowOpacity =1.0f;
 		
@@ -144,9 +144,15 @@
 		
     }
     
-    cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:12.0];
+    }
+    else{
+        cell.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0];
+    }
 	cell.textLabel.text = [arrayData objectAtIndex:indexPath.row];
-		
+    cell.textLabel.textColor = [UIColor darkGrayColor];
 	return cell;
 	
 }	

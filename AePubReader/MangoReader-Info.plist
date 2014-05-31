@@ -27,7 +27,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -44,7 +44,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>1.0</string>
 	<key>FacebookAppID</key>
 	<string>199743376733034</string>
 	<key>FacebookDisplayName</key>
@@ -53,11 +53,42 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>arial_bold_Italic.ttf</string>
+		<string>arial_bold.ttf</string>
+		<string>arial_Italic.ttf</string>
+		<string>arial.ttf</string>
+		<string>comic_bold.ttf</string>
+		<string>comic.ttf</string>
+		<string>helvetica_bold_italic.ttf</string>
+		<string>helvetica_bold.ttf</string>
+		<string>helvetica_italic.ttf</string>
+		<string>helvetica.ttf</string>
+		<string>mono_bold_italic.ttf</string>
+		<string>mono_bold.ttf</string>
+		<string>mono_italic.ttf</string>
+		<string>mono.ttf</string>
+		<string>tahoma_bold_italic.ttf</string>
+		<string>tahoma_bold.ttf</string>
+		<string>tahoma_italic.ttf</string>
+		<string>tahoma.ttf</string>
+		<string>times_bold_italic.ttf</string>
+		<string>times_bold.ttf</string>
+		<string>times_italic.ttf</string>
+		<string>times.ttf</string>
+		<string>verdana_bold_italic.ttf</string>
+		<string>verdana_bold.ttf</string>
+		<string>verdana_italic.ttf</string>
+		<string>verdana.ttf</string>
+	</array>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow</string>
 	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

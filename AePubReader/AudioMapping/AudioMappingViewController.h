@@ -13,18 +13,14 @@
 #import "CustomLabel.h"
 #import "MangoTextField.h"
 
-@protocol AudioMappingDelegate
+@protocol AudioMappingDelegate;
 
-- (void)saveAudioMapping;
-
-@end
 
 @interface AudioMappingViewController : UIViewController<UITextFieldDelegate,AVAudioPlayerDelegate,CustomLabelDelegate> {
     NSURL *audioUrl;
     NSString *textForMapping;
     
     IBOutlet UISlider *audioSpeedSlider;
-    
 }
 
 - (IBAction)nextClick:(id)sender;
@@ -59,3 +55,12 @@
 @property (nonatomic, strong) MangoTextField *mangoTextField;
 
 @end
+
+
+@protocol AudioMappingDelegate <NSObject>
+
+- (void)saveAudioMapping;
+- (void)audioMappingViewControllerdidFinishPlaying:(AudioMappingViewController *) vc;
+
+@end
+

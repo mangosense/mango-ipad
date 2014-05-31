@@ -17,7 +17,13 @@
 
 @end
 
-@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol>
+@interface SignUpViewController : UIViewController<NSURLConnectionDataDelegate,UIAlertViewDelegate,UITextFieldDelegate, MangoPostApiProtocol, FBLoginViewDelegate>{
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
+}
 - (IBAction)signUp:(id)sender;
 - (IBAction)donePressed:(id)sender;
 
@@ -31,6 +37,12 @@
 
 @property (nonatomic, assign) id <PostSignupDelegate> delegate;
 
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
 - (BOOL)validateEmailWithString:(NSString*)email;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil with:(LoginViewController *)loginViewController;
+
+- (IBAction)displyParentalControlOrNot:(id)sender;
 @end

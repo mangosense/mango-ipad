@@ -11,8 +11,18 @@
 #import "CoverViewControllerBetterBookType.h"
 #import "Book.h"
 #import "BookDetailsViewController.h"
+#import "MangoSubscriptionViewController.h"
 
-@interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol>
+
+
+@interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol, SubscriptionProtocol>{
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
+    NSString *storyAsAppFilePath;
+    int validUserSubscription;
+}
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property(strong,nonatomic) NSString *identity;
@@ -20,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *games;
 
 @property(strong, nonatomic) IBOutlet UIView *recommendedBooksView;
+@property(strong, nonatomic) IBOutlet UIView *mangoreaderLinkView;
 @property(strong,nonatomic) IBOutlet UIButton *book1;
 @property(strong,nonatomic) IBOutlet UIButton *book2;
 @property(strong,nonatomic) IBOutlet UIButton *book3;
@@ -33,6 +44,13 @@
 @property(strong, nonatomic) NSMutableArray *tempItemArray;
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
+@property(nonatomic, strong) IBOutlet UIButton *shareButton;
+
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithId:(NSString *)identity;
 - (IBAction)pushToCoverView:(id)sender;
 - (IBAction)gameButtonTapped:(id)sender;
@@ -40,5 +58,10 @@
 - (IBAction)socialSharingOrLike :(id)sender;
 - (IBAction)backButtonTap:(id)sender;
 - (void) loadRecommendedBooks;
+- (IBAction)clickOnSubscribe:(id)sender;
+
+- (IBAction)displyParentalControl:(id)sender;
+- (IBAction)allowParentToShareOrNot:(id)sender;
+- (IBAction)closeParentalControl:(id)sender;
 
 @end

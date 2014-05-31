@@ -98,6 +98,16 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
+        if(!userEmail){
+            ID = userDeviceID;
+        }
+        else{
+            ID = userEmail;
+        }
         // Custom initialization
     }
     return self;
@@ -107,7 +117,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    viewName = @"Story editor";
     [self renderEditorPage:0];
     [pagesCarousel scrollToItemAtIndex:3 animated:YES];
 }
@@ -227,6 +237,7 @@
             [pagesCarousel reloadData];
             [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
         }
+        CGImageRelease(iref);
     } failureBlock:^(NSError *myerror) {
         NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
     }];
@@ -235,6 +246,17 @@
 #pragma mark - UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookid;
+    if(!storyBook.id){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookid = [jsonDict valueForKey:@"id"];
+    }
+    else{
+        bookid = storyBook.id;
+    }
+    
     if (photoPopoverController) {
         if ([photoPopoverController isPopoverVisible]) {
             [photoPopoverController dismissPopoverAnimated:true];
@@ -243,6 +265,58 @@
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"Dismissed");
     }];
+    
+    if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+        NSLog(@"Camera");
+        NSDictionary *dimensions = @{
+                                     
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: bookid,
+                                     
+                                     };
+        [delegate trackEvent:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:bookid forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
+    }
+    else{
+      NSLog(@"library");
+        NSDictionary *dimensions = @{
+                                     
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: bookid,
+                                     
+                                     };
+        [delegate trackEvent:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:bookid forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+        
+    }
+    
     
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
@@ -257,6 +331,7 @@
             arrayOfEditorImages = [NSArray arrayWithArray:mutableImagesArray];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = [arrayOfEditorImages count] - 1;
+                    
             [self addImageForButton:button];
         }
     }];
@@ -421,6 +496,38 @@
         [self addAssetToView];
     }
     [menuPopoverController dismissPopoverAnimated:YES];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookid;
+    if(!storyBook.id){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookid = [jsonDict valueForKey:@"id"];
+    }
+    else{
+        bookid = storyBook.id;
+    }
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: bookid,
+                                 
+                                 };
+    [delegate trackEvent:[EDITOR_ADD_IMAGE valueForKey:@"value"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_ADD_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_ADD_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:bookid forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     
     stickerView = [[UIView alloc] initWithFrame:CGRectMake(pageImageView.center.x - 90, pageImageView.center.y - 90, 140, 180)];
     [stickerView setUserInteractionEnabled:YES];
@@ -624,6 +731,38 @@
 #pragma mark - Action Methods
 
 - (IBAction)mangoButtonTapped:(id)sender {
+    NSString *bookId;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    if([sender tag] ==1){
+        if(!storyBook.id){
+            NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+            bookId = [jsonDict valueForKey:@"id"];
+        }
+        else{
+            bookId = storyBook.id;
+        }
+        NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: bookId,
+                                 
+                                 };
+        [delegate trackEvent:[EDITOR_MANGO_TAP valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_MANGO_TAP valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_MANGO_TAP valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:bookId forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+    }
     
     bookJsonString = [self jsonForBook:_mangoStoryBook];
     NSData *data = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -650,6 +789,7 @@
 
 - (IBAction)menuButtonTapped:(id)sender {
     MenuTableViewController *menuTableViewController = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    menuTableViewController.bookId = _mangoStoryBook.id;
     menuTableViewController.popDelegate = self;
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:menuTableViewController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
@@ -665,6 +805,38 @@
 }
 
 - (IBAction)textButtonTapped:(id)sender {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookid;
+    if(!storyBook.id){
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        bookid = [jsonDict valueForKey:@"id"];
+    }
+    else{
+        bookid = storyBook.id;
+    }
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: bookid,
+                                 
+                                 };
+    [delegate trackEvent:[EDITOR_ADD_TEXT valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_ADD_TEXT valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_ADD_TEXT valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:bookid forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
     [textTemplatesListViewController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
@@ -681,6 +853,28 @@
 }
 
 - (IBAction)audioButtonTapped:(id)sender {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [delegate trackEvent:[EDITOR_RECORD_PLAY valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
     audioListController.tableType = TABLE_TYPE_AUDIO_RECORDINGS;
@@ -711,7 +905,7 @@
     
     ColoringToolsViewController *coloringToolsController = [[ColoringToolsViewController alloc] initWithNibName:@"ColoringToolsViewController" bundle:nil];
     coloringToolsController.delegate = self;
-    
+    coloringToolsController.bookId = _mangoStoryBook.id;
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:coloringToolsController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, 193) animated:YES];
     [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
@@ -840,6 +1034,7 @@
                         UIImage *image = [UIImage imageWithCGImage:iref];
                         [pageThumbnail.thumbnailImageView setImage:image];
                     }
+                    CGImageRelease(iref);
                 } failureBlock:^(NSError *myerror) {
                     NSLog(@"Couldn't get image - %@",[myerror localizedDescription]);
                 }];
@@ -863,7 +1058,7 @@
        // pagesCarousel.contentView.layer.borderWidth = 2.0f;
         
     } else {
-        [self createEmptyPage];
+        [self createEmptyPage :0];
         [pagesCarousel reloadData];
         [self carousel:pagesCarousel didSelectItemAtIndex:[_mangoStoryBook.pages count] - 1];
     }
@@ -918,6 +1113,28 @@
 #pragma mark - Page Delete Delegate Method
 
 - (void)deletePageNumber:(int)pageNumber {
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_DEVICE: IOS,
+                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
+                                 
+                                 };
+    [delegate trackEvent:[EDITOR_DELETE_PAGE valueForKey:@"description"] dimensions:dimensions];
+    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+    [userObject setObject:[EDITOR_DELETE_PAGE valueForKey:@"value"] forKey:@"eventName"];
+    [userObject setObject: [EDITOR_DELETE_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
+    [userObject setObject:viewName forKey:@"viewName"];
+    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
+    if(userEmail){
+        [userObject setObject:ID forKey:@"emailID"];
+    }
+    [userObject setObject:IOS forKey:@"device"];
+    [userObject saveInBackground];
+    
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
     if (pageNumber < [mutablePagesArray count]) {
@@ -987,9 +1204,15 @@
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
 
-    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+ //   NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    int totalpages;
+    totalpages = [[jsonDict objectForKey:@"page_count"] intValue];
+    if(!totalpages){
+        totalpages = [[[jsonDict valueForKey:@"pages"] valueForKey:@"id"] count];
+    }
 
-    return [NSNumber numberWithInt:[readerPagesArray count]];
+    return [NSNumber numberWithInt:totalpages];
 }
 
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation {
@@ -1022,7 +1245,15 @@
 #define READ_BY_MYSELF 1
 
 + (UIView *)readerPage:(int)pageNumber ForEditedStory:(MangoBook *)storyBook WithFolderLocation:(NSString *)folderLocation WithAudioMappingViewController:(AudioMappingViewController *)audioMappingViewController andDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
-    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    UIView *pageView;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 480, 320)];
+    }
+    else{
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+    }
+    
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -1154,7 +1385,15 @@
     
     for (NSDictionary *readerPageDict in readerPagesArray) {
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:gameName]) {
-            UIWebView *gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+            UIWebView *gameWebView;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                
+                gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
+            }
+            else{
+                gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+            }
+            
             NSString *filePath = [[folderLocation stringByAppendingFormat:@"/games/%@/index.html", [readerPageDict objectForKey:PAGE_NAME]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSLog(@"%@", filePath);
             [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
@@ -1168,6 +1407,213 @@
     
     return nil;
 }
+
+
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption ;
+{
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    NSDictionary *pageDict;
+    for (NSDictionary *readerPageDict in readerPagesArray) {
+        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:[NSString stringWithFormat:@"%d", pageNumber]]) {
+            pageDict = readerPageDict;
+            break;
+        }
+    }
+    
+    UIView *pageView;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
+        
+    }
+    else{
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    }
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
+    
+    NSArray *layersArray = [pageDict objectForKey:LAYERS];
+    NSString *textOnPage;
+    CGRect textFrame;
+    NSData *audioData;
+    for (NSDictionary *layerDict in layersArray) {
+        AudioMappingViewController *audioMappingViewcontroller = nil; //Parag
+        if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO] || [[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
+            audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+            audioMappingViewcontroller.audioMappingDelegate = delegate;
+        }
+        if ([[layerDict objectForKey:TYPE] isEqualToString:IMAGE]) {
+            backgroundImageView.image = [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            NSLog(@"%@", [UIImage imageWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]]);
+            if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, pageView.frame.size.width*0.65, 768)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(pageView.frame.size.width*0.35, 0, pageView.frame.size.width*0.65, 768)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:TOP_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, 0, 1024, pageView.frame.size.height*0.65)];
+            } else if ([[layerDict objectForKey:ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
+                [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, 1024, pageView.frame.size.height)];
+            }
+            [pageView addSubview:backgroundImageView];
+            [pageView sendSubviewToBack:backgroundImageView];
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
+            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
+            [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewcontroller.view setExclusiveTouch:YES];
+            [audioMappingViewcontroller.customView setNeedsDisplay];
+            NSArray *wordMapDict=[layerDict objectForKey:WORDMAP];
+            NSMutableArray *wordMap=[[NSMutableArray alloc]init];
+            if (![wordMapDict isEqual:[NSNull null]]) {
+                for (NSDictionary *temp in wordMapDict ) {
+                    NSString *word=temp[@"word"];
+                    [wordMap addObject:word];
+                }
+            }
+            
+            wordMapDict=[[NSArray alloc]initWithArray:wordMap];/*list of words created*/
+            
+            if (![[layerDict objectForKey:CUES] isEqual:[NSNull null]]) {
+                NSArray *cues=[layerDict objectForKey:CUES];
+                audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
+            }
+            
+            audioMappingViewcontroller.customView.text=wordMapDict;
+            if ([UIDevice currentDevice].systemVersion.integerValue<6) {
+                audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
+            } else {
+                NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewcontroller.customView.textFont, NSFontAttributeName, nil];
+                audioMappingViewcontroller.customView.space=   audioMappingViewcontroller.mangoTextField.frame.size;
+            }
+            
+            audioMappingViewcontroller.index=0;
+            audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
+            
+            if (readingOption == READ_TO_ME) {
+                if (![audioMappingViewcontroller.player isPlaying]) {
+                    [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
+                }
+            }
+            //NSLog(@"%@",audioMappingViewcontroller.cues);
+            
+            if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {
+                audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[layerDict objectForKey:@"highlight"]];
+            } else {
+                audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
+            }
+            NSLog(@"MangoTxt Frame: %@", NSStringFromCGRect(audioMappingViewcontroller.mangoTextField.frame));
+            
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
+            textOnPage = [layerDict objectForKey:TEXT];
+            textFrame = CGRectMake(100, 100, 600, 400);
+            
+            if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
+                if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
+                    
+                    CGFloat xOrigin = 0;
+                    if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
+                        xOrigin = pageView.frame.size.width/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
+                        if (xOrigin >= pageView.frame.size.width || xOrigin < 0) {
+                            xOrigin = 0;
+                        }
+                    }
+                    
+                    
+                    CGFloat yOrigin = 0;
+                    if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
+                        yOrigin = pageView.frame.size.height/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
+                        if (yOrigin >= pageView.frame.size.height || yOrigin < 0) {
+                            yOrigin = 0;
+                        }
+                    }
+                    
+                    //CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
+                    
+                    textFrame = CGRectMake(xOrigin, yOrigin, pageView.frame.size.width*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue]/1024.0f, pageView.frame.size.height*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]/768.0f);
+                    
+                    audioMappingViewcontroller.customView.frame = textFrame;
+                }
+            }
+            
+            if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:LEFT_ALIGN]) {
+                textFrame = CGRectMake(pageView.frame.size.width*0.65, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
+            } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:RIGHT_ALIGN]) {
+                textFrame = CGRectMake(0, 0, pageView.frame.size.width*0.35, pageView.frame.size.height);
+            } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:TOP_ALIGN]) {
+                textFrame = CGRectMake(0, pageView.frame.size.height*0.65, pageView.frame.size.width, pageView.frame.size.height*0.35);
+            } else if ([[layerDict objectForKey:IMAGE_ALIGNMENT] isEqualToString:BOTTOM_ALIGN]) {
+                textFrame = CGRectMake(0, 0, pageView.frame.size.width, pageView.frame.size.height*0.35);
+            }
+            
+            [pageView addSubview:audioMappingViewcontroller.view];
+            [audioMappingViewcontroller.view setHidden:YES];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+            [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
+            [audioMappingViewcontroller.view setExclusiveTouch:YES];
+            
+            audioMappingViewcontroller.mangoTextField.text = textOnPage;
+            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+            audioMappingViewcontroller.mangoTextField.frame = textFrame;
+            audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
+            
+            if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
+                
+                NSString *colorString = [[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"];
+                colorString = [colorString stringByReplacingOccurrencesOfString:@"rgb("
+                                                                     withString:@""];
+                colorString = [colorString substringToIndex:[colorString length] - 1];
+                NSArray *components = [colorString componentsSeparatedByString:@","];
+                
+                UIColor *color = [UIColor colorWithRed:[[components objectAtIndex:0] floatValue]/255.f
+                                                 green:[[components objectAtIndex:1] floatValue]/255.f
+                                                  blue:[[components objectAtIndex:2] floatValue]/255.f
+                                                 alpha:1.f];
+                
+                //                audioMappingViewcontroller.mangoTextField.textColor = [AePubReaderAppDelegate colorFromHexString:];
+                audioMappingViewcontroller.mangoTextField.textColor = color;
+            } else {
+                audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
+            }
+            
+            [pageView addSubview:audioMappingViewcontroller.mangoTextField];
+            
+            audioMappingViewcontroller.textForMapping = textOnPage;
+            
+        } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
+            NSURL *asseturl = [layerDict objectForKey:@"url"];
+            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+                ALAssetRepresentation *rep = [myasset defaultRepresentation];
+                CGImageRef iref = [rep fullResolutionImage];
+                if (iref) {
+                    UIImage *image = [UIImage imageWithCGImage:iref];
+                    backgroundImageView.image = image;
+                    [pageView addSubview:backgroundImageView];
+                }
+                CGImageRelease(iref);
+            } failureBlock:^(NSError *myerror) {
+                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+            }];
+        }
+        
+        
+        
+        //  else if([layerDict objectForKey:WORDMAP])
+    }
+    
+    if ([[pageView subviews] count] > 0) {
+        return pageView;
+    }
+    
+    return nil;
+}
+
 
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption {
     
@@ -1184,7 +1630,16 @@
         }
     }
 
-    UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    UIView *pageView;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
+        
+    }
+    else{
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    }
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
     
     NSArray *layersArray = [pageDict objectForKey:LAYERS];
@@ -1205,10 +1660,11 @@
                 [backgroundImageView setFrame:CGRectMake(0, pageView.frame.size.height*0.35, 1024, pageView.frame.size.height)];
             }
             [pageView addSubview:backgroundImageView];
+            [pageView sendSubviewToBack:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             [audioMappingViewcontroller.customView setNeedsDisplay];
@@ -1233,7 +1689,7 @@
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
             } else {
                 NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:audioMappingViewcontroller.customView.textFont, NSFontAttributeName, nil];
-                audioMappingViewcontroller.customView.space=   [[[NSAttributedString alloc] initWithString:@" " attributes:attributes] size];
+                audioMappingViewcontroller.customView.space=   audioMappingViewcontroller.mangoTextField.frame.size;
             }
             
             audioMappingViewcontroller.index=0;
@@ -1243,25 +1699,25 @@
                 [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
             }
             //NSLog(@"%@",audioMappingViewcontroller.cues);
-            [audioMappingViewcontroller.customView setNeedsDisplay];
             
             if ([layerDict objectForKey:@"highlight"] && ![[layerDict objectForKey:@"highlight"] isEqual:[NSNull null]]) {
                 audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[layerDict objectForKey:@"highlight"]];
             } else {
                 audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
             }
+            NSLog(@"MangoTxt Frame: %@", NSStringFromCGRect(audioMappingViewcontroller.mangoTextField.frame));
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:TEXT]) {
             textOnPage = [layerDict objectForKey:TEXT];
             textFrame = CGRectMake(100, 100, 600, 400);
-
+            
             if ([[layerDict allKeys] containsObject:TEXT_FRAME]) {
                 if ([[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:LEFT_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TOP_RATIO] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_WIDTH] && [[[layerDict objectForKey:TEXT_FRAME] allKeys] containsObject:TEXT_SIZE_HEIGHT]) {
                     
                     CGFloat xOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] isEqual:[NSNull null]]) {
-                        xOrigin = 1024/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
-                        if (xOrigin >= 1024 || xOrigin < 0) {
+                        xOrigin = pageView.frame.size.width/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:LEFT_RATIO] floatValue], 1);
+                        if (xOrigin >= pageView.frame.size.width || xOrigin < 0) {
                             xOrigin = 0;
                         }
                     }
@@ -1269,15 +1725,16 @@
                     
                     CGFloat yOrigin = 0;
                     if (![[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] isEqual:[NSNull null]]) {
-                        yOrigin = 768/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
-                        if (yOrigin >= 768 || yOrigin < 0) {
+                        yOrigin = pageView.frame.size.height/MAX([[[layerDict objectForKey:TEXT_FRAME] objectForKey:TOP_RATIO] floatValue], 1);
+                        if (yOrigin >= pageView.frame.size.height || yOrigin < 0) {
                             yOrigin = 0;
                         }
                     }
                     
                     //CGSize textSize = [textOnPage boundingRectWithSize:CGSizeMake(1024 - xOrigin, 768 - yOrigin) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:30] forKey:NSFontAttributeName] context:nil].size;
                     
-                    textFrame = CGRectMake(xOrigin, yOrigin, [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue], [[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]);
+                    textFrame = CGRectMake(xOrigin, yOrigin, pageView.frame.size.width*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_WIDTH] floatValue]/1024.0f, pageView.frame.size.height*[[[layerDict objectForKey:TEXT_FRAME] objectForKey:TEXT_SIZE_HEIGHT] floatValue]/768.0f);
+                    
                     audioMappingViewcontroller.customView.frame = textFrame;
                 }
             }
@@ -1294,17 +1751,33 @@
             
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
             audioMappingViewcontroller.mangoTextField.text = textOnPage;
-            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
 
             if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
-                audioMappingViewcontroller.mangoTextField.textColor = [AePubReaderAppDelegate colorFromHexString:[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"]];
+                
+                UIColor *color = nil;
+                NSString *colorString = [[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"];
+                if ([colorString hasPrefix:@"#"]) {
+                    color = [AePubReaderAppDelegate colorFromHexString:colorString];
+                } else {
+                    colorString = [colorString stringByReplacingOccurrencesOfString:@"rgb("
+                                                                         withString:@""];
+                    colorString = [colorString substringToIndex:[colorString length] - 1];
+                    NSArray *components = [colorString componentsSeparatedByString:@","];
+                    
+                    color = [UIColor colorWithRed:[[components objectAtIndex:0] floatValue]/255.f
+                                            green:[[components objectAtIndex:1] floatValue]/255.f
+                                             blue:[[components objectAtIndex:2] floatValue]/255.f
+                                            alpha:1.f];
+                }
+                 audioMappingViewcontroller.mangoTextField.textColor = color;
             } else {
                 audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
             }
@@ -1324,6 +1797,7 @@
                     backgroundImageView.image = image;
                     [pageView addSubview:backgroundImageView];
                 }
+                CGImageRelease(iref);
             } failureBlock:^(NSError *myerror) {
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];
@@ -1591,7 +2065,57 @@
     }
 }
 
-- (void)createEmptyPage {
+- (void)createEmptyPage :(int)val {
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *bookId;
+    if(val ==1){
+        
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        if(!storyBook.id){
+            bookId = [jsonDict valueForKey:@"id"];
+        }
+        else{
+            bookId = storyBook.id;
+        }
+            
+    }
+    else{
+        
+        NSData *jsonData = [bookJsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+        if(!storyBook.id){
+            bookId = [jsonDict valueForKey:@"id"];
+        }
+        else{
+            bookId = storyBook.id;
+        }
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_DEVICE: IOS,
+                                     PARAMETER_BOOK_ID: bookId,
+                                     
+                                     };
+        [delegate trackEvent:[EDITOR_ADD_NEW_PAGE valueForKey:@"description"] dimensions:dimensions];
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[EDITOR_ADD_NEW_PAGE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [EDITOR_ADD_NEW_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:bookId forKey:@"bookID"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        [userObject saveInBackground];
+    }
+    
+   
+    
     MangoPage *newPage = [[MangoPage alloc] init];
     newPage.pageable_id = _mangoStoryBook.id;
     newPage.name = [NSString stringWithFormat:@"%d", [_mangoStoryBook.pages count]];
@@ -1707,7 +2231,7 @@
             
             //Create Empty Page
             [self createCoverPage];
-            [self createEmptyPage];
+            [self createEmptyPage :1];
         }
     } else {
         _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
@@ -2093,7 +2617,7 @@ enum
     audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     [pageImageView addSubview:audioMappingViewController.view];
     
-    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:15];
     audioMappingViewController.customView.frame = textFrame;
     
     [pageImageView addSubview:audioMappingViewController.customView];
@@ -2138,7 +2662,7 @@ enum
     [pageImageView bringSubviewToFront:audioMappingViewController.view];
     
     audioMappingViewController.mangoTextField.text = [audioMappingViewController.customView.text componentsJoinedByString:@" "];
-    audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+    audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageImageView.frame.size.height * 25.0f/768.0f];
     audioMappingViewController.mangoTextField.frame = CGRectMake(audioMappingViewController.view.frame.origin.x, audioMappingViewController.view.frame.origin.y + audioMappingViewController.view.frame.size.height, audioMappingViewController.view.frame.size.width, audioMappingViewController.view.frame.size.height);
     audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
     

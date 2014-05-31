@@ -38,8 +38,8 @@
 
 #define PARAMETER_TIME_RANGE @"timeRange"
 #define PARAMETER_VIEW_NAME @"viewName"
-#define PARAMETER_BOOK_ID @"bookId"
-#define PARAMETER_BOOK_TITLE @"bookTitle"
+//#define PARAMETER_BOOK_ID @"bookId"
+//#define PARAMETER_BOOK_TITLE @"bookTitle"
 
 #define TIME_RANGE_10_SEC @"<10 Seconds"
 #define TIME_RANGE_10TO20_SEC @"10To20 Seconds"
@@ -52,6 +52,102 @@
 #define TIME_RANGE_20TO30_MIN @"20To30 Minutes"
 #define TIME_RANGE_30TO60_MIN @"30To60 Minutes"
 #define TIME_RANGE_1_HOUR @">1 hour"
+
+
+
+#pragma mark - New Events
+
+#define SIGN_IN @{ @"value" : @"SIGN_IN", @"description" : @"Sign in" }
+#define SIGN_UP_VIEW @{ @"value" : @"SIGN_UP_VIEW", @"description" : @"Sign up view" }
+#define LOGIN_FACEBOOK @{ @"value" : @"LOGIN_FACEBOOK", @"description" : @"Sign in via Facebook" }
+#define SKIP_SIGN_IN @{ @"value" : @"SKIP_SIGN_IN", @"description" : @"Skip Sign in" }
+#define SIGN_UP_USER @{ @"value" : @"SIGN_UP_USER", @"description" : @"Sign up" }
+#define HOME_CREATE_STORY @{ @"value" : @"HOME_CREATE_STORY", @"description" : @"Create a story" }
+#define HOME_STORE_VIEW @{ @"value" : @"HOME_STORE_VIEW", @"description" : @"Go to Store" }
+#define HOME_MY_STORIES @{ @"value" : @"HOME_MY_STORIES", @"description" : @"Go to my Stories" }
+#define STORE_FILTER @{ @"value" : @"STORE_FILTER", @"description" : @"Filter store books" }
+#define STORE_SEARCH @{ @"value" : @"STORE_SEARCH", @"description" : @"Search in store" }
+#define STORE_FEATURED_BOOK @{ @"value" : @"STORE_FEATURED_BOOK", @"description" : @"Store featured book" }
+#define STORE_AGE_STORE_BOOK @{ @"value" : @"STORE_AGE_STORE_BOOK", @"description" : @"Age group book select in store" }
+#define BOOK_DETAIL_BUY_BOOK @{ @"value" : @"BOOK_DETAIL_BUY_BOOK", @"description" : @"Book buy now" }
+#define BOOK_DETAIL_AVAILABLE_LANGUAGE @{ @"value" : @"BOOK_DETAIL_AVAILABLE_LANGUAGE", @"description" : @"Book Available Language" }
+#define BOOK_DETAIL_NEW_LANGUAGE @{ @"value" : @"BOOK_DETAIL_NEW_LANGUAGE", @"description" : @"Select book in new language"}
+#define MYSTORIES_CATEGORY_SELECT @{ @"value" : @"MYSTORIES_CATEGORY_SELECT", @"description" : @"Book category selection" }
+#define MySTORIES_SETTINGS_QUES @{ @"value" : @"MySTORIES_SETTINGS_QUES", @"description" : @"My stories setting ques" }
+#define MYSTORIES_SETTINGS @{ @"value" : @"MYSTORIES_SETTINGS", @"description" : @"My stories settings" }
+#define SETTINGS_VALUE @{ @"value" : @"SETTINGS_VALUE", @"description" : @"Settings category selected" }
+#define DETAIL_CATEGORY_DELETE_BOOK @{ @"value" : @"DETAIL_CATEGORY_DELETE_BOOK", @"description" : @"Detail category delete book" }
+#define DETAIL_CATEGORY_SETTINGS @{ @"value" : @"DETAIL_CATEGORY_SETTINGS", @"description" : @"Detail Settings" }
+#define DETAIL_CATEGORY_SETTING_QUES @{ @"value" : @"DETAIL_CATEGORY_SETTINGS", @"description" : @"Detail Setting ques" }
+#define DETAIL_CATEGORY_GET_MORE_BOOKS @{ @"value" : @"DETAIL_CATEGORY_GET_MORE_BOOKS", @"description" : @"Detail get more books" }
+#define DETAIL_CATEGORY_BOOK_SELECT @{ @"value" : @"DETAIL_CATEGORY_BOOK_SELECT", @"description" : @"Detail book selection" }
+#define BOOKCOVER_SELECTION @{ @"value" : @"BOOKCOVER_SELECTION", @"description" : @"Book cover image selection" }
+#define BOOKCOVER_AVAILABLE_LANGUAGE @{ @"value" : @"BOOKCOVER_AVAILABLE_LANGUAGE", @"description" : @"Cover available language" }
+#define BOOKCOVER_NEW_LANGUAGE @{ @"value" : @"BOOKCOVER_NEW_LANGUAGE", @"description" : @"Cover new language" }
+#define BOOKCOVER_READ_TO_ME @{ @"value" : @"BOOKCOVER_READ_TO_ME", @"description" : @"Read to me" }
+#define BOOKCOVER_READ_BY_MYSELF @{ @"value" : @"BOOKCOVER_READ_BY_MYSELF", @"description" : @"Read by myself" }
+#define BOOKCOVER_PLAY_GAMES @{ @"value" : @"BOOKCOVER_PLAY_GAMES", @"description" : @"Cover view play games" }
+#define BOOKCOVER_SHARE @{ @"value" : @"BOOKCOVER_SHARE", @"description" : @"Cover share book" }
+#define READBOOK_OPTIONS @{ @"value" : @"READBOOK_OPTIONS", @"description" : @"Readbook options" }
+#define READBOOK_MYSELF_PLAY_PAUSE @{ @"value" : @"READBOOK_MYSELF_PLAY_PAUSE", @"description" : @"Readbook myself play/pause" }
+#define READBOOK_READTOME_AUDIO_PLAYING @{ @"value" : @"READBOOK_READTOME_ISAUDIO_PLAYING", @"description" : @"Readbook to me isAudio playing" }
+#define READBOOK_PLAYGAMES @{ @"value" : @"READBOOK_PLAYGAMES", @"description" : @"Readbook play games" }
+#define READBOOK_CHANGE_LANGUAGE @{ @"value" : @"READBOOK_CHANGE_LANGUAGE", @"description" : @"Readbook change laguage" }
+#define READBOOK_NEW_VERSION @{ @"value" : @"READBOOK_NEW_VERSION", @"description" : @"Book create new version" }
+#define READBOOK_CLOSE @{ @"value" : @"READBOOK_CLOSE", @"description" : @"Readbook close options" }
+#define READBOOK_SHARE @{ @"value" : @"READBOOK_SHARE", @"description" : @"Readbook share" }
+#define READBOOK_BOOK_COMPLETE @{ @"value" : @"READBOOK_BOOK_COMPLETE", @"description" : @"Readbook book complete" }
+#define LASTPAGE_READ_AGAIN @{ @"value" : @"LASTPAGE_READ_AGAIN", @"description" : @"Lastpage read again" }
+#define LASTPAGE_SHARE @{ @"value" : @"LASTPAGE_SHARE", @"description" : @"Lastpage share" }
+#define LASTPAGE_PLAYGAMES @{ @"value" : @"LASTPAGE_PLAYGAMES", @"description" : @"Lastpage play games" }
+#define LASTPAGE_RECOMMENDED_BOOK @{ @"value" : @"LASTPAGE_RECOMMENDED_BOOK", @"description" : @"Lastpage recommend book" }
+
+#define CREATESTORY_NEWBOOK @{ @"value" : @"CREATESTORY_NEWBOOK", @"description" : @"Create story book" }
+#define CREATESTORY_SELECT_BOOK @{ @"value" : @"CREATESTORY_SELECT_BOOK", @"description" : @"Createstory select book" }
+#define CREATESTORY_DELETE_BOOK @{ @"value" : @"CREATESTORY_DELETE_BOOK", @"description" : @"Createstory delete book" }
+#define CREATESTORY_SETTINGS @{ @"value" : @"CREATESTORY_SETTINGS", @"description" : @"Createstory Settings" }
+#define CREATESTORY_SETTING_QUES @{ @"value" : @"CREATESTORY_SETTINGS", @"description" : @"Createstory Setting ques" }
+#define EDITOR_ADD_TEXT @{ @"value" : @"EDITOR_ADD_TEXT", @"description" : @"Editor add text" }
+#define EDITOR_ADD_IMAGE @{ @"value" : @"EDITOR_ADD_IMAGE", @"description" : @"Editor add image" }
+#define EDITOR_ADD_CAMERA_IMAGE @{ @"value" : @"EDITOR_ADD_CAMERA_IMAGE", @"description" : @"Editor add camera image" }
+#define EDITOR_ADD_LIBRARY_IMAGE @{ @"value" : @"EDITOR_ADD_LIBRARY_IMAGE", @"description" : @"Editor add library image" }
+
+#define EDITOR_RECORD_PLAY @{ @"value" : @"EDITOR_RECORD_PLAY", @"description" : @"Editor record Play" }
+
+#define EDITOR_ADD_NEW_PAGE @{ @"value" : @"EDITOR_ADD_NEW_PAGE", @"description" : @"Editor add new page" }
+
+#define EDITOR_DELETE_PAGE @{ @"value" : @"EDITOR_DELETE_PAGE", @"description" : @"Editor delete page" }
+
+#define EDITOR_CLOSE @{ @"value" : @"EDITOR_CLOSE", @"description" : @"Editor close book" }
+#define EDITOR_NEW_BOOK @{ @"value" : @"EDITOR_NEW_BOOK", @"description" : @"Editor create new book" }
+#define EDITOR_MANGO_TAP @{ @"value" : @"EDITOR_MANGO_TAP", @"description" : @"Editor mango tap" }
+#define EDITOR_DOODLE_TAP @{ @"value" : @"EDITOR_DOODLE_TAP", @"description" : @"Editor doodle" }
+#define GAMES @{ @"value" : @"GAMES", @"description" : @"Games" }
+
+#define PARAMETER_USER_ID @"User Id"
+#define PARAMETER_DEVICE_LANGUAGE @"Device language"
+#define PARAMETER_DEVICE_COUNTRY @"Device country"
+#define PARAMETER_SIGNUP_EMAIL @"Signup email"
+#define PARAMETER_DEVICE @"User device"
+#define PARAMETER_FACEBOOK_ID @"Facebook id"
+#define PARAMETER_UID @"User id or device udid"
+#define PARAMETER_GROUP @"filter group"
+#define PARAMETER_SEARCH_KEYWORD @"Search in store"
+#define PARAMETER_BOOK_ID @"Book Id"
+#define PARAMETER_BOOK_TITLE @"Book title"
+#define PARAMETER_BOOK_AGE_GROUP @"Book agegroup"
+#define PARAMETER_BOOK_LANGUAGE @"Book language"
+#define PARAMETER_BOOK_NEW_LANGUAGE_SELECT @"book new language"
+#define PARAMETER_BOOK_CATEGORY_VALUE @"Book category"
+#define PARAMETER_SETTINGS_QUES_SOL @"Bool solution"
+#define PARAMETER_SETTINGS_VALUE @"Setting value"
+#define PARAMETER_BOOK_PAGE_NO @"Book page no"
+#define PARAMETER_BOOK_TIME_SPEND @"Book time spend"
+#define PARAMETER_BOOL_ISPLAYING @"Bool isplaying"
+#define PARAMETER_BOOL_ISNEW_VERSION @"Bool new version"
+#define PARAMETER_RECOMMEND_BOOKID @"Recommend bookid"
+#define PARAMETER_GAME_NAME @"Game name"
+
 
 #pragma mark - Views
 
@@ -98,6 +194,8 @@
 #pragma mark - URL's
 
 #define BASE_URL @"http://api.mangoreader.com/api/v2"
+//#define BASE_URL @"http://192.168.2.10:3999/api/v2"
+//#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
 //192.168.2.28:3001/api/v2
@@ -106,6 +204,13 @@
 #pragma mark - API Method Names
 //Validate receipt
 #define ReceiptValidate_SignedIn @"receipt_validate.json"
+
+//// New subscription API
+#define SubscriptionPlans @"subscriptions/plans"
+#define SubscriptionValidate @"subscriptions/validate/receipt.json" //done
+#define SubscriptionStatus @"subscriptions/validate/status" //either user id else transction id
+////
+
 #define ReceiptValidate_NotSignedIn @"receipt_validate_without_signed_in.json"
 
 #define LIVE_STORIES @"livestories.json"
@@ -116,7 +221,7 @@
 #define LOGIN @"sign_in"
 #define SIGN_UP @"sign_up"
 #define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@"
-#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@"
+#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@&mode=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"
@@ -174,6 +279,8 @@
 #define COLOR_BROWN [UIColor colorWithRed:99.0/255.0 green:25.0/255.0 blue:9.0/255.0 alpha:0.4f]
 //Color from HEX
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define Rgb2UIColor(r, g, b)  [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:1.0]
 
 #pragma mark - Tags
 #pragma mark - MangoStoreView Controller

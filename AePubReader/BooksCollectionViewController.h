@@ -9,10 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "SettingOptionViewController.h"
 #import "BooksCollectionViewCell.h"
+#import "WEPopoverController.h"
 
-@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage>{
+@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage, WEPopoverControllerDelegate, UIPopoverControllerDelegate, ShowAnalyticsView>{
     int deleteBookIndex;
     int settingQuesNo;
+    
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
+    
+    Class popoverClass;
+    BOOL settingSol;
+    int quesSolution;
 }
 
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
@@ -21,12 +31,23 @@
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 @property (nonatomic, retain) NSArray *settingQuesArray;
 
+@property (nonatomic, retain) IBOutlet UIView* settingsProbView;
+@property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
+@property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+@property (nonatomic, retain) IBOutlet UILabel *labelProblem;
+
 - (IBAction)settingsButtonTapped:(id)sender;
 - (IBAction)homeButtonTapped:(id)sender;
 - (IBAction)libraryButtonTapped:(id)sender;
 - (IBAction)trashButtonTapped:(id)sender;
 
+- (IBAction)doneProblem:(id)sender;
+- (IBAction)closeSettingProblemView:(id)sender;
+- (IBAction)backgroundTap:(id)sender;
+
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 @property (nonatomic, strong) NSDictionary *categorySelected;
+@property (nonatomic, assign) int fromCreateStoryView;
+@property (nonatomic, strong) WEPopoverController *popoverControlleriPhone;
 
 @end

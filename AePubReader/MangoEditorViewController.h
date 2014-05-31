@@ -36,6 +36,10 @@
     IBOutlet UIButton *playStoryButton;
     IBOutlet UIButton *doodleButton;
     
+    NSString *userEmail;
+    NSString *userDeviceID;
+    NSString *ID;
+    NSString *viewName;
     IBOutlet iCarousel *pagesCarousel;
     
     int recordEncoding;
@@ -78,6 +82,7 @@
 + (UIImage *)coverPageImageForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation;
 + (UIView *)readerPage:(int)pageNumber ForEditedStory:(MangoBook *)storyBook WithFolderLocation:(NSString *)folderLocation WithAudioMappingViewController:(AudioMappingViewController *)audioMappingViewController andDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption;
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndAudioMappingViewController:(AudioMappingViewController *)audioMappingViewcontroller AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption;
++ (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption ;
 + (NSNumber *)numberOfPagesInStory:(NSString *)jsonString;
 + (NSMutableDictionary *)readerGamePage:(NSString *)gameName ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption;
 

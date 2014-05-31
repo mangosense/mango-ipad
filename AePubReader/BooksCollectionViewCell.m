@@ -28,7 +28,7 @@
         _bookCoverImageView = [[UIImageView alloc] init];
         _bookTitleLabel = [[UILabel alloc] init];
         [_bookTitleLabel setTextAlignment:NSTextAlignmentCenter];
-        [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
+     //   [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
         [_bookTitleLabel setTextColor:[UIColor brownColor]];
         [_bookTitleLabel setNumberOfLines:2];
         
@@ -40,9 +40,21 @@
 }
 
 - (void)layoutSubviews {
-    [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];
-    [_bookCoverImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];
-    [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width, 40)];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width -25, self.frame.size.width-25)];
+        [_bookCoverImageView setFrame:CGRectMake(0, 0, self.frame.size.width-25, self.frame.size.width-25)];
+        [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width -20, 25)];
+        [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:9.0f]];
+    }
+    else{
+        [_frameImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];
+        [_bookCoverImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.width)];
+        [_bookTitleLabel setFrame:CGRectMake(0, _bookCoverImageView.frame.size.height, self.frame.size.width, 40)];
+        [_bookTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
+    }
+    
 }
 
 - (void)prepareForReuse {

@@ -20,11 +20,16 @@
 - (void)saveStoryId:(NSNumber *)storyId;
 - (void)updateBookProgress:(int)progress;
 - (void)bookDownloaded;
+- (void)bookDownloadAborted;
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
+- (void)subscriptionSetup:(NSArray *)planArray;
 
 @end
 
-@interface MangoApiController : NSObject
+@interface MangoApiController : NSObject{
+    
+    NSString *deviceid;
+}
 
 @property (nonatomic, assign) id <MangoPostApiProtocol> delegate;
 
@@ -41,4 +46,8 @@
 
 #pragma mark - Validate Receipt
 - (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;
+- (void) validateSubscription :(NSString *)userIdOrTransctionId andDeviceId:(NSString *)deviceId block:(void (^)(id response, NSInteger type, NSString * error))block;
+
+- (void) getSubscriptionProductsInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate;
+
 @end

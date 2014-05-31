@@ -113,7 +113,12 @@
                                               CGImageGetBytesPerRow(maskRef),
                                               CGImageGetDataProvider(maskRef), NULL, false);
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
-    return [UIImage imageWithCGImage:masked];
+    UIImage *img = [UIImage imageWithCGImage:masked];
+    CGImageRelease(imgRef);
+    CGImageRelease(maskRef);
+    CGImageRelease(actualMask);
+    CGImageRelease(masked);
+    return img;
 }
 
 #pragma mark - Book Details

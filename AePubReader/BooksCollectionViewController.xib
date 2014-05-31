@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -8,7 +8,6 @@
             <connections>
                 <outlet property="deleteButton" destination="oju-ZC-gW1" id="C78-uI-gKE"/>
                 <outlet property="headerLabel" destination="yPP-Z5-PXB" id="0g4-AG-xRU"/>
-                <outlet property="settingButton" destination="zRF-F0-Qv8" id="dnF-4R-nTv"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -31,16 +30,6 @@
                         <action selector="homeButtonTapped:" destination="-1" eventType="touchUpInside" id="zsR-UJ-XEG"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRF-F0-Qv8">
-                    <rect key="frame" x="943" y="10" width="78" height="77"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="icons_settings.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="settingsButtonTapped:" destination="-1" eventType="touchUpInside" id="uw8-X8-w6i"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-1a-9ct">
                     <rect key="frame" x="96" y="10" width="78" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -59,7 +48,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oju-ZC-gW1">
-                    <rect key="frame" x="857" y="10" width="78" height="77"/>
+                    <rect key="frame" x="934" y="16" width="78" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="MangoTrash.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,7 +67,6 @@
         <image name="MangoTrash.png" width="78" height="77"/>
         <image name="icons_home.png" width="78" height="77"/>
         <image name="icons_library.png" width="78" height="77"/>
-        <image name="icons_settings.png" width="78" height="77"/>
         <image name="libraryscreen_loading_bg.png" width="1024" height="768"/>
     </resources>
 </document>

@@ -1,0 +1,50 @@
+require 'xcoder/rake_task'
+require 'net/http'
+
+# This creates the default xcoder build taks, but its not customizable
+# Xcode::RakeTask.new  do |xcoder|
+# 	xcoder.projects = ['MangoReader']	
+# end
+
+
+namespace :mango do
+	desc "Create Story as an app" 
+	task :story_app do 
+		#Load the MangoReader project	
+		project = Xcode.project('MangoReader')
+
+		#get the target object from the project
+		target = project.target(:MangoReader)
+	
+		#get the config object of the selected target
+		config = target.config(:Debug)
+		config.product_name = "Mango Story App" #or title of the story
+		config.iphoneos_deployment_target = '7.0'
+
+		#set the app info here
+		config.info_plist do |info|
+			info.version = info.version.to_i + 1
+			info.display_name = ENV['title']
+			info.identifier = "com.mangosense.storyapp.#{ENV['app_id']}" #uniqe story id at last
+		end
+
+		builder = config.builder
+		builder.clean
+		builder.build
+
+
+
+
+		#Check for the stories ready to be exported as an app
+	
+		# url = URI.parse('http://api.mangoreader.com/v2/api/ios_stories?status=pending')
+		# req = Net::HTTP::Get.new(url.path)
+		# res = Net::HTTP.start(url.host, url.port) {|http|
+		#   http.request(req)
+		# }
+		# out = JSON.parse res.body
+
+
+
+	end
+end 

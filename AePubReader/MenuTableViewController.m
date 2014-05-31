@@ -6,6 +6,8 @@
 //
 //
 
+#import "AePubReaderAppDelegate.h"
+#import "Constants.h"
 #import "MenuTableViewController.h"
 
 @interface MenuTableViewController ()
@@ -20,6 +22,10 @@
 {
     self = [super initWithStyle:style];
     if (self) {
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -28,6 +34,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -125,16 +138,57 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Index path row %d -- %d", indexPath.section, indexPath.row);
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     switch (indexPath.section) {
         case 0: {
             switch (indexPath.row) {
                 case 0: {
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID: _bookId,
+                                                 
+                                                 };
+                    [delegate trackEvent:[EDITOR_CLOSE valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[EDITOR_CLOSE valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [EDITOR_CLOSE valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:@"Story editor" forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
                     
                 }
                     break;
                     
                 case 1: {
+                    NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_ID : ID,
+                                                 PARAMETER_DEVICE: IOS,
+                                                 PARAMETER_BOOK_ID: _bookId,
+                                                 
+                                                 };
+                    [delegate trackEvent:[EDITOR_NEW_BOOK valueForKey:@"description"] dimensions:dimensions];
+                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                    [userObject setObject:[EDITOR_NEW_BOOK valueForKey:@"value"] forKey:@"eventName"];
+                    [userObject setObject: [EDITOR_NEW_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+                    [userObject setObject:@"Story editor" forKey:@"viewName"];
+                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                    [userObject setObject:_bookId forKey:@"bookID"];
+                    if(userEmail){
+                        [userObject setObject:ID forKey:@"emailID"];
+                    }
+                    [userObject setObject:IOS forKey:@"device"];
+                    [userObject saveInBackground];
                     
                 }
                     break;

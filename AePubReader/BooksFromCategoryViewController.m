@@ -34,6 +34,9 @@
     if (self) {
         // Custom initialization
         _inital=index;
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -53,6 +56,12 @@
     
     _categoryTitleLabel.text = [_categorySelected objectForKey:NAME];
     _categoryTitleLabel.font = [UIFont boldSystemFontOfSize:17];
+    if(!userEmail){
+        ID = userDeviceID;
+    }
+    else{
+        ID = userEmail;
+    }
     
 }
 
@@ -82,7 +91,7 @@
     settingsViewController.dismissDelegate=self;
     settingsViewController.controller=self.navigationController;
     _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-    [_popOverController setPopoverContentSize:CGSizeMake(300, 88)];
+    [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
     [_popOverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
@@ -105,6 +114,15 @@
             } else {
                 
                 controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
+                
+                NSDictionary *dimensions = @{
+                                             PARAMETER_USER_ID : ID,
+                                             PARAMETER_DEVICE: IOS,
+                                             PARAMETER_BOOK_CATEGORY_VALUE:[selectCategoryDict valueForKey:@"title"]
+                                             
+                                             };
+                [PFAnalytics trackEvent:DETAIL_CATEGORY_GET_MORE_BOOKS dimensions:dimensions];
+                
                 if([[selectCategoryDict valueForKey:@"title"] isEqualToString:@"All Books"]|| [[selectCategoryDict valueForKey:@"title"] isEqualToString:@"My Books"]) {
                     [controller setCategoryFlagValue:0];
                 }
@@ -149,7 +167,7 @@
 
 - (UIImage*)maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
     
-	CGImageRef imgRef = [image CGImage];
+    CGImageRef imgRef = [image CGImage];
     CGImageRef maskRef = [maskImage CGImage];
     CGImageRef actualMask = CGImageMaskCreate(CGImageGetWidth(maskRef),
                                               CGImageGetHeight(maskRef),
@@ -158,7 +176,9 @@
                                               CGImageGetBytesPerRow(maskRef),
                                               CGImageGetDataProvider(maskRef), NULL, false);
     CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
-    return [UIImage imageWithCGImage:masked];
+    UIImage *img = [UIImage imageWithCGImage:masked];
+    CGImageRelease(masked);
+    return img;
 }
 
 #pragma mark  - HUD Methods
