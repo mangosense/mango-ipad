@@ -157,6 +157,7 @@
 		68DC47D81910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */; };
 		68DEEAA3190651F100538206 /* MangoSubscriptionViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DEEAA2190651F100538206 /* MangoSubscriptionViewController_iPhone.xib */; };
 		68DEFA7418F2A79100A6C490 /* LoginNewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DEFA7318F2A79100A6C490 /* LoginNewViewController_iPhone.xib */; };
+		68DF8BED193C95BA00524630 /* beep.caf in Resources */ = {isa = PBXBuildFile; fileRef = 68DF8BEC193C953900524630 /* beep.caf */; };
 		68E069891905123E0098A3B3 /* MangoPromoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E069871905123E0098A3B3 /* MangoPromoPageViewController.m */; };
 		68E0698A1905123E0098A3B3 /* MangoPromoPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68E069881905123E0098A3B3 /* MangoPromoPageViewController.xib */; };
 		68E0698C1905139A0098A3B3 /* MangoPromoPageViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68E0698B1905139A0098A3B3 /* MangoPromoPageViewController_iPhone.xib */; };
@@ -1085,6 +1086,7 @@
 		68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoDetailSettingsViewController.xib; sourceTree = "<group>"; };
 		68DEEAA2190651F100538206 /* MangoSubscriptionViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoSubscriptionViewController_iPhone.xib; sourceTree = "<group>"; };
 		68DEFA7318F2A79100A6C490 /* LoginNewViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginNewViewController_iPhone.xib; sourceTree = "<group>"; };
+		68DF8BEC193C953900524630 /* beep.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = beep.caf; sourceTree = "<group>"; };
 		68E069861905123E0098A3B3 /* MangoPromoPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoPromoPageViewController.h; sourceTree = "<group>"; };
 		68E069871905123E0098A3B3 /* MangoPromoPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoPromoPageViewController.m; sourceTree = "<group>"; };
 		68E069881905123E0098A3B3 /* MangoPromoPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoPromoPageViewController.xib; sourceTree = "<group>"; };
@@ -2134,6 +2136,7 @@
 				83738ED2189BE809006FC1C8 /* Checkmark.png */,
 				83738ED0189BE4C7006FC1C8 /* bedtimestories.png */,
 				AE195E7F181E2FD9008E4208 /* page.png */,
+				68DF8BEC193C953900524630 /* beep.caf */,
 				292217D5189BAF43009D4216 /* Purchase Manager */,
 				29A650FB18979E6F00A33A15 /* iCarouselImageView.h */,
 				29A650FC18979E6F00A33A15 /* iCarouselImageView.m */,
@@ -3818,6 +3821,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68DF8BED193C95BA00524630 /* beep.caf in Resources */,
 				68D18CA518D4D5AC00FB150C /* SettingsQues.plist in Resources */,
 				AEE67088183F72410056AB29 /* addnewpage.png in Resources */,
 				8357E6BF18AF498100770D27 /* 6.png in Resources */,

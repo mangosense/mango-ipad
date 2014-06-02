@@ -46,6 +46,10 @@
     return [_collection removeObject:subInfo];
 }
 
+- (BOOL) deleteAudioLayer:(MangoAudioLayer *)audiolayer{
+    return [_collection removeObject:audiolayer];
+}
+
 - (UserInfo *)getUserInfoForId:(NSString *)userId {
 
     UserInfo *userInfo = [_collection fetchObjectWithOID:userId];

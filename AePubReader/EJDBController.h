@@ -37,5 +37,6 @@
 
 - (BOOL)deleteObject:(id)object;
 - (BOOL)deleteSubscriptionObject:(SubscriptionInfo *)subInfo;
+- (BOOL) deleteAudioLayer:(MangoAudioLayer *)audiolayer;
 
 @end

@@ -896,8 +896,24 @@
     [self showComingSoonPopover:sender];
 }
 
-- (IBAction)playStoryButtonTapped:(id)sender {
+- (IBAction)reRecordButtonTapped:(id)sender {
+    /*AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.ejdbController deleteAudioLayer:_audioLayer];
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *recDir = [paths objectAtIndex:0];
+    NSURL *url;
+    if (_audioUrl) {
+        url = _audioUrl;
+    } else {
+        url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+    }
+    url = nil, _audioUrl = nil;*/
+   /* _audioLayer.wordTimes = nil;
+    _audioLayer.wordMap = nil;*/
+    //reRecordingCheck =1;
+    //[self startRecordingAudio];
+    [self startPlayingAudioFromDb];
 }
 
 - (IBAction)doodleButtonTapped:(id)sender {
@@ -1909,7 +1925,7 @@
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
         audioRecordingButton.tag = RECORD;
     } else {
-        [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+        [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
         audioRecordingButton.tag = PLAY;
     }
     [audioRecordingButton addTarget:self action:@selector(audioRecButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -2301,7 +2317,18 @@ enum
 - (void)audioRecButtonTapped {
     switch (audioRecordingButton.tag) {
         case RECORD: {
-            [self startRecordingAudio];
+            //[self startRecordingAudio];
+            audioRecordingButton.alpha = 0;
+            [UIView animateWithDuration:0.5 delay:0.01 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
+                self.audioRecordingButton.alpha = 1;
+            } completion:nil];
+            NSString *audioPath = [[NSBundle mainBundle] pathForResource:@"beep" ofType:@"caf"];
+            NSURL *audioURL = [NSURL fileURLWithPath:audioPath];
+            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioURL error:nil];
+            [audioPlayer play];
+            audioPlayer.numberOfLoops = 2; 
+            NSTimeInterval delay = 1.5; //in seconds
+            [self performSelector:@selector(startRecordingAudio) withObject:nil afterDelay:delay];
         }
             break;
             
@@ -2312,7 +2339,11 @@ enum
             
         case PLAY: {
           //  [self startPlayingAudio];
-            [self startPlayingAudioFromDb];
+          //  [self startPlayingAudioFromDb];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Re-Record" message:@"Are you sure you want to re-record the audio!!" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+            [alert show];
+            
         }
             break;
             
@@ -2328,6 +2359,12 @@ enum
 
 
 - (void)startRecordingAudio {
+    
+    [self.audioRecordingButton.layer removeAllAnimations];
+    if (audioMappingViewController) {
+        [audioMappingViewController.view removeFromSuperview];
+    }
+    
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
     audioRecordingButton.tag = STOP_RECORDING;
     
@@ -2396,7 +2433,7 @@ enum
 
 - (void)stopRecordingAudio
 {
-    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
     audioRecordingButton.tag = PLAY;
     
     NSLog(@"stopRecording");
@@ -2419,6 +2456,16 @@ enum
     NSLog(@"%@ - %@", sourceLocation, destinationFolder);
     NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    if(reRecordingCheck){
+        [fileManager removeItemAtPath:destinationFolder error:&error];
+        [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:&error];
+        if (error) {
+            NSLog(@"%@",error);
+        }
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:destinationFolder];
+        [url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+        reRecordingCheck = 0;
+    }
     if (![fileManager fileExistsAtPath:destinationFolder]) {
         [fileManager copyItemAtPath:sourceLocation  toPath:destinationFolder error:&error];
         if (error) {
@@ -2484,6 +2531,41 @@ enum
     _mangoStoryBook.pages = (NSArray *)tempPagesArray;
     
     [self renderEditorPage:currentPageNumber];
+}
+
+#pragma Re-record alertview delegate
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if([alertView.title isEqualToString:@"Re-Record"]){
+        
+        if(buttonIndex == 1){
+           // audioRecordingButton.hidden = YES;
+            //start audio
+            //add delay
+            //play audio
+            //reRecordingCheck =1;
+            //[self startRecordingAudio];
+            audioRecordingButton.alpha = 0;
+           // [audioPlayer play];
+           // audioPlayer.numberOfLoops = 2;
+            [UIView animateWithDuration:0.5 delay:0.01 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
+                self.audioRecordingButton.alpha = 1;
+                
+            } completion:nil];
+            NSString *audioPath = [[NSBundle mainBundle] pathForResource:@"beep" ofType:@"caf"];
+            NSURL *audioURL = [NSURL fileURLWithPath:audioPath];
+            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioURL error:nil];
+            [audioPlayer play];
+            audioPlayer.numberOfLoops = 2;
+            NSTimeInterval delay = 1.5; //in seconds
+            [self performSelector:@selector(startRecordingAudio) withObject:nil afterDelay:delay];
+        }
+    }
+}
+
+- (void)playSomeSound:(NSTimer *)timer {
+    
 }
 
 #pragma mark - Audio Playing
@@ -2557,7 +2639,7 @@ enum
     
 }
 - (void)stopPlayingAudio {
-    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_play_button.png"] forState:UIControlStateNormal];
+    [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
     audioRecordingButton.tag = PLAY;
     
     NSLog(@"stopPlaying");

@@ -261,6 +261,7 @@
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:EMAIL, PASSWORD, nil]];
     if (name) {
         [paramsDict setObject:name forKey:NAME];
+       // [paramsDict setObject:IOS forKey:PLATFORM];//send platform = ios new
     }
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *responseDict = (NSDictionary *)responseObject;
@@ -294,7 +295,7 @@
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:FACEBOOK_TOKEN_EXPIRATION_DATE] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:USERNAME] forKey:USERNAME];
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:NAME] forKey:NAME];
-    
+    //[paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
     [manager POST:FACEBOOK_LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];

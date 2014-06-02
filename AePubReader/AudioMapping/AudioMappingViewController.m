@@ -529,7 +529,13 @@
 #pragma mark - Audio Speed
 
 - (IBAction)audioSpeedSliderValueChanged:(id)sender {
-    [_player setRate:audioSpeedSlider.value];
+    //[_player setRate:audioSpeedSlider.value];
+    
+    if ([_player respondsToSelector:@selector(setEnableRate:)])
+        _player.enableRate = YES;
+    if ([_player respondsToSelector:@selector(setRate:)])
+        _player.rate = 0.5;
+    NSLog(@"audio slider speed %f", audioSpeedSlider.value);
 }
 
 #pragma mark - Touch Methods

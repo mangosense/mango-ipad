@@ -45,7 +45,7 @@
     int recordEncoding;
     
     Book *storyBook;
-    
+    int reRecordingCheck;
     BOOL isNewBook;
 }
 @property(nonatomic,strong) AssetDatasource *dataSource;
