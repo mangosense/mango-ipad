@@ -68,6 +68,8 @@
 @property(nonatomic,assign) CGRect textFrame;
 @property(nonatomic,strong) NSString *editedBookPath;
 @property (nonatomic, assign) BOOL isNewBook;
+@property (nonatomic, strong) IBOutlet UIButton *buttonNewPlay;
+@property (nonatomic, assign) BOOL isBookFork;
 
 - (IBAction)mangoButtonTapped:(id)sender;
 - (IBAction)menuButtonTapped:(id)sender;

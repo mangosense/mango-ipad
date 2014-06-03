@@ -387,7 +387,10 @@
                     [userObject saveInBackground];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+                    mangoEditorViewController.isBookFork = YES;
                     mangoEditorViewController.storyBook=_book;
+                    //mangoEditorViewController.mangoStoryBook.title = [NSString stringWithFormat:@"%@-custom", _book.title];
+                    
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
                 }
                     break;
@@ -682,6 +685,7 @@
 
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
+            
             NSLog(@"Timer: %@", _audioMappingViewController.timer);
             _audioMappingViewController.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:_audioMappingViewController selector:@selector(update) userInfo:nil repeats:YES];
             [self closeButton:nil];

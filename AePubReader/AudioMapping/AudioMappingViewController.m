@@ -311,6 +311,8 @@
     
     _player=[[AVAudioPlayer alloc] initWithData:audioData error:nil];
     _player.delegate=delegate;
+    _player.enableRate = YES;
+    //_player.rate = 0.2f;
     [_player play];
     
     _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];

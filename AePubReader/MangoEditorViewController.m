@@ -115,6 +115,7 @@
 
 - (void)viewDidLoad
 {
+    _buttonNewPlay.hidden = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     viewName = @"Story editor";
@@ -1267,7 +1268,7 @@
         pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 480, 320)];
     }
     else{
-        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 924, 600)];
+        pageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     }
     
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:pageView.frame];
@@ -1299,7 +1300,7 @@
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)layer;
             audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", audioLayer.url]];
             
-            audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+            audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:24];
             [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewController.view setExclusiveTouch:YES];
             [audioMappingViewController.customView setNeedsDisplay];
@@ -1352,14 +1353,14 @@
             
             [pageView addSubview:audioMappingViewController.view];
             [audioMappingViewController.view setHidden:YES];
-            audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+            audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:24];
             [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewController.view setExclusiveTouch:YES];
             
             //[pageView addSubview:audioMappingViewController.customView];
             
             audioMappingViewController.mangoTextField.text = textOnPage;
-            audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
+            audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:24.0f];
             audioMappingViewController.mangoTextField.frame = textFrame;
             audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
             [pageView addSubview:audioMappingViewController.mangoTextField];
@@ -1480,7 +1481,7 @@
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
             audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 24.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             [audioMappingViewcontroller.customView setNeedsDisplay];
@@ -1569,12 +1570,12 @@
             
             [pageView addSubview:audioMappingViewcontroller.view];
             [audioMappingViewcontroller.view setHidden:YES];
-            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+            audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*24.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewcontroller.view setExclusiveTouch:YES];
             
             audioMappingViewcontroller.mangoTextField.text = textOnPage;
-            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
+            audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*24.0f/768.0f];
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
             
@@ -1901,6 +1902,8 @@
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
 
             if ([audioLayer.url length] > 0) {
+                //make play button visible
+                _buttonNewPlay.hidden = NO;
                 _audioUrl = [NSURL fileURLWithPath:[_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url]];
             }
             _audioLayer=audioLayer;
@@ -1922,9 +1925,11 @@
   //  _audioUrl=nil;
     audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     if (!_audioUrl) {
+        _buttonNewPlay.hidden = YES;
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
         audioRecordingButton.tag = RECORD;
     } else {
+        _buttonNewPlay.hidden = NO;
         [audioRecordingButton setImage:[UIImage imageNamed:@"recording_button.png"] forState:UIControlStateNormal];
         audioRecordingButton.tag = PLAY;
     }
@@ -2200,7 +2205,12 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (![appDelegate.dataModel checkIfIdExists:book.id]) {
         Book *coreDatabook= [appDelegate.dataModel getBookInstance];
-        coreDatabook.title=book.title;
+        if(_isBookFork){
+            coreDatabook.title= [NSString stringWithFormat:@"%@-custom",book.title];
+        }
+        else{
+            coreDatabook.title = book.title;
+        }
         coreDatabook.link=nil;
         coreDatabook.localPathImageFile = filePath;
         coreDatabook.localPathFile = [filePath stringByDeletingPathExtension];
@@ -2251,7 +2261,9 @@
         }
     } else {
         _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
-        
+        if(_isBookFork){
+            _mangoStoryBook.title = [NSString stringWithFormat:@"%@-custom",_mangoStoryBook.title];
+        }
         storyBook = storyBookChosen;
         
         //Get JSON String
@@ -2277,7 +2289,13 @@
             Book *editedBook=[delegate.dataModel getBookInstance];
             editedBook.localPathFile=_editedBookPath;
             editedBook.localPathImageFile=book.localPathImageFile;
-            editedBook.title=book.title;
+            if(_isBookFork){
+                
+                editedBook.title= [NSString stringWithFormat:@"%@-custom", book.title];
+            }
+            else{
+                editedBook.title=book.title;
+            }
             editedBook.desc=book.desc;
             editedBook.size=book.size;
             editedBook.downloaded=@YES;
@@ -2494,6 +2512,7 @@ enum
             
         }
     }
+    _buttonNewPlay.hidden = NO;
 }
 
 - (void)saveAudio {

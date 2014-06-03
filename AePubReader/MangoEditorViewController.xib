@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MangoEditorViewController">
             <connections>
                 <outlet property="audioButton" destination="Pw0-v7-MNt" id="3V0-bp-U2u"/>
+                <outlet property="buttonNewPlay" destination="5E9-cd-nqG" id="kVn-vU-y9j"/>
                 <outlet property="collaborationButton" destination="0Bu-3e-Z6Z" id="Qgb-1d-g7p"/>
                 <outlet property="doodleButton" destination="fgK-UF-EpW" id="QsU-hm-6to"/>
                 <outlet property="gamesButton" destination="siD-9f-BIX" id="jyO-88-grg"/>
@@ -153,7 +154,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5E9-cd-nqG">
-                    <rect key="frame" x="14" y="554" width="51" height="51"/>
+                    <rect key="frame" x="15" y="565" width="51" height="51"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="playbuttonnew.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
