@@ -61,6 +61,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    newAudioRate = 1.0f;
     popoverClass = [WEPopoverController class];
     audioMappingViewControllers = [[NSMutableArray alloc] init];
     viewName = @"Book Read View";
@@ -109,6 +110,8 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
     tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
     [self.view addGestureRecognizer:tapGesture];
+    [_switchAudioControl setOnImage:[UIImage imageNamed:@"next-button_new.png"]];
+    [_switchAudioControl setOffImage:[UIImage imageNamed:@"next-button_new.png"]];
     
     [self setupSwipeGestureRecognizer];
     
@@ -930,6 +933,7 @@
     [audioMappingViewControllers removeAllObjects];
     for (NSDictionary *textDict in textLayers) {
         AudioMappingViewController *audioMappingViewcontroller = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
+        audioMappingViewcontroller.audioMappingRate = newAudioRate;
         [audioMappingViewControllers addObject:audioMappingViewcontroller];
         audioMappingViewcontroller.audioMappingDelegate = delegate;
         audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 24.0f/768.0f];
@@ -1164,6 +1168,7 @@
                     if ([order isEqualToNumber:[NSNumber numberWithInt:0]] ||
                         [order isEqualToNumber:[NSNumber numberWithInt:1]] || (order == nil)) {
                         if (![self isPlaying]) {
+                            
                             [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
                             _audioMappingViewController = audioMappingViewcontroller;
                         }
@@ -1413,6 +1418,24 @@
 - (IBAction)backgroundTap:(id)sender {
     [_textQuesSolution resignFirstResponder];
     
+}
+
+#pragma audiocontrol switch
+
+- (IBAction) audioSwitchControl: (id) sender {
+    UISwitch *onoff = (UISwitch *) sender;
+    if(onoff.on){
+        NSLog(@"Switch is On");
+        newAudioRate = 0.6f;
+    }
+    else{
+         NSLog(@"Switch is Off");
+        newAudioRate = 1.0f;
+    }
+    [_audioMappingViewController.player pause];
+    _audioMappingViewController.player.enableRate = YES;
+    _audioMappingViewController.player.rate = newAudioRate;
+    [_audioMappingViewController.player play];
 }
 
 #pragma sparkle view

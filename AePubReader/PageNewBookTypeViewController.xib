@@ -19,6 +19,7 @@
                 <outlet property="settingsProbView" destination="BLT-cQ-Opw" id="aBQ-gK-tVC"/>
                 <outlet property="shareButton" destination="8V9-fB-S1w" id="PqK-L8-HqB"/>
                 <outlet property="showOptionButton" destination="qUg-c9-QZ7" id="hLM-s5-gzz"/>
+                <outlet property="switchAudioControl" destination="6ey-ie-CPq" id="ItQ-Uc-5QC"/>
                 <outlet property="textQuesSolution" destination="ejY-7F-jCj" id="Hop-TZ-WvS"/>
                 <outlet property="view" destination="2" id="3"/>
                 <outlet property="viewBase" destination="i5j-uw-myG" id="z1q-fa-sbL"/>
@@ -52,8 +53,33 @@
                                 <action selector="closeButton:" destination="-1" eventType="touchUpInside" id="CZN-LS-XfZ"/>
                             </connections>
                         </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons_playRate.png" id="22N-GS-44A">
+                            <rect key="frame" x="54" y="189" width="94" height="93"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="play-control.png" offImage="play-control.png" id="6ey-ie-CPq">
+                            <rect key="frame" x="75" y="222" width="51" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <connections>
+                                <action selector="audioSwitchControl:" destination="-1" eventType="valueChanged" id="z2h-kh-Iof"/>
+                            </connections>
+                        </switch>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TLW-ab-pV0">
+                            <rect key="frame" x="80" y="204" width="27" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lsw-Fo-Vn8">
+                            <rect key="frame" x="99" y="251" width="42" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cgX-74-zFh">
-                            <rect key="frame" x="80" y="126" width="94" height="90"/>
+                            <rect key="frame" x="96" y="97" width="94" height="90"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="icons_play.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -63,7 +89,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8dT-is-hLD">
-                            <rect key="frame" x="38" y="355" width="90" height="94"/>
+                            <rect key="frame" x="38" y="399" width="90" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="icons_text.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -73,7 +99,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SV4-2c-bnZ">
-                            <rect key="frame" x="49" y="457" width="90" height="94"/>
+                            <rect key="frame" x="62" y="501" width="90" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="icons_editimage.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -83,7 +109,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8V9-fB-S1w">
-                            <rect key="frame" x="82" y="559" width="90" height="95"/>
+                            <rect key="frame" x="106" y="598" width="92" height="91"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="icons_replay.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -93,7 +119,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RrL-gU-Zmu">
-                            <rect key="frame" x="43" y="237" width="90" height="94"/>
+                            <rect key="frame" x="39" y="292" width="90" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="icons_game.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -150,6 +176,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" red="0.88257334180000002" green="0.33320605190000002" blue="0.13365778140000001" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="backgroundTap:" destination="-1" eventType="touchDown" id="1g0-oc-h4K"/>
                     </connections>
@@ -229,8 +256,10 @@
         <image name="icons_menu.png" width="78" height="77"/>
         <image name="icons_next.png" width="97" height="100"/>
         <image name="icons_play.png" width="94" height="90"/>
+        <image name="icons_playRate.png" width="94" height="90"/>
         <image name="icons_replay.png" width="94" height="90"/>
         <image name="icons_text.png" width="94" height="90"/>
+        <image name="play-control.png" width="66" height="66"/>
         <image name="quesBgPic.png" width="302" height="202"/>
         <image name="quesTextBg.png" width="242" height="54"/>
     </resources>

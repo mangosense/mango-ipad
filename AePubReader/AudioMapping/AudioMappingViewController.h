@@ -53,6 +53,7 @@
 @property (nonatomic, assign) id <AudioMappingDelegate> audioMappingDelegate;
 
 @property (nonatomic, strong) MangoTextField *mangoTextField;
+@property (nonatomic, assign) float audioMappingRate;
 
 @end
 

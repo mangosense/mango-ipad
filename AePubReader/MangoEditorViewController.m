@@ -1352,19 +1352,20 @@
             }
             
             [pageView addSubview:audioMappingViewController.view];
+            [pageView bringSubviewToFront:audioMappingViewController.view];
             [audioMappingViewController.view setHidden:YES];
             audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:24];
             [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewController.view setExclusiveTouch:YES];
             
-            //[pageView addSubview:audioMappingViewController.customView];
+            [pageView addSubview:audioMappingViewController.customView];
             
             audioMappingViewController.mangoTextField.text = textOnPage;
             audioMappingViewController.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:24.0f];
             audioMappingViewController.mangoTextField.frame = textFrame;
             audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
             [pageView addSubview:audioMappingViewController.mangoTextField];
-            
+            [audioMappingViewController.view bringSubviewToFront:audioMappingViewController.customView];
             audioMappingViewController.textForMapping = textOnPage;
             
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {

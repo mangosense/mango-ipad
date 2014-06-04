@@ -43,7 +43,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    _audioMappingRate = 1.0;
     _listOfViews=[[NSMutableArray alloc]init];
     [_scrollView setBackgroundColor:COLOR_ORANGE];
     NSLog(@"%@", NSStringFromCGRect(_scrollView.frame));
@@ -296,6 +296,7 @@
     }
 }
 
+
 - (void)playAudioForReaderWithData:(NSData *)audioData AndDelegate:(id <AVAudioPlayerDelegate>)delegate {
     if (_timer) {
         [_timer invalidate];
@@ -312,7 +313,8 @@
     _player=[[AVAudioPlayer alloc] initWithData:audioData error:nil];
     _player.delegate=delegate;
     _player.enableRate = YES;
-    //_player.rate = 0.2f;
+    //_audioMappingRate = 1.0f;
+    _player.rate = _audioMappingRate;
     [_player play];
     
     _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];

@@ -118,6 +118,7 @@
 		68CAD97118CDAE2400804496 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CAD97018CDAE2400804496 /* twitter.png */; };
 		68CAD97318CDB21F00804496 /* Mango_google.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CAD97218CDB21F00804496 /* Mango_google.png */; };
 		68CAD97518CDD05800804496 /* icons_shareActual.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CAD97418CDD05800804496 /* icons_shareActual.png */; };
+		68CCC634193F4191002A7382 /* icons_playRate.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CCC633193F4191002A7382 /* icons_playRate.png */; };
 		68CD69EE18F80334003BAD0D /* popoverArrowDown-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69DA18F80334003BAD0D /* popoverArrowDown-white@2x.png */; };
 		68CD69EF18F80334003BAD0D /* popoverArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69DB18F80334003BAD0D /* popoverArrowDown.png */; };
 		68CD69F018F80334003BAD0D /* popoverArrowDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69DC18F80334003BAD0D /* popoverArrowDown@2x.png */; };
@@ -1047,6 +1048,7 @@
 		68CAD97018CDAE2400804496 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
 		68CAD97218CDB21F00804496 /* Mango_google.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mango_google.png; sourceTree = "<group>"; };
 		68CAD97418CDD05800804496 /* icons_shareActual.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_shareActual.png; sourceTree = "<group>"; };
+		68CCC633193F4191002A7382 /* icons_playRate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_playRate.png; sourceTree = "<group>"; };
 		68CD69DA18F80334003BAD0D /* popoverArrowDown-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowDown-white@2x.png"; sourceTree = "<group>"; };
 		68CD69DB18F80334003BAD0D /* popoverArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowDown.png; sourceTree = "<group>"; };
 		68CD69DC18F80334003BAD0D /* popoverArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowDown@2x.png"; sourceTree = "<group>"; };
@@ -3061,6 +3063,7 @@
 		AE266FCB183B488B001A8CB8 /* LandingPage UI */ = {
 			isa = PBXGroup;
 			children = (
+				68CCC633193F4191002A7382 /* icons_playRate.png */,
 				682FCB92192A3835007FCCAB /* subscribe_mangoreader.png */,
 				68A9334E193895D600563E33 /* sparks.png */,
 				686C38C5190EF30600E1E922 /* loginLock.png */,
@@ -3842,6 +3845,7 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				6806835218F2C5FF00D4609D /* SignUpViewController_iPhone.xib in Resources */,
 				FA307A3D1371E2B000959622 /* ChapterListViewController.xib in Resources */,
+				68CCC634193F4191002A7382 /* icons_playRate.png in Resources */,
 				8323FFEB18CDE508006C0DD0 /* Financial Literacy.png in Resources */,
 				834FCE31182D11F70000181B /* imagebutton_selected.png in Resources */,
 				FA881E4E1372CA9200FBD25F /* orangeslide.png in Resources */,

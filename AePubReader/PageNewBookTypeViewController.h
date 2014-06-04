@@ -27,6 +27,7 @@
     BOOL refreshCover;
     NSString *storyAsAppFilePath;
     int validUserSubscription;
+    float newAudioRate;
     //CAEmitterLayer *emitter;
 }
 - (IBAction)ShowOptions:(id)sender;
@@ -58,6 +59,7 @@
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 @property(retain,nonatomic) UIPopoverController *menuPopoverController;
 @property(strong, nonatomic) NSMutableArray *avilableLanguages;
+@property(strong, nonatomic) IBOutlet UISwitch *switchAudioControl;
 
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UIButton *menuButton;
@@ -81,6 +83,6 @@
 - (IBAction)displyParentalControl:(id)sender;
 - (IBAction)allowParentToShareOrNot:(id)sender;
 - (IBAction)closeParentalControl:(id)sender;
-
+- (IBAction) audioSwitchControl: (id) sender;
 
 @end

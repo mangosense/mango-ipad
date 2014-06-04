@@ -62,9 +62,49 @@ CGPoint originalPoint;
     recognizer.scale = 1;
     recognizer.delaysTouchesEnded = FALSE;
     
+ /*   float xDis = self.frame.origin.x, yDis = self.frame.origin.y;
+    
+    if ([recognizer numberOfTouches] >1) {
+        
+        //getting width and height between gestureCenter and one of my finger
+        float x = [recognizer locationInView:self].x - [recognizer locationOfTouch:1 inView:self].x;
+        if (x<0) {
+            x *= -1;
+        }
+        float y = [recognizer locationInView:self].y - [recognizer locationOfTouch:1 inView:self].y;
+        if (y<0) {
+            y *= -1;
+        }
+        
+        //set Border
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            xDis = self.bounds.size.width - x*2;
+            yDis = self.bounds.size.height - y*2;
+        }
+        
+        //double size cause x and y is just the way from the middle to my finger
+        float width = x*2+xDis;
+        float height = y*2+yDis;
+       // if (width < 1) {
+       //     width = 1;
+       // }
+        
+      //  if (height < 1) {
+       //     height = 1;
+      //  }
+        self.bounds = CGRectMake(self.bounds.origin.x , self.bounds.origin.y , width, height);
+        [recognizer setScale:1];
+        [[self layer] setBorderWidth:0.0f];
+        if(recognizer.state == UIGestureRecognizerStateEnded){
+            
+            originalPoint = CGPointMake(0.00, 0.00);
+        }
+        
+    }*/
+    [textDelegate saveFrame:self.frame AndText:self.text ForLayer:layerId];
     //NSLog(@"textview frame height size %f",);
     
-    [textDelegate saveFrame:self.frame AndText:self.text ForLayer:layerId];
+    
 }
 
 #pragma mark - Touch Event Handler Methods
