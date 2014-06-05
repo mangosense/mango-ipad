@@ -158,6 +158,7 @@
 		68DC47D81910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */; };
 		68DEEAA3190651F100538206 /* MangoSubscriptionViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DEEAA2190651F100538206 /* MangoSubscriptionViewController_iPhone.xib */; };
 		68DEFA7418F2A79100A6C490 /* LoginNewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DEFA7318F2A79100A6C490 /* LoginNewViewController_iPhone.xib */; };
+		68DF64B81940488600EDFCBD /* libFlurry_5.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68DF64191940488500EDFCBD /* libFlurry_5.0.0.a */; };
 		68DF8BED193C95BA00524630 /* beep.caf in Resources */ = {isa = PBXBuildFile; fileRef = 68DF8BEC193C953900524630 /* beep.caf */; };
 		68E069891905123E0098A3B3 /* MangoPromoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E069871905123E0098A3B3 /* MangoPromoPageViewController.m */; };
 		68E0698A1905123E0098A3B3 /* MangoPromoPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68E069881905123E0098A3B3 /* MangoPromoPageViewController.xib */; };
@@ -691,8 +692,6 @@
 		AE9BFBAC16537C12000DDEB1 /* LiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9BFBAA16537C12000DDEB1 /* LiveViewController.xib */; };
 		AE9BFBB016537F44000DDEB1 /* PopPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BFBAE16537F44000DDEB1 /* PopPurchaseViewController.m */; };
 		AE9BFBB116537F44000DDEB1 /* PopPurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE9BFBAF16537F44000DDEB1 /* PopPurchaseViewController.xib */; };
-		AE9C3CB0171805D900ABAC86 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9C3CAF171805D900ABAC86 /* libFlurry.a */; };
-		AE9C3CB1171805D900ABAC86 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9C3CAF171805D900ABAC86 /* libFlurry.a */; };
 		AE9D4C70162C198700352FF8 /* arrow next.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C6F162C198700352FF8 /* arrow next.png */; };
 		AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9D4C72162C198C00352FF8 /* arrow previous.png */; };
 		AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9D4C79162C20E100352FF8 /* PopViewDetailsViewController.m */; };
@@ -1088,6 +1087,8 @@
 		68DC47D61910CD2300BBF4B4 /* MangoDetailSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoDetailSettingsViewController.xib; sourceTree = "<group>"; };
 		68DEEAA2190651F100538206 /* MangoSubscriptionViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoSubscriptionViewController_iPhone.xib; sourceTree = "<group>"; };
 		68DEFA7318F2A79100A6C490 /* LoginNewViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginNewViewController_iPhone.xib; sourceTree = "<group>"; };
+		68DF64181940488500EDFCBD /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		68DF64191940488500EDFCBD /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.0.0.a; sourceTree = "<group>"; };
 		68DF8BEC193C953900524630 /* beep.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = beep.caf; sourceTree = "<group>"; };
 		68E069861905123E0098A3B3 /* MangoPromoPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoPromoPageViewController.h; sourceTree = "<group>"; };
 		68E069871905123E0098A3B3 /* MangoPromoPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangoPromoPageViewController.m; sourceTree = "<group>"; };
@@ -1810,8 +1811,6 @@
 		AE9BFBAF16537F44000DDEB1 /* PopPurchaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopPurchaseViewController.xib; sourceTree = "<group>"; };
 		AE9BFBB516538719000DDEB1 /* BookDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookDetails.h; sourceTree = "<group>"; };
 		AE9BFBB616538719000DDEB1 /* BookDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDetails.m; sourceTree = "<group>"; };
-		AE9C3CAE171805D900ABAC86 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		AE9C3CAF171805D900ABAC86 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		AE9D4C6F162C198700352FF8 /* arrow next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow next.png"; sourceTree = "<group>"; };
 		AE9D4C72162C198C00352FF8 /* arrow previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow previous.png"; sourceTree = "<group>"; };
 		AE9D4C78162C20E100352FF8 /* PopViewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopViewDetailsViewController.h; sourceTree = "<group>"; };
@@ -1986,6 +1985,7 @@
 				280DBE21191D0B850082BFBA /* libApptentiveConnect.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */,
+				68DF64B81940488600EDFCBD /* libFlurry_5.0.0.a in Frameworks */,
 				835CD1CA18F46C5B00B5A12F /* Parse.framework in Frameworks */,
 				AE525E79161D74BF00CDB400 /* MessageUI.framework in Frameworks */,
 				833058A417F9961A00F48427 /* Accounts.framework in Frameworks */,
@@ -2012,7 +2012,6 @@
 				AE43C70F1610548900970739 /* libxml2.dylib in Frameworks */,
 				3FCF867119069FCF0081D20C /* StoreKit.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				AE9C3CB0171805D900ABAC86 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2023,7 +2022,6 @@
 				AE59B52C16817B7600DC55EC /* UIKit.framework in Frameworks */,
 				AE59B52D16817B7600DC55EC /* Foundation.framework in Frameworks */,
 				AE59B52E16817B7600DC55EC /* CoreGraphics.framework in Frameworks */,
-				AE9C3CB1171805D900ABAC86 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3007,8 +3005,8 @@
 		AE1373721622D9D0006C2CA6 /* flurry */ = {
 			isa = PBXGroup;
 			children = (
-				AE9C3CAE171805D900ABAC86 /* Flurry.h */,
-				AE9C3CAF171805D900ABAC86 /* libFlurry.a */,
+				68DF64181940488500EDFCBD /* Flurry.h */,
+				68DF64191940488500EDFCBD /* libFlurry_5.0.0.a */,
 			);
 			name = flurry;
 			sourceTree = "<group>";
@@ -4687,7 +4685,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(PROJECT_DIR)/Flurry-iOS-5.0.0/Flurry",
+					"$(PROJECT_DIR)/Flurry-iOS-5.0.0/FlurryAds",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4757,7 +4758,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(PROJECT_DIR)/Flurry-iOS-5.0.0/Flurry",
+					"$(PROJECT_DIR)/Flurry-iOS-5.0.0/FlurryAds",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

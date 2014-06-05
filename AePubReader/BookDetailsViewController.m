@@ -192,6 +192,7 @@ static int booksDownloadingCount;
         }
         
         int cellHeight;
+        int countLanguageRows = _dropDownIdArrayData.count;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
             cellHeight = 26;
@@ -199,9 +200,13 @@ static int booksDownloadingCount;
         else{
             cellHeight = 33;
         }
+        if(countLanguageRows>5){
+            countLanguageRows = 4;
+        }
         
-        int paddingTopValue = -(cellHeight+cellHeight*_dropDownIdArrayData.count);
-        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:cellHeight heightTableView:(cellHeight+cellHeight*_dropDownIdArrayData.count) paddingTop:paddingTopValue paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
+        int paddingTopValue = -(cellHeight+cellHeight*countLanguageRows);
+        int heightOfTableView = (cellHeight+cellHeight*countLanguageRows);
+        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:cellHeight heightTableView:heightOfTableView paddingTop:paddingTopValue paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
         _dropDownView.delegate = self;
         
         [self.view addSubview:_dropDownView.view];

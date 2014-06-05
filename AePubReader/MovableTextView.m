@@ -92,7 +92,7 @@ CGPoint originalPoint;
       //  if (height < 1) {
        //     height = 1;
       //  }
-        self.bounds = CGRectMake(self.bounds.origin.x , self.bounds.origin.y , width, height);
+        self.frame = CGRectMake(self.bounds.origin.x , self.bounds.origin.y , width, height);
         [recognizer setScale:1];
         [[self layer] setBorderWidth:0.0f];
         if(recognizer.state == UIGestureRecognizerStateEnded){

@@ -64,6 +64,10 @@ static UIAlertView *alertViewLoading;
     [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
                        clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
+    //Flurry
+    [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    [Flurry setCrashReportingEnabled:YES];
+    
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
