@@ -24,7 +24,7 @@
 @class EPubViewController;
 @class LoginViewController;
 @class LandPageChoiceViewController;
-@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,UIAlertViewDelegate> {
+@interface AePubReaderAppDelegate : NSObject <UIApplicationDelegate,UIAlertViewDelegate, MangoPostApiProtocol> {
     
    
         

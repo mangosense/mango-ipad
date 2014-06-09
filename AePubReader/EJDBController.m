@@ -11,6 +11,8 @@
 #import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "Book.h"
+#import "LoginNewViewController.h"
+#import "MBProgressHUD.h"
 
 @implementation EJDBController
 
@@ -99,8 +101,10 @@
 
     // adding to database
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (![appDelegate.dataModel checkIfIdExists:book.id]) {
-        Book *coreDatabook= [appDelegate.dataModel getBookInstance];
+    Book *coreDatabook= [appDelegate.dataModel getBookInstance];
+    int isBookDownloaded = [coreDatabook.downloaded integerValue];
+    if (![appDelegate.dataModel checkIfIdExists:book.id] ) {
+        
         coreDatabook.title=book.title;
         coreDatabook.link=nil;
         coreDatabook.localPathImageFile = filePath;
@@ -110,7 +114,12 @@
         coreDatabook.date = [NSDate date];
         coreDatabook.textBook = @4;
         coreDatabook.downloadedDate = [NSDate date];
-        coreDatabook.downloaded = @YES;
+        if(fileNotAvailable){
+            coreDatabook.downloaded = @NO;
+        }
+        else{
+            coreDatabook.downloaded = @YES;
+        }
         coreDatabook.edited = @NO;
         coreDatabook.bookId = ejdbId;
         
@@ -118,7 +127,53 @@
         if (![appDelegate.managedObjectContext save:&error]) {
             NSLog(@"%@",error);
         }
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setBool:YES forKey:@"ISFREEBOOKAPICALL"];
+        
     }
+    
+    else if([appDelegate.dataModel checkIfIdExists:book.id] && !fileNotAvailable && !isBookDownloaded){
+        NSFetchRequest *fetchRequest=[NSFetchRequest fetchRequestWithEntityName:@"Book"];
+        NSPredicate *predicate=[NSPredicate predicateWithFormat:@"bookId == %@",book.id];
+        fetchRequest.predicate=predicate;
+        Book *newBook = [[appDelegate.managedObjectContext executeFetchRequest:fetchRequest error:nil] lastObject];
+        [newBook setValue:@YES forKey:@"downloaded"];
+        NSError *error=nil;
+        if (![appDelegate.managedObjectContext save:&error]) {
+            NSLog(@"%@",error);
+        }
+        
+    }
+    fileNotAvailable = NO;
+}
+
+-(void) saveImage:(UIImage *)image withFileName:(NSString *)imageName ofType:(NSString *)extension inDirectory:(NSString *)directoryPath {
+    
+    NSFileManager *fileManager= [NSFileManager defaultManager];
+    NSError *error = nil;
+    if([fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error]) {
+        
+        if ([[extension lowercaseString] isEqualToString:@"jpg"] || [[extension lowercaseString] isEqualToString:@"jpg"]) {
+            
+            NSLog(@"path as - %@", [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"jpg"]]);
+            [UIImageJPEGRepresentation(image, 1.0) writeToFile:[directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"jpg"]] options:NSAtomicWrite error:nil];
+            
+        } else {
+            NSLog(@"Image Save Failed\nExtension: (%@) is not recognized, use (JPG)", extension);
+        }
+    }
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:directoryPath error:nil];
+}
+
+-(UIImage *) getImageFromURL:(NSString *)fileURL {
+    UIImage * result;
+    
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileURL]];
+    result = [UIImage imageWithData:data];
+    
+    return result;
 }
 
 #pragma mark - Parse JSON
@@ -130,6 +185,18 @@
         MangoBook *book = [[MangoBook alloc] init];
         book.id = [jsonDict objectForKey:@"id"];
         book.title = [jsonDict objectForKey:@"title"];
+        
+        if ([numberId isEqual: [NSNumber numberWithInteger:1]]) {
+            
+            NSString * documentsDirectoryPath = filePath;
+            NSString *imageURLString = [NSString stringWithFormat:@"http://www.mangoreader.com%@",[jsonDict objectForKey:@"cover"]];
+            
+            UIImage * imageFromURL = [self getImageFromURL:imageURLString];
+            
+            [self saveImage:imageFromURL withFileName:@"cover" ofType:@"jpg" inDirectory:documentsDirectoryPath];
+            
+            fileNotAvailable = YES;
+        }
         
         NSArray *pagesArray = [jsonDict objectForKey:PAGES];
         

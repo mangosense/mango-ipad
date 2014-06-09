@@ -342,6 +342,9 @@
             }
             //URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
         }
+        
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setBool:NO forKey:@"ISAPPLECHECK"];
 
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         NSProgress *downloadProgress;
@@ -438,6 +441,31 @@
     }];
     
 }
+
+- (void) getFreeBookInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate{
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [manager GET:methodName parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Get List Response: %@", responseObject);
+        NSArray *responseArray;
+        if(([responseObject isKindOfClass:[NSArray class]]) && ([responseObject count] > 0)){
+            
+            [_delegate freeBooksSetup:responseObject];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Get List Error: %@", error);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }];
+    
+}
+
 
 - (void)saveNewBookWithJSON:(NSString *)bookJSON {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];

@@ -56,6 +56,7 @@
 @property (nonatomic, retain) DropDownView *dropDownView;
 
 @property (nonatomic, weak) id <BookViewProtocol> delegate;
+@property (nonatomic, assign) int fromMyStories;
 
 - (IBAction)buyButtonTapped:(id)sender;
 - (IBAction)closeDetails:(id)sender;

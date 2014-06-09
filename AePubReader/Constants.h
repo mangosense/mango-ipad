@@ -238,6 +238,8 @@
 #define RECOMMENDED_STORIES @"livestories/recommended"
 #define LIVE_STORIES_WITH_ID @"livestories"
 #define OLD_STORY_INFO @"livestories/%@/info"
+#define VERSION @"version"
+#define VERSION_NO @"1.7"
 
 #pragma mark - API Parameter Keys
 

@@ -550,7 +550,17 @@
             NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
             jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
             
+            if(!onlyJson.count){
+                
+                int bookCount;
+                bookCount+= 1;
+                [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:@"All Books"];
+                allBooksCount += 1;
+                continue;
+            }
+            
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:jsonLocation] options:NSJSONReadingAllowFragments error:nil];
+            
             
             NSLog(@"Categories - %@", [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]);
             for (NSString *category in [[jsonDict objectForKey:@"info"] objectForKey:@"categories"]) {
@@ -558,6 +568,7 @@
                 bookCount += 1;
                 [bookCountDict setObject:[NSNumber numberWithInt:bookCount] forKey:category];
             }
+            if(![[[jsonDict objectForKey:@"info"] objectForKey:@"categories"] containsObject:@"My Books"])
             allBooksCount += 1;
         }
     }

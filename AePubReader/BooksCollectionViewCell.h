@@ -22,5 +22,6 @@
 @property (nonatomic, weak) id <SaveBookImage> delegate;
 @property (nonatomic, strong) UIImageView *bookCoverImageView;
 @property (nonatomic, assign) BOOL isDeleteMode;
+@property (nonatomic, strong) UILabel *labelFreeBook;
 
 @end

@@ -344,7 +344,31 @@
 
 #pragma mark - Post API Delegate
 
+- (BOOL) validBookUrl:(NSString*) livestoryWithUrl{
+    
+    
+    NSString *searchString = livestoryWithUrl;
+    NSString *regexString = @"livestories/[A-Z0-9a-z]{24}";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexString];
+    BOOL isStringValid = [predicate evaluateWithObject:searchString];
+    return isStringValid;
+}
+
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    NSDictionary *passDictionaryData;
+    if(dataArray.count){
+        passDictionaryData = dataArray[0];
+    }
+    else{
+        passDictionaryData = nil;
+    }
+    if([self validBookUrl:type]){
+        
+        [self showBookDetailsForBook:passDictionaryData];
+    }
+    
+    else{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -356,7 +380,7 @@
     }
    
        // [paramDict setObject:IOS forKey:PLATFORM];
-    
+    [paramDict setObject:VERSION_NO forKey:VERSION];
 
     if ([type isEqualToString:AGE_GROUPS]) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -409,6 +433,7 @@
 
     [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    }
 }
 
 - (void)getBookAtPath:(NSURL *)filePath {
@@ -473,7 +498,7 @@
     [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
     
     //[paramDict setObject:IOS forKey:PLATFORM];
-    
+    [paramDict setObject:VERSION_NO forKey:VERSION];
     
     switch (_tableType) {
         case TABLE_TYPE_CATEGORIES: {
@@ -650,7 +675,7 @@
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (_featuredStoriesArray) {
-        NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
+        //NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
       //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
         if(![self connected])
         {
@@ -659,7 +684,10 @@
             return;
         }
         
-        BookDetailsViewController *bookDetailsViewController;
+        NSString *selectedFeaturedBookId = [[_featuredStoriesArray objectAtIndex:index] valueForKey:@"id"];
+        [self getLiveStoryByID:selectedFeaturedBookId];
+        
+        /*BookDetailsViewController *bookDetailsViewController;
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
@@ -766,7 +794,7 @@
             bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
             bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
         }];
-        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
+        bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);*/
     }
 }
 
@@ -1180,6 +1208,16 @@
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+
+- (void) getLiveStoryByID :(NSString *)bookID{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",bookID]];
+    
+    [apiController getListOf:url ForParameters:nil withDelegate:self];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -1192,9 +1230,11 @@
                 
                 NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section - 1] objectForKey:NAME];
                 NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
+                NSString *bookIdValue = [[[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row] valueForKey:@"id"];
                 
                 if (bookDict) {
-                    [self showBookDetailsForBook:bookDict];
+                    //[self showBookDetailsForBook:bookDict];
+                    [self getLiveStoryByID:bookIdValue];
                 }
             }
         }
@@ -1202,9 +1242,11 @@
             
         default: {
             NSDictionary *bookDict = [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] objectAtIndex:indexPath.row];
+            NSString *bookIdValue = [[[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] objectAtIndex:indexPath.row] valueForKey:@"id"];
             
             if (bookDict) {
-                [self showBookDetailsForBook:bookDict];
+                //[self showBookDetailsForBook:bookDict];
+                [self getLiveStoryByID:bookIdValue];
             }
         }
             break;

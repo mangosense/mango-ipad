@@ -65,8 +65,10 @@ static UIAlertView *alertViewLoading;
                        clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
     //Flurry
-    [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    
     [Flurry setCrashReportingEnabled:YES];
+    [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    
     
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
@@ -209,6 +211,11 @@ static UIAlertView *alertViewLoading;
     
     [Appirater appLaunched:YES];
     
+    int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
+    if(!isFreeBooksApiCall){
+        [self getAllFreeBooks];
+    }
+    
     return YES;
 }
 
@@ -317,6 +324,30 @@ void uncaughtExceptionHandler(NSException *exception) {
     [dimensionDict setObject:_language forKey:PARAMETER_DEVICE_LANGUAGE];
     
     [PFAnalytics trackEvent:event dimensions:dimensionDict];
+}
+
+
+-(void)getAllFreeBooks {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.loginController.view animated:YES];
+    hud.labelText = @"Loading Please Wait";
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    apiController.delegate = self;
+    //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
+    [apiController getFreeBookInformation:FREE_STORIES withDelegate:self];
+}
+
+- (void)freeBooksSetup : (NSArray *)booksInfo;{
+    NSLog(@"gsadasjkda");
+    for(int i =0; i< booksInfo.count; ++i){
+        NSString *dirPath = [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], [[booksInfo objectAtIndex:i] objectForKey:@"id"]];
+        NSError* error;
+        NSLog(@"path:%@",dirPath);
+        NSNumber *number = [NSNumber numberWithInt:1];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:[booksInfo objectAtIndex:i] options:NSJSONReadingMutableLeaves error:&error];
+        [_ejdbController parseBookJson:data   WithId:number AtLocation:dirPath];
+    }
+    
+    [MBProgressHUD hideAllHUDsForView:self.loginController.view animated:YES];
 }
 
 

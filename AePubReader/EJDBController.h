@@ -17,7 +17,10 @@
 #import "UserInfo.h"
 #import "SubscriptionInfo.h"
 
-@interface EJDBController : NSObject
+@interface EJDBController : NSObject{
+    
+    BOOL *fileNotAvailable;
+}
 
 @property (nonatomic, strong) EJDBCollection *collection;
 @property (nonatomic, strong) EJDBDatabase *db;

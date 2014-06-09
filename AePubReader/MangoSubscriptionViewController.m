@@ -440,7 +440,7 @@
             
         }
         
-        else if ([[response objectForKey:@"resp"] integerValue] == 21007) {
+        /*else if ([[response objectForKey:@"resp"] integerValue] == 21007) {
             NSLog(@"SuccessResponse:%@", response);
             NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
             [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
@@ -471,7 +471,7 @@
             
             
             
-        }
+        }*/
 
         
         else {

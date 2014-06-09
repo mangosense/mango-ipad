@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SettingOptionViewController.h"
 #import "BooksCollectionViewCell.h"
+#import "BookDetailsViewController.h"
 //#import "WEPopoverController.h"
 
-@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage, UIPopoverControllerDelegate, ShowAnalyticsView>{
+@interface BooksCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DismissPopOver, SaveBookImage, UIPopoverControllerDelegate, ShowAnalyticsView, MangoPostApiProtocol,BookViewProtocol>{
     int deleteBookIndex;
     //int settingQuesNo;
     
@@ -35,6 +36,7 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
+@property (nonatomic, retain) NSMutableArray *arrayFreeBooksId;
 
 - (IBAction)settingsButtonTapped:(id)sender;
 - (IBAction)homeButtonTapped:(id)sender;

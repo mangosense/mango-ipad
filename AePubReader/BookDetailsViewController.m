@@ -151,6 +151,12 @@ static int booksDownloadingCount;
         [currentQueue finishTransaction:(SKPaymentTransaction *)obj];
     }];
     
+    if(_fromMyStories){
+        
+        [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
+        _buyButton.userInteractionEnabled = YES;
+    }
+    
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
 
@@ -364,11 +370,28 @@ static int booksDownloadingCount;
         }
         //userTransctionId = @"1000000109171478";
         if (bk) {
-            if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
-                [self deleteBookIdFromArray:_selectedProductId];
-                [_delegate openBook:bk];
+            
+            int isDownloaded = [bk.downloaded integerValue];
+            if(!isDownloaded){
+                
+                if(booksDownloadingCount >= 3){
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"You can download only 3 books at a time" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
+                    return;
+                }
+                
+                booksDownloadingCount ++;
+                [self addBookIdIntoArray:_selectedProductId];
+                [self itemReadyToUse:_selectedProductId ForTransaction:userTransctionId];
             }
-            [self closeDetails:nil];
+            else{
+                if (_delegate && [_delegate respondsToSelector:@selector(openBook:)]) {
+                    [self deleteBookIdFromArray:_selectedProductId];
+                    [_delegate openBook:bk];
+                }
+                [self closeDetails:nil];
+            }
         } else {
            // [[PurchaseManager sharedManager] itemProceedToPurchase:_selectedProductId storeIdentifier:_selectedProductId withDelegate:self];
             

@@ -23,6 +23,7 @@
 - (void)bookDownloadAborted;
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
 - (void)subscriptionSetup:(NSArray *)planArray;
+- (void)freeBooksSetup : (NSArray *)booksInfo;
 
 @end
 
@@ -31,7 +32,7 @@
     NSString *deviceid;
 }
 
-@property (nonatomic, assign) id <MangoPostApiProtocol> delegate;
+@property (nonatomic, weak) id <MangoPostApiProtocol> delegate;
 
 + (id)sharedApiController;
 
@@ -49,5 +50,6 @@
 - (void) validateSubscription :(NSString *)userIdOrTransctionId andDeviceId:(NSString *)deviceId block:(void (^)(id response, NSInteger type, NSString * error))block;
 
 - (void) getSubscriptionProductsInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate;
+- (void) getFreeBookInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate;
 
 @end

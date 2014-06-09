@@ -179,7 +179,7 @@
                 }
             }
         }
-        else if ([[response objectForKey:@"resp"] integerValue] == 21007){
+        /*else if ([[response objectForKey:@"resp"] integerValue] == 21007){
             
             NSLog(@"SuccessResponse:%@", response);
             NSString *expireDate = @"11/11/2021";
@@ -192,7 +192,7 @@
                 }
             }
             
-        }
+        }*/
         else {
             NSLog(@"ReceiptError:%@", error);
             [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
