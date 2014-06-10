@@ -96,6 +96,7 @@
         strMethod = SubscriptionValidate;
         paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid};
     }
+    [paramDict setValue:VERSION_NO forKeyPath:VERSION];
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -119,14 +120,15 @@
     NSDictionary *paramDict;
     if(userId){
         
-        paramDict = @{ @"user_id":userId, @"udid":deviceId};
+        paramDict = @{ @"user_id":userId, @"udid":deviceId, VERSION:VERSION_NO};
     }
     else if((!userId) && (TransctionId)) {
-        paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId};
+        paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId, VERSION:VERSION_NO};
     }
     else{
-        paramDict = @{ @"transaction_id":@"0", @"udid":deviceId};
+        paramDict = @{ @"transaction_id":@"0", @"udid":deviceId, VERSION:VERSION_NO};
     }
+    //[paramDict setValue:VERSION_NO forKeyPath:VERSION];
     strMethod = SubscriptionStatus;
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -263,6 +265,7 @@
         [paramsDict setObject:name forKey:NAME];
        // [paramsDict setObject:IOS forKey:PLATFORM];//send platform = ios new
     }
+    [paramsDict setObject:VERSION_NO forKey:VERSION];
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *responseDict = (NSDictionary *)responseObject;
         NSLog(@"Login Response: %@", responseObject);
@@ -295,7 +298,8 @@
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:FACEBOOK_TOKEN_EXPIRATION_DATE] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:USERNAME] forKey:USERNAME];
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:NAME] forKey:NAME];
-    //[paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
+    [paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
+    [paramsDict setObject:VERSION_NO forKey:VERSION];
     [manager POST:FACEBOOK_LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];

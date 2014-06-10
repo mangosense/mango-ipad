@@ -276,6 +276,7 @@
     url = RECOMMENDED_STORIES;
     [paramDict setObject:story_Id_value forKey:@"story_id"];
     [paramDict setObject:IOS forKey:PLATFORM];
+    [paramDict setObject:VERSION_NO forKey:VERSION];
     [MBProgressHUD showHUDAddedTo:self.recommendedBooksView animated:YES];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }

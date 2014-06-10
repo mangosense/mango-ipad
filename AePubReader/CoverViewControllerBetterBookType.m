@@ -213,6 +213,7 @@ NSString *newIdentityValue;
         NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
         [paramDict setObject:currentBookId forKey:@"story_id"];
         [paramDict setObject:IOS forKey:PLATFORM];
+        [paramDict setObject:VERSION_NO forKey:VERSION];
         [apiController getListOf:url ForParameters:paramDict withDelegate:self];
   //  }
 }

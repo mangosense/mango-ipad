@@ -446,6 +446,7 @@
         NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
         [paramDict setObject:_bookId forKey:@"story_id"];
         [paramDict setObject:IOS forKey:PLATFORM];
+        [paramDict setObject:VERSION_NO forKey:VERSION];
         [apiController getListOf:url ForParameters:paramDict withDelegate:self];
   //  }
 }
@@ -984,6 +985,7 @@
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
         [audioMappingViewcontroller.view setExclusiveTouch:YES];
         audioMappingViewcontroller.mangoTextField.exclusiveTouch = NO;
+        audioMappingViewcontroller.mangoTextField.userInteractionEnabled = NO;
         audioMappingViewcontroller.mangoTextField.text = textOnPage;
         UIFont *font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*24.0f/768.0f];
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
