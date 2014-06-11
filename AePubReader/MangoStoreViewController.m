@@ -33,6 +33,7 @@
 @property (nonatomic, strong) UITextField *searchTextField;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
 @property (nonatomic, strong) NSMutableDictionary *liveStoriesFiltered;
+@property (nonatomic, strong) NSMutableArray *liveStoriesFilteredWhole;
 @property (nonatomic, strong) NSMutableDictionary *localImagesDictionary;
 @property (nonatomic, strong) NSMutableArray *featuredStoriesArray;
 @property (nonatomic, strong) NSArray *ageGroupsFoundInResponse;
@@ -83,9 +84,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    page = 1;
     
     NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
     viewName = @"Store Page";
@@ -122,10 +125,12 @@
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         displayStoryNo = 4;
+        limit = 12;
         
     }
     else{
         displayStoryNo = 6;
+        limit = 18;
     }
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
@@ -279,6 +284,9 @@
 
 - (IBAction)filterSelected:(id)sender {
     
+    [_liveStoriesFilteredWhole removeAllObjects];
+    page = 0;
+    indexval = 0;
     [self.searchTextField resignFirstResponder];
     self.searchTextField = nil;
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -356,6 +364,7 @@
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [_actIndicator removeFromSuperview];
     NSDictionary *passDictionaryData;
     if(dataArray.count){
         passDictionaryData = dataArray[0];
@@ -424,9 +433,22 @@
         
         if (!liveStoriesFiltered) {
             liveStoriesFiltered = [[NSMutableDictionary alloc] init];
+            
         }
+        
+        if(indexval >limit){
+            [_liveStoriesFilteredWhole addObjectsFromArray:dataArray];
+            [liveStoriesFiltered setObject:_liveStoriesFilteredWhole forKey:filterString];
+           
+        }
+        else
+        {
+        _liveStoriesFilteredWhole = [[NSMutableArray alloc] init];
+        [_liveStoriesFilteredWhole addObjectsFromArray:dataArray];
         [liveStoriesFiltered removeAllObjects];
         [liveStoriesFiltered setObject:dataArray forKey:filterString];
+        }
+        
     }
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -495,33 +517,41 @@
     NSString *url;
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:[NSNumber numberWithInt:100] forKey:LIMIT];
     
+    filterKey = filterName;
     //[paramDict setObject:IOS forKey:PLATFORM];
     [paramDict setObject:VERSION_NO forKey:VERSION];
+    [paramDict setObject:[NSNumber numberWithInt:limit] forKey:LIMIT];
+    indexval = indexval+limit-1;
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     
     switch (_tableType) {
         case TABLE_TYPE_CATEGORIES: {
+            
             url = [STORY_FILTER_CATEGORY stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_AGE_GROUPS: {
+            
             url = [STORY_FILTER_AGE_GROUP stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_LANGUAGE: {
+            
             url = [STORY_FILTER_LANGUAGES stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_GRADE: {
+            
             url = [STORY_FILTER_GRADE stringByAppendingString:filterName];
         }
             break;
             
         case TABLE_TYPE_SEARCH: {
+            
             url = LIVE_STORIES_SEARCH;
             [paramDict setObject:filterName forKey:@"q"];
             NSDictionary *dimensions = @{
@@ -551,8 +581,9 @@
             [_booksCollectionView reloadData];
             return;
     }
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if(page  == 0){
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
 
@@ -945,7 +976,7 @@
     [cell.bookTitleLabel setFrame:CGRectMake(2, cell.bookTitleLabel.frame.origin.y, cell.bookTitleLabel.frame.size.width, [cell.bookTitleLabel.text sizeWithFont:cell.bookTitleLabel.font constrainedToSize:CGSizeMake(cell.bookTitleLabel.frame.size.width, 50)].height)];
     [cell setNeedsLayout];
     
-    cell.imageUrlString = [[bookDict objectForKey:@"cover"] stringByReplacingOccurrencesOfString:@"cover_" withString:@"thumb_"];
+    cell.imageUrlString = [[bookDict objectForKey:@"cover"] stringByReplacingOccurrencesOfString:@"cover_" withString:@"cover_"];
     cell.bookImageView.image = nil;
     if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]]) {
         cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
@@ -1008,6 +1039,12 @@
                 if (bookDict) {
                     [self setupCollectionViewCell:cell WithDict:bookDict];
                 }
+                
+                if(indexPath.row == indexval){
+                    [self fetchMore];
+                    
+                }
+                //NSLog(@"item index ==== %d", indexPath.row);
             }
             
             return cell;
@@ -1015,6 +1052,45 @@
             break;
     }
     return nil;
+}
+                     
+- (void) fetchMore{
+    
+    [self addActivityIndicator];
+    page ++;
+    [self getFilteredStories:filterKey];
+    //[_booksCollectionView reloadData];
+                         
+}
+
+- (void) addActivityIndicator{
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ){
+        
+       _actIndicator  = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(250, (485*(page+1)), 70, 70)];
+    }
+    else{
+        _actIndicator  = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(480, (750*(page+1)), 70, 70)];
+    }
+    _actIndicator.alpha = 1.0f;
+    [_actIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [self.booksCollectionView addSubview:_actIndicator];
+    [_actIndicator startAnimating];
+}
+
+- (UICollectionViewCell *)loadingCellForIndexPath:(NSIndexPath *)indexPath {
+    
+    //StoreBookCell *cell =  [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+    StoreBookCell *cell = (StoreBookCell *)[self.booksCollectionView dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+    
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]
+                                                  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.center = cell.center;
+    [cell addSubview:activityIndicator];
+    
+    [activityIndicator startAnimating];
+    
+    return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -1057,7 +1133,8 @@
             [headerView.titleLabel setFrame:CGRectMake(headerView.frame.origin.x + 200, 0, headerView.frame.size.width - 400, headerView.frame.size.height)];
             headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
             
-            [headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
+            //[headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
+            //[headerView.seeAllButton setTitle:@"Back" forState:UIControlStateNormal];
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                 
                 [headerView.seeAllButton setFrame:CGRectMake(0, 0, 90, headerView.frame.size.height)];
@@ -1091,6 +1168,10 @@
         return;
     }
     
+    if(bookDict == nil){
+        return;
+    }
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
         bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
@@ -1099,6 +1180,7 @@
     else{
         bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
     }
+    int availableLanguagesCount = [[bookDict valueForKey:@"available_languages"] count];
     
     bookDetailsViewController.delegate = self;
   //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
@@ -1114,6 +1196,7 @@
             bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@""];
         }
         
+        //int countAvailableLaguages =
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
             bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
@@ -1177,6 +1260,15 @@
         }
         else{
             bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
+        }
+        
+        if(availableLanguagesCount){
+            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d languages :", availableLanguagesCount+1];
+            
+        }
+        else{
+            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d language :", availableLanguagesCount+1];
+            bookDetailsViewController.dropDownButton.userInteractionEnabled = NO;
         }
         
         NSDictionary *dimensions = @{

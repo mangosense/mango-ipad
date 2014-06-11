@@ -14,7 +14,7 @@
 
 @property (nonatomic, assign) int tableType;
 @property (nonatomic, copy) NSString *selectedItemDetail;           // Row tapped to perform filter.
-@property (nonatomic, copy) NSArray *liveStoriesQueried;       //
+@property (nonatomic, copy) NSMutableArray *liveStoriesQueried;       //
 @property (nonatomic, copy) NSString *selectedItemTitle;
 
 - (IBAction)bacKButtonTapped:(id)sender;

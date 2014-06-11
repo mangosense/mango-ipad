@@ -555,6 +555,7 @@
     }else{
          _pageNumber--;
              [self loadPageWithOption:_option];
+        [_audioMappingViewController.player pause];
         
         CATransition *animation = [CATransition animation];
         [animation setDelegate:self];
@@ -568,8 +569,14 @@
         [animation setFillMode: @"extended"];
         [animation setRemovedOnCompletion: NO];
         [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
+        //[_audioMappingViewController.player play];
+        [self performSelector:@selector(playAudio) withObject:self afterDelay:0.7f];
 
     }
+}
+
+- (void) playAudio{
+    [_audioMappingViewController.player play];
 }
 
 - (IBAction)nextButton:(id)sender {
@@ -578,7 +585,7 @@
     
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
-        
+        [_audioMappingViewController.player pause];
         
         CATransition *animation = [CATransition animation];
         [animation setDelegate:self];
@@ -592,7 +599,8 @@
         [animation setFillMode: @"extended"];
         [animation setRemovedOnCompletion: NO];
         [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
-        
+        //[_audioMappingViewController.player play];
+        [self performSelector:@selector(playAudio) withObject:self afterDelay:0.7f];
         /// default is icons_play.png
         if (_option==0) {
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
@@ -725,7 +733,6 @@
         
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         
-        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         [self loadPageWithOption:0];
         [self closeButton:nil];
         _showButtons = NO;
@@ -859,7 +866,7 @@
     } else if (_option == 0 && [vc isEqual:[audioMappingViewControllers lastObject]]) {
         [self nextButton:nil];
     }
-    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

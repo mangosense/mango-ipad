@@ -159,9 +159,38 @@ static int booksDownloadingCount;
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListenerDidReceiveNotification:) name:@"BookProgress" object:nil];
 
 }
 
+
+- (void)eventListenerDidReceiveNotification:(NSNotification *)notif
+{
+    
+    //NSLog(@"Successfully received the notification!");
+        
+    NSDictionary *userInfo = notif.userInfo;
+    
+    newIDValue = [userInfo valueForKey:@"bookIdVal"];
+    newProgress = [[userInfo valueForKey:@"progressVal"] integerValue];
+    if([_displayBookID isEqualToString:newIDValue]){
+        [self updateBookProgress:newProgress];
+    }
+}
+
+- (void) addProgressBar{
+    
+    if(!_progressView){
+    _progressView = [[HKCircularProgressView alloc] initWithFrame:CGRectMake(_bookImageView.frame.size.width/2 - 50, _bookImageView.frame.size.height/2 - 50, 100, 100)];
+    _progressView.max = 100.0f;
+    _progressView.step = 1.0f;
+    _progressView.fillRadius = 1;
+    _progressView.trackTintColor = COLOR_LIGHT_GREY;
+    [_progressView setAlpha:0.6f];
+    [_bookImageView addSubview:_progressView];
+    }
+    //_progressView.current = MAX(1, _bookProgress);
+}
 
 
 - (void) availLanguagedata{
@@ -198,7 +227,9 @@ static int booksDownloadingCount;
         }
         
         int cellHeight;
+        
         int countLanguageRows = _dropDownIdArrayData.count;
+        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
             cellHeight = 26;
@@ -329,6 +360,7 @@ static int booksDownloadingCount;
             
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
+        [self addProgressBar];
         return;
     }
     
@@ -601,6 +633,7 @@ static int booksDownloadingCount;
         [_bookImageView addSubview:_progressView];
     }
     _progressView.current = MAX(1, _bookProgress);
+   // NSLog(@"Display progress %f %@",_progressView.current, _bookId);
 }
 
 - (void)hideHudOnButton {

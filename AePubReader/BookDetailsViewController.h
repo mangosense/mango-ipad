@@ -26,6 +26,8 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    NSString *newIDValue;
+    int newProgress;
 }
 
 @property (nonatomic, strong) NSString *selectedProductId;
@@ -52,6 +54,7 @@
 @property (nonatomic,strong) IBOutlet UIButton *dropDownButton;
 @property (nonatomic, strong) NSMutableArray *dropDownArrayData;
 @property (nonatomic, strong) NSMutableArray *dropDownIdArrayData;
+@property (nonatomic, strong) IBOutlet UILabel *labelAvaillanguageCount;
 
 @property (nonatomic, retain) DropDownView *dropDownView;
 

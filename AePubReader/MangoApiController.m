@@ -90,13 +90,12 @@
         //strMethod = ReceiptValidate_SignedIn;
         strMethod = SubscriptionValidate;
       //  paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"story_id":storyId};
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO};
     }
     else {
         strMethod = SubscriptionValidate;
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO};
     }
-    [paramDict setValue:VERSION_NO forKeyPath:VERSION];
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [manager POST:strMethod parameters:paramDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -393,6 +392,11 @@
                 if (isDataPresent) {
                     if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                         [delegate updateBookProgress:[[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue]];
+                        int value = [[NSNumber numberWithDouble:totalBytesWritten*100/totalBytesExpectedToWrite] intValue];
+                        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:value], @"progressVal", bookId, @"bookIdVal", nil];
+                        //[dict setObject:[NSNumber numberWithFloat:value] forKey:bookId];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"BookProgress" object:nil userInfo:dict];
                     }
                 }
             }];

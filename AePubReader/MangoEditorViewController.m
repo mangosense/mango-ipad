@@ -120,7 +120,11 @@
     // Do any additional setup after loading the view from its nib.
     viewName = @"Story editor";
     [self renderEditorPage:0];
-    [pagesCarousel scrollToItemAtIndex:3 animated:YES];
+    //pagesCarousel.centerItemWhenSelected = YES;
+    //[pagesCarousel scrollToItemAtIndex:2 animated:YES];
+    
+    float widthOffset = 400.0;
+    [pagesCarousel setViewpointOffset:CGSizeMake(widthOffset, 0)];
 }
 
 -(void)createACopy{
@@ -1019,6 +1023,7 @@
     PageThumbnailView *pageThumbnail = [[PageThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 130, 90)];
     
     pageThumbnail.thumbnailImageView.image = [UIImage imageNamed:@"white_page.jpeg"];
+    
     [pageThumbnail setBackgroundColor:[UIColor clearColor]];
     pageThumbnail.delegate = self;
     pageThumbnail.deleteButton.tag = index;
@@ -1068,11 +1073,18 @@
     return pageThumbnail;
 }
 
+- (BOOL)carousel:(iCarousel *)carousel shouldSelectItemAtIndex:(NSInteger)index{
+    
+    return YES;
+}
+
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
+    //carousel.currentItemView.layer.backgroundColor = [[UIColor clearColor] CGColor];
     if (index < [_mangoStoryBook.pages count]) {
         [self renderEditorPage:index];
-       // pagesCarousel..layer.borderColor = [[UIColor redColor] CGColor];
-       // pagesCarousel.contentView.layer.borderWidth = 2.0f;
+        
+        //carousel.currentItemView.layer.backgroundColor = [[UIColor clearColor] CGColor];
+
         
     } else {
         [self createEmptyPage :0];
@@ -1837,7 +1849,8 @@
     pageImageView.delegate = self;
     pageImageView.selectedBrush = 5.0f;
     pageImageView.selectedEraserWidth = 20.0f;
-
+    //pagesCarousel.currentItemView.layer.backgroundColor = [[UIColor redColor] CGColor];
+    
     currentPageNumber = pageNumber;
     NSLog(@"Current page no is %d", currentPageNumber);
     for (UIView *subview in [pageImageView subviews]) {

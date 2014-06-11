@@ -445,6 +445,16 @@
         else{
             bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
         }
+        
+        int availableLanguagesCount = [[bookDict valueForKey:@"available_languages"] count];
+        if(availableLanguagesCount){
+            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d languages :", availableLanguagesCount+1];
+        }
+        else{
+            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d language :", availableLanguagesCount+1];
+            bookDetailsViewController.dropDownButton.userInteractionEnabled = NO;
+        }
+        
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         

@@ -31,6 +31,11 @@
     
     NSString *storyAsAppFilePath;
     int validUserSubscription;
+    
+    NSString *filterKey;
+    int limit;
+    int page;
+    int indexval;
 }
 
 @property (nonatomic, strong) iCarousel *storiesCarousel;
@@ -39,6 +44,7 @@
 @property (nonatomic, retain) WEPopoverController *popoverControlleriPhone;
 @property (nonatomic , retain) IBOutlet UIView *viewDownloadCounter;
 @property (nonatomic, strong) IBOutlet UILabel *labelDownloadingCount;
+@property (nonatomic, strong) UIActivityIndicatorView *  actIndicator;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;
