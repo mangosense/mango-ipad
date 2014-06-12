@@ -35,7 +35,9 @@
             [_seeAllButton setFrame:CGRectMake(frame.size.width - 100, 10, 100, 20)];
         }
         
-        [_seeAllButton setImage:[UIImage imageNamed:@"see all.png"] forState:UIControlStateNormal];
+        //[_seeAllButton setImage:[UIImage imageNamed:@"see all.png"] forState:UIControlStateNormal];
+        [_seeAllButton setTitle:@"Back" forState:UIControlStateNormal];
+        [_seeAllButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_seeAllButton addTarget:self action:@selector(seeAll) forControlEvents:UIControlEventTouchUpInside];        
         _seeAllButton.hidden = YES;
         [self addSubview:_seeAllButton];

@@ -510,6 +510,7 @@
 #pragma mark - Get Books
 
 - (void)getFilteredStories:(NSString *)filterName {
+    filterKey = filterName;
     filterName = [filterName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     MangoApiController *apiController = [MangoApiController sharedApiController];
@@ -518,7 +519,6 @@
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     
-    filterKey = filterName;
     //[paramDict setObject:IOS forKey:PLATFORM];
     [paramDict setObject:VERSION_NO forKey:VERSION];
     [paramDict setObject:[NSNumber numberWithInt:limit] forKey:LIMIT];
