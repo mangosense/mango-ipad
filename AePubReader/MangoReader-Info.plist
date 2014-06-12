@@ -10,13 +10,16 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>mangoreader-app-icon-72X72-7.png</string>
+		<string>mangoreader-app-icon-72X72.png</string>
 		<string>mangoreader-app-icon-144X144.png</string>
 		<string>mangoreader-app-icon-114X114.png</string>
 		<string>mangoreader-app-icon-57X57.png</string>
-		<string>mangoreader-app-icon-76x76.png</string>
-		<string>mangoreader-app-icon-120x120.png</string>
-		<string>mangoreader-app-icon-152x152.png</string>
+		<string>mangoreader-app-icon-76X76.png</string>
+		<string>mangoreader-app-icon-120X120.png</string>
+		<string>mangoreader-app-icon-152X152.png</string>
+		<string>mangoreader-app-icon-80X80.png</string>
+		<string>mangoreader-app-icon-60X60.png</string>
+		<string>mangoreader-app-icon-29X29.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.mangosense.MangoReader</string>
