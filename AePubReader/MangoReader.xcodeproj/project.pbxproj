@@ -78,6 +78,7 @@
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
 		3FCF867119069FCF0081D20C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FCF867019069FCF0081D20C /* StoreKit.framework */; };
+		3FED400B19499B9200717ED0 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FED400619499AFE00717ED0 /* libEJDBKit.a */; };
 		6806835218F2C5FF00D4609D /* SignUpViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */; };
 		6806835418F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835318F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib */; };
 		6806835618F2D75D00D4609D /* newBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 6806835518F2D75D00D4609D /* newBack.png */; };
@@ -113,7 +114,6 @@
 		6896AC581949D831004BD49E /* mangoreader-app-icon-152X152.png in Resources */ = {isa = PBXBuildFile; fileRef = 6896AC4E1949D831004BD49E /* mangoreader-app-icon-152X152.png */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68A9334F193895D600563E33 /* sparks.png in Resources */ = {isa = PBXBuildFile; fileRef = 68A9334E193895D600563E33 /* sparks.png */; };
-		68A9336B1939093800563E33 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A93366193908FC00563E33 /* libEJDBKit.a */; };
 		68B57DF918F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */; };
 		68B57DFB18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */; };
 		68B57DFD18F41018005A07C5 /* LastPageViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DFC18F41018005A07C5 /* LastPageViewController_iPhone.xib */; };
@@ -862,6 +862,34 @@
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
+		3FED3FFD19499AD200717ED0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
+			remoteInfo = EJDBKitTests64;
+		};
+		3FED400519499AFE00717ED0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FED3FFF19499AFE00717ED0 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
+		3FED400719499AFE00717ED0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FED3FFF19499AFE00717ED0 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
+			remoteInfo = EJDBKitTests;
+		};
+		3FED400919499AFE00717ED0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FED3FFF19499AFE00717ED0 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
+			remoteInfo = EJDBKitTests64;
+		};
 		686F1895190563AC00B47DA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68E06994190543690098A3B3 /* EJDBKit.xcodeproj */;
@@ -889,27 +917,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
-		};
-		68A93365193908FC00563E33 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
-			remoteInfo = EJDBKit;
-		};
-		68A93367193908FC00563E33 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
-			remoteInfo = EJDBKitTests;
-		};
-		68A933691939093000563E33 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
-			remoteInfo = EJDBKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1001,6 +1008,7 @@
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		3FCF867019069FCF0081D20C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
+		3FED3FFF19499AFE00717ED0 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController_iPhone.xib; sourceTree = "<group>"; };
 		6806835318F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandPageChoiceViewController_iPhone.xib; sourceTree = "<group>"; };
 		6806835518F2D75D00D4609D /* newBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newBack.png; sourceTree = "<group>"; };
@@ -1044,7 +1052,6 @@
 		6896AC4E1949D831004BD49E /* mangoreader-app-icon-152X152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-152X152.png"; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A9334E193895D600563E33 /* sparks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparks.png; sourceTree = "<group>"; };
-		68A93360193908FC00563E33 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewControllerBetterBookType_iPhone.xib; sourceTree = "<group>"; };
 		68B57DFA18F3FBC3005A07C5 /* PageNewBookTypeViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageNewBookTypeViewController_iPhone.xib; sourceTree = "<group>"; };
 		68B57DFC18F41018005A07C5 /* LastPageViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -1983,8 +1990,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FED400B19499B9200717ED0 /* libEJDBKit.a in Frameworks */,
 				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
-				68A9336B1939093800563E33 /* libEJDBKit.a in Frameworks */,
 				280DBE28191D0F7C0082BFBA /* CoreTelephony.framework in Frameworks */,
 				280DBE25191D0C4E0082BFBA /* CoreText.framework in Frameworks */,
 				280DBE23191D0C320082BFBA /* Accelerate.framework in Frameworks */,
@@ -2123,7 +2130,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				68A93360193908FC00563E33 /* EJDBKit.xcodeproj */,
+				3FED3FFF19499AFE00717ED0 /* EJDBKit.xcodeproj */,
 				280DBE2F191DF9710082BFBA /* New Group */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
 				280DBE2C191D6CF50082BFBA /* ATSurveys.h */,
@@ -2331,6 +2338,17 @@
 			children = (
 				3FD8B0EE18EDBB1C003A2DED /* libEJDBKit.a */,
 				3FD8B0F018EDBB1C003A2DED /* EJDBKitTests.xctest */,
+				3FED3FFE19499AD200717ED0 /* EJDBKitTests64.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3FED400019499AFE00717ED0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3FED400619499AFE00717ED0 /* libEJDBKit.a */,
+				3FED400819499AFE00717ED0 /* EJDBKitTests.xctest */,
+				3FED400A19499AFE00717ED0 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2396,15 +2414,6 @@
 			children = (
 				686F189F1905650300B47DA8 /* libEJDBKit.a */,
 				686F18A11905650300B47DA8 /* EJDBKitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		68A93361193908FC00563E33 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				68A93366193908FC00563E33 /* libEJDBKit.a */,
-				68A93368193908FC00563E33 /* EJDBKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3654,7 +3663,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				68A9336A1939093000563E33 /* PBXTargetDependency */,
 				280DBE20191D0B7A0082BFBA /* PBXTargetDependency */,
 				280DBE1E191D0B730082BFBA /* PBXTargetDependency */,
 			);
@@ -3726,8 +3734,8 @@
 					ProjectRef = 686F18991905650300B47DA8 /* EJDBKit.xcodeproj */;
 				},
 				{
-					ProductGroup = 68A93361193908FC00563E33 /* Products */;
-					ProjectRef = 68A93360193908FC00563E33 /* EJDBKit.xcodeproj */;
+					ProductGroup = 3FED400019499AFE00717ED0 /* Products */;
+					ProjectRef = 3FED3FFF19499AFE00717ED0 /* EJDBKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 3FD8B0E818EDBB1C003A2DED /* Products */;
@@ -3782,6 +3790,34 @@
 			remoteRef = 3FD8B0EF18EDBB1C003A2DED /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3FED3FFE19499AD200717ED0 /* EJDBKitTests64.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests64.xctest;
+			remoteRef = 3FED3FFD19499AD200717ED0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3FED400619499AFE00717ED0 /* libEJDBKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libEJDBKit.a;
+			remoteRef = 3FED400519499AFE00717ED0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3FED400819499AFE00717ED0 /* EJDBKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests.xctest;
+			remoteRef = 3FED400719499AFE00717ED0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3FED400A19499AFE00717ED0 /* EJDBKitTests64.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests64.xctest;
+			remoteRef = 3FED400919499AFE00717ED0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		686F1896190563AC00B47DA8 /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -3808,20 +3844,6 @@
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
 			remoteRef = 686F18A01905650300B47DA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68A93366193908FC00563E33 /* libEJDBKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libEJDBKit.a;
-			remoteRef = 68A93365193908FC00563E33 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68A93368193908FC00563E33 /* EJDBKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests.xctest;
-			remoteRef = 68A93367193908FC00563E33 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4636,11 +4658,6 @@
 			name = ApptentiveResources;
 			targetProxy = 280DBE1F191D0B7A0082BFBA /* PBXContainerItemProxy */;
 		};
-		68A9336A1939093000563E33 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EJDBKit;
-			targetProxy = 68A933691939093000563E33 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4731,8 +4748,8 @@
 					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4804,8 +4821,8 @@
 					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "86FB5247-C607-4EBE-A098-CB2576D7F469";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86FB5247-C607-4EBE-A098-CB2576D7F469";
+				PROVISIONING_PROFILE = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
