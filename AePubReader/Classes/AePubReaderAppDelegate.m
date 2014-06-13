@@ -57,6 +57,7 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
+
     [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
                   clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
@@ -64,6 +65,7 @@ static UIAlertView *alertViewLoading;
     //[Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
     //                   clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
+
     //Flurry
     
     [Flurry setCrashReportingEnabled:YES];
