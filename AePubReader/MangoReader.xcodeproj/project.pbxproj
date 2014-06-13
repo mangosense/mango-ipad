@@ -1391,7 +1391,6 @@
 		83C1B51E18AE5EA700624E1B /* jigsaw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jigsaw.png; sourceTree = "<group>"; };
 		83C1B51F18AE5EA700624E1B /* wordsearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsearch.png; sourceTree = "<group>"; };
 		83C67B2918BF7D310019280D /* arrowsideleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowsideleft.png; sourceTree = "<group>"; };
-		83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Google_TTS_BySham.h; sourceTree = "<group>"; };
 		83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogle_TTS_ByShamsu_Universal.a; sourceTree = "<group>"; };
 		83CFB0C318FD1640006EAA82 /* SubscriptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionInfo.h; sourceTree = "<group>"; };
 		83CFB0C418FD1640006EAA82 /* SubscriptionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionInfo.m; sourceTree = "<group>"; };
@@ -2164,7 +2163,6 @@
 				AE195E7E181E2FD9008E4208 /* background.png */,
 				AE195EF2181E67B3008E4208 /* New store */,
 				83DD9BB418111662004C975F /* ImageDownloader */,
-				83C8B67317FD47F7003BA404 /* Google_TTS_BySham.h */,
 				83C8B67417FD47F7003BA404 /* libGoogle_TTS_ByShamsu_Universal.a */,
 				AE59ED7C1743480100C35899 /* MangoReader.entitlements */,
 				AEC9B12616B658FF008CD1F5 /* tableOfContents */,

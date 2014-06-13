@@ -29,14 +29,14 @@
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            [_seeAllButton setFrame:CGRectMake(frame.size.width - 100, 10, 80, 15)];
+            [_seeAllButton setFrame:CGRectMake(frame.size.width - 100, 10, 90, 15)];
         }
         else{
             [_seeAllButton setFrame:CGRectMake(frame.size.width - 100, 10, 100, 20)];
         }
         
-        //[_seeAllButton setImage:[UIImage imageNamed:@"see all.png"] forState:UIControlStateNormal];
-        [_seeAllButton setTitle:@"Back" forState:UIControlStateNormal];
+        [_seeAllButton setImage:[UIImage imageNamed:@"see all.png"] forState:UIControlStateNormal];
+        //[_seeAllButton setTitle:@"Back" forState:UIControlStateNormal];
         [_seeAllButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_seeAllButton addTarget:self action:@selector(seeAll) forControlEvents:UIControlEventTouchUpInside];        
         _seeAllButton.hidden = YES;

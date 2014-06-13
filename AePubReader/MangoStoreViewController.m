@@ -1133,11 +1133,11 @@
             [headerView.titleLabel setFrame:CGRectMake(headerView.frame.origin.x + 200, 0, headerView.frame.size.width - 400, headerView.frame.size.height)];
             headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
             
-            //[headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
-            //[headerView.seeAllButton setTitle:@"Back" forState:UIControlStateNormal];
+            [headerView.seeAllButton setImage:[UIImage imageNamed:@"arrowsideleft.png"] forState:UIControlStateNormal];
+            [headerView.seeAllButton setTitle:@"Back" forState:UIControlStateNormal];
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                 
-                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 90, headerView.frame.size.height)];
+                [headerView.seeAllButton setFrame:CGRectMake(0, 0, 120, headerView.frame.size.height)];
                 headerView.titleLabel.font = [UIFont boldSystemFontOfSize:16];
             }
             else{
