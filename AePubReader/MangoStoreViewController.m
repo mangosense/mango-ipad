@@ -88,7 +88,7 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    page = 1;
+    page = 0;
     
     NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
     viewName = @"Store Page";
