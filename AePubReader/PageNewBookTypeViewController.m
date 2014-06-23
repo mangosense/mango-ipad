@@ -85,10 +85,10 @@
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     
     if (!validUserSubscription && storyAsAppFilePath){
-        /*self.interstitial = [[GADInterstitial alloc] init];
+        self.interstitial = [[GADInterstitial alloc] init];
         self.interstitial.delegate = self;
         self.interstitial.adUnitID = @"ca-app-pub-8435333379198555/7137776824";
-        [self.interstitial loadRequest:[GADRequest request]];*/
+        [self.interstitial loadRequest:[GADRequest request]];
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -142,7 +142,7 @@
     
 }
 
-/*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
 {
     NSLog(@"Ad is ready to display");
 }
@@ -176,7 +176,7 @@
     [btnLayer setBorderColor:[UIColor brownColor].CGColor];
     [button setBackgroundColor:[UIColor redColor]]*/
     
- /*   CATextLayer *label = [[CATextLayer alloc] init];
+    CATextLayer *label = [[CATextLayer alloc] init];
     [label setFont:@"Helvetica-Bold"];
     [label setString:@"Subscribe to access unlimited stories without advertisements"];
     [label setAlignmentMode:kCAAlignmentCenter];
@@ -212,7 +212,7 @@
     request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
 
     return request;
-}*/
+}
 
 - (void) dismissMyBookViewBackAgainToCover{
     

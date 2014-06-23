@@ -101,7 +101,6 @@
 		68624C7F18F7DE190035A3F1 /* WEPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68624C7918F7DE190035A3F1 /* WEPopoverController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		68624C8018F7DE190035A3F1 /* WETouchableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68624C7C18F7DE190035A3F1 /* WETouchableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		686C38C6190EF30600E1E922 /* loginLock.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C38C5190EF30600E1E922 /* loginLock.png */; };
-		6874869B195471F800653F5D /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68748698195471DB00653F5D /* libEJDBKit.a */; };
 		687486A31954B4EF00653F5D /* button_createstory.png in Resources */ = {isa = PBXBuildFile; fileRef = 687486A21954B4EF00653F5D /* button_createstory.png */; };
 		687486A51954B81700653F5D /* icon_subscribe.png in Resources */ = {isa = PBXBuildFile; fileRef = 687486A41954B81700653F5D /* icon_subscribe.png */; };
 		687BE436190D463E00380E38 /* Logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 687BE435190D463E00380E38 /* Logout.png */; };
@@ -163,6 +162,10 @@
 		68DB09281958307400784621 /* mangoreader-app-icon-120X120.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB091E1958307400784621 /* mangoreader-app-icon-120X120.png */; };
 		68DB09291958307400784621 /* mangoreader-app-icon-144X144.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB091F1958307400784621 /* mangoreader-app-icon-144X144.png */; };
 		68DB092A1958307400784621 /* mangoreader-app-icon-152X152.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB09201958307400784621 /* mangoreader-app-icon-152X152.png */; };
+		68DB094719583E3100784621 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68DB094619583E3100784621 /* libGoogleAdMobAds.a */; };
+		68DB095119583F1600784621 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68DB094E19583EDB00784621 /* libEJDBKit.a */; };
+		68DB095419583F5800784621 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6858244F194B7A95008D0385 /* AdSupport.framework */; };
+		68DB09561958434B00784621 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 68DB09551958434B00784621 /* MangoStory.zip */; };
 		68DB41B918F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DB41B818F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib */; };
 		68DB75FA18C6FE4A00819480 /* test_delete_book.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DB75F918C6FE4A00819480 /* test_delete_book.png */; };
 		68DB760018C7446400819480 /* MangoAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DB75FE18C7446400819480 /* MangoAnalyticsViewController.m */; };
@@ -900,23 +903,23 @@
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		68748697195471DB00653F5D /* PBXContainerItemProxy */ = {
+		68DB094D19583EDB00784621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 68748692195471DB00653F5D /* EJDBKit.xcodeproj */;
+			containerPortal = 68DB094819583EDB00784621 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
 			remoteInfo = EJDBKit;
 		};
-		68748699195471DB00653F5D /* PBXContainerItemProxy */ = {
+		68DB094F19583EDB00784621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 68748692195471DB00653F5D /* EJDBKit.xcodeproj */;
+			containerPortal = 68DB094819583EDB00784621 /* EJDBKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
 			remoteInfo = EJDBKitTests;
 		};
-		6874869C1954720000653F5D /* PBXContainerItemProxy */ = {
+		68DB095219583F2A00784621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 68748692195471DB00653F5D /* EJDBKit.xcodeproj */;
+			containerPortal = 68DB094819583EDB00784621 /* EJDBKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
 			remoteInfo = EJDBKit;
@@ -1043,7 +1046,6 @@
 		68624C7C18F7DE190035A3F1 /* WETouchableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WETouchableView.m; sourceTree = "<group>"; };
 		686C38C5190EF30600E1E922 /* loginLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginLock.png; sourceTree = "<group>"; };
 		686F18991905650300B47DA8 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../../Downloads/EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
-		68748692195471DB00653F5D /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
 		687486A21954B4EF00653F5D /* button_createstory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_createstory.png; sourceTree = "<group>"; };
 		687486A41954B81700653F5D /* icon_subscribe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_subscribe.png; sourceTree = "<group>"; };
 		687BE435190D463E00380E38 /* Logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logout.png; sourceTree = "<group>"; };
@@ -1104,6 +1106,21 @@
 		68DB091E1958307400784621 /* mangoreader-app-icon-120X120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-120X120.png"; sourceTree = "<group>"; };
 		68DB091F1958307400784621 /* mangoreader-app-icon-144X144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-144X144.png"; sourceTree = "<group>"; };
 		68DB09201958307400784621 /* mangoreader-app-icon-152X152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-152X152.png"; sourceTree = "<group>"; };
+		68DB093A19583E0200784621 /* GADAdMobExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		68DB093B19583E0200784621 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		68DB093C19583E0200784621 /* GADAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		68DB093D19583E0200784621 /* GADBannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		68DB093E19583E0200784621 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		68DB093F19583E0200784621 /* GADInAppPurchase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
+		68DB094019583E0200784621 /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
+		68DB094119583E0200784621 /* GADInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		68DB094219583E0200784621 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		68DB094319583E0200784621 /* GADModules.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
+		68DB094419583E0200784621 /* GADRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		68DB094519583E0200784621 /* GADRequestError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		68DB094619583E3100784621 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		68DB094819583EDB00784621 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = "../../EJDBKit-master/EJDBKit/EJDBKit.xcodeproj"; sourceTree = "<group>"; };
+		68DB09551958434B00784621 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
 		68DB41B818F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangoGamesListViewController_iPhone.xib; sourceTree = "<group>"; };
 		68DB75F918C6FE4A00819480 /* test_delete_book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_delete_book.png; sourceTree = "<group>"; };
 		68DB75FD18C7446400819480 /* MangoAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoAnalyticsViewController.h; sourceTree = "<group>"; };
@@ -1996,13 +2013,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6874869B195471F800653F5D /* libEJDBKit.a in Frameworks */,
+				68DB095419583F5800784621 /* AdSupport.framework in Frameworks */,
+				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
+				68DB095119583F1600784621 /* libEJDBKit.a in Frameworks */,
 				AEDF1851168B72CF0087064A /* AVFoundation.framework in Frameworks */,
 				280DBE28191D0F7C0082BFBA /* CoreTelephony.framework in Frameworks */,
 				3FCF867119069FCF0081D20C /* StoreKit.framework in Frameworks */,
 				68582452194B81C1008D0385 /* libsqlite3.dylib in Frameworks */,
-				680E43A318D176E800274E5D /* libz.dylib in Frameworks */,
 				280DBE25191D0C4E0082BFBA /* CoreText.framework in Frameworks */,
+				68DB094719583E3100784621 /* libGoogleAdMobAds.a in Frameworks */,
 				280DBE23191D0C320082BFBA /* Accelerate.framework in Frameworks */,
 				280DBE21191D0B850082BFBA /* libApptentiveConnect.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -2130,11 +2149,13 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				68748692195471DB00653F5D /* EJDBKit.xcodeproj */,
+				68DB09551958434B00784621 /* MangoStory.zip */,
+				68DB092B19583CFE00784621 /* AdMob */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
 				280DBE2C191D6CF50082BFBA /* ATSurveys.h */,
 				28D111F1191E4B0400EF78B4 /* ATBackend.h */,
 				28D111F2191E4BFF00EF78B4 /* ATSurveysBackend.h */,
+				68DB094819583EDB00784621 /* EJDBKit.xcodeproj */,
 				280DBE11191D0B5C0082BFBA /* ApptentiveConnect.xcodeproj */,
 				28BABABC190E3323005909DF /* FacebookSDK.framework */,
 				834AC1C718F6811100CECA4D /* Subscription */,
@@ -2408,15 +2429,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		68748693195471DB00653F5D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				68748698195471DB00653F5D /* libEJDBKit.a */,
-				6874869A195471DB00653F5D /* EJDBKitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		68CD69D918F80334003BAD0D /* Popover */ = {
 			isa = PBXGroup;
 			children = (
@@ -2442,6 +2454,35 @@
 				68CD69ED18F80334003BAD0D /* popoverBgSimple.png */,
 			);
 			path = Popover;
+			sourceTree = "<group>";
+		};
+		68DB092B19583CFE00784621 /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				68DB093A19583E0200784621 /* GADAdMobExtras.h */,
+				68DB093B19583E0200784621 /* GADAdNetworkExtras.h */,
+				68DB093C19583E0200784621 /* GADAdSize.h */,
+				68DB093D19583E0200784621 /* GADBannerView.h */,
+				68DB093E19583E0200784621 /* GADBannerViewDelegate.h */,
+				68DB093F19583E0200784621 /* GADInAppPurchase.h */,
+				68DB094019583E0200784621 /* GADInAppPurchaseDelegate.h */,
+				68DB094119583E0200784621 /* GADInterstitial.h */,
+				68DB094219583E0200784621 /* GADInterstitialDelegate.h */,
+				68DB094319583E0200784621 /* GADModules.h */,
+				68DB094419583E0200784621 /* GADRequest.h */,
+				68DB094519583E0200784621 /* GADRequestError.h */,
+				68DB094619583E3100784621 /* libGoogleAdMobAds.a */,
+			);
+			name = AdMob;
+			sourceTree = "<group>";
+		};
+		68DB094919583EDB00784621 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68DB094E19583EDB00784621 /* libEJDBKit.a */,
+				68DB095019583EDB00784621 /* EJDBKitTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		68E06995190543690098A3B3 /* Products */ = {
@@ -3664,7 +3705,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6874869D1954720000653F5D /* PBXTargetDependency */,
+				68DB095319583F2A00784621 /* PBXTargetDependency */,
 				280DBE20191D0B7A0082BFBA /* PBXTargetDependency */,
 				280DBE1E191D0B730082BFBA /* PBXTargetDependency */,
 			);
@@ -3732,12 +3773,12 @@
 					ProjectRef = 280DBE11191D0B5C0082BFBA /* ApptentiveConnect.xcodeproj */;
 				},
 				{
-					ProductGroup = 68748693195471DB00653F5D /* Products */;
-					ProjectRef = 68748692195471DB00653F5D /* EJDBKit.xcodeproj */;
-				},
-				{
 					ProductGroup = 686F189A1905650300B47DA8 /* Products */;
 					ProjectRef = 686F18991905650300B47DA8 /* EJDBKit.xcodeproj */;
+				},
+				{
+					ProductGroup = 68DB094919583EDB00784621 /* Products */;
+					ProjectRef = 68DB094819583EDB00784621 /* EJDBKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 3FD8B0E818EDBB1C003A2DED /* Products */;
@@ -3827,18 +3868,18 @@
 			remoteRef = 686F18A01905650300B47DA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68748698195471DB00653F5D /* libEJDBKit.a */ = {
+		68DB094E19583EDB00784621 /* libEJDBKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libEJDBKit.a;
-			remoteRef = 68748697195471DB00653F5D /* PBXContainerItemProxy */;
+			remoteRef = 68DB094D19583EDB00784621 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6874869A195471DB00653F5D /* EJDBKitTests.xctest */ = {
+		68DB095019583EDB00784621 /* EJDBKitTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = EJDBKitTests.xctest;
-			remoteRef = 68748699195471DB00653F5D /* PBXContainerItemProxy */;
+			remoteRef = 68DB094F19583EDB00784621 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3889,6 +3930,7 @@
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
 				83AB60B318ABF1CD004A040E /* BookDetailsViewController.xib in Resources */,
 				FA11956613BA93F100025A2B /* EPubView.xib in Resources */,
+				68DB09561958434B00784621 /* MangoStory.zip in Resources */,
 				AE0C938C183E0B58008E4D54 /* icons_text.png in Resources */,
 				83E2D201184364EC00F8CDB6 /* editor_45.png in Resources */,
 				2829CEBB191BDE2000B7EC80 /* mono_bold_italic.ttf in Resources */,
@@ -4655,10 +4697,10 @@
 			name = ApptentiveResources;
 			targetProxy = 280DBE1F191D0B7A0082BFBA /* PBXContainerItemProxy */;
 		};
-		6874869D1954720000653F5D /* PBXTargetDependency */ = {
+		68DB095319583F2A00784621 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = EJDBKit;
-			targetProxy = 6874869C1954720000653F5D /* PBXContainerItemProxy */;
+			targetProxy = 68DB095219583F2A00784621 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
