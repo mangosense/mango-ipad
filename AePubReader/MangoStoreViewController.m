@@ -88,7 +88,7 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    page = 1;
+    page = 0;
     
     NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
     viewName = @"Store Page";
@@ -254,6 +254,10 @@
     [self.view endEditing:YES];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:textField.text forKey:@"id"];
+    
+    [_liveStoriesFilteredWhole removeAllObjects];
+    page = 0;
+    indexval = 0;
     
     [self itemType:TABLE_TYPE_SEARCH tappedWithDetail:dict];
     self.searchTextField = nil;
@@ -553,7 +557,7 @@
         case TABLE_TYPE_SEARCH: {
             
             url = LIVE_STORIES_SEARCH;
-            [paramDict setObject:filterName forKey:@"q"];
+            [paramDict setObject:filterKey forKey:@"q"];
             NSDictionary *dimensions = @{
                                          PARAMETER_USER_ID : ID,
                                          PARAMETER_DEVICE: IOS,

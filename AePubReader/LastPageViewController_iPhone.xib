@@ -92,7 +92,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uMt-ud-1m1">
-                            <rect key="frame" x="178" y="30" width="227" height="53"/>
+                            <rect key="frame" x="185" y="30" width="227" height="53"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <state key="normal" title="Subscribe MangoReader - and get unlimited access to over 500 stories">
@@ -100,7 +100,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="mangoReaderAppStoreLink:" destination="-1" eventType="touchUpInside" id="yif-w4-jyf"/>
+                                <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="ogY-gK-jbQ"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5U-Gv-eEr">
@@ -110,7 +110,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="mangoReaderAppStoreLink:" destination="-1" eventType="touchUpInside" id="w6q-jc-hL3"/>
+                                <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="pry-55-HJ7"/>
                             </connections>
                         </button>
                     </subviews>

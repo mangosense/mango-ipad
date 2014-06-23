@@ -19,6 +19,7 @@
         [self setBackgroundColor:[UIColor clearColor]];
         [self setEditable:NO];
         _highlightColor = [UIColor yellowColor];
+        //[self performSelector:@selector(addColorToFirstLetter) withObject:self afterDelay:0.1f];
     }
     return self;
 }
@@ -35,6 +36,7 @@
 #pragma mark - Highlighting Method
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length {
+    
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
     //NSLog(@"length %d", [string length]);
 
@@ -78,6 +80,11 @@
         [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
     }
     [self setAttributedText:string];
+}
+
+- (void) addColorToFirstLetter {
+    
+    _highlightColor = [UIColor yellowColor];
 }
 
 @end

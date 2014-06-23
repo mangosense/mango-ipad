@@ -135,7 +135,7 @@
 #pragma mark - Facebook Login Methods
 
 // This method will be called when the user information has been fetched
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+/*- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
                             user:(id<FBGraphUser>)user {
     NSLog(@"%@", user);
     NSLog(@"FB Auth Token: %@", [[[FBSession activeSession] accessTokenData] accessToken]);
@@ -145,16 +145,16 @@
     [facebookDict setObject:[user objectForKey:@"id"] forKey:@"id"];
     [facebookDict setObject:[[[FBSession activeSession] accessTokenData] accessToken] forKey:AUTH_TOKEN];
     [facebookDict setObject:[[[FBSession activeSession] accessTokenData] expirationDate] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
-    [facebookDict setObject:[user objectForKey:USERNAME] forKey:USERNAME];
+    [facebookDict setObject:[user objectForKey:NAME] forKey:USERNAME];
     [facebookDict setObject:[user objectForKey:NAME] forKey:NAME];
     
     if (!_isLoginWithFb) {
         _isLoginWithFb = YES;
         [self loginWithFacebook:[NSDictionary dictionaryWithDictionary:facebookDict]];
     }
-}
+}*/
 
-// Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experience
+// Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experiencez
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     
 }

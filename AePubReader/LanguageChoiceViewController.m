@@ -277,7 +277,9 @@
             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
         }
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
+        [self.view.window.rootViewController presentViewController:subscriptionViewController animated:YES completion:nil];
+        //[self presentViewController:subscriptionViewController animated:YES completion:nil];
         [_delegate dismissPopOver];
     }
     

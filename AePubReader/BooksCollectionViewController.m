@@ -390,7 +390,7 @@
                     CoverViewControllerBetterBookType *coverController;
                     int val =[book.downloaded integerValue];
                     
-                    if(!val){
+                    if(val == 2){
                        /* NSString *message = [NSString stringWithFormat:@"Th book %@ is free, are you sure you want to download it now?", book.title];
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Free Book" message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
                         [alert show];*/
@@ -837,7 +837,7 @@
         passDictionaryValue = nil;
     }
     
-    [self showBookDetailsForBook:dataArray[0]];
+    [self showBookDetailsForBook:passDictionaryValue];
 }
 
 #pragma bookdetail popup

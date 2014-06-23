@@ -254,7 +254,10 @@
     //[imageRequestOperation start];
 }
 
-- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew Name:(NSString *)name {    
+- (void)loginWithEmail:(NSString *)email AndPassword:(NSString *)password IsNew:(BOOL)isNew Name:(NSString *)name {
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
@@ -265,6 +268,8 @@
        // [paramsDict setObject:IOS forKey:PLATFORM];//send platform = ios new
     }
     [paramsDict setObject:VERSION_NO forKey:VERSION];
+    [paramsDict setObject:appDelegate.country forKey:@"country"];
+    
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *responseDict = (NSDictionary *)responseObject;
         NSLog(@"Login Response: %@", responseObject);

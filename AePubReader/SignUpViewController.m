@@ -55,6 +55,14 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[PFFacebookUtils session] closeAndClearTokenInformation];
+    [[PFFacebookUtils session] close];
+    [[FBSession activeSession] closeAndClearTokenInformation];
+    //[[FBSession.activeSession] close];
+    [FBSession setActiveSession:nil];
+    [PFUser logOut];
+    
     viewName = @"Sign Up";
     [_password setSecureTextEntry:YES];
    // [_confirmPassword setSecureTextEntry:YES];
@@ -132,7 +140,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [facebookDict setObject:[user objectForKey:@"id"] forKey:@"id"];
     [facebookDict setObject:[[[FBSession activeSession] accessTokenData] accessToken] forKey:AUTH_TOKEN];
     [facebookDict setObject:[[[FBSession activeSession] accessTokenData] expirationDate] forKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
-    [facebookDict setObject:[user objectForKey:USERNAME] forKey:USERNAME];
+    [facebookDict setObject:[user objectForKey:NAME] forKey:USERNAME];
     [facebookDict setObject:[user objectForKey:NAME] forKey:NAME];
     
     if (!_isLoginWithFb) {

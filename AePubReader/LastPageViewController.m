@@ -637,6 +637,13 @@
 
 - (IBAction)clickOnSubscribe:(id)sender{
     
+    if(![self connected]){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Your internet connection appears to be offline!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     MangoSubscriptionViewController *subscriptionViewController;
 
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){

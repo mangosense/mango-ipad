@@ -11,6 +11,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "CargoBay.h"
 #import "Constants.h"
+#import <Parse/Parse.h>
 
 @interface MangoDashbProfileViewController ()
 
@@ -190,6 +191,8 @@
         
         appDelegate.loggedInUserInfo = nil;
     }
+    
+    [PFUser logOut];
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
@@ -339,13 +342,29 @@
     // UIButton *button = (UIButton *)sender;
     NSString *productId;
     
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
     for(id object in _arraySubscriptionPlan){
         
         if([[object valueForKey:@"duration"] intValue] == [sender tag]){
             productId = [object valueForKey:@"id"];
         }
     }
-    NSString *planProductId = [productId stringByAppendingString:@"_ios"];
+    NSString *planProductId;
+    NSString *bundleIdentifier = [NSString stringWithFormat:@"_%@", [[NSBundle mainBundle] bundleIdentifier]];
+    
+    if ((path) && (!validSubscription)) {
+        
+         planProductId = [productId stringByAppendingString:bundleIdentifier];
+    }
+    else{
+        
+        planProductId = [productId stringByAppendingString:@"_ios"];
+    }
+    
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     
 }

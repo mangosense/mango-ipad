@@ -77,6 +77,7 @@ NSString *newIdentityValue;
 }
 
 - (void)initialSetup {
+    
     viewName = @"Book cover view";
     _titleLabel.text=_book.title;
     NSString *jsonLocation=_book.localPathFile;
@@ -85,17 +86,13 @@ NSString *newIdentityValue;
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-    //  NSLog(@"json location %@",jsonLocation);
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    //  NSLog(@"json contents %@",jsonContents);
-    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
+        _coverImageView.image=image;
     
     ID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    //[MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    _coverImageView.image=image;
-    // Do any additional setup after loading the view from its nib.
     
     NSData *jsonData = [jsonContents dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];

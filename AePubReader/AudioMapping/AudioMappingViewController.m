@@ -283,8 +283,7 @@
         if (_wordIndex < [words count] - 1) {
             _wordIndex += 1;
         }
-    }
-    
+    }    
 }
 
 - (IBAction)previous:(id)sender {

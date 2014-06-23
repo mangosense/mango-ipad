@@ -13,6 +13,9 @@
 #import "MangoGamesListViewController.h"
 #import <Parse/Parse.h>
 
+#import "GADInterstitial.h"
+#import "GADInterstitialDelegate.h"
+
 #define FORK_TAG 9
 
 @interface PageNewBookTypeViewController ()
@@ -81,6 +84,19 @@
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     
+    if (!validUserSubscription && storyAsAppFilePath){
+        /*self.interstitial = [[GADInterstitial alloc] init];
+        self.interstitial.delegate = self;
+        self.interstitial.adUnitID = @"ca-app-pub-8435333379198555/7137776824";
+        [self.interstitial loadRequest:[GADRequest request]];*/
+        
+        if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            [_shareButton setBackgroundImage:[UIImage imageNamed:@"icon_subscribe.png"] forState:UIControlStateNormal];
+            _shareButton.tag = 2;
+        }
+    }
+    
     openingTime = [NSDate date];
     
     // Do any additional setup after loading the view from its nib.
@@ -120,6 +136,83 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigateToLandPage) name:@"DismissBook" object:nil];
     
 }
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    
+}
+
+/*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+{
+    NSLog(@"Ad is ready to display");
+}
+
+- (void) interstitialDidDismissScreen:(GADInterstitial *)ad{
+    
+    GADRequest *request = [GADRequest request];
+    _interstitial = nil;
+    self.interstitial = [[GADInterstitial alloc] init];
+    self.interstitial.delegate = self;
+    self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
+    [self.interstitial loadRequest:request];
+    [_audioMappingViewController.player play];
+}
+
+- (IBAction)showInterstitial:(id)sender {
+    
+    [_audioMappingViewController.player pause];
+    [self.interstitial presentFromRootViewController:self];
+    
+    /*UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(480, 0, 600, 40)];;
+    button.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    [tapRecognizer setNumberOfTapsRequired:1];
+    [button addGestureRecognizer:tapRecognizer];
+    
+    CALayer *btnLayer = [button layer];
+    [btnLayer setMasksToBounds:YES];
+    [btnLayer setCornerRadius:12.0f];
+    [btnLayer setBorderWidth:3.0f];
+    [btnLayer setBorderColor:[UIColor brownColor].CGColor];
+    [button setBackgroundColor:[UIColor redColor]]*/
+    
+ /*   CATextLayer *label = [[CATextLayer alloc] init];
+    [label setFont:@"Helvetica-Bold"];
+    [label setString:@"Subscribe to access unlimited stories without advertisements"];
+    [label setAlignmentMode:kCAAlignmentCenter];
+    [label setForegroundColor:[[UIColor blackColor] CGColor]];
+    
+    CALayer *graphic = nil;
+    graphic = [CALayer layer];
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        [label setFontSize:12];
+        [label setFrame:CGRectMake(110, 6, 1600, 40)];
+        graphic.bounds = CGRectMake(30, 0, 1274, 24);
+        graphic.position = CGPointMake(40, 309);
+    }
+    else{
+        [label setFontSize:18];
+        [label setFrame:CGRectMake(480, 8, 600, 40)];
+        graphic.bounds = CGRectMake(40, 0, 1274, 40);
+        graphic.position = CGPointMake(400, 750);
+    }
+    graphic.backgroundColor = [UIColor whiteColor].CGColor;
+    graphic.opacity = 0.7f;
+    [graphic addSublayer:label];
+    //[graphic addSublayer:btnLayer];
+    
+   
+    [self.presentedViewController.view.layer addSublayer:graphic];
+}
+
+
+- (GADRequest *)request {
+    GADRequest *request = [GADRequest request];
+    request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
+
+    return request;
+}*/
 
 - (void) dismissMyBookViewBackAgainToCover{
     
@@ -220,8 +313,21 @@
 
 - (IBAction)displyParentalControl:(id)sender{
     
+    if(_shareButton.tag == 2){
+        
+        MangoSubscriptionViewController *subscriptionViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
+    }
+    else{
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
+    }
     
 }
 
@@ -235,7 +341,8 @@
     if((parentalControlAge >= 13) && (parentalControlAge <=100)){
         //show subscription plans
         
-        [self shareButton:0];
+            [self shareButton:0];
+
     }
     else{
         //close subscription plan
@@ -430,6 +537,8 @@
         editAlertView.tag = FORK_TAG;
         [editAlertView show];
     }
+    
+    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 }
 
 - (IBAction)changeLanguage:(id)sender {
@@ -582,6 +691,14 @@
 - (IBAction)nextButton:(id)sender {
     ++_pageNumber;
     //[emitter removeFromSuperlayer];
+    
+  /*  if((_pageNumber % 4) == 0){
+        
+        if ((!validUserSubscription && storyAsAppFilePath) && !(_pageNo == _pageNumber)){
+            [self showInterstitial:0];
+            NSLog(@"page numbers --- %d -- %d", _pageNumber, _pageNo);
+        }
+    }*/
     
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
@@ -741,6 +858,8 @@
 }
 
 - (IBAction)openGameCentre:(id)sender {
+    
+    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     //[PFAnalytics trackEvent:EVENT_GAME_CENTER_OPENED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -794,7 +913,7 @@
             }
         }
         gamesListViewController.gameNames = gameNames;
-        
+        //_audioMappingViewController.player`
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
         [navController.navigationBar setHidden:YES];
         
@@ -825,11 +944,7 @@
     
     [self.popoverControlleriPhone dismissPopoverAnimated:YES];
     self.popoverControlleriPhone = nil;
-        
-     
 }
-
-
 
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
@@ -1185,6 +1300,7 @@
                 }
                 if ([audioLayer objectForKey:@"highlight"] && ![[audioLayer objectForKey:@"highlight"] isEqual:[NSNull null]]) {
                     audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[audioLayer objectForKey:@"highlight"]];
+                    
                 } else {
                     audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
                 }
@@ -1498,5 +1614,9 @@
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self touchesEnded:touches withEvent:event];
 }*/
+
+- (void)dealloc {
+    _interstitial.delegate = nil;
+}
 
 @end

@@ -64,6 +64,10 @@
     else{
         ID = userEmail;
     }
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     
     [self setupInitialUI];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
@@ -228,7 +232,14 @@
 //    } else if (button.tag == YEARLY_TAG) {
 //        productId = @"535a2316566173e8e90b0000";
 //    }
-    NSString *planProductId = [productId stringByAppendingString:@"_ios"];
+    NSString *planProductId;
+    NSString *bundleIdentifier = [NSString stringWithFormat:@"_%@", [[NSBundle mainBundle] bundleIdentifier]];
+    if ((path) && (!validSubscription)) {
+        planProductId = [productId stringByAppendingString:bundleIdentifier];
+    }
+    else{
+        planProductId = [productId stringByAppendingString:@"_ios"];
+    }
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //put progress hud here ...

@@ -124,6 +124,8 @@
 #define EDITOR_DOODLE_TAP @{ @"value" : @"EDITOR_DOODLE_TAP", @"description" : @"Editor doodle" }
 #define GAMES @{ @"value" : @"GAMES", @"description" : @"Games" }
 
+#define PARAMETER_APP_NAME @"App_Nane"
+
 #define PARAMETER_USER_ID @"User Id"
 #define PARAMETER_DEVICE_LANGUAGE @"Device language"
 #define PARAMETER_DEVICE_COUNTRY @"Device country"

@@ -17,7 +17,12 @@
 #import "MangoBook.h"
 #import "LastPageViewController.h"
 
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol>{
+#import "GADInterstitial.h"
+
+@class GADInterstitial;
+@class GADRequest;
+
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate ,GADInterstitialDelegate>{
     
     NSString *userEmail;
     NSString *userDeviceID;
@@ -79,10 +84,12 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+@property(nonatomic, strong) GADInterstitial *interstitial;
 
 - (IBAction)displyParentalControl:(id)sender;
 - (IBAction)allowParentToShareOrNot:(id)sender;
 - (IBAction)closeParentalControl:(id)sender;
 - (IBAction) audioSwitchControl: (id) sender;
+- (GADRequest *)request;
 
 @end

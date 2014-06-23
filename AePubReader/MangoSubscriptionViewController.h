@@ -30,6 +30,8 @@
     NSString *userId;
     NSString *ID;
     int fromBookDetail;
+    NSString *path;
+    int validSubscription;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *monthlySubscriptionView;

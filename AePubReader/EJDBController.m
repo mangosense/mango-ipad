@@ -115,7 +115,7 @@
         coreDatabook.textBook = @4;
         coreDatabook.downloadedDate = [NSDate date];
         if(fileNotAvailable){
-            coreDatabook.downloaded = @NO;
+            coreDatabook.downloaded = [NSNumber numberWithInt:2];
         }
         else{
             coreDatabook.downloaded = @YES;
@@ -129,6 +129,7 @@
         }
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
         [prefs setBool:YES forKey:@"ISFREEBOOKAPICALL"];
+        //[prefs setBool:YES forKey:@"STORYASAPPCALL"];
         
     }
     
@@ -186,7 +187,9 @@
         book.id = [jsonDict objectForKey:@"id"];
         book.title = [jsonDict objectForKey:@"title"];
         
-        if ([numberId isEqual: [NSNumber numberWithInteger:1]]) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+        
+        if ([numberId isEqual: [NSNumber numberWithInteger:1]] && !path) {
             
             NSString * documentsDirectoryPath = filePath;
             NSString *imageURLString = [NSString stringWithFormat:@"http://www.mangoreader.com%@",[jsonDict objectForKey:@"cover"]];
