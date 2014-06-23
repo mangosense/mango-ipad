@@ -51,7 +51,7 @@ var GhostUploader = (function(){
 							'theAccountName':self.story_config['user_name'],
 							'theAccountPW':self.story_config['password']
 						},true);
-				 self.changeProfile()
+				 self.createAppIdentifier()
 			})
 			casper.run()
 		},
@@ -75,7 +75,7 @@ var GhostUploader = (function(){
 				this.waitUntilVisible('input[name="appIdName"]',function() {
 					this.echo('name is visible')
 					form_fields = {}
-					form_fields['appIdName'] = 'MangoStory ' + self.story_config['story_id']
+					form_fields['appIdName'] = self.story_config['title'].replace(/[^\w\s]/gi, '')
 					form_fields['prefix'] = self.story_config['teamId']
 					form_fields['type'] = self.story_config['id_type']
 					form_fields[((self.story_config['id_type'] == "explicit") ? 'explicitIdentifier' :  'wildcardIdentifier' )] =  self.story_config['bundle_id']
@@ -84,6 +84,8 @@ var GhostUploader = (function(){
 					this.waitForSelector('form[name="bundleSubmit"]',function() {
 						this.click('.bottom-buttons .submit');
 					})
+
+					self.changeProfile();
 
 				})
 			})
@@ -230,11 +232,12 @@ var GhostUploader = (function(){
 					// fill the bundle id
 
 					bundle_found = window.jQuery('#primary-popup option').filter(function() {
-						return (window.jQuery(this).text() == config['bundle_id']);
+						return (window.jQuery(this).text().indexOf(config['bundle_id']) > -1);
 					});
 
 
 					if (bundle_found){
+						console.log('Bundle found')
 						bundle_found.attr('selected',true);
 						if (config['bundle_id_suffix']){
 							window.jQuery('.bundleIdWildcard').show()
@@ -262,7 +265,7 @@ var GhostUploader = (function(){
 
 				},self.story_config);
 
-				this.wait(5000,function() {
+				this.wait(20000,function() {
 					this.capture('1st_step.png')
 				})
 
