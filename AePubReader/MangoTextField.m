@@ -55,6 +55,8 @@
         NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
         [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
         
+        [self scrollRangeToVisible:NSMakeRange(length+10, 0)];
+        
         UIFont *textFont = self.font;
         if (!textFont) {
             

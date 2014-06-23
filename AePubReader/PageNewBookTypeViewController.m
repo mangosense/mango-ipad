@@ -692,13 +692,13 @@
     ++_pageNumber;
     //[emitter removeFromSuperlayer];
     
-  /*  if((_pageNumber % 4) == 0){
+    if((_pageNumber % 4) == 0){
         
         if ((!validUserSubscription && storyAsAppFilePath) && !(_pageNo == _pageNumber)){
             [self showInterstitial:0];
             NSLog(@"page numbers --- %d -- %d", _pageNumber, _pageNo);
         }
-    }*/
+    }
     
     if (_pageNumber<(_pageNo)) {
         [self loadPageWithOption:_option];
@@ -1105,10 +1105,11 @@
         [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         [audioMappingViewcontroller.view setHidden:YES];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
-        [audioMappingViewcontroller.view setExclusiveTouch:YES];
+        [audioMappingViewcontroller.view setExclusiveTouch:NO];
         audioMappingViewcontroller.mangoTextField.exclusiveTouch = NO;
-        audioMappingViewcontroller.mangoTextField.userInteractionEnabled = NO;
+        audioMappingViewcontroller.mangoTextField.userInteractionEnabled = YES;
         audioMappingViewcontroller.mangoTextField.text = textOnPage;
+        audioMappingViewcontroller.mangoTextField.selectable = NO;
         UIFont *font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*24.0f/768.0f];
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
         NSString *fontStyle = [[textDict objectForKey:@"style"] objectForKey:@"font-style"];
@@ -1126,7 +1127,7 @@
                 fontSize = [fontSize stringByReplacingOccurrencesOfString:@"px"
                                                                withString:@""];
                 if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    fontSize = @"12";
+                    fontSize = @"13";
                 }
                 NSString *trimmedFamily = [fontFamily stringByTrimmingCharactersInSet:
                                            [NSCharacterSet whitespaceCharacterSet]];
@@ -1200,7 +1201,7 @@
                 
                 if(!fontSize){
                     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                        fontSize = @"12";
+                        fontSize = @"13";
                     }
                     else{
                         fontSize = @"24";
