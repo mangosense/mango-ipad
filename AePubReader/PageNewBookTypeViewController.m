@@ -672,7 +672,8 @@
         [animation setDuration:0.7f];
         animation.startProgress = 0.3;
         animation.endProgress   = 1;
-        [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+        //[animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         [animation setType:@"pageCurl"];
         [animation setSubtype:kCATransitionFromLeft];
         [animation setRemovedOnCompletion:NO];
@@ -710,7 +711,8 @@
         [animation setDuration:0.7f];
         animation.startProgress = 0.3;
         animation.endProgress   = 1;
-        [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+        //[animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         [animation setType:@"pageCurl"];
         [animation setSubtype:kCATransitionFromRight];
         [animation setRemovedOnCompletion:NO];
