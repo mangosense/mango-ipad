@@ -161,6 +161,7 @@
 - (IBAction)showInterstitial:(id)sender {
     
     [_audioMappingViewController.player pause];
+    
     [self.interstitial presentFromRootViewController:self];
     
     /*UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(480, 0, 600, 40)];;
