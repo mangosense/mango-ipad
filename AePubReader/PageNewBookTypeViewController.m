@@ -657,6 +657,7 @@
 
 
 - (IBAction)previousButton:(id)sender {
+    _rightView.hidden = YES;
     //[emitter removeFromSuperlayer];
     if (_pageNumber==1) {
         //[self BackButton:nil];
@@ -691,6 +692,7 @@
 }
 
 - (IBAction)nextButton:(id)sender {
+    _rightView.hidden = YES;
     ++_pageNumber;
     //[emitter removeFromSuperlayer];
     
