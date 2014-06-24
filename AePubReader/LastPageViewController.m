@@ -62,9 +62,9 @@
     
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
-    if([_book.title isEqualToString:@"My Book"] || (storyAsAppFilePath && !validUserSubscription)) {
+    if([_book.title isEqualToString:@"My Book"]) {
         self.recommendedBooksView.hidden = YES;
-        self.mangoreaderLinkView.hidden = NO;
+        //self.mangoreaderLinkView.hidden = NO;
     }
     else {
         
@@ -358,7 +358,12 @@
     
     if([sender tag]){
         
-        [self showBookDetailsForBook:_tempItemArray[[sender tag]-1]];
+        if(!validUserSubscription && storyAsAppFilePath){
+            [self clickOnSubscribe:0];
+        }
+        else{
+            [self showBookDetailsForBook:_tempItemArray[[sender tag]-1]];
+        }
     }
 }
 
