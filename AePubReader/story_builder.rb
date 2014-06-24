@@ -13,7 +13,7 @@ require 'FileUtils'
    		password = ARGV[1]
    		app_creation = ARGV[2] || 'no'
    		app_upload = ARGV[3] || 'no'
-   		just_distribute = ARGV[4] || no
+   		just_distribute = ARGV[4] || 'no'
    		story_id = nil
    		story_config = nil
   		
@@ -282,7 +282,7 @@ require 'FileUtils'
 
 			story_id = storyid
 
-			if just_distribute
+			if just_distribute == "yes"
 				verify_and_distribute
 			else
 				story_config = create_json story_id
