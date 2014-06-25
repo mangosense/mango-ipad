@@ -15,7 +15,7 @@ require 'FileUtils'
    		@just_distribute = ARGV[3] || 'no'
    		@story_id = nil
    		@story_config = nil
-  		
+  		@story_info = nil
   		def create_image(size)
 			image = MiniMagick::Image.open 'cover.png'
 			image.resize  size
@@ -52,29 +52,29 @@ require 'FileUtils'
 
 			#get the story info
 			url = URI "http://api.mangoreader.com/api/v2/livestories/#{@story_id}/info"
-			story_info = JSON.parse Net::HTTP.get url
+			@story_info = JSON.parse Net::HTTP.get url
 
-			puts "Story title : #{story_info['title']}"
+			puts "Story title : #{@story_info['title']}"
 
 
 			#load the json config for creating new app
 			@story_config = JSON.load File.open 'story.json'
-			@story_config['language'] = story_info['info']['language']
+			@story_config['language'] = @story_info['info']['language']
 
-			@story_config['name'] = "#{story_info['title']} - Interactive Story"
-			@story_config['title'] = "#{story_info['title']}"
+			@story_config['name'] = "#{@story_info['title']} - Interactive Story"
+			@story_config['title'] = "#{@story_info['title']}"
 			@story_config['sku'] =  "Mango_#{@story_id}"
 			@story_config['bundle_id'] = "com.mangostory.#{@story_id}"
 			@story_config['app_rating_all'] = 0
 			require 'date'
 			@story_config['availability_date'] = Date.today.strftime('%b %d %Y')
-			@story_config['description'] = story_info['synopsis']
+			@story_config['description'] = @story_info['synopsis']
 			keywords = []
-			keywords << story_info['info']['language']
-			keywords << story_info['info']['categories']
-			keywords << story_info['info']['tags']
-			keywords << story_info['info']['subjects']
-			keywords << story_info['info']['publisher']
+			keywords << @story_info['info']['language']
+			keywords << @story_info['info']['categories']
+			keywords << @story_info['info']['tags']
+			keywords << @story_info['info']['subjects']
+			keywords << @story_info['info']['publisher']
 			@story_config['keywords'] = keywords.select {|x| x!=''}.flatten.compact
 			temp_keys = @story_config['keywords'].join(',')[0..99]
 			temp_splitted = temp_keys.split(',')
@@ -114,7 +114,7 @@ require 'FileUtils'
 
 		def make_images
 			#download the cover
-			cover_url = "http://mangoreader.com/#{story_info['cover']}"
+			cover_url = "http://mangoreader.com/#{@story_info['cover']}"
 
 
 			File.open("cover.png", "wb") do |saved_file|
@@ -178,13 +178,13 @@ require 'FileUtils'
 			#get the config object of the selected target
 			config = target.config(:Release)
 			config.product_name = "MangoReader" #or title of the story
-			config.iphoneos_deployment_target = '7.1'
+			config.iphoneos_deployment_target = '7.0'
 
 			# #set the app info here
 			config.info_plist do |info|
 				info.version = 1.0
-				info.display_name = story_info['title']
-				#info.identifier = "com.mangostory.#{story_info['id']}" #uniqe story id at last
+				info.display_name = @story_info['title']
+				#info.identifier = "com.mangostory.#{@story_info['id']}" #uniqe story id at last
 				info.identifier = "com.mangostory.#{@story_id}"
 			end
 
@@ -214,22 +214,21 @@ require 'FileUtils'
 			ipa_file = 'MangoReader-Release-1.0.ipa'
 			FileUtils.cp("Build/Products/Release-iphoneos/#{ipa_file}","/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/")
 
-			# verify the app
-			system("'#{iTMSTransporter}' -m verify -f /tmp/#{@story_id}/ -u #{@user_name} -p #{@password}")
-
-
+			# Copy the distribute version of xml to itmsp
+			# FileUtils.cp("metadata.xml","/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/")
 
 			ipa_size = File.size "/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/#{ipa_file}"
 			ipa_checksum = Digest::MD5.file("/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/#{ipa_file}").hexdigest
 
-			asset_config = " <software_assets><asset type='bundle'><data_file><size>#{ipa_size}</size><file_name>#{ipa_file}</file_name><checksum type='md5'>#{ipa_checksum}</checksum></data_file></asset></software_assets>"
+			asset_config = "<software_assets><asset type='bundle'><data_file><size>#{ipa_size}</size><file_name>#{ipa_file}</file_name><checksum type='md5'>#{ipa_checksum}</checksum></data_file></asset></software_assets>"
+
 
 			doc=Nokogiri::XML(open("/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/metadata.xml"))
-			software_section = doc.at_css "software_metadata"
-			asset_node=Nokogiri::XML::Node.new asset_config,doc
-			software_section << asset_node
+			meta_section = doc.at_css "software_metadata"
+			meta_section.remove
+			software_section = doc.at_css "software"
+			software_section.first_element_child.before asset_config
 
-			FileUtils.mkdir_p "/tmp/#{@story_id}/Mango_#{@story_id}.itmsp"
 			File.write("/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/metadata.xml",doc.to_xml)
 
 			# Create success & failue & log folders
@@ -237,9 +236,13 @@ require 'FileUtils'
 			FileUtils.mkdir_p "/tmp/#{@story_id}/failure"
 			FileUtils.mkdir_p "/tmp/#{@story_id}/log/errors"
 
-			# Upload the ipa
 
-			system("'#{iTMSTransporter}' -u #{@user_name} -p #{@password} -m upload -v critical -f /tmp/#{@story_id} -success /tmp/#{@story_id}/success -failure /tmp/#{@story_id}/failure -errorLogs /tmp/#{@story_id}/log/errors -loghistory /tmp/#{@story_id}/log/itms.log")
+			# verify the app
+			system("'#{iTMSTransporter}' -m verify -f /tmp/#{@story_id}/ -u #{@user_name} -p #{@password}")
+
+
+			# Upload the ipa
+			system("'#{iTMSTransporter}' -u #{@user_name} -p #{@password} -m upload -v critical -f /tmp/#{@story_id} -success /tmp/#{@story_id}/success -failure /tmp/#{@story_id}/failure -o /tmp/#{@story_id}/log/itms.log")
 
 
 		end
