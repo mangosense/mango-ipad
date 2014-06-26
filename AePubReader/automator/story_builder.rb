@@ -25,7 +25,7 @@ require 'FileUtils'
 			sleep 2
 			#MangoIcon watermarking
 			water_mark = MiniMagick::Image.open 'appicon.png'
-			['57x57!=>30x30!','76x76!=>41x41!','114x114!=>44x44!','120x120!=>52x52!','144x144!=>52x52!','152x152!=>62x62!'].each do |icon_map|
+			['57x57!=>30x30!','60x60!=>30x30!','72x72!=>41x41!','76x76!=>41x41!','80x80!=>41x41!','114x114!=>44x44!','120x120!=>52x52!','144x144!=>52x52!','152x152!=>62x62!'].each do |icon_map|
 				actual,icon = icon_map.split '=>'
 				if (actual==size)
 					unless File.exists? "appicon-#{icon.split('x').first}.png"
@@ -94,13 +94,13 @@ require 'FileUtils'
 
 			#create nesessary templates for description & title
 			desc_template = File.open("templates/description.txt").read
-			@story_config["store_description"]=desc_template.gsub(/%{(.*?)}/) {story_config[$1]}
+			@story_config["store_description"]=desc_template.gsub(/%{(.*?)}/) {@story_config[$1]}
 
 			title_template = File.open("templates/title.txt").read
-			@story_config["store_title"]=title_template.gsub(/%{(.*?)}/) {story_config[$1]}
+			@story_config["store_title"]=title_template.gsub(/%{(.*?)}/) {@story_config[$1]}
 
 			keywords_template = File.open("templates/keywords.txt").read
-			@story_config["keywords"] << keywords_template.split(',').sample 3
+			@story_config["keywords"] << keywords_template.split(',').sample(3)
 
 
 			File.write 'story.json',@story_config.to_json
@@ -178,7 +178,7 @@ require 'FileUtils'
 			end
 
   			#create app icons using the cover image
-			['57x57!','76x76!','114x114!','120x120!','144x144!','152x152!'].each {|x| create_image x}
+			['57x57!','60x60!','72x72!','76x76!','80x80!','114x114!','120x120!','144x144!','152x152!'].each {|x| create_image x}
 
 		end
 
@@ -286,14 +286,14 @@ require 'FileUtils'
 				verify_and_distribute
 			else
 				@story_config = create_json
-				download_story
+				#download_story
+				make_images
 
 				# Create the profile & download provisioing profile to be used in xcode build
 				if @app_creation == 'yes'
 					 system('casperjs ghost.js --mode=profile')
 				end
 			    
-				make_images
 				
 				#TODO copy the game screen shots as well
 
