@@ -21,6 +21,7 @@
                 <outlet property="dropDownButton" destination="IVJ-hA-36V" id="el4-OJ-hfz"/>
                 <outlet property="labelAvaillanguageCount" destination="HTo-g8-bJ6" id="24V-3m-Bcu"/>
                 <outlet property="numberOfPagesLabel" destination="bRA-Wt-6Iy" id="5Oh-7R-FJk"/>
+                <outlet property="progressLabel" destination="HD1-Vw-82A" id="TPZ-rS-di4"/>
                 <outlet property="readingLevelLabel" destination="oni-Ox-wya" id="0M3-ud-YoA"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -33,6 +34,7 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zp8-nH-9Mm">
                     <rect key="frame" x="9" y="65" width="382" height="453"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="tintColor" red="0.023529414089999999" green="0.42352944609999998" blue="0.047058828179999998" alpha="1" colorSpace="deviceRGB"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="4r3-oJ-FhI">
                     <rect key="frame" x="67" y="10" width="624" height="44"/>
@@ -191,6 +193,15 @@
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HD1-Vw-82A">
+                    <rect key="frame" x="179" y="279" width="42" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="highlightedColor" red="0.88257334180000002" green="0.10640212981638106" blue="0.24763996083182849" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="shadowColor" red="0.10145833497119883" green="1" blue="0.34833712948348861" alpha="1" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="1" height="-1"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
