@@ -28,13 +28,13 @@ config.info_plist do |info|
 	info.version = 1.0
 	info.display_name = @story_info['title']
 	#info.identifier = "com.mangostory.#{@story_info['id']}" #uniqe story id at last
-	info.identifier = "com.mangostory.#{@story_id}"
+	info.identifier = "com.mangosense.MangoStory.#{@story_id}"
 end
 
 
 builder = config.builder
-builder.profile = 'MangoStory.mobileprovision' # this is downloaded by casper profile creation
-builder.identity = 'iPhone Distribution: Jagdish Repaswal (LNHPT8X9T3)'
+builder.profile = 'Story_App_Dev_Profile.mobileprovision' # this is downloaded by casper profile creation
+builder.identity = 'iPhone Developer: Jagdish Repaswal (FKU6U57CR3)'
 builder.clean
 builder.build :sdk => :iphoneos
 builder.package
