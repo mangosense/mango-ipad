@@ -13,7 +13,7 @@ require 'FileUtils'
    		@password = ARGV[1]
    		@app_creation = ARGV[2] || 'no'
    		@just_distribute = ARGV[3] || 'no'
-   		@crop = ARGV[4] || "no"
+   		@crop = ARGV[4] || "yes"
    		@story_id = nil
    		@story_config = nil
   		@story_info = nil
