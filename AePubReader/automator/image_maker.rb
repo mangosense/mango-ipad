@@ -1,8 +1,10 @@
 require 'mini_magick'
 require 'net/http'
 require 'open-uri'
+require 'json'
 
 @story_id = ARGV[0]
+@crop = ARGV[1] || "no"
 url = URI "http://api.mangoreader.com/api/v2/livestories/#{@story_id}/info"
 @story_info = JSON.parse Net::HTTP.get url
 
@@ -18,7 +20,13 @@ end
 
 def create_image(size)
 			image = MiniMagick::Image.open 'cover.png'
-			image.resize  size
+			if @crop == "yes"
+				width,height = size.gsub('!','').split 'x'
+				resize_to_fill image, width.to_i,height.to_i
+			else
+				image.resize size
+			end
+			
 			image.quality  100
 			image.format 'png'
 			image.write "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
@@ -49,6 +57,30 @@ def create_image(size)
 					main_image.write "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
 				end
 			end
+end
+
+
+def resize_to_fill(img,width, height, gravity = 'Center')
+        cols, rows = img[:dimensions]
+        img.combine_options do |cmd|
+          if width != cols || height != rows
+            scale_x = width/cols.to_f
+            scale_y = height/rows.to_f
+            if scale_x >= scale_y
+              cols = (scale_x * (cols + 0.5)).round
+              rows = (scale_x * (rows + 0.5)).round
+              img.resize "#{cols}"
+            else
+              cols = (scale_y * (cols + 0.5)).round
+              rows = (scale_y * (rows + 0.5)).round
+              img.resize "x#{rows}"
+            end
+          end
+          img.gravity gravity
+          img.background "rgba(255,255,255,0.0)"
+          img.extent "#{width}x#{height}" if cols != width || rows != height
+        end
+        img
 end
 
 #create app icons using the cover image
