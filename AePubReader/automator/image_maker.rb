@@ -33,7 +33,7 @@ def create_image(size)
 			sleep 2
 			#MangoIcon watermarking
 			water_mark = MiniMagick::Image.open 'appicon.png'
-			['57x57!=>30x30!','76x76!=>41x41!','114x114!=>44x44!','120x120!=>52x52!','144x144!=>52x52!','152x152!=>62x62!'].each do |icon_map|
+			['57x57!=>30x30!','60x60!=>30x30!','72x72!=>41x41!','76x76!=>41x41!','80x80!=>41x41!','114x114!=>44x44!','120x120!=>52x52!','144x144!=>52x52!','152x152!=>62x62!'].each do |icon_map|
 				actual,icon = icon_map.split '=>'
 				if (actual==size)
 					unless File.exists? "appicon-#{icon.split('x').first}.png"
