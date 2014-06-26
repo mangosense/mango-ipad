@@ -1,0 +1,1 @@
+%{title} - Interactive free eBook in %{language} for children with puzzles and learning games

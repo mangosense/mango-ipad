@@ -214,7 +214,7 @@ var GhostUploader = (function(){
 
 					// fill the app name
 
-					window.jQuery('#appNameUpdateContainerId input[type="text"]').val(config['name']);
+					window.jQuery('#appNameUpdateContainerId input[type="text"]').val(config['store_title']);
 
 					//fill the SKU number
 
@@ -497,7 +497,7 @@ var GhostUploader = (function(){
 				// -- Metadata info
 
 				// Set description
-				window.jQuery('#descriptionUpdateSpinnerId').siblings('textarea').text(config['description'])
+				window.jQuery('#descriptionUpdateSpinnerId').siblings('textarea').text(config['store_description'])
 
 				// Set keywords
 				window.jQuery('#keywordsTooltipId').siblings('input').val(config['keywords'].join(','))

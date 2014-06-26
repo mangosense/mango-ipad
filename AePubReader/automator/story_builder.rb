@@ -21,7 +21,7 @@ require 'FileUtils'
 			image.resize  size
 			image.quality  100
 			image.format 'png'
-			image.write "Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
+			image.write "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
 			sleep 2
 			#MangoIcon watermarking
 			water_mark = MiniMagick::Image.open 'appicon.png'
@@ -35,12 +35,12 @@ require 'FileUtils'
 						water_mark.write "appicon-#{icon.split('x').first}.png"
 						sleep 2
 					end 
-					main_image = MiniMagick::Image.open "Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
+					main_image = MiniMagick::Image.open "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
 				 	main_image.combine_options do |c|
 						c.gravity 'SouthWest'
 						c.draw 'image Over -1,0 0,-2 "appicon-'+icon.split('x').first+'.png"'
 					end
-					main_image.write "Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
+					main_image.write "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
 				end
 			end
 		end
@@ -69,6 +69,10 @@ require 'FileUtils'
 			require 'date'
 			@story_config['availability_date'] = Date.today.strftime('%b %d %Y')
 			@story_config['description'] = @story_info['synopsis']
+			@story_config['sane_title'] = @story_info['sane_title']
+			@story_config['categories'] = @story_info['info']['categories'].join(', ') if @story_info['info']
+			@story_config['age_groups'] = @story_info['info']['age_groups'].join(', ') if @story_info['info']
+
 			keywords = []
 			keywords << @story_info['info']['language']
 			keywords << @story_info['info']['categories']
@@ -87,6 +91,18 @@ require 'FileUtils'
 			@story_config['user_name'] = @user_name
 			@story_config['password'] = @password
 			@story_config['id_type'] = 'explicit'
+
+			#create nesessary templates for description & title
+			desc_template = File.open("templates/description.txt").read
+			@story_config["store_description"]=desc_template.gsub(/%{(.*?)}/) {story_config[$1]}
+
+			title_template = File.open("templates/title.txt").read
+			@story_config["store_title"]=title_template.gsub(/%{(.*?)}/) {story_config[$1]}
+
+			keywords_template = File.open("templates/keywords.txt").read
+			@story_config["keywords"] << keywords_template.split(',').sample 3
+
+
 			File.write 'story.json',@story_config.to_json
 			@story_config
 		end
@@ -103,7 +119,7 @@ require 'FileUtils'
 
 			#download
 
-			File.open("MangoStory.zip", "wb") do |saved_file|
+			File.open("../MangoStory.zip", "wb") do |saved_file|
 			  # the following "open" is provided by open-uri
 			  open("http://api.mangoreader.com/api/v2/livestories/#{@story_id}/zipped?auth_token=#{auth_token}&email=rameshvel@gmail.com", "rb") do |read_file|
 			    saved_file.write(read_file.read)
@@ -142,7 +158,7 @@ require 'FileUtils'
 			#copy 3 images to images/en folder. These will be treated as iPad screen shots whe upload
 			require 'zip'
 			img_count = 2
-			Zip::File.open('MangoStory.zip') do |zip_file|
+			Zip::File.open('../MangoStory.zip') do |zip_file|
 				zip_file.each do |entry|
 					if img_count <= 3
 						if entry.name.start_with?('res') && (entry.name != 'res') && (entry.name.end_with?('.png') || entry.name.end_with?('.jpg'))
@@ -214,7 +230,7 @@ require 'FileUtils'
 
 			# copy the release ipa to app uploads folder
 			ipa_file = 'MangoReader-Release-1.0.ipa'
-			FileUtils.cp("Build/Products/Release-iphoneos/#{ipa_file}","/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/")
+			FileUtils.cp("../Build/Products/Release-iphoneos/#{ipa_file}","/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/")
 
 			# Copy the distribute version of xml to itmsp
 			# FileUtils.cp("metadata.xml","/tmp/#{@story_id}/Mango_#{@story_id}.itmsp/")
