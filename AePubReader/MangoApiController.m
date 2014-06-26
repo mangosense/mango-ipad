@@ -247,7 +247,7 @@
 
     if (!_imageOperationManager) {
         _imageOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
-        [_imageOperationManager.operationQueue setMaxConcurrentOperationCount:2];
+        [_imageOperationManager.operationQueue setMaxConcurrentOperationCount:3];
     }
     [_imageOperationManager.operationQueue addOperation:imageRequestOperation];
     

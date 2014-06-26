@@ -55,6 +55,7 @@
 @property (nonatomic, strong) NSMutableArray *dropDownArrayData;
 @property (nonatomic, strong) NSMutableArray *dropDownIdArrayData;
 @property (nonatomic, strong) IBOutlet UILabel *labelAvaillanguageCount;
+@property (nonatomic, strong) IBOutlet UILabel *progressLabel;
 
 @property (nonatomic, retain) DropDownView *dropDownView;
 

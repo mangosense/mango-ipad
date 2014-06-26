@@ -189,6 +189,7 @@ static int booksDownloadingCount;
     [_progressView setAlpha:0.6f];
     [_bookImageView addSubview:_progressView];
     }
+    
     //_progressView.current = MAX(1, _bookProgress);
 }
 
@@ -404,7 +405,7 @@ static int booksDownloadingCount;
         if (bk) {
             
             int isDownloaded = [bk.downloaded integerValue];
-            if(!isDownloaded){
+            if(isDownloaded == 2 || !isDownloaded){
                 
                 if(booksDownloadingCount >= 3){
                     
@@ -631,7 +632,10 @@ static int booksDownloadingCount;
         _progressView.trackTintColor = COLOR_LIGHT_GREY;
         [_progressView setAlpha:0.6f];
         [_bookImageView addSubview:_progressView];
+        
     }
+    NSString *progressVal = [NSString stringWithFormat:@"%d%%",(int)_progressView.current];
+    _progressLabel.text = progressVal;
     _progressView.current = MAX(1, _bookProgress);
    // NSLog(@"Display progress %f %@",_progressView.current, _bookId);
 }

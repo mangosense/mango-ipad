@@ -129,7 +129,7 @@
     [_bookImageView setImage:image];
     [_delegate saveImage:image ForUrl:urlString];
     
-    [self setNeedsDisplay];
+    //[self setNeedsDisplay];
 }
 
 @end

@@ -989,6 +989,8 @@
     }
 }
 
+
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {

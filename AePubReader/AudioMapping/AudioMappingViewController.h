@@ -36,6 +36,7 @@
 - (void)playAudioForReaderWithData:(NSData *)audioData AndDelegate:(id <AVAudioPlayerDelegate>)delegate;
 
 @property (nonatomic, strong) IBOutlet UISlider *audioSpeedSlider;
+@property (nonatomic, strong) IBOutlet UIButton *hitAndRecordButton;
 
 @property(assign,nonatomic) NSInteger index;
 @property(retain,nonatomic) NSMutableArray *cues;

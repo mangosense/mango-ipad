@@ -42,6 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _hitAndRecordButton.userInteractionEnabled = NO;
     // Do any additional setup after loading the view from its nib.
     _audioMappingRate = 1.0;
     _listOfViews=[[NSMutableArray alloc]init];
@@ -454,6 +455,7 @@
 
 - (IBAction)playRecored:(id)sender {
 
+    _hitAndRecordButton.userInteractionEnabled = YES;
     if (_player) {
         _player = nil;
     }
