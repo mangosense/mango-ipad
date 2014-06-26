@@ -167,8 +167,10 @@ require 'FileUtils'
 		end
 
 		def build_app
+			source_dir = Dir.pwd.gsub '/automator', ''
+
 			#building the source with the new story info
-			project = Xcode.project('MangoReader')
+			project = Xcode.project(source_dir+'/MangoReader.xcodeproj')
 
 			#get the target object from the project
 			target = project.target(:MangoReader)
@@ -258,7 +260,7 @@ require 'FileUtils'
 		# }
 		# story_ids = JSON.parse res.body
 
-		story_ids = ['53846d1569702d472b030000']
+		story_ids = ['52d0763269702d5fe1d82800']
 
 		story_ids.each do |storyid|
 
