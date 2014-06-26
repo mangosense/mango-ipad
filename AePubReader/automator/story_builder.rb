@@ -13,12 +13,19 @@ require 'FileUtils'
    		@password = ARGV[1]
    		@app_creation = ARGV[2] || 'no'
    		@just_distribute = ARGV[3] || 'no'
+   		@crop = ARGV[4] || "no"
    		@story_id = nil
    		@story_config = nil
   		@story_info = nil
   		def create_image(size)
 			image = MiniMagick::Image.open 'cover.png'
-			image.resize  size
+			if @crop == "yes"
+				width,height = size.gsub('!','').split 'x'
+				resize_to_fill image, width.to_i,height.to_i
+			else
+				image.resize size
+			end
+			
 			image.quality  100
 			image.format 'png'
 			image.write "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
@@ -50,6 +57,30 @@ require 'FileUtils'
 				end
 			end
 		end
+
+
+		def resize_to_fill(img,width, height, gravity = 'Center')
+        cols, rows = img[:dimensions]
+        img.combine_options do |cmd|
+          if width != cols || height != rows
+            scale_x = width/cols.to_f
+            scale_y = height/rows.to_f
+            if scale_x >= scale_y
+              cols = (scale_x * (cols + 0.5)).round
+              rows = (scale_x * (rows + 0.5)).round
+              img.resize "#{cols}"
+            else
+              cols = (scale_y * (cols + 0.5)).round
+              rows = (scale_y * (rows + 0.5)).round
+              img.resize "x#{rows}"
+            end
+          end
+          img.gravity gravity
+          img.background "rgba(255,255,255,0.0)"
+          img.extent "#{width}x#{height}" if cols != width || rows != height
+        end
+        img
+end
 
 
 		def create_json
@@ -296,9 +327,9 @@ require 'FileUtils'
 				make_images
 
 				# Create the profile & download provisioing profile to be used in xcode build
-				if @app_creation == 'yes'
-					 system('casperjs ghost.js --mode=profile')
-				end
+				# if @app_creation == 'yes'
+				# 	 system('casperjs ghost.js --mode=profile')
+				# end
 			    
 				
 				#TODO copy the game screen shots as well
