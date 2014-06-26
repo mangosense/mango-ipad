@@ -46,10 +46,10 @@ var GhostUploader = (function(){
 				 	console.log(decodeURIComponent(window.location.href));
 				 })
 
-				 this.fill('form[name="appleConnectForm"]',
+				 this.fill('form[name="form2"]',
 						{
-							'theAccountName':self.story_config['user_name'],
-							'theAccountPW':self.story_config['password']
+							'appleId':self.story_config['user_name'],
+							'accountPassword':self.story_config['password']
 						},true);
 				 self.createAppIdentifier()
 			})

@@ -38,7 +38,13 @@ require 'FileUtils'
 					main_image = MiniMagick::Image.open "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
 				 	main_image.combine_options do |c|
 						c.gravity 'SouthWest'
-						c.draw 'image Over -1,0 0,-2 "appicon-'+icon.split('x').first+'.png"'
+						left = -4
+						if size == "72x72!" || size == "76x76!" || size == "80x80!" || size == "114x114!"
+							left = -5
+						elsif size == "120x120!" || size == "144x144!" || size == "152x152!"
+							left = -7
+						end
+						c.draw 'image Over '+left.to_s+',0 0,-2 "appicon-'+icon.split('x').first+'.png"'
 					end
 					main_image.write "../Store Images/mangoreader-app-icon-#{size.gsub('!','')}.png"
 				end
