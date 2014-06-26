@@ -1,5 +1,4 @@
 Story Synopsis:
-
 %{description} 
 
 Language : %{language}
@@ -29,32 +28,22 @@ We'd Love To Hear From You!
 - Say hello to us on FB! facebook.com/mangoreader
 SMART FEATURES THAT AID THE LEARNING PROCESS 
 
+Some important features
 
 - Games to engage and enhance the learning experience, like memory game, word search game, puzzle games, learning activities etc. for each story 
-
 - Read-along word highlighting promotes word recognition among young readers 
-
 - Top-notch illustrations keep kids entertained by letting their imaginations take over 
-
 - Read on your own or follow along with expert narration, and record your own audio to personalize and share with friends 
-
 - Multi lingual stories to learn languages and exposure to global cultures
-
 
 About the mangoreader subscription
 
 - access to 700+ children’s books, all with read-to-me narration for only $6.99 per month, or a discounted $47.99 per year or $17.99 quarterly
-
 - Payment will be charged to iTunes Account at confirmation of purchase
-
 - Your mangoreader subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period
-
 - You can manage your subscription or turn off auto-renewal by going to your iTunes account settings or Settings app on your device
-
 - No cancellation of the current subscription is allowed during active subscription period
-
 -Please contact subscriptions@mangoreader.com for help with subscriptions 
-
 
 For more information about our privacy policy and terms of use, visit: 
 
@@ -65,34 +54,20 @@ http://www.mangoreader.com/privacy
 
 PRAISE FROM THE MEDIA 
 
-
 - NASSCOM Social innovation Honors award for outstanding innovation in ICT 2013 
-
 - YourStory “Awesome, interactive children’s stories and platform for all learners” 
-
 - Intel App4India winners for the best educational app and “The future of learning” 
-
 - British Council Young Creative Entrepreneur awards in Digital for Creative Industries 
 - Frankfurt book fair top startups in education and learning
 
-
-
-
 PARENTS love mangoreader! 
 
-
 - Must have for any parent and kids – Elisha 
-
 - This is my number one app for my kids and they just love it– Martha 
-
 - A fun way to get my kids learn and excited about books at the same time – John 
-
 
 TEACHERS love mangoreader! 
 
-
 - My Class is always asking for more stories and play the games for learning – Sarah 
-
 - I wish I had these stories when I was in school. Kids are so happy with it. – Michael 
-
 - This is the best part of the reading club and library for kids - Samantha

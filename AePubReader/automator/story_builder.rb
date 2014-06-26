@@ -87,6 +87,8 @@ require 'FileUtils'
 
 			puts "Story ID : #{@story_id}" 
 
+			#get the story
+
 			#get the story info
 			url = URI "http://api.mangoreader.com/api/v2/livestories/#{@story_id}/info"
 			@story_info = JSON.parse Net::HTTP.get url
@@ -116,6 +118,8 @@ require 'FileUtils'
 			keywords << @story_info['info']['tags']
 			keywords << @story_info['info']['subjects']
 			keywords << @story_info['info']['publisher']
+			keywords_template = File.open("templates/keywords.txt").read
+			@story_config["keywords"] << keywords_template.split(',').sample(3)
 			@story_config['keywords'] = keywords.select {|x| x!=''}.flatten.compact
 			temp_keys = @story_config['keywords'].join(',')[0..99]
 			temp_splitted = temp_keys.split(',')
@@ -131,13 +135,12 @@ require 'FileUtils'
 
 			#create nesessary templates for description & title
 			desc_template = File.open("templates/description.txt").read
-			@story_config["store_description"]=desc_template.gsub(/%{(.*?)}/) {@story_config[$1]}
+			@story_config["store_description"]=(desc_template.gsub(/%{(.*?)}/) {@story_config[$1]})[0..3899]
 
 			title_template = File.open("templates/title.txt").read
 			@story_config["store_title"]=title_template.gsub(/%{(.*?)}/) {@story_config[$1]}
 
-			keywords_template = File.open("templates/keywords.txt").read
-			@story_config["keywords"] << keywords_template.split(',').sample(3)
+			
 
 
 			File.write 'story.json',@story_config.to_json
