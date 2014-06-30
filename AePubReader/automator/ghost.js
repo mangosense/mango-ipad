@@ -653,7 +653,11 @@ var GhostUploader = (function(){
 					})
 
 					// Set Advertising Identifier
-					window.jQuery('#idfa-radio').parents('.export-comp-radio').find('input[value="false"]').click()
+					window.jQuery('#idfa-radio').parents('.export-comp-radio').find('input[value="true"]').click()
+
+					window.jQuery('#idfa-serves-ads').click();
+
+					window.jQuery('#opt-out-consent').click();
 
 					// Click save
 					window.jQuery('#lcBoxWrapperFooterUpdateContainer .wrapper-right-button input').click()
