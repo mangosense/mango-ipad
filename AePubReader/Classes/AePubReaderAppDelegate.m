@@ -59,12 +59,12 @@ static UIAlertView *alertViewLoading;
     
     //Parse MangoReader Original App -
 
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+   // [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+   //               clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
    //MangoReader_Test app for testing
-   // [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
-      //                 clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
+    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
+                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
 
     //Flurry
@@ -309,6 +309,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         epubFles = [NSArray arrayWithObject:@"MangoStory"];
     }
     
+    
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
@@ -353,7 +354,16 @@ void uncaughtExceptionHandler(NSException *exception) {
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
-    [apiController getFreeBookInformation:FREE_STORIES withDelegate:self];
+    
+    if(![self connected])
+    {
+        [MBProgressHUD hideAllHUDsForView:self.loginController.view animated:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else{
+        [apiController getFreeBookInformation:FREE_STORIES withDelegate:self];
+    }
 }
 
 - (void)freeBooksSetup : (NSArray *)booksInfo;{
@@ -370,6 +380,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     [MBProgressHUD hideAllHUDsForView:self.loginController.view animated:YES];
 }
 
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
 
 -(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
     
@@ -418,6 +434,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         
     } else {
         [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
+        
     }
 }
 
