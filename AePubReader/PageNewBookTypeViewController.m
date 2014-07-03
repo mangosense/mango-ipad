@@ -87,7 +87,7 @@
     if (!validUserSubscription && storyAsAppFilePath){
         self.interstitial = [[GADInterstitial alloc] init];
         self.interstitial.delegate = self;
-        self.interstitial.adUnitID = @"ca-app-pub-8435333379198555/7137776824";
+        self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
         [self.interstitial loadRequest:[GADRequest request]];
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){

@@ -23,7 +23,7 @@
 
 @end
 
-@interface MangoSubscriptionViewController : UIViewController <PurchaseManagerProtocol, MangoPostApiProtocol>{
+@interface MangoSubscriptionViewController : UIViewController <PurchaseManagerProtocol>{
     
     NSString *userEmail;
     NSString *userDeviceID;

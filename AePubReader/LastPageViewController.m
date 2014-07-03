@@ -175,10 +175,13 @@
     } else {
         
         if(!validUserSubscription && storyAsAppFilePath){
-            _games.hidden= YES;
+            //_games.hidden= YES;
+            _shareButton.hidden = YES;
+            _subscribeButton.hidden = NO;
         }
         else{
-            _games.hidden= NO;
+            _shareButton.hidden = NO;
+            _subscribeButton.hidden = YES;
         }
     }
 }

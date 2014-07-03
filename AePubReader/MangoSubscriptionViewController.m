@@ -90,6 +90,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
+
 #pragma mark - Initial Setup
 
 - (void)setupSubscriptionView:(UIView *)subscriptionView {
@@ -198,13 +205,6 @@
 }
 
 #pragma buy product
-
-- (BOOL)connected
-{
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
-    return !(networkStatus == NotReachable);
-}
 
 - (IBAction)subscribeButtonTapped:(id)sender {
    // UIButton *button = (UIButton *)sender;
@@ -364,6 +364,13 @@
 
 - (IBAction)restorePurchase:(id)sender{
     
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
@@ -388,9 +395,19 @@
                     {
                         NSLog(@"Product Restored!");
                         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                        if(!transaction.originalTransaction.transactionIdentifier){
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"Product could not be restored, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                            [alert show];
+                            return;
+                        }
+                        
                         [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                        if(path){
+                            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+                            [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+                        }
                         
-                        
+                        [self updateBookProgress:0];
                     }
                         break;
                         

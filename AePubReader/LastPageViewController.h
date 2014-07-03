@@ -45,6 +45,7 @@
 @property(retain,nonatomic) UIPopoverController *popOverShare;
 
 @property(nonatomic, strong) IBOutlet UIButton *shareButton;
+@property(nonatomic, strong) IBOutlet UIButton *subscribeButton;
 
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;

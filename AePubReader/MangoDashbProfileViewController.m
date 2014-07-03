@@ -200,6 +200,13 @@
 
 - (IBAction)restorePurchase:(id)sender{
     
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
@@ -224,6 +231,11 @@
                     {
                         NSLog(@"Product Restored!");
                         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                        if(!transaction.originalTransaction.transactionIdentifier){
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"Product could not be restored, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                            [alert show];
+                            return;
+                        }
                         [self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
             
                         
@@ -340,6 +352,14 @@
 
 - (IBAction)subscribeButtonTapped:(id)sender {
     // UIButton *button = (UIButton *)sender;
+    
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     NSString *productId;
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
