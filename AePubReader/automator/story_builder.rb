@@ -11,9 +11,25 @@ require 'FileUtils'
    
    		@user_name = ARGV[0]
    		@password = ARGV[1]
-   		@app_creation = ARGV[2] || 'no'
-   		@just_distribute = ARGV[3] || 'no'
-   		@crop = ARGV[4] || "yes"
+   		arg2 = ARGV[2]
+   		if arg2 == "--full"
+   			puts 'Starting automator with --full mode. It downloads zip & creates app & profile & distributes the app'
+   			@can_create = true
+   			@can_download = true
+   			@can_disribute = true
+   		elsif arg2 == '--noapp'
+   			puts 'Starting automator with --noapp mode. It only downloads & distributes the app'
+   			@can_create = false
+   			@can_download = true
+   			@can_disribute = true
+   		elsif arg2 == '--distribute'
+   			puts 'Starting automator with --distribute mode. It just distributes the app'
+   			@can_create = false
+   			@can_download = false
+   			@can_disribute = true
+   		end
+   		
+   		@crop = ARGV[3] || "yes"
    		@story_id = nil
    		@story_config = nil
   		@story_info = nil
@@ -183,7 +199,8 @@ require 'FileUtils'
 			#create a cover image with 1024x1024 resolution to be used while uploading
 			FileUtils.mkdir_p "images/screenshots"
 			image = MiniMagick::Image.open 'cover.png'
-			image.resize  '1024x1024!'
+			# image.resize  '1024x1024!'
+			resize_to_fill image, 1024,1024
 			image.quality  100
 			image.format 'png'
 			image.write "images/large_icon.png"
@@ -305,6 +322,12 @@ require 'FileUtils'
 
 		end
 
+		def move_files
+			FileUtils.mkdir "Done/#{@story_id}/"
+			FileUtils.mv '../MangoStory.zip', "Done/#{@story_id}/"
+			FileUtils.mv 'MangoStory.mobileprovision', "Done/#{@story_id}/"
+		end
+
 	    puts "Starting story builder"
 
 	    #checking for stories available for ios export
@@ -316,38 +339,29 @@ require 'FileUtils'
 		# }
 		# story_ids = JSON.parse res.body
 
-		story_ids = ['52d0763269702d5fe1d82800']
+		story_ids = ['52d07d9069702d38e35a0000']
 
 		story_ids.each do |storyid|
 
 			@story_id = storyid
-
-			if @just_distribute == "yes"
-				verify_and_distribute
-			else
-				@story_config = create_json
-				#download_story
-				make_images
-
-				# Create the profile & download provisioing profile to be used in xcode build
-				# if @app_creation == 'yes'
-				# 	 system('casperjs ghost.js --mode=profile')
-				# end
-			    
-				
-				#TODO copy the game screen shots as well
-
-				build_app
-
-				# Create the app
-				if @app_creation == 'yes'
-					system('casperjs ghost.js --mode=app')
-				end
-
-				verify_and_distribute
-			end
-		
 			
+			@story_config = create_json
+			if @can_download
+				download_story
+				make_images
+			end
+
+			# Create the profile & download provisioing profile to be used in xcode build
+			if @can_create 
+				system('casperjs ghost.js --mode=profile')
+				system('casperjs ghost.js --mode=app')
+			end
+
+			if @can_disribute
+				build_app
+				verify_and_distribute
+				move_files
+			end
 
 			break
 
