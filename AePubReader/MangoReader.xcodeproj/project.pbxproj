@@ -77,6 +77,7 @@
 		29B9FEDE1883F36300772921 /* MangoStoreCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B9FEDD1883F36300772921 /* MangoStoreCollectionViewController.xib */; };
 		29FC83371876C34400FB6F96 /* StoreBookCarouselCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */; };
 		314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 314B5072162D80DA00A1348E /* ImageDownloader.m */; };
+		3F32B7A6195C5C6700A160AF /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 3F32B7A5195C5C6700A160AF /* MangoStory.zip */; };
 		3FCF867119069FCF0081D20C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FCF867019069FCF0081D20C /* StoreKit.framework */; };
 		6806835218F2C5FF00D4609D /* SignUpViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */; };
 		6806835418F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6806835318F2CDD800D4609D /* LandPageChoiceViewController_iPhone.xib */; };
@@ -1011,6 +1012,7 @@
 		29FC83361876C34400FB6F96 /* StoreBookCarouselCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBookCarouselCell.m; sourceTree = "<group>"; };
 		314B5071162D80DA00A1348E /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		314B5072162D80DA00A1348E /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		3F32B7A5195C5C6700A160AF /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
 		3FCF867019069FCF0081D20C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3FD8B0E718EDBB1C003A2DED /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		6806835118F2C5FF00D4609D /* SignUpViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -2146,6 +2148,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				3F32B7A5195C5C6700A160AF /* MangoStory.zip */,
 				68DB092B19583CFE00784621 /* AdMob */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
 				280DBE2C191D6CF50082BFBA /* ATSurveys.h */,
@@ -3924,6 +3927,7 @@
 				687BE436190D463E00380E38 /* Logout.png in Resources */,
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
 				83AB60B318ABF1CD004A040E /* BookDetailsViewController.xib in Resources */,
+				3F32B7A6195C5C6700A160AF /* MangoStory.zip in Resources */,
 				FA11956613BA93F100025A2B /* EPubView.xib in Resources */,
 				AE0C938C183E0B58008E4D54 /* icons_text.png in Resources */,
 				83E2D201184364EC00F8CDB6 /* editor_45.png in Resources */,
@@ -4785,8 +4789,10 @@
 					StoreKit,
 				);
 				PRODUCT_NAME = MangoReader;
-				PROVISIONING_PROFILE = "353C26C9-BDD9-43E5-A1AD-A9BC8C639BD2";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "353C26C9-BDD9-43E5-A1AD-A9BC8C639BD2";
+
+				PROVISIONING_PROFILE = "F2358410-5952-40DD-B302-53F70CD8D967";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "64D27FCC-1523-4ABE-A8AF-ACC850895854";
+
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -4859,6 +4865,7 @@
 				PRODUCT_NAME = MangoReader;
 				PROVISIONING_PROFILE = "353C26C9-BDD9-43E5-A1AD-A9BC8C639BD2";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "353C26C9-BDD9-43E5-A1AD-A9BC8C639BD2";
+
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
