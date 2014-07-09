@@ -98,6 +98,9 @@
     else{
         ID = userEmail;
     }
+    
+    [self setupSwipeGestureRecognizer];
+    
     [self.view bringSubviewToFront:[_settingsProbView superview]];
     [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
 }
@@ -120,6 +123,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void) setupSwipeGestureRecognizer {
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedScreen:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeRight];
+    
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedScreen:)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeLeft];
+}
+
+-(void)swipedScreen:(UISwipeGestureRecognizer*)gesture {
+    if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
+        // NSLog(@"Left");
+        [self nextButtonTapped:0];
+    }
+    if(gesture.direction == UISwipeGestureRecognizerDirectionRight) {
+        // NSLog(@"Right");
+        
+        [self previousController:0];
+    }
 }
 
 - (IBAction)openBooks:(id)sender {
@@ -487,7 +512,17 @@
         categoryFlexible.pageNumber = _pageNumber + 1;
         categoryFlexible.categoriesArray = _categoriesArray;
         
+        /*[CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        
+        CATransition *transition = [CATransition animation];
+        [transition setType:kCATransitionFromLeft];
+        [self.navigationController.view.layer addAnimation:transition forKey:@"someAnimation"];
+        
+        //[self.navigationController popViewControllerAnimated:YES];*/
+        
         [self.navigationController pushViewController:categoryFlexible animated:YES];
+       // [CATransaction commit];
     }
 }
 

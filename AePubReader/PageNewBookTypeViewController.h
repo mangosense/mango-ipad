@@ -85,6 +85,7 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property(nonatomic, strong) GADInterstitial *interstitial;
+@property (nonatomic, strong) NSDictionary *audioDictForEditMapping;
 
 - (IBAction)displyParentalControl:(id)sender;
 - (IBAction)allowParentToShareOrNot:(id)sender;

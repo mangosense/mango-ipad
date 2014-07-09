@@ -17,11 +17,11 @@
                 <outlet property="book5" destination="qQ6-UU-3hF" id="h9b-oY-R08"/>
                 <outlet property="book5Label" destination="9iT-oq-1dN" id="ZZy-dj-bY8"/>
                 <outlet property="games" destination="GUJ-Hg-6Eg" id="YI2-Oo-gEF"/>
-                <outlet property="mangoreaderLinkView" destination="zZI-Wv-Obe" id="9E5-CL-Oah"/>
                 <outlet property="recommendedBooksView" destination="o4W-Rl-LW2" id="enJ-8D-Ihe"/>
                 <outlet property="settingsProbSupportView" destination="VWN-n7-a3C" id="3eM-rG-zF7"/>
                 <outlet property="settingsProbView" destination="Mx1-px-mrD" id="dfq-cH-voq"/>
                 <outlet property="shareButton" destination="1oZ-FN-hZe" id="sCu-St-EHu"/>
+                <outlet property="subscribeButton" destination="o5U-Gv-eEr" id="JRV-xz-608"/>
                 <outlet property="textQuesSolution" destination="h12-FS-KOY" id="EBX-7q-Nr9"/>
                 <outlet property="titleLabel" destination="efI-IS-8qi" id="bTP-dp-bLu"/>
                 <outlet property="view" destination="iN0-l3-epB" id="NEW-Gv-UbM"/>
@@ -87,36 +87,16 @@
                         <action selector="gameButtonTapped:" destination="-1" eventType="touchUpInside" id="sCJ-vM-vsL"/>
                     </connections>
                 </button>
-                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zZI-Wv-Obe">
-                    <rect key="frame" x="0.0" y="131" width="568" height="188"/>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5U-Gv-eEr">
+                    <rect key="frame" x="297" y="87" width="137" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uMt-ud-1m1">
-                            <rect key="frame" x="185" y="30" width="227" height="53"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <state key="normal" title="Subscribe MangoReader - and get unlimited access to over 500 stories">
-                                <color key="titleColor" red="0.47128109060000001" green="0.02223251389" blue="0.074662656270000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="ogY-gK-jbQ"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5U-Gv-eEr">
-                            <rect key="frame" x="230" y="3" width="137" height="43"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="subscribe_mangoreader.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="pry-55-HJ7"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </view>
+                    <state key="normal" backgroundImage="subscribe_mangoreader.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="pry-55-HJ7"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o4W-Rl-LW2">
                     <rect key="frame" x="-1" y="174" width="568" height="145"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

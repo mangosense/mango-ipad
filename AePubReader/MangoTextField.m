@@ -41,6 +41,7 @@
     //NSLog(@"length %d", [string length]);
 
     NSMutableArray *words = [NSMutableArray arrayWithArray:[self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+
     NSMutableArray *wordsToDelete = [NSMutableArray array];
     for (NSString *word in words) {
         if ([word length] == 0) {
@@ -50,6 +51,7 @@
     [words removeObjectsInArray:wordsToDelete];
     
     if ([words count]) {
+        NSLog(@"Word index value as -- %d", wordIndex);
         NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
@@ -79,7 +81,9 @@
         
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
         [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        
         [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
+        NSLog(@"Word index value as -- %d", wordIndex);
     }
     [self setAttributedText:string];
 }

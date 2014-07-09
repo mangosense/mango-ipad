@@ -249,7 +249,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         if(![userDetailsDictionary objectForKey:@"statusMessage"]){
-        [_delegate saveUserInfo:userDetailsDictionary];
+        [self saveUserInfo:userDetailsDictionary];
         
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             
@@ -313,6 +313,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [userObject saveInBackground];
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
     [_delegate goToNext];
 }
 

@@ -128,7 +128,7 @@
     [self.view addGestureRecognizer:tapGesture];
     [_switchAudioControl setOnImage:[UIImage imageNamed:@"next-button_new.png"]];
     [_switchAudioControl setOffImage:[UIImage imageNamed:@"next-button_new.png"]];
-    
+
     [self setupSwipeGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissMyBookViewBackAgainToCover) name:@"DismissBookPageView" object:nil];
@@ -251,9 +251,64 @@
     }
 }
 
+
 - (void)didTap:(UITapGestureRecognizer *)gesture {
     _showButtons = !_showButtons;
     [self hideAllButtons:!_showButtons];
+    
+   /* CGPoint location = [gesture locationInView:self.audioMappingViewController.mangoTextField];
+    NSLayoutManager *layoutManager = self.audioMappingViewController.mangoTextField.layoutManager;
+    UITextPosition *tapPos = [self.audioMappingViewController.mangoTextField closestPositionToPoint:location];
+    
+    NSUInteger characterIndex;
+    characterIndex = [layoutManager characterIndexForPoint:location
+                                           inTextContainer:self.audioMappingViewController.mangoTextField.textContainer
+                  fractionOfDistanceBetweenInsertionPoints:NULL];
+    
+    UITextRange * wr = [self.audioMappingViewController.mangoTextField.tokenizer rangeEnclosingPosition:tapPos withGranularity:UITextGranularityWord inDirection:UITextLayoutDirectionRight];
+    
+    NSRange searchRange = NSMakeRange(0 , characterIndex);
+    NSString *textInRange = [self.audioMappingViewController.mangoTextField.text substringWithRange:searchRange];
+    
+    NSLog(@"WORD: %@",[self.audioMappingViewController.mangoTextField textInRange:wr]);
+    NSString *selectedText = [self.audioMappingViewController.mangoTextField textInRange:wr];
+    NSLog(@"selectedText: %@" , selectedText);
+    if(selectedText.length<1){
+        return;
+    }
+    NSMutableArray *word = [NSMutableArray arrayWithArray:[self.audioMappingViewController.mangoTextField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    NSMutableArray *words = [NSMutableArray arrayWithArray:[textInRange componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    //[words removeObject:@""];
+    //[word removeObject:@""];
+    //int times = [[textInRange componentsSeparatedByString:@"\n"] count]-1;
+    int selectedWordIndex;
+    selectedWordIndex = [words count]-1;*/
+   /* if(times){
+        selectedWordIndex = [self getIndexOfWordUsingCharindex:self.audioMappingViewController.mangoTextField.text atIndex:characterIndex]+times-1;
+    }
+    else{
+        selectedWordIndex = [self getIndexOfWordUsingCharindex:self.audioMappingViewController.mangoTextField.text atIndex:characterIndex];
+    }*/
+  /*  if(selectedWordIndex >= word.count){
+        return;
+    }
+    NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, selectedWordIndex)];
+    NSLog(@"selected string %@", textInRange);
+    NSLog(@"Selected word index -- %d",selectedWordIndex);
+    NSString *subString = [subarray componentsJoinedByString:@" "];
+    
+    [self.audioMappingViewController.mangoTextField highlightWordAtIndex:selectedWordIndex AfterLength:[subString length]];
+    [_audioMappingViewController.timer invalidate];
+    [self audioPlayerStopAfterSelection:selectedWordIndex length:[subString length]];*/
+    
+}
+
+- (int) getIndexOfWordUsingCharindex:(NSString*)textViewString atIndex:(int)charindexval{
+    
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@" " options:NSRegularExpressionCaseInsensitive error:&error];
+    NSUInteger numberOfMatches = [regex numberOfMatchesInString:textViewString options:0 range:NSMakeRange(0, charindexval)];
+    return numberOfMatches;
 }
 
 - (void)didReceiveMemoryWarning
@@ -951,6 +1006,34 @@
     self.popoverControlleriPhone = nil;
 }
 
+- (void) audioPlayerStopAfterSelection:(int)index length:(int)lengthVal{
+    
+    //AudioMappingViewController *vc = nil;
+    //NSString *audioText = vc.mangoTextField.text;
+    [self.audioMappingViewController.mangoTextField highlightWordAtIndex:index AfterLength:lengthVal];
+    
+    /*[vc.timer invalidate];
+    vc.timer=nil;*/
+    float playTime;
+    
+    if([[_audioDictForEditMapping objectForKey:@"wordTimes"] count] >index+1){
+        
+        playTime = [[[_audioDictForEditMapping objectForKey:@"wordTimes"] objectAtIndex:index+1] floatValue]- [[[_audioDictForEditMapping objectForKey:@"wordTimes"] objectAtIndex:index] floatValue];
+    }
+    else{
+        playTime = _audioMappingViewController.player.duration - [[[_audioDictForEditMapping objectForKey:@"wordTimes"] objectAtIndex:index] floatValue];
+    }
+    
+    NSLog(@"play time value %f", playTime);
+    _audioMappingViewController.player.currentTime = [[[_audioDictForEditMapping objectForKey:@"wordTimes"] objectAtIndex:index] floatValue];
+    [_audioMappingViewController.player play];
+    [self performSelector:@selector(pausePlayer) withObject:self afterDelay:playTime];
+}
+
+- (void) pausePlayer{
+    [_audioMappingViewController.player pause];
+}
+
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
 //    [_audioMappingViewController.timer invalidate];
@@ -1066,7 +1149,7 @@
         audioMappingViewcontroller.audioMappingDelegate = delegate;
         audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 24.0f/768.0f];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
-        [audioMappingViewcontroller.view setExclusiveTouch:NO];
+        //[audioMappingViewcontroller.view setExclusiveTouch:NO];
         [audioMappingViewcontroller.customView setNeedsDisplay];
         
         NSString *textOnPage = [textDict objectForKey:TEXT];
@@ -1110,8 +1193,8 @@
         [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         [audioMappingViewcontroller.view setHidden:YES];
         [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
-        [audioMappingViewcontroller.view setExclusiveTouch:NO];
-        audioMappingViewcontroller.mangoTextField.exclusiveTouch = NO;
+        //[audioMappingViewcontroller.view setExclusiveTouch:NO];
+        //audioMappingViewcontroller.mangoTextField.exclusiveTouch = NO;
         audioMappingViewcontroller.mangoTextField.userInteractionEnabled = YES;
         audioMappingViewcontroller.mangoTextField.text = textOnPage;
         audioMappingViewcontroller.mangoTextField.selectable = NO;
@@ -1267,6 +1350,7 @@
             NSArray *relatedAudios = [audioLayers filteredArrayUsingPredicate:audioPredicate];
             if ([relatedAudios count]) {
                 NSDictionary *audioLayer = [relatedAudios objectAtIndex:0];
+                _audioDictForEditMapping = audioLayer;
                 NSString *filePath = [folderLocation stringByAppendingFormat:@"/%@", [audioLayer objectForKey:ASSET_URL]];
                 audioMappingViewcontroller.audioUrl = [NSURL fileURLWithPath:filePath];
                 NSData *audioData = [NSData dataWithContentsOfURL:audioMappingViewcontroller.audioUrl];
