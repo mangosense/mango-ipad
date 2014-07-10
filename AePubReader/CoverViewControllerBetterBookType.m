@@ -16,7 +16,7 @@
 #import <Parse/Parse.h>
 #import "MangoPromoPageViewController.h"
 #import "MBProgressHUD.h"
-
+#import "Fingerprint.h"
 
 @interface CoverViewControllerBetterBookType ()
 
@@ -134,6 +134,23 @@ NSString *newIdentityValue;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DismissOtherViewAndLoadLangingpage) name:@"LoadLandingPage" object:nil];
     
+}
+
+- (void) showFingerPrintHere{
+    
+    [Fingerprint showHubButton:1];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    NSString *fingerPrintPath = [[NSBundle mainBundle] pathForResource:@"Fingerprint" ofType:@"bundle"];
+    if(fingerPrintPath && path && !validSubscription){
+        [self showFingerPrintHere];
+    }
 }
 
 - (void) DismissOtherViewAndLoadLangingpage{
@@ -657,6 +674,11 @@ NSString *newIdentityValue;
 - (IBAction)backgroundTap:(id)sender {
     [_textQuesSolution resignFirstResponder];
     
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    
+    [Fingerprint showHubButton:0];
 }
 
 

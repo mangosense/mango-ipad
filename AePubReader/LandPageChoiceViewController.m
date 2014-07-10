@@ -19,7 +19,7 @@
 #import "MangoAnalyticsViewController.h"
 #import "MangoDashbHelpViewController.h"
 #import "MangoFeedbackViewController.h"
-
+#import "Fingerprint.h"
 
 @interface LandPageChoiceViewController ()
 
@@ -79,9 +79,27 @@
     if(storyAsAppFilePath && (validUserSubscription)){
         [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
     }
-    
-    
 }
+
+
+- (void) showFingerPrintHere{
+    //NSMutableDictionary* d = [NSMutableDictionary dictionaryWithCapacity:1];
+    
+    [Fingerprint showHubButton:1];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    NSString *fingerPrintPath = [[NSBundle mainBundle] pathForResource:@"Fingerprint" ofType:@"bundle"];
+    if(fingerPrintPath && path && validSubscription){
+        [self showFingerPrintHere];
+    }
+}
+
 
 - (BOOL)prefersStatusBarHidden
 {
@@ -385,6 +403,12 @@
 - (IBAction)backgroundTap:(id)sender {
     [_textQuesSolution resignFirstResponder];
     
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated{
+    
+    [Fingerprint showHubButton:0];
 }
 
 

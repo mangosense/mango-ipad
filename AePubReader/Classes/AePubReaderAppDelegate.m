@@ -24,6 +24,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "ATConnect.h"
 #import "MBProgressHUD.h"
+#import "Fingerprint.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
@@ -77,6 +78,23 @@ static UIAlertView *alertViewLoading;
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
+    
+    //FingerPrintPlay
+    NSMutableDictionary* fpOptions = [NSMutableDictionary dictionaryWithCapacity:1];
+    [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bMultiplayer"];
+    [fpOptions setObject:[NSNumber numberWithBool:YES] forKey:@"bLandscape"];
+    [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bPracticeRound"];
+    [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bSuppressPauseScreen"];
+    
+    // Startup the Fingerprint API.
+    // fpDelegate is an object which implements the FingerprintDelegate protocol.
+    [Fingerprint startup:launchOptions fpOptions:fpOptions fpDelegate:self];
+    
+    // Establish Account and Child
+    // (Or you can also wait to call after your splash sequence)
+    // Note the API Delegate onLoginComplete method will let you know when child is ready to play
+    [Fingerprint login];
+    
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
