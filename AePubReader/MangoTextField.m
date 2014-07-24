@@ -19,7 +19,6 @@
         [self setBackgroundColor:[UIColor clearColor]];
         [self setEditable:NO];
         _highlightColor = [UIColor yellowColor];
-        //[self performSelector:@selector(addColorToFirstLetter) withObject:self afterDelay:0.1f];
     }
     return self;
 }
@@ -88,9 +87,5 @@
     [self setAttributedText:string];
 }
 
-- (void) addColorToFirstLetter {
-    
-    _highlightColor = [UIColor yellowColor];
-}
 
 @end

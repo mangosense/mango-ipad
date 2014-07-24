@@ -9,6 +9,7 @@
 #import "MangoDashbHelpViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import "MangoDashHelperCell.h"
+#import "Constants.h"
 
 @interface MangoDashbHelpViewController (){
     NSArray *helpImages;
@@ -23,6 +24,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
+
         self.title = @"Help Desk";
     }
     return self;
@@ -36,6 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentPage = @"dashboard_help_screen";
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -71,6 +76,20 @@
     }
     
     //[self.helpImagesDisplayView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+}
+
+-(void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"dashboard_help_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Dashboard help screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"dashboard_help_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 

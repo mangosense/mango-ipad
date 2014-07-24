@@ -24,9 +24,10 @@
     int tableType;
     NSArray *storeBooksType;
     NSString *userEmail;
-    NSString *userDeviceID;
+   // NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    NSString *currentPage;
     int cellSize;
     int fontSize;
 }

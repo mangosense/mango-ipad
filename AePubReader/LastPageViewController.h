@@ -17,9 +17,10 @@
 
 @interface LastPageViewController : UIViewController <MangoPostApiProtocol, BookViewProtocol, SubscriptionProtocol>{
     NSString *userEmail;
-    NSString *userDeviceID;
-    NSString *ID;
-    NSString *viewName;
+    //NSString *userDeviceID;
+    //NSString *ID;
+    //NSString *viewName;
+    NSString *currentPage;
     NSString *storyAsAppFilePath;
     int validUserSubscription;
 }

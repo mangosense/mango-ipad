@@ -24,7 +24,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "ATConnect.h"
 #import "MBProgressHUD.h"
-#import "Fingerprint.h"
+//#import "Fingerprint.h"
 
 @implementation AePubReaderAppDelegate
 static UIAlertView *alertViewLoading;
@@ -60,12 +60,12 @@ static UIAlertView *alertViewLoading;
     
     //Parse MangoReader Original App -
 
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+  //  [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
    //MangoReader_Test app for testing
-   // [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
-     //                  clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
+    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
+                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
     
 
     //Flurry
@@ -80,7 +80,8 @@ static UIAlertView *alertViewLoading;
      UIRemoteNotificationTypeSound];
     
     //FingerPrintPlay
-    NSMutableDictionary* fpOptions = [NSMutableDictionary dictionaryWithCapacity:1];
+    
+/*    NSMutableDictionary* fpOptions = [NSMutableDictionary dictionaryWithCapacity:1];
     [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bMultiplayer"];
     [fpOptions setObject:[NSNumber numberWithBool:YES] forKey:@"bLandscape"];
     [fpOptions setObject:[NSNumber numberWithBool:NO] forKey:@"bPracticeRound"];
@@ -93,7 +94,7 @@ static UIAlertView *alertViewLoading;
     // Establish Account and Child
     // (Or you can also wait to call after your splash sequence)
     // Note the API Delegate onLoginComplete method will let you know when child is ready to play
-    [Fingerprint login];
+    [Fingerprint login];*/
     
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
@@ -103,7 +104,9 @@ static UIAlertView *alertViewLoading;
     _country = [locale displayNameForKey: NSLocaleCountryCode value: countryCode];
     NSString *countrylang = [locale objectForKey: NSLocaleLanguageCode];
     _language = [locale displayNameForKey:NSLocaleLanguageCode value:countrylang];
-    
+    _uuidValue = [[NSUUID UUID] UUIDString];
+    _udidValue = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    _deviceId = _udidValue;
     NSString *string=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:LOGIN]]];
@@ -363,6 +366,59 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     
     [PFAnalytics trackEvent:event dimensions:dimensionDict];
+}
+
+//New Analytics
+- (void)trackEventAnalytic:(NSString *)event dimensions:(NSDictionary *)dimensions {
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
+    NSMutableDictionary *dimensionDict = [NSMutableDictionary dictionaryWithDictionary:dimensions];
+    [dimensionDict setObject:_country forKey:PARAMETER_DEVICE_COUNTRY];
+    [dimensionDict setObject:_language forKey:PARAMETER_DEVICE_LANGUAGE];
+    [dimensionDict setObject:IOS forKey:PLATFORM];
+    [dimensionDict setObject:_uuidValue forKey:PARAMETER_UUID];
+    [dimensionDict setObject:_udidValue forKey:PARAMETER_DEVICE_UDID];
+    if(path){
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        [dimensionDict setObject:bundleIdentifier forKey:PARAMETER_APP_NAME];
+    }
+    
+    [PFAnalytics trackEvent:event dimensions:dimensionDict];
+}
+
+- (void)eventAnalyticsDataBrowser :(NSDictionary *)dimensions{
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    PFObject *userObject = [PFObject objectWithClassName:@"UserHistory"];
+    [userObject setObject:_country forKey:PARAMETER_DEVICE_COUNTRY];
+    [userObject setObject:_language forKey:PARAMETER_DEVICE_LANGUAGE];
+    [userObject setObject:IOS forKey:PLATFORM];
+    [userObject setObject:_uuidValue forKey:PARAMETER_UUID];
+    [userObject setObject:_udidValue forKey:PARAMETER_DEVICE_UDID];
+    [userObject setValuesForKeysWithDictionary:dimensions];
+    if(path){
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        [userObject setObject:bundleIdentifier forKey:PARAMETER_APP_NAME];
+    }
+    [userObject saveInBackground];
+}
+
+- (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    PFObject *userObject = [PFObject objectWithClassName:@"BookHistory"];
+    [userObject setObject:_country forKey:PARAMETER_DEVICE_COUNTRY];
+    [userObject setObject:_language forKey:PARAMETER_DEVICE_LANGUAGE];
+    [userObject setObject:IOS forKey:PLATFORM];
+    [userObject setObject:_uuidValue forKey:PARAMETER_UUID];
+    [userObject setObject:_udidValue forKey:PARAMETER_DEVICE_UDID];
+    [userObject setValuesForKeysWithDictionary:dimensions];
+    if(path){
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        [userObject setObject:bundleIdentifier forKey:PARAMETER_APP_NAME];
+    }
+    [userObject saveInBackground];
 }
 
 

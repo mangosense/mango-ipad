@@ -76,7 +76,7 @@
 
 - (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString * password = @"3c4367bb610d4e52af02de9cb63b2233";
+    //NSString * password = @"3c4367bb610d4e52af02de9cb63b2233";
     NSString * userId = appDelegate.loggedInUserInfo.id;
     NSString * authToken = appDelegate.loggedInUserInfo.authToken;
     NSString * strMethod;

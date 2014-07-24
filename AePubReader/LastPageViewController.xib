@@ -65,6 +65,16 @@
                         <action selector="gameButtonTapped:" destination="-1" eventType="touchUpInside" id="xBP-eJ-y0b"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TuY-dr-b9E">
+                    <rect key="frame" x="513" y="202" width="257" height="73"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="subscribe_mangoreader.png" backgroundImage="F34A4A36-8ABF-4F2E-B6D7-A6A0E2C08ADB">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="MSJ-Mx-G93"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="meC-hr-FkA">
                     <rect key="frame" x="485" y="184" width="314" height="110"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -74,16 +84,6 @@
                     </state>
                     <connections>
                         <action selector="displyParentalControl:" destination="-1" eventType="touchUpInside" id="grx-QT-uKT"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TuY-dr-b9E">
-                    <rect key="frame" x="513" y="202" width="257" height="73"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="subscribe_mangoreader.png" backgroundImage="702E3336-C614-4CD0-AA8E-89EA6FA0ADBA">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="clickOnSubscribe:" destination="-1" eventType="touchUpInside" id="MSJ-Mx-G93"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exv-6o-7BB">
@@ -278,7 +278,7 @@
         </view>
     </objects>
     <resources>
-        <image name="702E3336-C614-4CD0-AA8E-89EA6FA0ADBA" width="257" height="73">
+        <image name="F34A4A36-8ABF-4F2E-B6D7-A6A0E2C08ADB" width="257" height="73">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

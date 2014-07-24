@@ -12,6 +12,8 @@
     
     NSString *storyAsAppFilePath;
     int validUserSubscription;
+    NSString *currentPage;
+    NSString *userEmail;
 }
 
 @property (nonatomic, strong) IBOutlet UICollectionView *helpImagesDisplayView;

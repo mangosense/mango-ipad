@@ -14,7 +14,10 @@
 
 @end
 
-@interface StoreCollectionHeaderView : UICollectionReusableView
+@interface StoreCollectionHeaderView : UICollectionReusableView{
+    
+    NSString *userEmail;
+}
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *seeAllButton;

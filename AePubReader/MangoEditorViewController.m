@@ -91,6 +91,7 @@
 @synthesize photoPopoverController;
 @synthesize audioMappingViewController;
 @synthesize storyBook;
+@synthesize pageTextView;
 
 
 
@@ -117,15 +118,39 @@
 {
     _buttonNewPlay.hidden = YES;
     [super viewDidLoad];
+
     // Do any additional setup after loading the view from its nib.
     viewName = @"Story editor";
+    currentPage = @"";
     [self renderEditorPage:0];
     //pagesCarousel.centerItemWhenSelected = YES;
     //[pagesCarousel scrollToItemAtIndex:2 animated:YES];
-    
+    //fontsArray = [[NSArray alloc] initWithObjects:@"English (Default)", "Tamil (Murasu Anjal)", nil];
     float widthOffset = 400.0;
     [pagesCarousel setViewpointOffset:CGSizeMake(widthOffset, 0)];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSArray arrayWithObjects:@"de", nil]
+                                              forKey:@"AppleLanguages"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+   /* NSString *fontFamily = @"TamilSangamMN";
+    NSString *fontStyle = @"";
+    _fontCustom = [UIFont fontWithName:[fontFamily stringByAppendingString:fontStyle]
+                                         size:30.0];*/
+    //lblName.font = fontCustom;
+    
+    
+   /* for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }*/
 }
+
 
 -(void)createACopy{
     NSString *oldDirectoryPath = storyBook.localPathFile;
@@ -273,9 +298,9 @@
     
     if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
         NSLog(@"Camera");
-        NSDictionary *dimensions = @{
+        /*NSDictionary *dimensions = @{
                                      
-                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID: bookid,
                                      
@@ -293,14 +318,14 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
     }
     else{
       NSLog(@"library");
-        NSDictionary *dimensions = @{
+        /*NSDictionary *dimensions = @{
                                      
-                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID: bookid,
                                      
@@ -318,7 +343,7 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
     }
     
@@ -352,7 +377,7 @@
     MangoTextLayer *textLayer = [appDelegate.ejdbController getLayerForLayerId:layerId];
     if (textLayer) {
         textLayer.actualText = layerText;
-        textLayer.fontSize = [NSNumber numberWithInt:30];
+        textLayer.fontSize = [NSNumber numberWithInt:24];
         textLayer.height = [NSNumber numberWithFloat:textFrame.size.height];
         textLayer.width = [NSNumber numberWithFloat:textFrame.size.width];
         textLayer.leftRatio = [NSNumber numberWithFloat:924.0f/MAX(textFrame.origin.x, 0.01f)];
@@ -512,8 +537,8 @@
         bookid = storyBook.id;
     }
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: bookid,
                                  
@@ -531,7 +556,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     
     stickerView = [[UIView alloc] initWithFrame:CGRectMake(pageImageView.center.x - 90, pageImageView.center.y - 90, 140, 180)];
@@ -703,6 +728,28 @@
     [menuPopoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
+#pragma mark - Display Available Fonts with Language
+
+-(void) showAvailableFontsAndlanguages :(id) sender{
+    
+    UIButton *button = (UIButton *)sender;
+    
+    UILabel *comingSoonLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 230, 250)];
+    comingSoonLabel.numberOfLines = 8;
+    comingSoonLabel.text = @"Please enable the languages you want to use from your device settigs and then you can change keyboard directly just by pressing \"globe\" icon on the bottom row of keyboard";
+    comingSoonLabel.textAlignment = NSTextAlignmentCenter;
+    comingSoonLabel.font = [UIFont systemFontOfSize:20];
+    comingSoonLabel.textColor = COLOR_GREY;
+    
+    UIViewController *comingSoonController = [[UIViewController alloc] init];
+    [comingSoonController.view addSubview:comingSoonLabel];
+    
+    menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:comingSoonController];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(250, 250) animated:YES];
+    [menuPopoverController setPopoverLayoutMargins:UIEdgeInsetsMake(pageImageView.frame.origin.y, 0, 100, 100)];
+    [menuPopoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+}
+
 #pragma mark - DrawingTools Delegate
 
 - (void)widthOfBrush:(CGFloat)brushWidth {
@@ -747,8 +794,8 @@
         else{
             bookId = storyBook.id;
         }
-        NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+        /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: bookId,
                                  
@@ -766,7 +813,7 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
     }
     
     bookJsonString = [self jsonForBook:_mangoStoryBook];
@@ -821,8 +868,8 @@
         bookid = storyBook.id;
     }
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: bookid,
                                  
@@ -840,7 +887,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
@@ -858,9 +905,9 @@
 }
 
 - (IBAction)audioButtonTapped:(id)sender {
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    //AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _mangoStoryBook.id,
                                  
@@ -878,7 +925,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
@@ -899,6 +946,10 @@
 
 - (IBAction)collaborationButtonTapped:(id)sender {
     [self showComingSoonPopover:sender];
+}
+
+- (IBAction) selectFontsButton:(id)sender{
+    [self showAvailableFontsAndlanguages:sender];
 }
 
 - (IBAction)reRecordButtonTapped:(id)sender {
@@ -939,8 +990,8 @@
     switch (itemType) {
         case TABLE_TYPE_TEXT_TEMPLATES: {
             // Move to delegate method
-            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 400, 300)];
-            pageTextView.font = [UIFont systemFontOfSize:30];
+            pageTextView = [[MovableTextView alloc] initWithFrame:CGRectMake(0, 0, 400, 300)];
+            pageTextView.font = [UIFont systemFontOfSize:24];
             NSArray *itemsArray = [NSArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
             pageTextView.text = [itemsArray objectAtIndex:index];
             pageTextView.delegate = self;
@@ -954,7 +1005,7 @@
             
             MangoTextLayer *textLayer = [[MangoTextLayer alloc] init];
             textLayer.actualText = pageTextView.text;
-            textLayer.fontSize = [NSNumber numberWithInt:30];
+            textLayer.fontSize = [NSNumber numberWithInt:24];
             textLayer.leftRatio = [NSNumber numberWithFloat:1000.0f];
             textLayer.topRatio = [NSNumber numberWithFloat:1000.0f];
             textLayer.width = [NSNumber numberWithFloat:600.0f];
@@ -1143,8 +1194,8 @@
 
 - (void)deletePageNumber:(int)pageNumber {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _mangoStoryBook.id,
                                  
@@ -1162,7 +1213,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
@@ -1893,7 +1944,7 @@
             NSLog(@"Rendered Text fRame: %@", NSStringFromCGRect(_textFrame));
             NSLog(@"Rendered height = %f", [textLayer.height floatValue]);
             
-            MovableTextView *pageTextView = [[MovableTextView alloc] initWithFrame:_textFrame];
+            pageTextView = [[MovableTextView alloc] initWithFrame:_textFrame];
             
             if ([textLayer.imageAlignment isEqualToString:LEFT_ALIGN]) {
                 pageTextView.frame = CGRectMake(pageImageView.frame.size.width*0.65, 0, pageImageView.frame.size.width*0.35, pageImageView.frame.size.height);
@@ -1905,7 +1956,8 @@
                 pageTextView.frame = CGRectMake(0, 0, pageImageView.frame.size.width, pageImageView.frame.size.height*0.35);
             }
             
-            pageTextView.font = [UIFont systemFontOfSize:30];
+            pageTextView.font = [UIFont systemFontOfSize:24];
+            //pageTextView.font = _fontCustom;
             pageTextView.text = textOnPage;
             pageTextView.layerId = textLayer.id;
             pageTextView.textDelegate = self;
@@ -2127,8 +2179,8 @@
             bookId = storyBook.id;
         }
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
+        /*NSDictionary *dimensions = @{
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID: bookId,
                                      
@@ -2146,7 +2198,7 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
     }
     
    
@@ -2761,7 +2813,7 @@ enum
     [pageImageView addSubview:audioMappingViewController.view];
     audioMappingViewController.audioMappingDelegate = self;
     
-    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:30];
+    audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:24];
     
     [pageImageView addSubview:audioMappingViewController.customView];
 

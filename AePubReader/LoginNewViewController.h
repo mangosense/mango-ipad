@@ -14,9 +14,7 @@
 @interface LoginNewViewController : UIViewController <MangoPostApiProtocol, PostSignupDelegate, FBLoginViewDelegate, UIScrollViewDelegate>{
     
     NSString *userEmail;
-    NSString *userDeviceID;
-    NSString *ID;
-    NSString *viewName;
+    NSString *currentPage;
     
     UIScrollView* scrollView;
 	UIPageControl* pageControl;
@@ -30,7 +28,6 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *emailTextField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordTextField;
-@property (nonatomic, strong) NSString *udid;
 
 @property (nonatomic, retain) IBOutlet UIView *imageHelpView;
 @property (nonatomic, retain) IBOutlet UIScrollView* scrollView;

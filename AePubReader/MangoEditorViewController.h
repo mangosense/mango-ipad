@@ -23,7 +23,7 @@
 #import "MangoApiController.h"
 #import "PageThumbnailView.h"
 
-@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate, AudioMappingDelegate, TextLayerDelegate, PopControllerDelegate, DrawingToolsDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol, PageDelete> {
+@interface MangoEditorViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, DoodleDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, ItemsDelegate,UICollectionViewDelegate, AudioMappingDelegate, TextLayerDelegate, PopControllerDelegate, DrawingToolsDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol, PageDelete,UITableViewDataSource, UITableViewDelegate> {
     IBOutlet SmoothDrawingView *pageImageView;
     
     IBOutlet UIButton *mangoButton;
@@ -35,6 +35,7 @@
     IBOutlet UIButton *collaborationButton;
     IBOutlet UIButton *playStoryButton;
     IBOutlet UIButton *doodleButton;
+    NSString *currentPage;
     
     NSString *userEmail;
     NSString *userDeviceID;
@@ -47,6 +48,7 @@
     Book *storyBook;
     int reRecordingCheck;
     BOOL isNewBook;
+    NSArray *fontsArray;
 }
 @property(nonatomic,strong) AssetDatasource *dataSource;
 @property (nonatomic, strong) IBOutlet UIButton *mangoButton;
@@ -70,6 +72,9 @@
 @property (nonatomic, assign) BOOL isNewBook;
 @property (nonatomic, strong) IBOutlet UIButton *buttonNewPlay;
 @property (nonatomic, assign) BOOL isBookFork;
+@property (nonatomic, strong) UIFont *fontCustom;
+@property (nonatomic, strong) MovableTextView *pageTextView;
+@property (nonatomic, strong) UITableView *langAndFonts;
 
 - (IBAction)mangoButtonTapped:(id)sender;
 - (IBAction)menuButtonTapped:(id)sender;

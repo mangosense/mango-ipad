@@ -10,6 +10,7 @@
 #import "MangoAnalyticsSingleViewCell.h"
 #import "AePubReaderAppDelegate.h"
 #import <Parse/Parse.h>
+#import "Constants.h"
 
 @interface MangoAnalyticsViewController ()
 
@@ -33,7 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    currentPage = @"dashboard_analytics_screen";
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
@@ -100,6 +101,17 @@
         [alert show];
         return;
     }
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"dashboard_analytics_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Dashboard analytics screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(_loginUserEmail){
+        [dimensions setObject:_loginUserEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"dashboard_analytics_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     __block int booksRead =0, pagesRead =0, timeCompleted =0, activitiesTotal = 0;
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
@@ -203,6 +215,12 @@
         [imgLayer setBorderColor:[UIColor orangeColor].CGColor];
         
         if([[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"bookCoverImageURL"] hasSuffix:@"/(null)"]){
+            NSLog(@"nsurl - %@", url);
+            cell.bookCoverImageView.image = [UIImage imageNamed:@"loading1.png"];
+        }
+        
+        else if([[[_arrayCollectionData objectAtIndex:indexPath.row] valueForKey:@"bookCoverImageURL"] isEqualToString:@"nil"]){
+            
             NSLog(@"nsurl - %@", url);
             cell.bookCoverImageView.image = [UIImage imageNamed:@"loading1.png"];
         }

@@ -32,6 +32,7 @@
     int fromBookDetail;
     NSString *path;
     int validSubscription;
+    NSString *currentPage;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *monthlySubscriptionView;

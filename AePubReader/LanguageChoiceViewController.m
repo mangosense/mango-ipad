@@ -204,8 +204,8 @@
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type{
     
     AePubReaderAppDelegate *delegate = (AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    NSDictionary *EVENT;
+//    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+//    NSDictionary *EVENT;
     
     NSString *val;
     
@@ -217,29 +217,45 @@
         val = [dataArray[0] valueForKey:@"id"];
     }
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_LANGUAGE : _language,
                                  PARAMETER_BOOK_ID : val,
                                  PARAMETER_BOOK_NEW_LANGUAGE_SELECT : newLanguage
-                                 };
+                                 };*/
     
     if(_isReadPage){
         
-        EVENT = READBOOK_CHANGE_LANGUAGE;
-        [PFAnalytics trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-        [userObject setObject:@"Book Read View" forKey:@"viewName"];
+        //EVENT = READBOOK_CHANGE_LANGUAGE;
+        //[PFAnalytics trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+        //[userObject setObject:@"Book Read View" forKey:@"viewName"];
+        currentPage = @"reading";
         
     }
     else{
         
-        EVENT = BOOKCOVER_NEW_LANGUAGE;
-        [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-        [userObject setObject:@"Book cover view" forKey:@"viewName"];
+        //EVENT = BOOKCOVER_NEW_LANGUAGE;
+        //[delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+        //[userObject setObject:@"Book cover view" forKey:@"viewName"];
+        currentPage = @"cover_screen";
     }
     
-    [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"switch_language" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:_oldBookId forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:_oldBookTitle forKey:PARAMETER_BOOK_TITLE];
+    [dimensions setObject:val forKey:PARAMETER_NEWLANG_BOOK_ID];
+    [dimensions setObject:newLanguage forKey:PARAMETER_BOOK_NEW_LANGUAGE_SELECT];
+    [dimensions setObject:@"Switch to new language" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"switch_language" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    
+    /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
     [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
@@ -251,7 +267,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     NSLog(@"My array is %@", dataArray);
     NSMutableArray *tempItemArray = [[NSMutableArray alloc] init];
@@ -393,7 +409,7 @@
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
-        
+        bookDetailsViewController.baseNavView = currentPage;
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);

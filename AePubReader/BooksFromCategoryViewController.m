@@ -115,13 +115,13 @@
                 
                 controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
                 
-                NSDictionary *dimensions = @{
-                                             PARAMETER_USER_ID : ID,
+                /*NSDictionary *dimensions = @{
+                                             PARAMETER_USER_EMAIL_ID : ID,
                                              PARAMETER_DEVICE: IOS,
                                              PARAMETER_BOOK_CATEGORY_VALUE:[selectCategoryDict valueForKey:@"title"]
                                              
                                              };
-                [PFAnalytics trackEvent:DETAIL_CATEGORY_GET_MORE_BOOKS dimensions:dimensions];
+                [PFAnalytics trackEvent:DETAIL_CATEGORY_GET_MORE_BOOKS dimensions:dimensions];*/
                 
                 if([[selectCategoryDict valueForKey:@"title"] isEqualToString:@"All Books"]|| [[selectCategoryDict valueForKey:@"title"] isEqualToString:@"My Books"]) {
                     [controller setCategoryFlagValue:0];

@@ -51,9 +51,11 @@
     if(_fromCreateStoryView){
         
         viewName = @"Create book";
+        currentPage = @"Create book";
     }
     else{
         viewName = @"Detail Category Books";
+        currentPage = @"my_books_screen";
     }
     _settingQuesArray = [[NSArray alloc] init];
     // Do any additional setup after loading the view from its nib.
@@ -114,6 +116,22 @@
     [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
     
 }
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"my_books_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:_headerLabel.text forKey:PARAMETER_BOOK_CATEGORY_VALUE];
+    [dimensions setObject:@"My Books screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"my_books_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -257,8 +275,8 @@
         case 0: {
             if (_toEdit || [[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]) {
                 MangoEditorViewController *newBookEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
-                NSDictionary *dimensions = @{
-                                             PARAMETER_USER_ID : ID,
+                /*NSDictionary *dimensions = @{
+                                             PARAMETER_USER_EMAIL_ID : ID,
                                              PARAMETER_DEVICE: IOS,
                                              
                                              };
@@ -274,7 +292,7 @@
                     [userObject setObject:ID forKey:@"emailID"];
                 }
                 [userObject setObject:IOS forKey:@"device"];
-                [userObject saveInBackground];
+                [userObject saveInBackground];*/
                 
                 newBookEditorViewController.isNewBook = YES;
                 newBookEditorViewController.storyBook = nil;
@@ -291,8 +309,8 @@
                     controller=[[MangoStoreViewController alloc]initWithNibName:@"MangoStoreViewController" bundle:nil];
                 }
                 
-                NSDictionary *dimensions = @{
-                                             PARAMETER_USER_ID : ID,
+                /*NSDictionary *dimensions = @{
+                                             PARAMETER_USER_EMAIL_ID : ID,
                                              PARAMETER_DEVICE: IOS,
                                              PARAMETER_BOOK_CATEGORY_VALUE:[_categorySelected valueForKey:@"name"]
                                              
@@ -310,8 +328,18 @@
                     [userObject setObject:ID forKey:@"emailID"];
                 }
                 [userObject setObject:IOS forKey:@"device"];
-                [userObject saveInBackground];
-
+                [userObject saveInBackground];*/
+                
+                NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+                [dimensions setObject:@"get_more_book_click" forKey:PARAMETER_ACTION];
+                [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+                [dimensions setObject:_headerLabel.text forKey:PARAMETER_BOOK_CATEGORY_VALUE];
+                [dimensions setObject:@"Get more book click" forKey:PARAMETER_EVENT_DESCRIPTION];
+                if(userEmail){
+                    [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+                }
+                [delegate trackEventAnalytic:@"get_more_book_click" dimensions:dimensions];
+                [delegate eventAnalyticsDataBrowser:dimensions];
                 
                 if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]) {
                     [controller setCategoryFlagValue:0];
@@ -342,8 +370,8 @@
                     mangoEditorViewController.storyBook = book;
                     [self.navigationController.navigationBar setHidden:YES];
                     
-                    NSDictionary *dimensions = @{
-                                                 PARAMETER_USER_ID : ID,
+                    /*NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_EMAIL_ID : ID,
                                                  PARAMETER_DEVICE: IOS,
                                                  PARAMETER_BOOK_ID : book.id
                                                  
@@ -361,13 +389,13 @@
                         [userObject setObject:ID forKey:@"emailID"];
                     }
                     [userObject setObject:IOS forKey:@"device"];
-                    [userObject saveInBackground];
+                    [userObject saveInBackground];*/
                     
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
                 } else {
                     
-                    NSDictionary *dimensions = @{
-                                                 PARAMETER_USER_ID : ID,
+                    /*NSDictionary *dimensions = @{
+                                                 PARAMETER_USER_EMAIL_ID : ID,
                                                  PARAMETER_DEVICE: IOS,
                                                  PARAMETER_BOOK_ID : book.id
                                                  
@@ -386,7 +414,7 @@
                         [userObject setObject:ID forKey:@"emailID"];
                     }
                     [userObject setObject:IOS forKey:@"device"];
-                    [userObject saveInBackground];
+                    [userObject saveInBackground];*/
                     CoverViewControllerBetterBookType *coverController;
                     int val =[book.downloaded integerValue];
                     
@@ -773,23 +801,35 @@
     BOOL deleteSuccess = [appDelegate.ejdbController deleteObject:[appDelegate.ejdbController getBookForBookId:book.id]];
     if (deleteSuccess) {
         NSDictionary *EVENT;
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        /*PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
         NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID :book_id
-                                     };
+                                     };*/
         if(_fromCreateStoryView){
-            EVENT = CREATESTORY_DELETE_BOOK;
-            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-            [userObject setObject:viewName forKey:@"viewName"];
+//            EVENT = CREATESTORY_DELETE_BOOK;
+//            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+//            [userObject setObject:viewName forKey:@"viewName"];
         }
         else{
-            EVENT = DETAIL_CATEGORY_DELETE_BOOK;
-            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-            [userObject setObject:viewName forKey:@"viewName"];
+//            EVENT = DETAIL_CATEGORY_DELETE_BOOK;
+//            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+//            [userObject setObject:viewName forKey:@"viewName"];
+            
+            NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+            [dimensions setObject:@"delete_click" forKey:PARAMETER_ACTION];
+            [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+            [dimensions setObject:@"Delete book click" forKey:PARAMETER_EVENT_DESCRIPTION];
+            [dimensions setObject:@"True" forKey:PARAMETER_PASS];
+            if(userEmail){
+                [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+            }
+            [appDelegate trackEventAnalytic:@"delete_click" dimensions:dimensions];
+            [appDelegate eventAnalyticsDataBrowser:dimensions];
+
         }
-        [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+        /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
         [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
         [userObject setObject:appDelegate.deviceId forKey:@"deviceIDValue"];
         [userObject setObject:appDelegate.country forKey:@"deviceCountry"];
@@ -799,7 +839,7 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
         NSLog(@"Deleted Book");
         //_allBooksArray = [self getAllBooks];
@@ -960,6 +1000,7 @@
         [userObject setObject:IOS forKey:@"device"];
         [userObject saveInBackground];*/
         
+        bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];

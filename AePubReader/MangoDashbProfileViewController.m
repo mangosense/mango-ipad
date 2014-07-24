@@ -49,6 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentPage = @"dashboard_profile_screen";
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if (!appDelegate.loggedInUserInfo){
@@ -113,6 +114,17 @@
         _viewInfoDisplay.hidden = NO;
         _loginButton.hidden = YES;
     }
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"dashboard_profile_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Dashboard profile screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"dashboard_profile_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 
@@ -206,6 +218,17 @@
         [alert show];
         return;
     }
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"restore_purchase" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Restore purchase" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
@@ -361,6 +384,8 @@
     }
     
     NSString *productId;
+    NSString *planName;
+    NSString *planPrice;
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
@@ -371,6 +396,8 @@
         
         if([[object valueForKey:@"duration"] intValue] == [sender tag]){
             productId = [object valueForKey:@"id"];
+            planName = [object valueForKey:@"name"];
+            planPrice = [[[object objectForKey:@"price"] valueForKey:@"usd"] stringValue];
         }
     }
     NSString *planProductId;
@@ -385,10 +412,22 @@
         planProductId = [productId stringByAppendingString:@"_ios"];
     }
     
-    [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"subscription_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:productId forKey:PARAMETER_SUBSCRIPTION_PLAN_ID];
+    [dimensions setObject:planName forKey:PARAMETER_SUBSCRIPTION_PLAN_NAME];
+    [dimensions setObject:planPrice forKey:PARAMETER_SUBSCRIPTION_PLAN_PRICE];
+    [dimensions setObject:@"Subscription plan click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
+    [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
 }
-
 
 
 #pragma mark - PurchaseManager Delegate Methods

@@ -46,9 +46,9 @@
 
 - (void)viewDidLoad
 {
-    _udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    viewName = @"Login Page";
     [super viewDidLoad];
+    currentPage = @"login_screen";
+    
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden=YES;
     
@@ -104,7 +104,6 @@
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
         [self goToNext];
     }
-    appDelegate.deviceId = _udid;
     _isLoginWithFb = NO;
 
     
@@ -116,10 +115,24 @@
     
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"login_screen",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"login_screen",
+                                 };
+    [delegate trackEventAnalytic:@"login_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 #pragma mark - Facebook Login API
@@ -211,7 +224,7 @@
 
 - (IBAction)signIn:(id)sender {
     NSLog(@"Lengths are %d -- %d", _emailTextField.text.length, _passwordTextField.text.length);
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if((_emailTextField.text.length < 1) || (_passwordTextField.text.length < 1)){
         
         UIAlertView *loginAlertError = [[UIAlertView alloc] initWithTitle:@"Login Error" message:@"All fields are required" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -220,6 +233,15 @@
     }
     else{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_USER_EMAIL_ID : _emailTextField.text,
+                                     PARAMETER_ACTION : @"login",
+                                     PARAMETER_CURRENT_PAGE : currentPage,
+                                     PARAMETER_EVENT_DESCRIPTION : @"Login button click",
+                                     };
+        [delegate trackEventAnalytic:@"login" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
     
         MangoApiController *apiController = [MangoApiController sharedApiController];
         apiController.delegate = self;
@@ -252,9 +274,9 @@
 
 - (IBAction)signUp:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    ID = _udid;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    //ID = _udid;
+   /* NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  
                                  };
@@ -267,7 +289,15 @@
     [userObject setObject:delegate.country forKey:@"deviceCountry"];
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"signup_btn",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"Signup button click",
+                                 };
+    [delegate trackEventAnalytic:@"signup_btn" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     SignUpViewController *signupViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -304,10 +334,10 @@
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
     [self saveUserInfo:facebookDetailsDictionary];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    ID = [facebookDetailsDictionary objectForKey:@"email"];
+    //ID = [facebookDetailsDictionary objectForKey:@"email"];
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+   /* NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_FACEBOOK_ID : ID
                                  };
@@ -321,7 +351,7 @@
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
     [userObject setObject:ID forKey:@"emailID"];
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     [self goToNext];
@@ -334,13 +364,11 @@
     if (userDetailsDictionary.count) {
         if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
             [self saveUserInfo:userDetailsDictionary];
-            ID = [userDetailsDictionary objectForKey:@"email"];
-            NSDictionary *dimensions = @{
-                                         PARAMETER_USER_ID : ID,
-                                         PARAMETER_DEVICE: IOS,
-                                         
+            //NSString *emailId = [userDetailsDictionary objectForKey:@"email"];
+            /*NSDictionary *dimensions = @{
+                                         PARAMETER_USER_EMAIL_ID : emailId,
                                          };
-            [delegate trackEvent: [SIGN_IN valueForKey:@"description"] dimensions:dimensions];
+            [delegate trackEventAnalytic:[SIGN_IN valueForKey:@"eventDescription"] dimensions:dimensions];
             
             PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
             [userObject setObject:[SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
@@ -351,12 +379,20 @@
             [userObject setObject:delegate.language forKey:@"deviceLanguage"];
             [userObject setObject:ID forKey:@"emailID"];
             [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
+            [userObject saveInBackground];*/
             
             
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [self goToNext];
         } else {
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_EMAIL_ID : _emailTextField.text,
+                                         PARAMETER_ACTION : @"login_fail",
+                                         PARAMETER_CURRENT_PAGE : currentPage,
+                                         PARAMETER_EVENT_DESCRIPTION : @"Failed login attempt",
+                                         };
+            [delegate trackEventAnalytic:@"login_fail" dimensions:dimensions];
+            [delegate eventAnalyticsDataBrowser:dimensions];
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];
         }
@@ -375,16 +411,27 @@
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if([alertView.title isEqualToString:@"Skip Signin"]){
         
         if(buttonIndex == 1){
             
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-            ID = _udid;
             
             NSDictionary *dimensions = @{
-                                         PARAMETER_USER_ID : ID,
+                                         
+                                         PARAMETER_ACTION : @"skip_btn",
+                                         PARAMETER_CURRENT_PAGE : currentPage,
+                                         PARAMETER_EVENT_DESCRIPTION : @"Skip button click",
+                                         PARAMETER_PASS : @"TRUE"
+                                         };
+            [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
+            [delegate eventAnalyticsDataBrowser:dimensions];
+            
+            /*ID = _udid;
+            
+            NSDictionary *dimensions = @{
+                                         PARAMETER_USER_EMAIL_ID : ID,
                                          PARAMETER_DEVICE: IOS,
                                          
                                          };
@@ -397,7 +444,7 @@
             [userObject setObject:delegate.country forKey:@"deviceCountry"];
             [userObject setObject:delegate.language forKey:@"deviceLanguage"];
             [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
+            [userObject saveInBackground];*/
             
                 LandPageChoiceViewController *landingPageViewController;
             
@@ -414,7 +461,15 @@
         }
         else{
             
-            
+            NSDictionary *dimensions = @{
+                                         
+                                         PARAMETER_ACTION : @"skip_btn",
+                                         PARAMETER_CURRENT_PAGE : currentPage,
+                                         PARAMETER_EVENT_DESCRIPTION : @"Skip button click",
+                                         PARAMETER_PASS : @"FALSE"
+                                         };
+            [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
+            [delegate eventAnalyticsDataBrowser:dimensions];
         }
     }
 }

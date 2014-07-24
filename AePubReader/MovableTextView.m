@@ -42,6 +42,7 @@ CGPoint originalPoint;
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
         panRecognizer.delegate = self;
         [self addGestureRecognizer:panRecognizer];
+        
     }
     return self;
 }
@@ -173,7 +174,9 @@ CGPoint originalPoint;
         }
         
     }
-    [[self layer] setCornerRadius:self.frame.size.height/20];
+    //[[self layer] setCornerRadius:self.frame.size.height/20];
+    //self.font = [UIFont fontWithName:@"TamilSangamMN" size:24.0f];
+    //self.font = [UIFont systemFontOfSize:24];
     
    // [[self layer] setBackgroundColor:[[UIColor clearColor] CGColor]];
 }

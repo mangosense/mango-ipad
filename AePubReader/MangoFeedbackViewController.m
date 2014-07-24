@@ -11,6 +11,7 @@
 #import "ATSurveys.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ATConnect.h"
+#import "Constants.h"
 
 @interface MangoFeedbackViewController ()
 
@@ -23,6 +24,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
         self.title = @"Feedback & Support";
     }
     return self;
@@ -36,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentPage = @"dashboard_feedback_screen";
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -56,6 +60,21 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ATMessageCenterUnreadCountChangedNotification object:nil];
 	
 	//[[ATConnect sharedConnection] engage:@"init" fromViewController:self];
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"dashboard_feedback_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Dashboard feedback screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"dashboard_feedback_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    
 }
 
 - (IBAction)moveToBack:(id)sender{

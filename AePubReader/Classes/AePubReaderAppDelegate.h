@@ -77,6 +77,9 @@
 + (UIColor *)colorFromRgbString:(NSString *)rgbString;
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict WithDelegate:(id<BookViewProtocol>)delegate AndPresentingViewcontroller:(UIViewController *)presentingViewController;
 - (void)trackEvent:(NSString *)event dimensions:(NSDictionary *)dimensions;
+- (void)trackEventAnalytic:(NSString *)event dimensions:(NSDictionary *)dimensions;
+- (void)eventAnalyticsDataBrowser :(NSDictionary *)dimensions;
+- (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions;
 
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;
@@ -84,6 +87,8 @@
 @property (nonatomic, strong) EJDBController *ejdbController;
 @property (nonatomic, strong) NSString *language;
 @property (nonatomic, strong) NSString *country;
+@property (nonatomic, strong) NSString *uuidValue;
+@property (nonatomic, strong) NSString *udidValue;
 @property (nonatomic, strong) NSString *mangoStoryId;
 @property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
 @property (nonatomic, strong) NSString *deviceId;

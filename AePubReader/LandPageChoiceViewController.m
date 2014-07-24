@@ -19,7 +19,7 @@
 #import "MangoAnalyticsViewController.h"
 #import "MangoDashbHelpViewController.h"
 #import "MangoFeedbackViewController.h"
-#import "Fingerprint.h"
+//#import "Fingerprint.h"
 
 @interface LandPageChoiceViewController ()
 
@@ -34,7 +34,6 @@
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
-        userDeviceID = delegate.deviceId;
         // Custom initialization
     }
     return self;
@@ -45,8 +44,7 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
     _settingsProbSupportView.alpha = 0.4f;
-    viewName = @"Home page";
-    
+    currentPage = @"home_screen";
     // Do any additional setup after loading the view from its nib.
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -59,18 +57,10 @@
     }
     
     if(!userEmail){
-        ID = userDeviceID;
         [_backToLogin setBackgroundImage:[UIImage imageNamed:@"loginLock.png"] forState:UIControlStateNormal];
     }
     else{
-        ID = userEmail;
         [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
-    }
-    
-    if(!ID){
-        udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-        delegate.deviceId = udid;
-        ID = udid;
     }
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -81,8 +71,22 @@
     }
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"home_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Home screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"home_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+}
 
-- (void) showFingerPrintHere{
+
+/*- (void) showFingerPrintHere{
     //NSMutableDictionary* d = [NSMutableDictionary dictionaryWithCapacity:1];
     
     [Fingerprint showHubButton:1];
@@ -98,7 +102,7 @@
     if(fingerPrintPath && path && validSubscription){
         [self showFingerPrintHere];
     }
-}
+}*/
 
 
 - (BOOL)prefersStatusBarHidden
@@ -113,6 +117,17 @@
 }
 
 - (IBAction)creatAStory:(id)sender {
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"create_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Create story button click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"create_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
@@ -131,26 +146,6 @@
     [self.navigationController pushViewController:booksCategoryViewController animated:YES];*/
     
     /// -----
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS
-                                 
-                                 };
-    [delegate trackEvent:[HOME_CREATE_STORY valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[HOME_CREATE_STORY valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [HOME_CREATE_STORY valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    if(userEmail){
-        [userObject setObject:userEmail forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
     
     BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.fromCreateStoryView = 1;
@@ -164,28 +159,17 @@
 }
 
 - (IBAction)store:(id)sender {
-    //NewStoreCoverViewController *controller=[[NewStoreCoverViewController alloc]initWithNibName:@"NewStoreCoverViewController" bundle:nil shouldShowLibraryButton:NO];
-    //[self.navigationController pushViewController:controller animated:YES];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS
-                                 
-                                 };
-    [delegate trackEvent:[HOME_STORE_VIEW valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[HOME_STORE_VIEW valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [HOME_STORE_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    if(userEmail){
-        [userObject setObject:userEmail forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"store_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Store button click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"store_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     MangoStoreViewController *storeViewController;
     
@@ -203,24 +187,15 @@
 
 - (IBAction)myStories:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS
-                                 
-                                 };
-    [delegate trackEvent:[HOME_MY_STORIES valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[HOME_STORE_VIEW valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [HOME_STORE_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"my_stories_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"My stories button click" forKey:PARAMETER_EVENT_DESCRIPTION];
     if(userEmail){
-        [userObject setObject:userEmail forKey:@"emailID"];
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
     }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [delegate trackEventAnalytic:@"my_stories_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     CategoriesFlexibleViewController *categoryFlexible;
     
@@ -237,12 +212,29 @@
 }
 
 - (IBAction)backToLoginView:(id)sender{
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if([_backToLogin.currentBackgroundImage isEqual:[UIImage imageNamed:@"loginLock.png"]]){
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"back_login" forKey:PARAMETER_ACTION];
+        [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:@"Back to login click" forKey:PARAMETER_EVENT_DESCRIPTION];
+        if(userEmail){
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+        }
+        [delegate trackEventAnalytic:@"back_login" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
     }
     else{
-        
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"settings_click" forKey:PARAMETER_ACTION];
+        [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:@"Settings button click" forKey:PARAMETER_EVENT_DESCRIPTION];
+        if(userEmail){
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+        }
+        [delegate trackEventAnalytic:@"settings_click" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
         [self qusetionForSettings];
     }
 }
@@ -268,28 +260,6 @@
 }
 
 - (IBAction)doneProblem:(id)sender{
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    
-    NSDictionary *dimensions1 = @{
-                                  PARAMETER_USER_ID : ID,
-                                  PARAMETER_DEVICE: IOS,
-                                  
-                                  };
-    
-    [delegate trackEvent:[MYSTORIES_SETTINGS valueForKey:@"description"]  dimensions:dimensions1];
-    
-    [userObject setObject:[MYSTORIES_SETTINGS valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [MYSTORIES_SETTINGS valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
     
     [_textQuesSolution resignFirstResponder];
     
@@ -297,50 +267,9 @@
         
         settingSol = YES;
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID: ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)YES],
-                                     
-                                     };
-        [delegate trackEvent:[MySTORIES_SETTINGS_QUES valueForKey:@"description"] dimensions:dimensions];
-        
-        [userObject setObject:[MySTORIES_SETTINGS_QUES valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [MySTORIES_SETTINGS_QUES valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:[NSNumber numberWithBool:settingSol] forKey:@"boolValue"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
-        
     }
     else{
         settingSol = NO;
-        
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)NO],
-                                     
-                                     };
-        [delegate trackEvent:[MySTORIES_SETTINGS_QUES valueForKey:@"description"] dimensions:dimensions];
-        [userObject setObject:[MySTORIES_SETTINGS_QUES valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [MySTORIES_SETTINGS_QUES valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:[NSNumber numberWithBool:settingSol] forKey:@"boolValue"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
         
     }
     _textQuesSolution.text = @"";
@@ -406,10 +335,10 @@
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated{
+/*- (void)viewWillDisappear:(BOOL)animated{
     
     [Fingerprint showHubButton:0];
-}
+}*/
 
 
 @end

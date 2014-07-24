@@ -11,12 +11,9 @@
 @interface LandPageChoiceViewController : UIViewController{
     
     NSString *userEmail;
-    NSString *userDeviceID;
-    NSString *ID;
-    NSString *viewName;
+    NSString *currentPage;
     BOOL settingSol;
     int quesSolution;
-    NSString *udid;
 }
 - (IBAction)creatAStory:(id)sender;
 - (IBAction)openFreeStories:(id)sender;

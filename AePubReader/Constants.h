@@ -57,7 +57,7 @@
 
 #pragma mark - New Events
 
-#define SIGN_IN @{ @"value" : @"SIGN_IN", @"description" : @"Sign in" }
+//#define SIGN_IN @{ @"action" : @"login", @"eventDescription" : @"Login button click" }////
 #define SIGN_UP_VIEW @{ @"value" : @"SIGN_UP_VIEW", @"description" : @"Sign up view" }
 #define LOGIN_FACEBOOK @{ @"value" : @"LOGIN_FACEBOOK", @"description" : @"Sign in via Facebook" }
 #define SKIP_SIGN_IN @{ @"value" : @"SKIP_SIGN_IN", @"description" : @"Skip Sign in" }
@@ -124,23 +124,41 @@
 #define EDITOR_DOODLE_TAP @{ @"value" : @"EDITOR_DOODLE_TAP", @"description" : @"Editor doodle" }
 #define GAMES @{ @"value" : @"GAMES", @"description" : @"Games" }
 
-#define PARAMETER_APP_NAME @"App_Nane"
-
-#define PARAMETER_USER_ID @"User Id"
-#define PARAMETER_DEVICE_LANGUAGE @"Device language"
-#define PARAMETER_DEVICE_COUNTRY @"Device country"
+#define PARAMETER_ACTION @"action"////
+#define PARAMETER_CURRENT_PAGE @"currentPage"////
+#define PARAMETER_EVENT_DESCRIPTION @"eventDescription"////
+#define PARAMETER_APP_NAME @"storyasAppName"////
+#define PARAMETER_USER_EMAIL_ID @"emailID"////
+#define PARAMETER_DEVICE_LANGUAGE @"language"////
+#define PARAMETER_DEVICE_COUNTRY @"country"////
+#define PARAMETER_UUID @"sessionId"////
+#define PARAMETER_DEVICE_UDID @"deviceUDID"////
+#define PARAMETER_PASS @"result" ////
+#define PARAMETER_RESPONSE_ERROR @"reason"////
+#define PARAMETER_SEARCH_FILTER @"filterBy" ////
+#define PARAMETER_SEARCH_GROUP @"storeFilter" ////
+#define PARAMETER_BOOK_STATUS @"status"////
+#define PARAMETER_TIME_TAKEN @"timeTaken"////
+#define PARAMETER_PAGES_VISITED @"pagesVisited"////
 #define PARAMETER_SIGNUP_EMAIL @"Signup email"
 #define PARAMETER_DEVICE @"User device"
 #define PARAMETER_FACEBOOK_ID @"Facebook id"
 #define PARAMETER_UID @"User id or device udid"
 #define PARAMETER_GROUP @"filter group"
-#define PARAMETER_SEARCH_KEYWORD @"Search in store"
-#define PARAMETER_BOOK_ID @"Book Id"
-#define PARAMETER_BOOK_TITLE @"Book title"
+#define PARAMETER_SEARCH_KEYWORD @"query"////
+#define PARAMETER_BOOK_ID @"bookId"////
+#define PARAMETER_BOOK_TITLE @"title"////
 #define PARAMETER_BOOK_AGE_GROUP @"Book agegroup"
-#define PARAMETER_BOOK_LANGUAGE @"Book language"
-#define PARAMETER_BOOK_NEW_LANGUAGE_SELECT @"book new language"
-#define PARAMETER_BOOK_CATEGORY_VALUE @"Book category"
+#define PARAMETER_BOOK_LANGUAGE @"currectLanguage"////
+#define PARAMETER_BOOK_NEW_LANGUAGE_SELECT @"new_language"////
+#define PARAMETER_NEWLANG_BOOK_ID @"new_book"////
+#define PARAMETER_BOOKDETAIL_SOURCE @"source"////
+#define PARAMETER_BOOK_CATEGORY_VALUE @"category"////
+#define PARAMETER_SUBSCRIPTION_PLAN_ID @"plan_id"////
+#define PARAMETER_SUBSCRIPTION_PLAN_NAME @"plan_name"////
+#define PARAMETER_SUBSCRIPTION_PLAN_PRICE @"plan_price"////
+#define PARAMETER_BOOK_READ_MODE @"mode"////
+#define PARAMETER_PAGE_COUNT @"pageCount"////
 #define PARAMETER_SETTINGS_QUES_SOL @"Bool solution"
 #define PARAMETER_SETTINGS_VALUE @"Setting value"
 #define PARAMETER_BOOK_PAGE_NO @"Book page no"

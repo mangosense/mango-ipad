@@ -116,7 +116,7 @@
     NSString *currentBookTitle = [jsonDict objectForKey:@"title"];
     NSString * currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
     NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: currentBookId,
                                  PARAMETER_GAME_NAME : gameName

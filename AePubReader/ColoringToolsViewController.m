@@ -130,7 +130,7 @@
             break;
     }
     NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _bookId,
                                  

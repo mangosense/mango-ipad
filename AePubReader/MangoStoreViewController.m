@@ -25,6 +25,7 @@
 #import "MangoSubscriptionViewController.h"
 #import "BookDetailsViewController.h"
 
+
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
 
@@ -58,7 +59,6 @@
         // Custom initialization
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         userEmail = delegate.loggedInUserInfo.email;
-        userDeviceID = delegate.deviceId;
     }
     return self;
 }
@@ -84,14 +84,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     page = 0;
     
-    NSLog(@"%@", [SIGN_IN valueForKey:@"value"]);
-    viewName = @"Store Page";
+    currentPage = @"store_screen";
+    
     popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
@@ -116,12 +116,6 @@
         [self getAllAgeGroups];
     }
     
-    if(!userEmail){
-        ID = userDeviceID;
-    }
-    else{
-        ID = userEmail;
-    }
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         displayStoryNo = 4;
@@ -213,6 +207,25 @@
     
     [self.view bringSubviewToFront:[_viewDownloadCounter superview]];
     [[_viewDownloadCounter superview] bringSubviewToFront:_viewDownloadCounter];
+    
+    if(!validUserSubscription && storyAsAppFilePath){
+        _storeBackButton.hidden = YES;
+    }
+    
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"store_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Store screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"store_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 -(void) setDownloadCounter:(NSTimer *)timer
@@ -558,8 +571,18 @@
             
             url = LIVE_STORIES_SEARCH;
             [paramDict setObject:filterKey forKey:@"q"];
-            NSDictionary *dimensions = @{
-                                         PARAMETER_USER_ID : ID,
+            NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+            [dimensions setObject:@"search" forKey:PARAMETER_ACTION];
+            [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+            [dimensions setObject:filterName forKey:PARAMETER_SEARCH_KEYWORD];
+            [dimensions setObject:@"Store search screen" forKey:PARAMETER_EVENT_DESCRIPTION];
+            if(userEmail){
+                [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+            }
+            [delegate trackEventAnalytic:@"search" dimensions:dimensions];
+            [delegate eventAnalyticsDataBrowser:dimensions];
+            /*NSDictionary *dimensions = @{
+                                         PARAMETER_USER_EMAIL_ID : ID,
                                          PARAMETER_DEVICE: IOS,
                                          PARAMETER_SEARCH_KEYWORD: filterName
                                          };
@@ -576,7 +599,7 @@
                 [userObject setObject:ID forKey:@"emailID"];
             }
             [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
+            [userObject saveInBackground];*/
         }
             break;
             
@@ -640,6 +663,19 @@
 - (void)seeAllTapped:(NSInteger)section {
     if (_tableType == TABLE_TYPE_MAIN_STORE) {
         _tableType = TABLE_TYPE_AGE_GROUPS;
+        
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"see_more" forKey:PARAMETER_ACTION];
+        [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:@"Store see more click" forKey:PARAMETER_EVENT_DESCRIPTION];
+        [dimensions setObject:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME] forKey:PARAMETER_SEARCH_FILTER];
+        if(userEmail){
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+        }
+        [delegate trackEventAnalytic:@"see_more" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
+        
         [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
     } else {
         _tableType = TABLE_TYPE_MAIN_STORE;
@@ -872,7 +908,7 @@
 #pragma mark - Book View Delegate
 
 - (void)openBookViewWithCategory:(NSDictionary *)categoryDict {
-    BooksCollectionViewController *booksCollectionViewController;
+    /*BooksCollectionViewController *booksCollectionViewController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -884,7 +920,7 @@
     
     booksCollectionViewController.toEdit = NO;
     booksCollectionViewController.categorySelected = categoryDict;
-    [self.navigationController pushViewController:booksCollectionViewController animated:YES];
+    [self.navigationController pushViewController:booksCollectionViewController animated:YES];*/
 
     /// -----
     /*BooksFromCategoryViewController *booksCategoryViewController=[[BooksFromCategoryViewController alloc]initWithNibName:@"BooksFromCategoryViewController" bundle:nil withInitialIndex:0];
@@ -1277,8 +1313,8 @@
             bookDetailsViewController.dropDownButton.userInteractionEnabled = NO;
         }
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
+        /*NSDictionary *dimensions = @{
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID: [bookDict objectForKey:@"id"],
                                      PARAMETER_BOOK_AGE_GROUP :[[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "],
@@ -1297,8 +1333,21 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"show_book" forKey:PARAMETER_ACTION];
+        [dimensions setObject:@"show_book" forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:@"Show book details" forKey:PARAMETER_EVENT_DESCRIPTION];
+        [dimensions setObject:[bookDict objectForKey:@"id"] forKey:PARAMETER_BOOK_ID];
+        [dimensions setObject:[bookDict objectForKey:@"title"] forKey:PARAMETER_BOOK_TITLE];
+        [dimensions setObject:currentPage forKey:PARAMETER_BOOKDETAIL_SOURCE];
+        if(userEmail){
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+        }
+        [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
+        bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         

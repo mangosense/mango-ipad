@@ -62,10 +62,9 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     //[[FBSession.activeSession] close];
     [FBSession setActiveSession:nil];
     [PFUser logOut];
+    currentPage = @"signup_screen";
     
-    viewName = @"Sign Up";
     [_password setSecureTextEntry:YES];
-   // [_confirmPassword setSecureTextEntry:YES];
     
     FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_likes"]];
     
@@ -117,6 +116,18 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     // Dispose of any resources that can be recreated.
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"signup_screen",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"Signup screen open",
+                                 };
+    [delegate trackEventAnalytic:@"signup_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+}
 
 - (void)loginWithFacebook:(NSDictionary *)facebookDetailsDict {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -224,6 +235,17 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"signup",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"Signup button click",
+                                 PARAMETER_USER_EMAIL_ID : _email.text,
+                                 };
+    [delegate trackEventAnalytic:@"signup" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES Name:_nameFull.text];
     apiController.delegate = self;
@@ -253,8 +275,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             
-        NSDictionary *dimensions = @{
-                                    PARAMETER_USER_ID :delegate.deviceId,
+       /* NSDictionary *dimensions = @{
+                                    PARAMETER_USER_EMAIL_ID :delegate.deviceId,
                                     PARAMETER_DEVICE: IOS,
                                     PARAMETER_SIGNUP_EMAIL : _email.text
                                          
@@ -269,12 +291,22 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             [userObject setObject:delegate.language forKey:@"deviceLanguage"];
             [userObject setObject:_email.text forKey:@"emailID"];
             [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
+            [userObject saveInBackground];*/
             [self donePressed:nil];
             [_delegate goToNext];
             
         }
         else{
+            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            NSDictionary *dimensions = @{
+                                         
+                                         PARAMETER_ACTION : @"signup_error",
+                                         PARAMETER_CURRENT_PAGE : currentPage,
+                                         PARAMETER_EVENT_DESCRIPTION : @"Failed signup attempt",
+                                         PARAMETER_RESPONSE_ERROR :[userDetailsDictionary objectForKey:@"statusMessage"],
+                                         };
+            [delegate trackEventAnalytic:@"signup_error" dimensions:dimensions];
+            [delegate eventAnalyticsDataBrowser:dimensions];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[userDetailsDictionary objectForKey:@"statusMessage"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -282,6 +314,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     }
     else{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"Some thing went wrong, please try later!!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -293,10 +327,10 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
     [self saveUserDetails:facebookDetailsDictionary];
      AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    ID = [facebookDetailsDictionary objectForKey:@"email"];
+    /*ID = [facebookDetailsDictionary objectForKey:@"email"];
     
     NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_FACEBOOK_ID : ID
                                  };
@@ -310,7 +344,16 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
     [userObject setObject:ID forKey:@"emailID"];
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"facebook_login",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"Login using facebook",
+                                 PARAMETER_USER_EMAIL_ID :[facebookDetailsDictionary objectForKey:@"email"]
+                                 };
+    [delegate trackEventAnalytic:@"facebook_login" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     

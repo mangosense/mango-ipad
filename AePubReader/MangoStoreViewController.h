@@ -23,9 +23,9 @@
     NSInteger categoryflag;
     NSDictionary *categoryDictionary;
     NSString *userEmail;
-    NSString *userDeviceID;
-    NSString *ID;
-    NSString *viewName;
+    //NSString *ID;
+    //NSString *viewName;
+    NSString *currentPage;
     Class popoverClass;
     int displayStoryNo;
     
@@ -45,6 +45,7 @@
 @property (nonatomic , retain) IBOutlet UIView *viewDownloadCounter;
 @property (nonatomic, strong) IBOutlet UILabel *labelDownloadingCount;
 @property (nonatomic, strong) UIActivityIndicatorView *  actIndicator;
+@property (nonatomic, strong) IBOutlet UIButton *storeBackButton;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;

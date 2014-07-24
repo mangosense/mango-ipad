@@ -28,9 +28,9 @@ int menuLanguage = 0;
     self = [super initWithStyle:style];
     if (self) {
         
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        userEmail = delegate.loggedInUserInfo.email;
-        userDeviceID = delegate.deviceId;
+        AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate1.loggedInUserInfo.email;
+        //userDeviceID = delegate.deviceId;
         // Custom initialization
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             self.tableView.contentInset = UIEdgeInsetsMake(-37, 0, -37, 0);
@@ -57,13 +57,14 @@ int menuLanguage = 0;
         fontSize = 24;
     }
     viewName =@"Store Page";
+    currentPage = @"store_screen";
     storeBooksType = [[NSArray alloc] initWithObjects:@"Categories", @"Age_Group", @"Languages", @"Grade", nil];
-    if(!userEmail){
-        ID = userDeviceID;
-    }
-    else{
-        ID = userEmail;
-    }
+//    if(!userEmail){
+//        ID = userDeviceID;
+//    }
+//    else{
+//        ID = userEmail;
+//    }
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -245,8 +246,19 @@ int menuLanguage = 0;
     }
     NSLog(@"TableType: %d", self.tableType);
     AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"filter" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Store filter screen" forKey:PARAMETER_EVENT_DESCRIPTION];
+    [dimensions setObject:[storeBooksType objectAtIndex: _filterTag-1] forKey:PARAMETER_SEARCH_GROUP];
+    [dimensions setObject:[detailsDict valueForKey:@"title"] forKey:PARAMETER_SEARCH_FILTER];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate1 trackEventAnalytic:@"filter" dimensions:dimensions];
+    [delegate1 eventAnalyticsDataBrowser:dimensions];
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_GROUP: [detailsDict valueForKey:@"title"]
                                  };
@@ -264,7 +276,7 @@ int menuLanguage = 0;
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     [delegate itemType:self.tableType tappedWithDetail:detailsDict];
     

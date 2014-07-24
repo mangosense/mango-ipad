@@ -25,6 +25,7 @@
     int isRestoreSuccess;
     NSString *storyAsAppFilePath;
     int validUserSubscription;
+    NSString *currentPage;
 }
 
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;

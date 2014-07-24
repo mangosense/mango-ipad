@@ -55,7 +55,7 @@
     [super viewDidLoad];
     _settingsProbSupportView.alpha = 0.4f;
     // Do any additional setup after loading the view from its nib.
-    
+    currentPage = @"subscription_screen";
    // datePicker.timeZone = [NSTimeZone timeZoneWithName: @"PST"];
     
     if(!userEmail){
@@ -71,6 +71,21 @@
     
     [self setupInitialUI];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"subscription_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Subscription screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"subscription_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+
 }
 
 //- (void) viewWillAppear:(BOOL)animated{
@@ -209,6 +224,8 @@
 - (IBAction)subscribeButtonTapped:(id)sender {
    // UIButton *button = (UIButton *)sender;
     NSString *productId;
+    NSString *planName;
+    NSString *planPrice;
     
     if(![self connected])
     {
@@ -221,6 +238,8 @@
         
         if([[object valueForKey:@"duration"] intValue] == [sender tag]){
             productId = [object valueForKey:@"id"];
+            planName = [object valueForKey:@"name"];
+            planPrice = [[[object objectForKey:@"price"] valueForKey:@"usd"] stringValue];
         }
     }
     
@@ -240,6 +259,21 @@
     else{
         planProductId = [productId stringByAppendingString:@"_ios"];
     }
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"subscription_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:productId forKey:PARAMETER_SUBSCRIPTION_PLAN_ID];
+    [dimensions setObject:planName forKey:PARAMETER_SUBSCRIPTION_PLAN_NAME];
+    [dimensions setObject:planPrice forKey:PARAMETER_SUBSCRIPTION_PLAN_PRICE];
+    [dimensions setObject:@"Subscription plan click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //put progress hud here ...
@@ -371,15 +405,26 @@
         return;
     }
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"restore_purchase" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Restore purchase" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
     if(!validSubscription){
-        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
         [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
             NSLog(@"Updated Transactions: %@", transactions);
-            
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             for (SKPaymentTransaction *transaction in transactions)
             {
                 NSLog(@"Payment State: %d", transaction.transactionState);
@@ -394,10 +439,11 @@
                     case SKPaymentTransactionStateRestored:
                     {
                         NSLog(@"Product Restored!");
+                        
                         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                         if(!transaction.originalTransaction.transactionIdentifier){
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"Product could not be restored, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                            [alert show];
+                            //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"Product could not be restored, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                            //[alert show];
                             return;
                         }
                         

@@ -33,6 +33,10 @@
     NSString *storyAsAppFilePath;
     int validUserSubscription;
     float newAudioRate;
+    NSString *currentPage;
+    NSString *bookReadMode;
+    NSString *bookStatus;
+    NSMutableString *pageVisited;
     //CAEmitterLayer *emitter;
 }
 - (IBAction)ShowOptions:(id)sender;

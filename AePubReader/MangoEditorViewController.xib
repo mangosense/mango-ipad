@@ -100,7 +100,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="siD-9f-BIX">
-                    <rect key="frame" x="15" y="296" width="48" height="48"/>
+                    <rect key="frame" x="17" y="352" width="48" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" image="gamebutton.png">
@@ -143,7 +143,7 @@
                     </connections>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fgK-UF-EpW">
-                    <rect key="frame" x="18" y="358" width="42" height="42"/>
+                    <rect key="frame" x="19" y="408" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" image="edittool.png">
@@ -161,6 +161,16 @@
                     </state>
                     <connections>
                         <action selector="reRecordButtonTapped:" destination="-1" eventType="touchUpInside" id="va3-z5-pbI"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rwu-zX-Km6">
+                    <rect key="frame" x="17" y="297" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="selectFonts.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="selectFontsButton:" destination="-1" eventType="touchUpInside" id="1mr-wZ-daF"/>
                     </connections>
                 </button>
             </subviews>
@@ -181,6 +191,7 @@
         <image name="pagesbg.png" width="992" height="102"/>
         <image name="pagesbutton_selected.png" width="48" height="48"/>
         <image name="playbuttonnew.png" width="48" height="48"/>
+        <image name="selectFonts.png" width="48" height="48"/>
         <image name="textbutton.png" width="48" height="48"/>
     </resources>
 </document>

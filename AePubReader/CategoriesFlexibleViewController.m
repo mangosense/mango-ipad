@@ -76,7 +76,7 @@
 {
     [super viewDidLoad];
     _settingsProbSupportView.alpha = 0.4f;
-    viewName = @"My Stories View";
+    currentPage = @"category_screen";
     //popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     if (!_categoriesArray) {
@@ -92,13 +92,6 @@
         appDelegate.arePurchasesDownloading = YES;
     }
     
-    if(!userEmail){
-        ID = userDeviceID;
-    }
-    else{
-        ID = userEmail;
-    }
-    
     [self setupSwipeGestureRecognizer];
     
     [self.view bringSubviewToFront:[_settingsProbView superview]];
@@ -109,14 +102,23 @@
 
     if(![self connected])
     {
-        // not connected
-//        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Network Connection Error" message:@"Nerwork failed please check your internet connection" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//        [alert show];
+        
     }
     [self.view bringSubviewToFront:[_settingsProbSupportView superview]];
     [self.view bringSubviewToFront:[_settingsProbView superview]];
     [[_settingsProbView superview] bringSubviewToFront:_settingsProbSupportView];
     [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"category_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Categoryscreen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"category_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -166,26 +168,16 @@
     booksCollectionViewController.toEdit = NO;
     booksCollectionViewController.categorySelected = categorySelected;
     
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_CATEGORY_VALUE: [categorySelected valueForKey:@"name"],
-                                 
-                                 };
-    [delegate trackEvent:[MYSTORIES_CATEGORY_SELECT valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[MYSTORIES_CATEGORY_SELECT valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [MYSTORIES_CATEGORY_SELECT valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:[categorySelected valueForKey:@"name"] forKey:@"categorySelect"];
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"category_select" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Category select" forKey:PARAMETER_EVENT_DESCRIPTION];
+    [dimensions setObject:[categorySelected valueForKey:@"name"] forKey:PARAMETER_BOOK_CATEGORY_VALUE];
     if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
     }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [delegate trackEventAnalytic:@"category_select" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     
@@ -238,11 +230,11 @@
 }
 
 - (IBAction)doneProblem:(id)sender{
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+//    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
     
-    NSDictionary *dimensions1 = @{
-                                  PARAMETER_USER_ID : ID,
+    /*NSDictionary *dimensions1 = @{
+                                  PARAMETER_USER_EMAIL_ID : ID,
                                   PARAMETER_DEVICE: IOS,
                                   
                                   };
@@ -259,7 +251,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     [_textQuesSolution resignFirstResponder];
     
@@ -267,8 +259,8 @@
         
         settingSol = YES;
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID: ID,
+        /*NSDictionary *dimensions = @{
+                                     PARAMETER_USER_EMAIL_ID: ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)YES],
                                      
@@ -286,14 +278,14 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
     }
     else{
         settingSol = NO;
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
+        /*NSDictionary *dimensions = @{
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_SETTINGS_QUES_SOL: [NSString stringWithFormat:@"%d", (BOOL)NO],
                                      
@@ -310,7 +302,7 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
     }
     _textQuesSolution.text = @"";

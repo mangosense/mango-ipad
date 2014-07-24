@@ -16,8 +16,9 @@
     //int settingQuesNo;
     NSString *userEmail;
     NSString *userDeviceID;
-    NSString *ID;
-    NSString *viewName;
+    //NSString *ID;
+    //NSString *viewName;
+    NSString *currentPage;
     //Class popoverClass;
     BOOL settingSol;
     int quesSolution;

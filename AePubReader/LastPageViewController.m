@@ -35,7 +35,7 @@
         NSLog(@"%@",_book.edited);
         
         userEmail = delegate.loggedInUserInfo.email;
-        userDeviceID = delegate.deviceId;
+        
     }
     return self;
 }
@@ -52,13 +52,8 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    viewName = @"Book Last Page";
-    if(!userEmail){
-        ID = userDeviceID;
-    }
-    else{
-        ID = userEmail;
-    }
+    //viewName = @"Book Last Page";
+    currentPage = @"reader_end_screen";
     
     _titleLabel.text= [NSString stringWithFormat:@"Thanks for Reading %@", _book.title];
     // Do any additional setup after loading the view from its nib.
@@ -137,10 +132,23 @@
                 
             }];
         }
-        
     }
+}
+
+- (void) viewDidAppear:(BOOL)animated{
     
-   
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"reader_end_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
+    [dimensions setObject:@"Reader end screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"reader_end_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -174,22 +182,22 @@
         _games.hidden = YES;
     } else {
         
-        if(!validUserSubscription && storyAsAppFilePath){
+        if(!validUserSubscription){
             //_games.hidden= YES;
             _shareButton.hidden = YES;
-            _subscribeButton.hidden = NO;
+            //_subscribeButton.hidden = NO;
         }
         else{
             _shareButton.hidden = NO;
-            _subscribeButton.hidden = YES;
+            //_subscribeButton.hidden = YES;
         }
     }
 }
 
 - (IBAction)gameButtonTapped:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
+    /*NSDictionary *dimensions = @{
+                                 PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _book.id,
                                  
@@ -207,7 +215,19 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
+    
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"play_btn_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
+    [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:@"Play games button click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
@@ -246,26 +266,17 @@
 
 - (IBAction)pushToCoverView:(id)sender{
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _book.id,
-                                 
-                                 };
-    [delegate trackEvent:[LASTPAGE_READ_AGAIN valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[LASTPAGE_READ_AGAIN valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [LASTPAGE_READ_AGAIN valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:_book.id forKey:@"bookID"];
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"read_btn_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
+    [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:@"Read again button click" forKey:PARAMETER_EVENT_DESCRIPTION];
     if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
     }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [delegate trackEventAnalytic:@"read_btn_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
    // [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(self.navigationController.viewControllers.count - 3)] animated:YES];
@@ -291,6 +302,7 @@
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    if([type hasSuffix:@"recommended"]){
     [MBProgressHUD hideAllHUDsForView:self.recommendedBooksView animated:YES];
     //MangoApiController *apiController = [MangoApiController sharedApiController];
     
@@ -329,6 +341,21 @@
             }
         }
     }
+    }
+    else{
+        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSDictionary *passDictionaryData;
+        if(dataArray.count){
+            passDictionaryData = dataArray[0];
+        }
+        else{
+            passDictionaryData = nil;
+        }
+            
+        [self showBookDetailsForBook:passDictionaryData];
+        
+    }
 }
 
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *data))completionBlock
@@ -361,18 +388,33 @@
     
     if([sender tag]){
         
-        if(!validUserSubscription && storyAsAppFilePath){
+        /*if(!validUserSubscription && storyAsAppFilePath){
             [self clickOnSubscribe:0];
         }
         else{
             [self showBookDetailsForBook:_tempItemArray[[sender tag]-1]];
-        }
+        }*/
+        NSString *bookid = [_tempItemArray[[sender tag]-1] objectForKey:@"id"];
+        [self getLiveStoryByID:bookid];
     }
+}
+
+- (void) getLiveStoryByID :(NSString *)bookID{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",bookID]];
+    
+    [apiController getListOf:url ForParameters:nil withDelegate:self];
 }
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     
     BookDetailsViewController *bookDetailsViewController;
+    
+    if(bookDict == nil){
+        return;
+    }
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -466,8 +508,8 @@
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_ID : ID,
+        /*NSDictionary *dimensions = @{
+                                     PARAMETER_USER_EMAIL_ID : ID,
                                      PARAMETER_DEVICE: IOS,
                                      PARAMETER_BOOK_ID: _book.id,
                                      PARAMETER_RECOMMEND_BOOKID : [bookDict objectForKey:@"id"]
@@ -487,10 +529,11 @@
             [userObject setObject:ID forKey:@"emailID"];
         }
         [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];
+        [userObject saveInBackground];*/
         
         bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
+        bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
@@ -534,26 +577,18 @@
 - (IBAction)socialSharingOrLike :(id)sender{
     //action for social sharing or like of the app
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *dimensions = @{
-                                 PARAMETER_USER_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _book.id,
-                                 
-                                 };
-    [delegate trackEvent:[LASTPAGE_SHARE valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[LASTPAGE_SHARE valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [LASTPAGE_SHARE valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:_book.id forKey:@"bookID"];
+    
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"share_btn_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
+    [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:@"Share button click" forKey:PARAMETER_EVENT_DESCRIPTION];
     if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
     }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

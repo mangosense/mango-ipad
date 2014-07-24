@@ -12,7 +12,8 @@
     
     NSString *storyAsAppFilePath;
     int validUserSubscription;
-
+    NSString *userEmail;
+    NSString *currentPage;
 }
 
 @property (nonatomic,retain) IBOutlet UIButton *loginButton;
@@ -21,6 +22,6 @@
 
 - (IBAction)surveyView:(id)sender;
 - (IBAction)chatDisscussView:(id)sender;
-- (IBAction)rateApp:(id)sender;
+//- (IBAction)rateApp:(id)sender;
 
 @end

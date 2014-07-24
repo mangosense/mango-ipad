@@ -14,6 +14,7 @@
     
     NSString *storyAsAppFilePath;
     int validUserSubscription;
+    NSString *currentPage;
 
 }
 

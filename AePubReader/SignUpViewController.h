@@ -22,7 +22,7 @@
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
-    NSString *viewName;
+    NSString *currentPage;
 }
 - (IBAction)signUp:(id)sender;
 - (IBAction)donePressed:(id)sender;

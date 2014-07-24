@@ -8,6 +8,7 @@
 
 #import "StoreCollectionHeaderView.h"
 #import "Constants.h"
+#import "AePubReaderAppDelegate.h"
 
 @implementation StoreCollectionHeaderView
 
@@ -41,6 +42,8 @@
         [_seeAllButton addTarget:self action:@selector(seeAll) forControlEvents:UIControlEventTouchUpInside];        
         _seeAllButton.hidden = YES;
         [self addSubview:_seeAllButton];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        userEmail = delegate.loggedInUserInfo.email;
     }
     return self;
 }
@@ -61,6 +64,7 @@
 #pragma mark - Action Methods
 
 - (void)seeAll {
+    
     [self.delegate seeAllTapped:self.section];
 }
 

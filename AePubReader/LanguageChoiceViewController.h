@@ -17,6 +17,7 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *newLanguage;
+    NSString *currentPage;
 }
 
 @property (retain,nonatomic) NSArray *array;
@@ -26,5 +27,7 @@
 @property (nonatomic, strong) NSDictionary *bookDict;
 @property (nonatomic, strong) NSMutableArray *bookIDArray;
 @property (nonatomic, assign) int isReadPage;
+@property (nonatomic, assign) NSString *oldBookId;
+@property (nonatomic, assign) NSString *oldBookTitle;
 
 @end

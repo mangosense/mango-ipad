@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Princess Azzurra And The Dragon</string>
+	<string>The Crane Too is Useful</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
@@ -22,7 +22,7 @@
 		<string>mangoreader-app-icon-29X29.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.mangosense.PrincessAzzurraAndTheDragon</string>
+	<string>com.mangosense.TheFarmAnimals</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -43,18 +43,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>szYOURAPPID</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fphandlersdktest</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb110706139004475sdktest</string>
 			</array>
 		</dict>
 	</array>
@@ -100,6 +88,7 @@
 		<string>verdana_bold.ttf</string>
 		<string>verdana_italic.ttf</string>
 		<string>verdana.ttf</string>
+		<string>AnjalTamilMN_Sellinam.ttf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

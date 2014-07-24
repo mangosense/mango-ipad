@@ -24,9 +24,8 @@
  
     NSString *userEmail;
     NSString *userDeviceID;
-    NSString *ID;
-    NSString *viewName;
     NSString *newIDValue;
+    NSString *currentPage;
     int newProgress;
 }
 
@@ -56,6 +55,7 @@
 @property (nonatomic, strong) NSMutableArray *dropDownIdArrayData;
 @property (nonatomic, strong) IBOutlet UILabel *labelAvaillanguageCount;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
+@property (nonatomic, strong) NSString *baseNavView;
 
 @property (nonatomic, retain) DropDownView *dropDownView;
 
