@@ -60,8 +60,8 @@ static UIAlertView *alertViewLoading;
     
     //Parse MangoReader Original App -
 
-  //  [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+     //             clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
    //MangoReader_Test app for testing
     [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"

@@ -29,9 +29,11 @@
 @property (nonatomic, strong) NSMutableArray *gamesArray;
 @property (nonatomic, strong) NSMutableDictionary *dataDict;
 
+
 @end
 
 @implementation MangoGamesListViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,6 +58,7 @@
 {
     [super viewDidLoad];
     viewName = @"Games View";
+    currentPage = @"game_screen";
     if(!userEmail){
         ID = userDeviceID;
     }
@@ -70,6 +73,21 @@
         scrollToIndex = 1;
     }
     [_gamesCarousel scrollToItemAtIndex:scrollToIndex animated:YES];
+    self.timeCalculate = [NSDate date];
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"game_screen" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Game screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"game_screen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -112,10 +130,24 @@
     NSData *jsonData = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     
-    NSString * currentBookId = [jsonDict objectForKey:@"id"];
-    NSString *currentBookTitle = [jsonDict objectForKey:@"title"];
+    currentBookId = [jsonDict objectForKey:@"id"];
+    currentBookTitle = [jsonDict objectForKey:@"title"];
     NSString * currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
-    NSDictionary *dimensions = @{
+    
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:gameName forKey:PARAMETER_GAME_NAME];
+    [dimensions setObject:currentBookId forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:currentBookTitle forKey:PARAMETER_BOOK_TITLE];
+    [dimensions setObject:@"Play game" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"playing" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    
+    /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: currentBookId,
@@ -136,7 +168,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     NSString * currentBookImageURL = [[NSString stringWithFormat:@"http://www.mangoreader.com/live_stories/%@/%@",[jsonDict objectForKey:@"id"], [jsonDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"res/" withString:@"res/cover_"];
     
@@ -262,6 +294,28 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     return YES;
+}
+
+- (void) viewDidDisappear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+    int time = (int)(timeEndValue*1000);
+    NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Total playing time" forKey:PARAMETER_EVENT_DESCRIPTION];
+    [dimensions setObject:currentBookId forKey:PARAMETER_BOOK_ID];
+    [dimensions setObject:currentBookTitle forKey:PARAMETER_BOOK_TITLE];
+    [dimensionevent setDictionary:dimensions];
+    [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
+    [dimensionshist setDictionary:dimensions];
+    [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
+    [delegate trackEventAnalytic:@"playing" dimensions:dimensionevent];
+    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
 }
 
 @end

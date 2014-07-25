@@ -14,6 +14,9 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *viewName;
+    NSString *currentPage;
+    NSString * currentBookId;
+    NSString *currentBookTitle;
 }
 
 @property (nonatomic, strong) NSString *folderLocation;
@@ -26,6 +29,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *gameDescriptionLabel;
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
 @property (nonatomic, strong) NSString *loginUserEmail;
+@property (nonatomic, strong) NSDate *timeCalculate;
 
 - (IBAction)closeGames:(id)sender;
 

@@ -166,7 +166,7 @@
 #define PARAMETER_BOOL_ISPLAYING @"Bool isplaying"
 #define PARAMETER_BOOL_ISNEW_VERSION @"Bool new version"
 #define PARAMETER_RECOMMEND_BOOKID @"Recommend bookid"
-#define PARAMETER_GAME_NAME @"Game name"
+#define PARAMETER_GAME_NAME @"gameId"////
 
 
 #pragma mark - Views

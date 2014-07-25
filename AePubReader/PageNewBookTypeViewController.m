@@ -1418,7 +1418,15 @@
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *bookGrade;
-    
+    NSString *appendString;
+    if(pageVisited.length>0){
+        appendString = [NSString stringWithFormat:@",%d",_pageNumber];
+        [pageVisited appendString:appendString];
+    }
+    else{
+        appendString = [NSString stringWithFormat:@"%d", _pageNumber];
+        [pageVisited appendString:appendString];
+    }
     if(!_bookGradeLevel){
         bookGrade = @"Not available";
     }
@@ -1432,25 +1440,33 @@
     else{
         bookStatus = @"incomplete";
     }
-    //int time = (int)timeEndValue*1000;
-    NSString *time = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
+    int time = (int)(timeEndValue*1000);
+    NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
     int times = [[pageVisited componentsSeparatedByString:@","] count];
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
     [dimensions setObject:@"reading_time" forKey:PARAMETER_ACTION];
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
     [dimensions setObject:@"Total reading time" forKey:PARAMETER_EVENT_DESCRIPTION];
     [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
     [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
     [dimensions setObject:bookStatus forKey:PARAMETER_BOOK_STATUS];
-    [dimensions setObject:time forKey:PARAMETER_TIME_TAKEN];
+    //[dimensions setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
     [dimensions setObject:bookReadMode forKey:PARAMETER_BOOK_READ_MODE];
     [dimensions setObject:pageVisited forKey:PARAMETER_PAGES_VISITED];
-    [dimensions setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
+    //[dimensions setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
     if(userEmail){
         [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
     }
-    [delegate trackEventAnalytic:@"reading_time" dimensions:dimensions];
-    [delegate userHistoryAnalyticsDataBrowser:dimensions];
+    [dimensionevent setDictionary:dimensions];
+    [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
+    [dimensionevent setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
+    [dimensionshist setDictionary:dimensions];
+    [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
+    [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
+    [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
+    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
     
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
