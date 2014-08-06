@@ -24,7 +24,7 @@
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoSubscriptionViewController.h"
 #import "BookDetailsViewController.h"
-
+#import "UIImageView+WebCache.h"
 
 @interface MangoStoreViewController () <collectionSeeAllDelegate> {
 }
@@ -469,7 +469,15 @@
     }
     
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
+      //  [self.booksCollectionView reloadItemsAtIndexPaths:[self.booksCollectionView indexPathsForVisibleItems]];
+       /* for(int i = indexval+1; i <((page+1)*18)-1 ; ++i){
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            NSArray *indexPaths = [[NSArray alloc] initWithObjects:indexPath, nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.booksCollectionView reloadItemsAtIndexPaths:indexPaths];
+            });
+        }*/
+        //[self.booksCollectionView reloadData];
     [_booksCollectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [_storiesCarousel performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     }
@@ -605,7 +613,7 @@
             
         default:
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [_booksCollectionView reloadData];
+            //[_booksCollectionView reloadData];
             return;
     }
     if(page  == 0){
@@ -949,6 +957,7 @@
 #pragma mark - Local Image Saving Delegate
 
 - (void)iCarouselSaveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
+    if (!image){return;}
     [_localImagesDictionary setObject:image forKey:imageUrl];
 }
 
@@ -1018,16 +1027,33 @@
     
     cell.imageUrlString = [[bookDict objectForKey:@"cover"] stringByReplacingOccurrencesOfString:@"cover_" withString:@"cover_"];
     cell.bookImageView.image = nil;
-    if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]]) {
-        cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
-    } else {
-        [cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
-    }
+    
+    [cell.bookImageView setImageWithURL:[NSURL URLWithString:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]]
+                       placeholderImage:[UIImage imageNamed:@""]];
+
+    
+//    if ([_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]]) {
+//        cell.bookImageView.image = [_localImagesDictionary objectForKey:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
+//    } else {
+//        //[cell getImageForUrl:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
+//        NSURL *url = [NSURL URLWithString:[ASSET_BASE_URL stringByAppendingString:cell.imageUrlString]];
+//        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:1.0]; //timeout can be adjusted
+//        
+//        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+//         {
+//             if (!connectionError)
+//             {
+//                 UIImage *image = [UIImage imageWithData:data];
+//                 cell.bookImageView.image = image;
+//                 //Add image as subview here.
+//             }
+//         }];
+//    }
 }
 
 
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+/*- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if(indexPath.section == 0) {
@@ -1083,9 +1109,83 @@
                 }
                 
                 if(indexPath.row == indexval){
+                //if(17 == indexval){
                     [self fetchMore];
+                }
+            }
+            
+            return cell;
+        }
+            break;
+    }
+    return nil;
+}*/
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    switch (_tableType) {
+        case TABLE_TYPE_MAIN_STORE: {
+            if(indexPath.section == 0) {
+                StoreBookCarouselCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CAROUSEL_CELL_ID forIndexPath:indexPath];
+                
+                if (!_storiesCarousel) {
+                    
+                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                        
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 130)];
+                    }
+                    else{
+                        _storiesCarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, 984, 240)];
+                        
+                    }
+                    _storiesCarousel.delegate = self;
+                    _storiesCarousel.dataSource = self;
+                    _storiesCarousel.type = iCarouselTypeCoverFlow;
+                    [cell.contentView addSubview:_storiesCarousel];
+                }
+                
+                [_storiesCarousel reloadData];
+                return cell;
+            } else {
+                StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+                cell.delegate = self;
+                
+                if(liveStoriesFiltered) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    NSString *ageGroup = [[self.ageGroupsFoundInResponse objectAtIndex:indexPath.section-1] objectForKey:NAME];
+                    NSDictionary *bookDict= [[liveStoriesFiltered objectForKey:ageGroup] objectAtIndex:indexPath.row];
+                    
+                    if (bookDict) {
+                        [self setupCollectionViewCell:cell WithDict:bookDict];
+                    }
+                }
+                
+                return cell;
+            }
+        }
+            break;
+            
+        default: {
+            
+            StoreBookCell *cell = [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
+            cell.delegate = self;
+            cell.bookImageView.tag = indexPath.row;
+            cell.bookTitleLabel.tag = indexPath.row;
+            NSLog(@"Calling index %d",indexPath.row);
+            if(liveStoriesFiltered) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                NSDictionary *bookDict= [[liveStoriesFiltered objectForKey:[[liveStoriesFiltered allKeys] firstObject]] objectAtIndex:indexPath.row];
+                
+                if (bookDict) {
+                    [self setupCollectionViewCell:cell WithDict:bookDict];
+                }
+                
+                
+                if(indexPath.row == indexval){
+                    [self performSelectorOnMainThread:@selector(fetchMore) withObject:nil waitUntilDone:YES];
+                    NSLog(@"Calling fetchmore");
                     
                 }
+                
                 //NSLog(@"item index ==== %d", indexPath.row);
             }
             
@@ -1101,8 +1201,6 @@
     [self addActivityIndicator];
     page ++;
     [self getFilteredStories:filterKey];
-    //[_booksCollectionView reloadData];
-                         
 }
 
 - (void) addActivityIndicator{
@@ -1118,21 +1216,6 @@
     [_actIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [self.booksCollectionView addSubview:_actIndicator];
     [_actIndicator startAnimating];
-}
-
-- (UICollectionViewCell *)loadingCellForIndexPath:(NSIndexPath *)indexPath {
-    
-    //StoreBookCell *cell =  [cv dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
-    StoreBookCell *cell = (StoreBookCell *)[self.booksCollectionView dequeueReusableCellWithReuseIdentifier:STORE_BOOK_CELL_ID forIndexPath:indexPath];
-    
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]
-                                                  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    activityIndicator.center = cell.center;
-    [cell addSubview:activityIndicator];
-    
-    [activityIndicator startAnimating];
-    
-    return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {

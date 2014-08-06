@@ -275,15 +275,19 @@
             [wordsToDelete addObject:word];
         }
     }
+    
     [words removeObjectsInArray:wordsToDelete];
     if ([words count]) { //Parag
         NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
         NSString *subString = [subarray componentsJoinedByString:@" "];
         
         [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
+        
         if (_wordIndex < [words count] - 1) {
             _wordIndex += 1;
+            
         }
+        
     }    
 }
 
@@ -349,7 +353,7 @@
     [ _scrollView scrollRectToVisible:frame animated:NO];
 }
 -(void)update{
-    
+    //_mangoTextField.textViewInsetValue = 0;
     if (_wordIndex<_cues.count) {
         NSNumber *number= _cues[_wordIndex];
         //NSLog(@"%f %@",_player.currentTime,_cues);

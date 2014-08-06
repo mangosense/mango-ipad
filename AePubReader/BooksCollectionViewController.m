@@ -884,6 +884,11 @@
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
     
+    if(!bookDict){
+        
+        return;
+    }
+    
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     BookDetailsViewController *bookDetailsViewController;
     

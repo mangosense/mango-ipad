@@ -244,7 +244,7 @@ static UIAlertView *alertViewLoading;
     
     if (!path){
         if(!isFreeBooksApiCall){
-            [self getAllFreeBooks];
+            //[self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){

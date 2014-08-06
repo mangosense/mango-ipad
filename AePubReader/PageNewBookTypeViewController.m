@@ -1243,8 +1243,10 @@
                 
                 font = [UIFont fontWithName:[fFamily stringByAppendingString:fStyle]
                                        size:[fontSize floatValue]];
+                
             }
         }
+        textFontValue = font;
         audioMappingViewcontroller.mangoTextField.font = font;
 
         audioMappingViewcontroller.mangoTextField.frame = textFrame;
@@ -1414,7 +1416,8 @@
 
 - (void) viewDidDisappear:(BOOL)animated{
     
-    
+    _audioMappingViewController.timer = nil;
+    _audioMappingViewController.player = nil;
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *bookGrade;
@@ -1641,15 +1644,19 @@
     if(onoff.on){
         NSLog(@"Switch is On");
         newAudioRate = 0.6f;
+    
     }
     else{
          NSLog(@"Switch is Off");
         newAudioRate = 1.0f;
     }
+    UIFont *newTextFontValue = [textFontValue fontWithSize:35];
+    [_audioMappingViewController.mangoTextField setFont:newTextFontValue];
     [_audioMappingViewController.player pause];
     _audioMappingViewController.player.enableRate = YES;
     _audioMappingViewController.player.rate = newAudioRate;
     [_audioMappingViewController.player play];
+    
 }
 
 #pragma sparkle view
@@ -1706,6 +1713,7 @@
 
 - (void)dealloc {
     _interstitial.delegate = nil;
+    _audioMappingViewController.player = nil;
 }
 
 @end

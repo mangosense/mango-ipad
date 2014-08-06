@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Action and Adventure</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Animals and Nature</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Bedtime Stories</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Classic Stories</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Comics and Graphic Novels</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Family and Friends</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Financial Literacy</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Holidays and Celebrations</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Humour</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Morals and Values</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Mystery and Suspense</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Mythology</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Picture Books</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Poems and Songs</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>School Time</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Science and Nature</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Traditional Tales</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>General and Miscellaneous</string>
+	</dict>
+</array>
+</plist>

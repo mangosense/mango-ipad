@@ -358,7 +358,6 @@
         
         [self.navigationController pushViewController:tabBarController animated:YES];
     }
-
 }
 
 - (IBAction)closeSettingProblemView:(id)sender{
@@ -738,6 +737,9 @@
     
     if ([type isEqualToString:CATEGORIES]) {
         NSMutableArray *categoriesWithMyBooksCategoryArray = [NSMutableArray arrayWithArray:dataArray];
+        if(!categoriesWithMyBooksCategoryArray.count){
+            categoriesWithMyBooksCategoryArray =[NSMutableArray arrayWithArray:[self getCategoryValues]];
+        }
         [categoriesWithMyBooksCategoryArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"My Books", NAME, nil]];
         [categoriesWithMyBooksCategoryArray insertObject:[NSDictionary dictionaryWithObjectsAndKeys:@"All Books", NAME, nil] atIndex:0];
         _categoriesArray = [NSArray arrayWithArray:categoriesWithMyBooksCategoryArray];
@@ -769,6 +771,16 @@
             [booksDownloadAlertView show];
         }
     }*/
+}
+
+#pragma getcategory locally
+
+- (NSArray *) getCategoryValues{
+    
+    NSBundle * mainBundle = [NSBundle mainBundle];
+    NSString * arrayLocation = [mainBundle pathForResource:@"categoriesList" ofType:@"plist"];
+    NSArray * array = [[NSArray alloc] initWithContentsOfFile:arrayLocation];
+    return array;
 }
 
 #pragma mark - Get Categories

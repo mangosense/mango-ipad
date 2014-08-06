@@ -242,12 +242,12 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //NSLog(@"Image error: %@ \n Attempting to get cover image...", error);
-        [self getImageAtUrl:[urlString stringByReplacingOccurrencesOfString:@"banner" withString:@"cover"] withDelegate:delegate];
+        //[self getImageAtUrl:[urlString stringByReplacingOccurrencesOfString:@"banner" withString:@"cover"] withDelegate:delegate];
     }];
 
     if (!_imageOperationManager) {
         _imageOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
-        [_imageOperationManager.operationQueue setMaxConcurrentOperationCount:3];
+        [_imageOperationManager.operationQueue setMaxConcurrentOperationCount:1];
     }
     [_imageOperationManager.operationQueue addOperation:imageRequestOperation];
     
@@ -267,6 +267,11 @@
         [paramsDict setObject:name forKey:NAME];
        // [paramsDict setObject:IOS forKey:PLATFORM];//send platform = ios new
     }
+    NSString *subscriptionTransctionId = appDelegate.subscriptionInfo.subscriptionTransctionId;
+    if(subscriptionTransctionId){
+        [paramsDict setObject:subscriptionTransctionId forKey:@"transaction_id"];
+    }
+    
     [paramsDict setObject:VERSION_NO forKey:VERSION];
     [paramsDict setObject:appDelegate.country forKey:@"country"];
     

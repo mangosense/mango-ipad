@@ -104,6 +104,18 @@
 		687486A31954B4EF00653F5D /* button_createstory.png in Resources */ = {isa = PBXBuildFile; fileRef = 687486A21954B4EF00653F5D /* button_createstory.png */; };
 		687486A51954B81700653F5D /* icon_subscribe.png in Resources */ = {isa = PBXBuildFile; fileRef = 687486A41954B81700653F5D /* icon_subscribe.png */; };
 		687BE436190D463E00380E38 /* Logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 687BE435190D463E00380E38 /* Logout.png */; };
+		6882AC8B19914D3500ADA093 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC7719914D3500ADA093 /* MKAnnotationView+WebCache.m */; };
+		6882AC8C19914D3500ADA093 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC7919914D3500ADA093 /* SDImageCache.m */; };
+		6882AC8D19914D3500ADA093 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC7B19914D3500ADA093 /* SDWebImageCompat.m */; };
+		6882AC8E19914D3500ADA093 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC7D19914D3500ADA093 /* SDWebImageDecoder.m */; };
+		6882AC8F19914D3500ADA093 /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC7F19914D3500ADA093 /* SDWebImageDownloader.m */; };
+		6882AC9019914D3500ADA093 /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC8119914D3500ADA093 /* SDWebImageDownloaderOperation.m */; };
+		6882AC9119914D3500ADA093 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC8319914D3500ADA093 /* SDWebImageManager.m */; };
+		6882AC9219914D3500ADA093 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC8619914D3500ADA093 /* SDWebImagePrefetcher.m */; };
+		6882AC9319914D3500ADA093 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC8819914D3500ADA093 /* UIButton+WebCache.m */; };
+		6882AC9419914D3500ADA093 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6882AC8A19914D3500ADA093 /* UIImageView+WebCache.m */; };
+		6882AC9619914D5500ADA093 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6882AC9519914D5500ADA093 /* ImageIO.framework */; };
+		6882AC9819916B1A00ADA093 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6882AC9719916B1A00ADA093 /* MangoStory.zip */; };
 		68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */; };
 		68A9334F193895D600563E33 /* sparks.png in Resources */ = {isa = PBXBuildFile; fileRef = 68A9334E193895D600563E33 /* sparks.png */; };
 		68B57DF918F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */; };
@@ -142,8 +154,6 @@
 		68CD6A0018F80334003BAD0D /* popoverBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69EC18F80334003BAD0D /* popoverBg@2x.png */; };
 		68CD6A0118F80334003BAD0D /* popoverBgSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69ED18F80334003BAD0D /* popoverBgSimple.png */; };
 		68CF0B90196EC46C0084F8C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CF0B8F196EC46C0084F8C9 /* MediaPlayer.framework */; };
-		68D18CA318D4CBBE00FB150C /* SettingsQues.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D18CA218D4CBBE00FB150C /* SettingsQues.plist */; };
-		68D18CA518D4D5AC00FB150C /* SettingsQues.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D18CA218D4CBBE00FB150C /* SettingsQues.plist */; };
 		68D2638218C5E385003AFE48 /* MangoNameLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638118C5E385003AFE48 /* MangoNameLogo.png */; };
 		68D2638818C5E57F003AFE48 /* MangoSignUpBoximage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */; };
 		68D2638C18C5E843003AFE48 /* SignUpBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D2638B18C5E843003AFE48 /* SignUpBtn.png */; };
@@ -151,6 +161,7 @@
 		68D3D82018D8527F00E1E1A5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEBA8D2163518A90023AE51 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		68D4F2A41902D5CE00986584 /* quesBgPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D4F2A31902D5CE00986584 /* quesBgPic.png */; };
 		68D4F2A61902DA5500986584 /* quesTextBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D4F2A51902DA5500986584 /* quesTextBg.png */; };
+		68D887961983CD490004E0EF /* categoriesList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D887951983CD490004E0EF /* categoriesList.plist */; };
 		68D8B278190BF5910051FEA1 /* signup_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D8B277190BF5910051FEA1 /* signup_btn.png */; };
 		68D8E7A7198279D70030F2EF /* mangoreader-app-icon-29X29.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D8E79D198279D60030F2EF /* mangoreader-app-icon-29X29.png */; };
 		68D8E7A8198279D70030F2EF /* mangoreader-app-icon-57X57.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D8E79E198279D60030F2EF /* mangoreader-app-icon-57X57.png */; };
@@ -1051,6 +1062,29 @@
 		687486A21954B4EF00653F5D /* button_createstory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_createstory.png; sourceTree = "<group>"; };
 		687486A41954B81700653F5D /* icon_subscribe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_subscribe.png; sourceTree = "<group>"; };
 		687BE435190D463E00380E38 /* Logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logout.png; sourceTree = "<group>"; };
+		6882AC7619914D3500ADA093 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
+		6882AC7719914D3500ADA093 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
+		6882AC7819914D3500ADA093 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
+		6882AC7919914D3500ADA093 /* SDImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDImageCache.m; sourceTree = "<group>"; };
+		6882AC7A19914D3500ADA093 /* SDWebImageCompat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageCompat.h; sourceTree = "<group>"; };
+		6882AC7B19914D3500ADA093 /* SDWebImageCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageCompat.m; sourceTree = "<group>"; };
+		6882AC7C19914D3500ADA093 /* SDWebImageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDecoder.h; sourceTree = "<group>"; };
+		6882AC7D19914D3500ADA093 /* SDWebImageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDecoder.m; sourceTree = "<group>"; };
+		6882AC7E19914D3500ADA093 /* SDWebImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDownloader.h; sourceTree = "<group>"; };
+		6882AC7F19914D3500ADA093 /* SDWebImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDownloader.m; sourceTree = "<group>"; };
+		6882AC8019914D3500ADA093 /* SDWebImageDownloaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDownloaderOperation.h; sourceTree = "<group>"; };
+		6882AC8119914D3500ADA093 /* SDWebImageDownloaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDownloaderOperation.m; sourceTree = "<group>"; };
+		6882AC8219914D3500ADA093 /* SDWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageManager.h; sourceTree = "<group>"; };
+		6882AC8319914D3500ADA093 /* SDWebImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageManager.m; sourceTree = "<group>"; };
+		6882AC8419914D3500ADA093 /* SDWebImageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageOperation.h; sourceTree = "<group>"; };
+		6882AC8519914D3500ADA093 /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImagePrefetcher.h; sourceTree = "<group>"; };
+		6882AC8619914D3500ADA093 /* SDWebImagePrefetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImagePrefetcher.m; sourceTree = "<group>"; };
+		6882AC8719914D3500ADA093 /* UIButton+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+WebCache.h"; sourceTree = "<group>"; };
+		6882AC8819914D3500ADA093 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
+		6882AC8919914D3500ADA093 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
+		6882AC8A19914D3500ADA093 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		6882AC9519914D5500ADA093 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		6882AC9719916B1A00ADA093 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
 		68A15FB118BC9A0900DB1AF0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		68A9334E193895D600563E33 /* sparks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparks.png; sourceTree = "<group>"; };
 		68B57DF818F3EB3F005A07C5 /* CoverViewControllerBetterBookType_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverViewControllerBetterBookType_iPhone.xib; sourceTree = "<group>"; };
@@ -1090,13 +1124,13 @@
 		68CD69EC18F80334003BAD0D /* popoverBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverBg@2x.png"; sourceTree = "<group>"; };
 		68CD69ED18F80334003BAD0D /* popoverBgSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverBgSimple.png; sourceTree = "<group>"; };
 		68CF0B8F196EC46C0084F8C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		68D18CA218D4CBBE00FB150C /* SettingsQues.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SettingsQues.plist; sourceTree = "<group>"; };
 		68D2638118C5E385003AFE48 /* MangoNameLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoNameLogo.png; sourceTree = "<group>"; };
 		68D2638718C5E57F003AFE48 /* MangoSignUpBoximage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoSignUpBoximage.png; sourceTree = "<group>"; };
 		68D2638B18C5E843003AFE48 /* SignUpBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUpBtn.png; sourceTree = "<group>"; };
 		68D2638F18C61B63003AFE48 /* MangoTrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MangoTrash.png; sourceTree = "<group>"; };
 		68D4F2A31902D5CE00986584 /* quesBgPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quesBgPic.png; sourceTree = "<group>"; };
 		68D4F2A51902DA5500986584 /* quesTextBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quesTextBg.png; sourceTree = "<group>"; };
+		68D887951983CD490004E0EF /* categoriesList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = categoriesList.plist; sourceTree = "<group>"; };
 		68D8B277190BF5910051FEA1 /* signup_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signup_btn.png; sourceTree = "<group>"; };
 		68D8E79D198279D60030F2EF /* mangoreader-app-icon-29X29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-29X29.png"; sourceTree = "<group>"; };
 		68D8E79E198279D60030F2EF /* mangoreader-app-icon-57X57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-57X57.png"; sourceTree = "<group>"; };
@@ -2016,6 +2050,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6882AC9619914D5500ADA093 /* ImageIO.framework in Frameworks */,
 				68A15FB218BC9A0900DB1AF0 /* AddressBook.framework in Frameworks */,
 				68CF0B90196EC46C0084F8C9 /* MediaPlayer.framework in Frameworks */,
 				68DB095919585E8B00784621 /* AdSupport.framework in Frameworks */,
@@ -2154,6 +2189,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				6882AC9719916B1A00ADA093 /* MangoStory.zip */,
+				6882AC7519914C9E00ADA093 /* ImageStore */,
 				68CF0B5F196EC34E0084F8C9 /* FingerPrintPlay */,
 				68DB092B19583CFE00784621 /* AdMob */,
 				280DBE26191D0E8F0082BFBA /* ATConnect.h */,
@@ -2315,6 +2352,7 @@
 				FA307A3B1371E2B000959622 /* ChapterListViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* MangoReader-Info.plist */,
+				68D887951983CD490004E0EF /* categoriesList.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2322,6 +2360,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6882AC9519914D5500ADA093 /* ImageIO.framework */,
 				68CF0B8F196EC46C0084F8C9 /* MediaPlayer.framework */,
 				68582451194B81C1008D0385 /* libsqlite3.dylib */,
 				6858244F194B7A95008D0385 /* AdSupport.framework */,
@@ -2432,6 +2471,34 @@
 				686F18A11905650300B47DA8 /* EJDBKitTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6882AC7519914C9E00ADA093 /* ImageStore */ = {
+			isa = PBXGroup;
+			children = (
+				6882AC7619914D3500ADA093 /* MKAnnotationView+WebCache.h */,
+				6882AC7719914D3500ADA093 /* MKAnnotationView+WebCache.m */,
+				6882AC7819914D3500ADA093 /* SDImageCache.h */,
+				6882AC7919914D3500ADA093 /* SDImageCache.m */,
+				6882AC7A19914D3500ADA093 /* SDWebImageCompat.h */,
+				6882AC7B19914D3500ADA093 /* SDWebImageCompat.m */,
+				6882AC7C19914D3500ADA093 /* SDWebImageDecoder.h */,
+				6882AC7D19914D3500ADA093 /* SDWebImageDecoder.m */,
+				6882AC7E19914D3500ADA093 /* SDWebImageDownloader.h */,
+				6882AC7F19914D3500ADA093 /* SDWebImageDownloader.m */,
+				6882AC8019914D3500ADA093 /* SDWebImageDownloaderOperation.h */,
+				6882AC8119914D3500ADA093 /* SDWebImageDownloaderOperation.m */,
+				6882AC8219914D3500ADA093 /* SDWebImageManager.h */,
+				6882AC8319914D3500ADA093 /* SDWebImageManager.m */,
+				6882AC8419914D3500ADA093 /* SDWebImageOperation.h */,
+				6882AC8519914D3500ADA093 /* SDWebImagePrefetcher.h */,
+				6882AC8619914D3500ADA093 /* SDWebImagePrefetcher.m */,
+				6882AC8719914D3500ADA093 /* UIButton+WebCache.h */,
+				6882AC8819914D3500ADA093 /* UIButton+WebCache.m */,
+				6882AC8919914D3500ADA093 /* UIImageView+WebCache.h */,
+				6882AC8A19914D3500ADA093 /* UIImageView+WebCache.m */,
+			);
+			name = ImageStore;
 			sourceTree = "<group>";
 		};
 		68CD69D918F80334003BAD0D /* Popover */ = {
@@ -3345,7 +3412,6 @@
 				AE59B53B16817B7600DC55EC /* Default.png */,
 				AE59B53D16817B7600DC55EC /* Default@2x.png */,
 				AE59B53F16817B7600DC55EC /* Default-568h@2x.png */,
-				68D18CA218D4CBBE00FB150C /* SettingsQues.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3904,7 +3970,6 @@
 			files = (
 				68E23361197717D30009DEEE /* AnjalTamilMN_Sellinam.ttf in Resources */,
 				68DF8BED193C95BA00524630 /* beep.caf in Resources */,
-				68D18CA518D4D5AC00FB150C /* SettingsQues.plist in Resources */,
 				AEE67088183F72410056AB29 /* addnewpage.png in Resources */,
 				8357E6BF18AF498100770D27 /* 6.png in Resources */,
 				687486A31954B4EF00653F5D /* button_createstory.png in Resources */,
@@ -3979,6 +4044,7 @@
 				AE138F31182B49A700F36C99 /* MyBooksViewControlleriPhone.xib in Resources */,
 				83E2D105184364EC00F8CDB6 /* editor_14.png in Resources */,
 				AE7FEF28161F1AC400181CE8 /* library.png in Resources */,
+				6882AC9819916B1A00ADA093 /* MangoStory.zip in Resources */,
 				834FCE40182D11F70000181B /* pagesbutton_selected.png in Resources */,
 				68D4F2A61902DA5500986584 /* quesTextBg.png in Resources */,
 				68CAD97118CDAE2400804496 /* twitter.png in Resources */,
@@ -4363,6 +4429,7 @@
 				AE0C9377183E0743008E4D54 /* icons_back.png in Resources */,
 				682AA68F18D9AD530006951D /* MangoAnalyticsSingleViewCell.xib in Resources */,
 				83539E3F1839F4AC0096DBF8 /* AudioMappingViewController.xib in Resources */,
+				68D887961983CD490004E0EF /* categoriesList.plist in Resources */,
 				83ACB3EC18D9813E00EA3BFC /* gamecentre_bg.jpg in Resources */,
 				8353B3391851ABE1009B3BD8 /* shape2.png in Resources */,
 				AE0C9353183DB3B5008E4D54 /* icons_getmorebooks.png in Resources */,
@@ -4454,7 +4521,6 @@
 				AE59B53E16817B7600DC55EC /* Default@2x.png in Resources */,
 				AE59B54016817B7600DC55EC /* Default-568h@2x.png in Resources */,
 				AE59B54616817B7600DC55EC /* ViewController.xib in Resources */,
-				68D18CA318D4CBBE00FB150C /* SettingsQues.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4493,6 +4559,7 @@
 				FAFA8EAA134A06D6000291E2 /* zip.c in Sources */,
 				AE266FBF183B45D7001A8CB8 /* LandPageChoiceViewController.m in Sources */,
 				28CFD98A19167E5900D683CE /* MangoDashHelperCell.m in Sources */,
+				6882AC8E19914D3500ADA093 /* SDWebImageDecoder.m in Sources */,
 				FAFA8EAB134A06D6000291E2 /* ZipArchive.mm in Sources */,
 				AE7537301610340E00761697 /* LoginViewController.m in Sources */,
 				AE396BB5181F7E3D009C68E7 /* PSTCollectionViewFlowLayout.m in Sources */,
@@ -4510,6 +4577,7 @@
 				685FE864190C5F5F002A71E5 /* MangoDashbProfileViewController.m in Sources */,
 				AE7FEDDB1615810900C4B51D /* XMLHandler.m in Sources */,
 				AE7FEDE51615A6EF00C4B51D /* ShadowButton.m in Sources */,
+				6882AC9019914D3500ADA093 /* SDWebImageDownloaderOperation.m in Sources */,
 				83D5A1BE18C8566B000C12E9 /* BooksCollectionViewCell.m in Sources */,
 				83539E3E1839F4AC0096DBF8 /* AudioMappingViewController.m in Sources */,
 				AE396BBC181F7E3D009C68E7 /* PSTGridLayoutSection.m in Sources */,
@@ -4520,6 +4588,7 @@
 				AE525E97161D8CD200CDB400 /* WebViewController.m in Sources */,
 				AE0B8F26162BEA4D00D16A02 /* LoginDirectly.m in Sources */,
 				AE9D4C7B162C20E100352FF8 /* PopViewDetailsViewController.m in Sources */,
+				6882AC8C19914D3500ADA093 /* SDImageCache.m in Sources */,
 				8380486C1850586C006BBA47 /* AFURLSessionManager.m in Sources */,
 				68DC47D71910CD2300BBF4B4 /* MangoDetailSettingsViewController.m in Sources */,
 				314B5073162D80DA00A1348E /* ImageDownloader.m in Sources */,
@@ -4527,6 +4596,7 @@
 				68E0699019051ACE0098A3B3 /* MangoPromoTableViewCell.m in Sources */,
 				AE9793F81650B01F00DBB5D1 /* SignUpViewController.m in Sources */,
 				8358146D184479C700670D71 /* EJDBController.m in Sources */,
+				6882AC8F19914D3500ADA093 /* SDWebImageDownloader.m in Sources */,
 				83DD9BB318110D9E004C975F /* StoryJsonProcessor.m in Sources */,
 				AE9BFBAB16537C12000DDEB1 /* LiveViewController.m in Sources */,
 				83E9AE31184F337D0025BBD6 /* StoreBookCell.m in Sources */,
@@ -4567,6 +4637,7 @@
 				AE731C561675A33700FE8F19 /* RecieptValidationIphone.m in Sources */,
 				8344C1E918C6FBF000DAA386 /* MangoBooksViewController.m in Sources */,
 				68624C8018F7DE190035A3F1 /* WETouchableView.m in Sources */,
+				6882AC9319914D3500ADA093 /* UIButton+WebCache.m in Sources */,
 				AE4BB735183CD8D9004F20C5 /* CategoriesFlexibleViewController.m in Sources */,
 				AE5FC01F1677036900BB9AED /* FacebookIphoneLogin.m in Sources */,
 				AE1039C71845CE99008D122B /* MangoImageLayer.m in Sources */,
@@ -4578,6 +4649,7 @@
 				835FE3E91863299E009D2BC7 /* MBProgressHUD.m in Sources */,
 				838048671850586C006BBA47 /* AFNetworkReachabilityManager.m in Sources */,
 				AED53B2916914AC30061A600 /* DetailsViewController.m in Sources */,
+				6882AC9219914D3500ADA093 /* SDWebImagePrefetcher.m in Sources */,
 				292217D1189B8FF3009D4216 /* PurchaseManager.m in Sources */,
 				AEF6A154169596CE00ECAE7E /* WebPageViewController.m in Sources */,
 				AE396BC3181F803F009C68E7 /* DataSourceForLinearOld.m in Sources */,
@@ -4601,6 +4673,7 @@
 				AEEC651E16A56E56008530D7 /* SearchResultsViewController.m in Sources */,
 				83CFB0C518FD1641006EAA82 /* SubscriptionInfo.m in Sources */,
 				28CFD9861914D9EB00D683CE /* MangoFeedbackViewController.m in Sources */,
+				6882AC9119914D3500ADA093 /* SDWebImageManager.m in Sources */,
 				AED4C88516A82DF8009F462E /* TextViewViewController.m in Sources */,
 				AEC85BB116AE86710094843B /* DetailHighlightViewController.m in Sources */,
 				AE2D35BB16B1562D009E99A7 /* NoteButton.m in Sources */,
@@ -4640,6 +4713,7 @@
 				AE73704A183C686B00054115 /* LoginNewViewController.m in Sources */,
 				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
 				AE396BB3181F7E3D009C68E7 /* PSTCollectionViewController.m in Sources */,
+				6882AC9419914D3500ADA093 /* UIImageView+WebCache.m in Sources */,
 				AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */,
 				838BF9D0184868A1003C8791 /* MangoCapturedImageLayer.m in Sources */,
 				AE396BBB181F7E3D009C68E7 /* PSTGridLayoutRow.m in Sources */,
@@ -4657,6 +4731,7 @@
 				AE62B32E183201CB005C5EC9 /* NewBookStore.m in Sources */,
 				AE396BBA181F7E3D009C68E7 /* PSTGridLayoutItem.m in Sources */,
 				68624C7D18F7DE190035A3F1 /* UIBarButtonItem+WEPopover.m in Sources */,
+				6882AC8D19914D3500ADA093 /* SDWebImageCompat.m in Sources */,
 				AE5B84EE17AA54C600EDC098 /* OldCell.m in Sources */,
 				AE396BB1181F7E3D009C68E7 /* PSTCollectionView.m in Sources */,
 				AE0C9373183E06AC008E4D54 /* PageNewBookTypeViewController.m in Sources */,
@@ -4683,6 +4758,7 @@
 				83D5A1C118C856F7000C12E9 /* BooksCollectionHeaderView.m in Sources */,
 				68E069891905123E0098A3B3 /* MangoPromoPageViewController.m in Sources */,
 				AE266FDD183B4EBE001A8CB8 /* CategoriesViewController.m in Sources */,
+				6882AC8B19914D3500ADA093 /* MKAnnotationView+WebCache.m in Sources */,
 				839F907A17E6D37C00BD1412 /* PublishViewController.m in Sources */,
 				83AB60AD18AA36E9004A040E /* MyStoriesBookCell.m in Sources */,
 			);

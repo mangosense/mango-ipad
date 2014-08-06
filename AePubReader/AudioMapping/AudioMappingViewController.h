@@ -32,6 +32,7 @@
 - (IBAction)playRecored:(id)sender;
 - (IBAction)audioSpeedSliderValueChanged:(id)sender;
 - (IBAction)exitButtonTapped:(id)sender;
+-(void)update;
 
 - (void)playAudioForReaderWithData:(NSData *)audioData AndDelegate:(id <AVAudioPlayerDelegate>)delegate;
 

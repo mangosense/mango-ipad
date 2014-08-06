@@ -37,6 +37,7 @@
     NSString *bookReadMode;
     NSString *bookStatus;
     NSMutableString *pageVisited;
+    UIFont *textFontValue;
     //CAEmitterLayer *emitter;
 }
 - (IBAction)ShowOptions:(id)sender;

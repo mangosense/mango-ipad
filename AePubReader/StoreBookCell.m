@@ -115,11 +115,11 @@
 
 #pragma mark - Reuse
 
-- (void)prepareForReuse {
+/*- (void)prepareForReuse {
     [_bookImageView setImage:nil];
 
     [super prepareForReuse];
-}
+}*/
 
 #pragma mark - Post API Delegate
 
