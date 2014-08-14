@@ -89,7 +89,7 @@
     validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     page = 0;
-    
+    //current view name
     currentPage = @"store_screen";
     
     popoverClass = [WEPopoverController class];
