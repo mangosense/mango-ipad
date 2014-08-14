@@ -248,8 +248,9 @@
     else{
         myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
     }
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
-    [alert show];
+    /*UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+    [alert show];*/
+    myViewController.successSubscription = 1;
     [self.navigationController pushViewController:myViewController animated:YES];
 }
 
@@ -1279,7 +1280,7 @@
             audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
         }
         [pageView addSubview:audioMappingViewcontroller.mangoTextField];
-        audioMappingViewcontroller.mangoTextField.editable = NO;
+//        audioMappingViewcontroller.mangoTextField.editable = NO;
         [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         
         [pageView bringSubviewToFront:[audioMappingViewcontroller.view superview]];
@@ -1323,6 +1324,12 @@
                 
                 audioMappingViewcontroller.index=0;
                 audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
+                if ([audioLayer objectForKey:@"highlight"] && ![[audioLayer objectForKey:@"highlight"] isEqual:[NSNull null]]) {
+                    audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[audioLayer objectForKey:@"highlight"]];
+                    
+                } else {
+                    audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
+                }
                 if (readingOption == 0) {
                     NSNumber *order = [textDict objectForKey:@"order"];
                     if ([order isEqualToNumber:[NSNumber numberWithInt:0]] ||
@@ -1334,12 +1341,7 @@
                         }
                     }
                 }
-                if ([audioLayer objectForKey:@"highlight"] && ![[audioLayer objectForKey:@"highlight"] isEqual:[NSNull null]]) {
-                    audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[audioLayer objectForKey:@"highlight"]];
-                    
-                } else {
-                    audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
-                }
+    
                 NSLog(@"MangoTxt Frame: %@", NSStringFromCGRect(audioMappingViewcontroller.mangoTextField.frame));
             }
         }
@@ -1650,8 +1652,8 @@
          NSLog(@"Switch is Off");
         newAudioRate = 1.0f;
     }
-    UIFont *newTextFontValue = [textFontValue fontWithSize:35];
-    [_audioMappingViewController.mangoTextField setFont:newTextFontValue];
+    //UIFont *newTextFontValue = [textFontValue fontWithSize:35];
+    //[_audioMappingViewController.mangoTextField setFont:newTextFontValue];
     [_audioMappingViewController.player pause];
     _audioMappingViewController.player.enableRate = YES;
     _audioMappingViewController.player.rate = newAudioRate;

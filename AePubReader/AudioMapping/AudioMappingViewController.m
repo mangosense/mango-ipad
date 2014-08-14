@@ -54,8 +54,9 @@
     
     [_customView setHidden:YES];
     _mangoTextField = [[MangoTextField alloc] init];
+    _mangoTextField.scrollEnabled = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
+
         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:12.0f];
     }
     else{
@@ -72,6 +73,7 @@
     }
 
 }
+
 
 - (void)setAudioUrl:(NSURL *)audioUrlForMapping {
     audioUrl = audioUrlForMapping;
@@ -227,7 +229,7 @@
 }
 
 - (IBAction)nextClick:(id)sender {
-    
+
     /*if (_customView.text.count>_index) {
         NSString *string=[_customView.text objectAtIndex:_index];
             NSLog(@"custom view.text");
@@ -277,9 +279,10 @@
     }
     
     [words removeObjectsInArray:wordsToDelete];
-    if ([words count]) { //Parag
+    if ([words count]) { //P
         NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
         NSString *subString = [subarray componentsJoinedByString:@" "];
+        NSLog(@"log textfield range %i", _mangoTextField.textRange.location);
         
         [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
         

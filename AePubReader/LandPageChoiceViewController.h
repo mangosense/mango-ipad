@@ -33,5 +33,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
+@property (nonatomic, assign) int successSubscription;
 
 @end

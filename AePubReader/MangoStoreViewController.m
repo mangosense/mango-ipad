@@ -142,7 +142,7 @@
                     
                     NSLog(@"You are already subscribed");
                     [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
-                    
+//                    [self displayStoryoftheDay];
                 }
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
@@ -176,6 +176,7 @@
                     
                     NSLog(@"You are already subscribed");
                     [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
+                    //[self displayStoryoftheDay];
                 }
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
@@ -214,6 +215,11 @@
     
 }
 
+- (IBAction)testFeaturedBooks:(id)sender{
+    
+    [self displayStoryoftheDay];
+}
+
 - (void) viewDidAppear:(BOOL)animated{
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -227,6 +233,59 @@
     [delegate trackEventAnalytic:@"store_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
 }
+
+#pragma StoryOfTheDay
+- (void) displayStoryoftheDay{
+    
+    NSUserDefaults *prefs=[NSUserDefaults standardUserDefaults];
+    NSString *sOTD=[prefs stringForKey:@"StoryOfTheDay"];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date]];
+    if(sOTD.length > 0){
+        NSArray *items = [sOTD componentsSeparatedByString:@"_"];
+        //if same date
+        int currentDay = [components day];
+        int dayValue = [items[0] integerValue];
+        if(dayValue == currentDay){//same day
+            if([items[1] integerValue] >= 2){
+                //no story of the day api call
+            }
+            else{
+                //story of the day api call
+                
+                int times = [items[1] integerValue];
+                times ++;
+                sOTD = [NSString stringWithFormat:@"%@_%d", items[0], times];
+                [prefs setValue:sOTD forKey:@"StoryOfTheDay"];
+                [self getDetailofStoryofDay];
+            }
+        }
+        else{//different day
+            
+            int times = 0;
+            times +=1;
+            sOTD = [NSString stringWithFormat:@"%d_%d", [components day], times];
+            [prefs setValue:sOTD forKey:@"StoryOfTheDay"];
+            [self getDetailofStoryofDay];
+        }
+    }
+    else{//else different date
+        int times = 0;
+        times +=1;
+        sOTD = [NSString stringWithFormat:@"%d_%d", [components day], times];
+        [prefs setValue:sOTD forKey:@"StoryOfTheDay"];
+        [self getDetailofStoryofDay];
+    }
+}
+
+- (void)getDetailofStoryofDay{
+    
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = [NSString stringWithFormat:@"%@",StoryOfTheDay];
+    
+    [apiController getListOf:url ForParameters:nil withDelegate:self];
+}
+
 
 -(void) setDownloadCounter:(NSTimer *)timer
 {
@@ -379,6 +438,14 @@
     return isStringValid;
 }
 
+- (BOOL) validStoryOfTheday :(NSString *) storyofdayurl{
+        NSString *searchString = storyofdayurl;
+        NSString *regexString = @"campaign/today";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexString];
+        BOOL isStringValid = [predicate evaluateWithObject:searchString];
+        return isStringValid;
+}
+
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     [_actIndicator removeFromSuperview];
@@ -389,7 +456,7 @@
     else{
         passDictionaryData = nil;
     }
-    if([self validBookUrl:type]){
+    if([self validBookUrl:type] || [self validStoryOfTheday:type]){
         
         [self showBookDetailsForBook:passDictionaryData];
     }
@@ -1434,8 +1501,13 @@
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
         
-        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-        bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];//story_image
+        if([bookDict objectForKey:@"cover"]){
+            bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        }
+        else{
+            bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        }
     }];
     bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -1449,6 +1521,8 @@
     
     [apiController getListOf:url ForParameters:nil withDelegate:self];
 }
+
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 

@@ -8,8 +8,10 @@
 
 #import "MangoTextField.h"
 #import "Constants.h"
-static int lastlinepos=0;
+
+
 @implementation MangoTextField
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -17,7 +19,8 @@ static int lastlinepos=0;
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
         [self setEditable:NO];
-        _highlightColor = [UIColor yellowColor];
+        
+        _highlightColor = [UIColor clearColor];
     }
     return self;
 }
@@ -34,11 +37,7 @@ static int lastlinepos=0;
 #pragma mark - Highlighting Method
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length {
-    float rows = round( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
-    int lastVisibleLine = round( (self.frame.size.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
-    if (lastlinepos==0)
-        lastlinepos = lastVisibleLine;
-        
+    //self.scrollEnabled = YES;
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
     //NSLog(@"length %d", [string length]);
 
@@ -57,17 +56,23 @@ static int lastlinepos=0;
         NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
+        
         [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
         
-        //newRange = [self visibleRangeOfTextView:self];
-
-        if (lastVisibleLine != lastlinepos){
-            [self scrollRangeToVisible: NSMakeRange(0,range.location)];
-            lastlinepos=lastVisibleLine;
-        }
-        self.scrollEnabled = NO;
-        self.scrollEnabled = YES;
-        NSLog(@"current range location %d, location-- %i",[self visibleRangeOfTextView:self].location, range.location);
+        _textRange = range;
+        NSLog(@"range %i - %i", range.location, range.length);
+        //[self setContentOffset:CGPointMake(0, 100) animated:YES];
+        
+        //[self scrollRangeToVisible:_textRange];
+       // [self performSelector:@selector(disableScroll) withObject:self afterDelay:0.05f];
+        
+        
+        //[self scrollRangeToVisible:_textRange];
+        //[self scrollRangeToVisible:_textRange];
+        //self.contentSize = CGSizeZero;
+        //[self setContentOffset:self.contentOffset animated:NO];
+        
+       // NSLog(@"current range location %d, location-- %i",[self visibleRangeOfTextView:self].location, range.location);
         //NSLog(@"visible range0 is %d -- %i",[self visibleRangeOfTextView:self].length,[self visibleRangeOfTextView:self].location);
         //NSLog(@"visible range1 is %d -- %i",range.length, range.location);
         //[self scrollRangeToVisible:NSMakeRange(length+10, 1)];
@@ -81,18 +86,31 @@ static int lastlinepos=0;
             NSLog(@"text inset value %d -- %f", _textViewInsetValue, self.frame.size.height);
             [self setContentInset:UIEdgeInsetsMake(-_textViewInsetValue, 0, 0, 0)];
         }*/
-        //float rows = round( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
-        //float rows1 = round( (self.frame.size.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
+        float rows = round( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
+        float rows1 = round( (self.frame.size.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
         //NSLog(@"original rows %f visible %f", rows, rows1);
         
-        /*if(((([self visibleRangeOfTextView:self].length)+([self visibleRangeOfTextView:self].location)) *.85) < range.location){
+        
+        if(((([self visibleRangeOfTextView:self].length)+([self visibleRangeOfTextView:self].location)) *.85) < range.location){
             
-            _textViewInsetValue = _textViewInsetValue + 70;
-            if((_textViewInsetValue +70) < 590){
-            [self setContentInset:UIEdgeInsetsMake( -_textViewInsetValue, 0.0, 0.0, 0.0)];
+
+           // NSRange bottomRange = NSMakeRange(390, 1);
+           // [self scrollRangeToVisible:bottomRange];
+//            CGRect rect = CGRectMake(1, 590, self.frame.size.width, 590);
+//            [self scrollRectToVisible:rect animated:YES];
+//            [self setScrollEnabled:NO];
+//            [self setScrollEnabled:YES];
+           // [self scrollRectToVisible:rect animated:YES];
+            /*int correctRow = rows * .70;
+            if((_textViewInsetValue-currentScrolledHeight) < correctRow*70){
+                
+                 _textViewInsetValue = _textViewInsetValue + self.font.lineHeight;
+                currentScrolledHeight+=self.font.lineHeight*2;
+                [self setContentInset:UIEdgeInsetsMake( -_textViewInsetValue, 0.0, 0.0, 0.0)];
             }
-            NSLog(@"Time to come down %d -- content height %d", _textViewInsetValue, range.location);
-        }*/
+            [self setContentInset:UIEdgeInsetsMake( -504, 0.0, 0.0, 0.0)];
+            NSLog(@"Time to come down %d -- content height %d", _textViewInsetValue, range.location);*/
+        }
         
         UIFont *textFont = self.font;
         if (!textFont) {
@@ -122,6 +140,15 @@ static int lastlinepos=0;
     [self setAttributedText:string];
 }
 
+- (void) disableScroll {
+    
+    self.scrollEnabled = NO;
+}
+
+- (void) enableScroll {
+    
+    self.scrollEnabled = YES;
+}
 
 -(NSRange)visibleRangeOfTextView:(UITextView *)textView {
     CGRect bounds = textView.bounds;

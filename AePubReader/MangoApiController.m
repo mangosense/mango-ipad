@@ -90,11 +90,11 @@
         //strMethod = ReceiptValidate_SignedIn;
         strMethod = SubscriptionValidate;
       //  paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"story_id":storyId};
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO, PLATFORM :IOS};
     }
     else {
         strMethod = SubscriptionValidate;
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO, PLATFORM :IOS};
     }
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
@@ -296,6 +296,29 @@
             }
     }];
 }
+
+
+- (void)linkSubscriptionWithEmail:(NSString *)email {
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *subscriptionTransctionId = appDelegate.subscriptionInfo.subscriptionTransctionId;
+    NSMutableDictionary *paramsDict = [[NSMutableDictionary alloc] init];
+    [paramsDict setObject:email forKey:EMAIL];
+    [paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
+    [paramsDict setObject:VERSION_NO forKey:VERSION];
+    [paramsDict setObject:subscriptionTransctionId forKey:@"transaction_id"];
+    [manager POST:LINKSUBSCRIPTIONWITHEMAIL parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Login Response: %@", responseObject);
+        NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];
+        if ([_delegate respondsToSelector:@selector(getEmailLinkLoginDetails:)]) {
+            [_delegate getEmailLinkLoginDetails:responseDict];
+        }
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Login Error: %@", error);
+    }];
+}
+
 
 - (void)loginWithFacebookDetails:(NSDictionary *)facebookDetailsDictionary {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];

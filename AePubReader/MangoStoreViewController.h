@@ -52,5 +52,6 @@
 - (void)setCategoryFlagValue:(BOOL)value;
 - (void)setCategoryDictValue:(NSDictionary*)categoryInfoDict;
 - (IBAction)showPopover:(id)sender;
+- (IBAction)testFeaturedBooks:(id)sender;
 
 @end

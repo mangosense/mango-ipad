@@ -24,7 +24,7 @@
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
 - (void)subscriptionSetup:(NSArray *)planArray;
 - (void)freeBooksSetup : (NSArray *)booksInfo;
-
+- (void)getEmailLinkLoginDetails:(NSDictionary *)responseDictionary;
 @end
 
 @interface MangoApiController : NSObject{
@@ -44,6 +44,7 @@
 - (void)saveNewBookWithJSON:(NSString *)bookJSON;
 - (void)downloadBookWithId:(NSString *)bookId withDelegate:(id <MangoPostApiProtocol>)delegate ForTransaction:(NSString *)transactionId;
 - (void)loginWithFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
+- (void)linkSubscriptionWithEmail:(NSString *)email;
 
 #pragma mark - Validate Receipt
 - (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;

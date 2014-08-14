@@ -22,7 +22,7 @@
 		<string>mangoreader-app-icon-29X29.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.mang.MangoReader</string>
+	<string>mango.TheRabbitLosesATooth</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

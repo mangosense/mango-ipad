@@ -214,7 +214,7 @@
 #pragma mark - URL's
 
 #define BASE_URL @"http://api.mangoreader.com/api/v2"
-//#define BASE_URL @"http://192.168.2.10:3999/api/v2"
+//#define BASE_URL @"http://192.168.2.14:3999/api/v2"
 //#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
@@ -229,6 +229,7 @@
 #define SubscriptionPlans @"subscriptions/plans"
 #define SubscriptionValidate @"subscriptions/validate/receipt.json" //done
 #define SubscriptionStatus @"subscriptions/validate/status" //either user id else transction id
+#define StoryOfTheDay @"campaign/today"
 ////
 
 #define ReceiptValidate_NotSignedIn @"receipt_validate_without_signed_in.json"
@@ -260,6 +261,7 @@
 #define OLD_STORY_INFO @"livestories/%@/info"
 #define VERSION @"version"
 #define VERSION_NO @"1.7"
+#define LINKSUBSCRIPTIONWITHEMAIL @"connect/ios"
 
 #pragma mark - API Parameter Keys
 

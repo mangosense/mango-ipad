@@ -19,6 +19,7 @@
 #import "MangoAnalyticsViewController.h"
 #import "MangoDashbHelpViewController.h"
 #import "MangoFeedbackViewController.h"
+#import "EmailSubscriptionLinkViewController.h"
 //#import "Fingerprint.h"
 
 @interface LandPageChoiceViewController ()
@@ -72,6 +73,20 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    //_successSubscription = 1;
+    if(_successSubscription){
+        _successSubscription = nil;
+        EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
+        }
+        else{
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
+        }
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:emailLinkSubscriptionView animated:YES completion:nil];
+    }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
