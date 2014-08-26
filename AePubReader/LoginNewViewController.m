@@ -48,7 +48,7 @@
 {
     [super viewDidLoad];
     currentPage = @"login_screen";
-    
+    self.navigationController.delegate = self;
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden=YES;
     
@@ -115,6 +115,17 @@
     
 }
 
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [viewController viewWillAppear:animated];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController
+       didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [viewController viewDidAppear:animated];
+}
 
 - (void)didReceiveMemoryWarning
 {

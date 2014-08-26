@@ -38,6 +38,7 @@
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length {
     //self.scrollEnabled = YES;
+    
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
     //NSLog(@"length %d", [string length]);
 
@@ -50,17 +51,19 @@
         }
     }
     [words removeObjectsInArray:wordsToDelete];
-    
+    int cval = [wordsToDelete count]-1;
     if ([words count]) {
         //NSLog(@"Word index value as -- %d", wordIndex);
         NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSLog(@"check for end character %@",[word substringFromIndex: [word length] - 1]);
         
         NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
+        //NSRange range = [self.text rangeOfString:word options:NSBackwardsSearch range:NSMakeRange(0, length+cval+word.length)];
         
         [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
         
         _textRange = range;
-        NSLog(@"range %i - %i", range.location, range.length);
+        NSLog(@"range %i - %i", length, [self.text length] - length);
         //[self setContentOffset:CGPointMake(0, 100) animated:YES];
         
         //[self scrollRangeToVisible:_textRange];
@@ -86,12 +89,12 @@
             NSLog(@"text inset value %d -- %f", _textViewInsetValue, self.frame.size.height);
             [self setContentInset:UIEdgeInsetsMake(-_textViewInsetValue, 0, 0, 0)];
         }*/
-        float rows = round( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
-        float rows1 = round( (self.frame.size.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
+//        float rows = round( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
+//        float rows1 = round( (self.frame.size.height - self.textContainerInset.top - self.textContainerInset.bottom) / self.font.lineHeight );
         //NSLog(@"original rows %f visible %f", rows, rows1);
         
         
-        if(((([self visibleRangeOfTextView:self].length)+([self visibleRangeOfTextView:self].location)) *.85) < range.location){
+       // if(((([self visibleRangeOfTextView:self].length)+([self visibleRangeOfTextView:self].location)) *.85) < range.location){
             
 
            // NSRange bottomRange = NSMakeRange(390, 1);
@@ -110,7 +113,7 @@
             }
             [self setContentInset:UIEdgeInsetsMake( -504, 0.0, 0.0, 0.0)];
             NSLog(@"Time to come down %d -- content height %d", _textViewInsetValue, range.location);*/
-        }
+        //}
         
         UIFont *textFont = self.font;
         if (!textFont) {

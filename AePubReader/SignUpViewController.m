@@ -107,6 +107,11 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [[_settingsProbSupportView superview] bringSubviewToFront:_settingsProbSupportView];
     [[_settingsProbView superview] bringSubviewToFront:_settingsProbView];
 
+}
+
+- (void) checkIfViewFromEmailView : (int) value{
+    
+    fromEmailView = value;
     
 }
 
@@ -271,29 +276,19 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         if(![userDetailsDictionary objectForKey:@"statusMessage"]){
-        [self saveUserInfo:userDetailsDictionary];
-        
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             
-       /* NSDictionary *dimensions = @{
-                                    PARAMETER_USER_EMAIL_ID :delegate.deviceId,
-                                    PARAMETER_DEVICE: IOS,
-                                    PARAMETER_SIGNUP_EMAIL : _email.text
-                                         
-                                         };
-        [delegate trackEvent:[SIGN_UP_USER valueForKey:@"description"] dimensions:dimensions];
-            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-            [userObject setObject:[SIGN_UP_USER valueForKey:@"value"] forKey:@"eventName"];
-            [userObject setObject: [SIGN_UP_USER valueForKey:@"description"] forKey:@"eventDescription"];
-            [userObject setObject:viewName forKey:@"viewName"];
-            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-            [userObject setObject:delegate.country forKey:@"deviceCountry"];
-            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-            [userObject setObject:_email.text forKey:@"emailID"];
-            [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];*/
-            [self donePressed:nil];
-            [_delegate goToNext];
+        
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            if(([userDetailsDictionary objectForKey:@"transaction_id"]) || ([userDetailsDictionary objectForKey:@"name"])) {
+                
+                [self saveUserInfo:userDetailsDictionary];
+                [self donePressed:nil];
+                [_delegate goToNext];
+            }
+            else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[userDetailsDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
             
         }
         else{

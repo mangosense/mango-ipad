@@ -72,6 +72,7 @@ static int booksDownloadingCount;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     //_buyButton.userInteractionEnabled = NO;
     currentPage =  @"show_book";
     // Do any additional setup after loading the view from its nib.
@@ -151,7 +152,6 @@ static int booksDownloadingCount;
     //_progressView.current = MAX(1, _bookProgress);
 }
 
-
 - (void) availLanguagedata{
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
@@ -159,7 +159,7 @@ static int booksDownloadingCount;
     url = LANGUAGES_FOR_BOOK;
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:_displayBookID forKey:@"story_id"];
-    [paramDict setObject:IOS forKey:PLATFORM];
+//    [paramDict setObject:IOS forKey:PLATFORM];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
 
@@ -172,12 +172,14 @@ static int booksDownloadingCount;
     }
     
     if([type isEqualToString:@"livestories/available_languages"]){
+        
         NSMutableArray *tempDataArray = [[NSMutableArray alloc]init];
         NSMutableArray *tempDataArrayCanBeDuplicate = [[NSMutableArray alloc]init];
         _dropDownArrayData = [[NSMutableArray alloc] init];
         _dropDownIdArrayData = [[NSMutableArray alloc] init];
         tempDataArrayCanBeDuplicate = [NSMutableArray arrayWithArray:dataArray];
         [tempDataArray addObjectsFromArray:[[NSSet setWithArray:tempDataArrayCanBeDuplicate] allObjects]];
+        _labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d language:",[tempDataArray count]+1];
         for(int i=0; i< [tempDataArray count]; ++i){
             
             [_dropDownArrayData addObject:[tempDataArray[i] objectForKey:@"language"]];
@@ -185,33 +187,7 @@ static int booksDownloadingCount;
             [_dropDownIdArrayData addObject:[tempDataArray[i] objectForKey:@"live_story_id"]];
         }
         
-        int cellHeight;
-        
-        int countLanguageRows = _dropDownIdArrayData.count;
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            cellHeight = 26;
-        }
-        else{
-            cellHeight = 33;
-        }
-        if(countLanguageRows>5){
-            countLanguageRows = 4;
-        }
-        
-        int paddingTopValue = -(cellHeight+cellHeight*countLanguageRows);
-        int heightOfTableView = (cellHeight+cellHeight*countLanguageRows);
-        _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:cellHeight heightTableView:heightOfTableView paddingTop:paddingTopValue paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
-        _dropDownView.delegate = self;
-        
-        [self.view addSubview:_dropDownView.view];
-        
-        [_dropDownView.uiTableView reloadData];
-        
-        if(_dropDownIdArrayData.count >0){
-            [self.dropDownView openAnimation];
-        }
+        [self loadAvailableLanguageDropdown];
     }
     else{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -249,18 +225,20 @@ static int booksDownloadingCount;
         }
         
         //[bookDetailsViewController.dropDownView.uiTableView reloadData];
-        _bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
+        _bookAvailGamesNo.text = [NSString stringWithFormat:@"Games # %@",[bookDict objectForKey:@"widget_count"]];
         
-        _ageLabel.text = [NSString stringWithFormat:@"Age Group: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
+        _ageLabel.text = [NSString stringWithFormat:@"Age %@", [bookDict objectForKey:@"combined_age_group"]];
         
-        if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
-            _readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
+        _gradeLevel.text = [NSString stringWithFormat:@"Grade %@", [bookDict objectForKey:@"combined_grades"]];
+        
+        if(![[bookDict objectForKey:@"combined_reading_level"] isKindOfClass:[NSNull class]]){
+            _readingLevelLabel.text = [NSString stringWithFormat:@"Reading Level : %@", [bookDict objectForKey:@"combined_reading_level"]];
         }
         else {
             _readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
         }
         
-        _numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        _numberOfPagesLabel.text = [NSString stringWithFormat:@"Pages # %d", [[bookDict objectForKey:@"page_count"] intValue]];
         if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
             _priceLabel.text = [NSString stringWithFormat:@"FREE"];
            // [_buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
@@ -280,11 +258,43 @@ static int booksDownloadingCount;
         _descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
         _selectedProductId = [bookDict objectForKey:@"id"];
-        _imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
-        
-        [self getImageForUrl:[_imageUrlString stringByReplacingOccurrencesOfString:@"banner" withString:@"leftright"]];
+        //_imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
+        _imageUrlString = [bookDict objectForKey:@"big_banner"];
+        [self getImageForUrl:_imageUrlString];
     }
     
+    
+}
+
+- (IBAction) loadAvailableLanguageDropdown{
+    
+    int cellHeight;
+    
+    int countLanguageRows = _dropDownIdArrayData.count;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        cellHeight = 26;
+    }
+    else{
+        cellHeight = 33;
+    }
+    if(countLanguageRows>5){
+        countLanguageRows = 4;
+    }
+    
+    int paddingTopValue = -(cellHeight+cellHeight*countLanguageRows);
+    int heightOfTableView = (cellHeight+cellHeight*countLanguageRows);
+    _dropDownView = [[DropDownView alloc] initWithArrayData:_dropDownArrayData cellHeight:cellHeight heightTableView:heightOfTableView paddingTop:paddingTopValue paddingLeft:0  paddingRight:0 refView:_dropDownButton animation:BOTH openAnimationDuration:0.1 closeAnimationDuration:0.5];
+    _dropDownView.delegate = self;
+    
+    [self.view addSubview:_dropDownView.view];
+    
+    [_dropDownView.uiTableView reloadData];
+    
+    if(_dropDownIdArrayData.count >0){
+        [self.dropDownView openAnimation];
+    }
     
 }
 
@@ -303,7 +313,7 @@ static int booksDownloadingCount;
 
 - (void)setImageUrlString:(NSString *)imageUrlString {
     _imageUrlString = imageUrlString;
-    [self getImageForUrl:[_imageUrlString stringByReplacingOccurrencesOfString:@"banner" withString:@"leftright"]];
+    [self getImageForUrl:_imageUrlString];
 }
 
 #pragma mark - Action Methods
@@ -432,13 +442,15 @@ static int booksDownloadingCount;
     }
     [delegate trackEventAnalytic:@"close_dialog" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [self dismissViewControllerAnimated:YES completion:^(void) {
+    self.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+    [self dismissViewControllerAnimated:NO completion:^(void) {
         //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
     }];
 }
 
 - (void) closeDetailBookWithOutAnimation{
     
+    self.modalPresentationStyle = UIModalPresentationNone;
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
@@ -517,7 +529,7 @@ static int booksDownloadingCount;
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
         MangoApiController *apiController = [MangoApiController sharedApiController];
         NSString *url;
-        url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",[_dropDownIdArrayData objectAtIndex:returnIndex]]];
+        url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@/details",[_dropDownIdArrayData objectAtIndex:returnIndex]]];
     
     _displayBookID = [_dropDownIdArrayData objectAtIndex:returnIndex];
     _selectedProductId = _displayBookID;

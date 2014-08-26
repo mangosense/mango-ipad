@@ -16,6 +16,7 @@
 #import "GADInterstitial.h"
 #import "GADInterstitialDelegate.h"
 #import "MangoStoreViewController.h"
+#import "EmailSubscriptionLinkViewController.h"
 
 #define FORK_TAG 9
 
@@ -88,10 +89,10 @@
     storyAsAppFilePath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     
     if (!validUserSubscription && storyAsAppFilePath){
-        self.interstitial = [[GADInterstitial alloc] init];
+        /*self.interstitial = [[GADInterstitial alloc] init];
         self.interstitial.delegate = self;
         self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
-        [self.interstitial loadRequest:[GADRequest request]];
+        [self.interstitial loadRequest:[GADRequest request]];*/
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -141,6 +142,23 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
+    
+    if(subscriptionSuccess && !userEmail){
+        EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
+        }
+        else{
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
+        }
+        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:emailLinkSubscriptionView animated:NO completion:nil];
+    }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
@@ -595,8 +613,8 @@
         url = LANGUAGES_FOR_BOOK;
         NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
         [paramDict setObject:_bookId forKey:@"story_id"];
-        [paramDict setObject:IOS forKey:PLATFORM];
-        [paramDict setObject:VERSION_NO forKey:VERSION];
+//        [paramDict setObject:IOS forKey:PLATFORM];
+//        [paramDict setObject:VERSION_NO forKey:VERSION];
         [apiController getListOf:url ForParameters:paramDict withDelegate:self];
   //  }
 }
@@ -759,7 +777,7 @@
     if((_pageNumber % 4) == 0){
         
         if ((!validUserSubscription && storyAsAppFilePath) && !(_pageNo == _pageNumber)){
-            [self showInterstitial:0];
+         //   [self showInterstitial:0];
             NSLog(@"page numbers --- %d -- %d", _pageNumber, _pageNo);
         }
     }

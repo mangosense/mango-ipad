@@ -128,7 +128,7 @@ int menuLanguage = 0;
             break;
             
         default: {
-            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:NAME];
+            cell.textLabel.text = [[itemsListArray objectAtIndex:indexPath.row] objectForKey:@"desc"];
         }
             break;
     }

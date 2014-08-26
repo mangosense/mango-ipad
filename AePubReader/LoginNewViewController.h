@@ -11,14 +11,14 @@
 #import "SignUpViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface LoginNewViewController : UIViewController <MangoPostApiProtocol, PostSignupDelegate, FBLoginViewDelegate, UIScrollViewDelegate>{
+@interface LoginNewViewController : UIViewController <MangoPostApiProtocol, UINavigationControllerDelegate, PostSignupDelegate, FBLoginViewDelegate, UIScrollViewDelegate>{
     
     NSString *userEmail;
     NSString *currentPage;
     
     UIScrollView* scrollView;
 	UIPageControl* pageControl;
-	
+	UINavigationController *navController;
 	BOOL pageControlBeingUsed;
     
 }

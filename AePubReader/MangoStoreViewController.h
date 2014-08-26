@@ -17,6 +17,7 @@
 #import "PurchaseManager.h"
 #import "BookDetailsViewController.h"
 #import "WEPopoverController.h"
+#import "EmailSubscriptionLinkViewController.h"
 
 @interface MangoStoreViewController : UIViewController <ItemsDelegate, UIPopoverControllerDelegate, iCarouselDataSource, iCarouselDelegate, iCarouselImageCachingProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MangoPostApiProtocol, LocalImagesProtocol, PurchaseManagerProtocol ,UITextFieldDelegate, BookViewProtocol, UITableViewDataSource, UITableViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate>{
     
@@ -53,5 +54,6 @@
 - (void)setCategoryDictValue:(NSDictionary*)categoryInfoDict;
 - (IBAction)showPopover:(id)sender;
 - (IBAction)testFeaturedBooks:(id)sender;
+- (void) dismissPopoverController;
 
 @end

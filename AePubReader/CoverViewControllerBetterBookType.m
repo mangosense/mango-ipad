@@ -16,6 +16,7 @@
 #import <Parse/Parse.h>
 #import "MangoPromoPageViewController.h"
 #import "MBProgressHUD.h"
+#import "EmailSubscriptionLinkViewController.h"
 //#import "Fingerprint.h"
 
 @interface CoverViewControllerBetterBookType ()
@@ -154,6 +155,23 @@ NSString *newIdentityValue;
 
 - (void) viewDidAppear:(BOOL)animated{
     
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
+    
+    if(subscriptionSuccess && !userEmail){
+        EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
+        }
+        else{
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
+        }
+        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:emailLinkSubscriptionView animated:NO completion:nil];
+    }
+    
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
     [dimensions setObject:@"reader" forKey:PARAMETER_ACTION];
@@ -243,8 +261,8 @@ NSString *newIdentityValue;
         url = LANGUAGES_FOR_BOOK;
         NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
         [paramDict setObject:currentBookId forKey:@"story_id"];
-        [paramDict setObject:IOS forKey:PLATFORM];
-        [paramDict setObject:VERSION_NO forKey:VERSION];
+//        [paramDict setObject:IOS forKey:PLATFORM];
+//        [paramDict setObject:VERSION_NO forKey:VERSION];
         [apiController getListOf:url ForParameters:paramDict withDelegate:self];
   //  }
 }

@@ -23,6 +23,7 @@
     NSString *userDeviceID;
     NSString *ID;
     NSString *currentPage;
+    int fromEmailView;
 }
 - (IBAction)signUp:(id)sender;
 - (IBAction)donePressed:(id)sender;
@@ -45,4 +46,5 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil with:(LoginViewController *)loginViewController;
 
 - (IBAction)displyParentalControlOrNot:(id)sender;
+- (void) checkIfViewFromEmailView : (int) value;
 @end

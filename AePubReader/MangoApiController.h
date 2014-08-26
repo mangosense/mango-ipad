@@ -33,6 +33,7 @@
 }
 
 @property (nonatomic, weak) id <MangoPostApiProtocol> delegate;
+@property (nonatomic, retain) UIAlertView *alert;
 
 + (id)sharedApiController;
 

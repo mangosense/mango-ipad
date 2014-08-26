@@ -11,6 +11,7 @@
 
 @interface EmailSubscriptionLinkViewController : UIViewController<MangoPostApiProtocol>{
     
+    NSString *storyasAppPath;
 }
 
 @property (nonatomic, strong) IBOutlet UITextField *emailTextField;

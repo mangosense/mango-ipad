@@ -8,7 +8,7 @@
 
 #import "LastPageViewController.h"
 
-#import "AePubReaderAppDelegate.h"
+#import "AePubReaderAppDelegate.h"b
 #import "DataModelControl.h"
 #import "MBProgressHUD.h"
 #import "MangoEditorViewController.h"
@@ -17,6 +17,7 @@
 #import <Parse/Parse.h>
 #import "CargoBay.h"
 #import "LandPageChoiceViewController.h"
+#import "EmailSubscriptionLinkViewController.h"
 
 @interface LastPageViewController ()
 
@@ -136,6 +137,23 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
+    
+    if(subscriptionSuccess && !userEmail){
+        EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
+        }
+        else{
+            emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
+        }
+        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:emailLinkSubscriptionView animated:NO completion:nil];
+    }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
@@ -289,8 +307,8 @@
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     url = RECOMMENDED_STORIES;
     [paramDict setObject:story_Id_value forKey:@"story_id"];
-    [paramDict setObject:IOS forKey:PLATFORM];
-    [paramDict setObject:VERSION_NO forKey:VERSION];
+//    [paramDict setObject:IOS forKey:PLATFORM];
+//    [paramDict setObject:VERSION_NO forKey:VERSION];
     [MBProgressHUD showHUDAddedTo:self.recommendedBooksView animated:YES];
     [apiController getListOf:url ForParameters:paramDict withDelegate:self];
 }
@@ -403,7 +421,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
-    url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",bookID]];
+    url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@/details",bookID]];
     
     [apiController getListOf:url ForParameters:nil withDelegate:self];
 }

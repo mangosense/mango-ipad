@@ -90,11 +90,11 @@
         //strMethod = ReceiptValidate_SignedIn;
         strMethod = SubscriptionValidate;
       //  paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"story_id":storyId};
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO, PLATFORM :IOS};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"user_id":userId, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO, PLATFORM :IOS, ISMOBILE :ISMOBILEVALUE};
     }
     else {
         strMethod = SubscriptionValidate;
-        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO, PLATFORM :IOS};
+        paramDict = @{@"receipt_data":base64TxReceiptStr, @"amount":amount, @"subscription_id":storyId, @"udid":deviceid, VERSION:VERSION_NO, PLATFORM :IOS, ISMOBILE : ISMOBILEVALUE};
     }
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
@@ -119,13 +119,13 @@
     NSDictionary *paramDict;
     if(userId){
         
-        paramDict = @{ @"user_id":userId, @"udid":deviceId, VERSION:VERSION_NO};
+        paramDict = @{ @"user_id":userId, @"udid":deviceId, VERSION:VERSION_NO, PLATFORM :IOS, ISMOBILE :ISMOBILEVALUE};
     }
     else if((!userId) && (TransctionId)) {
-        paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId, VERSION:VERSION_NO};
+        paramDict = @{ @"transaction_id":TransctionId, @"udid":deviceId, VERSION:VERSION_NO, PLATFORM :IOS, ISMOBILE :ISMOBILEVALUE};
     }
     else{
-        paramDict = @{ @"transaction_id":@"0", @"udid":deviceId, VERSION:VERSION_NO};
+        paramDict = @{ @"transaction_id":@"0", @"udid":deviceId, VERSION:VERSION_NO, PLATFORM :IOS, ISMOBILE : ISMOBILEVALUE};
     }
     //[paramDict setValue:VERSION_NO forKeyPath:VERSION];
     strMethod = SubscriptionStatus;
@@ -184,7 +184,12 @@
 }
 - (void)getObject:(NSString *)methodName ForParameters:(NSDictionary *)paramsDict WithDelegate:(id <MangoPostApiProtocol>) delegate {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    [manager GET:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary *newParamDict = [[NSMutableDictionary alloc] init];
+    [newParamDict setDictionary:paramsDict];
+    [newParamDict setObject:VERSION_NO forKey:VERSION];
+    [newParamDict setObject:IOS forKey:PLATFORM];
+    [newParamDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
+    [manager GET:methodName parameters:newParamDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([delegate respondsToSelector:@selector(reloadWithObject:ForType:)]) {
             NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];
             SKPaymentTransaction *transaction = [paramsDict objectForKey:@"transaction"];
@@ -196,8 +201,10 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get Object Error: %@", error);
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        if(!_alert.visible){
+            _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [_alert show];
+        }
         
         if ([delegate respondsToSelector:@selector(reloadWithObject:ForType:)]) {
             [delegate reloadWithObject:nil ForType:methodName];
@@ -208,7 +215,12 @@
 
 - (void)getListOf:(NSString *)methodName ForParameters:(NSDictionary *)paramDictionary withDelegate:(id <MangoPostApiProtocol>)delegate {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    [manager GET:methodName parameters:paramDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary *newParamDict = [[NSMutableDictionary alloc] init];
+    [newParamDict setDictionary:paramDictionary];
+    [newParamDict setObject:VERSION_NO forKey:VERSION];
+    [newParamDict setObject:IOS forKey:PLATFORM];
+    [newParamDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
+    [manager GET:methodName parameters:newParamDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Get List Response: %@", responseObject);
         NSArray *responseArray;
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -221,9 +233,10 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        if(!_alert.visible){
+            _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [_alert show];
+        }
         
         if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
             [delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
@@ -265,7 +278,7 @@
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:email, password, nil] forKeys:[NSArray arrayWithObjects:EMAIL, PASSWORD, nil]];
     if (name) {
         [paramsDict setObject:name forKey:NAME];
-       // [paramsDict setObject:IOS forKey:PLATFORM];//send platform = ios new
+        //[paramsDict setObject:IOS forKey:PLATFORM];//send platform = ios new
     }
     NSString *subscriptionTransctionId = appDelegate.subscriptionInfo.subscriptionTransctionId;
     if(subscriptionTransctionId){
@@ -273,6 +286,8 @@
     }
     
     [paramsDict setObject:VERSION_NO forKey:VERSION];
+    [paramsDict setObject:IOS forKey:PLATFORM];
+    [paramsDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
     [paramsDict setObject:appDelegate.country forKey:@"country"];
     
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -307,7 +322,9 @@
     [paramsDict setObject:email forKey:EMAIL];
     [paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
     [paramsDict setObject:VERSION_NO forKey:VERSION];
-    [paramsDict setObject:subscriptionTransctionId forKey:@"transaction_id"];
+    [paramsDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
+    //[paramsDict setObject:subscriptionTransctionId forKey:@"transaction_id"];
+    [paramsDict setObject:@"123456789" forKey:@"transaction_id"];
     [manager POST:LINKSUBSCRIPTIONWITHEMAIL parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];
@@ -331,6 +348,7 @@
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:USERNAME] forKey:USERNAME];
     [paramsDict setObject:[facebookDetailsDictionary objectForKey:NAME] forKey:NAME];
     [paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
+    [paramsDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
     [paramsDict setObject:VERSION_NO forKey:VERSION];
     [manager POST:FACEBOOK_LOGIN parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
@@ -359,7 +377,7 @@
         
         NSURL *URL;
         if (appDelegate.loggedInUserInfo) {
-            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
+            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken, IOS, ISMOBILEVALUE]];
         } else {
             NSString *subscriptionMode = @"subscription";
             NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -370,11 +388,11 @@
                 NSString *authtokenTest = @"_-ggz5pYfg-BmBVgfbX8";
                 NSString *userIdTest = @"demo@mangosense.com";
                 
-                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userIdTest stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authtokenTest]];
+                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userIdTest stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authtokenTest, IOS, ISMOBILEVALUE]];
                 
             }
             else{
-                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId,subscriptionMode]];
+                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId,subscriptionMode, IOS, ISMOBILEVALUE]];
             }
             //URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken]];
         }
@@ -442,7 +460,7 @@
     
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON,VERSION, PLATFORM, ISMOBILE, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, VERSION_NO, IOS, ISMOBILEVALUE, nil]];
     NSString *methodName = [NSString stringWithFormat:SAVE_STORY, bookId];
     [manager POST:methodName parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Save Story Response: %@", responseObject);
@@ -457,8 +475,12 @@
 
 - (void) getSubscriptionProductsInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate{
     
+    NSMutableDictionary *newParamDict = [[NSMutableDictionary alloc] init];
+    [newParamDict setObject:VERSION_NO forKey:VERSION];
+    [newParamDict setObject:IOS forKey:PLATFORM];
+    [newParamDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    [manager GET:methodName parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:methodName parameters:newParamDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Get List Response: %@", responseObject);
         NSArray *responseArray;
         if(([responseObject isKindOfClass:[NSArray class]]) && ([responseObject count] > 0)){
@@ -466,15 +488,19 @@
             [_delegate subscriptionSetup:responseObject];
         }
         else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            if(!_alert.visible){
+                _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [_alert show];
+            }
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        if(!_alert.visible){
+            _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [_alert show];
+        }
         
         if ([delegate respondsToSelector:@selector(reloadViewsWithArray:ForType:)]) {
             [delegate reloadViewsWithArray:[NSArray array] ForType:methodName];
@@ -485,10 +511,14 @@
 
 - (void) getFreeBookInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate{
     
+    NSMutableDictionary *newParamDict = [[NSMutableDictionary alloc] init];
+    [newParamDict setObject:VERSION_NO forKey:VERSION];
+    [newParamDict setObject:IOS forKey:PLATFORM];
+    [newParamDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    [manager GET:methodName parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:methodName parameters:newParamDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Get List Response: %@", responseObject);
-        NSArray *responseArray;
+        //NSArray *responseArray;
         if(([responseObject isKindOfClass:[NSArray class]]) && ([responseObject count] > 0)){
             
             [_delegate freeBooksSetup:responseObject];
@@ -501,8 +531,10 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Get List Error: %@", error);
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        if(!_alert.visible){
+            _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [_alert show];
+        }
     }];
     
 }
@@ -516,7 +548,7 @@
     bookJSON = @"{\"title\": \"NewTestBookKedar\",\"language\": \"English\",\"pages\": [{\"id\": \"Cover\",\"name\": \"Cover\",\"layers\": []},{\"id\": 1,\"json\": {\"id\": 1,\"name\": 1,\"type\": \"page\",\"layers\": []}}]}";
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, nil]];
+    NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:appDelegate.loggedInUserInfo.authToken, appDelegate.loggedInUserInfo.email, bookJSON,VERSION, PLATFORM, ISMOBILE, nil] forKeys:[NSArray arrayWithObjects:AUTH_TOKEN, EMAIL, BOOK_JSON, VERSION_NO, IOS, ISMOBILEVALUE, nil]];
 
     [manager POST:NEW_STORY parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Save Story Response: %@", responseObject);

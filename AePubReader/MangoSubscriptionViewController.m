@@ -13,7 +13,7 @@
 #import "Constants.h"
 #import "CustomNavViewController.h"
 #import "LandPageChoiceViewController.h"
-
+#import "EmailSubscriptionLinkViewController.h"
 
 #define MONTHLY_TAG 9
 #define QUARTERLY_TAG 29
@@ -200,6 +200,7 @@
         [self dismissViewControllerAnimated:YES completion:^{
         
         }];*/
+        
         [self dismissViewControllerAnimated:NO completion:nil];
         
         //[self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -230,6 +231,13 @@
     if(![self connected])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if(!_arraySubscriptionPlan){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Error" message:@"No product found for the selected plan, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
@@ -279,7 +287,7 @@
     //put progress hud here ...
     
     //Test Story as App//
-    //[self updateBookProgress:0];
+//    [self updateBookProgress:0];
     //
 }
 
@@ -340,9 +348,9 @@
     }
     
     else{
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
-        [alert show];
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
+        //[alert show];
+        [prefs setBool:YES forKey:@"SubscriptionSuccess"];
         [self backButtonTapped:0];
         
     }

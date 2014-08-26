@@ -7,6 +7,7 @@
 //
 
 #import "EmailSubscriptionLinkViewController.h"
+#import "SignUpViewController.h"
 
 @interface EmailSubscriptionLinkViewController ()
 
@@ -19,6 +20,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+         //self.preferredContentSize = CGSizeMake(1, 110);
     }
     return self;
 }
@@ -26,7 +28,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    storyasAppPath = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.view.autoresizesSubviews = NO;
+    self.view.layer.cornerRadius = 10;
+    self.view.layer.masksToBounds = YES;
+    self.view.superview.backgroundColor = nil;
 }
 
 - (IBAction)signUpClick:(id)sender{
@@ -47,9 +59,10 @@
         return;
     }
     
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    [apiController linkSubscriptionWithEmail:_emailTextField.text];
-    apiController.delegate = self;
+    NSString *alertMessage = [NSString stringWithFormat:@"Are you sure want to create an account with this email %@", _emailTextField.text];
+    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Alert" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
+    [alertView show];
+    
 }
 
 - (BOOL)validateEmailWithString:(NSString*)email
@@ -67,8 +80,14 @@
             [self skipClick:0];
         }
         else{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            if(storyasAppPath){//for story as app success subscription
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            else{//for main app success subscription
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Change" otherButtonTitles:@"Signup", nil];
+                [alert show];
+            }
         }
     }
     else{
@@ -82,14 +101,48 @@
 
 - (IBAction)skipClick:(id)sender{
    
-    //dismiss the view
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch * touch = [touches anyObject];
     if(touch.phase == UITouchPhaseBegan) {
-        [self.view endEditing:YES];
+        [self.emailTextField resignFirstResponder];
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if([alertView.title isEqualToString:@"Alert"]){
+        if(buttonIndex == 0){
+            _emailTextField.text = @"";
+        }
+        else{
+            MangoApiController *apiController = [MangoApiController sharedApiController];
+            apiController.delegate = self;
+            [apiController linkSubscriptionWithEmail:_emailTextField.text];
+        }
+    }
+    
+    if([alertView.title isEqualToString:@"Sorry!!"]){
+        
+        if(buttonIndex == 0){
+            //clear email field
+            _emailTextField.text = @"";
+        }
+        else{
+            //redirect user to signup page
+            SignUpViewController *presentSignupView;
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                presentSignupView = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController_iPhone" bundle:nil];
+            }
+            else{
+                presentSignupView = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+            }
+            [presentSignupView checkIfViewFromEmailView:1];
+            presentSignupView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self presentViewController:presentSignupView animated:YES completion:nil];
+        }
     }
 }
 

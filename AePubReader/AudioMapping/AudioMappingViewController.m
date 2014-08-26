@@ -278,11 +278,10 @@
         }
     }
     
-    [words removeObjectsInArray:wordsToDelete];
+    //[words removeObjectsInArray:wordsToDelete];
     if ([words count]) { //P
         NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
         NSString *subString = [subarray componentsJoinedByString:@" "];
-        NSLog(@"log textfield range %i", _mangoTextField.textRange.location);
         
         [_mangoTextField highlightWordAtIndex:_wordIndex AfterLength:[subString length]];
         

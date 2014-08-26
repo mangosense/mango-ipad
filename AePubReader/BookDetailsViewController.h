@@ -38,6 +38,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *readingLevelLabel;
 @property (nonatomic, strong) IBOutlet UILabel *numberOfPagesLabel;
 @property (nonatomic, strong) IBOutlet UILabel *categoriesLabel;
+@property (nonatomic, strong) IBOutlet UILabel *singleCategoryLabel;
+@property (nonatomic, strong) IBOutlet UILabel *gradeLevel;
 @property (nonatomic, strong) IBOutlet UILabel *priceLabel;
 @property (nonatomic, strong) IBOutlet UIButton *buyButton;
 @property (nonatomic, strong) IBOutlet UITextView *descriptionLabel;
@@ -66,6 +68,8 @@
 - (IBAction)closeDetails:(id)sender;
 -(IBAction)dropDownActionButtonClick;
 - (void)setIdOfDisplayBook:(NSString *)book_Id;
+- (void) availLanguagedata;
+- (IBAction) loadAvailableLanguageDropdown;
 
 + (int) booksDownloadingNo;
 

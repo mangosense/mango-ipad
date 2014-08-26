@@ -214,7 +214,7 @@
 #pragma mark - URL's
 
 #define BASE_URL @"http://api.mangoreader.com/api/v2"
-//#define BASE_URL @"http://192.168.2.14:3999/api/v2"
+//#define BASE_URL @"http://192.168.0.126:3999/api/v2"
 //#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
@@ -241,13 +241,14 @@
 #define GRADES @"grades.json"
 #define LOGIN @"sign_in"
 #define SIGN_UP @"sign_up"
-#define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@"
-#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@&mode=%@"
+#define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@&platform=%@&ismobile=%@"
+#define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@&mode=%@&platform=%@&ismobile=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"
 #define STORY_FILTER_CATEGORY @"livestories/by/category/"
-#define STORY_FILTER_AGE_GROUP @"livestories/by/agegroup/"
+#define STORY_FILTER_AGE_GROUP @"livestories/by/agegroup/"    
+#define STORY_FILTER_ALL_AGE_GROUPS @"livestories/by/all_agegroup"
 #define STORY_FILTER_LANGUAGES @"livestories/by/language/"
 #define STORY_FILTER_GRADE @"livestories/by/grade/"
 #define SAVE_STORY @"livestories/%@/"
@@ -260,8 +261,8 @@
 #define LIVE_STORIES_WITH_ID @"livestories"
 #define OLD_STORY_INFO @"livestories/%@/info"
 #define VERSION @"version"
-#define VERSION_NO @"1.7"
-#define LINKSUBSCRIPTIONWITHEMAIL @"connect/ios"
+#define VERSION_NO @"2.0"
+#define LINKSUBSCRIPTIONWITHEMAIL @"subscription/connect"
 
 #pragma mark - API Parameter Keys
 
@@ -272,7 +273,10 @@
 #define LIMIT @"limit"
 #define PLATFORM @"platform"
 #define IOS @"ios"
+#define ISMOBILE @"is_mobile"
 #define FACEBOOK_TOKEN_EXPIRATION_DATE @"expirationDate"
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define ISMOBILEVALUE ((IS_IPAD) ? @"false" : @"true")
 
 #pragma mark - Table Types
 
