@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -64,6 +64,18 @@
                     </state>
                     <connections>
                         <action selector="backToLoginView:" destination="-1" eventType="touchUpInside" id="013-ng-Dpi"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gQU-W8-sV0">
+                    <rect key="frame" x="449" y="77" width="260" height="217"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" backgroundImage="button_free stories.png">
+                        <color key="titleColor" red="0.93287991560000005" green="0.95864429829999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="callStoryOfTheDay:" destination="-1" eventType="touchUpInside" id="l3f-7K-d9Y"/>
                     </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" id="Neo-pR-Phv" customClass="UIControl">
@@ -139,6 +151,7 @@
     </objects>
     <resources>
         <image name="button_create story.png" width="448" height="542"/>
+        <image name="button_free stories.png" width="388" height="288"/>
         <image name="button_my-stories.png" width="647" height="273"/>
         <image name="button_store.png" width="336" height="454"/>
         <image name="closebutton.png" width="48" height="48"/>

@@ -8,6 +8,7 @@
 
 #import "AePubReaderAppDelegate.h"
 #import "MangoEditorViewController.h"
+#import "MangoStoreViewController.h"
 
 #import "Book.h"
 //#import "CustomNavViewController.h"
@@ -45,6 +46,12 @@ static UIAlertView *alertViewLoading;
 //            NSLog(@"  %@", name);
 //        }
 //    }
+    //Mixpanel Mangoreader
+    
+    //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
+    
+    //test account mixpanel
+    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -64,8 +71,8 @@ static UIAlertView *alertViewLoading;
      //             clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
    //MangoReader_Test app for testing
-    [Parse setApplicationId:@"HbYD779oCz9BEHkXMUpBKKto3G4DZ8BojgRmHImn"
-                       clientKey:@"B0qIn0GsafHLEgyMhuIAqA2buL1Mw5RenfDqZuGF"];
+    [Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
+                       clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
 
     //Flurry
@@ -121,6 +128,22 @@ static UIAlertView *alertViewLoading;
 
     _wasFirstInPortrait=NO;
     
+//    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
+//    NSArray *fontNames;
+//    NSInteger indFamily, indFont;
+//    for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
+//    {
+//        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
+//        fontNames = [[NSArray alloc] initWithArray:
+//                     [UIFont fontNamesForFamilyName:
+//                      [familyNames objectAtIndex:indFamily]]];
+//        for (indFont=0; indFont<[fontNames count]; ++indFont)
+//        {
+//            NSLog(@"Font name: %@", [fontNames objectAtIndex:indFont]);
+//        }
+//    }
+
+    
     BOOL uiNew=YES;
     
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -150,8 +173,33 @@ static UIAlertView *alertViewLoading;
 //        self.window.rootViewController = nav;
 //        [self.window makeKeyAndVisible];
 //    } else {
+    //NSString *bookId = @"5331442a69702d656a040000";
+    NSString *bookId;
+    int *pushCreateStory;
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
+    if (launchOptions != nil)
+    {
+        NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil)
+        {
+            NSLog(@"receive the notifucation");
+            if([dictionary objectForKey:@"bookid"]){
+                bookId = [dictionary objectForKey:@"bookid"];
+            }
+            else if([dictionary objectForKey:@"update"]){
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                            @"itms-apps://itunes.apple.com/us/app/mangoreader-interactive-kids/id568003822?mt=8&uo=4"]];
+            }
+            else if([dictionary objectForKey:@"create"]){
+                pushCreateStory = 1;
+            }
     
-    
+        }
+    }
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
@@ -159,7 +207,6 @@ static UIAlertView *alertViewLoading;
         //validSubscription = 1;//test storyasapp
         //CustomNavViewController *nav;
         if (uiNew) {
-           
 
             if ((path)&& (!validSubscription)) {
                 
@@ -190,7 +237,7 @@ static UIAlertView *alertViewLoading;
                     //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
                     _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
                 }
-                
+                _landpageController.pushNoteBookId = bookId;
                 //nav=[[CustomNavViewController alloc]initWithRootViewController:_landpageController];
                 nav=[[UINavigationController alloc]initWithRootViewController:_landpageController];
             }
@@ -204,12 +251,13 @@ static UIAlertView *alertViewLoading;
                  else{
                      _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
                  }
+                _loginController.pushNoteBookId = bookId;
                 //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
                 nav=[[UINavigationController alloc]initWithRootViewController:_loginController];
             }
             
         } else {
-        _loginViewController=[[LoginViewController alloc]init];
+            _loginViewController=[[LoginViewController alloc]init];
         //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginViewController];
             nav=[[UINavigationController alloc]initWithRootViewController:_loginViewController];
         }
@@ -242,15 +290,43 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    
+    [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
+                                            PARAMETER_DEVICE_LANGUAGE :_language,
+                                            PLATFORM : IOS,
+                                            PARAMETER_UUID : _uuidValue,
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];
+
+    
     if (!path){
         if(!isFreeBooksApiCall){
-         //   [self getAllFreeBooks];
+            [self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
         sleep(4.0);
     }
     return YES;
+}
+
+- (void)handleBackgroundNotification:(NSDictionary *)notification
+{
+    //NSDictionary *aps = (NSDictionary *)[notification objectForKey:@"aps"];
+//    NSMutableString *alert = [NSMutableString stringWithString:@""];
+//    if ([aps objectForKey:@"alert"])
+//    {
+//        [alert appendString:(NSString *)[aps objectForKey:@"alert"]];
+//    }
+//    if ([notification objectForKey:@"job_id"])
+//    {
+//        // do something with job id
+//        int jobID = [[notification objectForKey:@"job_id"] intValue];
+//    }
+   // NSString *str = [NSString stringWithFormat:@"%@",aps];
+   // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:str delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+   // [alert show];
+    
 }
 
 // In order to process the response you get from interacting with the Facebook login process,
@@ -404,6 +480,11 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
+- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+    
+     [[Mixpanel sharedInstance] track:event properties:properties];
+}
+
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
@@ -541,8 +622,8 @@ void uncaughtExceptionHandler(NSException *exception) {
         [filemanager removeItemAtPath:location error:nil];
 		[za UnzipCloseFile];
 	}
-
 }
+
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity {
 	NSLog(@"location %@",location);
 	ZipArchive* za = [[ZipArchive alloc] init];
@@ -645,7 +726,6 @@ void uncaughtExceptionHandler(NSException *exception) {
         NSString *myCurrentDateString = [dateFormatter stringFromDate:myDate];
         NSDate *myCurrentDate = [dateFormatter dateFromString:myCurrentDateString];
         NSDate *expDate = [dateFormatter dateFromString:delegate.subscriptionInfo.subscriptionExpireDate];
-        
         NSComparisonResult result;
         
         result = [myCurrentDate compare:expDate]; // comparing two dates
@@ -663,7 +743,7 @@ void uncaughtExceptionHandler(NSException *exception) {
             [[MangoApiController sharedApiController] validateReceiptWithData:recieptData ForTransaction:transctionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
                 // [delegate itemReadyToUse:productId ForTransaction:transactionId];
                 if ([[response objectForKey:@"status"] integerValue] == 1) {
-                    NSLog(@"SuccessResponse:%@", response);
+                    NSLog(@"SuccessResponse:%@" , response);
                     [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
                     
                     //  MangoSubscriptionViewController *mangoSunscription = [[MangoSubscriptionViewController alloc] init];
@@ -935,6 +1015,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
     [currentInstallation saveInBackground];
+    
+    
 }
 
 -(void)applicationWillEnterForeground:(UIApplication *)application{
@@ -943,7 +1025,184 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
 
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [PFPush handlePush:userInfo];
+    //[PFPush handlePush:userInfo];
+    if ( application.applicationState == UIApplicationStateActive ){
+        if (userInfo != nil)
+        {
+            NSLog(@"open active notifucation");
+        }
+    }
+    else{
+        if (userInfo != nil)
+        {
+            NSLog(@"background notifucation");
+            if([userInfo objectForKey:@"bookid"]){
+                NSString *bookId = [userInfo objectForKey:@"bookid"];
+            
+                MangoApiController *apiController = [MangoApiController sharedApiController];
+                NSString *url;
+                url = [LIVE_STORIES_WITH_ID stringByAppendingString:[NSString stringWithFormat:@"/%@",bookId]];
+            
+                [apiController getListOf:url ForParameters:nil withDelegate:self];
+            }
+            else if([userInfo objectForKey:@"update"]){
+                
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                            @"itms-apps://itunes.apple.com/us/app/mangoreader-interactive-kids/id568003822?mt=8&uo=4"]];
+            }
+        }
+    }
+}
+
+- (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
+    
+    NSDictionary *passDictionaryData;
+    if(dataArray.count){
+        passDictionaryData = dataArray[0];
+    }
+    else{
+        passDictionaryData = nil;
+    }
+    [self showBookDetailsForBook:passDictionaryData];
+}
+
+- (void)showBookDetailsForBook:(NSDictionary *)bookDict {
+    
+    BookDetailsViewController *bookDetailsViewController;
+    
+    if(bookDict == nil){
+        return;
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
+        
+    }
+    else{
+        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    }
+    
+    bookDetailsViewController.delegate = self;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
+    bookDetailsViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    bookDetailsViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self.window.rootViewController presentViewController:bookDetailsViewController animated:YES completion:^(void) {
+        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
+        
+        if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"by %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
+        }
+        
+        if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
+            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@""];
+        }
+        
+        [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
+        //  [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
+        //  [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
+        // [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
+        // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
+        
+        //[bookDetailsViewController.dropDownView.uiTableView reloadData];
+        bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"Games # %@",[bookDict objectForKey:@"widget_count"]];
+        
+        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age %@", [bookDict objectForKey:@"combined_age_group"]];
+        
+        bookDetailsViewController.gradeLevel.text = [NSString stringWithFormat:@"Grade %@", [bookDict objectForKey:@"combined_grades"]];
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Level : %@", [bookDict objectForKey:@"combined_reading_level"]];
+        }
+        else {
+            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Level : -"];
+        }
+        
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"Pages # %d", [[bookDict objectForKey:@"page_count"] intValue]];
+        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+            //     [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
+        }
+        else{
+            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+            //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
+        }
+        
+        if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
+            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
+            // bookDetailsViewController.singleCategoryLabel.text = [NSString stringWithFormat:@"Category %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] objectAtIndex:0]];
+            bookDetailsViewController.singleCategoryLabel.text = [NSString stringWithFormat:@"Category : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
+        }
+        else{
+            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category : -"];
+        }
+        
+        int availableLanguagesCount = [[bookDict valueForKey:@"available_languages"] count];
+        if(availableLanguagesCount){
+            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d languages :", availableLanguagesCount+1];
+        }
+        else{
+            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d language :", availableLanguagesCount+1];
+            bookDetailsViewController.dropDownButton.userInteractionEnabled = NO;
+        }
+        
+        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
+        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
+        
+        /*NSDictionary *dimensions = @{
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID: _book.id,
+         PARAMETER_RECOMMEND_BOOKID : [bookDict objectForKey:@"id"]
+         
+         };
+         [delegate trackEvent:[LASTPAGE_RECOMMENDED_BOOK valueForKey:@"description"] dimensions:dimensions];
+         PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+         [userObject setObject:[LASTPAGE_RECOMMENDED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+         [userObject setObject: [LASTPAGE_RECOMMENDED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+         [userObject setObject:viewName forKey:@"viewName"];
+         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+         [userObject setObject:delegate.country forKey:@"deviceCountry"];
+         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+         [userObject setObject:_book.id forKey:@"bookID"];
+         [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"recommendBookID"];
+         if(userEmail){
+         [userObject setObject:ID forKey:@"emailID"];
+         }
+         [userObject setObject:IOS forKey:@"device"];
+         [userObject saveInBackground];*/
+        bookDetailsViewController.imgStoryOfDay.hidden = NO;
+        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
+        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
+        bookDetailsViewController.baseNavView = @"Push Notification";
+        bookDetailsViewController.imageUrlString = [[bookDict objectForKey:@"thumb"] stringByReplacingOccurrencesOfString:@"thumb_new" withString:@"ipad_banner"];
+    }];
+    bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    bookDetailsViewController.view.layer.cornerRadius = 2.5;
+    bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
+   // [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 @end

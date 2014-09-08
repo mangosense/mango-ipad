@@ -70,6 +70,13 @@
     if(storyAsAppFilePath && (validUserSubscription)){
         [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
     }
+    if(_pushNoteBookId){
+        
+        [self store:0];
+    }
+    if(_pushCreateStory){
+        [self creatAStory:0];
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated{
@@ -98,6 +105,7 @@
     }
     [delegate trackEventAnalytic:@"home_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"home_screen"];
 }
 
 
@@ -143,6 +151,7 @@
     }
     [delegate trackEventAnalytic:@"create_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"create_click"];
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
@@ -185,6 +194,7 @@
     }
     [delegate trackEventAnalytic:@"store_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"store_click"];
     
     MangoStoreViewController *storeViewController;
     
@@ -195,7 +205,7 @@
     else{
         storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
     }
-    
+    storeViewController.pushNoteBookId = _pushNoteBookId;
         [self.navigationController pushViewController:storeViewController animated:YES];
     
 }
@@ -211,6 +221,7 @@
     }
     [delegate trackEventAnalytic:@"my_stories_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"my_stories_click"];
     
     CategoriesFlexibleViewController *categoryFlexible;
     
@@ -250,6 +261,7 @@
         }
         [delegate trackEventAnalytic:@"settings_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
+        [delegate trackMixpanelEvents:dimensions eventName:@"settings_click"];
         [self qusetionForSettings];
     }
 }
@@ -301,30 +313,31 @@
         
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         
-        MangoAnalyticsViewController *viewCtr1;
-        MangoDashbProfileViewController *viewCtr2;
-        MangoDashbHelpViewController *viewCtr3;
-        MangoFeedbackViewController *viewCtr4;
+        MangoFeedbackViewController *viewCtr1;
+        MangoAnalyticsViewController *viewCtr2;
+        MangoDashbProfileViewController *viewCtr3;
+        MangoDashbHelpViewController *viewCtr4;
+        
         
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
-            viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController_iPhone" bundle:nil];
-            viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController_iPhone" bundle:nil];
-            viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController_iPhone" bundle:nil];
+            viewCtr1 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController_iPhone" bundle:nil];
+            viewCtr2 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
+            viewCtr3 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController_iPhone" bundle:nil];
+            viewCtr4 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController_iPhone" bundle:nil];
         }
         
         else{
             
-            viewCtr1 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
-            viewCtr2 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
-            viewCtr3 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
-            viewCtr4 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
+            viewCtr1 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
+            viewCtr2 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            viewCtr3 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
+            viewCtr4 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
         }
         
-        viewCtr1.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
-        viewCtr2.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
-        viewCtr3.tabBarItem.image = [UIImage imageNamed:@"help.png"];
-        viewCtr4.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+        viewCtr1.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+        viewCtr2.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
+        viewCtr3.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        viewCtr4.tabBarItem.image = [UIImage imageNamed:@"help.png"];
         
         viewCtr1.navigationController.navigationBarHidden=YES;
         viewCtr2.navigationController.navigationBarHidden=YES;
@@ -349,6 +362,31 @@
     
 }
 
+- (IBAction)callStoryOfTheDay:(id)sender{
+    
+    MangoStoreViewController *storeViewController;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"story_of_the_day" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Story of the day button click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"story_of_the_day" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"story_of_the_day"];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController_iPhone" bundle:nil];
+    }
+    else{
+        storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
+    }
+    storeViewController.landingSOTD = 1;
+    [self.navigationController pushViewController:storeViewController animated:YES];
+}
 
 /*- (void)viewWillDisappear:(BOOL)animated{
     

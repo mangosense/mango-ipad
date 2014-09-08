@@ -92,5 +92,6 @@
 + (UIView *)readerPage:(int)pageNumber ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndDelegate:(id<AVAudioPlayerDelegate>)delegate Option:(int)readingOption ;
 + (NSNumber *)numberOfPagesInStory:(NSString *)jsonString;
 + (NSMutableDictionary *)readerGamePage:(NSString *)gameName ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption;
++ (NSMutableDictionary *)readerGamePagePro:(NSString *)gameName ForStory:(NSMutableArray *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption;
 
 @end

@@ -173,6 +173,7 @@
             NSString *expireDate = [response objectForKey:@"expires_at"];
             [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:expireDate];
             [prefs setBool:YES forKey:@"ISSUBSCRIPTIONVALID"];
+            [prefs setBool:NO forKey:@"ISTRIALUSER"];
             if([[NSString stringWithFormat:@"%@", [delegate class]] isEqualToString:@"MangoSubscriptionViewController"]){
                 if ([delegate respondsToSelector:@selector(updateBookProgress:)]) {
                       [delegate updateBookProgress:0];
@@ -194,8 +195,10 @@
             
         }*/
         else {
+            [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:receiptData Amount:amount andExpireDate:@"00/00/00"];
             NSLog(@"ReceiptError:%@", error);
             [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
+            [prefs setBool:NO forKey:@"ISTRIALUSER"];
         }
     }];
 }

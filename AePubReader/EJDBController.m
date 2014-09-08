@@ -116,6 +116,7 @@
         coreDatabook.downloadedDate = [NSDate date];
         if(fileNotAvailable){
             coreDatabook.downloaded = [NSNumber numberWithInt:2];
+            coreDatabook.isFree = [NSNumber numberWithInt:1];
         }
         else{
             coreDatabook.downloaded = @YES;
@@ -143,7 +144,6 @@
         if (![appDelegate.managedObjectContext save:&error]) {
             NSLog(@"%@",error);
         }
-        
     }
     fileNotAvailable = NO;
 }
@@ -192,7 +192,7 @@
         if ([numberId isEqual: [NSNumber numberWithInteger:1]] && !path) {
             
             NSString * documentsDirectoryPath = filePath;
-            NSString *imageURLString = [NSString stringWithFormat:@"http://www.mangoreader.com%@",[jsonDict objectForKey:@"cover"]];
+            NSString *imageURLString = [[jsonDict objectForKey:@"thumb"]stringByReplacingOccurrencesOfString:@"thumb_new" withString:@"ipad_banner"];
             
             UIImage * imageFromURL = [self getImageFromURL:imageURLString];
             

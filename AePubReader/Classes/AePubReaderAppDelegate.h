@@ -80,6 +80,7 @@
 - (void)trackEventAnalytic:(NSString *)event dimensions:(NSDictionary *)dimensions;
 - (void)eventAnalyticsDataBrowser :(NSDictionary *)dimensions;
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions;
+- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event;
 
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;

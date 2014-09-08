@@ -23,6 +23,7 @@
 - (IBAction)doneProblem:(id)sender;
 - (IBAction)backgroundTap:(id)sender;
 - (IBAction)closeSettingProblemView:(id)sender;
+- (IBAction)callStoryOfTheDay:(id)sender;
 
 
 @property(retain,nonatomic)StoriesViewController *storiesViewController;
@@ -34,5 +35,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
 @property (nonatomic, assign) int successSubscription;
+@property (nonatomic, assign) NSString *pushNoteBookId;
+@property (nonatomic, assign) int pushCreateStory;
 
 @end

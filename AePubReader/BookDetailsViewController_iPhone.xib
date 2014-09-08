@@ -15,6 +15,8 @@
                 <outlet property="categoriesLabel" destination="pzx-pk-mYe" id="Ra3-ZJ-CKd"/>
                 <outlet property="descriptionLabel" destination="93I-Z9-i25" id="b4z-oK-4xg"/>
                 <outlet property="dropDownButton" destination="XVe-fp-Nge" id="sUj-5W-Y5D"/>
+                <outlet property="imgStoryOfDay" destination="RmZ-L4-3sh" id="2eV-Y2-gev"/>
+                <outlet property="progressLabel" destination="neV-ZW-pmF" id="SLb-Cr-dij"/>
                 <outlet property="view" destination="iN0-l3-epB" id="VOD-EO-SfJ"/>
             </connections>
         </placeholder>
@@ -27,6 +29,19 @@
                     <rect key="frame" x="10" y="67" width="318" height="238"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="story of.png" translatesAutoresizingMaskIntoConstraints="NO" id="RmZ-L4-3sh">
+                    <rect key="frame" x="186" y="44" width="150" height="46"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neV-ZW-pmF">
+                    <rect key="frame" x="144" y="179" width="51" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="highlightedColor" red="0.88257334180000002" green="0.10640212979999999" blue="0.2476399608" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="shadowColor" red="0.101458335" green="1" blue="0.34833712950000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="1" height="-1"/>
+                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="bf6-EC-jDG">
                     <rect key="frame" x="65" y="10" width="439" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -145,6 +160,7 @@
     <resources>
         <image name="button_back.png" width="212" height="39"/>
         <image name="icons_library.png" width="78" height="77"/>
+        <image name="story of.png" width="666" height="219"/>
         <image name="without-text.png" width="235" height="63"/>
     </resources>
 </document>

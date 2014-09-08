@@ -18,6 +18,7 @@
 #import <Social/Social.h>
 #import "AePubReaderAppDelegate.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "MangoEditorViewController.h"
 
 
 @interface LoginNewViewController ()
@@ -100,6 +101,12 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
+    
+    if(_pushNoteBookId){
+        
+        [self goToNext];
+    }
+    
     if ([userInfoObjects count] > 0) {
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
         [self goToNext];
@@ -112,6 +119,11 @@
       //  [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
         [self loadHelpImagesScroll];
     //}
+    
+    if(_pushCreateStory){
+        
+        [self goToNext];
+    }
     
 }
 
@@ -144,6 +156,7 @@
                                  };
     [delegate trackEventAnalytic:@"login_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"login_screen"];
 }
 
 #pragma mark - Facebook Login API
@@ -253,7 +266,8 @@
                                      };
         [delegate trackEventAnalytic:@"login" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-    
+        [delegate trackMixpanelEvents:dimensions eventName:@"login"];
+        
         MangoApiController *apiController = [MangoApiController sharedApiController];
         apiController.delegate = self;
         [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO Name:nil];
@@ -271,6 +285,7 @@
         else{
             landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
         }
+        landingPageViewController.pushNoteBookId = _pushNoteBookId;
         [self.navigationController pushViewController:landingPageViewController animated:YES];
 
 }
@@ -309,6 +324,7 @@
                                  };
     [delegate trackEventAnalytic:@"signup_btn" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"signup_btn"];
     
     SignUpViewController *signupViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -375,22 +391,6 @@
     if (userDetailsDictionary.count) {
         if ([[userDetailsDictionary allKeys] containsObject:AUTH_TOKEN]) {
             [self saveUserInfo:userDetailsDictionary];
-            //NSString *emailId = [userDetailsDictionary objectForKey:@"email"];
-            /*NSDictionary *dimensions = @{
-                                         PARAMETER_USER_EMAIL_ID : emailId,
-                                         };
-            [delegate trackEventAnalytic:[SIGN_IN valueForKey:@"eventDescription"] dimensions:dimensions];
-            
-            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-            [userObject setObject:[SIGN_IN valueForKey:@"value"] forKey:@"eventName"];
-            [userObject setObject: [SIGN_IN valueForKey:@"description"] forKey:@"eventDescription"];
-            [userObject setObject:viewName forKey:@"viewName"];
-            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-            [userObject setObject:delegate.country forKey:@"deviceCountry"];
-            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-            [userObject setObject:ID forKey:@"emailID"];
-            [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];*/
             
             
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -404,6 +404,7 @@
                                          };
             [delegate trackEventAnalytic:@"login_fail" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
+            [delegate trackMixpanelEvents:dimensions eventName:@"login_fail"];
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];
         }
@@ -438,7 +439,7 @@
                                          };
             [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            
+            [delegate trackMixpanelEvents:dimensions eventName:@"skip_btn"];
             /*ID = _udid;
             
             NSDictionary *dimensions = @{

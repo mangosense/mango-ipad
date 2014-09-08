@@ -27,5 +27,6 @@
 @dynamic textBook;
 @dynamic title;
 @dynamic edited;
+@dynamic isFree;
 
 @end

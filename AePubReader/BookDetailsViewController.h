@@ -64,12 +64,14 @@
 @property (nonatomic, weak) id <BookViewProtocol> delegate;
 @property (nonatomic, assign) int fromMyStories;
 
+@property (nonatomic, assign) IBOutlet UIImageView *imgStoryOfDay;
+
 - (IBAction)buyButtonTapped:(id)sender;
 - (IBAction)closeDetails:(id)sender;
 -(IBAction)dropDownActionButtonClick;
 - (void)setIdOfDisplayBook:(NSString *)book_Id;
 - (void) availLanguagedata;
-- (IBAction) loadAvailableLanguageDropdown;
+
 
 + (int) booksDownloadingNo;
 

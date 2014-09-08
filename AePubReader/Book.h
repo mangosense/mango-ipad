@@ -28,5 +28,6 @@
 @property (nonatomic, retain) NSNumber * textBook;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * edited;
+@property (nonatomic, retain) NSNumber * isFree;
 
 @end

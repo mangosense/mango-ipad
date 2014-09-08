@@ -15,21 +15,21 @@
     NSString *ID;
     NSString *viewName;
     NSString *currentPage;
-    NSString * currentBookId;
-    NSString *currentBookTitle;
+    
 }
 
 @property (nonatomic, strong) NSString *folderLocation;
 @property (nonatomic, strong) NSString *jsonString;
 
 @property (nonatomic, strong) NSArray *gameNames;
-
 @property (nonatomic, strong) IBOutlet iCarousel *gamesCarousel;
 @property (nonatomic, strong) IBOutlet UILabel *gameTitleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *gameDescriptionLabel;
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
 @property (nonatomic, strong) NSString *loginUserEmail;
 @property (nonatomic, strong) NSDate *timeCalculate;
+@property (nonatomic, strong) NSString *currentBookId;
+@property (nonatomic, strong) NSString *currentBookTitle;
 
 - (IBAction)closeGames:(id)sender;
 

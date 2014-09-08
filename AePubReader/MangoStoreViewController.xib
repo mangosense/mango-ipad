@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MangoStoreViewController">
             <connections>
+                <outlet property="buttonForTrialUsers" destination="Oye-R5-3pW" id="Kuf-bD-qZV"/>
                 <outlet property="labelDownloadingCount" destination="bV9-ff-58v" id="TEd-tm-Dmp"/>
                 <outlet property="storeBackButton" destination="mez-Et-UaJ" id="xv9-8k-Xrb"/>
                 <outlet property="view" destination="2" id="3"/>
@@ -100,6 +101,18 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.30196078430000001" green="0.054901960780000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <button hidden="YES" opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Oye-R5-3pW">
+                    <rect key="frame" x="-5" y="732" width="1029" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.20238759570000001" green="0.20238759570000001" blue="0.20238759570000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="Subscribe for Unlimited access after Trial">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mangoSubscription" destination="-1" eventType="touchUpInside" id="Zy8-D5-Lr5"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" id="LBj-FQ-f50">
                     <rect key="frame" x="860" y="732" width="166" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -121,16 +134,6 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gtN-bq-Bbx">
-                    <rect key="frame" x="142" y="31" width="46" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="testFeaturedBooks:" destination="-1" eventType="touchUpInside" id="BmS-wJ-3Nf"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

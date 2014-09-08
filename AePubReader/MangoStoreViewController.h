@@ -47,6 +47,9 @@
 @property (nonatomic, strong) IBOutlet UILabel *labelDownloadingCount;
 @property (nonatomic, strong) UIActivityIndicatorView *  actIndicator;
 @property (nonatomic, strong) IBOutlet UIButton *storeBackButton;
+@property (nonatomic, strong) IBOutlet UIButton *buttonForTrialUsers;
+@property (nonatomic, assign) NSString *pushNoteBookId;
+@property (nonatomic, assign) int landingSOTD;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;
@@ -55,5 +58,6 @@
 - (IBAction)showPopover:(id)sender;
 - (IBAction)testFeaturedBooks:(id)sender;
 - (void) dismissPopoverController;
+- (IBAction) mangoSubscription;
 
 @end

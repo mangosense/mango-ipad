@@ -65,6 +65,18 @@
                         <action selector="backToLoginView:" destination="-1" eventType="touchUpInside" id="Tpl-Mf-x2q"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0sH-77-8mz">
+                    <rect key="frame" x="256" y="25" width="140" height="95"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" backgroundImage="button_free stories.png">
+                        <color key="titleColor" red="0.93287991560000005" green="0.95864429829999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="callStoryOfTheDay:" destination="-1" eventType="touchUpInside" id="TpN-8z-IBV"/>
+                    </connections>
+                </button>
                 <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YwL-41-Who" customClass="UIControl">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -140,6 +152,7 @@
     </objects>
     <resources>
         <image name="button_create story.png" width="448" height="542"/>
+        <image name="button_free stories.png" width="388" height="288"/>
         <image name="button_my-stories.png" width="647" height="273"/>
         <image name="button_store.png" width="336" height="454"/>
         <image name="closebutton.png" width="48" height="48"/>

@@ -49,6 +49,7 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+@property (nonatomic, strong) IBOutlet UIButton *buttonReadToMe;
 
 - (IBAction)gameButtonTapped:(id)sender;
 - (IBAction)bookCoverSelection:(id)sender;

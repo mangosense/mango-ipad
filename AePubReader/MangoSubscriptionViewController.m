@@ -85,6 +85,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
 
 }
 
@@ -159,7 +160,12 @@
                             else if(lbl.tag == 303){
                                 lbl.text = [NSString stringWithFormat:@"%@",[[object objectForKey:@"price"] valueForKey:@"usd"]];
                             }
-                            
+                            else if(lbl.tag == 203){
+                                lbl.text = [NSString stringWithFormat:@"%.2f",[[[object objectForKey:@"price"] valueForKey:@"usd"] floatValue]/4];
+                            }
+                            else if(lbl.tag == 212){
+                                lbl.text = [NSString stringWithFormat:@"%.2f",[[[object objectForKey:@"price"] valueForKey:@"usd"] floatValue]/12];
+                            }
                         }
                     }
                 }
@@ -192,7 +198,7 @@
 #pragma mark - Action Methods
 
 - (IBAction)backButtonTapped:(id)sender {
-
+    [self resignFirstResponder];
     if(fromBookDetail){
         /*[self.presentingViewController.presentedViewController
          dismissViewControllerAnimated:YES
@@ -204,8 +210,6 @@
         [self dismissViewControllerAnimated:NO completion:nil];
         
         //[self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        
-
     }
     else{
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -213,11 +217,15 @@
 
 }
 
+- (BOOL)disablesAutomaticKeyboardDismissal {
+    return [self disablesAutomaticKeyboardDismissal];
+}
+
 //hide keyboard on background tap
 
 - (IBAction)backgroundTap:(id)sender {
     [_textQuesSolution resignFirstResponder];
-    
+   
 }
 
 #pragma buy product
@@ -281,6 +289,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
     
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -423,6 +432,7 @@
     }
     [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];

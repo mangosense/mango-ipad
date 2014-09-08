@@ -23,8 +23,8 @@
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            _bookImageView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 2, 110, 95)];
-            _frameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 112, 97)];
+            _bookImageView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 2, 110, 90)];
+            _frameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 112, 92)];
             _bookTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _frameImageView.frame.size.height, 102, 14)];
             _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 102, 16)];
             _bookTitleLabel.font = [UIFont boldSystemFontOfSize:12];
@@ -34,10 +34,10 @@
             
         }
         else{
-            _bookImageView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 2, 127, 134)];
-            _frameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130, 137)];
-            _bookTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _frameImageView.frame.size.height, 130, 20)];
-            _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 20)];
+            _bookImageView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 2, 120, 90)];
+            _frameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 123, 93)];
+            _bookTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _frameImageView.frame.size.height, 120, 20)];
+            _bookPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 22)];
             _bookTitleLabel.font = [UIFont boldSystemFontOfSize:16];
             _bookPriceLabel.font = [UIFont boldSystemFontOfSize:16];
         }
@@ -89,10 +89,10 @@
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 102, 16);
+        _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 102, 17);
     }
     else{
-        _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 16);
+        _bookPriceLabel.frame = CGRectMake(2, _bookTitleLabel.frame.origin.y + _bookTitleLabel.frame.size.height, 130, 18);
     }
     
     

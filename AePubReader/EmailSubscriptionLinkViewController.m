@@ -7,7 +7,7 @@
 //
 
 #import "EmailSubscriptionLinkViewController.h"
-#import "SignUpViewController.h"
+
 
 @interface EmailSubscriptionLinkViewController ()
 
@@ -35,9 +35,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.view.autoresizesSubviews = NO;
-    self.view.layer.cornerRadius = 10;
-    self.view.layer.masksToBounds = YES;
     self.view.superview.backgroundColor = nil;
 }
 
@@ -73,10 +70,11 @@
 }
 
 - (void)getEmailLinkLoginDetails:(NSDictionary *)responseDictionary{
-    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [self.emailTextField resignFirstResponder];
     if(responseDictionary){
         
-        if([responseDictionary objectForKey:@"transaction_id"]){
+        if([[responseDictionary objectForKey:@"status"]integerValue] == 200){
             [self skipClick:0];
         }
         else{
@@ -85,7 +83,7 @@
                 [alert show];
             }
             else{//for main app success subscription
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Change" otherButtonTitles:@"Signup", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Change" otherButtonTitles:@"Signin", nil];
                 [alert show];
             }
         }
@@ -118,6 +116,7 @@
             _emailTextField.text = @"";
         }
         else{
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             MangoApiController *apiController = [MangoApiController sharedApiController];
             apiController.delegate = self;
             [apiController linkSubscriptionWithEmail:_emailTextField.text];
@@ -131,17 +130,12 @@
             _emailTextField.text = @"";
         }
         else{
-            //redirect user to signup page
-            SignUpViewController *presentSignupView;
-            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                presentSignupView = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController_iPhone" bundle:nil];
-            }
-            else{
-                presentSignupView = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
-            }
-            [presentSignupView checkIfViewFromEmailView:1];
-            presentSignupView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            [self presentViewController:presentSignupView animated:YES completion:nil];
+            //redirect user to signin page by setting another flag value
+            
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            [prefs setBool:YES forKey:@"SubscriptionEmailToSignIn"];
+            self.modalPresentationStyle = UIModalPresentationNone;
+            [self dismissViewControllerAnimated:NO completion:nil];
         }
     }
 }

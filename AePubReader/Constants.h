@@ -243,6 +243,7 @@
 #define SIGN_UP @"sign_up"
 #define DOWNLOAD_STORY_LOGGED_IN @"/livestories/%@/zipped?email=%@&auth_token=%@&platform=%@&ismobile=%@"
 #define DOWNLOAD_STORY_LOGGED_OUT @"/livestories/%@/zipped?transaction_id=%@&mode=%@&platform=%@&ismobile=%@"
+#define DOWNLOAD_STORY_STORYOFTHEDAY @"/livestories/%@/zipped?mode=%@&platform=%@&ismobile=%@"
 #define PURCHASED_STORIES @"users/purchased"
 #define FEATURED_STORIES @"livestories/featured.json"
 #define LIVE_STORIES_SEARCH @"livestories/search"

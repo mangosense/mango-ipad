@@ -125,6 +125,7 @@
     }
     [delegate trackEventAnalytic:@"dashboard_profile_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"dashboard_profile_screen"];
 }
 
 
@@ -425,6 +426,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
     
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
 }

@@ -143,21 +143,45 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
-    
     if(subscriptionSuccess && !userEmail){
+        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
         EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
         }
         else{
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
         }
-        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
-        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:emailLinkSubscriptionView animated:NO completion:nil];
+        emailLinkSubscriptionView.modalPresentationStyle = UIModalPresentationFormSheet;
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:emailLinkSubscriptionView animated:YES completion:nil];
+        emailLinkSubscriptionView.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 440, 300);
+        }
+        else{
+            emailLinkSubscriptionView.view.autoresizesSubviews = NO;
+            emailLinkSubscriptionView.view.layer.cornerRadius = 10;
+            emailLinkSubscriptionView.view.layer.masksToBounds = YES;
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+        }
+    }
+    
+    int moveToSignIn = [[prefs valueForKey:@"SubscriptionEmailToSignIn"] integerValue];
+    if(moveToSignIn){
+        [prefs setBool:NO forKey:@"SubscriptionEmailToSignIn"];
+        LoginNewViewController *loginView;
+        if([[UIDevice currentDevice] userInterfaceIdiom]== UIUserInterfaceIdiomPhone){
+            loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+        }
+        else{
+            loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController" bundle:nil];
+        }
+        [self.navigationController pushViewController:loginView animated:YES];
     }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -173,7 +197,7 @@
     }
     [delegate trackEventAnalytic:@"reading" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    
+    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
 }
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad
@@ -444,6 +468,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -535,7 +560,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    
+                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                 }
                     break;
                     
@@ -554,6 +579,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
+                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.isBookFork = YES;
@@ -857,6 +883,7 @@
     }
     [delegate trackEventAnalytic:@"playpause_button_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
     
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
@@ -910,7 +937,7 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    
+    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -927,6 +954,9 @@
         else{
             gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
         }
+        gamesListViewController.currentBookId = _book.id;
+        gamesListViewController.currentBookTitle = _book.title;
+
         gamesListViewController.jsonString = _jsonContent;
         gamesListViewController.folderLocation = _book.localPathFile;
         
@@ -1436,6 +1466,7 @@
 
 - (void) viewDidDisappear:(BOOL)animated{
     
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
     _audioMappingViewController.timer = nil;
     _audioMappingViewController.player = nil;
     float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
@@ -1490,7 +1521,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
     [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
     [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-    
+    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -1659,6 +1690,7 @@
     }
     [delegate trackEventAnalytic:@"audio_rate_change" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
     
     UISwitch *onoff = (UISwitch *) sender;
     if(onoff.on){

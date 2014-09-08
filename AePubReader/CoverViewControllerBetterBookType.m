@@ -97,6 +97,13 @@ NSString *newIdentityValue;
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     currentBookId = [jsonDict objectForKey:@"id"];
     
+    if(![[jsonDict objectForKey:@"has_audio"] integerValue]){
+        
+        _buttonReadToMe.hidden = YES;
+    }
+    if([[jsonDict objectForKey:@"title"] isEqualToString:@"My Book"]){
+        _buttonReadToMe.hidden = NO;
+    }
     currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
     
     if([jsonDict objectForKey:@"story_image"]){
@@ -157,19 +164,42 @@ NSString *newIdentityValue;
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
-    
     if(subscriptionSuccess && !userEmail){
+        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
         EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
         }
         else{
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
         }
-        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
-        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:emailLinkSubscriptionView animated:NO completion:nil];
+        emailLinkSubscriptionView.modalPresentationStyle = UIModalPresentationFormSheet;
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:emailLinkSubscriptionView animated:YES completion:nil];
+        emailLinkSubscriptionView.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 440, 300);
+        }
+        else{
+            emailLinkSubscriptionView.view.autoresizesSubviews = NO;
+            emailLinkSubscriptionView.view.layer.cornerRadius = 10;
+            emailLinkSubscriptionView.view.layer.masksToBounds = YES;
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+        }
+    }
+    
+    int moveToSignIn = [[prefs valueForKey:@"SubscriptionEmailToSignIn"] integerValue];
+    if(moveToSignIn){
+        [prefs setBool:NO forKey:@"SubscriptionEmailToSignIn"];
+        LoginNewViewController *loginView;
+        if([[UIDevice currentDevice] userInterfaceIdiom]== UIUserInterfaceIdiomPhone){
+            loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+        }
+        else{
+            loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController" bundle:nil];
+        }
+        [self.navigationController pushViewController:loginView animated:YES];
     }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -184,6 +214,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"reader" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"reader"];
 
 }
 
@@ -382,7 +413,7 @@ NSString *newIdentityValue;
 
 - (IBAction)optionsToReader:(id)sender {
     UIButton *button=(UIButton *)sender;
-    //AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
     
     PageNewBookTypeViewController *controller;
@@ -402,61 +433,43 @@ NSString *newIdentityValue;
     if([sender tag] == 1){
         NSLog(@"Read by myself");
         
-        /*NSDictionary *dimensions = @{
-                                     PARAMETER_USER_EMAIL_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID : _identity
-                                     
-                                     };
-        [delegate trackEvent:[BOOKCOVER_READ_BY_MYSELF valueForKey:@"description"] dimensions:dimensions];
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        [userObject setObject:[BOOKCOVER_READ_BY_MYSELF valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [BOOKCOVER_READ_BY_MYSELF valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:ID forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:_identity forKey:@"bookID"];
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"read_by_myself_click" forKey:PARAMETER_ACTION];
+        [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:[_book valueForKey:@"bookId"] forKey:PARAMETER_BOOK_ID];
+        [dimensions setObject:_titleLabel.text forKey:PARAMETER_BOOK_TITLE];
+        [dimensions setObject:@"Read by myself click" forKey:PARAMETER_EVENT_DESCRIPTION];
         if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
         }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
+        [delegate trackEventAnalytic:@"read_by_myself_click" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
+        [delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
         
     }
     else{
         NSLog(@"Read to me");
-        
-        /*NSDictionary *dimensions = @{
-                                     PARAMETER_USER_EMAIL_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID : _identity
-                                     
-                                     };
-        [delegate trackEvent:[BOOKCOVER_READ_TO_ME valueForKey:@"description"] dimensions:dimensions];
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        [userObject setObject:[BOOKCOVER_READ_TO_ME valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [BOOKCOVER_READ_TO_ME valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:ID forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:_identity forKey:@"bookID"];
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"read_to_me_click" forKey:PARAMETER_ACTION];
+        [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:[_book valueForKey:@"bookId"] forKey:PARAMETER_BOOK_ID];
+        [dimensions setObject:_titleLabel.text forKey:PARAMETER_BOOK_TITLE];
+        [dimensions setObject:@"Read to me click" forKey:PARAMETER_EVENT_DESCRIPTION];
         if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
         }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
-        
+        [delegate trackEventAnalytic:@"read_to_me_click" dimensions:dimensions];
+        [delegate eventAnalyticsDataBrowser:dimensions];
+        [delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
     }
     
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-
 - (IBAction)libraryButtonClicked:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void) dismissPopOver{
     [_popOverController dismissPopoverAnimated:YES];
     [popoverControlleriPhone dismissPopoverAnimated:YES];
@@ -542,6 +555,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -557,7 +571,8 @@ NSString *newIdentityValue;
         else{
             gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
         }
-        
+        gamesListViewController.currentBookId = _book.id;
+        gamesListViewController.currentBookTitle = _book.title;
         gamesListViewController.jsonString = [self getJsonContentForBook];
         gamesListViewController.folderLocation = _book.localPathFile;
         NSMutableArray *gameNames = [[NSMutableArray alloc] init];
@@ -648,6 +663,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
    // UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

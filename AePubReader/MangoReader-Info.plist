@@ -30,7 +30,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -45,9 +45,19 @@
 				<string>szYOURAPPID</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.mangosense.MangoReader</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mangoreader</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>2.0</string>
 	<key>FacebookAppID</key>
 	<string>199743376733034</string>
 	<key>FacebookDisplayName</key>

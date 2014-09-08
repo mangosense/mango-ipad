@@ -323,8 +323,8 @@
     [paramsDict setObject:IOS forKey:PLATFORM];//set platform = ios
     [paramsDict setObject:VERSION_NO forKey:VERSION];
     [paramsDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
-    //[paramsDict setObject:subscriptionTransctionId forKey:@"transaction_id"];
-    [paramsDict setObject:@"123456789" forKey:@"transaction_id"];
+    [paramsDict setObject:subscriptionTransctionId forKey:@"transaction_id"];
+    
     [manager POST:LINKSUBSCRIPTIONWITHEMAIL parameters:paramsDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Login Response: %@", responseObject);
         NSMutableDictionary *responseDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)responseObject];
@@ -333,6 +333,7 @@
         }
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Login Error: %@", error);
+        [_delegate saveUserDetails:nil];
     }];
 }
 
@@ -390,6 +391,9 @@
                 
                 URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userIdTest stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authtokenTest, IOS, ISMOBILEVALUE]];
                 
+            }
+            else if(!transactionId){
+                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_STORYOFTHEDAY, bookId,subscriptionMode, IOS, ISMOBILEVALUE]];
             }
             else{
                 URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId,subscriptionMode, IOS, ISMOBILEVALUE]];

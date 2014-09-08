@@ -1455,17 +1455,21 @@
     return pageView;
 }
 
-+ (NSMutableDictionary *)readerGamePage:(NSString *)gameName ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption {
+//+ (NSMutableDictionary *)readerGamePage:(NSString *)gameName ForStory:(NSString *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption {
++ (NSMutableDictionary *)readerGamePagePro:(NSString *)gameName ForStory:(NSMutableArray *)jsonString WithFolderLocation:(NSString *)folderLocation AndOption:(NSInteger)readingOption {
     NSArray *resFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[folderLocation stringByAppendingString:@"/res"] error:nil];
-    NSLog(@"Resources File: %@\nGames Folder contents: %@", resFiles,[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[folderLocation stringByAppendingString:@"/games"] error:nil]);
+    //NSLog(@"Resources File: %@\nGames Folder contents: %@", resFiles,[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[folderLocation stringByAppendingString:@"/games"] error:nil]);
     
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-
-    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+//    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+//
+//    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    NSArray *readerPagesArray = jsonString;
     
-    for (NSDictionary *readerPageDict in readerPagesArray) {
+    //for (NSDictionary *readerPageDict in readerPagesArray) {
+    NSDictionary *readerPageDict = readerPagesArray[readingOption];
         if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:gameName]) {
+            NSLog(@"game name - %@", gameName);
             UIWebView *gameWebView;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                 
@@ -1476,7 +1480,7 @@
             }
             
             NSString *filePath = [[folderLocation stringByAppendingFormat:@"/games/%@/index.html", [readerPageDict objectForKey:PAGE_NAME]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            NSLog(@"%@", filePath);
+            //NSLog(@"%@", filePath);
             [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             [dict setObject:gameWebView forKey:@"gameView"];
@@ -1484,7 +1488,6 @@
             
             return dict;
         }
-    }
     
     return nil;
 }

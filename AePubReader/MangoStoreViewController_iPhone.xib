@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MangoStoreViewController">
             <connections>
+                <outlet property="buttonForTrialUsers" destination="3rU-eM-HHC" id="zV1-3I-Ovn"/>
                 <outlet property="labelDownloadingCount" destination="LHC-ME-M01" id="mpP-OL-AkN"/>
                 <outlet property="view" destination="iN0-l3-epB" id="pdd-xh-dJm"/>
                 <outlet property="viewDownloadCounter" destination="BEn-3k-3sD" id="JrC-GD-3db"/>
@@ -92,8 +93,21 @@
                         <outlet property="delegate" destination="-1" id="dP8-H3-bFZ"/>
                     </connections>
                 </textField>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3rU-eM-HHC">
+                    <rect key="frame" x="0.0" y="289" width="568" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.20238759566326525" green="0.20238759566326525" blue="0.20238759566326525" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="Subscribe for Unlimited access after Trial">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mangoSubscription" destination="-1" eventType="touchUpInside" id="5zA-EV-V2J"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" id="BEn-3k-3sD">
-                    <rect key="frame" x="422" y="289" width="148" height="34"/>
+                    <rect key="frame" x="424" y="289" width="144" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="books downloading" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O1e-Yk-6Ne">
@@ -113,16 +127,6 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q5C-uC-RVc">
-                    <rect key="frame" x="127" y="-2" width="46" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="testFeaturedBooks:" destination="-1" eventType="touchUpInside" id="o0G-tf-6pX"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

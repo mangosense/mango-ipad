@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoverViewControllerBetterBookType">
             <connections>
                 <outlet property="backButton" destination="b5J-So-gew" id="pM9-DN-kWp"/>
+                <outlet property="buttonReadToMe" destination="HoV-mN-sAX" id="y0z-Bc-Uxi"/>
                 <outlet property="coverImageView" destination="MM8-Lm-TYW" id="fmG-p3-12b"/>
                 <outlet property="games" destination="uUm-3p-Ofr" id="xAu-ev-QpZ"/>
                 <outlet property="languageLabel" destination="YzD-ST-S0h" id="PCS-24-BGJ"/>
