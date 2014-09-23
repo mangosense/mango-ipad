@@ -358,7 +358,7 @@ static int booksDownloadingCount;
         }
         [delegate trackEventAnalytic:event dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:event];
+        //[delegate trackMixpanelEvents:dimensions eventName:event];
         
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
@@ -422,7 +422,7 @@ static int booksDownloadingCount;
         }
         [delegate trackEventAnalytic:@"subscribe_btn_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"subscribe_btn_click"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"subscribe_btn_click"];
         
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -452,11 +452,12 @@ static int booksDownloadingCount;
     }
     [delegate trackEventAnalytic:@"close_dialog" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"close_dialog"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"close_dialog"];
     
-    //self.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
     [self dismissViewControllerAnimated:NO completion:^(void) {
         //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
+        
+        
     }];
 }
 
@@ -539,7 +540,7 @@ static int booksDownloadingCount;
     }
     [delegate trackEventAnalytic:@"switch_language" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
     
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
         MangoApiController *apiController = [MangoApiController sharedApiController];

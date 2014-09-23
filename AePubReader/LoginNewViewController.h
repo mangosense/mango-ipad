@@ -34,7 +34,8 @@
 @property (nonatomic, retain) IBOutlet UIPageControl* pageControl;
 @property (nonatomic, retain) IBOutlet UIButton *helpButton;
 @property (nonatomic, assign) NSString *pushNoteBookId;
-@property (nonatomic, assign) int pushCreateStory;
+@property (nonatomic, assign) NSString *pushCreateStory;
+@property (nonatomic, assign) NSString *pushSubscribe;
 
 - (IBAction)changePage;
 - (IBAction)skipHelpPageView:(id)sender;

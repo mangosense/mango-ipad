@@ -9,7 +9,6 @@
                 <outlet property="loginButton" destination="NR6-V1-HdA" id="29s-8t-LcU"/>
                 <outlet property="monthlySubscriptionView" destination="wpg-2q-uYN" id="XDb-eA-bYL"/>
                 <outlet property="quarterlySubcriptionView" destination="EUS-w6-Y1O" id="mqS-8E-S0q"/>
-                <outlet property="userEmail" destination="d1z-OV-gC7" id="EMV-DG-1x4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewInfoDisplay" destination="gBA-su-A0L" id="aDL-H6-G8e"/>
                 <outlet property="yearlySubscriptionView" destination="Gvn-YM-csy" id="dKq-Jg-Zar"/>
@@ -57,20 +56,6 @@
                     </subviews>
                     <color key="backgroundColor" red="1" green="0.61960786580000005" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dear," textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uO4-kn-rQS">
-                    <rect key="frame" x="20" y="73" width="71" height="40"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                    <color key="textColor" red="1" green="0.54901963470000004" blue="0.1647058874" alpha="1" colorSpace="deviceRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="d1z-OV-gC7">
-                    <rect key="frame" x="99" y="77" width="253" height="31"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                    <color key="textColor" red="1" green="0.54901963470000004" blue="0.1647058874" alpha="1" colorSpace="deviceRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wpg-2q-uYN">
                     <rect key="frame" x="71" y="192" width="281" height="384"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -325,7 +310,7 @@
                     <rect key="frame" x="70" y="165" width="891" height="435"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Over 500 Interactive Stories " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z1z-Wt-b5x">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Over 800+ Interactive Stories " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z1z-Wt-b5x">
                             <rect key="frame" x="283" y="269" width="344" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>

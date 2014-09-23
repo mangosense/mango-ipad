@@ -132,7 +132,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                  };
     [delegate trackEventAnalytic:@"signup_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"signup_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"signup_screen"];
 }
 
 - (void)loginWithFacebook:(NSDictionary *)facebookDetailsDict {
@@ -251,7 +251,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                  };
     [delegate trackEventAnalytic:@"signup" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"signup"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"signup"];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES Name:_nameFull.text];
@@ -304,7 +304,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                          };
             [delegate trackEventAnalytic:@"signup_error" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"signup_error"];
+            //[delegate trackMixpanelEvents:dimensions eventName:@"signup_error"];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[userDetailsDictionary objectForKey:@"statusMessage"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -512,12 +512,22 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     if((parentalControlAge >= 13) && (parentalControlAge <=100)){
         //show subscription plans
         _settingsProbSupportView.hidden = YES;
-        _settingsProbView.hidden = YES;
+        _settingsProbView.hidden= YES;
     }
     else{
         //close subscription plan
         [self donePressed:0];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Please enter correct birth year!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        [self performSelector:@selector(dismiss:) withObject:alert afterDelay:2.0];
     }
+}
+        
+
+-(void)dismiss:(UIAlertView*)alert
+{
+    [alert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (IBAction)backgroundTap:(id)sender {

@@ -96,7 +96,7 @@
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3rU-eM-HHC">
                     <rect key="frame" x="0.0" y="289" width="568" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.20238759566326525" green="0.20238759566326525" blue="0.20238759566326525" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.12962372450000001" green="0.12962372450000001" blue="0.12962372450000001" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="Subscribe for Unlimited access after Trial">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

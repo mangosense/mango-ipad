@@ -129,7 +129,7 @@
         default:
             break;
     }
-    NSDictionary *dimensions = @{
+    /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
                                  PARAMETER_BOOK_ID: _bookId,
@@ -148,7 +148,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
 }
 

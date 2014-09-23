@@ -102,7 +102,7 @@
     
     NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
     
-    if(_pushNoteBookId){
+    if(_pushNoteBookId || _pushSubscribe){
         
         [self goToNext];
     }
@@ -156,7 +156,7 @@
                                  };
     [delegate trackEventAnalytic:@"login_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"login_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"login_screen"];
 }
 
 #pragma mark - Facebook Login API
@@ -266,7 +266,7 @@
                                      };
         [delegate trackEventAnalytic:@"login" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"login"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"login"];
         
         MangoApiController *apiController = [MangoApiController sharedApiController];
         apiController.delegate = self;
@@ -285,7 +285,9 @@
         else{
             landingPageViewController = [[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
         }
+        landingPageViewController.pushCreateStory = _pushCreateStory;
         landingPageViewController.pushNoteBookId = _pushNoteBookId;
+        landingPageViewController.pushSubscribe = _pushSubscribe;
         [self.navigationController pushViewController:landingPageViewController animated:YES];
 
 }
@@ -324,7 +326,7 @@
                                  };
     [delegate trackEventAnalytic:@"signup_btn" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"signup_btn"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"signup_btn"];
     
     SignUpViewController *signupViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -404,7 +406,7 @@
                                          };
             [delegate trackEventAnalytic:@"login_fail" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"login_fail"];
+            //[delegate trackMixpanelEvents:dimensions eventName:@"login_fail"];
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];
         }
@@ -439,7 +441,7 @@
                                          };
             [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"skip_btn"];
+            //[delegate trackMixpanelEvents:dimensions eventName:@"skip_btn"];
             /*ID = _udid;
             
             NSDictionary *dimensions = @{
@@ -491,18 +493,10 @@
 - (void)loadHelpImagesScroll{
     
     pageControlBeingUsed = NO;
-   // _imageHelpView.hidden = NO;
-  //  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
- //   int notFirstTimeHelpDisplay = [[prefs valueForKey:@"FIRSTTIMEHELPDISPLAY"] integerValue];
-   // if(!notFirstTimeHelpDisplay){
-    
-     // [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
-  //      _imageHelpView.hidden = NO;
-   // }
     
     
 	
-	NSArray *colors = [NSArray arrayWithObjects:[UIImage imageNamed:@"dashboard.jpg"], [UIImage imageNamed:@"createstory.jpg"], [UIImage imageNamed:@"readbar.jpg"],  [UIImage imageNamed:@"readpage.jpg"],  [UIImage imageNamed:@"store.jpg"],  [UIImage imageNamed:@"subscribe.jpg"], nil];
+	/*NSArray *colors = [NSArray arrayWithObjects:[UIImage imageNamed:@"dashboard.jpg"], [UIImage imageNamed:@"createstory.jpg"], [UIImage imageNamed:@"readbar.jpg"],  [UIImage imageNamed:@"readpage.jpg"],  [UIImage imageNamed:@"store.jpg"],  [UIImage imageNamed:@"subscribe.jpg"], nil];
 	for (int i = 0; i < colors.count; i++) {
 		CGRect frame;
 		frame.origin.x = self.scrollView.frame.size.width * i;
@@ -522,7 +516,7 @@
 	self.pageControl.numberOfPages = colors.count;
     
     [self.view bringSubviewToFront:[_imageHelpView superview]];
-    [[_imageHelpView superview] bringSubviewToFront:_imageHelpView];
+    [[_imageHelpView superview] bringSubviewToFront:_imageHelpView];*/
     
 }
 

@@ -40,6 +40,8 @@
     //self.scrollEnabled = YES;
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
+     
+    
     //NSLog(@"length %d", [string length]);
 
     NSMutableArray *words = [NSMutableArray arrayWithArray:[self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];

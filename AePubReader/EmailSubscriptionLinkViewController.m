@@ -79,7 +79,7 @@
         }
         else{
             if(storyasAppPath){//for story as app success subscription
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!!" message:[responseDictionary objectForKey:@"errors"] delegate:self cancelButtonTitle:@"Change" otherButtonTitles:@"Signin", nil];
                 [alert show];
             }
             else{//for main app success subscription

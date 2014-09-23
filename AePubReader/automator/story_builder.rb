@@ -257,10 +257,10 @@ require 'FileUtils'
 
 			# #set the app info here
 			config.info_plist do |info|
-				info.version = 1.0
+				info.version = 1.1
 				info.display_name = @story_info['title']
 				#info.identifier = "com.mangostory.#{@story_info['id']}" #uniqe story id at last
-				info.identifier = "com.mangostory.#{@story_id}"
+				info.identifier = "com.mangostory.539b127769702d70aa030000"
 			end
 
 
@@ -339,7 +339,7 @@ require 'FileUtils'
 		# }
 		# story_ids = JSON.parse res.body
 
-		story_ids = ['52d07d9069702d38e35a0000']
+		story_ids = ['540332ec69702d6134020000']
 
 		story_ids.each do |storyid|
 

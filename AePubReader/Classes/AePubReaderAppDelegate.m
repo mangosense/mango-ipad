@@ -46,12 +46,13 @@ static UIAlertView *alertViewLoading;
 //            NSLog(@"  %@", name);
 //        }
 //    }
-    //Mixpanel Mangoreader
-    
-    //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
+
     
     //test account mixpanel
-    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+   // [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    
+    //mangoreader mixpanel account
+    //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
     
     [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -66,11 +67,10 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-
     //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-     //             clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
-   //MangoReader_Test app for testing
+    //MangoReader_Test app for testing
     [Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
                        clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
@@ -175,11 +175,12 @@ static UIAlertView *alertViewLoading;
 //    } else {
     //NSString *bookId = @"5331442a69702d656a040000";
     NSString *bookId;
-    int *pushCreateStory;
+    NSString *pushCreateStory;
+    NSString *pushSubscribe;
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     if (currentInstallation.badge != 0) {
         currentInstallation.badge = 0;
-        [currentInstallation saveEventually];
+        //[currentInstallation saveEventually];
     }
     if (launchOptions != nil)
     {
@@ -189,15 +190,42 @@ static UIAlertView *alertViewLoading;
             NSLog(@"receive the notifucation");
             if([dictionary objectForKey:@"bookid"]){
                 bookId = [dictionary objectForKey:@"bookid"];
+                NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+                [dimensions setObject:@"book_notification" forKey:PARAMETER_ACTION];
+                [dimensions setObject:bookId forKey:PARAMETER_BOOK_ID];
+                [dimensions setObject:@"Book notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
+                [self trackEventAnalytic:@"book_notification" dimensions:dimensions];
+                [self eventAnalyticsDataBrowser:dimensions];
+                //[self trackMixpanelEvents:dimensions eventName:@"book_notification"];
             }
-            else if([dictionary objectForKey:@"update"]){
+            else if([[dictionary objectForKey:@"action"] isEqualToString:@"update"]){
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
                                                             @"itms-apps://itunes.apple.com/us/app/mangoreader-interactive-kids/id568003822?mt=8&uo=4"]];
+                NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+                [dimensions setObject:@"update_notification" forKey:PARAMETER_ACTION];
+                [dimensions setObject:@"Update notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
+                [self trackEventAnalytic:@"update_notification" dimensions:dimensions];
+                [self eventAnalyticsDataBrowser:dimensions];
+                //[self trackMixpanelEvents:dimensions eventName:@"update_notification"];
             }
-            else if([dictionary objectForKey:@"create"]){
-                pushCreateStory = 1;
+            else if([[dictionary objectForKey:@"action"] isEqualToString:@"create"]){
+                pushCreateStory = [dictionary objectForKey:@"action"];
+                NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+                [dimensions setObject:@"create_notification" forKey:PARAMETER_ACTION];
+                [dimensions setObject:@"Create notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
+                [self trackEventAnalytic:@"create_notification" dimensions:dimensions];
+                [self eventAnalyticsDataBrowser:dimensions];
+                //[self trackMixpanelEvents:dimensions eventName:@"create_notification"];
             }
-    
+            else if([[dictionary objectForKey:@"action"] isEqualToString:@"subscribe"]){
+                pushSubscribe = [dictionary objectForKey:@"action"];
+                NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+                [dimensions setObject:@"subscribe_notification" forKey:PARAMETER_ACTION];
+                [dimensions setObject:@"Subscribe notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
+                [self trackEventAnalytic:@"subscribe_notification" dimensions:dimensions];
+                [self eventAnalyticsDataBrowser:dimensions];
+                //[self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
+            }
         }
     }
     
@@ -237,6 +265,8 @@ static UIAlertView *alertViewLoading;
                     //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
                     _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
                 }
+                _landpageController.pushSubscribe = pushSubscribe;
+                _landpageController.pushCreateStory = pushCreateStory;
                 _landpageController.pushNoteBookId = bookId;
                 //nav=[[CustomNavViewController alloc]initWithRootViewController:_landpageController];
                 nav=[[UINavigationController alloc]initWithRootViewController:_landpageController];
@@ -251,6 +281,8 @@ static UIAlertView *alertViewLoading;
                  else{
                      _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
                  }
+                _loginController.pushSubscribe = pushSubscribe;
+                _loginController.pushCreateStory = pushCreateStory;
                 _loginController.pushNoteBookId = bookId;
                 //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
                 nav=[[UINavigationController alloc]initWithRootViewController:_loginController];
@@ -290,13 +322,13 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+ /*   Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
                                             PLATFORM : IOS,
                                             PARAMETER_UUID : _uuidValue,
-                                            PARAMETER_DEVICE_UDID : _uuidValue}];
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];*/
 
     
     if (!path){
@@ -480,10 +512,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
-- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+/*- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
     
      [[Mixpanel sharedInstance] track:event properties:properties];
-}
+}*/
 
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
@@ -838,10 +870,11 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
     						 NSInferMappingModelAutomaticallyOption: @YES};
+    
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
                                   initWithManagedObjectModel:[self managedObjectModel]];
     NSString *ver=[UIDevice currentDevice].systemVersion;
-    if (ver.integerValue<6) {
+    if (ver.integerValue==7) {
         if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                                      configuration:nil URL:storeUrl options:options error:&error]) {
             /*Error for store creation should be handled in here*/
@@ -1026,7 +1059,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
     //[PFPush handlePush:userInfo];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     if ( application.applicationState == UIApplicationStateActive ){
+        
         if (userInfo != nil)
         {
             NSLog(@"open active notifucation");

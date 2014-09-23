@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="buttonForTrialUsers" destination="Oye-R5-3pW" id="Kuf-bD-qZV"/>
                 <outlet property="labelDownloadingCount" destination="bV9-ff-58v" id="TEd-tm-Dmp"/>
+                <outlet property="searchTextField" destination="haS-Dj-WYm" id="kgH-n3-5hx"/>
                 <outlet property="storeBackButton" destination="mez-Et-UaJ" id="xv9-8k-Xrb"/>
                 <outlet property="view" destination="2" id="3"/>
                 <outlet property="viewDownloadCounter" destination="LBj-FQ-f50" id="nhy-jz-T7F"/>
@@ -104,7 +105,7 @@
                 <button hidden="YES" opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Oye-R5-3pW">
                     <rect key="frame" x="-5" y="732" width="1029" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.20238759570000001" green="0.20238759570000001" blue="0.20238759570000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.12962372448979587" green="0.12962372448979587" blue="0.12962372448979587" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <state key="normal" title="Subscribe for Unlimited access after Trial">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -2312,7 +2312,9 @@
             
             //Create Core Data Book
             NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.id];
-            [self saveBook:_mangoStoryBook AtLocation:newBookFilePath WithEJDBId:_mangoStoryBook.id];
+            @synchronized(self){
+                [self saveBook:_mangoStoryBook AtLocation:newBookFilePath WithEJDBId:_mangoStoryBook.id];
+            }
             BOOL success = [self createFolderAtPath:newBookFilePath];
             if (success) {
                 success = [self createFolderAtPath:[NSString stringWithFormat:@"%@/res", newBookFilePath]];

@@ -11,6 +11,7 @@
 #import "MangoGameViewController.h"
 #import "AePubReaderAppDelegate.h"
 #import <Parse/Parse.h>
+#import "OrderedDictionary.h"
 
 #define GAME_DRAW @"draw"
 #define GAME_JIGSAW @"jigsaw"
@@ -88,7 +89,7 @@
     }
     [delegate trackEventAnalytic:@"game_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"game_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"game_screen"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,21 +124,12 @@
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     NSString *gameName = [_gameNames objectAtIndex:index];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    ////
+    
     NSData *jsonData1 = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict1 = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData1 options:NSJSONReadingAllowFragments error:nil]];
     
     NSMutableArray *readerPagesArray1 = [[NSMutableArray alloc] initWithArray:[jsonDict1 objectForKey:PAGES]];
     NSMutableArray *gamesDataArray = [[NSMutableArray alloc] init];
-//    for(int i = 0; i < _gameNames.count; ++i){
-//        for (NSDictionary *readerPageDict in readerPagesArray1) {
-//            if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:_gameNames[i]]) {
-//                
-//                [gamesDataArray addObject:readerPageDict];
-//                
-//            }
-//        }
-//    }
     for (NSDictionary *readerPageDict in readerPagesArray1){
         if(([[readerPageDict objectForKey:PAGE_NAME] length] >3) && !([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"])){
             NSLog(@"not match - %@", [readerPageDict objectForKey:PAGE_NAME]);
@@ -145,14 +137,6 @@
         }
     }
     
-    ////
-    //NSArray *sortedArray = [[NSOrderedSet orderedSetWithArray:gamesDataArray] array];
-//    NSArray *noDuplicates = [[NSSet setWithArray: gamesDataArray] allObjects];
-//    for(int i = 1; i < noDuplicates.count; ++i){
-//        
-//        NSLog(@"game name %@", [noDuplicates[i] objectForKey:PAGE_NAME]);
-//    }
-   // NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePage:gameName ForStory:_jsonString WithFolderLocation:_folderLocation AndOption:0];
     NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePagePro:gameName ForStory:gamesDataArray WithFolderLocation:_folderLocation AndOption:index];
     
     _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
@@ -177,7 +161,7 @@
     }
     [delegate trackEventAnalytic:@"playing" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"playing"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -201,10 +185,10 @@
     [userObject setObject:IOS forKey:@"device"];
     [userObject saveInBackground];*/
     
-    NSString * currentBookImageURL = [[NSString stringWithFormat:@"http://www.mangoreader.com/live_stories/%@/%@",[jsonDict objectForKey:@"id"], [jsonDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"res/" withString:@"res/cover_"];
+    //NSString * currentBookImageURL = [[NSString stringWithFormat:@"http://www.mangoreader.com/live_stories/%@/%@",[jsonDict objectForKey:@"id"], [jsonDict objectForKey:@"story_image"]] stringByReplacingOccurrencesOfString:@"res/" withString:@"res/cover_"];
     
-    NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
+    //NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    /*PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
     if(_loginUserEmail == nil){
         _loginUserEmail = @"nil";
         [query1 whereKey:@"deviceIDValue" equalTo:udid];
@@ -220,7 +204,7 @@
             
             int totalActivityNo = [[object valueForKey:@"activityCount"] intValue] + 1;
             [object setObject:[NSNumber numberWithInt:totalActivityNo] forKey:@"activityCount"];
-            [object saveInBackground];
+            //[object saveInBackground];
             
         }
         else{
@@ -242,9 +226,9 @@
             [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];
             [userObject setObject:[NSNumber numberWithInt:0] forKey:@"timesNumberBookCompleted"];
             
-            [userObject saveInBackground];
+            //[userObject saveInBackground];
         }
-    }];
+    }];*/
     
     UIWebView *webview = [gameViewDict objectForKey:@"gameView"];
     webview.delegate = self;
@@ -310,10 +294,12 @@
 #pragma mark - UIWebView Delegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_dataDict options:NSJSONReadingAllowFragments error:nil];
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_dataDict options:NSJSONReadingMutableContainers error:nil];
+    
     NSString *paramString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"Param: %@", paramString);
-    
+   
     NSString *resultString = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
     NSLog(@"%@", resultString);
 }
@@ -347,7 +333,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
     [delegate trackEventAnalytic:@"playing" dimensions:dimensionevent];
     [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"playing"];
 }
 
 @end

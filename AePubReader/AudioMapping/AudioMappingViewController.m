@@ -71,7 +71,16 @@
         [_player stop];
         
     }
+}
 
+
+
+- (void) viewDidDisappear:(BOOL)animated{
+    
+    [super viewDidDisappear:YES];
+    if(_player){
+        [_player stop];
+    }
 }
 
 
@@ -321,7 +330,9 @@
     _player.enableRate = YES;
     //_audioMappingRate = 1.0f;
     _player.rate = _audioMappingRate;
-    [_player play];
+    NSTimeInterval shortStartDelay = 1.0;            // seconds
+    NSTimeInterval now = _player.deviceCurrentTime;
+    [_player playAtTime:now+shortStartDelay];
     
     _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
     
@@ -331,6 +342,11 @@
     _scrollView.progress=0;
     [_scrollView setNeedsDisplay];
     [ _scrollView scrollRectToVisible:frame animated:NO];
+}
+
+- (void) playAudioWithBreak{
+    
+    [_player play];
 }
 
 - (IBAction)playOriginal:(id)sender {

@@ -70,7 +70,7 @@
     if(storyAsAppFilePath && (validUserSubscription)){
         [_backToLogin setBackgroundImage:[UIImage imageNamed:@"icons_settings.png"] forState:UIControlStateNormal];
     }
-    if(_pushNoteBookId){
+    if(_pushNoteBookId || _pushSubscribe){
         
         [self store:0];
     }
@@ -81,18 +81,47 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     //_successSubscription = 1;
-    if(_successSubscription){
-        _successSubscription = nil;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
+    int validateSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    int isTrialUser = [[prefs valueForKey:@"ISTRIALUSER"]integerValue];
+    
+    if(subscriptionSuccess && !userEmail){
+        [prefs setBool:NO forKey:@"SubscriptionSuccess"];
         EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
         }
         else{
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController" bundle:nil];
         }
-        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        emailLinkSubscriptionView.modalPresentationStyle = UIModalPresentationFormSheet;
+        emailLinkSubscriptionView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:emailLinkSubscriptionView animated:YES completion:nil];
+        emailLinkSubscriptionView.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 440, 300);
+        }
+        else{
+            emailLinkSubscriptionView.view.autoresizesSubviews = NO;
+            emailLinkSubscriptionView.view.layer.cornerRadius = 10;
+            emailLinkSubscriptionView.view.layer.masksToBounds = YES;
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+        }
+    }
+    
+    int moveToSignIn = [[prefs valueForKey:@"SubscriptionEmailToSignIn"] integerValue];
+    if(moveToSignIn){
+        [prefs setBool:NO forKey:@"SubscriptionEmailToSignIn"];
+        LoginNewViewController *loginView;
+        if([[UIDevice currentDevice] userInterfaceIdiom]== UIUserInterfaceIdiomPhone){
+            loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+        }
+        else{
+            loginView = [[LoginNewViewController alloc] initWithNibName:@"LoginNewViewController" bundle:nil];
+        }
+        [self.navigationController pushViewController:loginView animated:YES];
     }
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -105,7 +134,7 @@
     }
     [delegate trackEventAnalytic:@"home_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"home_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"home_screen"];
 }
 
 
@@ -151,7 +180,7 @@
     }
     [delegate trackEventAnalytic:@"create_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"create_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"create_click"];
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
@@ -174,6 +203,7 @@
     BooksCollectionViewController *booksCollectionViewController = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
     booksCollectionViewController.fromCreateStoryView = 1;
     booksCollectionViewController.toEdit = YES;
+    booksCollectionViewController.pushCreateStory = _pushCreateStory;
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     
 }
@@ -194,7 +224,7 @@
     }
     [delegate trackEventAnalytic:@"store_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"store_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"store_click"];
     
     MangoStoreViewController *storeViewController;
     
@@ -205,7 +235,9 @@
     else{
         storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
     }
+    
     storeViewController.pushNoteBookId = _pushNoteBookId;
+    storeViewController.pushSubscribe = _pushSubscribe;
         [self.navigationController pushViewController:storeViewController animated:YES];
     
 }
@@ -221,7 +253,7 @@
     }
     [delegate trackEventAnalytic:@"my_stories_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"my_stories_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"my_stories_click"];
     
     CategoriesFlexibleViewController *categoryFlexible;
     
@@ -261,7 +293,7 @@
         }
         [delegate trackEventAnalytic:@"settings_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"settings_click"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"settings_click"];
         [self qusetionForSettings];
     }
 }
@@ -297,7 +329,6 @@
     }
     else{
         settingSol = NO;
-        
     }
     _textQuesSolution.text = @"";
     _settingsProbView.hidden = YES;
@@ -314,37 +345,37 @@
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         
         MangoFeedbackViewController *viewCtr1;
-        MangoAnalyticsViewController *viewCtr2;
+        //MangoAnalyticsViewController *viewCtr2;
         MangoDashbProfileViewController *viewCtr3;
-        MangoDashbHelpViewController *viewCtr4;
+        //MangoDashbHelpViewController *viewCtr4;
         
         
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             viewCtr1 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController_iPhone" bundle:nil];
-            viewCtr2 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
+            //viewCtr2 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController_iPhone" bundle:nil];
             viewCtr3 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController_iPhone" bundle:nil];
-            viewCtr4 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController_iPhone" bundle:nil];
+            //viewCtr4 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController_iPhone" bundle:nil];
         }
         
         else{
             
             viewCtr1 = [[MangoFeedbackViewController alloc] initWithNibName:@"MangoFeedbackViewController" bundle:nil];
-            viewCtr2 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
+            //viewCtr2 = [[MangoAnalyticsViewController alloc] initWithNibName:@"MangoAnalyticsViewController" bundle:nil];
             viewCtr3 = [[MangoDashbProfileViewController alloc] initWithNibName:@"MangoDashbProfileViewController" bundle:nil];
-            viewCtr4 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
+            //viewCtr4 = [[MangoDashbHelpViewController alloc] initWithNibName:@"MangoDashbHelpViewController" bundle:nil];
         }
         
         viewCtr1.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
-        viewCtr2.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
+        //viewCtr2.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
         viewCtr3.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
-        viewCtr4.tabBarItem.image = [UIImage imageNamed:@"help.png"];
+        //viewCtr4.tabBarItem.image = [UIImage imageNamed:@"help.png"];
         
         viewCtr1.navigationController.navigationBarHidden=YES;
-        viewCtr2.navigationController.navigationBarHidden=YES;
+        //viewCtr2.navigationController.navigationBarHidden=YES;
         viewCtr3.navigationController.navigationBarHidden=YES;
-        viewCtr4.navigationController.navigationBarHidden=YES;
+        //viewCtr4.navigationController.navigationBarHidden=YES;
         
-        tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1,viewCtr2, viewCtr3, viewCtr4, nil];
+        tabBarController.viewControllers= [NSArray arrayWithObjects:viewCtr1, viewCtr3, nil];
         
         [self.navigationController pushViewController:tabBarController animated:YES];
     }
@@ -375,7 +406,7 @@
     }
     [delegate trackEventAnalytic:@"story_of_the_day" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"story_of_the_day"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"story_of_the_day"];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         

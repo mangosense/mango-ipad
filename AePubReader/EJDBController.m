@@ -364,7 +364,9 @@
                 bk.bookId=book.id;
                 [delegate.dataModel saveData:bk];
             } else {
-                [self saveBook:book AtLocation:filePath WithEJDBId:book.id];
+                @synchronized(self){
+                    [self saveBook:book AtLocation:filePath WithEJDBId:book.id];
+                }
             }
             
             [delegate.dataModel displayAllData];

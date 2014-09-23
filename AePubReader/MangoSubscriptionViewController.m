@@ -85,7 +85,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
 
 }
 
@@ -184,6 +184,7 @@
     NSString *yearString = [formatter stringFromDate:[NSDate date]];
     int parentalControlAge = ([yearString integerValue] - [_textQuesSolution.text integerValue]);
     [_textQuesSolution resignFirstResponder];
+    [self.view endEditing:YES];
     if((parentalControlAge >= 13) && (parentalControlAge <=100)){
         //show subscription plans
         _settingsProbSupportView.hidden = YES;
@@ -289,7 +290,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
     
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -352,6 +353,7 @@
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
         //[navigationController pushViewController:myViewController animated:YES];
         [self presentViewController:navigationController animated:YES completion:nil];*/
+        [prefs setBool:YES forKey:@"SubscriptionSuccess"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoadLandingPage" object:self];
         [self dismissViewControllerAnimated:NO completion:nil];
     }
@@ -359,7 +361,9 @@
     else{
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
         //[alert show];
-        [prefs setBool:YES forKey:@"SubscriptionSuccess"];
+        if(!userEmail){
+            [prefs setBool:YES forKey:@"SubscriptionSuccess"];
+        }
         [self backButtonTapped:0];
         
     }
@@ -432,7 +436,7 @@
     }
     [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];

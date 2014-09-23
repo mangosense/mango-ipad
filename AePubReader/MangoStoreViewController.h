@@ -49,7 +49,10 @@
 @property (nonatomic, strong) IBOutlet UIButton *storeBackButton;
 @property (nonatomic, strong) IBOutlet UIButton *buttonForTrialUsers;
 @property (nonatomic, assign) NSString *pushNoteBookId;
+@property (nonatomic, assign) NSString *pushSubscribe;
 @property (nonatomic, assign) int landingSOTD;
+@property (nonatomic, strong) IBOutlet UILabel *labelTextForGuestUser;
+@property (nonatomic, strong) IBOutlet UIView *hideCollectionview;
 
 - (IBAction)goBackToStoryPage:(id)sender;
 - (IBAction)filterSelected:(id)sender;

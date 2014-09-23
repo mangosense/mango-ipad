@@ -36,6 +36,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
 @property (nonatomic, assign) int successSubscription;
 @property (nonatomic, assign) NSString *pushNoteBookId;
-@property (nonatomic, assign) int pushCreateStory;
+@property (nonatomic, assign) NSString *pushCreateStory;
+@property (nonatomic, assign) NSString *pushSubscribe;
 
 @end

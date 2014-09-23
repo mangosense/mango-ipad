@@ -71,6 +71,11 @@
         ID = userEmail;
     }
     //[self getAllFreeBooks];
+    if(_pushCreateStory){
+        
+        // push to editor version
+        [self goToEditorView];
+    }
     
 }
 
@@ -130,7 +135,7 @@
     }
     [delegate trackEventAnalytic:@"my_books_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"my_books_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"my_books_screen"];
 }
 
 
@@ -267,6 +272,18 @@
     return nil;
 }
 
+- (void) goToEditorView{
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        MangoEditorViewController *newBookEditorViewController = [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
+        newBookEditorViewController.isNewBook = YES;
+        newBookEditorViewController.storyBook = nil;
+        [self.navigationController.navigationBar setHidden:YES];
+        [self.navigationController pushViewController:newBookEditorViewController animated:YES];
+    }
+    
+}
+
 #pragma mark - UICollectionView Delegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -341,7 +358,7 @@
                 }
                 [delegate trackEventAnalytic:@"get_more_book_click" dimensions:dimensions];
                 [delegate eventAnalyticsDataBrowser:dimensions];
-                [delegate trackMixpanelEvents:dimensions eventName:@"get_more_book_click"];
+                //[delegate trackMixpanelEvents:dimensions eventName:@"get_more_book_click"];
                 
                 if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]) {
                     [controller setCategoryFlagValue:0];
@@ -867,7 +884,7 @@
             }
             [appDelegate trackEventAnalytic:@"delete_click" dimensions:dimensions];
             [appDelegate eventAnalyticsDataBrowser:dimensions];
-            [appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
+            //[appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
 
         }
         /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
@@ -952,7 +969,7 @@
         bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
         
         if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
-            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
+            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"-by : %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
         }
         else{
             bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@""];
@@ -1041,7 +1058,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         if([storyOfDayId isEqualToString:[bookDict objectForKey:@"id"]]){
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];

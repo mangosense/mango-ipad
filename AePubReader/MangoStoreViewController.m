@@ -34,7 +34,7 @@
 
 @property (nonatomic, strong) UIPopoverController *filterPopoverController;
 @property (nonatomic, strong) UICollectionView *booksCollectionView;
-@property (nonatomic, strong) UITextField *searchTextField;
+@property (nonatomic, strong) IBOutlet UITextField *searchTextField;
 @property (nonatomic, strong) NSMutableArray *liveStoriesArray;
 @property (nonatomic, strong) NSMutableDictionary *liveStoriesFiltered;
 @property (nonatomic, strong) NSMutableArray *liveStoriesFilteredWhole;
@@ -94,7 +94,6 @@
     page = 0;
     //current view name
     currentPage = @"store_screen";
-    
     popoverClass = [WEPopoverController class];
     // Do any additional setup after loading the view from its nib.
     _localImagesDictionary = [[NSMutableDictionary alloc] init];
@@ -119,6 +118,10 @@
         [self getAllAgeGroups];
     }
     
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnView:)];
+    
+    // Removing temporarily for bug fix
+    [_hideCollectionview addGestureRecognizer:tapRecognizer];
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         displayStoryNo = 4;
@@ -135,14 +138,32 @@
     if(_pushNoteBookId){
         
         [self getLiveStoryByID:_pushNoteBookId];
-        [prefs setValue:_pushNoteBookId forKey:@"StoryOfTheDayBookId"];
+        //[prefs setValue:_pushNoteBookId forKey:@"StoryOfTheDayBookId"];
     }
     
     if(_landingSOTD){
-        [self displayStoryoftheDay];
+        [self getDetailofStoryofDay];
     }
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(_pushSubscribe){
+        int isTrialUser = [[prefs valueForKey:@"ISTRIALUSER"]integerValue];
+        if(isTrialUser || (!userEmail && !validUserSubscription)){
+            
+            MangoSubscriptionViewController *subscriptionViewController;
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                
+                subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+            }
+            else{
+                subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+            }
+            [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
+            subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        }
+    }
     
     if(!validUserSubscription){
         
@@ -249,18 +270,42 @@
         }
         
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+}
+
+- (void)keyboardDidShow: (NSNotification *) notif{
+    //self.booksCollectionView.userInteractionEnabled = NO;
+    //_hideCollectionview.hidden = NO;
+    
+}
+
+- (void)keyboardDidHide: (NSNotification *) notif{
+    // Do something here
+    //self.booksCollectionView.userInteractionEnabled = YES;
+   // _hideCollectionview.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     
+    [self.view bringSubviewToFront:[_hideCollectionview superview]];
     [self.view bringSubviewToFront:[_buttonForTrialUsers superview]];
     [self.view bringSubviewToFront:[_viewDownloadCounter superview]];
+    [[_hideCollectionview superview] bringSubviewToFront:_hideCollectionview];
     [[_buttonForTrialUsers superview] bringSubviewToFront:_buttonForTrialUsers];
     [[_viewDownloadCounter superview] bringSubviewToFront:_viewDownloadCounter];
     
-    if(!validUserSubscription && storyAsAppFilePath){
-        _storeBackButton.hidden = YES;
-    }
+//    if(!validUserSubscription && storyAsAppFilePath){
+//        _storeBackButton.hidden = YES;
+//    }
     
 }
 
@@ -289,15 +334,25 @@
     }
 }
 
+- (BOOL)disablesAutomaticKeyboardDismissal {
+    return NO;
+}
 
 - (void) viewDidAppear:(BOOL)animated{
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
+    int validateSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     int isTrialUser = [[prefs valueForKey:@"ISTRIALUSER"]integerValue];
     if(isTrialUser){
         _buttonForTrialUsers.hidden = NO;
     }
+    if(!userEmail && !validateSubscription){
+
+        [_buttonForTrialUsers setTitle: @"Subscribe now to access Unlimited Stories" forState: UIControlStateNormal];
+        _buttonForTrialUsers.hidden = NO;
+    }
+    
     if(subscriptionSuccess && !userEmail){
         [prefs setBool:NO forKey:@"SubscriptionSuccess"];
         EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
@@ -346,7 +401,7 @@
     }
     [delegate trackEventAnalytic:@"store_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
 }
 
 - (void) dismissPopoverController{
@@ -358,6 +413,12 @@
 - (void) displayStoryoftheDay{
     
     NSUserDefaults *prefs=[NSUserDefaults standardUserDefaults];
+    
+    int validateSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    if(storyAsAppFilePath && !validateSubscription){
+        return;
+    }
+    
     NSString *sOTD=[prefs stringForKey:@"StoryOfTheDayCounter"];
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date]];
     if(sOTD.length > 0){
@@ -385,7 +446,7 @@
             }
         }
         else{//different day
-            
+            [prefs setObject:@"" forKey:@"StoryOfTheDayBookId"];
             int times = 0;
             times +=1;
             if(items.count > 2){
@@ -397,10 +458,7 @@
             [prefs setValue:sOTD forKey:@"StoryOfTheDayCounter"];
             [self getDetailofStoryofDay];
         }
-        if(_landingSOTD){
-            
-            [self getDetailofStoryofDay];
-        }
+        
     }
     else{//else different date
         int times = 0;
@@ -420,6 +478,7 @@
     
     [apiController getListOf:url ForParameters:nil withDelegate:self];
 }
+
 
 
 -(void) setDownloadCounter:(NSTimer *)timer
@@ -459,7 +518,7 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self.view endEditing:YES];
+    //[self.view endEditing:YES];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:textField.text forKey:@"id"];
     
@@ -483,10 +542,14 @@
 
 - (IBAction)goBackToStoryPage:(id)sender {
 
-  //  if(storyAsAppFilePath && validUserSubscription){
+    if(!validUserSubscription && storyAsAppFilePath){
         
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+    }
+    else{
         [self.navigationController popViewControllerAnimated:YES];
-  //  }
+    }
+ 
    // else{
        // [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
      //   [self.navigationController popViewControllerAnimated:YES];
@@ -560,6 +623,19 @@
     }
     
    
+}
+
+- (void) tapOnView:(UIRotationGestureRecognizer *)recognizer{
+    
+    [self.view.superview endEditing:YES];
+    [self.searchTextField resignFirstResponder];
+    
+    for (UIView *subView in self.view.subviews) {
+        if ([subView isFirstResponder]) {
+             NSLog(@"%@", subView.class);
+        }
+    }
+    
 }
 
 #pragma mark - Post API Delegate
@@ -817,7 +893,7 @@
             }
             [delegate trackEventAnalytic:@"search" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"search"];
+            //[delegate trackMixpanelEvents:dimensions eventName:@"search"];
             /*NSDictionary *dimensions = @{
                                          PARAMETER_USER_EMAIL_ID : ID,
                                          PARAMETER_DEVICE: IOS,
@@ -912,7 +988,7 @@
         }
         [delegate trackEventAnalytic:@"see_more" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
         
         [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
     } else {
@@ -983,7 +1059,11 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    [self resignFirstResponder];
+    
+    //if([self.searchTextField isFirstResponder]){
+        
+    
+    //}
     if (_featuredStoriesArray) {
         //NSDictionary *bookDict = [_featuredStoriesArray objectAtIndex:index];
       //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
@@ -1424,7 +1504,10 @@
 #pragma mark - UICollectionView Delegate
 
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict {
-
+    
+    [self.searchTextField endEditing:YES];
+    [self.searchTextField resignFirstResponder];
+    self.searchTextField = nil;
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     BookDetailsViewController *bookDetailsViewController;
@@ -1454,7 +1537,6 @@
 //  //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
    // [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
    // bookDetailsViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
     bookDetailsViewController.modalPresentationStyle = UIModalPresentationFormSheet;
     bookDetailsViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
@@ -1581,7 +1663,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
@@ -1599,7 +1681,7 @@
     bookDetailsViewController.view.layer.cornerRadius = 2.5f;
     bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
     //bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
 }
 
 - (void) getLiveStoryByID :(NSString *)bookID{
@@ -1612,6 +1694,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
         switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if (indexPath.section == 0) {
@@ -1725,12 +1808,25 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (self.searchTextField ) {
+        [self.searchTextField endEditing:YES];
         [self.searchTextField resignFirstResponder];
         self.searchTextField = nil;
     }
 }
 
 - (IBAction) mangoSubscription{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+    [dimensions setObject:@"subscription_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+    [dimensions setObject:@"Subscription click in store page" forKey:PARAMETER_EVENT_DESCRIPTION];
+    if(userEmail){
+        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+    }
+    [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
     
     MangoSubscriptionViewController *subscriptionViewController;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){

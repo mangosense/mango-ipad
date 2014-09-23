@@ -16,14 +16,15 @@
 #import "DismissPopOver.h"
 #import "MangoBook.h"
 #import "LastPageViewController.h"
+////#import "GADInterstitial.h"
+#import "GADBannerView.h"
 
-#import "GADInterstitial.h"
+////@class GADInterstitial;
+@class GADBannerView ,GADRequest;
 
-@class GADInterstitial;
-@class GADRequest;
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate ,/*GADInterstitialDelegate*/GADBannerViewDelegate>{
 
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate ,GADInterstitialDelegate>{
-    
+//@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate >{
     NSString *userEmail;
     NSString *userDeviceID;
     NSString *ID;
@@ -36,9 +37,12 @@
     NSString *currentPage;
     NSString *bookReadMode;
     NSString *bookStatus;
+    NSString *bookStatusValue;
     NSMutableString *pageVisited;
     UIFont *textFontValue;
+    int checkCorrectDismiss;
     //CAEmitterLayer *emitter;
+    
 }
 - (IBAction)ShowOptions:(id)sender;
 - (IBAction)BackButton:(id)sender;
@@ -89,7 +93,8 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
-@property(nonatomic, strong) GADInterstitial *interstitial;
+//@property (nonatomic, strong) GADInterstitial *interstitial;
+@property (nonatomic, strong) GADBannerView *bannerView_;
 @property (nonatomic, strong) NSDictionary *audioDictForEditMapping;
 
 - (IBAction)displyParentalControl:(id)sender;

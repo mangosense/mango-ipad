@@ -161,7 +161,7 @@
 
  */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    /*AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -180,7 +180,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    [userObject saveInBackground];*/
     
     switch (indexPath.row) {
         case 0:

@@ -75,6 +75,7 @@
 @property (nonatomic, strong) UIFont *fontCustom;
 @property (nonatomic, strong) MovableTextView *pageTextView;
 @property (nonatomic, strong) UITableView *langAndFonts;
+@property (nonatomic, assign) NSString *pushCreateStory;
 
 - (IBAction)mangoButtonTapped:(id)sender;
 - (IBAction)menuButtonTapped:(id)sender;

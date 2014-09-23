@@ -37,6 +37,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 @property (nonatomic, retain) IBOutlet UILabel *labelProblem;
 @property (nonatomic, retain) NSMutableArray *arrayFreeBooksId;
+@property (nonatomic, assign) NSString *pushCreateStory;
 
 - (IBAction)settingsButtonTapped:(id)sender;
 - (IBAction)homeButtonTapped:(id)sender;

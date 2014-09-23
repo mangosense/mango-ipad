@@ -1,3 +1,4 @@
+
 //
 //  PageNewBookTypeViewController.m
 //  MangoReader
@@ -15,6 +16,8 @@
 
 #import "GADInterstitial.h"
 #import "GADInterstitialDelegate.h"
+#import "GADBannerView.h"
+#import "GADRequest.h"
 #import "MangoStoreViewController.h"
 #import "EmailSubscriptionLinkViewController.h"
 
@@ -93,6 +96,13 @@
         self.interstitial.delegate = self;
         self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
         [self.interstitial loadRequest:[GADRequest request]];*/
+        
+        self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+        self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
+        self.bannerView_.delegate = self;
+        [self.bannerView_ setRootViewController:self];
+        [self.view addSubview:self.bannerView_];
+        [self.bannerView_ loadRequest:[self request]];
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -197,10 +207,10 @@
     }
     [delegate trackEventAnalytic:@"reading" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"reading"];
 }
 
-- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+/*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
 {
     NSLog(@"Ad is ready to display");
 }
@@ -213,29 +223,30 @@
     self.interstitial.delegate = self;
     self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
     [self.interstitial loadRequest:request];
-    [_audioMappingViewController.player play];
-}
+    [self playOrPauseButton:0];
+}*/
 
-- (IBAction)showInterstitial:(id)sender {
+/*- (IBAction)showInterstitial:(id)sender {
     
+    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
     [_audioMappingViewController.player pause];
     
-    [self.interstitial presentFromRootViewController:self];
+    [self.interstitial presentFromRootViewController:self];*/
     
-    /*UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(480, 0, 600, 40)];;
-    button.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
-    [tapRecognizer setNumberOfTapsRequired:1];
-    [button addGestureRecognizer:tapRecognizer];
+//    /*UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(480, 0, 600, 40)];;
+//    button.userInteractionEnabled = YES;
+//    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+//    [tapRecognizer setNumberOfTapsRequired:1];
+//    [button addGestureRecognizer:tapRecognizer];
+//    
+//    CALayer *btnLayer = [button layer];
+//    [btnLayer setMasksToBounds:YES];
+//    [btnLayer setCornerRadius:12.0f];
+//    [btnLayer setBorderWidth:3.0f];
+//    [btnLayer setBorderColor:[UIColor brownColor].CGColor];
+//    [button setBackgroundColor:[UIColor redColor]]*/
     
-    CALayer *btnLayer = [button layer];
-    [btnLayer setMasksToBounds:YES];
-    [btnLayer setCornerRadius:12.0f];
-    [btnLayer setBorderWidth:3.0f];
-    [btnLayer setBorderColor:[UIColor brownColor].CGColor];
-    [button setBackgroundColor:[UIColor redColor]]*/
-    
-    CATextLayer *label = [[CATextLayer alloc] init];
+/*    CATextLayer *label = [[CATextLayer alloc] init];
     [label setFont:@"Helvetica-Bold"];
     [label setString:@"Subscribe to access unlimited stories without advertisements"];
     [label setAlignmentMode:kCAAlignmentCenter];
@@ -263,15 +274,35 @@
     
    
     [self.presentedViewController.view.layer addSublayer:graphic];
-}
+}*/
 
 
-- (GADRequest *)request {
+/*- (GADRequest *)request {
     GADRequest *request = [GADRequest request];
     request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
 
     return request;
+}*/
+
+
+//for banner ad
+- (GADRequest *)request{
+    
+    GADRequest *request = [GADRequest request];
+    request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
+    return request;
 }
+- (void) adViewDidReceiveAd:(GADBannerView *)view{
+    NSLog(@"receive ad");
+    [UIView animateWithDuration:1.0 animations:^{
+        view.frame = CGRectMake(0.0, 0.0, view.frame.size.width, view.frame.size.height);
+    }];
+}
+- (void) adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
+    
+    NSLog(@"Failed to received ad due to : %@",[error localizedFailureReason]);
+}
+
 
 - (void) dismissMyBookViewBackAgainToCover{
     
@@ -385,6 +416,7 @@
 
 - (IBAction)BackButton:(id)sender {
     //AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    checkCorrectDismiss = 1.0;
     [self.navigationController popViewControllerAnimated:YES];
     //[self.navigationController popToViewController:delegate.pageViewController animated:YES];
     
@@ -440,10 +472,18 @@
     }
     else{
         //close subscription plan
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Please enter correct birth year!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        [self performSelector:@selector(hideAlert:) withObject:alert afterDelay:1.5];
     }
     _settingsProbSupportView.hidden = YES;
     _settingsProbView.hidden = YES;
     _textQuesSolution.text = @"";
+}
+
+-(void)hideAlert:(UIAlertView*)alert
+{
+    [alert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (IBAction)closeParentalControl:(id)sender{
@@ -468,7 +508,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -560,7 +600,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+                    //[delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                 }
                     break;
                     
@@ -579,7 +619,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+                    //[delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.isBookFork = YES;
@@ -756,6 +796,7 @@
     //[emitter removeFromSuperlayer];
     if (_pageNumber==1) {
         //[self BackButton:nil];
+        checkCorrectDismiss = 1;
         [self.navigationController popViewControllerAnimated:YES];
 
     }else{
@@ -796,27 +837,32 @@
         appendString = [NSString stringWithFormat:@"%d", _pageNumber];
         [pageVisited appendString:appendString];
     }
-    _rightView.hidden = YES;
+    
     ++_pageNumber;
+    
+    if(_pageNumber+1 == _pageNo){
+        bookStatusValue = @"complete";
+    }
+    
+    _rightView.hidden = YES;
+    
     //[emitter removeFromSuperlayer];
     
     if((_pageNumber % 4) == 0){
         
         if ((!validUserSubscription && storyAsAppFilePath) && !(_pageNo == _pageNumber)){
-         //   [self showInterstitial:0];
+//            [self showInterstitial:0];
             NSLog(@"page numbers --- %d -- %d", _pageNumber, _pageNo);
         }
     }
     
     if (_pageNumber<(_pageNo)) {
-        [self loadPageWithOption:_option];
-        [_audioMappingViewController.player pause];
         
         CATransition *animation = [CATransition animation];
         [animation setDelegate:self];
-        [animation setDuration:0.7f];
+        [animation setDuration:0.6f];
         animation.startProgress = 0.3;
-        animation.endProgress   = 1;
+        animation.endProgress   = 1.0;
         //[animation setTimingFunction:UIViewAnimationCurveEaseInOut];
         [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         [animation setType:@"pageCurl"];
@@ -825,17 +871,21 @@
         [animation setFillMode: @"extended"];
         [animation setRemovedOnCompletion: NO];
         [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
-        //[_audioMappingViewController.player play];
-        [self performSelector:@selector(playAudio) withObject:self afterDelay:0.7f];
+    
+        //[self performSelector:@selector(playAudio) withObject:self afterDelay:0.7f];
+        
         /// default is icons_play.png
         if (_option==0) {
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         }else{
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
         }
-      
+        [self loadPageWithOption:_option];
+//        [_audioMappingViewController.player pause];
+//        [self performSelector:@selector(playAudio) withObject:self afterDelay:0.2f];
         
     } else {
+        checkCorrectDismiss = 1;
         _pageNumber = _pageNo - 1;
         
         LastPageViewController *lastPage;
@@ -867,6 +917,7 @@
     }
 }
 
+
 - (IBAction)playOrPauseButton:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
@@ -883,7 +934,7 @@
     }
     [delegate trackEventAnalytic:@"playpause_button_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
     
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
@@ -937,7 +988,7 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -1230,7 +1281,7 @@
                 else if ([trimmedFamily  hasPrefix:@"Tahoma"]) {
                     fFamily = @"Tahoma";
                 }
-                else if ([trimmedFamily  hasPrefix:@"Times"]) {
+                else if ([trimmedFamily  hasPrefix:@"Times"] || [trimmedFamily  hasPrefix:@"'Times"]) {
                     fFamily = @"TimesNewRomanPS";
                 }
                 else if ([trimmedFamily hasPrefix:@"Helvetica"]){
@@ -1278,7 +1329,14 @@
                         fStyle = @"-Italic";
                     
                 }else {
-                    fStyle=@"";
+                    
+                    if([fFamily isEqualToString:@"TimesNewRomanPS"]){
+                        fFamily = @"TimesNewRomanPSMT";
+                        fStyle=@"";
+                    }
+                    else{
+                        fStyle=@"";
+                    }
                 }
                 
                 if(!fontSize){
@@ -1338,10 +1396,20 @@
         audioMappingViewcontroller.textForMapping = textOnPage;
         
         NSString *audio_id = [textDict objectForKey:@"audio_id"];
-        if ([audio_id isKindOfClass:[NSNull class]]) {
+        NSPredicate *audioPredicate = [NSPredicate predicateWithFormat:@"text_id == %@",[textDict objectForKey:@"id"]];
+        NSString *audioUrl;
+        NSArray *relatedAudios = [audioLayers filteredArrayUsingPredicate:audioPredicate];
+        if ([relatedAudios count]) {
+            NSDictionary *audioLayer = [relatedAudios objectAtIndex:0];
+            audioUrl = [audioLayer objectForKey:@"url"];
+        }
+        //if ([audio_id isKindOfClass:[NSNull class]]) {
+         if ([audioUrl isKindOfClass:[NSNull class]]) {
+            
+            
             NSLog(@"Text Does not have an audio");
         } else {
-            NSPredicate *audioPredicate = [NSPredicate predicateWithFormat:@"id == %@",audio_id];
+            NSPredicate *audioPredicate = [NSPredicate predicateWithFormat:@"text_id == %@",[textDict objectForKey:@"id"]];
             NSArray *relatedAudios = [audioLayers filteredArrayUsingPredicate:audioPredicate];
             if ([relatedAudios count]) {
                 NSDictionary *audioLayer = [relatedAudios objectAtIndex:0];
@@ -1373,7 +1441,18 @@
                 audioMappingViewcontroller.index=0;
                 audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
                 if ([audioLayer objectForKey:@"highlight"] && ![[audioLayer objectForKey:@"highlight"] isEqual:[NSNull null]]) {
-                    audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[audioLayer objectForKey:@"highlight"]];
+                    //audioMappingViewcontroller.mangoTextField.highlightColor = [AePubReaderAppDelegate colorFromRgbString:[audioLayer objectForKey:@"highlight"]];
+                    NSString *colorString = [audioLayer objectForKey:@"highlight"];
+                    colorString = [colorString stringByReplacingOccurrencesOfString:@"rgb("
+                                                                         withString:@""];
+                    colorString = [colorString substringToIndex:[colorString length] - 1];
+                    NSArray *components = [colorString componentsSeparatedByString:@","];
+                    
+                    UIColor *color = [UIColor colorWithRed:[[components objectAtIndex:0] floatValue]/255.f
+                                            green:[[components objectAtIndex:1] floatValue]/255.f
+                                             blue:[[components objectAtIndex:2] floatValue]/255.f
+                                            alpha:1.f];
+                    audioMappingViewcontroller.mangoTextField.highlightColor = color;
                     
                 } else {
                     audioMappingViewcontroller.mangoTextField.highlightColor = [UIColor yellowColor];
@@ -1383,7 +1462,6 @@
                     if ([order isEqualToNumber:[NSNumber numberWithInt:0]] ||
                         [order isEqualToNumber:[NSNumber numberWithInt:1]] || (order == nil)) {
                         if (![self isPlaying]) {
-                            
                             [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
                             _audioMappingViewController = audioMappingViewcontroller;
                         }
@@ -1399,6 +1477,11 @@
         return pageView;
     }
     return nil;
+}
+
+- (void) playWithDelay{
+    
+    
 }
 
 
@@ -1466,6 +1549,7 @@
 
 - (void) viewDidDisappear:(BOOL)animated{
     
+    if(checkCorrectDismiss){
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     _audioMappingViewController.timer = nil;
     _audioMappingViewController.player = nil;
@@ -1489,10 +1573,15 @@
     }
     
     if(_pageNumber+1 >= _pageNo){
-        bookStatus =@"complete";
+        bookStatus = @"complete";
     }
     else{
-        bookStatus = @"incomplete";
+        if(bookStatusValue){
+            bookStatus = bookStatusValue;
+        }
+        else{
+            bookStatus = @"incomplete";
+        }
     }
     int time = (int)(timeEndValue*1000);
     NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
@@ -1521,7 +1610,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
     [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
     [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -1544,7 +1633,7 @@
         [userObject setObject:ID forKey:@"emailID"];
     }
     [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];
+    //[userObject saveInBackground];
     
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
@@ -1595,7 +1684,7 @@
                         [userObject setObject:ID forKey:@"emailID"];
                     }
                     [userObject setObject:IOS forKey:@"device"];
-                    [userObject saveInBackground];
+                    //[userObject saveInBackground];
                 }
                 else{
                     [object setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
@@ -1607,7 +1696,7 @@
             }
             
             //[object setObject:@"111111" forKey:@"activityPoints"];
-            [object saveInBackground];
+            //[object saveInBackground];
         }
         else{
             
@@ -1653,20 +1742,21 @@
                     [userObject setObject:ID forKey:@"emailID"];
                 }
                 [userObject setObject:IOS forKey:@"device"];
-                [userObject saveInBackground];
+                //[userObject saveInBackground];
             }
             else{
                 [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];
                 [userObject setObject:[NSNumber numberWithInt:0] forKey:@"timesNumberBookCompleted"];
             }
             
-            [userObject saveInBackground];
+            //[userObject saveInBackground];
+            
         }
         if (refreshCover){
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
         }
     }];
-   
+    }
 }
 
 - (IBAction)backgroundTap:(id)sender {
@@ -1690,7 +1780,7 @@
     }
     [delegate trackEventAnalytic:@"audio_rate_change" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
     
     UISwitch *onoff = (UISwitch *) sender;
     if(onoff.on){
@@ -1764,7 +1854,7 @@
 }*/
 
 - (void)dealloc {
-    _interstitial.delegate = nil;
+//    _interstitial.delegate = nil;
     _audioMappingViewController.player = nil;
 }
 

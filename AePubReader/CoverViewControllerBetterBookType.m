@@ -214,7 +214,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"reader" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"reader"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"reader"];
 
 }
 
@@ -444,7 +444,7 @@ NSString *newIdentityValue;
         }
         [delegate trackEventAnalytic:@"read_by_myself_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
         
     }
     else{
@@ -460,7 +460,7 @@ NSString *newIdentityValue;
         }
         [delegate trackEventAnalytic:@"read_to_me_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
     }
     
     [self.navigationController pushViewController:controller animated:YES];
@@ -555,7 +555,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -612,14 +612,24 @@ NSString *newIdentityValue;
         //show subscription plans
         
         [self shareButton:0];
+        
     }
     else{
         //close subscription plan
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Please enter correct birth year!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        [self performSelector:@selector(hideAlertView:) withObject:alert afterDelay:1.5];
     }
     _settingsProbSupportView.hidden = YES;
     _settingsProbView.hidden = YES;
     _textQuesSolution.text = @"";
 }
+
+-(void)hideAlertView:(UIAlertView*)alert{
+    
+    [alert dismissWithClickedButtonIndex:0 animated:YES];
+}
+
 
 - (IBAction)closeParentalControl:(id)sender{
     
@@ -663,7 +673,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
    // UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

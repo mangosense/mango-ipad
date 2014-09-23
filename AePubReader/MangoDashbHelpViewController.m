@@ -51,7 +51,7 @@
         _loginButton.titleLabel.text  = @"Login";
     }
     
-    helpImages = [NSArray arrayWithObjects:@"dashboard.jpg", @"createstory.jpg", @"store.jpg", @"readpage.jpg", @"readbar.jpg", @"subscribe.jpg", nil];
+    //helpImages = [NSArray arrayWithObjects:@"dashboard.jpg", @"createstory.jpg", @"store.jpg", @"readpage.jpg", @"readbar.jpg", @"subscribe.jpg", nil];
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;

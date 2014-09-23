@@ -190,7 +190,7 @@
     }
     [delegate trackEventAnalytic:@"reader_end_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"reader_end_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"reader_end_screen"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -229,11 +229,11 @@
         
     if(!validUserSubscription || !isTrialUser){
             //_games.hidden= YES;
-            _shareButton.hidden = YES;
+            _shareButton.hidden = NO;
             //_subscribeButton.hidden = NO;
     }
     else{
-            _shareButton.hidden = NO;
+            _shareButton.hidden = YES;
             //_subscribeButton.hidden = YES;
     }
     
@@ -273,7 +273,7 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
@@ -324,7 +324,7 @@
     }
     [delegate trackEventAnalytic:@"read_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"read_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"read_btn_click"];
     
    // [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(self.navigationController.viewControllers.count - 3)] animated:YES];
@@ -573,7 +573,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         if([storyOfDayId isEqualToString:[bookDict objectForKey:@"id"]]){
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
@@ -612,10 +612,18 @@
     }
     else{
         //close subscription plan
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Please enter correct birth year!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        [self performSelector:@selector(hideAlert:) withObject:alert afterDelay:1.5];
     }
     _settingsProbSupportView.hidden = YES;
     _settingsProbView.hidden = YES;
     _textQuesSolution.text = @"";
+}
+
+-(void)hideAlert:(UIAlertView*)alert
+{
+    [alert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (IBAction)closeParentalControl:(id)sender{
@@ -640,7 +648,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
