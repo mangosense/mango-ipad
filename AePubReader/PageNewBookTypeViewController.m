@@ -14,10 +14,10 @@
 #import "MangoGamesListViewController.h"
 #import <Parse/Parse.h>
 
-#import "GADInterstitial.h"
-#import "GADInterstitialDelegate.h"
-#import "GADBannerView.h"
-#import "GADRequest.h"
+//#import "GADInterstitial.h"
+//#import "GADInterstitialDelegate.h"
+//#import "GADBannerView.h"
+//#import "GADRequest.h"
 #import "MangoStoreViewController.h"
 #import "EmailSubscriptionLinkViewController.h"
 
@@ -97,12 +97,12 @@
         self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
         [self.interstitial loadRequest:[GADRequest request]];*/
         
-        self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+        /*self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
         self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
         self.bannerView_.delegate = self;
         [self.bannerView_ setRootViewController:self];
         [self.view addSubview:self.bannerView_];
-        [self.bannerView_ loadRequest:[self request]];
+        [self.bannerView_ loadRequest:[self request]];*/
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -286,6 +286,7 @@
 
 
 //for banner ad
+/*
 - (GADRequest *)request{
     
     GADRequest *request = [GADRequest request];
@@ -301,7 +302,7 @@
 - (void) adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
     
     NSLog(@"Failed to received ad due to : %@",[error localizedFailureReason]);
-}
+}*/
 
 
 - (void) dismissMyBookViewBackAgainToCover{

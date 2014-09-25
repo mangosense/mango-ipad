@@ -17,12 +17,12 @@
 #import "MangoBook.h"
 #import "LastPageViewController.h"
 ////#import "GADInterstitial.h"
-#import "GADBannerView.h"
+//#import "GADBannerView.h"
 
 ////@class GADInterstitial;
-@class GADBannerView ,GADRequest;
+//@class GADBannerView ,GADRequest;
 
-@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate ,/*GADInterstitialDelegate*/GADBannerViewDelegate>{
+@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate /*,GADInterstitialDelegate GADBannerViewDelegate*/>{
 
 //@interface PageNewBookTypeViewController : UIViewController<DismissPopOver,AVAudioPlayerDelegate, UIWebViewDelegate, UIScrollViewDelegate, MangoPostApiProtocol,AudioMappingDelegate >{
     NSString *userEmail;
@@ -94,13 +94,13 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
 //@property (nonatomic, strong) GADInterstitial *interstitial;
-@property (nonatomic, strong) GADBannerView *bannerView_;
+//@property (nonatomic, strong) GADBannerView *bannerView_;
 @property (nonatomic, strong) NSDictionary *audioDictForEditMapping;
 
 - (IBAction)displyParentalControl:(id)sender;
 - (IBAction)allowParentToShareOrNot:(id)sender;
 - (IBAction)closeParentalControl:(id)sender;
 - (IBAction) audioSwitchControl: (id) sender;
-- (GADRequest *)request;
+//- (GADRequest *)request;
 
 @end

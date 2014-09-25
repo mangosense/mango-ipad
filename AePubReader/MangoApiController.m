@@ -386,8 +386,8 @@
             
             if(validSubscription){
                 
-                NSString *authtokenTest = @"_-ggz5pYfg-BmBVgfbX8";
-                NSString *userIdTest = @"demo@mangosense.com";
+                NSString *authtokenTest = @"0";
+                NSString *userIdTest = @"0";
                 
                 URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userIdTest stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authtokenTest, IOS, ISMOBILEVALUE]];
                 

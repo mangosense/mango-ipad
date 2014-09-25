@@ -91,6 +91,7 @@
 @property (nonatomic, strong) NSString *uuidValue;
 @property (nonatomic, strong) NSString *udidValue;
 @property (nonatomic, strong) NSString *mangoStoryId;
+@property (nonatomic, strong) NSString *deviceTokenValue;
 @property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
 @property (nonatomic, strong) NSString *deviceId;
 

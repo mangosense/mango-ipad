@@ -49,7 +49,7 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-   // [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
     //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
@@ -68,7 +68,7 @@ static UIAlertView *alertViewLoading;
     
     //Parse MangoReader Original App -
     //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+     //             clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
     //MangoReader_Test app for testing
     [Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
@@ -322,7 +322,7 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
- /*   Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
@@ -333,7 +333,7 @@ static UIAlertView *alertViewLoading;
     
     if (!path){
         if(!isFreeBooksApiCall){
-            [self getAllFreeBooks];
+            //[self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
@@ -1049,6 +1049,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
     [currentInstallation saveInBackground];
     
+    NSString *token = [[newDeviceToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    _deviceTokenValue = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    //NSLog(@"content---%@", token);
     
 }
 

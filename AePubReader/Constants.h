@@ -128,6 +128,7 @@
 #define PARAMETER_CURRENT_PAGE @"currentPage"////
 #define PARAMETER_EVENT_DESCRIPTION @"eventDescription"////
 #define PARAMETER_APP_NAME @"storyasAppName"////
+#define PARAMETER_DEVICE_TOKEN_VALUE @"userDeviceToken"////
 #define PARAMETER_USER_EMAIL_ID @"emailID"////
 #define PARAMETER_DEVICE_LANGUAGE @"language"////
 #define PARAMETER_DEVICE_COUNTRY @"country"////
@@ -156,6 +157,7 @@
 #define PARAMETER_BOOK_CATEGORY_VALUE @"category"////
 #define PARAMETER_SUBSCRIPTION_PLAN_ID @"plan_id"////
 #define PARAMETER_SUBSCRIPTION_PLAN_NAME @"plan_name"////
+#define PARAMETER_SUBSCRIPTION_TRANSACTION_ID @"transctionID"
 #define PARAMETER_SUBSCRIPTION_PLAN_PRICE @"plan_price"////
 #define PARAMETER_BOOK_READ_MODE @"mode"////
 #define PARAMETER_PAGE_COUNT @"pageCount"////

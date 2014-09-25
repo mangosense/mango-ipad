@@ -10,6 +10,8 @@
 #import "MangoApiController.h"
 #import "CargoBay.h"
 #import "MBProgressHUD.h"
+#import "AePubReaderAppDelegate.h"
+#import "Constants.h"
 
 @implementation PurchaseManager
 
@@ -72,6 +74,18 @@
                         transactionId = transaction.transactionIdentifier;
                     }
                     
+                    AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+                    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+                    [dimensions setObject:@"subscription_success" forKey:PARAMETER_ACTION];
+                    [dimensions setObject:productIdentifier forKey:PARAMETER_SUBSCRIPTION_PLAN_ID];
+                    [dimensions setObject:transactionId forKey:PARAMETER_SUBSCRIPTION_TRANSACTION_ID];
+                    [dimensions setObject:@"Subscription success" forKey:PARAMETER_EVENT_DESCRIPTION];
+                    if(delegate1.loggedInUserInfo.email){
+                        [dimensions setObject:delegate1.loggedInUserInfo.email forKey:PARAMETER_USER_EMAIL_ID];
+                    }
+                    [delegate1 trackEventAnalytic:@"subscription_success" dimensions:dimensions];
+                    [delegate1 eventAnalyticsDataBrowser:dimensions];
+                    //[delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];
                     
                     [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                     
