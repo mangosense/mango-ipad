@@ -131,6 +131,7 @@
         [string addAttribute:NSFontAttributeName value:textFont range:NSMakeRange(0, [string length] - 1)];
         
         UIColor *textColor = self.textColor;
+        
         if (!textColor) {
             textColor = [UIColor blackColor];
         }

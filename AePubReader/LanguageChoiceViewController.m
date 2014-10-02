@@ -247,7 +247,7 @@
     }
     [delegate trackEventAnalytic:@"switch_language" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
     /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
     [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
@@ -415,6 +415,9 @@
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
             bookDetailsViewController.imgStoryOfDay.hidden = NO;
         }
+        else{
+            [bookDetailsViewController.buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+        }
         
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
         
@@ -435,7 +438,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
     }];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;

@@ -7,6 +7,8 @@
 //
 
 #import "EmailSubscriptionLinkViewController.h"
+#import "AePubReaderAppDelegate.h"
+#import "Constants.h"
 
 
 @interface EmailSubscriptionLinkViewController ()
@@ -75,6 +77,7 @@
     if(responseDictionary){
         
         if([[responseDictionary objectForKey:@"status"]integerValue] == 200){
+            [self saveUserInfo:responseDictionary];
             [self skipClick:0];
         }
         else{
@@ -95,6 +98,21 @@
         [alert show];
         return;
     }
+}
+
+- (void)saveUserInfo:(NSDictionary *)userInfoDict {
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    UserInfo *userInfo = [[UserInfo alloc] init];
+    userInfo.email = [userInfoDict objectForKey:EMAIL];
+    userInfo.id = [userInfoDict objectForKey:@"id"];
+    userInfo.authToken = [userInfoDict objectForKey:AUTH_TOKEN];
+    userInfo.facebookExpirationDate = [userInfoDict objectForKey:FACEBOOK_TOKEN_EXPIRATION_DATE];
+    userInfo.username = [userInfoDict objectForKey:USERNAME];
+    userInfo.name = [userInfoDict objectForKey:NAME];
+    
+    [appDelegate.ejdbController insertOrUpdateObject:userInfo];
+    appDelegate.loggedInUserInfo = userInfo;
 }
 
 - (IBAction)skipClick:(id)sender{

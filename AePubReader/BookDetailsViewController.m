@@ -103,13 +103,6 @@ static int booksDownloadingCount;
         _buyButton.userInteractionEnabled = YES;
     }
     
-    // take current payment queue
-    SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
-    // finish ALL transactions in queue
-    [currentQueue.transactions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [currentQueue finishTransaction:(SKPaymentTransaction *)obj];
-    }];
-    
     if(_fromMyStories){
         
         [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
@@ -117,7 +110,7 @@ static int booksDownloadingCount;
     }
     
     //[[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDetailBookWithOutAnimation) name:@"CloseDetailView" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListenerDidReceiveNotification:) name:@"BookProgress" object:nil];
 
 }
@@ -358,7 +351,7 @@ static int booksDownloadingCount;
         }
         [delegate trackEventAnalytic:event dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:event];
+        [delegate trackMixpanelEvents:dimensions eventName:event];
         
         AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
         Book *bk=[appDelegate.dataModel getBookOfEJDBId:_selectedProductId];
@@ -422,9 +415,9 @@ static int booksDownloadingCount;
         }
         [delegate trackEventAnalytic:@"subscribe_btn_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"subscribe_btn_click"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"subscribe_btn_click"];
         
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        /*if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
         }
@@ -433,9 +426,14 @@ static int booksDownloadingCount;
         }
         [subscriptionViewController checkIfViewFromBookDetail:1];
         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];*/
+        [_delegate BviewcontrollerDidTapButton:self];
         
     }
+}
+
+- (IBAction)ButtonTap:(id)sender{
+    
 }
 
 - (IBAction)closeDetails:(id)sender {
@@ -452,7 +450,7 @@ static int booksDownloadingCount;
     }
     [delegate trackEventAnalytic:@"close_dialog" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"close_dialog"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"close_dialog"];
     
     [self dismissViewControllerAnimated:NO completion:^(void) {
         //[_delegate openBookViewWithCategory:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:[[_categoriesLabel.text componentsSeparatedByString:@", "] firstObject]] forKey:@"categories"]];
@@ -463,7 +461,7 @@ static int booksDownloadingCount;
 
 - (void) closeDetailBookWithOutAnimation{
     
-    self.modalPresentationStyle = UIModalPresentationNone;
+    //self.modalPresentationStyle = UIModalPresentationNone;
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
@@ -540,7 +538,7 @@ static int booksDownloadingCount;
     }
     [delegate trackEventAnalytic:@"switch_language" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
     
         [_dropDownButton setTitle:[_dropDownArrayData objectAtIndex:returnIndex] forState:UIControlStateNormal];
         MangoApiController *apiController = [MangoApiController sharedApiController];

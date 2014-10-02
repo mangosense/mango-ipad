@@ -29,5 +29,6 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * edited;
 @property (nonatomic, retain) NSNumber * isFree;
+@property (nonatomic, retain) NSString * parentBookId;
 
 @end

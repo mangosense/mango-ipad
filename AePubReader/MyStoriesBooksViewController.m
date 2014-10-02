@@ -124,10 +124,15 @@
 #pragma mark - Book Details
 
 - (NSString *)jsonForBook:(Book *)book {
-    NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:book.localPathFile error:nil];
+    NSString *rPath = [[NSBundle mainBundle] resourcePath];
+    NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+    NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.id];
+    
+
+    NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:jsonLocation error:nil];
     
     NSArray *jsonFiles = [dirContents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
-    NSString *jsonFileLocation = [book.localPathFile stringByAppendingPathComponent:[jsonFiles firstObject]];
+    NSString *jsonFileLocation = [jsonLocation  stringByAppendingPathComponent:[jsonFiles firstObject]];
     
     NSString *jsonString = [[NSString alloc]initWithContentsOfFile:jsonFileLocation encoding:NSUTF8StringEncoding error:nil];
     return jsonString;
@@ -155,8 +160,13 @@
             
         default: {
             Book *book = [_booksArray objectAtIndex:indexPath.row - 1];
+            NSString *rPath = [[NSBundle mainBundle] resourcePath];
+            NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+            NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.id];
+            
+
             NSString *bookJsonString = [self jsonForBook:book];
-            bookImage = [self maskedCoverImageForBookJson:bookJsonString AtLocation:book.localPathFile];
+            bookImage = [self maskedCoverImageForBookJson:bookJsonString AtLocation:jsonLocation];
         }
             break;
     }

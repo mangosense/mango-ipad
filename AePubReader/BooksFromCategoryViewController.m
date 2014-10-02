@@ -210,8 +210,11 @@
         
         NSMutableArray *booksForSelectedCategory = [[NSMutableArray alloc] init];
         for (Book *book in _books) {
-            if (book.localPathFile && _categorySelected) {
-                NSString *jsonLocation=book.localPathFile;
+            
+            NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+            if (jsonLocation && _categorySelected) {
+                
+                NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
                 NSFileManager *fm = [NSFileManager defaultManager];
                 NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
                 NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -244,19 +247,24 @@
         UIButton *button=_buttonArray[i];
         button.hidden=NO;
         Book *book=_books[i];
-        if (book.localPathFile) {
+        
+        NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+        if (jsonLocation) {
             UIImageView *imageView=_imageArray[i];
             
             //For Cover Image
-            NSString *jsonLocation=book.localPathFile;
+            
+            NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
             NSFileManager *fm = [NSFileManager defaultManager];
             NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
             NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
             NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
             jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
             
+            NSString *json_Location = [AePubReaderAppDelegate returnBookJsonPath:book];
+            
             NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-            UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
+            UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:json_Location];
             
             NSLog(@"Local Path File %@",book.localPathImageFile);
             originalImage= image;

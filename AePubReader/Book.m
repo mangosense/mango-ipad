@@ -28,5 +28,6 @@
 @dynamic title;
 @dynamic edited;
 @dynamic isFree;
+@dynamic parentBookId;
 
 @end

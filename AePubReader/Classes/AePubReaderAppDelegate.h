@@ -66,6 +66,7 @@
 - (void)unzipAndSaveFile:(NSString *) location with:(NSInteger ) identity;
 -(void)insertInStore;
 +(void)adjustForIOS7:(UIView *) view;
++(NSString *)returnBookJsonPath :(Book *)book;
 +(void)showAlertView;
 +(UIAlertView *) getAlertView;
 +(void)hideAlertView;
@@ -76,6 +77,7 @@
 + (UIColor *) colorFromHexString:(NSString *)hexString;
 + (UIColor *)colorFromRgbString:(NSString *)rgbString;
 - (void)showBookDetailsForBook:(NSDictionary *)bookDict WithDelegate:(id<BookViewProtocol>)delegate AndPresentingViewcontroller:(UIViewController *)presentingViewController;
+-(void)getAllFreeBooks;
 - (void)trackEvent:(NSString *)event dimensions:(NSDictionary *)dimensions;
 - (void)trackEventAnalytic:(NSString *)event dimensions:(NSDictionary *)dimensions;
 - (void)eventAnalyticsDataBrowser :(NSDictionary *)dimensions;

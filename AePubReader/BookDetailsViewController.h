@@ -11,14 +11,16 @@
 #import "MangoApiController.h"
 #import "PurchaseManager.h"
 #import "Book.h"
-
+@class BookDetailsViewController;
 @protocol BookViewProtocol <NSObject>
 
 @optional
 - (void)openBookViewWithCategory:(NSDictionary *)categoryDict;
 - (void)openBook:(Book *)bk;
+- (void)BviewcontrollerDidTapButton:(BookDetailsViewController *)controller;
 
 @end
+
 
 @interface BookDetailsViewController : UIViewController <MangoPostApiProtocol, PurchaseManagerProtocol, DropDownViewDelegate>{
  
@@ -71,7 +73,6 @@
 -(IBAction)dropDownActionButtonClick;
 - (void)setIdOfDisplayBook:(NSString *)book_Id;
 - (void) availLanguagedata;
-
 
 + (int) booksDownloadingNo;
 

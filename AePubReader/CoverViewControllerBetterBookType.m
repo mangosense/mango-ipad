@@ -79,18 +79,19 @@ NSString *newIdentityValue;
     
     viewName = @"Book cover view";
     _titleLabel.text=_book.title;
-    NSString *jsonLocation=_book.localPathFile;
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    NSString *baseBookPath = jsonLocation;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
     NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:_book.localPathFile];
-        _coverImageView.image=image;
+    UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:baseBookPath];
     
-    //ID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    //[MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    _coverImageView.image=image;
+    
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
     NSData *jsonData = [jsonContents dataUsingEncoding:NSUTF8StringEncoding];
@@ -101,7 +102,7 @@ NSString *newIdentityValue;
         
         _buttonReadToMe.hidden = YES;
     }
-    if([[jsonDict objectForKey:@"title"] isEqualToString:@"My Book"]){
+    if([[jsonDict objectForKey:@"title"] isEqualToString:@"My Book"] || (_book.parentBookId)){
         _buttonReadToMe.hidden = NO;
     }
     currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
@@ -214,7 +215,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"reader" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"reader"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"reader"];
 
 }
 
@@ -314,7 +315,9 @@ NSString *newIdentityValue;
         [choiceViewController.bookIDArray addObject:[_avilableLanguages[i] objectForKey:@"live_story_id"]];
     }
     
-    NSString *jsonLocation=_book.localPathFile;
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    NSString *baseBookPath = jsonLocation;
+
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -444,7 +447,7 @@ NSString *newIdentityValue;
         }
         [delegate trackEventAnalytic:@"read_by_myself_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
         
     }
     else{
@@ -460,7 +463,7 @@ NSString *newIdentityValue;
         }
         [delegate trackEventAnalytic:@"read_to_me_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
     }
     
     [self.navigationController pushViewController:controller animated:YES];
@@ -476,7 +479,9 @@ NSString *newIdentityValue;
 }
 
 - (NSString *)getJsonContentForBook {
-    NSString *jsonLocation=_book.localPathFile;
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -555,7 +560,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -574,7 +579,11 @@ NSString *newIdentityValue;
         gamesListViewController.currentBookId = _book.id;
         gamesListViewController.currentBookTitle = _book.title;
         gamesListViewController.jsonString = [self getJsonContentForBook];
-        gamesListViewController.folderLocation = _book.localPathFile;
+        
+        NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+        
+
+        gamesListViewController.folderLocation = jsonLocation;
         NSMutableArray *gameNames = [[NSMutableArray alloc] init];
         for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
             if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
@@ -595,7 +604,7 @@ NSString *newIdentityValue;
 }
 
 - (IBAction)displyParentalControl:(id)sender{
-    
+
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
     
@@ -633,6 +642,7 @@ NSString *newIdentityValue;
 
 - (IBAction)closeParentalControl:(id)sender{
     
+    [self.textQuesSolution endEditing:YES];
     _settingsProbSupportView.hidden = YES;
     _settingsProbView.hidden = YES;
 }
@@ -673,7 +683,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
    // UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

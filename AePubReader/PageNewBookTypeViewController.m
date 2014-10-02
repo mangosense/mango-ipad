@@ -52,7 +52,7 @@
         _book= [delegate.dataModel getBookOfId:bookID];
         _loginUserEmail = delegate.loggedInUserInfo.email;
         
-                _pageNumber=1;
+                _pageNumber=0;
         NSLog(@"%@",_book.edited);
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
@@ -115,7 +115,9 @@
     
     // Do any additional setup after loading the view from its nib.
     self.timeCalculate = [NSDate date];
-    NSString *jsonLocation=_book.localPathFile;
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -207,7 +209,7 @@
     }
     [delegate trackEventAnalytic:@"reading" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"reading"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
 }
 
 /*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
@@ -489,6 +491,7 @@
 
 - (IBAction)closeParentalControl:(id)sender{
     
+    [self.textQuesSolution endEditing:YES];
     _settingsProbSupportView.hidden = YES;
     _settingsProbView.hidden = YES;
 }
@@ -509,7 +512,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -601,7 +604,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    //[delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                 }
                     break;
                     
@@ -620,7 +623,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    //[delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.isBookFork = YES;
@@ -708,7 +711,8 @@
         [choiceViewController.bookIDArray addObject:[_avilableLanguages[i] objectForKey:@"live_story_id"]];
     }
     
-    NSString *jsonLocation=_book.localPathFile;
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -935,7 +939,7 @@
     }
     [delegate trackEventAnalytic:@"playpause_button_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
     
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
@@ -989,7 +993,7 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -1010,7 +1014,11 @@
         gamesListViewController.currentBookTitle = _book.title;
 
         gamesListViewController.jsonString = _jsonContent;
-        gamesListViewController.folderLocation = _book.localPathFile;
+        
+        NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+        
+
+        gamesListViewController.folderLocation = jsonLocation;
         
         NSMutableArray *gameNames = [[NSMutableArray alloc] init];
         for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
@@ -1147,7 +1155,15 @@
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
     NSDictionary *pageDict;
-    NSPredicate *pagePredicate = [NSPredicate predicateWithFormat:@"name == %@",[NSString stringWithFormat:@"%d", pageNumber]];
+    NSPredicate *pagePredicate;
+    if(pageNumber == 0){
+        //load cover page
+        NSString *cover = @"Cover";
+        pagePredicate = [NSPredicate predicateWithFormat:@"name == %@", cover];
+    }
+    else{
+        pagePredicate = [NSPredicate predicateWithFormat:@"name == %@",[NSString stringWithFormat:@"%d", pageNumber]];
+    }
     
     NSArray *results = [readerPagesArray filteredArrayUsingPredicate:pagePredicate];
     if ([results count]) {
@@ -1492,11 +1508,13 @@
     [_pageView removeFromSuperview];
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     NSLog(_book.edited ? @"Yes" : @"No");
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     if (_book.edited.boolValue) {
-
+        
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
         MangoBook *book=[delegate.ejdbController.collection fetchObjectWithOID:_book.id];
-        _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:_book.localPathFile WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];
+        _pageView=[MangoEditorViewController readerPage:_pageNumber ForEditedStory:book WithFolderLocation:jsonLocation WithAudioMappingViewController:_audioMappingViewController andDelegate:self Option:option];
     } else {
         NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -1504,7 +1522,7 @@
         NSArray *pagesArray = [jsonDict objectForKey:PAGES];
 
         if (_pageNumber < [pagesArray count] - numberOfGames) {
-            _pageView=[self readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndDelegate:self Option:option];
+            _pageView=[self readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:jsonLocation AndDelegate:self Option:option];
 
 //            _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
         } else {
@@ -1611,7 +1629,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
     [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
     [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -1781,7 +1799,7 @@
     }
     [delegate trackEventAnalytic:@"audio_rate_change" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
     
     UISwitch *onoff = (UISwitch *) sender;
     if(onoff.on){

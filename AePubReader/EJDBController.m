@@ -107,6 +107,7 @@
         
         coreDatabook.title=book.title;
         coreDatabook.link=nil;
+        coreDatabook.parentBookId = nil;
         coreDatabook.localPathImageFile = filePath;
         coreDatabook.localPathFile = [filePath stringByDeletingPathExtension];
         coreDatabook.id = book.id;

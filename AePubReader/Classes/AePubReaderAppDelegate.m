@@ -49,7 +49,7 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-    //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
     //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
@@ -196,7 +196,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Book notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"book_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                //[self trackMixpanelEvents:dimensions eventName:@"book_notification"];
+                [self trackMixpanelEvents:dimensions eventName:@"book_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"update"]){
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
@@ -206,7 +206,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Update notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"update_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                //[self trackMixpanelEvents:dimensions eventName:@"update_notification"];
+                [self trackMixpanelEvents:dimensions eventName:@"update_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"create"]){
                 pushCreateStory = [dictionary objectForKey:@"action"];
@@ -215,7 +215,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Create notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"create_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                //[self trackMixpanelEvents:dimensions eventName:@"create_notification"];
+                [self trackMixpanelEvents:dimensions eventName:@"create_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"subscribe"]){
                 pushSubscribe = [dictionary objectForKey:@"action"];
@@ -224,7 +224,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Subscribe notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"subscribe_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                //[self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
+                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
             }
         }
     }
@@ -322,18 +322,18 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
                                             PLATFORM : IOS,
                                             PARAMETER_UUID : _uuidValue,
-                                            PARAMETER_DEVICE_UDID : _uuidValue}];*/
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];
 
     
     if (!path){
         if(!isFreeBooksApiCall){
-            //[self getAllFreeBooks];
+            [self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
@@ -512,10 +512,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
-/*- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
     
      [[Mixpanel sharedInstance] track:event properties:properties];
-}*/
+}
 
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
@@ -536,8 +536,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 
 -(void)getAllFreeBooks {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.loginController.view animated:YES];
-    hud.labelText = @"Loading Please Wait";
+    
     MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
@@ -561,10 +560,12 @@ void uncaughtExceptionHandler(NSException *exception) {
         NSLog(@"path:%@",dirPath);
         NSNumber *number = [NSNumber numberWithInt:1];
         NSData *data = [NSJSONSerialization dataWithJSONObject:[booksInfo objectAtIndex:i] options:NSJSONReadingMutableLeaves error:&error];
-        [_ejdbController parseBookJson:data   WithId:number AtLocation:dirPath];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            [_ejdbController parseBookJson:data   WithId:number AtLocation:dirPath];
+        });
+        
     }
-    
-    [MBProgressHUD hideAllHUDsForView:self.loginController.view animated:YES];
 }
 
 - (BOOL)connected
@@ -623,6 +624,25 @@ void uncaughtExceptionHandler(NSException *exception) {
         [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
         
     }
+}
+
++(NSString *) returnBookJsonPath:(Book *)book{
+    
+    NSString *rPath = [[NSBundle mainBundle] resourcePath];
+    NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+    NSString *jsonLocation;
+    if(book.parentBookId){
+        jsonLocation = [NSString stringWithFormat:@"%@Documents/%@_fork",appPath,book.bookId];
+    }
+    else{
+        if(!book.id){
+            jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.bookId];
+        }
+        else{
+            jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.id];
+        }
+    }
+    return jsonLocation;
 }
 
 //save with folder name

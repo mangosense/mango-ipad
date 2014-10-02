@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MangoApiController.h"
 #import "SignUpViewController.h"
+#import "EJDBController.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface LoginNewViewController : UIViewController <MangoPostApiProtocol, UINavigationControllerDelegate, PostSignupDelegate, FBLoginViewDelegate, UIScrollViewDelegate>{
@@ -28,7 +29,6 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *emailTextField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordTextField;
-
 @property (nonatomic, retain) IBOutlet UIView *imageHelpView;
 @property (nonatomic, retain) IBOutlet UIScrollView* scrollView;
 @property (nonatomic, retain) IBOutlet UIPageControl* pageControl;

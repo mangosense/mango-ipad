@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *imageOperationManager;
 @property (nonatomic, strong) NSOperationQueue *downloadOperationQueue;
+@property (nonatomic, strong) NSOperationQueue *freeBookQueue;
 
 @end
 
@@ -514,32 +515,32 @@
 }
 
 - (void) getFreeBookInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate{
-    
-    NSMutableDictionary *newParamDict = [[NSMutableDictionary alloc] init];
-    [newParamDict setObject:VERSION_NO forKey:VERSION];
-    [newParamDict setObject:IOS forKey:PLATFORM];
-    [newParamDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    [manager GET:methodName parameters:newParamDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Get List Response: %@", responseObject);
-        //NSArray *responseArray;
-        if(([responseObject isKindOfClass:[NSArray class]]) && ([responseObject count] > 0)){
+        
+        NSMutableDictionary *newParamDict = [[NSMutableDictionary alloc] init];
+        [newParamDict setObject:VERSION_NO forKey:VERSION];
+        [newParamDict setObject:IOS forKey:PLATFORM];
+        [newParamDict setObject:ISMOBILEVALUE forKey:ISMOBILE];
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:[BASE_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        [manager GET:methodName parameters:newParamDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"Get List Response: %@", responseObject);
+            //NSArray *responseArray;
+            if(([responseObject isKindOfClass:[NSArray class]]) && ([responseObject count] > 0)){
+                
+                [_delegate freeBooksSetup:responseObject];
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
             
-            [_delegate freeBooksSetup:responseObject];
-        }
-        else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Some thing went wrong please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Get List Error: %@", error);
-        
-        if(!_alert.visible){
-            _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [_alert show];
-        }
-    }];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Get List Error: %@", error);
+            
+            if(!_alert.visible){
+                _alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong please try later!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [_alert show];
+            }
+        }];
     
 }
 

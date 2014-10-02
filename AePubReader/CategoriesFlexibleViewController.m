@@ -119,7 +119,7 @@
     }
     [delegate trackEventAnalytic:@"category_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"category_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"category_screen"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -571,7 +571,9 @@
     int allBooksCount = 0;
     for (Book *book in allBooks) {
         if ([appDelegate.ejdbController getBookForBookId:book.id]) {
-            NSString *jsonLocation=book.localPathFile;
+            
+            NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+            
             NSFileManager *fm = [NSFileManager defaultManager];
             NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
             NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -665,12 +667,15 @@
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                 
                 bookcountLabel = [[UILabel alloc] initWithFrame:CGRectMake(button.frame.origin.x + button.frame.size.width - 22, button.frame.origin.y - 14, 32, 32)];
-                [bookcountLabel setFont:[UIFont boldSystemFontOfSize:16.0f]];
+                [bookcountLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
                 [[bookcountLabel layer] setCornerRadius:16.0f];
             }
             else{
                 bookcountLabel = [[UILabel alloc] initWithFrame:CGRectMake(button.frame.origin.x + button.frame.size.width - 30, button.frame.origin.y - 14, 44, 44)];
-                [bookcountLabel setFont:[UIFont boldSystemFontOfSize:32.0f]];
+                [bookcountLabel setFont:[UIFont boldSystemFontOfSize:28.0f]];
+                bookcountLabel.numberOfLines = 1;
+                bookcountLabel.minimumScaleFactor = 8./bookcountLabel.font.pointSize;
+                bookcountLabel.adjustsFontSizeToFitWidth = YES;
                 [[bookcountLabel layer] setCornerRadius:22.0f];
             }
 

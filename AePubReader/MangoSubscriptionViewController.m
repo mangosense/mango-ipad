@@ -70,7 +70,7 @@
     path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     
     [self setupInitialUI];
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated{
@@ -85,7 +85,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
 
 }
 
@@ -218,9 +218,9 @@
 
 }
 
-- (BOOL)disablesAutomaticKeyboardDismissal {
-    return [self disablesAutomaticKeyboardDismissal];
-}
+//- (BOOL)disablesAutomaticKeyboardDismissal {
+//    return [self disablesAutomaticKeyboardDismissal];
+//}
 
 //hide keyboard on background tap
 
@@ -290,7 +290,14 @@
     }
     [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
+    
+    // take current payment queue
+    SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
+    // finish ALL transactions in queue
+    [currentQueue.transactions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [currentQueue finishTransaction:(SKPaymentTransaction *)obj];
+    }];
     
     [[PurchaseManager sharedManager] itemProceedToPurchase:planProductId storeIdentifier:planProductId withDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -436,7 +443,7 @@
     }
     [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];

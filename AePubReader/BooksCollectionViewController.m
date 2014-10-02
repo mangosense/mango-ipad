@@ -79,13 +79,13 @@
     
 }
 
--(void)getAllFreeBooks {
+/*-(void)getAllFreeBooks {
     
      MangoApiController *apiController = [MangoApiController sharedApiController];
     apiController.delegate = self;
     //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
     [apiController getFreeBookInformation:FREE_STORIES withDelegate:self];
-}
+}*/
 
 - (void)freeBooksSetup : (NSArray *)booksInfo;{
     NSLog(@"gsadasjkda");
@@ -135,7 +135,7 @@
     }
     [delegate trackEventAnalytic:@"my_books_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"my_books_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"my_books_screen"];
 }
 
 
@@ -151,8 +151,13 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *booksForSelectedCategory = [[NSMutableArray alloc] init];
     for (Book *book in [appDelegate.dataModel getAllUserBooks]) {
-        if (book.localPathFile && _categorySelected && [appDelegate.ejdbController getBookForBookId:book.id]) {
-            NSString *jsonLocation=book.localPathFile;
+        
+        NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+        
+        if (jsonLocation && _categorySelected && [appDelegate.ejdbController getBookForBookId:book.id]) {
+            
+            NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+
             NSFileManager *fm = [NSFileManager defaultManager];
             NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
             NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -358,7 +363,7 @@
                 }
                 [delegate trackEventAnalytic:@"get_more_book_click" dimensions:dimensions];
                 [delegate eventAnalyticsDataBrowser:dimensions];
-                //[delegate trackMixpanelEvents:dimensions eventName:@"get_more_book_click"];
+                [delegate trackMixpanelEvents:dimensions eventName:@"get_more_book_click"];
                 
                 if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]) {
                     [controller setCategoryFlagValue:0];
@@ -449,7 +454,7 @@
                         [self getLiveStoryByID:book.id];
                         
                     }
-                    else if([book.id isEqualToString:sodtBookId] || (isFreeBook)){
+                    else if([book.id isEqualToString:sodtBookId] || (isFreeBook) || (book.parentBookId) || ([book.title isEqualToString:@"My Book"])){
                         
                         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                             
@@ -839,7 +844,12 @@
         _bookImageDictionary = [[NSMutableDictionary alloc] init];
     }
     if (image) {
-        [_bookImageDictionary setObject:image forKey:book.id];
+        if(!book.id){
+            [_bookImageDictionary setObject:image forKey:book.bookId];
+        }
+        else{
+            [_bookImageDictionary setObject:image forKey:book.id];
+        }
     }
 }
 
@@ -884,7 +894,7 @@
             }
             [appDelegate trackEventAnalytic:@"delete_click" dimensions:dimensions];
             [appDelegate eventAnalyticsDataBrowser:dimensions];
-            //[appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
+            [appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
 
         }
         /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
@@ -1058,7 +1068,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         if([storyOfDayId isEqualToString:[bookDict objectForKey:@"id"]]){
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];

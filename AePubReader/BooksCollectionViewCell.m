@@ -41,7 +41,8 @@
 
 - (void)layoutSubviews {
     
-    NSString *jsonLocation = _book.localPathFile;
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     
@@ -139,7 +140,9 @@
 #pragma mark - Getting Book Info In Background
 
 - (void)getBookCoverImage:(Book *)book {
-    NSString *jsonLocation = book.localPathFile;
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+    NSString *baseBookPath = jsonLocation;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -156,7 +159,7 @@
     
         NSString *jsonContents = [[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     
-        image = [MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
+        image = [MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:baseBookPath];
     }
     
     @autoreleasepool {

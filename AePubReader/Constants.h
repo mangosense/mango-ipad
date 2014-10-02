@@ -158,6 +158,7 @@
 #define PARAMETER_SUBSCRIPTION_PLAN_ID @"plan_id"////
 #define PARAMETER_SUBSCRIPTION_PLAN_NAME @"plan_name"////
 #define PARAMETER_SUBSCRIPTION_TRANSACTION_ID @"transctionID"
+#define PARAMETER_SUBSCRIPTION_TRANSCTION_Error @"subscriptionError"
 #define PARAMETER_SUBSCRIPTION_PLAN_PRICE @"plan_price"////
 #define PARAMETER_BOOK_READ_MODE @"mode"////
 #define PARAMETER_PAGE_COUNT @"pageCount"////

@@ -153,11 +153,15 @@
 
 
 -(void)createACopy{
+    
+    NSString *rPath = [[NSBundle mainBundle] resourcePath];
+    NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+    NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,storyBook.id];
     NSString *oldDirectoryPath = storyBook.localPathFile;
     
     NSArray *tempArrayForContentsOfDirectory =[[NSFileManager defaultManager] contentsOfDirectoryAtPath:oldDirectoryPath error:nil];
     
-    NSString *newDirectoryPath = [[oldDirectoryPath stringByDeletingLastPathComponent]stringByAppendingPathComponent:[_editedBookPath lastPathComponent] ];
+    NSString *newDirectoryPath = [[oldDirectoryPath stringByDeletingLastPathComponent]stringByAppendingPathComponent:[_editedBookPath lastPathComponent]];
     
     [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath  withIntermediateDirectories:YES attributes:nil error:nil];
     
@@ -828,8 +832,14 @@
         [mutableBookDict setObject:infoDict forKey:@"info"];
         
         data = [NSJSONSerialization dataWithJSONObject:mutableBookDict options:NSJSONReadingAllowFragments error:nil];
+        NSString *rPath = [[NSBundle mainBundle] resourcePath];
+        NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+        NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,storyBook.id];
         
-        fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
+
+        //fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
+        fileName = @"mango";
+        
     } else {
         fileName = _mangoStoryBook.id;
     }
@@ -1388,6 +1398,7 @@
                     readingOption = 1;
                 }
                 else{
+                    audioMappingViewController.mangoTextField.highlightColor = [UIColor yellowColor];
                     [audioMappingViewController playAudioForReaderWithData:audioData AndDelegate:delegate];
                 }
             }
@@ -2274,16 +2285,13 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (![appDelegate.dataModel checkIfIdExists:book.id]) {
         Book *coreDatabook= [appDelegate.dataModel getBookInstance];
-        if(_isBookFork){
-            coreDatabook.title= [NSString stringWithFormat:@"%@-custom",book.title];
-        }
-        else{
-            coreDatabook.title = book.title;
-        }
+        
+        coreDatabook.title = book.title;
+        coreDatabook.parentBookId = nil;
         coreDatabook.link=nil;
         coreDatabook.localPathImageFile = filePath;
         coreDatabook.localPathFile = [filePath stringByDeletingPathExtension];
-        coreDatabook.id = book.id;
+        
         coreDatabook.size = @23068672;
         coreDatabook.date = [NSDate date];
         coreDatabook.textBook = @4;
@@ -2291,6 +2299,7 @@
         coreDatabook.downloaded = @NO;
         coreDatabook.edited = @YES;
         coreDatabook.bookId = ejdbId;
+        coreDatabook.id = ejdbId;
         
         NSError *error=nil;
         if (![appDelegate.managedObjectContext save:&error]) {
@@ -2303,6 +2312,7 @@
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if (isNewBook) {
+        
         MangoBook *newBook = [[MangoBook alloc] init];
         newBook.title = @"My Book";
         newBook.pages = [NSArray array];
@@ -2312,9 +2322,8 @@
             
             //Create Core Data Book
             NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.id];
-            @synchronized(self){
-                [self saveBook:_mangoStoryBook AtLocation:newBookFilePath WithEJDBId:_mangoStoryBook.id];
-            }
+            [self saveBook:_mangoStoryBook AtLocation:newBookFilePath WithEJDBId:_mangoStoryBook.id];
+
             BOOL success = [self createFolderAtPath:newBookFilePath];
             if (success) {
                 success = [self createFolderAtPath:[NSString stringWithFormat:@"%@/res", newBookFilePath]];
@@ -2331,20 +2340,30 @@
             [self createEmptyPage :1];
         }
     } else {
-        _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
-        if(_isBookFork){
-            _mangoStoryBook.title = [NSString stringWithFormat:@"%@-custom",_mangoStoryBook.title];
+        
+        if(!storyBookChosen.id){
+            _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.bookId];
+        }
+        else{
+            _mangoStoryBook = [appDelegate.ejdbController getBookForBookId:storyBookChosen.id];
         }
         storyBook = storyBookChosen;
         
         //Get JSON String
+        NSString *rPath = [[NSBundle mainBundle] resourcePath];
+        NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+        NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,storyBook.id];
+
+        //bookJsonString = [self jsonStringForLocation:jsonLocation];
         bookJsonString = [self jsonStringForLocation:storyBook.localPathFile];
         
         //If Downloaded, then fork it.
         //Else this is a newly created book. Keep it as it is.
         NSRange forkStringRange = [[[storyBook.localPathFile componentsSeparatedByString:@"/"] lastObject] rangeOfString:@"fork"];
+        
         if ([storyBook.downloaded boolValue] && forkStringRange.location == NSNotFound) {
             _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
+            
         } else {
             _editedBookPath = storyBook.localPathFile;
         }
@@ -2359,10 +2378,11 @@
             Book *book= [ delegate.dataModel getBookOfId:[NSString stringWithFormat:@"%@",storyBook.id]];
             Book *editedBook=[delegate.dataModel getBookInstance];
             editedBook.localPathFile=_editedBookPath;
-            editedBook.localPathImageFile=book.localPathImageFile;
+            editedBook.localPathImageFile= book.localPathImageFile;;
             if(_isBookFork){
                 
                 editedBook.title= [NSString stringWithFormat:@"%@-custom", book.title];
+                editedBook.parentBookId = [NSString stringWithFormat:@"%@",storyBook.id];
             }
             else{
                 editedBook.title=book.title;
@@ -2370,14 +2390,14 @@
             editedBook.desc=book.desc;
             editedBook.size=book.size;
             editedBook.downloaded=@YES;
-            editedBook.bookId=book.bookId;
+            editedBook.bookId = book.bookId;
             editedBook.edited = @YES;
             
             //Make Duplicate in EJDB
             _mangoStoryBook.id = nil;
             if ([appDelegate.ejdbController insertOrUpdateObject:_mangoStoryBook]) {
                 NSLog(@"%@", _mangoStoryBook.id);
-                editedBook.id=_mangoStoryBook.id;
+                editedBook.id = _mangoStoryBook.id;
                 [delegate.managedObjectContext save:nil];
                 [delegate.dataModel displayAllData];
                 

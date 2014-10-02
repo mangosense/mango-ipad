@@ -215,7 +215,7 @@
                 [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                 
                 if(!notFirstTimeDisplay){
-                    MangoSubscriptionViewController *subscriptionViewController;
+                    /*MangoSubscriptionViewController *subscriptionViewController;
                     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                         
                         subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
@@ -225,7 +225,7 @@
                     }
                     [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
                     subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                    [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                    [self presentViewController:subscriptionViewController animated:YES completion:nil];*/
                 }
                 else{
                     [self displayStoryoftheDay];
@@ -248,7 +248,7 @@
                     [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                     
                     if(!notFirstTimeDisplay){
-                        MangoSubscriptionViewController *subscriptionViewController;
+                       /* MangoSubscriptionViewController *subscriptionViewController;
                         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                         
                             subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
@@ -258,7 +258,7 @@
                         }
                         [prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
                         subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+                        [self presentViewController:subscriptionViewController animated:YES completion:nil];*/
                     }
                     else{
                         [self displayStoryoftheDay];
@@ -334,9 +334,6 @@
     }
 }
 
-- (BOOL)disablesAutomaticKeyboardDismissal {
-    return NO;
-}
 
 - (void) viewDidAppear:(BOOL)animated{
     
@@ -356,6 +353,7 @@
     if(subscriptionSuccess && !userEmail){
         [prefs setBool:NO forKey:@"SubscriptionSuccess"];
         EmailSubscriptionLinkViewController *emailLinkSubscriptionView;
+        _buttonForTrialUsers.hidden = YES;
         
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             emailLinkSubscriptionView = [[EmailSubscriptionLinkViewController alloc] initWithNibName:@"EmailSubscriptionLinkViewController_iPhone" bundle:nil];
@@ -401,7 +399,7 @@
     }
     [delegate trackEventAnalytic:@"store_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
 }
 
 - (void) dismissPopoverController{
@@ -882,6 +880,7 @@
         case TABLE_TYPE_SEARCH: {
             
             url = LIVE_STORIES_SEARCH;
+            [self.searchTextField endEditing:YES];
             [paramDict setObject:filterKey forKey:@"q"];
             NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
             [dimensions setObject:@"search" forKey:PARAMETER_ACTION];
@@ -893,7 +892,7 @@
             }
             [delegate trackEventAnalytic:@"search" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            //[delegate trackMixpanelEvents:dimensions eventName:@"search"];
+            [delegate trackMixpanelEvents:dimensions eventName:@"search"];
             /*NSDictionary *dimensions = @{
                                          PARAMETER_USER_EMAIL_ID : ID,
                                          PARAMETER_DEVICE: IOS,
@@ -988,7 +987,7 @@
         }
         [delegate trackEventAnalytic:@"see_more" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
         
         [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
     } else {
@@ -1514,8 +1513,8 @@
     NSString *storyOfDayId = [prefs valueForKey:@"StoryOfTheDayBookId"];
     if(![self connected])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Your internet connection appears to be offline, plase try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Your internet connection appears to be offline, plase try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//        [alert show];
         return;
     }
     
@@ -1663,7 +1662,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
@@ -1693,8 +1692,20 @@
     [apiController getListOf:url ForParameters:nil withDelegate:self];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void) dismisskeyboardinview{
     
+    
+    [self.searchTextField endEditing:YES];
+    [self.searchTextField resignFirstResponder];
+    self.searchTextField = nil;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if([self.searchTextField isFirstResponder]){
+    [self performSelectorOnMainThread:@selector(dismisskeyboardinview) withObject:nil
+                        waitUntilDone:YES];
+        return;
+    }
         switch (_tableType) {
         case TABLE_TYPE_MAIN_STORE: {
             if (indexPath.section == 0) {
@@ -1818,15 +1829,15 @@
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"subscription_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:@"subscription_bar_click" forKey:PARAMETER_ACTION];
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:@"Subscription click in store page" forKey:PARAMETER_EVENT_DESCRIPTION];
+    [dimensions setObject:@"Subscription bar click in store page" forKey:PARAMETER_EVENT_DESCRIPTION];
     if(userEmail){
         [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
     }
-    [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
+    [delegate trackEventAnalytic:@"subscription_bar_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_bar_click"];
     
     MangoSubscriptionViewController *subscriptionViewController;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1838,6 +1849,26 @@
     }
     subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentViewController:subscriptionViewController animated:YES completion:nil];
+}
+
+- (void)BviewcontrollerDidTapButton: (BookDetailsViewController *)controller
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        
+        // here you can create a code for presetn C viewcontroller
+        MangoSubscriptionViewController *subscriptionViewController;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+        }
+        else{
+            subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+        }
+        subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:subscriptionViewController animated:YES completion:nil];
+        
+    }];
 }
 
 @end
