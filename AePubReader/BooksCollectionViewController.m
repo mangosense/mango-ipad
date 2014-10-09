@@ -57,6 +57,26 @@
         viewName = @"Detail Category Books";
         currentPage = @"my_books_screen";
     }
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    if(!validUserSubscription){
+        if(delegate.loggedInUserInfo){
+            //now validate user
+            [[MangoApiController sharedApiController]validateSubscription:delegate.subscriptionInfo.subscriptionTransctionId andDeviceId:delegate.deviceId block:^(id response, NSInteger type, NSString *error){
+                NSLog(@"type --- %d", type);
+                if ([[response objectForKey:@"status"] integerValue] == 1){
+                    if([[response objectForKey:@"subscription_type"] isEqualToString:@"trial"]){
+                        [prefs setBool:YES forKey:@"ISTRIALUSER"];
+                    }
+                    NSLog(@"You are already subscribed");
+                    [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
+                }
+            }];
+            
+        }
+    }
+    
     _settingQuesArray = [[NSArray alloc] init];
     // Do any additional setup after loading the view from its nib.
     NSBundle *bundle = [NSBundle mainBundle];

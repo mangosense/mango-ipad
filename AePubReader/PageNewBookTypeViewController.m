@@ -52,7 +52,7 @@
         _book= [delegate.dataModel getBookOfId:bookID];
         _loginUserEmail = delegate.loggedInUserInfo.email;
         
-                _pageNumber=0;
+                _pageNumber=1;
         NSLog(@"%@",_book.edited);
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
@@ -1429,7 +1429,18 @@
             NSPredicate *audioPredicate = [NSPredicate predicateWithFormat:@"text_id == %@",[textDict objectForKey:@"id"]];
             NSArray *relatedAudios = [audioLayers filteredArrayUsingPredicate:audioPredicate];
             if ([relatedAudios count]) {
-                NSDictionary *audioLayer = [relatedAudios objectAtIndex:0];
+                NSDictionary *audioLayer;
+                if(![[[relatedAudios objectAtIndex:0]valueForKey:@"wordMap"]isKindOfClass:[NSNull class]]){
+                    audioLayer = [relatedAudios objectAtIndex:0];
+                }
+                else{
+                    if([relatedAudios count] >1){
+                        audioLayer = [relatedAudios objectAtIndex:1];
+                    }
+                    else{
+                        audioLayer = [relatedAudios objectAtIndex:0];
+                    }
+                }
                 _audioDictForEditMapping = audioLayer;
                 NSString *filePath = [folderLocation stringByAppendingFormat:@"/%@", [audioLayer objectForKey:ASSET_URL]];
                 audioMappingViewcontroller.audioUrl = [NSURL fileURLWithPath:filePath];
@@ -1477,7 +1488,7 @@
                 if (readingOption == 0) {
                     NSNumber *order = [textDict objectForKey:@"order"];
                     if ([order isEqualToNumber:[NSNumber numberWithInt:0]] ||
-                        [order isEqualToNumber:[NSNumber numberWithInt:1]] || (order == nil)) {
+                        [order isEqualToNumber:[NSNumber numberWithInt:1]] || (order == nil) || (order)) {
                         if (![self isPlaying]) {
                             [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
                             _audioMappingViewController = audioMappingViewcontroller;

@@ -489,7 +489,12 @@
     else{
         _viewDownloadCounter.hidden = NO;
     }
-    _labelDownloadingCount.text = [NSString stringWithFormat:@"%d", noOfBooks];
+    if(noOfBooks > 1){
+        _labelDownloadingCount.text = [NSString stringWithFormat:@"%d  books downloading", noOfBooks];
+    }
+    else{
+        _labelDownloadingCount.text = [NSString stringWithFormat:@"%d  book downloading", noOfBooks];
+    }
 }
 
 - (BOOL)connected

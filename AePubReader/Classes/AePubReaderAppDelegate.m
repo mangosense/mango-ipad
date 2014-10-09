@@ -49,10 +49,10 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
-    //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
+    [Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
     
     [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -67,12 +67,12 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-     //             clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
     //MangoReader_Test app for testing
-    [Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
-                       clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
+    //[Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
+    //                   clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
 
     //Flurry

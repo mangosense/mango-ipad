@@ -55,6 +55,7 @@
     [words removeObjectsInArray:wordsToDelete];
     int cval = [wordsToDelete count]-1;
     if ([words count]) {
+        if([words count] > wordIndex){
         //NSLog(@"Word index value as -- %d", wordIndex);
         NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSLog(@"check for end character %@",[word substringFromIndex: [word length] - 1]);
@@ -143,7 +144,12 @@
         [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
         //NSLog(@"Word index value as -- %d", wordIndex);
     }
+    else{
+    }
+    }
+    if([words count] > wordIndex){
     [self setAttributedText:string];
+    }
 }
 
 - (void) disableScroll {
