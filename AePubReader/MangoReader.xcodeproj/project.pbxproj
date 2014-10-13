@@ -136,9 +136,6 @@
 		68CB775219E978330047E760 /* mangoreader-app-icon-120X120.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CB774819E978330047E760 /* mangoreader-app-icon-120X120.png */; };
 		68CB775319E978330047E760 /* mangoreader-app-icon-144X144.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CB774919E978330047E760 /* mangoreader-app-icon-144X144.png */; };
 		68CB775419E978330047E760 /* mangoreader-app-icon-152X152.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CB774A19E978330047E760 /* mangoreader-app-icon-152X152.png */; };
-		68CB775619E9D1410047E760 /* MangoStory.zip in Resources */ = {isa = PBXBuildFile; fileRef = 68CB775519E9D1410047E760 /* MangoStory.zip */; };
-		68CB775819E9D3E60047E760 /* MangoStorycopy.zip in Resources */ = {isa = PBXBuildFile; fileRef = 68CB775719E9D3E60047E760 /* MangoStorycopy.zip */; };
-		68CB775A19E9D3F10047E760 /* MangoStorycopyone.zip in Resources */ = {isa = PBXBuildFile; fileRef = 68CB775919E9D3F10047E760 /* MangoStorycopyone.zip */; };
 		68CCC634193F4191002A7382 /* icons_playRate.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CCC633193F4191002A7382 /* icons_playRate.png */; };
 		68CD69EE18F80334003BAD0D /* popoverArrowDown-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69DA18F80334003BAD0D /* popoverArrowDown-white@2x.png */; };
 		68CD69EF18F80334003BAD0D /* popoverArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 68CD69DB18F80334003BAD0D /* popoverArrowDown.png */; };
@@ -1123,9 +1120,6 @@
 		68CB774819E978330047E760 /* mangoreader-app-icon-120X120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-120X120.png"; sourceTree = "<group>"; };
 		68CB774919E978330047E760 /* mangoreader-app-icon-144X144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-144X144.png"; sourceTree = "<group>"; };
 		68CB774A19E978330047E760 /* mangoreader-app-icon-152X152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mangoreader-app-icon-152X152.png"; sourceTree = "<group>"; };
-		68CB775519E9D1410047E760 /* MangoStory.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStory.zip; sourceTree = "<group>"; };
-		68CB775719E9D3E60047E760 /* MangoStorycopy.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStorycopy.zip; sourceTree = "<group>"; };
-		68CB775919E9D3F10047E760 /* MangoStorycopyone.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = MangoStorycopyone.zip; sourceTree = "<group>"; };
 		68CCC633193F4191002A7382 /* icons_playRate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons_playRate.png; sourceTree = "<group>"; };
 		68CD69DA18F80334003BAD0D /* popoverArrowDown-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowDown-white@2x.png"; sourceTree = "<group>"; };
 		68CD69DB18F80334003BAD0D /* popoverArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowDown.png; sourceTree = "<group>"; };
@@ -2188,9 +2182,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				68CB775519E9D1410047E760 /* MangoStory.zip */,
-				68CB775719E9D3E60047E760 /* MangoStorycopy.zip */,
-				68CB775919E9D3F10047E760 /* MangoStorycopyone.zip */,
 				68CA618B19D1B962005AF798 /* Books.xcdatamodeld */,
 				689FEB2519CAE835006DE07F /* OrderDict */,
 				6882AC7519914C9E00ADA093 /* ImageLoadStore */,
@@ -3998,7 +3989,6 @@
 				AE4BB72F183CD796004F20C5 /* icons_next2.png in Resources */,
 				83E2D1FE184364EC00F8CDB6 /* editor_42.png in Resources */,
 				834FCE67182D11F70000181B /* underline_button.png in Resources */,
-				68CB775A19E9D3F10047E760 /* MangoStorycopyone.zip in Resources */,
 				687BE436190D463E00380E38 /* Logout.png in Resources */,
 				FA881E5A1372E96000FBD25F /* SearchResultsViewController.xib in Resources */,
 				83AB60B318ABF1CD004A040E /* BookDetailsViewController.xib in Resources */,
@@ -4289,7 +4279,6 @@
 				AEB7AE0816B94994009844B0 /* nh.png in Resources */,
 				2829CEC4191BDE2000B7EC80 /* times_bold.ttf in Resources */,
 				834FCE47182D11F70000181B /* recordaudio_button.png in Resources */,
-				68CB775619E9D1410047E760 /* MangoStory.zip in Resources */,
 				83BB3ECB185B61E600BA5ED7 /* MangoGameViewController.xib in Resources */,
 				28CFD9821914D96100D683CE /* MangoDashbHelpViewController.xib in Resources */,
 				AE266FD5183B4E7E001A8CB8 /* traditional.png in Resources */,
@@ -4306,7 +4295,6 @@
 				68CB774F19E978330047E760 /* mangoreader-app-icon-76X76.png in Resources */,
 				834FCE5B182D11F70000181B /* stopsync_button.png in Resources */,
 				834FCE3F182D11F70000181B /* pagesbutton.png in Resources */,
-				68CB775819E9D3E60047E760 /* MangoStorycopy.zip in Resources */,
 				AE0C9355183DB401008E4D54 /* icons_library.png in Resources */,
 				AEE30E46183B96AB00C89BFF /* icons_home.png in Resources */,
 				83C1B52318AE5EA700624E1B /* build-a-story.png in Resources */,
