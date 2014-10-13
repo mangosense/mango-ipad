@@ -52,21 +52,25 @@
             [wordsToDelete addObject:word];
         }
     }
+
     [words removeObjectsInArray:wordsToDelete];
     int cval = [wordsToDelete count]-1;
     if ([words count]) {
         if([words count] > wordIndex){
         //NSLog(@"Word index value as -- %d", wordIndex);
-        NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSLog(@"check for end character %@",[word substringFromIndex: [word length] - 1]);
+        NSString *word = [[words objectAtIndex:wordIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *specialChar = @"–";
+        if([word isEqualToString:specialChar]){
+            NSLog(@"word is %@  and length is %d", word, word.length);
+            return;
+        }
         
         NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
-        //NSRange range = [self.text rangeOfString:word options:NSBackwardsSearch range:NSMakeRange(0, length+cval+word.length)];
         
         [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
         
         _textRange = range;
-        NSLog(@"range %i - %i", length, [self.text length] - length);
+        //NSLog(@" word is %@", length, [self.text length] - length);
         //[self setContentOffset:CGPointMake(0, 100) animated:YES];
         
         //[self scrollRangeToVisible:_textRange];

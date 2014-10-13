@@ -265,7 +265,7 @@
 #define LIVE_STORIES_WITH_ID @"livestories"
 #define OLD_STORY_INFO @"livestories/%@/info"
 #define VERSION @"version"
-#define VERSION_NO @"2.0"
+#define VERSION_NO @"1.0"
 #define LINKSUBSCRIPTIONWITHEMAIL @"subscription/connect"
 
 #pragma mark - API Parameter Keys

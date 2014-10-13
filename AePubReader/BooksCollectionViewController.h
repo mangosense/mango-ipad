@@ -39,6 +39,11 @@
 @property (nonatomic, retain) NSMutableArray *arrayFreeBooksId;
 @property (nonatomic, assign) NSString *pushCreateStory;
 
+@property (nonatomic, strong) IBOutlet UIButton *homeButton;
+@property (nonatomic, strong) IBOutlet UIButton *libraryButton;
+@property (nonatomic, strong) IBOutlet UIButton *bottomBarForSubscribe;
+@property (nonatomic, assign) int booksCount;
+
 - (IBAction)settingsButtonTapped:(id)sender;
 - (IBAction)homeButtonTapped:(id)sender;
 - (IBAction)libraryButtonTapped:(id)sender;
@@ -47,9 +52,10 @@
 - (IBAction)doneProblem:(id)sender;
 - (IBAction)closeSettingProblemView:(id)sender;
 - (IBAction)backgroundTap:(id)sender;
+- (IBAction) mangoSubscription;
 
 @property (nonatomic, strong) IBOutlet UILabel *headerLabel;
-@property (nonatomic, weak) NSDictionary *categorySelected;
+@property (nonatomic, strong) NSDictionary *categorySelected;
 @property (nonatomic, assign) int fromCreateStoryView;
 //@property (nonatomic, strong) WEPopoverController *popoverControlleriPhone;
 

@@ -17,6 +17,7 @@
 #import "UserInfo.h"
 #import "BookDetailsViewController.h"
 #import "CoverViewControllerBetterBookType.h"
+#import "BooksCollectionViewController.h"
 #import "LandPageChoiceViewController.h"
 #import "SubscriptionInfo.h"
 #import "Appirater.h"
@@ -95,6 +96,7 @@
 @property (nonatomic, strong) NSString *mangoStoryId;
 @property (nonatomic, strong) NSString *deviceTokenValue;
 @property (nonatomic, strong) CoverViewControllerBetterBookType *coverController;
+@property (nonatomic, strong) BooksCollectionViewController *allBookscategory;
 @property (nonatomic, strong) NSString *deviceId;
 
 @property (nonatomic, strong) UIImageView *splashView;

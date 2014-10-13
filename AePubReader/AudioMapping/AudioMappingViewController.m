@@ -279,7 +279,7 @@
 //         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
 //    }
     
-    NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     NSMutableArray *wordsToDelete = [NSMutableArray array];
     for (NSString *word in words) {
         if ([word length] == 0) {
@@ -372,6 +372,7 @@
 }
 -(void)update{
     //_mangoTextField.textViewInsetValue = 0;
+    
     if (_wordIndex<_cues.count) {
         NSNumber *number= _cues[_wordIndex];
         //NSLog(@"%f %@",_player.currentTime,_cues);

@@ -52,7 +52,7 @@ static UIAlertView *alertViewLoading;
     //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
-    [Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
+    //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
     
     [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -67,12 +67,12 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
     //MangoReader_Test app for testing
-    //[Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
-    //                   clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
+    [Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
+                      clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
 
     //Flurry
@@ -147,6 +147,8 @@ static UIAlertView *alertViewLoading;
     BOOL uiNew=YES;
     
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
 
     [userDefaults setBool:NO forKey:@"changed"];
     if (!uiNew)
@@ -161,7 +163,13 @@ static UIAlertView *alertViewLoading;
     }
     else {
         [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
-        [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
+        if(validSubscription){
+            [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
+        }
+        else{
+            //[self performSelectorOnMainThread:@selector(unzipExistingJsonBooks) withObject:self waitUntilDone:YES];
+            [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
+        }
     }
     
 //    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
@@ -196,7 +204,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Book notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"book_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"book_notification"];
+                //[self trackMixpanelEvents:dimensions eventName:@"book_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"update"]){
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
@@ -206,7 +214,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Update notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"update_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"update_notification"];
+                //[self trackMixpanelEvents:dimensions eventName:@"update_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"create"]){
                 pushCreateStory = [dictionary objectForKey:@"action"];
@@ -215,7 +223,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Create notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"create_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"create_notification"];
+                //[self trackMixpanelEvents:dimensions eventName:@"create_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"subscribe"]){
                 pushSubscribe = [dictionary objectForKey:@"action"];
@@ -224,37 +232,44 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Subscribe notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"subscribe_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
+                //[self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
             }
         }
     }
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
      NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
         //validSubscription = 1;//test storyasapp
         //CustomNavViewController *nav;
         if (uiNew) {
 
-            if ((path)&& (!validSubscription)) {
+            if (!validSubscription) {
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     
-                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
+                   
+                    // _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
                     
+                    _allBookscategory = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController_iPhone" bundle:nil];
                 }
                 else {
-                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-                    
+                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
+                    _allBookscategory = [[BooksCollectionViewController alloc] initWithNibName:@"BooksCollectionViewController" bundle:nil];
                 }
                 
+                NSDictionary *dimensions = @{
+                                             @"name" : @"All Books"
+                                             };
+                _allBookscategory.categorySelected = dimensions;
+                
                 //nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
-                nav=[[UINavigationController alloc]initWithRootViewController:_coverController];
+                //nav=[[UINavigationController alloc]initWithRootViewController:_coverController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_allBookscategory];
                // MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.nav.view animated:YES];
                // hud.labelText = @"Loading Please Wait";
                 
             }
-            else if((path)&& (validSubscription)){
+            else if(validSubscription){
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     
@@ -322,22 +337,22 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
                                             PLATFORM : IOS,
                                             PARAMETER_UUID : _uuidValue,
-                                            PARAMETER_DEVICE_UDID : _uuidValue}];
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];*/
 
     
     if (!path){
         if(!isFreeBooksApiCall){
-            [self getAllFreeBooks];
+            //[self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
-        sleep(4.0);
+        //sleep(4.0);
     }
     return YES;
 }
@@ -428,34 +443,69 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)unzipExistingJsonBooks{
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-
+    if(!validSubscription){
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
     NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
-    if (path && !validUserSubscription )  {
-        epubFles = [NSArray arrayWithObject:@"MangoStory"];
-    }
     
+    NSString *bundleRoot = [[NSBundle mainBundle] bundlePath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:bundleRoot error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"];
+    NSArray *onlyZips = [dirContents filteredArrayUsingPredicate:fltr];
+    epubFles = [NSArray arrayWithArray:onlyZips];
     
     for (NSString *string in epubFles) {
         //location
-        NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
-        if (path && !validUserSubscription) {
-            epubLocation = path;
-        }
+        NSString *pathVal = [string stringByReplacingOccurrencesOfString:@".zip" withString:@""];
+        //        NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+        //        if (path && !validUserSubscription) {
+        //            epubLocation = path;
+        //        }
+        NSString *epubLocation = [[NSBundle mainBundle] pathForResource:pathVal ofType:@"zip"];
         NSString *value=[string stringByDeletingPathExtension];
         
         NSLog(@"EpubLocation: %@, Value: %@", epubLocation, value);
-            // unzip the file
+        // unzip the file
         [self unzipAndSaveFile:epubLocation withString:value];
         // provide do not backup attribute to folder itself
         [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
         // delete the zip since it is unzipped
-        [self SendToEJDB:[epubLocation stringByDeletingPathExtension] WithId:nil];
-
+        [self SendToEJDB:[epubLocation stringByDeletingPathExtension] WithId:pathVal];
+        
         [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
+    }
+    }
+    else{
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+        
+        NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
+        NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
+        if (path && !validSubscription )  {
+            epubFles = [NSArray arrayWithObject:@"MangoStory"];
+        }
+        
+        
+        for (NSString *string in epubFles) {
+            //location
+            NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
+            if (path && !validSubscription) {
+                epubLocation = path;
+            }
+            NSString *value=[string stringByDeletingPathExtension];
+            
+            NSLog(@"EpubLocation: %@, Value: %@", epubLocation, value);
+            // unzip the file
+            [self unzipAndSaveFile:epubLocation withString:value];
+            // provide do not backup attribute to folder itself
+            [self addSkipAttribute:[epubLocation stringByDeletingPathExtension]];
+            // delete the zip since it is unzipped
+            [self SendToEJDBval:[epubLocation stringByDeletingPathExtension] WithId:nil];
+            
+            [[NSFileManager defaultManager] removeItemAtPath:epubLocation error:nil];
+        }
     }
 }
 
@@ -512,10 +562,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
-- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+/*- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
     
      [[Mixpanel sharedInstance] track:event properties:properties];
-}
+}*/
 
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
@@ -575,7 +625,25 @@ void uncaughtExceptionHandler(NSException *exception) {
     return !(networkStatus == NotReachable);
 }
 
--(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
+-(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSString *)file {
+    
+        NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:locationDirectory error:nil];
+        NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
+    
+        dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], file] error:nil];
+        epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
+        NSString *actualJsonLocation = [[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], file] stringByAppendingPathComponent:[epubFles firstObject]];
+        NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+        _mangoStoryId = [jsonDict objectForKey:@"id"];
+    
+        [_ejdbController parseBookJson:jsonData WithId:0 AtLocation:[NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory], file]];
+
+        _coverController.identity = _mangoStoryId;
+    
+}
+
+-(void)SendToEJDBval:(NSString *)locationDirectory WithId:(NSNumber *)numberId{
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
@@ -595,28 +663,8 @@ void uncaughtExceptionHandler(NSException *exception) {
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
         _mangoStoryId = [jsonDict objectForKey:@"id"];
         
-        //int isStoryAsApp = [[prefs valueForKey:@"STORYASAPPCALL"] integerValue];
-        
-        
-        //if(!isStoryAsApp){
-        //    [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]]];
-        //}
-        
         [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]]];
         
-        /*Book *book = [Book alloc];
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        book= [delegate.dataModel getBookOfId:_mangoStoryId];
-        NSString *jsonLocation=book.localPathFile;
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
-        NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-        NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-        jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-        NSString *jsonContents=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-        
-        UIImage *image=[MangoEditorViewController coverPageImageForStory:jsonContents WithFolderLocation:book.localPathFile];
-        _coverController.coverImageView.image = image;*/
         _coverController.identity = _mangoStoryId;
         //_loginController.identity = _mangoStoryId;
         
@@ -624,6 +672,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:locationDirectory];
         
     }
+    
 }
 
 +(NSString *) returnBookJsonPath:(Book *)book{
@@ -631,11 +680,35 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString *rPath = [[NSBundle mainBundle] resourcePath];
     NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
     NSString *jsonLocation;
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    
+    NSString *lastElement = [[book.localPathFile componentsSeparatedByString:@"/"] lastObject];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
     if(book.parentBookId){
         jsonLocation = [NSString stringWithFormat:@"%@Documents/%@_fork",appPath,book.bookId];
     }
+    /*else if(path && !validSubscription){
+        
+        jsonLocation = [NSString stringWithFormat:@"%@Documents/MangoStory",appPath];
+    }*/
+    
+    else if([self validPath:lastElement]){
+        
+        jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath, lastElement];
+    }
+    
+    /*else if([lastElement isEqualToString:@"MangoStory"]){
+        
+        jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath, lastElement];
+    }*/
+    
     else{
         if(!book.id){
+            
             jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.bookId];
         }
         else{
@@ -644,6 +717,18 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     return jsonLocation;
 }
+
+//go for regular expression
+
++ (BOOL) validPath:(NSString*) livestoryWithUrl{
+    
+    NSString *searchString = livestoryWithUrl;
+    NSString *regexString = @"MangoStory.*";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexString];
+    BOOL isStringValid = [predicate evaluateWithObject:searchString];
+    return isStringValid;
+}
+
 
 //save with folder name
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{

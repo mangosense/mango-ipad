@@ -40,8 +40,15 @@
 }
 
 - (void)layoutSubviews {
-    
-    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    NSString *jsonLocation;
+    if(validSubscription){
+        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    }
+    else{
+        jsonLocation = _book.localPathImageFile;
+    }
     
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
@@ -141,7 +148,15 @@
 
 - (void)getBookCoverImage:(Book *)book {
     
-    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
+    NSString *jsonLocation;
+    if(validSubscription){
+        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    }
+    else{
+        jsonLocation = _book.localPathImageFile;
+    }
     NSString *baseBookPath = jsonLocation;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];

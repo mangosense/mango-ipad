@@ -132,7 +132,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                  };
     [delegate trackEventAnalytic:@"signup_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"signup_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"signup_screen"];
 }
 
 - (void)loginWithFacebook:(NSDictionary *)facebookDetailsDict {
@@ -251,7 +251,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                  };
     [delegate trackEventAnalytic:@"signup" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"signup"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"signup"];
     
     MangoApiController *apiController = [MangoApiController sharedApiController];
     [apiController loginWithEmail:_email.text AndPassword:_password.text IsNew:YES Name:_nameFull.text];
@@ -274,6 +274,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 #pragma mark - PostAPI Delegate Method
 
 - (void)saveUserDetails:(NSDictionary *)userDetailsDictionary {
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     if (userDetailsDictionary) {
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -284,6 +286,16 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             if(([[userDetailsDictionary objectForKey:@"status"]integerValue] == 200) || ([userDetailsDictionary objectForKey:@"name"])) {
                 
                 [self saveUserInfo:userDetailsDictionary];
+                NSDictionary *dimensions = @{
+                                             
+                                             PARAMETER_ACTION : @"signup_success",
+                                             PARAMETER_CURRENT_PAGE : currentPage,
+                                             PARAMETER_EVENT_DESCRIPTION : @"Signup successfu",
+                                             PARAMETER_USER_EMAIL_ID :[userDetailsDictionary valueForKey:@""],
+                                             };
+                [delegate trackEventAnalytic:@"signup_error" dimensions:dimensions];
+                [delegate eventAnalyticsDataBrowser:dimensions];
+                //[delegate trackMixpanelEvents:dimensions eventName:@"signup_error"];
                 [self donePressed:nil];
                 [_delegate goToNext];
             }
@@ -294,7 +306,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             
         }
         else{
-            AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+            
             NSDictionary *dimensions = @{
                                          
                                          PARAMETER_ACTION : @"signup_error",
@@ -304,7 +316,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                          };
             [delegate trackEventAnalytic:@"signup_error" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"signup_error"];
+            //[delegate trackMixpanelEvents:dimensions eventName:@"signup_error"];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:[userDetailsDictionary objectForKey:@"statusMessage"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];

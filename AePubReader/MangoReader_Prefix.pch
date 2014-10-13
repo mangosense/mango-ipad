@@ -13,6 +13,6 @@
     #import <UIKit/UIKit.h>
     #import "Reachability.h"
     #import <Parse/Parse.h>
-    #import "Mixpanel.h"
+    //#import "Mixpanel.h"
     #import "UINavigationController+KeyboardDismiss.h"
 #endif

@@ -399,7 +399,7 @@
     }
     [delegate trackEventAnalytic:@"store_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
 }
 
 - (void) dismissPopoverController{
@@ -897,7 +897,7 @@
             }
             [delegate trackEventAnalytic:@"search" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"search"];
+            //[delegate trackMixpanelEvents:dimensions eventName:@"search"];
             /*NSDictionary *dimensions = @{
                                          PARAMETER_USER_EMAIL_ID : ID,
                                          PARAMETER_DEVICE: IOS,
@@ -992,7 +992,7 @@
         }
         [delegate trackEventAnalytic:@"see_more" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
         
         [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
     } else {
@@ -1083,111 +1083,10 @@
         
         /*BookDetailsViewController *bookDetailsViewController;
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
-            
-        }
-        else{
-            bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-        }
-        
-        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-        bookDetailsViewController.delegate = self;
-        
-        [bookDetailsViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-        [self presentViewController:bookDetailsViewController animated:YES completion:^(void) {
-            bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-            
-            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"Written by: %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
-            
-            if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
-                bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
-            }
-            else{
-                bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@""];
-            }
-            
-            if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
-                bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
-            }
-            else{
-                bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@""];
-            }
-            
-            if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]] && [[bookDict objectForKey:@"info"] objectForKey:@"tags"]){
-                bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
-            }
-            else if([[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]] || [[bookDict objectForKey:@"info"] objectForKey:@"tags"]){
-                bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
-            }
-            
-            [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
-           // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
-           // [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
-           // [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
-            //[bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
-            
-            
-          //  [bookDetailsViewController.dropDownView.uiTableView reloadData];
-           
-            bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"No. of Games: %@",[bookDict objectForKey:@"widget_count"]];
-            
-            bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age Groups: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"age_groups"] componentsJoinedByString:@", "]];
-            if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
-                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] componentsJoinedByString:@", "]];
-            }
-            else {
-                bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Levels: -"];
-            }
-            bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-            
-            bookDetailsViewController.priceLabel.text =  [[bookDict objectForKey:@"info"] valueForKey:@"language"];
-           // if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-                bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-          //  }
-         //   else{
-         //   bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-                //[bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-         //   }
-            
-            if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
+       lass:[NSNull class]]){
                 bookDetailsViewController.categoriesLabel.text = [[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "];
             }
-            else{
-                bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
-            }
-            
-            bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
-            
-            NSDictionary *dimensions = @{
-                                         PARAMETER_USER_ID : ID,
-                                         PARAMETER_DEVICE: IOS,
-                                         PARAMETER_BOOK_ID : [bookDict objectForKey:@"id"]
-                                             
-                                         };
-            [delegate trackEvent:[STORE_FEATURED_BOOK valueForKey:@"description"] dimensions:dimensions];
-            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-            [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
-            [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
-            [userObject setObject:viewName forKey:@"viewName"];
-            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-            [userObject setObject:delegate.country forKey:@"deviceCountry"];
-            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-            [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"bookID"];
-            if(userEmail){
-                [userObject setObject:ID forKey:@"emailID"];
-            }
-            [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
-
-            
-            [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
-            
-            bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-            bookDetailsViewController.imageUrlString = [[ASSET_BASE_URL stringByAppendingString:[bookDict objectForKey:@"cover"]] stringByReplacingOccurrencesOfString:@"cover_" withString:@"banner_"];
-        }];
+                    }];
         bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);*/
     }
 }
@@ -1667,7 +1566,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
@@ -1842,7 +1741,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_bar_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_bar_click"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"subscription_bar_click"];
     
     MangoSubscriptionViewController *subscriptionViewController;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){

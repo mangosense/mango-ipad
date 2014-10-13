@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BooksCollectionViewController">
             <connections>
+                <outlet property="bottomBarForSubscribe" destination="6k5-8X-OoL" id="yzH-nb-dK5"/>
                 <outlet property="deleteButton" destination="Ade-ZV-3hw" id="w7J-PH-ZPG"/>
                 <outlet property="headerLabel" destination="YSI-DV-4Bi" id="aci-eD-q6F"/>
+                <outlet property="homeButton" destination="qn4-r8-dZp" id="aIS-6B-ffV"/>
+                <outlet property="libraryButton" destination="Qbm-FC-Lng" id="rKN-iP-PoM"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Qfn-9M-ILV"/>
             </connections>
         </placeholder>
@@ -55,6 +58,19 @@
                     </state>
                     <connections>
                         <action selector="trashButtonTapped:" destination="-1" eventType="touchUpInside" id="tnS-vT-9lM"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6k5-8X-OoL">
+                    <rect key="frame" x="-1" y="289" width="568" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.12962372450000001" green="0.12962372450000001" blue="0.12962372450000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="Subscribe now to access Unlimited Stories!">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mangoSubscription" destination="-1" eventType="touchUpInside" id="nU2-F5-vgD"/>
                     </connections>
                 </button>
             </subviews>
