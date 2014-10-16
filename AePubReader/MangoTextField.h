@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIColor *highlightColor;
 @property (nonatomic, assign) int textViewInsetValue;
 @property (nonatomic, assign) NSRange textRange;
+@property (nonatomic, assign) float lineSpacingValue;
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length;
 

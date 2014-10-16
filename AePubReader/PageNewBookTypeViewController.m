@@ -1264,6 +1264,7 @@
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
         NSString *fontStyle = [[textDict objectForKey:@"style"] objectForKey:@"font-style"];
         NSString *fontWeight = [[textDict objectForKey:@"style"] objectForKey:@"font-weight"];
+        NSString *fontSize;
         if (![fontFamily isKindOfClass:[NSNull class]]) {
             if ([fontFamily length]) {
                 //here will be custom font set
@@ -1273,7 +1274,7 @@
 //                familyName = [familyName substringFromIndex:1];
 //                NSArray *fonts = [UIFont fontNamesForFamilyName:familyName];
 //                
-                NSString *fontSize = [[textDict objectForKey:@"style"] objectForKey:@"font-size"];
+                fontSize = [[textDict objectForKey:@"style"] objectForKey:@"font-size"];
                 fontSize = [fontSize stringByReplacingOccurrencesOfString:@"px"
                                                                withString:@""];
                 if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1372,7 +1373,18 @@
         }
         textFontValue = font;
         audioMappingViewcontroller.mangoTextField.font = font;
-
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        paragraphStyle.minimumLineHeight = 15.f;
+        paragraphStyle.maximumLineHeight = [fontSize floatValue] * [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        audioMappingViewcontroller.mangoTextField.lineSpacingValue = [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        
+        
+        NSDictionary *attributes = @{ NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle };
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:audioMappingViewcontroller.mangoTextField.text attributes:attributes];
+        
+        [audioMappingViewcontroller.mangoTextField setAttributedText: attributedString];
+        
         audioMappingViewcontroller.mangoTextField.frame = textFrame;
         audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
         [_pageView bringSubviewToFront:audioMappingViewcontroller.mangoTextField];
@@ -1403,7 +1415,7 @@
             audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
         }
         [pageView addSubview:audioMappingViewcontroller.mangoTextField];
-//        audioMappingViewcontroller.mangoTextField.editable = NO;
+        audioMappingViewcontroller.mangoTextField.editable = NO;
         [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         
         [pageView bringSubviewToFront:[audioMappingViewcontroller.view superview]];
@@ -1435,7 +1447,7 @@
                 }
                 else{
                     if([relatedAudios count] >1){
-                        audioLayer = [relatedAudios objectAtIndex:1];
+                        audioLayer = [relatedAudios objectAtIndex:[relatedAudios count] -1];
                     }
                     else{
                         audioLayer = [relatedAudios objectAtIndex:0];

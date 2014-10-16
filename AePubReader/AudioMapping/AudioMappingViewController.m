@@ -287,7 +287,7 @@
         }
     }
     
-    //[words removeObjectsInArray:wordsToDelete];
+    [words removeObjectsInArray:wordsToDelete];
     if ([words count]) { //P
         NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, _wordIndex)];
         NSString *subString = [subarray componentsJoinedByString:@" "];
