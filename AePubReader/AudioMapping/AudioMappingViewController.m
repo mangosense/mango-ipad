@@ -279,7 +279,7 @@
 //         _mangoTextField.font = [UIFont fontWithName:@"Verdana" size:25.0f];
 //    }
     
-    NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    NSMutableArray *words = [NSMutableArray arrayWithArray:[textForMapping componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     NSMutableArray *wordsToDelete = [NSMutableArray array];
     for (NSString *word in words) {
         if ([word length] == 0) {

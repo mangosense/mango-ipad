@@ -144,6 +144,8 @@
         
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
         [paragraphStyle setAlignment:NSTextAlignmentCenter];
+            paragraphStyle.minimumLineHeight = 15.f;
+            paragraphStyle.maximumLineHeight = self.font.pointSize * self.lineSpacingValue;
         
         [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
         //NSLog(@"Word index value as -- %d", wordIndex);
