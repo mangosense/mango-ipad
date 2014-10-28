@@ -182,7 +182,7 @@
                 }
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
-                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                    //[prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                     
                     if(!notFirstTimeDisplay && !userEmail){
                     
@@ -212,7 +212,7 @@
             if(!userEmail){
                 int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
                 
-                [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                //[prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                 
                 if(!notFirstTimeDisplay){
                     /*MangoSubscriptionViewController *subscriptionViewController;
@@ -245,7 +245,7 @@
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
                     
-                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                    //[prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                     
                     if(!notFirstTimeDisplay){
                        /* MangoSubscriptionViewController *subscriptionViewController;
@@ -330,7 +330,13 @@
         emailLinkSubscriptionView.view.autoresizesSubviews = NO;
         emailLinkSubscriptionView.view.layer.cornerRadius = 10;
         emailLinkSubscriptionView.view.layer.masksToBounds = YES;
-        emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+        NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+        if ([[vComp objectAtIndex:0] intValue] >= 8) {
+            emailLinkSubscriptionView.preferredContentSize = CGSizeMake(700, 530);
+        }
+        else{
+            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+        }
     }
 }
 
@@ -1681,9 +1687,16 @@
         bookDetailsViewController.imageUrlString = [[bookDict objectForKey:@"thumb"] stringByReplacingOccurrencesOfString:@"thumb_new" withString:@"ipad_banner"];
         //[bookDetailsViewController availLanguagedata];
     }];
+    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     bookDetailsViewController.view.layer.cornerRadius = 2.5f;
-    bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
+   // bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 976, 529);
+    if ([[vComp objectAtIndex:0] intValue] >= 8) {
+        bookDetailsViewController.preferredContentSize = CGSizeMake(779, 529);
+    }
+    else{
+        bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 779, 529);
+    }
     //bookDetailsViewController.view.superview.frame = CGRectMake(([UIScreen mainScreen].applicationFrame.size.width/2)-400, ([UIScreen mainScreen].applicationFrame.size.height/2)-270, 776, 575);
     [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
 }

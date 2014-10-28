@@ -80,6 +80,9 @@ NSString *newIdentityValue;
     viewName = @"Book cover view";
     _titleLabel.text=_book.title;
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
     NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     NSString *baseBookPath = jsonLocation;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -186,7 +189,13 @@ NSString *newIdentityValue;
             emailLinkSubscriptionView.view.autoresizesSubviews = NO;
             emailLinkSubscriptionView.view.layer.cornerRadius = 10;
             emailLinkSubscriptionView.view.layer.masksToBounds = YES;
-            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+            NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+            if ([[vComp objectAtIndex:0] intValue] >= 8) {
+                emailLinkSubscriptionView.preferredContentSize = CGSizeMake(700, 530);
+            }
+            else{
+                emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+            }
         }
     }
     

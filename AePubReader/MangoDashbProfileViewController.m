@@ -363,7 +363,7 @@
         
         else {
             NSLog(@"ReceiptError:%@", error);
-            [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
+            //[prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
         }
         [prefs synchronize];
         

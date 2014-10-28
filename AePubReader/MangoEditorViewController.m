@@ -2365,7 +2365,14 @@
             _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
             
         } else {
-            _editedBookPath = storyBook.localPathFile;
+            
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            
+            NSString *bookPath = [[storyBook.localPathFile componentsSeparatedByString:@"/"] lastObject];
+            
+            //_editedBookPath = storyBook.localPathImageFile;
+            _editedBookPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory, bookPath];
         }
         
         BOOL isDir;

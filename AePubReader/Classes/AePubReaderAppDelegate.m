@@ -628,18 +628,21 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 +(NSString *) returnBookJsonPath:(Book *)book{
     
-    NSString *rPath = [[NSBundle mainBundle] resourcePath];
-    NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+    //NSString *rPath = [[NSBundle mainBundle] resourcePath];
+    //NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
     NSString *jsonLocation;
     if(book.parentBookId){
-        jsonLocation = [NSString stringWithFormat:@"%@Documents/%@_fork",appPath,book.bookId];
+        jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.bookId];
     }
     else{
         if(!book.id){
-            jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.bookId];
+            jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.bookId];
         }
         else{
-            jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.id];
+            jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.id];
         }
     }
     return jsonLocation;
@@ -803,7 +806,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                 }
                 else {
                     NSLog(@"ReceiptError:%@", error);
-                    [prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
+                    //[prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
                 }
             }];
             
@@ -1260,7 +1263,13 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
     }];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     bookDetailsViewController.view.layer.cornerRadius = 2.5;
-    bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
+    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    if ([[vComp objectAtIndex:0] intValue] >= 8) {
+        bookDetailsViewController.preferredContentSize = CGSizeMake(779, 529);
+    }
+    else{
+        bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 779, 529);
+    }
    // [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 

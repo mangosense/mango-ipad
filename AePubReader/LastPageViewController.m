@@ -161,7 +161,13 @@
             emailLinkSubscriptionView.view.autoresizesSubviews = NO;
             emailLinkSubscriptionView.view.layer.cornerRadius = 10;
             emailLinkSubscriptionView.view.layer.masksToBounds = YES;
-            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+            NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+            if ([[vComp objectAtIndex:0] intValue] >= 8) {
+                emailLinkSubscriptionView.preferredContentSize = CGSizeMake(700, 530);
+            }
+            else{
+                emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+            }
         }
     }
     
@@ -596,7 +602,13 @@
     }];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     bookDetailsViewController.view.layer.cornerRadius = 2.5;
-    bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
+    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    if ([[vComp objectAtIndex:0] intValue] >= 8) {
+        bookDetailsViewController.preferredContentSize = CGSizeMake(779, 529);
+    }
+    else{
+        bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 779, 529);
+    }
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
