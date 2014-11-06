@@ -49,7 +49,7 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+//    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
     //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
@@ -67,12 +67,12 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
     //MangoReader_Test app for testing
-    [Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
-                       clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
+    //[Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
+    //                   clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
 
     //Flurry
@@ -196,7 +196,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Book notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"book_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"book_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"book_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"update"]){
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
@@ -206,7 +206,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Update notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"update_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"update_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"update_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"create"]){
                 pushCreateStory = [dictionary objectForKey:@"action"];
@@ -215,7 +215,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Create notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"create_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"create_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"create_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"subscribe"]){
                 pushSubscribe = [dictionary objectForKey:@"action"];
@@ -224,7 +224,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Subscribe notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"subscribe_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
             }
         }
     }
@@ -322,18 +322,18 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+  /*  Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
                                             PLATFORM : IOS,
                                             PARAMETER_UUID : _uuidValue,
-                                            PARAMETER_DEVICE_UDID : _uuidValue}];
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];*/
 
     
     if (!path){
         if(!isFreeBooksApiCall){
-            [self getAllFreeBooks];
+            //[self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
@@ -512,10 +512,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
-- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+/*- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
     
      [[Mixpanel sharedInstance] track:event properties:properties];
-}
+}*/
 
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
@@ -633,10 +633,23 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
+    NSString *lastElement = [[book.localPathFile componentsSeparatedByString:@"/"] lastObject];
+    NSString *mangoStoryBookPathVal = [[book.localPathImageFile componentsSeparatedByString:@"/"] lastObject];
+    
     NSString *jsonLocation;
-    if(book.parentBookId){
+    if([mangoStoryBookPathVal isEqualToString:@"MangoStory"]){
+        jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,mangoStoryBookPathVal];
+    }
+    
+    else if(book.parentBookId){
         jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.bookId];
     }
+    
+    else if([lastElement isEqualToString:@"MangoStory"]){
+        
+        jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory, lastElement];
+    }
+    
     else{
         if(!book.id){
             jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.bookId];

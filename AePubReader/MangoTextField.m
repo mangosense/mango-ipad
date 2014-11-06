@@ -37,12 +37,11 @@
 #pragma mark - Highlighting Method
 
 - (void)highlightWordAtIndex:(int)wordIndex AfterLength:(int)length {
-    //self.scrollEnabled = YES;
     
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];
-     
-    
-    //NSLog(@"length %d", [string length]);
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:self.font
+                                                                forKey:NSFontAttributeName];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.text];//
+    NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:self.text attributes:attrsDictionary];
 
     NSMutableArray *words = [NSMutableArray arrayWithArray:[self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 
@@ -53,7 +52,6 @@
         }
     }
     [words removeObjectsInArray:wordsToDelete];
-    int cval = [wordsToDelete count]-1;
     if ([words count]) {
         if([words count] > wordIndex){
         //NSLog(@"Word index value as -- %d", wordIndex);
@@ -62,9 +60,8 @@
         
         NSRange range = [self.text rangeOfString:word options:NSLiteralSearch range:NSMakeRange(length, [self.text length] - length)];
         //NSRange range = [self.text rangeOfString:word options:NSBackwardsSearch range:NSMakeRange(0, length+cval+word.length)];
-        
-        [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
-        
+            
+            
         _textRange = range;
         NSLog(@"range %i - %i", length, [self.text length] - length);
         //[self setContentOffset:CGPointMake(0, 100) animated:YES];
@@ -136,21 +133,31 @@
         if (!textColor) {
             textColor = [UIColor blackColor];
         }
+        
         [string addAttribute:NSForegroundColorAttributeName value:textColor range:NSMakeRange(0, [string length] - 1)];
         
-        //NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
+        [string addAttribute:NSBackgroundColorAttributeName value:_highlightColor range:range];
+            
         NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [paragraphStyle setAlignment:NSTextAlignmentCenter];
-            paragraphStyle.minimumLineHeight = 15.f;
-            paragraphStyle.maximumLineHeight = self.font.pointSize * self.lineSpacingValue;
+            if(self.lineSpacingValue){
+                paragraphStyle.lineHeightMultiple = self.lineSpacingValue/2.0;
+                float spacingValue = (self.font.pointSize * self.lineSpacingValue) - self.font.pointSize;
+                paragraphStyle.minimumLineHeight = self.font.pointSize * self.lineSpacingValue;
+                paragraphStyle.maximumLineHeight = (self.font.pointSize * self.lineSpacingValue) - (spacingValue/2);
+            
+                [paragraphStyle setLineSpacing:spacingValue/2];
+            }
+            
         [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
-        //NSLog(@"Word index value as -- %d", wordIndex);
+    
     }
     else{
     }
     }
     if([words count] > wordIndex){
     [self setAttributedText:string];
+    
     }
 }
 

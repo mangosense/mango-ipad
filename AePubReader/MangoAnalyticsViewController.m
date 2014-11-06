@@ -112,7 +112,7 @@
     }
     [delegate trackEventAnalytic:@"dashboard_analytics_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"dashboard_analytics_screen"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"dashboard_analytics_screen"];
     
     __block int booksRead =0, pagesRead =0, timeCompleted =0, activitiesTotal = 0;
     NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];

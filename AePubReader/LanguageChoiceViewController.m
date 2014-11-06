@@ -247,7 +247,7 @@
     }
     [delegate trackEventAnalytic:@"switch_language" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"switch_language"];
     /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
     [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
@@ -394,29 +394,28 @@
             bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Level : -"];
         }
         
-        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"No. of pages: %d", [[bookDict objectForKey:@"page_count"] intValue]];
-        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
+        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"Pages:%d", [[bookDict objectForKey:@"page_count"] intValue]];
+        //if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
+        //    bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
         //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-        }
-        else{
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
+       // }
+       // else{
+       //     bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
             //[bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-        }
+       // }
         
         if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Categories : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
+            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
+            // bookDetailsViewController.singleCategoryLabel.text = [NSString stringWithFormat:@"Category %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] objectAtIndex:0]];
+            bookDetailsViewController.singleCategoryLabel.text = [NSString stringWithFormat:@"Category : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
         }
         else{
-            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category: -"];
+            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category : -"];
         }
         
         if([storyOfDayId isEqualToString:[bookDict objectForKey:@"id"]]){
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
             bookDetailsViewController.imgStoryOfDay.hidden = NO;
-        }
-        else{
-            [bookDetailsViewController.buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
         }
         
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
@@ -438,7 +437,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+//        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
     }];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;

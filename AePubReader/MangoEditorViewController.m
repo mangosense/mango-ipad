@@ -837,8 +837,8 @@
         NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,storyBook.id];
         
 
-        //fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
-        fileName = @"mango";
+        fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
+//        fileName = storyBook.id;
         
     } else {
         fileName = _mangoStoryBook.id;

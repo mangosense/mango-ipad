@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageNewBookTypeViewController">
             <connections>
                 <outlet property="backButton" destination="ZgY-BU-pe6" id="JGh-rJ-E4T"/>
+                <outlet property="btnToDiasplayRemoveAds" destination="ZPR-gR-Vjj" id="cEP-Ir-R9z"/>
                 <outlet property="editButton" destination="SV4-2c-bnZ" id="LtR-Zn-0rm"/>
                 <outlet property="languageAvailButton" destination="8dT-is-hLD" id="rw9-z6-jpk"/>
                 <outlet property="menuButton" destination="qUg-c9-QZ7" id="RI0-0N-Ake"/>
@@ -130,6 +132,18 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
+                <button hidden="YES" opaque="NO" alpha="0.60000001192092878" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZPR-gR-Vjj">
+                    <rect key="frame" x="-3" y="732" width="1029" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.12962372450000001" green="0.12962372450000001" blue="0.12962372450000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="Subscribe for Unlimited access after Trial">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="presentSubscriptionView:" destination="-1" eventType="touchUpInside" id="WEe-7k-m6R"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8vW-iy-7Rc">
                     <rect key="frame" x="0.0" y="668" width="97" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

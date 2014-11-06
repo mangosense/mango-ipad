@@ -119,7 +119,7 @@
     }
     [delegate trackEventAnalytic:@"category_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"category_screen"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"category_screen"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -179,6 +179,7 @@
     }
     [delegate trackEventAnalytic:@"category_select" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
+   // [delegate trackMixpanelEvents:dimensions eventName:@"category_select"];
     
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     

@@ -13,11 +13,12 @@
 #import "CustomMappingView.h"
 #import "MangoGamesListViewController.h"
 #import <Parse/Parse.h>
+#import "CargoBay.h"
 
 //#import "GADInterstitial.h"
 //#import "GADInterstitialDelegate.h"
-//#import "GADBannerView.h"
-//#import "GADRequest.h"
+#import "GADBannerView.h"
+#import "GADRequest.h"
 #import "MangoStoreViewController.h"
 #import "EmailSubscriptionLinkViewController.h"
 
@@ -97,12 +98,13 @@
         self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
         [self.interstitial loadRequest:[GADRequest request]];*/
         
-        /*self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
-        self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
+        self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+        self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/9752375688";
         self.bannerView_.delegate = self;
         [self.bannerView_ setRootViewController:self];
         [self.view addSubview:self.bannerView_];
-        [self.bannerView_ loadRequest:[self request]];*/
+        [self.bannerView_ loadRequest:[self request]];
+        
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -215,7 +217,7 @@
     }
     [delegate trackEventAnalytic:@"reading" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
 }
 
 /*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
@@ -232,9 +234,9 @@
     self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
     [self.interstitial loadRequest:request];
     [self playOrPauseButton:0];
-}*/
+}
 
-/*- (IBAction)showInterstitial:(id)sender {
+- (IBAction)showInterstitial:(id)sender {
     
     [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
     [_audioMappingViewController.player pause];
@@ -282,10 +284,10 @@
     
    
     [self.presentedViewController.view.layer addSublayer:graphic];
-}*/
+}
 
 
-/*- (GADRequest *)request {
+- (GADRequest *)request {
     GADRequest *request = [GADRequest request];
     request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
 
@@ -294,7 +296,7 @@
 
 
 //for banner ad
-/*
+
 - (GADRequest *)request{
     
     GADRequest *request = [GADRequest request];
@@ -302,15 +304,17 @@
     return request;
 }
 - (void) adViewDidReceiveAd:(GADBannerView *)view{
+    self.btnToDiasplayRemoveAds.hidden = NO;
     NSLog(@"receive ad");
     [UIView animateWithDuration:1.0 animations:^{
-        view.frame = CGRectMake(0.0, 0.0, view.frame.size.width, view.frame.size.height);
+        view.frame = CGRectMake(self.view.frame.size.width/6, 0.0, self.view.frame.size.width/1.5, view.frame.size.height);
     }];
 }
 - (void) adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
     
+    self.btnToDiasplayRemoveAds.hidden = YES;
     NSLog(@"Failed to received ad due to : %@",[error localizedFailureReason]);
-}*/
+}
 
 
 - (void) dismissMyBookViewBackAgainToCover{
@@ -518,7 +522,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -610,7 +614,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+//                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                 }
                     break;
                     
@@ -629,7 +633,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+//                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.isBookFork = YES;
@@ -674,6 +678,20 @@
     }
     
     [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)presentSubscriptionView:(id)sender{
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    MangoSubscriptionViewController *subscriptionViewController;
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+    }
+    else{
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+    }
+    subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:subscriptionViewController animated:YES completion:nil];
 }
 
 - (IBAction)changeLanguage:(id)sender {
@@ -862,7 +880,7 @@
     if((_pageNumber % 4) == 0){
         
         if ((!validUserSubscription && storyAsAppFilePath) && !(_pageNo == _pageNumber)){
-//            [self showInterstitial:0];
+           // [self showInterstitial:0];
             NSLog(@"page numbers --- %d -- %d", _pageNumber, _pageNo);
         }
     }
@@ -945,7 +963,7 @@
     }
     [delegate trackEventAnalytic:@"playpause_button_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
     
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
@@ -999,7 +1017,7 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
@@ -1270,7 +1288,10 @@
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
         NSString *fontStyle = [[textDict objectForKey:@"style"] objectForKey:@"font-style"];
         NSString *fontWeight = [[textDict objectForKey:@"style"] objectForKey:@"font-weight"];
-        NSString *fontSize;
+        NSString *fontSize = [[textDict objectForKey:@"style"] objectForKey:@"font-size"];
+        fontSize = [fontSize stringByReplacingOccurrencesOfString:@"px"
+                                                       withString:@""];
+        
         if (![fontFamily isKindOfClass:[NSNull class]]) {
             if ([fontFamily length]) {
                 //here will be custom font set
@@ -1280,11 +1301,11 @@
 //                familyName = [familyName substringFromIndex:1];
 //                NSArray *fonts = [UIFont fontNamesForFamilyName:familyName];
 //                
-                fontSize = [[textDict objectForKey:@"style"] objectForKey:@"font-size"];
+                
                 fontSize = [fontSize stringByReplacingOccurrencesOfString:@"px"
                                                                withString:@""];
                 if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    fontSize = @"13";
+                    fontSize = @"9.9";
                 }
                 NSString *trimmedFamily = [fontFamily stringByTrimmingCharactersInSet:
                                            [NSCharacterSet whitespaceCharacterSet]];
@@ -1365,7 +1386,7 @@
                 
                 if(!fontSize){
                     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                        fontSize = @"13";
+                        fontSize = @"9.9";
                     }
                     else{
                         fontSize = @"24";
@@ -1377,14 +1398,27 @@
                 
             }
         }
+        
+        if(!fontFamily){
+            
+            if(fontSize){
+                font = [UIFont fontWithName:@"Verdana" size:[fontSize floatValue]];
+            }
+        }
+        
         textFontValue = font;
         audioMappingViewcontroller.mangoTextField.font = font;
         
         NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        paragraphStyle.minimumLineHeight = 15.f;
-        paragraphStyle.maximumLineHeight = [fontSize floatValue] * [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
-        audioMappingViewcontroller.mangoTextField.lineSpacingValue = [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        float lineSpacing = [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        paragraphStyle.lineHeightMultiple = lineSpacing;
+        float spacingValue = ([fontSize floatValue] * lineSpacing) - [fontSize floatValue];
+        paragraphStyle.minimumLineHeight = [fontSize floatValue] * lineSpacing;
+        paragraphStyle.maximumLineHeight = ([fontSize floatValue] * lineSpacing) - spacingValue/2;
+        [paragraphStyle setLineSpacing:spacingValue/2];
         
+        audioMappingViewcontroller.mangoTextField.lineSpacingValue = lineSpacing;
         
         NSDictionary *attributes = @{ NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle };
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:audioMappingViewcontroller.mangoTextField.text attributes:attributes];
@@ -1658,7 +1692,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
     [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
     [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -1828,7 +1862,7 @@
     }
     [delegate trackEventAnalytic:@"audio_rate_change" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
     
     UISwitch *onoff = (UISwitch *) sender;
     if(onoff.on){
@@ -1902,7 +1936,8 @@
 }*/
 
 - (void)dealloc {
-//    _interstitial.delegate = nil;
+    //_interstitial.delegate = nil;
+    _bannerView_.delegate = nil;
     _audioMappingViewController.player = nil;
 }
 

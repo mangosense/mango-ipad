@@ -257,7 +257,7 @@ int menuLanguage = 0;
     }
     [delegate1 trackEventAnalytic:@"filter" dimensions:dimensions];
     [delegate1 eventAnalyticsDataBrowser:dimensions];
-    [delegate1 trackMixpanelEvents:dimensions eventName:@"filter"];
+//    [delegate1 trackMixpanelEvents:dimensions eventName:@"filter"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,

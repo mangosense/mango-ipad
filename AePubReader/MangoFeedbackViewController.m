@@ -74,7 +74,7 @@
     }
     [delegate trackEventAnalytic:@"dashboard_feedback_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"dashboard_feedback_screen"];
+    //[delegate trackMixpanelEvents:dimensions eventName:@"dashboard_feedback_screen"];
     
 }
 

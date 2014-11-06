@@ -176,13 +176,16 @@
                     if([[response objectForKey:@"subscription_type"] isEqualToString:@"trial"]){
                         [prefs setBool:YES forKey:@"ISTRIALUSER"];
                     }
+                    else{
+                        [prefs setBool:NO forKey:@"ISTRIALUSER"];
+                    }
                     NSLog(@"You are already subscribed");
                     [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
                     [self displayStoryoftheDay];
                 }
                 else{
                     int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
-                    //[prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                    [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                     
                     if(!notFirstTimeDisplay && !userEmail){
                     
@@ -212,7 +215,7 @@
             if(!userEmail){
                 int notFirstTimeDisplay = [[prefs valueForKey:@"FIRSTTIMEDISPLAY"] integerValue];
                 
-                //[prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
+                [prefs setBool:NO forKey:@"USERISSUBSCRIBED"];
                 
                 if(!notFirstTimeDisplay){
                     /*MangoSubscriptionViewController *subscriptionViewController;
@@ -237,6 +240,9 @@
                 if ([[response objectForKey:@"status"] integerValue] == 1){
                     if([[response objectForKey:@"subscription_type"] isEqualToString:@"trial"]){
                         [prefs setBool:YES forKey:@"ISTRIALUSER"];
+                    }
+                    else{
+                        [prefs setBool:NO forKey:@"ISTRIALUSER"];
                     }
                     NSLog(@"You are already subscribed");
                     [prefs setBool:YES forKey:@"USERISSUBSCRIBED"];
@@ -405,7 +411,7 @@
     }
     [delegate trackEventAnalytic:@"store_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"store_screen"];
 }
 
 - (void) dismissPopoverController{
@@ -903,7 +909,7 @@
             }
             [delegate trackEventAnalytic:@"search" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-            [delegate trackMixpanelEvents:dimensions eventName:@"search"];
+//            [delegate trackMixpanelEvents:dimensions eventName:@"search"];
             /*NSDictionary *dimensions = @{
                                          PARAMETER_USER_EMAIL_ID : ID,
                                          PARAMETER_DEVICE: IOS,
@@ -998,7 +1004,7 @@
         }
         [delegate trackEventAnalytic:@"see_more" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
+//        [delegate trackMixpanelEvents:dimensions eventName:@"see_more"];
         
         [self getFilteredStories:[self.ageGroupsFoundInResponse[section-1] objectForKey:NAME]];
     } else {
@@ -1673,7 +1679,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+//        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         bookDetailsViewController.baseNavView = currentPage;
         bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
@@ -1855,7 +1861,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_bar_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_bar_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_bar_click"];
     
     MangoSubscriptionViewController *subscriptionViewController;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){

@@ -235,7 +235,7 @@ require 'FileUtils'
 			end
 
   			#create app icons using the cover image
-			['57x57!','60x60!','72x72!','76x76!','80x80!','114x114!','120x120!','144x144!','152x152!'].each {|x| create_image x}
+			['29x29!','57x57!','60x60!','72x72!','76x76!','80x80!','114x114!','120x120!','144x144!','152x152!'].each {|x| create_image x}
 
 		end
 

@@ -217,7 +217,7 @@
 #pragma mark - URL's
 
 #define BASE_URL @"http://api.mangoreader.com/api/v2"
-//#define BASE_URL @"http://192.168.2.8:3999/api/v2"
+//#define BASE_URL @"http://54.179.24.63/api/v2"
 //#define BASE_URL @"http://testapi.mangoreader.com/api/v2"
 //api.mangoreader.com
 //testapi.mangoreader.com
@@ -265,7 +265,7 @@
 #define LIVE_STORIES_WITH_ID @"livestories"
 #define OLD_STORY_INFO @"livestories/%@/info"
 #define VERSION @"version"
-#define VERSION_NO @"2.3"
+#define VERSION_NO @"1.2"
 #define LINKSUBSCRIPTIONWITHEMAIL @"subscription/connect"
 
 #pragma mark - API Parameter Keys
