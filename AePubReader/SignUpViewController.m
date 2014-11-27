@@ -283,6 +283,18 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             if(([[userDetailsDictionary objectForKey:@"status"]integerValue] == 200) || ([userDetailsDictionary objectForKey:@"name"])) {
                 
+                //signupsuccess
+                NSDictionary *dimensions = @{
+                                             
+                                             PARAMETER_ACTION : @"signup_success",
+                                             PARAMETER_CURRENT_PAGE : currentPage,
+                                             PARAMETER_EVENT_DESCRIPTION : @"Signup Success",
+                                             PARAMETER_USER_EMAIL_ID : _email.text,
+                                             };
+                [delegate trackEventAnalytic:@"signup_success" dimensions:dimensions];
+                [delegate eventAnalyticsDataBrowser:dimensions];
+//                [delegate trackMixpanelEvents:dimensions eventName:@"signup_success"];
+                
                 [self saveUserInfo:userDetailsDictionary];
                 [self donePressed:nil];
                 [_delegate goToNext];
@@ -352,7 +364,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
                                  };
     [delegate trackEventAnalytic:@"facebook_login" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    
+//    [delegate trackMixpanelEvents:dimensions eventName:@"facebook_login"];
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
     [_delegate goToNext];

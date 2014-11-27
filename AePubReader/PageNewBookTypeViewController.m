@@ -17,8 +17,8 @@
 
 //#import "GADInterstitial.h"
 //#import "GADInterstitialDelegate.h"
-#import "GADBannerView.h"
-#import "GADRequest.h"
+//#import "GADBannerView.h"
+//#import "GADRequest.h"
 #import "MangoStoreViewController.h"
 #import "EmailSubscriptionLinkViewController.h"
 
@@ -98,12 +98,12 @@
         self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
         [self.interstitial loadRequest:[GADRequest request]];*/
         
-        self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+     /*   self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
         self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/9752375688";
         self.bannerView_.delegate = self;
         [self.bannerView_ setRootViewController:self];
         [self.view addSubview:self.bannerView_];
-        [self.bannerView_ loadRequest:[self request]];
+        [self.bannerView_ loadRequest:[self request]];*/
         
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -296,7 +296,7 @@
 
 
 //for banner ad
-
+/*
 - (GADRequest *)request{
     
     GADRequest *request = [GADRequest request];
@@ -314,7 +314,7 @@
     
     self.btnToDiasplayRemoveAds.hidden = YES;
     NSLog(@"Failed to received ad due to : %@",[error localizedFailureReason]);
-}
+}*/
 
 
 - (void) dismissMyBookViewBackAgainToCover{
@@ -989,12 +989,25 @@
     } else {
         //READBOOK_MYSELF - playpause click
         
-        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+     /*   [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         
         [self loadPageWithOption:0];
         [self closeButton:nil];
         _showButtons = NO;
-        [self hideAllButtons:!_showButtons];
+        [self hideAllButtons:!_showButtons];*/
+        if(!_option){
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+            _audioMappingViewController = audioMappingViewControllers[1];
+            [_audioMappingViewController.player pause];
+        }
+        else{
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+            
+            [self loadPageWithOption:0];
+            [self closeButton:nil];
+            _showButtons = NO;
+            [self hideAllButtons:!_showButtons];
+        }
     }
 }
 
@@ -1412,6 +1425,9 @@
         NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [paragraphStyle setAlignment:NSTextAlignmentCenter];
         float lineSpacing = [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        if(!lineSpacing){
+            lineSpacing = 1.2f;
+        }
         paragraphStyle.lineHeightMultiple = lineSpacing;
         float spacingValue = ([fontSize floatValue] * lineSpacing) - [fontSize floatValue];
         paragraphStyle.minimumLineHeight = [fontSize floatValue] * lineSpacing;
@@ -1937,7 +1953,7 @@
 
 - (void)dealloc {
     //_interstitial.delegate = nil;
-    _bannerView_.delegate = nil;
+    //_bannerView_.delegate = nil;
     _audioMappingViewController.player = nil;
 }
 

@@ -334,7 +334,7 @@
     NSTimeInterval now = _player.deviceCurrentTime;
     [_player playAtTime:now+shortStartDelay];
     
-    _timer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(update) userInfo:nil repeats:YES];
+    _timer=[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(update) userInfo:nil repeats:YES];
     
     [self sampleAudio];
     

@@ -307,7 +307,7 @@
         landingPageViewController.pushCreateStory = _pushCreateStory;
         landingPageViewController.pushNoteBookId = _pushNoteBookId;
         landingPageViewController.pushSubscribe = _pushSubscribe;
-        [self.navigationController pushViewController:landingPageViewController animated:YES];
+        [self.navigationController pushViewController:landingPageViewController animated:NO];
 
 }
 

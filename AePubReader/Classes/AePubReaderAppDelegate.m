@@ -49,7 +49,7 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-//    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
     //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
@@ -72,7 +72,7 @@ static UIAlertView *alertViewLoading;
     
     //MangoReader_Test app for testing
     //[Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
-    //                   clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
+     //                  clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
 
     //Flurry
@@ -162,6 +162,8 @@ static UIAlertView *alertViewLoading;
     else {
         [userDefaults setBool:YES forKey:@"didaddWithNewUI"];
         [self performSelectorInBackground:@selector(unzipExistingJsonBooks) withObject:nil];
+        //[self performSelectorOnMainThread:@selector(unzipExistingJsonBooks) withObject:nil waitUntilDone:NO];
+        
     }
     
 //    if ([[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
@@ -322,7 +324,7 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-  /*  Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
@@ -333,11 +335,11 @@ static UIAlertView *alertViewLoading;
     
     if (!path){
         if(!isFreeBooksApiCall){
-            //[self getAllFreeBooks];
+            [self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
-        sleep(4.0);
+        sleep(8.0);
     }
     return YES;
 }

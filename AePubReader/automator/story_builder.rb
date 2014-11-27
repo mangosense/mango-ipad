@@ -48,7 +48,7 @@ require 'FileUtils'
 			sleep 2
 			#MangoIcon watermarking
 			water_mark = MiniMagick::Image.open 'appicon.png'
-			['57x57!=>30x30!','60x60!=>30x30!','72x72!=>41x41!','76x76!=>41x41!','80x80!=>41x41!','114x114!=>44x44!','120x120!=>52x52!','144x144!=>52x52!','152x152!=>62x62!'].each do |icon_map|
+			['29x29!=>15x15!','57x57!=>30x30!','60x60!=>30x30!','72x72!=>41x41!','76x76!=>41x41!','80x80!=>41x41!','114x114!=>44x44!','120x120!=>52x52!','144x144!=>52x52!','152x152!=>62x62!'].each do |icon_map|
 				actual,icon = icon_map.split '=>'
 				if (actual==size)
 					unless File.exists? "appicon-#{icon.split('x').first}.png"
@@ -257,10 +257,10 @@ require 'FileUtils'
 
 			# #set the app info here
 			config.info_plist do |info|
-				info.version = 1.1
+				info.version = 1.0
 				info.display_name = @story_info['title']
 				#info.identifier = "com.mangostory.#{@story_info['id']}" #uniqe story id at last
-				info.identifier = "com.mangostory.539b127769702d70aa030000"
+				info.identifier = "com.mangostory.53846d1569702d472b030000"
 			end
 
 
@@ -339,7 +339,7 @@ require 'FileUtils'
 		# }
 		# story_ids = JSON.parse res.body
 
-		story_ids = ['540332ec69702d6134020000']
+		story_ids = ['53846d1569702d472b030000']
 
 		story_ids.each do |storyid|
 

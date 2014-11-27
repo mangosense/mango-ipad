@@ -864,6 +864,7 @@
     
     [self writeEditorImagesToDevice];
     [self showEditorImages];
+    
 }
 
 - (IBAction)textButtonTapped:(id)sender {
@@ -2928,8 +2929,57 @@ enum
 #pragma mark - Camera Methods
 
 - (void)cameraButtonTapped {
-    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
-    [photoActionSheet showFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView animated:YES];
+    /*UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
+    [photoActionSheet showFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView animated:YES];*/
+    [menuPopoverController dismissPopoverAnimated:YES];
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:@"Add Image from"
+                                 message:@""
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* library = [UIAlertAction
+                         actionWithTitle:@"Library"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             //Do some thing here
+                             //[view dismissViewControllerAnimated:YES completion:nil];
+                             UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                             imagePicker.delegate = self;
+                             imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                             imagePicker.allowsEditing = YES;
+                             
+                             photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+                             photoPopoverController.delegate = self;
+                             [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                             
+                         }];
+    
+    UIAlertAction* camera = [UIAlertAction
+                         actionWithTitle:@"Camera"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             //Do some thing here
+                             //[view dismissViewControllerAnimated:YES completion:nil];
+                             UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                             imagePicker.delegate = self;
+                             imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                             imagePicker.allowsEditing = YES;
+                             [self presentViewController:imagePicker animated:YES completion:^{
+                                 NSLog(@"Completed");
+                             }];
+                             
+                         }];
+    
+    
+    [view addAction:library];
+    [view addAction:camera];
+    view.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionLeft;
+    view.popoverPresentationController.sourceRect = imageButton.frame;
+    view.popoverPresentationController.sourceView = self.view;
+    [self presentViewController:view animated:YES completion:nil];
+    
 }
 
 @end

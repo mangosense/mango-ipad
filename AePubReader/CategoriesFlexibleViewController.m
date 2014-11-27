@@ -179,7 +179,7 @@
     }
     [delegate trackEventAnalytic:@"category_select" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-   // [delegate trackMixpanelEvents:dimensions eventName:@"category_select"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"category_select"];
     
     [self.navigationController pushViewController:booksCollectionViewController animated:YES];
     
