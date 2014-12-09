@@ -677,29 +677,35 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 +(NSString *) returnBookJsonPath:(Book *)book{
     
-    NSString *rPath = [[NSBundle mainBundle] resourcePath];
-    NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
     NSString *jsonLocation;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *lastElement = [[book.localPathFile componentsSeparatedByString:@"/"] lastObject];
+    NSString *mangoStoryBookPathVal = [[book.localPathImageFile componentsSeparatedByString:@"/"] lastObject];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
-    NSString *lastElement = [[book.localPathFile componentsSeparatedByString:@"/"] lastObject];
+    //NSString *lastElement = [[book.localPathFile componentsSeparatedByString:@"/"] lastObject];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
     
-    if(book.parentBookId){
-        jsonLocation = [NSString stringWithFormat:@"%@Documents/%@_fork",appPath,book.bookId];
+    if([self validPath:lastElement]){
+        
+        NSString *mangoStoryBookPathVal = [[book.localPathImageFile componentsSeparatedByString:@"/"] lastObject];
+        jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory, mangoStoryBookPathVal];
+    }
+    
+    else if(book.parentBookId){
+        //jsonLocation = [NSString stringWithFormat:@"%@Documents/%@_fork",appPath,book.bookId];
+        jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.bookId];
     }
     /*else if(path && !validSubscription){
         
         jsonLocation = [NSString stringWithFormat:@"%@Documents/MangoStory",appPath];
     }*/
-    
-    else if([self validPath:lastElement]){
-        
-        jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath, lastElement];
-    }
+
     
     /*else if([lastElement isEqualToString:@"MangoStory"]){
         
@@ -709,10 +715,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     else{
         if(!book.id){
             
-            jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.bookId];
+            jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.bookId];
         }
         else{
-            jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,book.id];
+            jsonLocation = [NSString stringWithFormat:@"%@/%@",documentsDirectory,book.id];
         }
     }
     return jsonLocation;
@@ -1343,9 +1349,15 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
         bookDetailsViewController.baseNavView = @"Push Notification";
         bookDetailsViewController.imageUrlString = [[bookDict objectForKey:@"thumb"] stringByReplacingOccurrencesOfString:@"thumb_new" withString:@"ipad_banner"];
     }];
+    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     bookDetailsViewController.view.layer.cornerRadius = 2.5;
-    bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
+    if ([[vComp objectAtIndex:0] intValue] >= 8) {
+        bookDetailsViewController.preferredContentSize = CGSizeMake(779, 529);
+    }
+    else{
+        bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 779, 529);
+    }
    // [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 

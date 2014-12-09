@@ -57,6 +57,8 @@
     // Do any additional setup after loading the view from its nib.
     currentPage = @"subscription_screen";
    // datePicker.timeZone = [NSTimeZone timeZoneWithName: @"PST"];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading Products";
     
     if(!userEmail){
         ID = userDeviceID;
@@ -68,6 +70,19 @@
     validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
     path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    
+    NSString *extendedValue;
+    if(path){
+        //assign bundle id value
+        extendedValue = [NSString stringWithFormat:@"_%@", [[NSBundle mainBundle] bundleIdentifier]];
+    }
+    else{
+        //just assign _ios value
+        extendedValue = @"_ios";
+    }
+    
+    subscriptionProductId = [[NSArray alloc] initWithObjects:[SUBSCRIPTION_MONTHLY stringByAppendingString:extendedValue], [SUBSCRIPTION_QUATERLY stringByAppendingString:extendedValue], [SUBSCRIPTION_YEARLY stringByAppendingString:extendedValue], nil];
+    subscriptionPlanName = [[NSArray alloc] initWithObjects:@"Monthly", @"Quarterly", @"Yearly", nil];
     
     [self setupInitialUI];
     
@@ -131,22 +146,80 @@
      
 - (void)setupInitialUI {
          
-    MangoApiController *apiController = [MangoApiController sharedApiController];
+ /*   MangoApiController *apiController = [MangoApiController sharedApiController];
     NSString *url;
     apiController.delegate = self;
     url = SubscriptionPlans;
          
     [apiController getSubscriptionProductsInformation:url withDelegate:self];
          
-    [self setupSubscriptionViewsUI];
+    [self setupSubscriptionViewsUI];*/
+    [self subscriptionSetup];
 }
      
-- (void) subscriptionSetup :(NSArray *)planArray{
-         
-    NSLog(@"response values are %@", planArray);
-    _arraySubscriptionPlan = planArray;
+//- (void) subscriptionSetup :(NSArray *)planArray{
+- (void) subscriptionSetup{
+  //  NSLog(@"response values are %@", planArray);
+ //   _arraySubscriptionPlan = planArray;
+    subscriptionPlanPrice = [[NSMutableArray alloc] init];
+    NSSet * productSet = [NSSet setWithArray:subscriptionProductId];
+    [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {
+        
+        if (products.count) {
+        for(int i =0; i < products.count; ++i){
+            
+            NSLog(@"Products: %@", products);
+            //Initialise payment queue
+            SKProduct * product = products[i];
+            [subscriptionPlanPrice addObject:[product.price stringValue]];
+            //NSString* currentProductPrice = [product.price stringValue];
+            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+            [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+            [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+            [numberFormatter setLocale:product.priceLocale];
+            NSString *formattedString = [numberFormatter stringFromNumber:product.price];
+            if(i==0){
+                _label1PlanPrice.text = formattedString;
+            }
+            else if(i==1){
+                _label2PlanTotalPrice.text = formattedString;
+                float perMonthPrice = [product.price floatValue]/4;
+                NSString *formattedStringPerMonth = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:perMonthPrice]];
+                _label2PlanPrice.text = formattedStringPerMonth;
+            }
+            else if(i==2){
+                _label3PlanTotalPrice.text = formattedString;
+                float perMonthPrice = [product.price floatValue]/12;
+                NSString *formattedStringPerMonth = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:perMonthPrice]];
+                _label3PlanPrice.text = formattedStringPerMonth;
+            }
+            
+        }
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        }
+        else {
+            //Hide progress HUD if no products found
+            NSLog(@"LOL:No Product found");
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Prouct Error" message:@"Sorry! no product found, please check your internet connection" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+            [self performSelector:@selector(hideAlertView:) withObject:alert afterDelay:1.5];
+            [self backButtonTapped:0];
+        }
+        NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
+    } failure:^(NSError *error) {
+        //Hide progress HUD if Error!!
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSLog(@"GetProductError: %@", error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Prouct Error" message:@"Sorry! no product found, please check your internet connection" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self performSelector:@selector(hideAlertView:) withObject:alert afterDelay:1.5];
+        [self backButtonTapped:0];
+    }];
     
-    for(id object in planArray){
+   /* for(id object in planArray){
         
         for (UIView *subview in [self.view subviews]){
             if([subview isKindOfClass:[UIView class]]){
@@ -171,7 +244,7 @@
                 }
             }
         }
-    }
+    }*/
 }
 
      
@@ -255,22 +328,12 @@
         return;
     }
     
-    if(!_arraySubscriptionPlan){
+    if(!subscriptionProductId.count){
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Error" message:@"No product found for the selected plan, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
-    
-    for(id object in _arraySubscriptionPlan){
-        
-        if([[object valueForKey:@"duration"] intValue] == [sender tag]){
-            productId = [object valueForKey:@"id"];
-            planName = [object valueForKey:@"name"];
-            planPrice = [[[object objectForKey:@"price"] valueForKey:@"usd"] stringValue];
-        }
-    }
-    
     
 //    if (button.tag == MONTHLY_TAG) {
 //        productId = @"535a2218566173e8e9070000";
@@ -279,20 +342,16 @@
 //    } else if (button.tag == YEARLY_TAG) {
 //        productId = @"535a2316566173e8e90b0000";
 //    }
-    NSString *planProductId;
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"_%@", [[NSBundle mainBundle] bundleIdentifier]];
-    if ((path) && (!validSubscription)) {
-        planProductId = [productId stringByAppendingString:bundleIdentifier];
-    }
-    else{
-        planProductId = [productId stringByAppendingString:@"_ios"];
-    }
+    
+    NSString *planProductId = [subscriptionProductId objectAtIndex:[sender tag]-1];
+    planPrice = [subscriptionPlanPrice objectAtIndex:[sender tag] -1];
+    planName = [subscriptionPlanName objectAtIndex:[sender tag] -1];
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
     [dimensions setObject:@"subscription_click" forKey:PARAMETER_ACTION];
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:productId forKey:PARAMETER_SUBSCRIPTION_PLAN_ID];
+    [dimensions setObject:planProductId forKey:PARAMETER_SUBSCRIPTION_PLAN_ID];
     [dimensions setObject:planName forKey:PARAMETER_SUBSCRIPTION_PLAN_NAME];
     [dimensions setObject:planPrice forKey:PARAMETER_SUBSCRIPTION_PLAN_PRICE];
     [dimensions setObject:@"Subscription plan click" forKey:PARAMETER_EVENT_DESCRIPTION];

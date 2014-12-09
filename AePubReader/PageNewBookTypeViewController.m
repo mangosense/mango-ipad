@@ -13,6 +13,7 @@
 #import "CustomMappingView.h"
 #import "MangoGamesListViewController.h"
 #import <Parse/Parse.h>
+#import "CargoBay.h"
 
 //#import "GADInterstitial.h"
 //#import "GADInterstitialDelegate.h"
@@ -52,7 +53,7 @@
         _book= [delegate.dataModel getBookOfId:bookID];
         _loginUserEmail = delegate.loggedInUserInfo.email;
         
-                _pageNumber=1;
+        _pageNumber=1;
         NSLog(@"%@",_book.edited);
         userEmail = delegate.loggedInUserInfo.email;
         userDeviceID = delegate.deviceId;
@@ -93,16 +94,17 @@
     
     if (!validUserSubscription && storyAsAppFilePath){
         /*self.interstitial = [[GADInterstitial alloc] init];
-        self.interstitial.delegate = self;
-        self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
-        [self.interstitial loadRequest:[GADRequest request]];*/
+         self.interstitial.delegate = self;
+         self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
+         [self.interstitial loadRequest:[GADRequest request]];*/
         
-        /*self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
-        self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
-        self.bannerView_.delegate = self;
-        [self.bannerView_ setRootViewController:self];
-        [self.view addSubview:self.bannerView_];
-        [self.bannerView_ loadRequest:[self request]];*/
+        /*   self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+         self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/9752375688";
+         self.bannerView_.delegate = self;
+         [self.bannerView_ setRootViewController:self];
+         [self.view addSubview:self.bannerView_];
+         [self.bannerView_ loadRequest:[self request]];*/
+        
         
         if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -116,28 +118,20 @@
     // Do any additional setup after loading the view from its nib.
     self.timeCalculate = [NSDate date];
     
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    NSString *jsonLocation;
-    if(validSubscription){
-        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
-    }
-    else{
-        jsonLocation = _book.localPathImageFile;
-    }
-
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-
+    
     _jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
     
     [self loadPageWithOption:_option];
     
     _rightView.backgroundColor=[UIColor clearColor];
-
+    
     NSNumber *numberOfPages = [MangoEditorViewController numberOfPagesInStory:_jsonContent];
     _pageNo=numberOfPages.integerValue;
     
@@ -152,7 +146,7 @@
     [self.view addGestureRecognizer:tapGesture];
     [_switchAudioControl setOnImage:[UIImage imageNamed:@"next-button_new.png"]];
     [_switchAudioControl setOffImage:[UIImage imageNamed:@"next-button_new.png"]];
-
+    
     [self setupSwipeGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissMyBookViewBackAgainToCover) name:@"DismissBookPageView" object:nil];
@@ -187,7 +181,13 @@
             emailLinkSubscriptionView.view.autoresizesSubviews = NO;
             emailLinkSubscriptionView.view.layer.cornerRadius = 10;
             emailLinkSubscriptionView.view.layer.masksToBounds = YES;
-            emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+            NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+            if ([[vComp objectAtIndex:0] intValue] >= 8) {
+                emailLinkSubscriptionView.preferredContentSize = CGSizeMake(700, 530);
+            }
+            else{
+                emailLinkSubscriptionView.view.superview.bounds = CGRectMake(0, 0, 700, 530);
+            }
         }
     }
     
@@ -217,102 +217,104 @@
     }
     [delegate trackEventAnalytic:@"reading" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"reading"];
+    //    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
 }
 
 /*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
-{
-    NSLog(@"Ad is ready to display");
-}
+ {
+ NSLog(@"Ad is ready to display");
+ }
+ 
+ - (void) interstitialDidDismissScreen:(GADInterstitial *)ad{
+ 
+ GADRequest *request = [GADRequest request];
+ _interstitial = nil;
+ self.interstitial = [[GADInterstitial alloc] init];
+ self.interstitial.delegate = self;
+ self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
+ [self.interstitial loadRequest:request];
+ [self playOrPauseButton:0];
+ }
+ 
+ - (IBAction)showInterstitial:(id)sender {
+ 
+ [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+ [_audioMappingViewController.player pause];
+ 
+ [self.interstitial presentFromRootViewController:self];*/
 
-- (void) interstitialDidDismissScreen:(GADInterstitial *)ad{
-    
-    GADRequest *request = [GADRequest request];
-    _interstitial = nil;
-    self.interstitial = [[GADInterstitial alloc] init];
-    self.interstitial.delegate = self;
-    self.interstitial.adUnitID = @"ca-app-pub-2797581562576419/2448803689";
-    [self.interstitial loadRequest:request];
-    [self playOrPauseButton:0];
-}*/
-
-/*- (IBAction)showInterstitial:(id)sender {
-    
-    [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
-    [_audioMappingViewController.player pause];
-    
-    [self.interstitial presentFromRootViewController:self];*/
-    
 //    /*UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(480, 0, 600, 40)];;
 //    button.userInteractionEnabled = YES;
 //    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
 //    [tapRecognizer setNumberOfTapsRequired:1];
 //    [button addGestureRecognizer:tapRecognizer];
-//    
+//
 //    CALayer *btnLayer = [button layer];
 //    [btnLayer setMasksToBounds:YES];
 //    [btnLayer setCornerRadius:12.0f];
 //    [btnLayer setBorderWidth:3.0f];
 //    [btnLayer setBorderColor:[UIColor brownColor].CGColor];
 //    [button setBackgroundColor:[UIColor redColor]]*/
-    
+
 /*    CATextLayer *label = [[CATextLayer alloc] init];
-    [label setFont:@"Helvetica-Bold"];
-    [label setString:@"Subscribe to access unlimited stories without advertisements"];
-    [label setAlignmentMode:kCAAlignmentCenter];
-    [label setForegroundColor:[[UIColor blackColor] CGColor]];
-    
-    CALayer *graphic = nil;
-    graphic = [CALayer layer];
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        
-        [label setFontSize:12];
-        [label setFrame:CGRectMake(110, 6, 1600, 40)];
-        graphic.bounds = CGRectMake(30, 0, 1274, 24);
-        graphic.position = CGPointMake(40, 309);
-    }
-    else{
-        [label setFontSize:18];
-        [label setFrame:CGRectMake(480, 8, 600, 40)];
-        graphic.bounds = CGRectMake(40, 0, 1274, 40);
-        graphic.position = CGPointMake(400, 750);
-    }
-    graphic.backgroundColor = [UIColor whiteColor].CGColor;
-    graphic.opacity = 0.7f;
-    [graphic addSublayer:label];
-    //[graphic addSublayer:btnLayer];
-    
-   
-    [self.presentedViewController.view.layer addSublayer:graphic];
-}*/
-
-
-/*- (GADRequest *)request {
-    GADRequest *request = [GADRequest request];
-    request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
-
-    return request;
-}*/
+ [label setFont:@"Helvetica-Bold"];
+ [label setString:@"Subscribe to access unlimited stories without advertisements"];
+ [label setAlignmentMode:kCAAlignmentCenter];
+ [label setForegroundColor:[[UIColor blackColor] CGColor]];
+ 
+ CALayer *graphic = nil;
+ graphic = [CALayer layer];
+ if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+ 
+ [label setFontSize:12];
+ [label setFrame:CGRectMake(110, 6, 1600, 40)];
+ graphic.bounds = CGRectMake(30, 0, 1274, 24);
+ graphic.position = CGPointMake(40, 309);
+ }
+ else{
+ [label setFontSize:18];
+ [label setFrame:CGRectMake(480, 8, 600, 40)];
+ graphic.bounds = CGRectMake(40, 0, 1274, 40);
+ graphic.position = CGPointMake(400, 750);
+ }
+ graphic.backgroundColor = [UIColor whiteColor].CGColor;
+ graphic.opacity = 0.7f;
+ [graphic addSublayer:label];
+ //[graphic addSublayer:btnLayer];
+ 
+ 
+ [self.presentedViewController.view.layer addSublayer:graphic];
+ }
+ 
+ 
+ - (GADRequest *)request {
+ GADRequest *request = [GADRequest request];
+ request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
+ 
+ return request;
+ }*/
 
 
 //for banner ad
 /*
-- (GADRequest *)request{
-    
-    GADRequest *request = [GADRequest request];
-    request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
-    return request;
-}
-- (void) adViewDidReceiveAd:(GADBannerView *)view{
-    NSLog(@"receive ad");
-    [UIView animateWithDuration:1.0 animations:^{
-        view.frame = CGRectMake(0.0, 0.0, view.frame.size.width, view.frame.size.height);
-    }];
-}
-- (void) adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
-    
-    NSLog(@"Failed to received ad due to : %@",[error localizedFailureReason]);
-}*/
+ - (GADRequest *)request{
+ 
+ GADRequest *request = [GADRequest request];
+ request.testDevices = @[GAD_SIMULATOR_ID, @"cb070a3553b00abe94caf7932cf48233"];
+ return request;
+ }
+ - (void) adViewDidReceiveAd:(GADBannerView *)view{
+ self.btnToDiasplayRemoveAds.hidden = NO;
+ NSLog(@"receive ad");
+ [UIView animateWithDuration:1.0 animations:^{
+ view.frame = CGRectMake(self.view.frame.size.width/6, 0.0, self.view.frame.size.width/1.5, view.frame.size.height);
+ }];
+ }
+ - (void) adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
+ 
+ self.btnToDiasplayRemoveAds.hidden = YES;
+ NSLog(@"Failed to received ad due to : %@",[error localizedFailureReason]);
+ }*/
 
 
 - (void) dismissMyBookViewBackAgainToCover{
@@ -333,7 +335,7 @@
         myViewController = [[LandPageChoiceViewController alloc] initWithNibName:@"LandPageChoiceViewController" bundle:nil];
     }
     /*UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congratulations" message:@"Create, read and customize stories and turn reading into your child's favourite activity" delegate:self cancelButtonTitle:@"Start now" otherButtonTitles:nil, nil];
-    [alert show];*/
+     [alert show];*/
     myViewController.successSubscription = 1;
     [self.navigationController pushViewController:myViewController animated:YES];
 }
@@ -357,50 +359,50 @@
     _showButtons = !_showButtons;
     [self hideAllButtons:!_showButtons];
     
-   /* CGPoint location = [gesture locationInView:self.audioMappingViewController.mangoTextField];
-    NSLayoutManager *layoutManager = self.audioMappingViewController.mangoTextField.layoutManager;
-    UITextPosition *tapPos = [self.audioMappingViewController.mangoTextField closestPositionToPoint:location];
-    
-    NSUInteger characterIndex;
-    characterIndex = [layoutManager characterIndexForPoint:location
-                                           inTextContainer:self.audioMappingViewController.mangoTextField.textContainer
-                  fractionOfDistanceBetweenInsertionPoints:NULL];
-    
-    UITextRange * wr = [self.audioMappingViewController.mangoTextField.tokenizer rangeEnclosingPosition:tapPos withGranularity:UITextGranularityWord inDirection:UITextLayoutDirectionRight];
-    
-    NSRange searchRange = NSMakeRange(0 , characterIndex);
-    NSString *textInRange = [self.audioMappingViewController.mangoTextField.text substringWithRange:searchRange];
-    
-    NSLog(@"WORD: %@",[self.audioMappingViewController.mangoTextField textInRange:wr]);
-    NSString *selectedText = [self.audioMappingViewController.mangoTextField textInRange:wr];
-    NSLog(@"selectedText: %@" , selectedText);
-    if(selectedText.length<1){
-        return;
-    }
-    NSMutableArray *word = [NSMutableArray arrayWithArray:[self.audioMappingViewController.mangoTextField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-    NSMutableArray *words = [NSMutableArray arrayWithArray:[textInRange componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-    //[words removeObject:@""];
-    //[word removeObject:@""];
-    //int times = [[textInRange componentsSeparatedByString:@"\n"] count]-1;
-    int selectedWordIndex;
-    selectedWordIndex = [words count]-1;*/
-   /* if(times){
-        selectedWordIndex = [self getIndexOfWordUsingCharindex:self.audioMappingViewController.mangoTextField.text atIndex:characterIndex]+times-1;
-    }
-    else{
-        selectedWordIndex = [self getIndexOfWordUsingCharindex:self.audioMappingViewController.mangoTextField.text atIndex:characterIndex];
-    }*/
-  /*  if(selectedWordIndex >= word.count){
-        return;
-    }
-    NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, selectedWordIndex)];
-    NSLog(@"selected string %@", textInRange);
-    NSLog(@"Selected word index -- %d",selectedWordIndex);
-    NSString *subString = [subarray componentsJoinedByString:@" "];
-    
-    [self.audioMappingViewController.mangoTextField highlightWordAtIndex:selectedWordIndex AfterLength:[subString length]];
-    [_audioMappingViewController.timer invalidate];
-    [self audioPlayerStopAfterSelection:selectedWordIndex length:[subString length]];*/
+    /* CGPoint location = [gesture locationInView:self.audioMappingViewController.mangoTextField];
+     NSLayoutManager *layoutManager = self.audioMappingViewController.mangoTextField.layoutManager;
+     UITextPosition *tapPos = [self.audioMappingViewController.mangoTextField closestPositionToPoint:location];
+     
+     NSUInteger characterIndex;
+     characterIndex = [layoutManager characterIndexForPoint:location
+     inTextContainer:self.audioMappingViewController.mangoTextField.textContainer
+     fractionOfDistanceBetweenInsertionPoints:NULL];
+     
+     UITextRange * wr = [self.audioMappingViewController.mangoTextField.tokenizer rangeEnclosingPosition:tapPos withGranularity:UITextGranularityWord inDirection:UITextLayoutDirectionRight];
+     
+     NSRange searchRange = NSMakeRange(0 , characterIndex);
+     NSString *textInRange = [self.audioMappingViewController.mangoTextField.text substringWithRange:searchRange];
+     
+     NSLog(@"WORD: %@",[self.audioMappingViewController.mangoTextField textInRange:wr]);
+     NSString *selectedText = [self.audioMappingViewController.mangoTextField textInRange:wr];
+     NSLog(@"selectedText: %@" , selectedText);
+     if(selectedText.length<1){
+     return;
+     }
+     NSMutableArray *word = [NSMutableArray arrayWithArray:[self.audioMappingViewController.mangoTextField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+     NSMutableArray *words = [NSMutableArray arrayWithArray:[textInRange componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+     //[words removeObject:@""];
+     //[word removeObject:@""];
+     //int times = [[textInRange componentsSeparatedByString:@"\n"] count]-1;
+     int selectedWordIndex;
+     selectedWordIndex = [words count]-1;*/
+    /* if(times){
+     selectedWordIndex = [self getIndexOfWordUsingCharindex:self.audioMappingViewController.mangoTextField.text atIndex:characterIndex]+times-1;
+     }
+     else{
+     selectedWordIndex = [self getIndexOfWordUsingCharindex:self.audioMappingViewController.mangoTextField.text atIndex:characterIndex];
+     }*/
+    /*  if(selectedWordIndex >= word.count){
+     return;
+     }
+     NSArray *subarray = [words subarrayWithRange:NSMakeRange(0, selectedWordIndex)];
+     NSLog(@"selected string %@", textInRange);
+     NSLog(@"Selected word index -- %d",selectedWordIndex);
+     NSString *subString = [subarray componentsJoinedByString:@" "];
+     
+     [self.audioMappingViewController.mangoTextField highlightWordAtIndex:selectedWordIndex AfterLength:[subString length]];
+     [_audioMappingViewController.timer invalidate];
+     [self audioPlayerStopAfterSelection:selectedWordIndex length:[subString length]];*/
     
 }
 
@@ -433,16 +435,16 @@
     
 }
 //-(void)viewWillDisappear:(BOOL)animated{
-    /*[_audioMappingViewController.timer invalidate];
-    [_audioMappingViewController.player stop];
-    _audioMappingViewController.player = nil;
-    */
-    
+/*[_audioMappingViewController.timer invalidate];
+ [_audioMappingViewController.player stop];
+ _audioMappingViewController.player = nil;
+ */
+
 //}
 - (IBAction)closeButton:(id)sender {
     _rightView.hidden=YES;
     _showOptionButton.hidden=NO;
-
+    
     [self.popoverControlleriPhone dismissPopoverAnimated:YES];
     self.popoverControlleriPhone = nil;
 }
@@ -462,8 +464,8 @@
         
     }
     else{
-    _settingsProbSupportView.hidden = NO;
-    _settingsProbView.hidden = NO;
+        _settingsProbSupportView.hidden = NO;
+        _settingsProbView.hidden = NO;
     }
     
 }
@@ -478,8 +480,8 @@
     if((parentalControlAge >= 13) && (parentalControlAge <=100)){
         //show subscription plans
         
-            [self shareButton:0];
-
+        [self shareButton:0];
+        
     }
     else{
         //close subscription plan
@@ -507,7 +509,7 @@
 
 
 - (IBAction)shareButton:(id)sender {
-   // [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+    // [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
@@ -520,7 +522,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    //    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
@@ -555,17 +557,17 @@
     }
     
     /// for IOS 5 code below;
-   /* MFMailComposeViewController *mail;
+    /* MFMailComposeViewController *mail;
+     
+     mail=[[MFMailComposeViewController alloc]init];
+     [mail setSubject:@"Found this awesome interactive book on MangoReader"];
+     mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
+     [mail setMailComposeDelegate:self];
+     NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
+     body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
+     [mail setMessageBody:body isHTML:NO];
+     [self presentModalViewController:mail animated:YES];*/
     
-    mail=[[MFMailComposeViewController alloc]init];
-    [mail setSubject:@"Found this awesome interactive book on MangoReader"];
-    mail.modalPresentationStyle=UIModalTransitionStyleCoverVertical;
-    [mail setMailComposeDelegate:self];
-    NSString *body=[NSString stringWithFormat:@"Hi,\n%@",buttonShadow.stringLink];
-    body =[body stringByAppendingString:@"\nI found this cool book on mangoreader - we bring books to life.The book is interactive with the characters moving on touch and movement, which makes it fun and engaging.The audio and text highlight syncing will make it easier for kids to learn and understand pronunciation.Not only this, I can play cool games in the book, draw and make puzzles and share my scores.\nDownload the MangoReader app from the appstore and try these awesome books."];
-    [mail setMessageBody:body isHTML:NO];
-    [self presentModalViewController:mail animated:YES];*/
-
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -577,28 +579,28 @@
                     [alertView dismissWithClickedButtonIndex:buttonIndex animated:YES];
                     
                     /*NSDictionary *dimensions = @{
-                                                 PARAMETER_USER_EMAIL_ID : ID,
-                                                 PARAMETER_DEVICE: IOS,
-                                                 PARAMETER_BOOK_ID : _bookId,
-                                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
-                                                 PARAMETER_BOOL_ISNEW_VERSION :[NSString stringWithFormat:@"NO"]
-                                                 };
-                    [delegate trackEvent:[READBOOK_NEW_VERSION valueForKey:@"description"] dimensions:dimensions];
-                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-                    [userObject setObject:[READBOOK_NEW_VERSION valueForKey:@"value"] forKey:@"eventName"];
-                    [userObject setObject: [READBOOK_NEW_VERSION valueForKey:@"description"] forKey:@"eventDescription"];
-                    [userObject setObject:viewName forKey:@"viewName"];
-                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-                    [userObject setObject:_bookId forKey:@"bookID"];
-                    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
-                    [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
-                    if(userEmail){
-                        [userObject setObject:ID forKey:@"emailID"];
-                    }
-                    [userObject setObject:IOS forKey:@"device"];
-                    [userObject saveInBackground];*/
+                     PARAMETER_USER_EMAIL_ID : ID,
+                     PARAMETER_DEVICE: IOS,
+                     PARAMETER_BOOK_ID : _bookId,
+                     PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+                     PARAMETER_BOOL_ISNEW_VERSION :[NSString stringWithFormat:@"NO"]
+                     };
+                     [delegate trackEvent:[READBOOK_NEW_VERSION valueForKey:@"description"] dimensions:dimensions];
+                     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                     [userObject setObject:[READBOOK_NEW_VERSION valueForKey:@"value"] forKey:@"eventName"];
+                     [userObject setObject: [READBOOK_NEW_VERSION valueForKey:@"description"] forKey:@"eventDescription"];
+                     [userObject setObject:viewName forKey:@"viewName"];
+                     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                     [userObject setObject:_bookId forKey:@"bookID"];
+                     [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+                     [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
+                     if(userEmail){
+                     [userObject setObject:ID forKey:@"emailID"];
+                     }
+                     [userObject setObject:IOS forKey:@"device"];
+                     [userObject saveInBackground];*/
                     
                     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
                     [dimensions setObject:@"book_fork_click" forKey:PARAMETER_ACTION];
@@ -612,12 +614,12 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    //[delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+                    //                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                 }
                     break;
                     
                 case 1: {
-                   // [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
+                    // [PFAnalytics trackEvent:EVENT_BOOK_FORKED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
                     
                     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
                     [dimensions setObject:@"book_fork_click" forKey:PARAMETER_ACTION];
@@ -631,7 +633,7 @@
                     }
                     [delegate trackEventAnalytic:@"book_fork_click" dimensions:dimensions];
                     [delegate eventAnalyticsDataBrowser:dimensions];
-                    //[delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
+                    //                    [delegate trackMixpanelEvents:dimensions eventName:@"book_fork_click"];
                     
                     MangoEditorViewController *mangoEditorViewController= [[MangoEditorViewController alloc] initWithNibName:@"MangoEditorViewController" bundle:nil];
                     mangoEditorViewController.isBookFork = YES;
@@ -655,8 +657,8 @@
 
 - (IBAction)editButton:(id)sender {
     if (!validUserSubscription && storyAsAppFilePath) {
-       // UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The 'edit' feature is only available in the MangoReader app. Please download the MangoReader app to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-       // [editAlertView show];
+        // UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The 'edit' feature is only available in the MangoReader app. Please download the MangoReader app to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        // [editAlertView show];
         MangoSubscriptionViewController *subscriptionViewController;
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             
@@ -678,23 +680,37 @@
     [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
 }
 
+- (IBAction)presentSubscriptionView:(id)sender{
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+    MangoSubscriptionViewController *subscriptionViewController;
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController_iPhone" bundle:nil];
+    }
+    else{
+        subscriptionViewController = [[MangoSubscriptionViewController alloc] initWithNibName:@"MangoSubscriptionViewController" bundle:nil];
+    }
+    subscriptionViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:subscriptionViewController animated:YES completion:nil];
+}
+
 - (IBAction)changeLanguage:(id)sender {
     //[PFAnalytics trackEvent:EVENT_TRANSLATE_INITIATED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     _languageAvailButton.userInteractionEnabled = NO;
     
-   /* if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
-        UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The multiple language feature is only available in the MangoReader app. Please download it to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [editAlertView show];
-    } else {*/
-        MangoApiController *apiController = [MangoApiController sharedApiController];
-        NSString *url;
-        url = LANGUAGES_FOR_BOOK;
-        NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-        [paramDict setObject:_bookId forKey:@"story_id"];
-//        [paramDict setObject:IOS forKey:PLATFORM];
-//        [paramDict setObject:VERSION_NO forKey:VERSION];
-        [apiController getListOf:url ForParameters:paramDict withDelegate:self];
-  //  }
+    /* if ([[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"]) {
+     UIAlertView *editAlertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The multiple language feature is only available in the MangoReader app. Please download it to use this feature!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+     [editAlertView show];
+     } else {*/
+    MangoApiController *apiController = [MangoApiController sharedApiController];
+    NSString *url;
+    url = LANGUAGES_FOR_BOOK;
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:_bookId forKey:@"story_id"];
+    //        [paramDict setObject:IOS forKey:PLATFORM];
+    //        [paramDict setObject:VERSION_NO forKey:VERSION];
+    [apiController getListOf:url ForParameters:paramDict withDelegate:self];
+    //  }
 }
 
 - (void)reloadViewsWithArray:(NSArray *)dataArray ForType:(NSString *)type {
@@ -707,10 +723,10 @@
     LanguageChoiceViewController *choiceViewController=[[LanguageChoiceViewController alloc]initWithStyle:UITableViewStyleGrouped];
     choiceViewController.delegate=self;
     
-//    _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-//    CGSize size=_pop.popoverContentSize;
-//    size.height=size.height-300;
-//    _pop.popoverContentSize=size;
+    //    _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+    //    CGSize size=_pop.popoverContentSize;
+    //    size.height=size.height-300;
+    //    _pop.popoverContentSize=size;
     
     choiceViewController.bookIDArray = [[NSMutableArray alloc] init];
     for(int i=0; i< [_avilableLanguages count]; ++i){
@@ -719,16 +735,8 @@
         [choiceViewController.bookIDArray addObject:[_avilableLanguages[i] objectForKey:@"live_story_id"]];
     }
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    NSString *jsonLocation;
-    if(validSubscription){
-        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
-    }
-    else{
-        jsonLocation = _book.localPathImageFile;
-    }
-
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -767,13 +775,26 @@
         }
         
         else{
-            _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-            CGSize size=_pop.popoverContentSize;
-            size.height=size.height-300;
-            size.width = 200;
-            _pop.popoverContentSize=size;
             
-            [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
+            {
+                _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+                //CGSize size=_popOverController.popoverContentSize;
+                //size.height=size.height-300;
+                //_popOverController.popoverContentSize=size;
+                [_pop setPopoverContentSize:CGSizeMake(220, 180) animated:YES];
+                
+                [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+            }
+            else{
+                _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+                CGSize size=_pop.popoverContentSize;
+                size.height=size.height-300;
+                size.width = 200;
+                _pop.popoverContentSize=size;
+            
+                [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+            }
         }
     }
 }
@@ -819,10 +840,10 @@
         //[self BackButton:nil];
         checkCorrectDismiss = 1;
         [self.navigationController popViewControllerAnimated:YES];
-
+        
     }else{
-         _pageNumber--;
-             [self loadPageWithOption:_option];
+        _pageNumber--;
+        [self loadPageWithOption:_option];
         [_audioMappingViewController.player pause];
         
         CATransition *animation = [CATransition animation];
@@ -840,7 +861,7 @@
         [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
         //[_audioMappingViewController.player play];
         [self performSelector:@selector(playAudio) withObject:self afterDelay:0.7f];
-
+        
     }
 }
 
@@ -872,7 +893,7 @@
     if((_pageNumber % 4) == 0){
         
         if ((!validUserSubscription && storyAsAppFilePath) && !(_pageNo == _pageNumber)){
-//            [self showInterstitial:0];
+            // [self showInterstitial:0];
             NSLog(@"page numbers --- %d -- %d", _pageNumber, _pageNo);
         }
     }
@@ -892,7 +913,7 @@
         [animation setFillMode: @"extended"];
         [animation setRemovedOnCompletion: NO];
         [[_viewBase layer] addAnimation:animation forKey:@"WebPageCurl"];
-    
+        
         //[self performSelector:@selector(playAudio) withObject:self afterDelay:0.7f];
         
         /// default is icons_play.png
@@ -902,8 +923,8 @@
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
         }
         [self loadPageWithOption:_option];
-//        [_audioMappingViewController.player pause];
-//        [self performSelector:@selector(playAudio) withObject:self afterDelay:0.2f];
+        //        [_audioMappingViewController.player pause];
+        //        [self performSelector:@selector(playAudio) withObject:self afterDelay:0.2f];
         
     } else {
         checkCorrectDismiss = 1;
@@ -926,13 +947,13 @@
         
         else{
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController_iPhone" bundle:nil WithId:[_book valueForKey:@"id"]];
+                
+                lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController_iPhone" bundle:nil WithId:[_book valueForKey:@"id"]];
             }
             else{
-            lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:nil WithId:[_book valueForKey:@"id"]];
+                lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:nil WithId:[_book valueForKey:@"id"]];
             }
-        
+            
             [self.navigationController pushViewController:lastPage animated:YES];
         }
     }
@@ -955,7 +976,7 @@
     }
     [delegate trackEventAnalytic:@"playpause_button_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
+    //    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
     
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
@@ -968,7 +989,7 @@
             //[PFAnalytics trackEvent:EVENT_AUDIO_PLAYED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
             //Read to me ---> play(NO)
             
-
+            
             [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
             [_audioMappingViewController.player play];
             
@@ -981,12 +1002,25 @@
     } else {
         //READBOOK_MYSELF - playpause click
         
-        [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
-        
-        [self loadPageWithOption:0];
-        [self closeButton:nil];
-        _showButtons = NO;
-        [self hideAllButtons:!_showButtons];
+        /*   [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
+         
+         [self loadPageWithOption:0];
+         [self closeButton:nil];
+         _showButtons = NO;
+         [self hideAllButtons:!_showButtons];*/
+        if(!_option){
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+            _audioMappingViewController = audioMappingViewControllers[1];
+            [_audioMappingViewController.player pause];
+        }
+        else{
+            [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
+            
+            [self loadPageWithOption:0];
+            [self closeButton:nil];
+            _showButtons = NO;
+            [self hideAllButtons:!_showButtons];
+        }
     }
 }
 
@@ -1009,11 +1043,11 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    //    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSData *jsonData = [_jsonContent dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-
+    
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [noGamesAlert show];
@@ -1028,20 +1062,12 @@
         }
         gamesListViewController.currentBookId = _book.id;
         gamesListViewController.currentBookTitle = _book.title;
-
+        
         gamesListViewController.jsonString = _jsonContent;
         
-        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-        NSString *jsonLocation;
-        if(validSubscription){
-            jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
-        }
-        else{
-            jsonLocation = _book.localPathImageFile;
-        }
+        NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
         
-
+        
         gamesListViewController.folderLocation = jsonLocation;
         
         NSMutableArray *gameNames = [[NSMutableArray alloc] init];
@@ -1091,7 +1117,7 @@
     [self.audioMappingViewController.mangoTextField highlightWordAtIndex:index AfterLength:lengthVal];
     
     /*[vc.timer invalidate];
-    vc.timer=nil;*/
+     vc.timer=nil;*/
     float playTime;
     
     if([[_audioDictForEditMapping objectForKey:@"wordTimes"] count] >index+1){
@@ -1114,16 +1140,16 @@
 
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-//    [_audioMappingViewController.timer invalidate];
-//    _audioMappingViewController.timer=nil;
-//    _audioMappingViewController.player=nil;
-//
-//    if (_option==0) {
-//     /* Read By readToMe */
-//        [self nextButton:nil];
-//    }else{
-//    }
-//
+    //    [_audioMappingViewController.timer invalidate];
+    //    _audioMappingViewController.timer=nil;
+    //    _audioMappingViewController.player=nil;
+    //
+    //    if (_option==0) {
+    //     /* Read By readToMe */
+    //        [self nextButton:nil];
+    //    }else{
+    //    }
+    //
     AudioMappingViewController *vc = nil;
     for (AudioMappingViewController *viewController in audioMappingViewControllers) {
         if ([viewController.player isEqual:player]) {
@@ -1288,21 +1314,24 @@
         NSString *fontFamily = [[textDict objectForKey:@"style"] objectForKey:@"font-family"];
         NSString *fontStyle = [[textDict objectForKey:@"style"] objectForKey:@"font-style"];
         NSString *fontWeight = [[textDict objectForKey:@"style"] objectForKey:@"font-weight"];
-        NSString *fontSize;
+        NSString *fontSize = [[textDict objectForKey:@"style"] objectForKey:@"font-size"];
+        fontSize = [fontSize stringByReplacingOccurrencesOfString:@"px"
+                                                       withString:@""];
+        
         if (![fontFamily isKindOfClass:[NSNull class]]) {
             if ([fontFamily length]) {
                 //here will be custom font set
                 NSLog(@"fontFamily %@",fontFamily);
-//                NSArray *components = [fontFamily componentsSeparatedByString:@","];
-//                NSString *familyName = [components objectAtIndex:1];
-//                familyName = [familyName substringFromIndex:1];
-//                NSArray *fonts = [UIFont fontNamesForFamilyName:familyName];
-//                
-                fontSize = [[textDict objectForKey:@"style"] objectForKey:@"font-size"];
+                //                NSArray *components = [fontFamily componentsSeparatedByString:@","];
+                //                NSString *familyName = [components objectAtIndex:1];
+                //                familyName = [familyName substringFromIndex:1];
+                //                NSArray *fonts = [UIFont fontNamesForFamilyName:familyName];
+                //
+                
                 fontSize = [fontSize stringByReplacingOccurrencesOfString:@"px"
                                                                withString:@""];
                 if([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    fontSize = @"10";
+                    fontSize = @"9.9";
                 }
                 NSString *trimmedFamily = [fontFamily stringByTrimmingCharactersInSet:
                                            [NSCharacterSet whitespaceCharacterSet]];
@@ -1312,7 +1341,7 @@
                 if ([trimmedFamily hasPrefix:@"verdana"]) {
                     fFamily = @"Verdana";
                 } else if ([trimmedFamily  hasPrefix:@"Comic"]) {
-                     fFamily = @"ComicSansMS";
+                    fFamily = @"ComicSansMS";
                 }
                 else if ([trimmedFamily  hasPrefix:@"comic"]) {
                     fFamily = @"ComicSansMS";
@@ -1332,10 +1361,10 @@
                 else if ([trimmedFamily hasPrefix:@"Arial"]){
                     fFamily = @"ArialMT";
                 }
-
+                
                 
                 NSString *trimmedStyle = [fontStyle stringByTrimmingCharactersInSet:
-                                         [NSCharacterSet whitespaceCharacterSet]];
+                                          [NSCharacterSet whitespaceCharacterSet]];
                 // Find the style of the family
                 NSString *fStyle;
                 if ([fontWeight hasPrefix:@"bold"] && [fontStyle isKindOfClass:NULL]){
@@ -1348,9 +1377,9 @@
                     
                 }else if ([fontWeight hasPrefix:@"bold"] && [fontStyle hasPrefix:@"italic"]) {
                     if ([fFamily isEqualToString:@"Tahoma"])
-                         fStyle = @"-BoldFauxItalic";
+                        fStyle = @"-BoldFauxItalic";
                     else if ([fFamily isEqualToString:@"TimesNewRomanPS"] || [fFamily isEqualToString:@"ArialMT"])
-                          fStyle = @"-BoldItalicMT";
+                        fStyle = @"-BoldItalicMT";
                     else if([fFamily isEqualToString:@"mono"])
                         fStyle = @"BoldOblique";
                     else if([fFamily isEqualToString:@"Helvetica"])
@@ -1383,7 +1412,7 @@
                 
                 if(!fontSize){
                     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                        fontSize = @"10";
+                        fontSize = @"9.9";
                     }
                     else{
                         fontSize = @"24";
@@ -1395,19 +1424,36 @@
                 
             }
         }
+        
+        if(!fontFamily){
+            
+            if(fontSize){
+                font = [UIFont fontWithName:@"Verdana" size:[fontSize floatValue]];
+            }
+        }
+        
         textFontValue = font;
         audioMappingViewcontroller.mangoTextField.font = font;
         
         NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        paragraphStyle.minimumLineHeight = 15.f;
-        paragraphStyle.maximumLineHeight = [fontSize floatValue] * [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
-        audioMappingViewcontroller.mangoTextField.lineSpacingValue = [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        float lineSpacing = [[[textDict objectForKey:@"style"] objectForKey:@"line-height"] floatValue];
+        if(!lineSpacing){
+            lineSpacing = 1.2f;
+        }
+        paragraphStyle.lineHeightMultiple = lineSpacing;
+        float spacingValue = ([fontSize floatValue] * lineSpacing) - [fontSize floatValue];
+        paragraphStyle.minimumLineHeight = [fontSize floatValue] * lineSpacing;
+        paragraphStyle.maximumLineHeight = ([fontSize floatValue] * lineSpacing) - spacingValue/2;
+        [paragraphStyle setLineSpacing:spacingValue/2];
+        
+        audioMappingViewcontroller.mangoTextField.lineSpacingValue = lineSpacing;
         
         NSDictionary *attributes = @{ NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle };
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:audioMappingViewcontroller.mangoTextField.text attributes:attributes];
         
         [audioMappingViewcontroller.mangoTextField setAttributedText: attributedString];
-
+        
         audioMappingViewcontroller.mangoTextField.frame = textFrame;
         audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
         [_pageView bringSubviewToFront:audioMappingViewcontroller.mangoTextField];
@@ -1438,7 +1484,7 @@
             audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
         }
         [pageView addSubview:audioMappingViewcontroller.mangoTextField];
-//        audioMappingViewcontroller.mangoTextField.editable = NO;
+        audioMappingViewcontroller.mangoTextField.editable = NO;
         [pageView bringSubviewToFront:audioMappingViewcontroller.view];
         
         [pageView bringSubviewToFront:[audioMappingViewcontroller.view superview]];
@@ -1456,12 +1502,12 @@
             audioUrl = [audioLayer objectForKey:@"url"];
         }
         //if ([audio_id isKindOfClass:[NSNull class]]) {
-         if ([audioUrl isKindOfClass:[NSNull class]]) {
+        if ([audioUrl isKindOfClass:[NSNull class]]) {
             
             
             NSLog(@"Text Does not have an audio");
         } else {
-            NSPredicate *audioPredicate = [NSPredicate predicateWithFormat:@"text_id == %@",[textDict objectForKey:@"id"]];
+            NSPredicate *audioPredicate = [NSPredicate predicateWithFormat:@"id == %@",[textDict objectForKey:@"audio_id"]];
             NSArray *relatedAudios = [audioLayers filteredArrayUsingPredicate:audioPredicate];
             if ([relatedAudios count]) {
                 NSDictionary *audioLayer;
@@ -1512,9 +1558,9 @@
                     NSArray *components = [colorString componentsSeparatedByString:@","];
                     
                     UIColor *color = [UIColor colorWithRed:[[components objectAtIndex:0] floatValue]/255.f
-                                            green:[[components objectAtIndex:1] floatValue]/255.f
-                                             blue:[[components objectAtIndex:2] floatValue]/255.f
-                                            alpha:1.f];
+                                                     green:[[components objectAtIndex:1] floatValue]/255.f
+                                                      blue:[[components objectAtIndex:2] floatValue]/255.f
+                                                     alpha:1.f];
                     audioMappingViewcontroller.mangoTextField.highlightColor = color;
                     
                 } else {
@@ -1530,7 +1576,7 @@
                         }
                     }
                 }
-    
+                
                 NSLog(@"MangoTxt Frame: %@", NSStringFromCGRect(audioMappingViewcontroller.mangoTextField.frame));
             }
         }
@@ -1555,15 +1601,7 @@
     _audioMappingViewController = [[AudioMappingViewController alloc] initWithNibName:@"AudioMappingViewController" bundle:nil];
     NSLog(_book.edited ? @"Yes" : @"No");
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    NSString *jsonLocation;
-    if(validSubscription){
-        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
-    }
-    else{
-        jsonLocation = _book.localPathImageFile;
-    }
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     if (_book.edited.boolValue) {
         
         AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -1574,43 +1612,43 @@
         NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
         int numberOfGames = [[jsonDict objectForKey:NUMBER_OF_GAMES] intValue];
         NSArray *pagesArray = [jsonDict objectForKey:PAGES];
-
+        
         if (_pageNumber < [pagesArray count] - numberOfGames) {
             _pageView=[self readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:jsonLocation AndDelegate:self Option:option];
-
-//            _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
+            
+            //            _pageView=[MangoEditorViewController readerPage:_pageNumber ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndAudioMappingViewController:_audioMappingViewController AndDelegate:self Option:option];
         } else {
             
-          /*  NSMutableArray *gameNamesArray = [[NSMutableArray alloc] init];
-            for (NSDictionary *pageDict in pagesArray) {
-                if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
-                    [gameNamesArray addObject:[pageDict objectForKey:NAME]];
-                }
-            }
-            
-            if ([gameNamesArray count] > 0) {
-                NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_pageNumber - ([pagesArray count] - numberOfGames)] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
-                _gameDataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
-                [_gameDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
-                UIWebView *gameView = [gameViewDict objectForKey:@"gameView"];
-                gameView.delegate = self;
-                
-                [_pageView addSubview:gameView];
-            }*/
+            /*  NSMutableArray *gameNamesArray = [[NSMutableArray alloc] init];
+             for (NSDictionary *pageDict in pagesArray) {
+             if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
+             [gameNamesArray addObject:[pageDict objectForKey:NAME]];
+             }
+             }
+             
+             if ([gameNamesArray count] > 0) {
+             NSMutableDictionary * gameViewDict = [MangoEditorViewController readerGamePage:[gameNamesArray objectAtIndex:_pageNumber - ([pagesArray count] - numberOfGames)] ForStory:_jsonContent WithFolderLocation:_book.localPathFile AndOption:option];
+             _gameDataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
+             [_gameDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
+             UIWebView *gameView = [gameViewDict objectForKey:@"gameView"];
+             gameView.delegate = self;
+             
+             [_pageView addSubview:gameView];
+             }*/
         }
     }
     _pageView.frame=self.view.bounds;
     /*for (UIView *subview in [_pageView subviews]) {
-        if ([subview isKindOfClass:[UIImageView class]]) {
-            subview.frame = self.view.bounds;
-        }
-    }*/
+     if ([subview isKindOfClass:[UIImageView class]]) {
+     subview.frame = self.view.bounds;
+     }
+     }*/
     [self.viewBase addSubview:_pageView];
     if (option==0) {
         
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_pause.png"] forState:UIControlStateNormal];
         bookReadMode = @"READ_TO_ME";
-
+        
     }else{
         
         [_playOrPauseButton setImage:[UIImage imageNamed:@"icons_play.png"] forState:UIControlStateNormal];
@@ -1623,126 +1661,184 @@
 - (void) viewDidDisappear:(BOOL)animated{
     
     if(checkCorrectDismiss){
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
-    _audioMappingViewController.timer = nil;
-    _audioMappingViewController.player = nil;
-    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSString *bookGrade;
-    NSString *appendString;
-    if(pageVisited.length>0){
-        appendString = [NSString stringWithFormat:@",%d",_pageNumber];
-        [pageVisited appendString:appendString];
-    }
-    else{
-        appendString = [NSString stringWithFormat:@"%d", _pageNumber];
-        [pageVisited appendString:appendString];
-    }
-    if(!_bookGradeLevel){
-        bookGrade = @"Not available";
-    }
-    else{
-        bookGrade = _bookGradeLevel;
-    }
-    
-    if(_pageNumber+1 >= _pageNo){
-        bookStatus = @"complete";
-    }
-    else{
-        if(bookStatusValue){
-            bookStatus = bookStatusValue;
+        [UIApplication sharedApplication].idleTimerDisabled = NO;
+        _audioMappingViewController.timer = nil;
+        _audioMappingViewController.player = nil;
+        float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+        AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+        NSString *bookGrade;
+        NSString *appendString;
+        if(pageVisited.length>0){
+            appendString = [NSString stringWithFormat:@",%d",_pageNumber];
+            [pageVisited appendString:appendString];
         }
         else{
-            bookStatus = @"incomplete";
+            appendString = [NSString stringWithFormat:@"%d", _pageNumber];
+            [pageVisited appendString:appendString];
         }
-    }
-    int time = (int)(timeEndValue*1000);
-    NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
-    int times = [[pageVisited componentsSeparatedByString:@","] count];
-    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
-    NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"reading_time" forKey:PARAMETER_ACTION];
-    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:@"Total reading time" forKey:PARAMETER_EVENT_DESCRIPTION];
-    [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
-    [dimensions setObject:bookStatus forKey:PARAMETER_BOOK_STATUS];
-    //[dimensions setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
-    [dimensions setObject:bookReadMode forKey:PARAMETER_BOOK_READ_MODE];
-    [dimensions setObject:pageVisited forKey:PARAMETER_PAGES_VISITED];
-    //[dimensions setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [dimensionevent setDictionary:dimensions];
-    [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
-    [dimensionevent setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
-    [dimensionshist setDictionary:dimensions];
-    [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
-    [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
-    [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
-    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
-    /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID : _bookId,
-                                 PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
-                                 PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
-                                 };
-    [delegate trackEvent:[READBOOK_CLOSE valueForKey:@"description"] dimensions:dimensions];*/
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[READBOOK_CLOSE valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [READBOOK_CLOSE valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:_bookId forKey:@"bookID"];
-    [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
-    [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    //[userObject saveInBackground];
-    
-    NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
-    [query1 whereKey:@"bookID" equalTo:_bookId];
-    if(_loginUserEmail == nil){
-        _loginUserEmail = @"nil";
-        [query1 whereKey:@"deviceIDValue" equalTo:udid];
-    }
-    else{
-        [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
-    }
-    [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if(!error){
-            
-            float totalTime = [[object valueForKey:@"readingTime"] floatValue] + timeEndValue;
-            
-            [object setObject:[NSNumber numberWithFloat:totalTime] forKey:@"readingTime"];
-            
-            [object setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"currentPage"];
-            
-            [object setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
-            [object setObject:_bookImageURL forKey:@"bookCoverImageURL"];
-            int totalpagesNo = [[object valueForKey:@"pagesCompleted"] floatValue] + _pageNumber+1;
-            [object setObject:[NSNumber numberWithInt:totalpagesNo] forKey:@"pagesCompleted"];
-            
-            if(_pageNumber+1 >= _pageNo){
-                NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
-                if([[object valueForKey:@"bookCompleted"] integerValue]){
-                    [object setObject:[NSNumber numberWithInt:([[object valueForKey:@"timesNumberBookCompleted"] integerValue]+1)] forKey:@"timesNumberBookCompleted"];
+        if(!_bookGradeLevel){
+            bookGrade = @"Not available";
+        }
+        else{
+            bookGrade = _bookGradeLevel;
+        }
+        
+        if(_pageNumber+1 >= _pageNo){
+            bookStatus = @"complete";
+        }
+        else{
+            if(bookStatusValue){
+                bookStatus = bookStatusValue;
+            }
+            else{
+                bookStatus = @"incomplete";
+            }
+        }
+        int time = (int)(timeEndValue*1000);
+        NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
+        int times = [[pageVisited componentsSeparatedByString:@","] count];
+        NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+        NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
+        NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
+        [dimensions setObject:@"reading_time" forKey:PARAMETER_ACTION];
+        [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+        [dimensions setObject:@"Total reading time" forKey:PARAMETER_EVENT_DESCRIPTION];
+        [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
+        [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
+        [dimensions setObject:bookStatus forKey:PARAMETER_BOOK_STATUS];
+        //[dimensions setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
+        [dimensions setObject:bookReadMode forKey:PARAMETER_BOOK_READ_MODE];
+        [dimensions setObject:pageVisited forKey:PARAMETER_PAGES_VISITED];
+        //[dimensions setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
+        if(userEmail){
+            [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+        }
+        [dimensionevent setDictionary:dimensions];
+        [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
+        [dimensionevent setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
+        [dimensionshist setDictionary:dimensions];
+        [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
+        [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
+        [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
+        [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
+        //    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
+        /*NSDictionary *dimensions = @{
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID : _bookId,
+         PARAMETER_BOOK_PAGE_NO: [NSString stringWithFormat:@"%d",_pageNumber],
+         PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+         };
+         [delegate trackEvent:[READBOOK_CLOSE valueForKey:@"description"] dimensions:dimensions];*/
+        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+        [userObject setObject:[READBOOK_CLOSE valueForKey:@"value"] forKey:@"eventName"];
+        [userObject setObject: [READBOOK_CLOSE valueForKey:@"description"] forKey:@"eventDescription"];
+        [userObject setObject:viewName forKey:@"viewName"];
+        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+        [userObject setObject:_bookId forKey:@"bookID"];
+        [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+        [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+        if(userEmail){
+            [userObject setObject:ID forKey:@"emailID"];
+        }
+        [userObject setObject:IOS forKey:@"device"];
+        //[userObject saveInBackground];
+        
+        NSString *udid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        PFQuery *query1 = [PFQuery queryWithClassName:@"Analytics"];
+        [query1 whereKey:@"bookID" equalTo:_bookId];
+        if(_loginUserEmail == nil){
+            _loginUserEmail = @"nil";
+            [query1 whereKey:@"deviceIDValue" equalTo:udid];
+        }
+        else{
+            [query1 whereKey:@"email_ID" equalTo:_loginUserEmail];
+        }
+        [query1 getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if(!error){
+                
+                float totalTime = [[object valueForKey:@"readingTime"] floatValue] + timeEndValue;
+                
+                [object setObject:[NSNumber numberWithFloat:totalTime] forKey:@"readingTime"];
+                
+                [object setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"currentPage"];
+                
+                [object setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
+                [object setObject:_bookImageURL forKey:@"bookCoverImageURL"];
+                int totalpagesNo = [[object valueForKey:@"pagesCompleted"] floatValue] + _pageNumber+1;
+                [object setObject:[NSNumber numberWithInt:totalpagesNo] forKey:@"pagesCompleted"];
+                
+                if(_pageNumber+1 >= _pageNo){
+                    NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
+                    if([[object valueForKey:@"bookCompleted"] integerValue]){
+                        [object setObject:[NSNumber numberWithInt:([[object valueForKey:@"timesNumberBookCompleted"] integerValue]+1)] forKey:@"timesNumberBookCompleted"];
+                        /*NSDictionary *dimensions = @{
+                         PARAMETER_USER_EMAIL_ID : ID,
+                         PARAMETER_DEVICE: IOS,
+                         PARAMETER_BOOK_ID : _bookId,
+                         PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                         };
+                         [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];*/
+                        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                        [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
+                        [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
+                        [userObject setObject:viewName forKey:@"viewName"];
+                        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                        [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                        [userObject setObject:_bookId forKey:@"bookID"];
+                        [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
+                        [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
+                        if(userEmail){
+                            [userObject setObject:ID forKey:@"emailID"];
+                        }
+                        [userObject setObject:IOS forKey:@"device"];
+                        //[userObject saveInBackground];
+                    }
+                    else{
+                        [object setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
+                        [object setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+                    }
+                }
+                else{
+                    // no need to set as pages are not completed
+                }
+                
+                //[object setObject:@"111111" forKey:@"activityPoints"];
+                //[object saveInBackground];
+            }
+            else{
+                
+                NSLog(@"object not found here then add object here...");
+                PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
+                [userObject setObject:udid forKey:@"deviceIDValue"];
+                [userObject setObject:ID forKey:@"email_ID"];
+                // [userObject setObject:@"Harish" forKey:@"userName"];
+                [userObject setObject:_bookId forKey:@"bookID"];
+                [userObject setObject:[NSNumber numberWithInt:_pageNumber+1]  forKey:@"currentPage"];
+                [userObject setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
+                [userObject setObject:_book.title forKey:@"bookTitle"];
+                [userObject setObject:bookGrade forKey:@"gradeLevel"];
+                [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityCount"];
+                [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityPoints"];
+                [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"readingTime"];
+                [userObject setObject:_bookImageURL forKey:@"bookCoverImageURL"];
+                [userObject setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"pagesCompleted"];
+                
+                if(_pageNumber+1 >= _pageNo){
+                    NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
+                    [userObject setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
+                    [userObject setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+                    
                     /*NSDictionary *dimensions = @{
-                                                 PARAMETER_USER_EMAIL_ID : ID,
-                                                 PARAMETER_DEVICE: IOS,
-                                                 PARAMETER_BOOK_ID : _bookId,
-                                                 PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
-                                                 };
-                    [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];*/
+                     PARAMETER_USER_EMAIL_ID : ID,
+                     PARAMETER_DEVICE: IOS,
+                     PARAMETER_BOOK_ID : _bookId,
+                     PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
+                     };
+                     [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];*/
                     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
                     [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
                     [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
@@ -1760,75 +1856,17 @@
                     //[userObject saveInBackground];
                 }
                 else{
-                    [object setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
-                    [object setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+                    [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];
+                    [userObject setObject:[NSNumber numberWithInt:0] forKey:@"timesNumberBookCompleted"];
                 }
-            }
-            else{
-               // no need to set as pages are not completed
-            }
-            
-            //[object setObject:@"111111" forKey:@"activityPoints"];
-            //[object saveInBackground];
-        }
-        else{
-            
-            NSLog(@"object not found here then add object here...");
-            PFObject *userObject = [PFObject objectWithClassName:@"Analytics"];
-            [userObject setObject:udid forKey:@"deviceIDValue"];
-            [userObject setObject:ID forKey:@"email_ID"];
-           // [userObject setObject:@"Harish" forKey:@"userName"];
-            [userObject setObject:_bookId forKey:@"bookID"];
-            [userObject setObject:[NSNumber numberWithInt:_pageNumber+1]  forKey:@"currentPage"];
-            [userObject setObject:[NSNumber numberWithInt:_pageNo]forKey:@"availablePage"];
-            [userObject setObject:_book.title forKey:@"bookTitle"];
-            [userObject setObject:bookGrade forKey:@"gradeLevel"];
-            [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityCount"];
-            [userObject setObject:[NSNumber numberWithInt:0] forKey:@"activityPoints"];
-            [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"readingTime"];
-            [userObject setObject:_bookImageURL forKey:@"bookCoverImageURL"];
-            [userObject setObject:[NSNumber numberWithInt:_pageNumber+1] forKey:@"pagesCompleted"];
-            
-            if(_pageNumber+1 >= _pageNo){
-                NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
-                [userObject setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
-                [userObject setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
                 
-                /*NSDictionary *dimensions = @{
-                                             PARAMETER_USER_EMAIL_ID : ID,
-                                             PARAMETER_DEVICE: IOS,
-                                             PARAMETER_BOOK_ID : _bookId,
-                                             PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
-                                             };
-                [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];*/
-                PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-                [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
-                [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
-                [userObject setObject:viewName forKey:@"viewName"];
-                [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-                [userObject setObject:delegate.country forKey:@"deviceCountry"];
-                [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-                [userObject setObject:_bookId forKey:@"bookID"];
-                [userObject setObject:[NSNumber numberWithInt:_pageNumber] forKey:@"bookPageNo"];
-                [userObject setObject:[NSNumber numberWithFloat:timeEndValue] forKey:@"bookTimeSpend"];
-                if(userEmail){
-                    [userObject setObject:ID forKey:@"emailID"];
-                }
-                [userObject setObject:IOS forKey:@"device"];
                 //[userObject saveInBackground];
+                
             }
-            else{
-                [userObject setObject:[NSNumber numberWithInteger:0] forKey:@"bookCompleted"];
-                [userObject setObject:[NSNumber numberWithInt:0] forKey:@"timesNumberBookCompleted"];
+            if (refreshCover){
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
             }
-            
-            //[userObject saveInBackground];
-            
-        }
-        if (refreshCover){
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
-        }
-    }];
+        }];
     }
 }
 
@@ -1853,16 +1891,16 @@
     }
     [delegate trackEventAnalytic:@"audio_rate_change" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    //[delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
+    //    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
     
     UISwitch *onoff = (UISwitch *) sender;
     if(onoff.on){
         NSLog(@"Switch is On");
         newAudioRate = 0.6f;
-    
+        
     }
     else{
-         NSLog(@"Switch is Off");
+        NSLog(@"Switch is Off");
         newAudioRate = 1.0f;
     }
     //UIFont *newTextFontValue = [textFontValue fontWithSize:35];
@@ -1877,57 +1915,58 @@
 #pragma sparkle view
 
 /*- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    float multiplier = 0.5f;
-    
-    CGPoint pt = [[touches anyObject] locationInView:self.pageView];
-    
-    //Create the emitter layer
-    emitter = [CAEmitterLayer layer];
-    emitter.emitterPosition = pt;
-    emitter.emitterMode = kCAEmitterLayerOutline;
-    emitter.emitterShape = kCAEmitterLayerCircle;
-    emitter.renderMode = kCAEmitterLayerAdditive;
-    emitter.emitterSize = CGSizeMake(20 * multiplier, 0);
-    
-    //Create the emitter cell
-    CAEmitterCell* particle = [CAEmitterCell emitterCell];
-    particle.emissionLongitude = M_PI-1.0;
-    particle.birthRate = multiplier * 1000.0;
-    particle.lifetime = 0.4;
-    particle.lifetimeRange = multiplier * 0.15;
-    particle.velocity = 120;
-    particle.velocityRange = 60;
-    particle.emissionRange = 0.2;
-    particle.scaleSpeed = 0.2; // was 0.3
-    particle.color = [[[UIColor yellowColor] colorWithAlphaComponent:0.5f] CGColor];
-    particle.contents = (__bridge id)([UIImage imageNamed:@"not.png"].CGImage);
-    particle.name = @"particle";
-    
-    emitter.emitterCells = [NSArray arrayWithObject:particle];
-    [self.view.layer addSublayer:emitter];
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    CGPoint pt = [[touches anyObject] locationInView:self.pageView];
-    
-    // Disable implicit animations
-    [CATransaction begin];
-    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-    emitter.emitterPosition = pt;
-    [CATransaction commit];
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [emitter removeFromSuperlayer];
-    emitter = nil;
-}
-
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchesEnded:touches withEvent:event];
-}*/
+ float multiplier = 0.5f;
+ 
+ CGPoint pt = [[touches anyObject] locationInView:self.pageView];
+ 
+ //Create the emitter layer
+ emitter = [CAEmitterLayer layer];
+ emitter.emitterPosition = pt;
+ emitter.emitterMode = kCAEmitterLayerOutline;
+ emitter.emitterShape = kCAEmitterLayerCircle;
+ emitter.renderMode = kCAEmitterLayerAdditive;
+ emitter.emitterSize = CGSizeMake(20 * multiplier, 0);
+ 
+ //Create the emitter cell
+ CAEmitterCell* particle = [CAEmitterCell emitterCell];
+ particle.emissionLongitude = M_PI-1.0;
+ particle.birthRate = multiplier * 1000.0;
+ particle.lifetime = 0.4;
+ particle.lifetimeRange = multiplier * 0.15;
+ particle.velocity = 120;
+ particle.velocityRange = 60;
+ particle.emissionRange = 0.2;
+ particle.scaleSpeed = 0.2; // was 0.3
+ particle.color = [[[UIColor yellowColor] colorWithAlphaComponent:0.5f] CGColor];
+ particle.contents = (__bridge id)([UIImage imageNamed:@"not.png"].CGImage);
+ particle.name = @"particle";
+ 
+ emitter.emitterCells = [NSArray arrayWithObject:particle];
+ [self.view.layer addSublayer:emitter];
+ }
+ 
+ - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+ CGPoint pt = [[touches anyObject] locationInView:self.pageView];
+ 
+ // Disable implicit animations
+ [CATransaction begin];
+ [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+ emitter.emitterPosition = pt;
+ [CATransaction commit];
+ }
+ 
+ - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+ [emitter removeFromSuperlayer];
+ emitter = nil;
+ }
+ 
+ - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+ [self touchesEnded:touches withEvent:event];
+ }*/
 
 - (void)dealloc {
-//    _interstitial.delegate = nil;
+    //_interstitial.delegate = nil;
+    //_bannerView_.delegate = nil;
     _audioMappingViewController.player = nil;
 }
 

@@ -17,6 +17,7 @@
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoAnalyticsViewController.h"
 #import "MangoSubscriptionViewController.h"
+#import "PageNewBookTypeViewController.h"
 
 @interface BooksCollectionViewController () <UIAlertViewDelegate>
 
@@ -64,13 +65,21 @@
     }
     if(!_categorySelected){
         NSDictionary *dic = @{
-                          @"name" : @"All Books"
-                          };
+                              @"name" : @"All Books"
+                              };
         _categorySelected = dic;
         
         _homeButton.hidden = YES;
         _libraryButton.hidden = YES;
         _deleteButton.hidden = YES;
+    }
+    
+    if(validSubscription){
+        
+        _bottomBarForSubscribe.hidden = YES;
+        _homeButton.hidden = NO;
+        _libraryButton.hidden = NO;
+        _deleteButton.hidden = NO;
     }
     
     //popoverClass = [WEPopoverController class];
@@ -132,18 +141,52 @@
 - (void) DismissOtherViewAndLoadLangingpage{
     
     NSLog(@"Views in stack are %@", self.navigationController.viewControllers);
+    LandPageChoiceViewController *myViewController;
     
     NSArray* viewControllerStack = [self.navigationController viewControllers];
     
     for(UIViewController *tempVC in viewControllerStack)
     {
-        if(![tempVC isKindOfClass:[BooksCollectionViewController class]])
+//        if(![tempVC isKindOfClass:[BooksCollectionViewController class]])
+//        {
+//            [tempVC removeFromParentViewController];
+//        }
+        
+//        if(![tempVC isKindOfClass:[CoverViewControllerBetterBookType class]])
+//        {
+//            if([tempVC isKindOfClass:[PageNewBookTypeViewController class]]){
+//                
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissBook" object:self];
+//                return;
+//                
+//            }
+//            else{
+//                [tempVC removeFromParentViewController];
+//            }
+//        }
+        
+        if([tempVC isKindOfClass:[BooksCollectionViewController class]])
         {
-                [tempVC removeFromParentViewController];
+            //[tempVC removeFromParentViewController];
         }
+        
+        else if(![tempVC isKindOfClass:[CoverViewControllerBetterBookType class]])
+        {
+            if([tempVC isKindOfClass:[PageNewBookTypeViewController class]]){
+        
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissBook" object:self];
+                return;
+        
+            }
+            else{
+                [tempVC removeFromParentViewController];
+            }
+        }
+        
+        
     }
     
-    LandPageChoiceViewController *myViewController;
+    
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
@@ -159,17 +202,17 @@
 }
 
 /*-(void)getAllFreeBooks {
-    
-     MangoApiController *apiController = [MangoApiController sharedApiController];
-    apiController.delegate = self;
-    //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
-    [apiController getFreeBookInformation:FREE_STORIES withDelegate:self];
-}*/
+ 
+ MangoApiController *apiController = [MangoApiController sharedApiController];
+ apiController.delegate = self;
+ //[apiController getListOf:FREE_STORIES ForParameters:nil withDelegate:self];
+ [apiController getFreeBookInformation:FREE_STORIES withDelegate:self];
+ }*/
 
 - (void)freeBooksSetup : (NSArray *)booksInfo;{
     NSLog(@"gsadasjkda");
-  //  [_allBooksArray addObjectsFromArray:booksInfo];
-  //  [_booksCollectionView reloadData];
+    //  [_allBooksArray addObjectsFromArray:booksInfo];
+    //  [_booksCollectionView reloadData];
 }
 
 
@@ -178,24 +221,14 @@
     return YES;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    
-    
-}
 
 - (void) viewDidAppear:(BOOL)animated{
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
-    if(validSubscription){
-        
-        _bottomBarForSubscribe.hidden = YES;
-        _homeButton.hidden = NO;
-        _libraryButton.hidden = NO;
-        _deleteButton.hidden = NO;
-    }
-    else if(!validSubscription){
+    
+    if(!validSubscription){
         
         _bottomBarForSubscribe.hidden = NO;
         _homeButton.hidden = YES;
@@ -205,10 +238,10 @@
     }
     
     if(!_categorySelected){
-    NSDictionary *dic = @{
-                          @"name" : @"All Books"
-                          };
-    _categorySelected = dic;
+        NSDictionary *dic = @{
+                              @"name" : @"All Books"
+                              };
+        _categorySelected = dic;
     }
     
     if (_allBooksArray) {
@@ -257,7 +290,7 @@
                 [self performSelector:@selector(viewDidAppear:) withObject:self afterDelay:0.3f];
             }
             else{
-            
+                
                 [prefs setBool:YES forKey:@"ISPACKBOOKSLOADED"];
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 //stop loading
@@ -271,7 +304,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.                     
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Get Books
@@ -279,8 +312,6 @@
 - (NSArray *)booksForCategory:(NSString *)category {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
-    
-    
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *booksForSelectedCategory = [[NSMutableArray alloc] init];
@@ -298,13 +329,13 @@
         if (jsonLocation && _categorySelected && [appDelegate.ejdbController getBookForBookId:book.id]) {
             
             NSString *jsonLocation;
-           // if(validSubscription){
-                jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
-           // }
-          //  else{
-          //      jsonLocation = book.localPathImageFile;
-          //  }
-
+            // if(validSubscription){
+            jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:book];
+            // }
+            //  else{
+            //      jsonLocation = book.localPathImageFile;
+            //  }
+            
             NSFileManager *fm = [NSFileManager defaultManager];
             NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
             NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
@@ -364,7 +395,7 @@
     }
     else{
         if (buttonIndex == 1) {
-        [self deleteBook:[_allBooksArray objectAtIndex:deleteBookIndex]];
+            [self deleteBook:[_allBooksArray objectAtIndex:deleteBookIndex]];
         }
     }
 }
@@ -374,7 +405,7 @@
 
 - (void)setupUI {
     CGRect viewFrame = self.view.bounds;
-
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -432,7 +463,7 @@
     
     bookCell.delegate = self;
     //if (indexPath.row > 0) {
-        //if([[_allBooksArray objectAtIndex:indexPath.row-1] count]){
+    //if([[_allBooksArray objectAtIndex:indexPath.row-1] count]){
     if(!validSubscription){
         Book *book = [_allBooksArray objectAtIndex:indexPath.row];
         bookCell.book = book;
@@ -456,17 +487,17 @@
             }
         }
     }
-       // }
-   // } else {
-        
- /*       bookCell.isDeleteMode = NO;
-        bookCell.labelFreeBook.hidden = YES;
-        if (_toEdit || [[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]) {
-            bookCell.bookCoverImageView.image = [UIImage imageNamed:@"create-story-book-icon1.png"];
-        } else {
-            bookCell.bookCoverImageView.image = [UIImage imageNamed:@"icons_getmorebooks.png"];
-        }
-    }*/
+    // }
+    // } else {
+    
+    /*       bookCell.isDeleteMode = NO;
+     bookCell.labelFreeBook.hidden = YES;
+     if (_toEdit || [[_categorySelected objectForKey:NAME] isEqualToString:@"My Books"]) {
+     bookCell.bookCoverImageView.image = [UIImage imageNamed:@"create-story-book-icon1.png"];
+     } else {
+     bookCell.bookCoverImageView.image = [UIImage imageNamed:@"icons_getmorebooks.png"];
+     }
+     }*/
     
     return bookCell;
 }
@@ -490,7 +521,7 @@
 #pragma mark - UICollectionView Delegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-   // NSLog(@"Index Path %@", [_categorySelected objectForKey:NAME]);
+    // NSLog(@"Index Path %@", [_categorySelected objectForKey:NAME]);
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
@@ -578,50 +609,50 @@
                     [self.navigationController.navigationBar setHidden:YES];
                     
                     /*NSDictionary *dimensions = @{
-                                                 PARAMETER_USER_EMAIL_ID : ID,
-                                                 PARAMETER_DEVICE: IOS,
-                                                 PARAMETER_BOOK_ID : book.id
-                                                 
-                                                 };
-                    [delegate trackEvent:[CREATESTORY_SELECT_BOOK valueForKey:@"description" ]  dimensions:dimensions];
-                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-                    [userObject setObject:[CREATESTORY_SELECT_BOOK valueForKey:@"value"] forKey:@"eventName"];
-                    [userObject setObject: [CREATESTORY_SELECT_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
-                    [userObject setObject:viewName forKey:@"viewName"];
-                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-                    [userObject setObject:book.id forKey:@"bookID"];
-                    if(userEmail){
-                        [userObject setObject:ID forKey:@"emailID"];
-                    }
-                    [userObject setObject:IOS forKey:@"device"];
-                    [userObject saveInBackground];*/
+                     PARAMETER_USER_EMAIL_ID : ID,
+                     PARAMETER_DEVICE: IOS,
+                     PARAMETER_BOOK_ID : book.id
+                     
+                     };
+                     [delegate trackEvent:[CREATESTORY_SELECT_BOOK valueForKey:@"description" ]  dimensions:dimensions];
+                     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                     [userObject setObject:[CREATESTORY_SELECT_BOOK valueForKey:@"value"] forKey:@"eventName"];
+                     [userObject setObject: [CREATESTORY_SELECT_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+                     [userObject setObject:viewName forKey:@"viewName"];
+                     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                     [userObject setObject:book.id forKey:@"bookID"];
+                     if(userEmail){
+                     [userObject setObject:ID forKey:@"emailID"];
+                     }
+                     [userObject setObject:IOS forKey:@"device"];
+                     [userObject saveInBackground];*/
                     
                     [self.navigationController pushViewController:mangoEditorViewController animated:YES];
                 } else {
                     
                     /*NSDictionary *dimensions = @{
-                                                 PARAMETER_USER_EMAIL_ID : ID,
-                                                 PARAMETER_DEVICE: IOS,
-                                                 PARAMETER_BOOK_ID : book.id
-                                                 
-                                                 };
-                    [delegate trackEvent:[DETAIL_CATEGORY_BOOK_SELECT valueForKey:@"description"] dimensions:dimensions];
-                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-                    [userObject setObject:[DETAIL_CATEGORY_BOOK_SELECT valueForKey:@"value"] forKey:@"eventName"];
-                    [userObject setObject: [DETAIL_CATEGORY_BOOK_SELECT valueForKey:@"description"] forKey:@"eventDescription"];
-                    [userObject setObject:viewName forKey:@"viewName"];
-                    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-                    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-                    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-                    [userObject setObject:[_categorySelected valueForKey:@"name"] forKey:@"categorySelect"];
-                    [userObject setObject:book.id forKey:@"bookID"];
-                    if(userEmail){
-                        [userObject setObject:ID forKey:@"emailID"];
-                    }
-                    [userObject setObject:IOS forKey:@"device"];
-                    [userObject saveInBackground];*/
+                     PARAMETER_USER_EMAIL_ID : ID,
+                     PARAMETER_DEVICE: IOS,
+                     PARAMETER_BOOK_ID : book.id
+                     
+                     };
+                     [delegate trackEvent:[DETAIL_CATEGORY_BOOK_SELECT valueForKey:@"description"] dimensions:dimensions];
+                     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+                     [userObject setObject:[DETAIL_CATEGORY_BOOK_SELECT valueForKey:@"value"] forKey:@"eventName"];
+                     [userObject setObject: [DETAIL_CATEGORY_BOOK_SELECT valueForKey:@"description"] forKey:@"eventDescription"];
+                     [userObject setObject:viewName forKey:@"viewName"];
+                     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+                     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+                     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+                     [userObject setObject:[_categorySelected valueForKey:@"name"] forKey:@"categorySelect"];
+                     [userObject setObject:book.id forKey:@"bookID"];
+                     if(userEmail){
+                     [userObject setObject:ID forKey:@"emailID"];
+                     }
+                     [userObject setObject:IOS forKey:@"device"];
+                     [userObject saveInBackground];*/
                     
                     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
                     int val =[book.downloaded integerValue];
@@ -629,9 +660,9 @@
                     NSString *sodtBookId = [prefs valueForKey:@"StoryOfTheDayBookId"];
                     
                     if(val == 2){
-                       /* NSString *message = [NSString stringWithFormat:@"Th book %@ is free, are you sure you want to download it now?", book.title];
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Free Book" message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-                        [alert show];*/
+                        /* NSString *message = [NSString stringWithFormat:@"Th book %@ is free, are you sure you want to download it now?", book.title];
+                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Free Book" message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                         [alert show];*/
                         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
                         [prefs setBool:YES forKey:@"ISAPPLECHECK"];
                         [self getLiveStoryByID:book.id];
@@ -671,7 +702,7 @@
                         }
                         
                         else{
-                        //check if user is subscribed else goto subscription screen
+                            //check if user is subscribed else goto subscription screen
                             MangoSubscriptionViewController *showsubscriptionScreen;
                             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                                 
@@ -730,8 +761,8 @@
 }
 
 /*- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    self.popoverControlleriPhone = nil;
-}*/
+ self.popoverControlleriPhone = nil;
+ }*/
 
 - (void)displaySettingsOrNot {
     
@@ -750,163 +781,163 @@
 }
 
 /*- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    if([alertView.title isEqualToString:@"Delete Book"]){
-        Book *book = [_allBooksArray objectAtIndex:deleteBookIndex];
-        if(buttonIndex == 1){
-            NSLog(@"delete");
-            [self deleteBook:book];
-        }
-        else{
-            [_deleteButton setImage:[UIImage imageNamed:@"doneTrash.png"] forState:UIControlStateNormal];
-        }
-    }
-    else if([alertView.title isEqualToString:@"SOLVE"]){
-        
-        if((settingQuesNo % 2) == buttonIndex){
-            NSLog(@"CORRECT");
-            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-            NSDictionary *EVENT;
-            NSDictionary *dimensions = @{
-                                         PARAMETER_USER_ID : ID,
-                                         PARAMETER_DEVICE: IOS,
-                                         PARAMETER_SETTINGS_QUES_SOL:[NSString stringWithFormat:@"%d", (BOOL)YES],
-                                         
-                                         };
-            if(_fromCreateStoryView){
-                EVENT = CREATESTORY_SETTING_QUES;
-                [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-                [userObject setObject:viewName forKey:@"viewName"];
-            }
-            else{
-                EVENT = DETAIL_CATEGORY_SETTING_QUES;
-                [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-                [userObject setObject:viewName forKey:@"viewName"];
-            }
-            [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
-            [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
-            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-            [userObject setObject:delegate.country forKey:@"deviceCountry"];
-            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-            [userObject setObject:[NSNumber numberWithBool:YES] forKey:@"boolValue"];
-            if(userEmail){
-                [userObject setObject:ID forKey:@"emailID"];
-            }
-            [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
-            
-            NSDictionary *dimensions1 = @{
-                                          PARAMETER_USER_ID : ID,
-                                         PARAMETER_DEVICE: IOS,
-                                         
-                                         };
-            if(_fromCreateStoryView){
-                EVENT = CREATESTORY_SETTINGS;
-                [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions1];
-                [userObject setObject:viewName forKey:@"viewName"];
-            }
-            else{
-                EVENT = DETAIL_CATEGORY_SETTINGS;
-                [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions1];
-                [userObject setObject:viewName forKey:@"viewName"];
-            }
-            [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
-            [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
-            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-            [userObject setObject:delegate.country forKey:@"deviceCountry"];
-            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-            if(userEmail){
-                [userObject setObject:ID forKey:@"emailID"];
-            }
-            [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
-            settingSol = YES;
-            
-        }
-        else{
-            NSLog(@"WRONG");
-            PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-            NSDictionary *EVENT;
-            NSDictionary *dimensions = @{
-                                         PARAMETER_USER_ID : ID,
-                                         PARAMETER_DEVICE: IOS,
-                                         PARAMETER_SETTINGS_QUES_SOL:[NSString stringWithFormat:@"%d", (BOOL)YES],
-                                         
-                                         };
-            if(_fromCreateStoryView){
-                EVENT = CREATESTORY_SETTING_QUES;
-                [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-                [userObject setObject:viewName forKey:@"viewName"];
-            }
-            else{
-                EVENT = DETAIL_CATEGORY_SETTING_QUES;
-                [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-                [userObject setObject:viewName forKey:@"viewName"];
-            }
-            [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
-            [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
-            [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-            [userObject setObject:delegate.country forKey:@"deviceCountry"];
-            [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-            [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
-            if(userEmail){
-                [userObject setObject:ID forKey:@"emailID"];
-            }
-            [userObject setObject:IOS forKey:@"device"];
-            [userObject saveInBackground];
-        }
-        
-    }
-    
-}*/
+ AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+ if([alertView.title isEqualToString:@"Delete Book"]){
+ Book *book = [_allBooksArray objectAtIndex:deleteBookIndex];
+ if(buttonIndex == 1){
+ NSLog(@"delete");
+ [self deleteBook:book];
+ }
+ else{
+ [_deleteButton setImage:[UIImage imageNamed:@"doneTrash.png"] forState:UIControlStateNormal];
+ }
+ }
+ else if([alertView.title isEqualToString:@"SOLVE"]){
+ 
+ if((settingQuesNo % 2) == buttonIndex){
+ NSLog(@"CORRECT");
+ PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+ NSDictionary *EVENT;
+ NSDictionary *dimensions = @{
+ PARAMETER_USER_ID : ID,
+ PARAMETER_DEVICE: IOS,
+ PARAMETER_SETTINGS_QUES_SOL:[NSString stringWithFormat:@"%d", (BOOL)YES],
+ 
+ };
+ if(_fromCreateStoryView){
+ EVENT = CREATESTORY_SETTING_QUES;
+ [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+ [userObject setObject:viewName forKey:@"viewName"];
+ }
+ else{
+ EVENT = DETAIL_CATEGORY_SETTING_QUES;
+ [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+ [userObject setObject:viewName forKey:@"viewName"];
+ }
+ [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+ [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
+ [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+ [userObject setObject:delegate.country forKey:@"deviceCountry"];
+ [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+ [userObject setObject:[NSNumber numberWithBool:YES] forKey:@"boolValue"];
+ if(userEmail){
+ [userObject setObject:ID forKey:@"emailID"];
+ }
+ [userObject setObject:IOS forKey:@"device"];
+ [userObject saveInBackground];
+ 
+ NSDictionary *dimensions1 = @{
+ PARAMETER_USER_ID : ID,
+ PARAMETER_DEVICE: IOS,
+ 
+ };
+ if(_fromCreateStoryView){
+ EVENT = CREATESTORY_SETTINGS;
+ [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions1];
+ [userObject setObject:viewName forKey:@"viewName"];
+ }
+ else{
+ EVENT = DETAIL_CATEGORY_SETTINGS;
+ [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions1];
+ [userObject setObject:viewName forKey:@"viewName"];
+ }
+ [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+ [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
+ [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+ [userObject setObject:delegate.country forKey:@"deviceCountry"];
+ [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+ if(userEmail){
+ [userObject setObject:ID forKey:@"emailID"];
+ }
+ [userObject setObject:IOS forKey:@"device"];
+ [userObject saveInBackground];
+ settingSol = YES;
+ 
+ }
+ else{
+ NSLog(@"WRONG");
+ PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+ NSDictionary *EVENT;
+ NSDictionary *dimensions = @{
+ PARAMETER_USER_ID : ID,
+ PARAMETER_DEVICE: IOS,
+ PARAMETER_SETTINGS_QUES_SOL:[NSString stringWithFormat:@"%d", (BOOL)YES],
+ 
+ };
+ if(_fromCreateStoryView){
+ EVENT = CREATESTORY_SETTING_QUES;
+ [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+ [userObject setObject:viewName forKey:@"viewName"];
+ }
+ else{
+ EVENT = DETAIL_CATEGORY_SETTING_QUES;
+ [delegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+ [userObject setObject:viewName forKey:@"viewName"];
+ }
+ [userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
+ [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
+ [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+ [userObject setObject:delegate.country forKey:@"deviceCountry"];
+ [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+ [userObject setObject:[NSNumber numberWithBool:NO] forKey:@"boolValue"];
+ if(userEmail){
+ [userObject setObject:ID forKey:@"emailID"];
+ }
+ [userObject setObject:IOS forKey:@"device"];
+ [userObject saveInBackground];
+ }
+ 
+ }
+ 
+ }*/
 
 
 /*- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if(settingSol){
-        [self displaySettings];
-        settingSol = NO;
-    }
-    
-}*/
+ 
+ if(settingSol){
+ [self displaySettings];
+ settingSol = NO;
+ }
+ 
+ }*/
 
 
 /*-(void)displaySettings {
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        if (!_popoverControlleriPhone) {
-            
-            SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-            [settingsViewController.view setFrame:CGRectMake(0, 0, 50, 150)];
-            settingsViewController.dismissDelegate = self;
-            settingsViewController.controller = self.navigationController;
-            settingsViewController.analyticsDelegate = self;
-            self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
-            self.popoverControlleriPhone.delegate = self;
-            [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(200, 132)];
-            self.popoverControlleriPhone.passthroughViews = nil;
-            
-            [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            
-        } else {
-            [self.popoverControlleriPhone dismissPopoverAnimated:YES];
-            self.popoverControlleriPhone = nil;
-        }
-        
-    }
-    
-    else{
-        
-        SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
-        settingsViewController.dismissDelegate = self;
-        settingsViewController.controller = self.navigationController;
-        _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
-        [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
-        [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    
-}*/
+ 
+ if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+ 
+ if (!_popoverControlleriPhone) {
+ 
+ SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+ [settingsViewController.view setFrame:CGRectMake(0, 0, 50, 150)];
+ settingsViewController.dismissDelegate = self;
+ settingsViewController.controller = self.navigationController;
+ settingsViewController.analyticsDelegate = self;
+ self.popoverControlleriPhone = [[popoverClass alloc] initWithContentViewController:settingsViewController];
+ self.popoverControlleriPhone.delegate = self;
+ [self.popoverControlleriPhone setPopoverContentSize:CGSizeMake(200, 132)];
+ self.popoverControlleriPhone.passthroughViews = nil;
+ 
+ [self.popoverControlleriPhone presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+ 
+ } else {
+ [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+ self.popoverControlleriPhone = nil;
+ }
+ 
+ }
+ 
+ else{
+ 
+ SettingOptionViewController *settingsViewController=[[SettingOptionViewController alloc]initWithStyle:UITableViewCellStyleDefault];
+ settingsViewController.dismissDelegate = self;
+ settingsViewController.controller = self.navigationController;
+ _popOverController=[[UIPopoverController alloc]initWithContentViewController:settingsViewController];
+ [_popOverController setPopoverContentSize:CGSizeMake(300, 132)];
+ [_popOverController presentPopoverFromRect:_settingButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+ }
+ 
+ }*/
 
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -932,7 +963,7 @@
         
     }
     else{
-            return CGSizeMake(200, 240);
+        return CGSizeMake(200, 240);
     }
     
 }
@@ -950,16 +981,16 @@
 
 - (IBAction)settingsButtonTapped:(id)sender {
     
-//    int rNo = arc4random()%8;
-//    settingQuesNo = rNo;
+    //    int rNo = arc4random()%8;
+    //    settingQuesNo = rNo;
     
     /*if (_popoverControlleriPhone){
-        
-        [self.popoverControlleriPhone dismissPopoverAnimated:YES];
-        self.popoverControlleriPhone = nil;
-        
-        return;
-    }*/
+     
+     [self.popoverControlleriPhone dismissPopoverAnimated:YES];
+     self.popoverControlleriPhone = nil;
+     
+     return;
+     }*/
     
     [self qusetionForSettings];
 }
@@ -996,8 +1027,8 @@
 }
 
 /*- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    self.popoverControlleriPhone = nil;
-}*/
+ self.popoverControlleriPhone = nil;
+ }*/
 
 - (void) showAnalyticsView{
     
@@ -1052,20 +1083,20 @@
     if (deleteSuccess) {
         NSDictionary *EVENT;
         /*PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_EMAIL_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID :book_id
-                                     };*/
+         NSDictionary *dimensions = @{
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID :book_id
+         };*/
         if(_fromCreateStoryView){
-//            EVENT = CREATESTORY_DELETE_BOOK;
-//            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-//            [userObject setObject:viewName forKey:@"viewName"];
+            //            EVENT = CREATESTORY_DELETE_BOOK;
+            //            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+            //            [userObject setObject:viewName forKey:@"viewName"];
         }
         else{
-//            EVENT = DETAIL_CATEGORY_DELETE_BOOK;
-//            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
-//            [userObject setObject:viewName forKey:@"viewName"];
+            //            EVENT = DETAIL_CATEGORY_DELETE_BOOK;
+            //            [appDelegate trackEvent:[EVENT valueForKey:@"description"] dimensions:dimensions];
+            //            [userObject setObject:viewName forKey:@"viewName"];
             
             NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
             [dimensions setObject:@"delete_click" forKey:PARAMETER_ACTION];
@@ -1078,19 +1109,19 @@
             [appDelegate trackEventAnalytic:@"delete_click" dimensions:dimensions];
             [appDelegate eventAnalyticsDataBrowser:dimensions];
             //[appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
-
+            
         }
         /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:appDelegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:appDelegate.country forKey:@"deviceCountry"];
-        [userObject setObject:appDelegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:book_id forKey:@"bookID"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
+         [userObject setObject: [EVENT valueForKey:@"description"] forKey:@"eventDescription"];
+         [userObject setObject:appDelegate.deviceId forKey:@"deviceIDValue"];
+         [userObject setObject:appDelegate.country forKey:@"deviceCountry"];
+         [userObject setObject:appDelegate.language forKey:@"deviceLanguage"];
+         [userObject setObject:book_id forKey:@"bookID"];
+         if(userEmail){
+         [userObject setObject:ID forKey:@"emailID"];
+         }
+         [userObject setObject:IOS forKey:@"device"];
+         [userObject saveInBackground];*/
         
         NSLog(@"Deleted Book");
         //_allBooksArray = [self getAllBooks];
@@ -1267,7 +1298,7 @@
     bookDetailsViewController.view.layer.cornerRadius = 2.5f;
     bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
+    
 }
 
 - (IBAction) mangoSubscription{

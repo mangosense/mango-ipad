@@ -214,6 +214,11 @@
 #define BOTTOM_ALIGN @"bottom"
 #define IMAGE_ALIGNMENT @"image_alignment"
 
+#pragma mark - Subscription PlansId
+#define SUBSCRIPTION_YEARLY @"536904fe69702d61c5060000"
+#define SUBSCRIPTION_QUATERLY @"536904dc69702d617f0c0000"
+#define SUBSCRIPTION_MONTHLY @"536904b169702d6159090000"
+
 #pragma mark - URL's
 
 #define BASE_URL @"http://api.mangoreader.com/api/v2"

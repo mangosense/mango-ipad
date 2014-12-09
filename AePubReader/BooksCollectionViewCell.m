@@ -155,7 +155,8 @@
         jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     else{
-        jsonLocation = _book.localPathImageFile;
+        //jsonLocation = _book.localPathImageFile;
+        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     NSString *baseBookPath = jsonLocation;
     NSFileManager *fm = [NSFileManager defaultManager];

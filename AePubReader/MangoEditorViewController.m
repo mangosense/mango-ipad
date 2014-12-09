@@ -118,7 +118,7 @@
 {
     _buttonNewPlay.hidden = YES;
     [super viewDidLoad];
-
+    
     // Do any additional setup after loading the view from its nib.
     viewName = @"Story editor";
     currentPage = @"";
@@ -132,23 +132,24 @@
     [[NSUserDefaults standardUserDefaults] setObject:[NSArray arrayWithObjects:@"de", nil]
                                               forKey:@"AppleLanguages"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.view bringSubviewToFront:pageImageView];
     
-   /* NSString *fontFamily = @"TamilSangamMN";
-    NSString *fontStyle = @"";
-    _fontCustom = [UIFont fontWithName:[fontFamily stringByAppendingString:fontStyle]
-                                         size:30.0];*/
+    /* NSString *fontFamily = @"TamilSangamMN";
+     NSString *fontStyle = @"";
+     _fontCustom = [UIFont fontWithName:[fontFamily stringByAppendingString:fontStyle]
+     size:30.0];*/
     //lblName.font = fontCustom;
     
     
-   /* for (NSString* family in [UIFont familyNames])
-    {
-        NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            NSLog(@"  %@", name);
-        }
-    }*/
+    /* for (NSString* family in [UIFont familyNames])
+     {
+     NSLog(@"%@", family);
+     
+     for (NSString* name in [UIFont fontNamesForFamilyName: family])
+     {
+     NSLog(@"  %@", name);
+     }
+     }*/
 }
 
 
@@ -303,51 +304,51 @@
     if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
         NSLog(@"Camera");
         /*NSDictionary *dimensions = @{
-                                     
-                                     PARAMETER_USER_EMAIL_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: bookid,
-                                     
-                                     };
-        [delegate trackEvent:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] dimensions:dimensions];
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        [userObject setObject:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:bookid forKey:@"bookID"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
+         
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID: bookid,
+         
+         };
+         [delegate trackEvent:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] dimensions:dimensions];
+         PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+         [userObject setObject:[EDITOR_ADD_CAMERA_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+         [userObject setObject: [EDITOR_ADD_CAMERA_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+         [userObject setObject:viewName forKey:@"viewName"];
+         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+         [userObject setObject:delegate.country forKey:@"deviceCountry"];
+         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+         [userObject setObject:bookid forKey:@"bookID"];
+         if(userEmail){
+         [userObject setObject:ID forKey:@"emailID"];
+         }
+         [userObject setObject:IOS forKey:@"device"];
+         [userObject saveInBackground];*/
         
     }
     else{
-      NSLog(@"library");
+        NSLog(@"library");
         /*NSDictionary *dimensions = @{
-                                     
-                                     PARAMETER_USER_EMAIL_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: bookid,
-                                     
-                                     };
-        [delegate trackEvent:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] dimensions:dimensions];
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        [userObject setObject:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:bookid forKey:@"bookID"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
+         
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID: bookid,
+         
+         };
+         [delegate trackEvent:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] dimensions:dimensions];
+         PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+         [userObject setObject:[EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+         [userObject setObject: [EDITOR_ADD_LIBRARY_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+         [userObject setObject:viewName forKey:@"viewName"];
+         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+         [userObject setObject:delegate.country forKey:@"deviceCountry"];
+         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+         [userObject setObject:bookid forKey:@"bookID"];
+         if(userEmail){
+         [userObject setObject:ID forKey:@"emailID"];
+         }
+         [userObject setObject:IOS forKey:@"device"];
+         [userObject saveInBackground];*/
         
     }
     
@@ -365,7 +366,7 @@
             arrayOfEditorImages = [NSArray arrayWithArray:mutableImagesArray];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = [arrayOfEditorImages count] - 1;
-                    
+            
             [self addImageForButton:button];
         }
     }];
@@ -542,25 +543,25 @@
     }
     
     /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: bookid,
-                                 
-                                 };
-    [delegate trackEvent:[EDITOR_ADD_IMAGE valueForKey:@"value"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[EDITOR_ADD_IMAGE valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [EDITOR_ADD_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:bookid forKey:@"bookID"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];*/
+     PARAMETER_USER_EMAIL_ID : ID,
+     PARAMETER_DEVICE: IOS,
+     PARAMETER_BOOK_ID: bookid,
+     
+     };
+     [delegate trackEvent:[EDITOR_ADD_IMAGE valueForKey:@"value"] dimensions:dimensions];
+     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+     [userObject setObject:[EDITOR_ADD_IMAGE valueForKey:@"value"] forKey:@"eventName"];
+     [userObject setObject: [EDITOR_ADD_IMAGE valueForKey:@"description"] forKey:@"eventDescription"];
+     [userObject setObject:viewName forKey:@"viewName"];
+     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+     [userObject setObject:bookid forKey:@"bookID"];
+     if(userEmail){
+     [userObject setObject:ID forKey:@"emailID"];
+     }
+     [userObject setObject:IOS forKey:@"device"];
+     [userObject saveInBackground];*/
     
     
     stickerView = [[UIView alloc] initWithFrame:CGRectMake(pageImageView.center.x - 90, pageImageView.center.y - 90, 140, 180)];
@@ -645,7 +646,7 @@
             [imagesArray addObject:[UIImage imageNamed:[NSString stringWithFormat:@"editor_%d.png", i]]];
         }
     }
-
+    
     arrayOfEditorImages = [NSArray arrayWithArray:imagesArray];
 }
 
@@ -658,20 +659,20 @@
     [takePhotoButton addTarget:self action:@selector(cameraButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [takePhotoButton setFrame:CGRectMake(0, 0, 250, 30)];
     [scrollController.view  addSubview:takePhotoButton];
-
+    
     /*UISegmentedControl *assetTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All", @"Story", nil]];
-    [assetTypeSegmentedControl setSelectedSegmentIndex:0];
-    [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
-    [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 30)];
-    
-    UITextView *searchTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 44, 250, 30)];
-    searchTextView.delegate = self;
-    [searchTextView setReturnKeyType:UIReturnKeyGo];
-    [[searchTextView layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
-    [[searchTextView layer] setBorderWidth:1.0f];
-    [[searchTextView layer] setCornerRadius:5.0f];
-    
-    [scrollController.view  addSubview:assetTypeSegmentedControl];*/
+     [assetTypeSegmentedControl setSelectedSegmentIndex:0];
+     [assetTypeSegmentedControl addTarget:self action:@selector(assetTypeSelected:) forControlEvents:UIControlEventValueChanged];
+     [assetTypeSegmentedControl setFrame:CGRectMake(0, 0, 250, 30)];
+     
+     UITextView *searchTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 44, 250, 30)];
+     searchTextView.delegate = self;
+     [searchTextView setReturnKeyType:UIReturnKeyGo];
+     [[searchTextView layer] setBorderColor:[COLOR_DARK_GREY CGColor]];
+     [[searchTextView layer] setBorderWidth:1.0f];
+     [[searchTextView layer] setCornerRadius:5.0f];
+     
+     [scrollController.view  addSubview:assetTypeSegmentedControl];*/
     /*[scrollController.view  addSubview:searchTextView];*/
     
     for (UIImage *image in arrayOfEditorImages) {
@@ -695,7 +696,7 @@
     collectionView.delegate = self;
     collectionView.backgroundColor = [UIColor whiteColor];
     [scrollController.view addSubview:collectionView];
-
+    
     menuPopoverController = [[UIPopoverController alloc] initWithContentViewController:scrollController];
     [menuPopoverController setPopoverContentSize:CGSizeMake(250, pageImageView.frame.size.height)];
     menuPopoverController.delegate = self;
@@ -775,11 +776,11 @@
 - (void)goToStoriesList {
     [menuPopoverController dismissPopoverAnimated:YES];
     /* To do methods for save and close and create a new story*/
-
-//    MangoApiController *apiController = [MangoApiController sharedApiController];
-//    apiController.delegate = self;
-//    [apiController saveNewBookWithJSON:@""];
-//
+    
+    //    MangoApiController *apiController = [MangoApiController sharedApiController];
+    //    apiController.delegate = self;
+    //    [apiController saveNewBookWithJSON:@""];
+    //
     
     [self mangoButtonTapped:nil];
 }
@@ -799,25 +800,25 @@
             bookId = storyBook.id;
         }
         /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: bookId,
-                                 
-                                 };
-        [delegate trackEvent:[EDITOR_MANGO_TAP valueForKey:@"description"] dimensions:dimensions];
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        [userObject setObject:[EDITOR_MANGO_TAP valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [EDITOR_MANGO_TAP valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:bookId forKey:@"bookID"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID: bookId,
+         
+         };
+         [delegate trackEvent:[EDITOR_MANGO_TAP valueForKey:@"description"] dimensions:dimensions];
+         PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+         [userObject setObject:[EDITOR_MANGO_TAP valueForKey:@"value"] forKey:@"eventName"];
+         [userObject setObject: [EDITOR_MANGO_TAP valueForKey:@"description"] forKey:@"eventDescription"];
+         [userObject setObject:viewName forKey:@"viewName"];
+         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+         [userObject setObject:delegate.country forKey:@"deviceCountry"];
+         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+         [userObject setObject:bookId forKey:@"bookID"];
+         if(userEmail){
+         [userObject setObject:ID forKey:@"emailID"];
+         }
+         [userObject setObject:IOS forKey:@"device"];
+         [userObject saveInBackground];*/
     }
     
     bookJsonString = [self jsonForBook:_mangoStoryBook];
@@ -836,16 +837,16 @@
         NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
         NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,storyBook.id];
         
-
-        //fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
-        fileName = @"mango";
+        
+        fileName = [[[[NSURL URLWithString:[self jsonFileLocationForLocation:storyBook.localPathFile]] URLByDeletingPathExtension] pathComponents] lastObject];
+        //        fileName = storyBook.id;
         
     } else {
         fileName = _mangoStoryBook.id;
     }
     
     [self createFileAtPath:[NSString stringWithFormat:@"%@/%@.json", _editedBookPath, fileName] WithData:data];
-
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -864,6 +865,7 @@
     
     [self writeEditorImagesToDevice];
     [self showEditorImages];
+    
 }
 
 - (IBAction)textButtonTapped:(id)sender {
@@ -879,25 +881,25 @@
     }
     
     /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: bookid,
-                                 
-                                 };
-    [delegate trackEvent:[EDITOR_ADD_TEXT valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[EDITOR_ADD_TEXT valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [EDITOR_ADD_TEXT valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:bookid forKey:@"bookID"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];*/
+     PARAMETER_USER_EMAIL_ID : ID,
+     PARAMETER_DEVICE: IOS,
+     PARAMETER_BOOK_ID: bookid,
+     
+     };
+     [delegate trackEvent:[EDITOR_ADD_TEXT valueForKey:@"description"] dimensions:dimensions];
+     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+     [userObject setObject:[EDITOR_ADD_TEXT valueForKey:@"value"] forKey:@"eventName"];
+     [userObject setObject: [EDITOR_ADD_TEXT valueForKey:@"description"] forKey:@"eventDescription"];
+     [userObject setObject:viewName forKey:@"viewName"];
+     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+     [userObject setObject:bookid forKey:@"bookID"];
+     if(userEmail){
+     [userObject setObject:ID forKey:@"emailID"];
+     }
+     [userObject setObject:IOS forKey:@"device"];
+     [userObject saveInBackground];*/
     
     ItemsListViewController *textTemplatesListViewController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     textTemplatesListViewController.itemsListArray = [NSMutableArray arrayWithObjects:@"Add your text here ...",@"Once upon a time, there was a school, where Children didn’t like reading the books they had.", @"Everyday, they would get bored of reading and  teachers tried everything, but couldn't figure out what to do.", @"One day, they found mangoreader and read the interactive mangoreader story, played fun games and made their own stories.", @"Because of that, children fell in love with reading and started reading and playing with stories and shared with their friends.", @"Because of that, their teachers and parents were excited and they shared the mangoreader stories with other school teachers, kids and parents to give them the joy of reading.", @"Until finally everyone started using mangoreader to create, share and learn from stories which was so much fun.", @"And they all read happily ever after. :)", nil];
@@ -917,25 +919,25 @@
 - (IBAction)audioButtonTapped:(id)sender {
     //AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
-                                 
-                                 };
-    [delegate trackEvent:[EDITOR_RECORD_PLAY valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];*/
+     PARAMETER_USER_EMAIL_ID : ID,
+     PARAMETER_DEVICE: IOS,
+     PARAMETER_BOOK_ID: _mangoStoryBook.id,
+     
+     };
+     [delegate trackEvent:[EDITOR_RECORD_PLAY valueForKey:@"description"] dimensions:dimensions];
+     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+     [userObject setObject:[STORE_FEATURED_BOOK valueForKey:@"value"] forKey:@"eventName"];
+     [userObject setObject: [STORE_FEATURED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
+     [userObject setObject:viewName forKey:@"viewName"];
+     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+     [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
+     if(userEmail){
+     [userObject setObject:ID forKey:@"emailID"];
+     }
+     [userObject setObject:IOS forKey:@"device"];
+     [userObject saveInBackground];*/
     
     ItemsListViewController *audioListController = [[ItemsListViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [audioListController.view setFrame:CGRectMake(0, 0, 250, pageImageView.frame.size.height)];
@@ -964,19 +966,19 @@
 
 - (IBAction)reRecordButtonTapped:(id)sender {
     /*AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.ejdbController deleteAudioLayer:_audioLayer];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *recDir = [paths objectAtIndex:0];
-    NSURL *url;
-    if (_audioUrl) {
-        url = _audioUrl;
-    } else {
-        url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
-    }
-    url = nil, _audioUrl = nil;*/
-   /* _audioLayer.wordTimes = nil;
-    _audioLayer.wordMap = nil;*/
+     [appDelegate.ejdbController deleteAudioLayer:_audioLayer];
+     
+     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+     NSString *recDir = [paths objectAtIndex:0];
+     NSURL *url;
+     if (_audioUrl) {
+     url = _audioUrl;
+     } else {
+     url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
+     }
+     url = nil, _audioUrl = nil;*/
+    /* _audioLayer.wordTimes = nil;
+     _audioLayer.wordMap = nil;*/
     //reRecordingCheck =1;
     //[self startRecordingAudio];
     [self startPlayingAudioFromDb];
@@ -1011,7 +1013,7 @@
             AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
             MangoPage *page = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:currentPageNumber]];
             
-  //          UIPanGestureRecognizer *pangesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+            //          UIPanGestureRecognizer *pangesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
             
             MangoTextLayer *textLayer = [[MangoTextLayer alloc] init];
             textLayer.actualText = pageTextView.text;
@@ -1020,9 +1022,9 @@
             textLayer.topRatio = [NSNumber numberWithFloat:1000.0f];
             textLayer.width = [NSNumber numberWithFloat:600.0f];
             textLayer.height = [NSNumber numberWithFloat:400.0f];
-//            [pangesture setMinimumNumberOfTouches:1];
-//            [pangesture setMaximumNumberOfTouches:1];
-//            [pangesture setDelegate:self];
+            //            [pangesture setMinimumNumberOfTouches:1];
+            //            [pangesture setMaximumNumberOfTouches:1];
+            //            [pangesture setDelegate:self];
             
             if ([appDelegate.ejdbController insertOrUpdateObject:textLayer]) {
                 _audioLayer = [[MangoAudioLayer alloc] init];
@@ -1056,23 +1058,23 @@
 }
 
 /*- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
-    
-    // //NSLog(@"orig val %f", originalPoint.x);
-    CGPoint translation = [recognizer translationInView:self.view];
-    originalPoint.x = originalPoint.x + translation.x;
-    originalPoint.y = originalPoint.y + translation.y;
-    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
-                                         recognizer.view.center.y + translation.y);
-    
-    [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
-    if(recognizer.state == UIGestureRecognizerStateEnded){
-        
-        CGRect recognizerView = [recognizer.view frame];
-        recognizer.view.center = CGPointMake(recognizer.view.center.x - originalPoint.x,
-                                         recognizer.view.center.y - originalPoint.y);
-        originalPoint = CGPointMake(0.00, 0.00);
-    }
-}*/
+ 
+ // //NSLog(@"orig val %f", originalPoint.x);
+ CGPoint translation = [recognizer translationInView:self.view];
+ originalPoint.x = originalPoint.x + translation.x;
+ originalPoint.y = originalPoint.y + translation.y;
+ recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
+ recognizer.view.center.y + translation.y);
+ 
+ [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
+ if(recognizer.state == UIGestureRecognizerStateEnded){
+ 
+ CGRect recognizerView = [recognizer.view frame];
+ recognizer.view.center = CGPointMake(recognizer.view.center.x - originalPoint.x,
+ recognizer.view.center.y - originalPoint.y);
+ originalPoint = CGPointMake(0.00, 0.00);
+ }
+ }*/
 
 #pragma mark - iCarousel Datasource And Delegate Methods
 
@@ -1084,6 +1086,12 @@
     PageThumbnailView *pageThumbnail = [[PageThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 130, 90)];
     
     pageThumbnail.thumbnailImageView.image = [UIImage imageNamed:@"white_page.jpeg"];
+    //NSString *pathValue = [_editedBookPath stringByReplacingOccurrencesOfString:@"_fork" withString:@""];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *value = [[_editedBookPath componentsSeparatedByString:@"/"] lastObject];
+    NSString *pathValue = [NSString stringWithFormat:@"%@/%@",documentsDirectory,value];
+    NSString *pathFinalValue = [pathValue stringByReplacingOccurrencesOfString:@"_fork" withString:@""];
     
     [pageThumbnail setBackgroundColor:[UIColor clearColor]];
     pageThumbnail.delegate = self;
@@ -1100,7 +1108,7 @@
             
             if ([layer isKindOfClass:[MangoImageLayer class]]) {
                 MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
-                [pageThumbnail.thumbnailImageView setImage:[UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]]];
+                [pageThumbnail.thumbnailImageView setImage:[UIImage imageWithContentsOfFile:[pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]]];
                 NSLog(@"layer tag is %d", pageThumbnail.thumbnailImageView.tag);
                 pageThumbnail.thumbnailImageView.layer.borderWidth = 2.0;
                 pageThumbnail.thumbnailImageView.layer.borderColor = [[UIColor clearColor]CGColor];
@@ -1145,7 +1153,7 @@
         [self renderEditorPage:index];
         
         //carousel.currentItemView.layer.backgroundColor = [[UIColor clearColor] CGColor];
-
+        
         
     } else {
         [self createEmptyPage :0];
@@ -1205,25 +1213,25 @@
 - (void)deletePageNumber:(int)pageNumber {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID: _mangoStoryBook.id,
-                                 
-                                 };
-    [delegate trackEvent:[EDITOR_DELETE_PAGE valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[EDITOR_DELETE_PAGE valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [EDITOR_DELETE_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];*/
+     PARAMETER_USER_EMAIL_ID : ID,
+     PARAMETER_DEVICE: IOS,
+     PARAMETER_BOOK_ID: _mangoStoryBook.id,
+     
+     };
+     [delegate trackEvent:[EDITOR_DELETE_PAGE valueForKey:@"description"] dimensions:dimensions];
+     PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+     [userObject setObject:[EDITOR_DELETE_PAGE valueForKey:@"value"] forKey:@"eventName"];
+     [userObject setObject: [EDITOR_DELETE_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
+     [userObject setObject:viewName forKey:@"viewName"];
+     [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+     [userObject setObject:delegate.country forKey:@"deviceCountry"];
+     [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+     [userObject setObject:_mangoStoryBook.id forKey:@"bookID"];
+     if(userEmail){
+     [userObject setObject:ID forKey:@"emailID"];
+     }
+     [userObject setObject:IOS forKey:@"device"];
+     [userObject saveInBackground];*/
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableArray *mutablePagesArray = [NSMutableArray arrayWithArray:_mangoStoryBook.pages];
@@ -1293,15 +1301,15 @@
 + (NSNumber *)numberOfPagesInStory:(NSString *)jsonString {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-
- //   NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    
+    //   NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
     int totalpages;
     totalpages = [[jsonDict objectForKey:@"page_count"] intValue];
     if(!totalpages){
         totalpages = [[[jsonDict valueForKey:@"pages"] valueForKey:@"id"] count];
     }
-
+    
     return [NSNumber numberWithInt:totalpages];
 }
 
@@ -1310,7 +1318,7 @@
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-
+    
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
     NSDictionary *coverPageDict;
@@ -1377,7 +1385,7 @@
             [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
             [audioMappingViewController.view setExclusiveTouch:YES];
             [audioMappingViewController.customView setNeedsDisplay];
- 
+            
             NSArray *cues=audioLayer.wordTimes;
             
             
@@ -1443,20 +1451,20 @@
             audioMappingViewController.textForMapping = textOnPage;
             
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
-            NSURL *asseturl = [layerDict objectForKey:@"url"];
-            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
-            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
-                ALAssetRepresentation *rep = [myasset defaultRepresentation];
-                CGImageRef iref = [rep fullResolutionImage];
-                if (iref) {
-                    UIImage *image = [UIImage imageWithCGImage:iref];
-                    backgroundImageView.image = image;
-                    [pageView addSubview:backgroundImageView];
-                }
-            } failureBlock:^(NSError *myerror) {
-                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
-            }];
-        }*/
+           NSURL *asseturl = [layerDict objectForKey:@"url"];
+           ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+           [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+           ALAssetRepresentation *rep = [myasset defaultRepresentation];
+           CGImageRef iref = [rep fullResolutionImage];
+           if (iref) {
+           UIImage *image = [UIImage imageWithCGImage:iref];
+           backgroundImageView.image = image;
+           [pageView addSubview:backgroundImageView];
+           }
+           } failureBlock:^(NSError *myerror) {
+           NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+           }];
+           }*/
         
         
         
@@ -1471,34 +1479,34 @@
     NSArray *resFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[folderLocation stringByAppendingString:@"/res"] error:nil];
     //NSLog(@"Resources File: %@\nGames Folder contents: %@", resFiles,[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[folderLocation stringByAppendingString:@"/games"] error:nil]);
     
-//    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-//    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-//
-//    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    //    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    //    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    //
+    //    NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     NSArray *readerPagesArray = jsonString;
     
     //for (NSDictionary *readerPageDict in readerPagesArray) {
     NSDictionary *readerPageDict = readerPagesArray[readingOption];
-        if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:gameName]) {
-            NSLog(@"game name - %@", gameName);
-            UIWebView *gameWebView;
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                
-                gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
-            }
-            else{
-                gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-            }
+    if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:gameName]) {
+        NSLog(@"game name - %@", gameName);
+        UIWebView *gameWebView;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            NSString *filePath = [[folderLocation stringByAppendingFormat:@"/games/%@/index.html", [readerPageDict objectForKey:PAGE_NAME]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            //NSLog(@"%@", filePath);
-            [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            [dict setObject:gameWebView forKey:@"gameView"];
-            [dict setObject:[[readerPageDict objectForKey:LAYERS] lastObject] forKey:@"data"];
-            
-            return dict;
+            gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
         }
+        else{
+            gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+        }
+        
+        NSString *filePath = [[folderLocation stringByAppendingFormat:@"/games/%@/index.html", [readerPageDict objectForKey:PAGE_NAME]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //NSLog(@"%@", filePath);
+        [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setObject:gameWebView forKey:@"gameView"];
+        [dict setObject:[[readerPageDict objectForKey:LAYERS] lastObject] forKey:@"data"];
+        
+        return dict;
+    }
     
     return nil;
 }
@@ -1714,7 +1722,7 @@
     
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-
+    
     NSArray *readerPagesArray = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
     
     NSDictionary *pageDict;
@@ -1724,7 +1732,7 @@
             break;
         }
     }
-
+    
     UIView *pageView;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -1757,7 +1765,7 @@
             [pageView addSubview:backgroundImageView];
             [pageView sendSubviewToBack:backgroundImageView];
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:AUDIO]) {
-           audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
+            audioData = [NSData dataWithContentsOfFile:[folderLocation stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
             
             audioMappingViewcontroller.customView.textFont = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height * 25.0f/768.0f];
             [audioMappingViewcontroller.customView setBackgroundColor:[UIColor clearColor]];
@@ -1778,7 +1786,7 @@
                 NSArray *cues=[layerDict objectForKey:CUES];
                 audioMappingViewcontroller.cues=[[NSMutableArray alloc]initWithArray:cues];
             }
-
+            
             audioMappingViewcontroller.customView.text=wordMapDict;
             if ([UIDevice currentDevice].systemVersion.integerValue<6) {
                 audioMappingViewcontroller.customView.space=[@" " sizeWithFont:audioMappingViewcontroller.customView.textFont];
@@ -1789,7 +1797,7 @@
             
             audioMappingViewcontroller.index=0;
             audioMappingViewcontroller.customView.backgroundColor = [UIColor clearColor];
-
+            
             if (readingOption == READ_TO_ME) {
                 [audioMappingViewcontroller playAudioForReaderWithData:audioData AndDelegate:delegate];
             }
@@ -1854,7 +1862,7 @@
             audioMappingViewcontroller.mangoTextField.font = [UIFont fontWithName:@"Verdana" size:pageView.frame.size.height*25.0f/768.0f];
             audioMappingViewcontroller.mangoTextField.frame = textFrame;
             audioMappingViewcontroller.mangoTextField.textAlignment = NSTextAlignmentCenter;
-
+            
             if ([[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] && ![[[layerDict objectForKey:TEXT_FRAME] objectForKey:@"color"] isEqual:[NSNull null]]) {
                 
                 UIColor *color = nil;
@@ -1872,13 +1880,13 @@
                                              blue:[[components objectAtIndex:2] floatValue]/255.f
                                             alpha:1.f];
                 }
-                 audioMappingViewcontroller.mangoTextField.textColor = color;
+                audioMappingViewcontroller.mangoTextField.textColor = color;
             } else {
                 audioMappingViewcontroller.mangoTextField.textColor = [UIColor blackColor];
             }
             
             [pageView addSubview:audioMappingViewcontroller.mangoTextField];
-
+            
             audioMappingViewcontroller.textForMapping = textOnPage;
             
         } else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
@@ -1897,10 +1905,10 @@
                 NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
             }];
         }
-       
         
-     
-      //  else if([layerDict objectForKey:WORDMAP])
+        
+        
+        //  else if([layerDict objectForKey:WORDMAP])
     }
     
     if ([[pageView subviews] count] > 0) {
@@ -1924,6 +1932,12 @@
     pageImageView.incrementalImage = nil;
     pageImageView.indexOfThisImage = currentPageNumber;
     
+    //NSString *pathValue = [_editedBookPath stringByReplacingOccurrencesOfString:@"_fork" withString:@""];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *value = [[_editedBookPath componentsSeparatedByString:@"/"] lastObject];
+    NSString *pathValue = [NSString stringWithFormat:@"%@/%@",documentsDirectory,value];
+    NSString *pathFinalValue = [pathValue stringByReplacingOccurrencesOfString:@"_fork" withString:@""];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     MangoPage *mangoStoryPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:MIN(pageNumber, [_mangoStoryBook.pages count] - 1)]];
@@ -1939,10 +1953,10 @@
         
         if ([mangoStoryLayer isKindOfClass:[MangoImageLayer class]]) {
             MangoImageLayer *imageLayer = (MangoImageLayer *)mangoStoryLayer;
-            
-            NSLog(@"%@", [_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]);
-            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]];
-            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]];
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSLog(@"%@", [pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]);
+            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]];
+            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]];
         } else if ([mangoStoryLayer isKindOfClass:[MangoTextLayer class]]) {
             MangoTextLayer *textLayer = (MangoTextLayer *)mangoStoryLayer;
             
@@ -1980,29 +1994,29 @@
             [pageImageView addSubview:pageTextView];
         } else if ([mangoStoryLayer isKindOfClass:[MangoAudioLayer class]]) {
             MangoAudioLayer *audioLayer = (MangoAudioLayer *)mangoStoryLayer;
-
+            
             if ([audioLayer.url length] > 0) {
                 //make play button visible
                 _buttonNewPlay.hidden = NO;
-                _audioUrl = [NSURL fileURLWithPath:[_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url]];
+                _audioUrl = [NSURL fileURLWithPath:[pathFinalValue stringByAppendingFormat:@"/%@", audioLayer.url]];
             }
             _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
-            NSURL *asseturl = [layerDict objectForKey:@"url"];
-            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
-            [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
-                ALAssetRepresentation *rep = [myasset defaultRepresentation];
-                CGImageRef iref = [rep fullResolutionImage];
-                if (iref) {
-                    UIImage *image = [UIImage imageWithCGImage:iref];
-                    pageImageView.incrementalImage = image;
-                }
-            } failureBlock:^(NSError *myerror) {
-                NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
-            }];
-        }*/
+           NSURL *asseturl = [layerDict objectForKey:@"url"];
+           ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+           [assetslibrary assetForURL:asseturl resultBlock:^(ALAsset *myasset) {
+           ALAssetRepresentation *rep = [myasset defaultRepresentation];
+           CGImageRef iref = [rep fullResolutionImage];
+           if (iref) {
+           UIImage *image = [UIImage imageWithCGImage:iref];
+           pageImageView.incrementalImage = image;
+           }
+           } failureBlock:^(NSError *myerror) {
+           NSLog(@"Booya, cant get image - %@",[myerror localizedDescription]);
+           }];
+           }*/
     }
-  //  _audioUrl=nil;
+    //  _audioUrl=nil;
     audioRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     if (!_audioUrl) {
         _buttonNewPlay.hidden = YES;
@@ -2070,7 +2084,7 @@
     NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
     NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
     jsonLocation = [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-
+    
     return jsonLocation;
 }
 
@@ -2112,7 +2126,7 @@
         [layersArray addObject:[self dictionaryForLayer:layer]];
     }
     [pageDict setObject:layersArray forKey:@"layers"];
-
+    
     return [NSDictionary dictionaryWithDictionary:pageDict];
 }
 
@@ -2180,7 +2194,7 @@
         else{
             bookId = storyBook.id;
         }
-            
+        
     }
     else{
         
@@ -2194,28 +2208,28 @@
         }
         
         /*NSDictionary *dimensions = @{
-                                     PARAMETER_USER_EMAIL_ID : ID,
-                                     PARAMETER_DEVICE: IOS,
-                                     PARAMETER_BOOK_ID: bookId,
-                                     
-                                     };
-        [delegate trackEvent:[EDITOR_ADD_NEW_PAGE valueForKey:@"description"] dimensions:dimensions];
-        PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-        [userObject setObject:[EDITOR_ADD_NEW_PAGE valueForKey:@"value"] forKey:@"eventName"];
-        [userObject setObject: [EDITOR_ADD_NEW_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
-        [userObject setObject:viewName forKey:@"viewName"];
-        [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-        [userObject setObject:delegate.country forKey:@"deviceCountry"];
-        [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-        [userObject setObject:bookId forKey:@"bookID"];
-        if(userEmail){
-            [userObject setObject:ID forKey:@"emailID"];
-        }
-        [userObject setObject:IOS forKey:@"device"];
-        [userObject saveInBackground];*/
+         PARAMETER_USER_EMAIL_ID : ID,
+         PARAMETER_DEVICE: IOS,
+         PARAMETER_BOOK_ID: bookId,
+         
+         };
+         [delegate trackEvent:[EDITOR_ADD_NEW_PAGE valueForKey:@"description"] dimensions:dimensions];
+         PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+         [userObject setObject:[EDITOR_ADD_NEW_PAGE valueForKey:@"value"] forKey:@"eventName"];
+         [userObject setObject: [EDITOR_ADD_NEW_PAGE valueForKey:@"description"] forKey:@"eventDescription"];
+         [userObject setObject:viewName forKey:@"viewName"];
+         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
+         [userObject setObject:delegate.country forKey:@"deviceCountry"];
+         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
+         [userObject setObject:bookId forKey:@"bookID"];
+         if(userEmail){
+         [userObject setObject:ID forKey:@"emailID"];
+         }
+         [userObject setObject:IOS forKey:@"device"];
+         [userObject saveInBackground];*/
     }
     
-   
+    
     
     MangoPage *newPage = [[MangoPage alloc] init];
     newPage.pageable_id = _mangoStoryBook.id;
@@ -2270,7 +2284,7 @@
 - (BOOL)createFileAtPath:(NSString *)filePath WithData:(NSData *)jsonData{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL success = [fileManager createFileAtPath:filePath contents:jsonData attributes:nil];
-
+    
     return success;
 }
 
@@ -2323,7 +2337,7 @@
             //Create Core Data Book
             NSString *newBookFilePath = [[appDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:newBook.id];
             [self saveBook:_mangoStoryBook AtLocation:newBookFilePath WithEJDBId:_mangoStoryBook.id];
-
+            
             BOOL success = [self createFolderAtPath:newBookFilePath];
             if (success) {
                 success = [self createFolderAtPath:[NSString stringWithFormat:@"%@/res", newBookFilePath]];
@@ -2353,7 +2367,7 @@
         NSString *rPath = [[NSBundle mainBundle] resourcePath];
         NSString *appPath = [rPath stringByReplacingOccurrencesOfString:@"MangoReader.app" withString:@""];
         NSString *jsonLocation = [NSString stringWithFormat:@"%@Documents/%@",appPath,storyBook.id];
-
+        
         //bookJsonString = [self jsonStringForLocation:jsonLocation];
         bookJsonString = [self jsonStringForLocation:storyBook.localPathFile];
         
@@ -2365,13 +2379,20 @@
             _editedBookPath = [storyBook.localPathFile stringByAppendingString:@"_fork"];
             
         } else {
-            _editedBookPath = storyBook.localPathFile;
+            
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            
+            NSString *bookPath = [[storyBook.localPathFile componentsSeparatedByString:@"/"] lastObject];
+            
+            //_editedBookPath = storyBook.localPathImageFile;
+            _editedBookPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory, bookPath];
         }
         
         BOOL isDir;
         NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
         
-        if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
+        if ((![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) && (!storyBook.parentBookId)) {
             [self createACopy];
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             
@@ -2406,7 +2427,7 @@
         }
         NSLog(@"newPath %@",_editedBookPath);
     }
-
+    
     [pagesCarousel setClipsToBounds:YES];
     [pagesCarousel reloadData];
 }
@@ -2435,7 +2456,7 @@ enum
             NSURL *audioURL = [NSURL fileURLWithPath:audioPath];
             audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioURL error:nil];
             [audioPlayer play];
-            audioPlayer.numberOfLoops = 2; 
+            audioPlayer.numberOfLoops = 2;
             NSTimeInterval delay = 1.5; //in seconds
             [self performSelector:@selector(startRecordingAudio) withObject:nil afterDelay:delay];
         }
@@ -2447,8 +2468,8 @@ enum
             break;
             
         case PLAY: {
-          //  [self startPlayingAudio];
-          //  [self startPlayingAudioFromDb];
+            //  [self startPlayingAudio];
+            //  [self startPlayingAudioFromDb];
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Re-Record" message:@"Are you sure you want to re-record the audio!!" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
             [alert show];
@@ -2553,7 +2574,7 @@ enum
 }
 - (void)saveAudioDb {
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-
+    
     MangoPage *currentPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:currentPageNumber]];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -2590,7 +2611,7 @@ enum
         _audioLayer.wordTimes = [[NSArray alloc] init];
     }
     _audioLayer.url = [NSString stringWithFormat:@"res/sampleRecord_%d.caf", currentPageNumber];
-
+    
     if ([appDelegate.ejdbController insertOrUpdateObject:_audioLayer]) {
         NSMutableArray *layersArray = [[NSMutableArray alloc] initWithArray:currentPage.layers];
         if (![layersArray containsObject:_audioLayer.id]) {
@@ -2650,15 +2671,15 @@ enum
     if([alertView.title isEqualToString:@"Re-Record"]){
         
         if(buttonIndex == 1){
-           // audioRecordingButton.hidden = YES;
+            // audioRecordingButton.hidden = YES;
             //start audio
             //add delay
             //play audio
             //reRecordingCheck =1;
             //[self startRecordingAudio];
             audioRecordingButton.alpha = 0;
-           // [audioPlayer play];
-           // audioPlayer.numberOfLoops = 2;
+            // [audioPlayer play];
+            // audioPlayer.numberOfLoops = 2;
             [UIView animateWithDuration:0.5 delay:0.01 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
                 self.audioRecordingButton.alpha = 1;
                 
@@ -2683,7 +2704,7 @@ enum
 - (void)startPlayingAudio {
     audioRecordingButton.tag = STOP_PLAYING;
     [audioRecordingButton setImage:[UIImage imageNamed:@"recording_stop_button.png"] forState:UIControlStateNormal];
-
+    
     NSLog(@"playRecording");
     // Init audio with playback capability
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -2739,13 +2760,13 @@ enum
     } else {
         url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/sampleRecord_%d.caf", recDir, currentPageNumber]];
     }
-   /* NSError *error;
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-    audioPlayer.numberOfLoops = 0;
-    audioPlayer.delegate = self;
-    [audioPlayer play];*/
+    /* NSError *error;
+     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+     audioPlayer.numberOfLoops = 0;
+     audioPlayer.delegate = self;
+     [audioPlayer play];*/
     [self showAudioMappingScreenDb];
-
+    
     
 }
 - (void)stopPlayingAudio {
@@ -2802,7 +2823,7 @@ enum
             url = [NSURL URLWithString:[_editedBookPath stringByAppendingFormat:@"/%@", [layerDict objectForKey:ASSET_URL]]];
         }
     }
-
+    
     if (audioMappingViewController) {
         [audioMappingViewController.view removeFromSuperview];
     }
@@ -2813,10 +2834,10 @@ enum
     audioMappingViewController.customView.frame = textFrame;
     
     [pageImageView addSubview:audioMappingViewController.customView];
-
+    
     audioMappingViewController.textForMapping = textOnPage;
     [audioMappingViewController.customView setBackgroundColor:[UIColor clearColor]];
-
+    
     audioMappingViewController.audioUrl = url;
     [pageImageView bringSubviewToFront:audioMappingViewController.view];
     
@@ -2826,7 +2847,7 @@ enum
         }
     }
     
-
+    
 }
 
 -(void)showAudioMappingScreenDb {
@@ -2841,10 +2862,10 @@ enum
     audioMappingViewController.customView.textFont = [UIFont systemFontOfSize:24];
     
     [pageImageView addSubview:audioMappingViewController.customView];
-
+    
     audioMappingViewController.textForMapping=@""; // needed for the space CGSize assignment.
     audioMappingViewController.cues=[[NSMutableArray alloc]initWithArray:_audioLayer.wordTimes];
-
+    
     audioMappingViewController.customView.text=_audioLayer.wordMap;
     NSLog(@"%@",audioMappingViewController.customView.text);
     NSLog(@"%@",audioMappingViewController.cues);
@@ -2859,14 +2880,14 @@ enum
     audioMappingViewController.mangoTextField.textAlignment = NSTextAlignmentCenter;
     
     [pageImageView addSubview:audioMappingViewController.mangoTextField];
-
+    
     for (UIView *subview in [pageImageView subviews]) {
         if ([subview isKindOfClass:[MovableTextView class]]) {
             audioMappingViewController.customView.frame = subview.frame;
             [subview setHidden:YES];
         }
     }
-  
+    
     
 }
 
@@ -2921,8 +2942,63 @@ enum
 #pragma mark - Camera Methods
 
 - (void)cameraButtonTapped {
-    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
-    [photoActionSheet showFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView animated:YES];
+    
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1){
+        [menuPopoverController dismissPopoverAnimated:YES];
+        UIAlertController * view=   [UIAlertController
+                                     alertControllerWithTitle:@"Add Image from"
+                                     message:@""
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* library = [UIAlertAction
+                                  actionWithTitle:@"Library"
+                                  style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * action)
+                                  {
+                                      //Do some thing here
+                                      //[view dismissViewControllerAnimated:YES completion:nil];
+                                      UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                                      imagePicker.delegate = self;
+                                      imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                      imagePicker.allowsEditing = YES;
+                                      
+                                      photoPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+                                      photoPopoverController.delegate = self;
+                                      [photoPopoverController presentPopoverFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                                      
+                                  }];
+        
+        UIAlertAction* camera = [UIAlertAction
+                                 actionWithTitle:@"Camera"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     //Do some thing here
+                                     //[view dismissViewControllerAnimated:YES completion:nil];
+                                     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                                     imagePicker.delegate = self;
+                                     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                     imagePicker.allowsEditing = YES;
+                                     [self presentViewController:imagePicker animated:YES completion:^{
+                                         NSLog(@"Completed");
+                                     }];
+                                     
+                                 }];
+        
+        
+        [view addAction:library];
+        [view addAction:camera];
+        view.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionLeft;
+        view.popoverPresentationController.sourceRect = imageButton.frame;
+        view.popoverPresentationController.sourceView = self.view;
+        [self presentViewController:view animated:YES completion:nil];
+    }
+    else{
+        
+        UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Library", @"Camera", nil];
+        [photoActionSheet showFromRect:CGRectMake(0, 0, 250, 44) inView:pageImageView animated:YES];
+    }
+    
 }
 
 @end

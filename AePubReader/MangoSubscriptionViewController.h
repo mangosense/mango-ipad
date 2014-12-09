@@ -33,6 +33,9 @@
     NSString *path;
     int validSubscription;
     NSString *currentPage;
+    NSArray *subscriptionProductId;
+    NSArray *subscriptionPlanName;
+    NSMutableArray *subscriptionPlanPrice;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *monthlySubscriptionView;
@@ -45,9 +48,9 @@
 @property (nonatomic, strong) UILabel *label2PlanName;
 @property (nonatomic, strong) UILabel *label3PlanName;
 
-@property (nonatomic, strong) UILabel *label1PlanPrice;
-@property (nonatomic, strong) UILabel *label2PlanPrice;
-@property (nonatomic, strong) UILabel *label3PlanPrice;
+@property (nonatomic, strong) IBOutlet UILabel *label1PlanPrice;
+@property (nonatomic, strong) IBOutlet UILabel *label2PlanPrice;
+@property (nonatomic, strong) IBOutlet UILabel *label3PlanPrice;
 
 @property (nonatomic, strong)IBOutlet UILabel *label2PlanTotalPrice;
 @property (nonatomic, strong)IBOutlet UILabel *label3PlanTotalPrice;
@@ -60,6 +63,7 @@
 @property (nonatomic, retain) IBOutlet UIView* settingsProbView;
 @property (nonatomic, retain) IBOutlet UIView* settingsProbSupportView;
 @property (nonatomic, retain) IBOutlet UITextField *textQuesSolution;
+
 
 - (IBAction)backButtonTapped:(id)sender;
 - (IBAction)restoreSubscription:(id)sender;

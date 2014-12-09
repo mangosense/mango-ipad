@@ -441,9 +441,15 @@
         //[delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
     }];
+    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     bookDetailsViewController.view.layer.cornerRadius = 5.0;
-    bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 776, 529);
+    if ([[vComp objectAtIndex:0] intValue] >= 8) {
+        bookDetailsViewController.preferredContentSize = CGSizeMake(779, 529);
+    }
+    else{
+        bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 779, 529);
+    }
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
 }

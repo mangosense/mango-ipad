@@ -87,7 +87,8 @@ NSString *newIdentityValue;
         jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     else{
-        jsonLocation = _book.localPathImageFile;
+        //jsonLocation = _book.localPathImageFile;
+        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     NSString *baseBookPath = jsonLocation;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -230,6 +231,7 @@ NSString *newIdentityValue;
 - (void) DismissOtherViewAndLoadLangingpage{
     
     NSLog(@"Views in stack are %@", self.navigationController.viewControllers);
+    LandPageChoiceViewController *myViewController;
     
     NSArray* viewControllerStack = [self.navigationController viewControllers];
     
@@ -249,8 +251,6 @@ NSString *newIdentityValue;
         }
         
     }
-    
-    LandPageChoiceViewController *myViewController;
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
@@ -330,7 +330,8 @@ NSString *newIdentityValue;
         jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     else{
-        jsonLocation = _book.localPathImageFile;
+        //jsonLocation = _book.localPathImageFile;
+        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     NSString *baseBookPath = jsonLocation;
 
@@ -371,12 +372,26 @@ NSString *newIdentityValue;
     }
         
     else{
+        
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
+        {
+            _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+            //CGSize size=_popOverController.popoverContentSize;
+            //size.height=size.height-300;
+            //_popOverController.popoverContentSize=size;
+            [_popOverController setPopoverContentSize:CGSizeMake(220, 180) animated:YES];
+            
+            [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+        else{
         _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
         CGSize size=_popOverController.popoverContentSize;
         size.height=size.height-300;
         _popOverController.popoverContentSize=size;
         
         [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+        
      }
     }
     
@@ -503,7 +518,8 @@ NSString *newIdentityValue;
         jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
     else{
-        jsonLocation = _book.localPathImageFile;
+        //jsonLocation = _book.localPathImageFile;
+        jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     }
 
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -611,7 +627,8 @@ NSString *newIdentityValue;
             jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
         }
         else{
-            jsonLocation = _book.localPathImageFile;
+            //jsonLocation = _book.localPathImageFile;
+            jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
         }
         
 
