@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MangoEditorViewController">
+            <connections>
+                <outlet property="audioButton" destination="Pw0-v7-MNt" id="3V0-bp-U2u"/>
+                <outlet property="buttonNewPlay" destination="5E9-cd-nqG" id="kVn-vU-y9j"/>
+                <outlet property="collaborationButton" destination="0Bu-3e-Z6Z" id="Qgb-1d-g7p"/>
+                <outlet property="doodleButton" destination="fgK-UF-EpW" id="QsU-hm-6to"/>
+                <outlet property="gamesButton" destination="siD-9f-BIX" id="jyO-88-grg"/>
+                <outlet property="imageButton" destination="zYs-VD-HiA" id="qtF-ky-eR9"/>
+                <outlet property="mangoButton" destination="LwC-pB-q2q" id="L5j-8X-2mM"/>
+                <outlet property="menuButton" destination="jcB-c5-eNq" id="H5R-4k-4vg"/>
+                <outlet property="pageImageView" destination="Qhn-XV-U8e" id="9t4-OW-yir"/>
+                <outlet property="pagesCarousel" destination="Nzg-k0-Q4d" id="ezy-Qr-0ZS"/>
+                <outlet property="playStoryButton" destination="Z0t-ok-2K0" id="rUU-1X-GPz"/>
+                <outlet property="textButton" destination="Kbz-OK-Q3T" id="GaO-F1-DQW"/>
+                <outlet property="view" destination="2" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="Qhn-XV-U8e" customClass="SmoothDrawingView">
+                    <rect key="frame" x="80" y="20" width="924" height="600"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LwC-pB-q2q">
+                    <rect key="frame" x="20" y="20" width="38" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="mangoicon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mangoButtonTapped:" destination="-1" eventType="touchUpInside" id="wXM-Xi-cio"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jcB-c5-eNq">
+                    <rect key="frame" x="15" y="78" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="menubutton.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="menubutton_selected.png"/>
+                    <connections>
+                        <action selector="menuButtonTapped:" destination="-1" eventType="touchUpInside" id="sKH-3h-uxR"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Z0t-ok-2K0">
+                    <rect key="frame" x="15" y="475" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <bool key="isElement" value="NO"/>
+                    </accessibility>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="playbuttonnew.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zYs-VD-HiA">
+                    <rect key="frame" x="15" y="184" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="imagebutton.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="imageButtonTapped:" destination="-1" eventType="touchUpInside" id="l8j-9q-0Bv"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kbz-OK-Q3T">
+                    <rect key="frame" x="15" y="240" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="textbutton.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="textButtonTapped:" destination="-1" eventType="touchUpInside" id="SVT-Ri-mJK"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pw0-v7-MNt">
+                    <rect key="frame" x="15" y="296" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="audiobutton.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="audioButtonTapped:" destination="-1" eventType="touchUpInside" id="HgD-Bh-tXO"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="siD-9f-BIX">
+                    <rect key="frame" x="17" y="352" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="gamebutton.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="gamesButtonTapped:" destination="-1" eventType="touchUpInside" id="Gg7-me-8oj"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Bu-3e-Z6Z">
+                    <rect key="frame" x="15" y="408" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="collaborationbutton.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="collaborationButtonTapped:" destination="-1" eventType="touchUpInside" id="H77-Qd-rJ8"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pagesbg.png" id="eLJ-Dm-aOy">
+                    <rect key="frame" x="15" y="628" width="1009" height="120"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pJx-QL-Vdi">
+                    <rect key="frame" x="17" y="633" width="44" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="pagesbutton_selected.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="Nzg-k0-Q4d" customClass="iCarousel">
+                    <rect key="frame" x="80" y="633" width="924" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="fUb-d1-gct"/>
+                        <outlet property="delegate" destination="-1" id="IOS-KQ-3a6"/>
+                    </connections>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fgK-UF-EpW">
+                    <rect key="frame" x="19" y="408" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="edittool.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="doodleButtonTapped:" destination="-1" eventType="touchUpInside" id="Ffi-JT-Cco"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5E9-cd-nqG">
+                    <rect key="frame" x="15" y="565" width="51" height="51"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="playbuttonnew.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="reRecordButtonTapped:" destination="-1" eventType="touchUpInside" id="va3-z5-pbI"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rwu-zX-Km6">
+                    <rect key="frame" x="17" y="297" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="selectFonts.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="selectFontsButton:" destination="-1" eventType="touchUpInside" id="1mr-wZ-daF"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="audiobutton.png" width="48" height="48"/>
+        <image name="collaborationbutton.png" width="48" height="48"/>
+        <image name="edittool.png" width="42" height="42"/>
+        <image name="gamebutton.png" width="48" height="48"/>
+        <image name="imagebutton.png" width="48" height="48"/>
+        <image name="mangoicon.png" width="38" height="50"/>
+        <image name="menubutton.png" width="48" height="48"/>
+        <image name="menubutton_selected.png" width="48" height="48"/>
+        <image name="pagesbg.png" width="992" height="102"/>
+        <image name="pagesbutton_selected.png" width="48" height="48"/>
+        <image name="playbuttonnew.png" width="48" height="48"/>
+        <image name="selectFonts.png" width="48" height="48"/>
+        <image name="textbutton.png" width="48" height="48"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

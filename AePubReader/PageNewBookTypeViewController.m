@@ -775,13 +775,25 @@
         }
         
         else{
-            _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-            CGSize size=_pop.popoverContentSize;
-            size.height=size.height-300;
-            size.width = 200;
-            _pop.popoverContentSize=size;
-            
-            [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
+            {
+                _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+                //CGSize size=_popOverController.popoverContentSize;
+                //size.height=size.height-300;
+                //_popOverController.popoverContentSize=size;
+                [_pop setPopoverContentSize:CGSizeMake(220, 180) animated:YES];
+                
+                [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+            }
+            else{
+                _pop=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+                CGSize size=_pop.popoverContentSize;
+                size.height=size.height-300;
+                size.width = 200;
+                _pop.popoverContentSize=size;
+                
+                [_pop presentPopoverFromRect:_languageAvailButton.frame inView:self.rightView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+            }
         }
     }
 }

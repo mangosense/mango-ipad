@@ -364,12 +364,24 @@ NSString *newIdentityValue;
     }
         
     else{
-        _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
-        CGSize size=_popOverController.popoverContentSize;
-        size.height=size.height-300;
-        _popOverController.popoverContentSize=size;
         
-        [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
+        {
+            _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+            
+            [_popOverController setPopoverContentSize:CGSizeMake(220, 180) animated:YES];
+            
+            [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+        else{
+        
+            _popOverController=[[UIPopoverController alloc]initWithContentViewController:choiceViewController];
+            CGSize size=_popOverController.popoverContentSize;
+            size.height=size.height-300;
+            _popOverController.popoverContentSize=size;
+        
+            [_popOverController presentPopoverFromRect:_languageLabel.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
      }
     }
     

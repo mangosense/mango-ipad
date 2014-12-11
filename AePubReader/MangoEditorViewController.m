@@ -1086,6 +1086,12 @@
     
     pageThumbnail.thumbnailImageView.image = [UIImage imageNamed:@"white_page.jpeg"];
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *value = [[_editedBookPath componentsSeparatedByString:@"/"] lastObject];
+    NSString *pathValue = [NSString stringWithFormat:@"%@/%@",documentsDirectory,value];
+    NSString *pathFinalValue = [pathValue stringByReplacingOccurrencesOfString:@"_fork" withString:@""];
+    
     [pageThumbnail setBackgroundColor:[UIColor clearColor]];
     pageThumbnail.delegate = self;
     pageThumbnail.deleteButton.tag = index;
@@ -1101,7 +1107,7 @@
             
             if ([layer isKindOfClass:[MangoImageLayer class]]) {
                 MangoImageLayer *imageLayer = (MangoImageLayer *)layer;
-                [pageThumbnail.thumbnailImageView setImage:[UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]]];
+                [pageThumbnail.thumbnailImageView setImage:[UIImage imageWithContentsOfFile:[pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]]];
                 NSLog(@"layer tag is %d", pageThumbnail.thumbnailImageView.tag);
                 pageThumbnail.thumbnailImageView.layer.borderWidth = 2.0;
                 pageThumbnail.thumbnailImageView.layer.borderColor = [[UIColor clearColor]CGColor];
@@ -1442,6 +1448,8 @@
             [pageView addSubview:audioMappingViewController.mangoTextField];
             [audioMappingViewController.view bringSubviewToFront:audioMappingViewController.customView];
             audioMappingViewController.textForMapping = textOnPage;
+            
+            [pageView bringSubviewToFront:audioMappingViewController.mangoTextField];
             
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
             NSURL *asseturl = [layerDict objectForKey:@"url"];
@@ -1925,6 +1933,11 @@
     pageImageView.incrementalImage = nil;
     pageImageView.indexOfThisImage = currentPageNumber;
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *value = [[_editedBookPath componentsSeparatedByString:@"/"] lastObject];
+    NSString *pathValue = [NSString stringWithFormat:@"%@/%@",documentsDirectory,value];
+    NSString *pathFinalValue = [pathValue stringByReplacingOccurrencesOfString:@"_fork" withString:@""];
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     MangoPage *mangoStoryPage = [appDelegate.ejdbController getPageForPageId:[_mangoStoryBook.pages objectAtIndex:MIN(pageNumber, [_mangoStoryBook.pages count] - 1)]];
@@ -1941,9 +1954,9 @@
         if ([mangoStoryLayer isKindOfClass:[MangoImageLayer class]]) {
             MangoImageLayer *imageLayer = (MangoImageLayer *)mangoStoryLayer;
             
-            NSLog(@"%@", [_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]);
-            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]];
-            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[_editedBookPath stringByAppendingFormat:@"/%@", imageLayer.url]];
+            NSLog(@"%@", [pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]);
+            pageImageView.incrementalImage = [UIImage imageWithContentsOfFile:[pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]];
+            pageImageView.tempImage = [UIImage imageWithContentsOfFile:[pathFinalValue stringByAppendingFormat:@"/%@", imageLayer.url]];
         } else if ([mangoStoryLayer isKindOfClass:[MangoTextLayer class]]) {
             MangoTextLayer *textLayer = (MangoTextLayer *)mangoStoryLayer;
             
@@ -1985,7 +1998,7 @@
             if ([audioLayer.url length] > 0) {
                 //make play button visible
                 _buttonNewPlay.hidden = NO;
-                _audioUrl = [NSURL fileURLWithPath:[_editedBookPath stringByAppendingFormat:@"/%@", audioLayer.url]];
+                _audioUrl = [NSURL fileURLWithPath:[pathFinalValue stringByAppendingFormat:@"/%@", audioLayer.url]];
             }
             _audioLayer=audioLayer;
         } /*else if ([[layerDict objectForKey:TYPE] isEqualToString:CAPTURED_IMAGE]) {
@@ -2379,7 +2392,7 @@
         BOOL isDir;
         NSLog(@"%d, %d", [[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir], isDir);
         
-        if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:_editedBookPath isDirectory:&isDir]  && (!storyBook.parentBookId)) {
             [self createACopy];
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             

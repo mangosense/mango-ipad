@@ -72,7 +72,7 @@ static UIAlertView *alertViewLoading;
     
     //MangoReader_Test app for testing
     //[Parse setApplicationId:@"K29EizdPHaPTkEWkPtwVCd0VhhoeQWxhKLyrbhX5"
-     //                  clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
+    //                   clientKey:@"xw0NkrAspcJzkgCVSQfOCFkVIQ7yEXMcf8a2PbXW"];
     
 
     //Flurry
