@@ -196,7 +196,7 @@
     }
     [delegate trackEventAnalytic:@"reader_end_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"reader_end_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"reader_end_screen"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -281,7 +281,7 @@
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     NSDictionary *jsonDict = [self getJsonDictForBook];
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
@@ -336,7 +336,7 @@
     }
     [delegate trackEventAnalytic:@"read_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"read_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"read_btn_click"];
     
    // [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:4] animated:YES];
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(self.navigationController.viewControllers.count - 3)] animated:YES];
@@ -585,7 +585,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-//        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         if([storyOfDayId isEqualToString:[bookDict objectForKey:@"id"]]){
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
@@ -669,7 +669,7 @@
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;

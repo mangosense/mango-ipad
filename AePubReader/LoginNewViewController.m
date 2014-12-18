@@ -175,7 +175,7 @@
                                  };
     [delegate trackEventAnalytic:@"login_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"login_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"login_screen"];
 }
 
 #pragma mark - Facebook Login API
@@ -285,7 +285,7 @@
                                      };
         [delegate trackEventAnalytic:@"login" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-//        [delegate trackMixpanelEvents:dimensions eventName:@"login"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"login"];
         
         MangoApiController *apiController = [MangoApiController sharedApiController];
         apiController.delegate = self;
@@ -345,7 +345,7 @@
                                  };
     [delegate trackEventAnalytic:@"signup_btn" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"signup_btn"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"signup_btn"];
     
     SignUpViewController *signupViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -425,7 +425,7 @@
                                          };
             [delegate trackEventAnalytic:@"login_fail" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-//            [delegate trackMixpanelEvents:dimensions eventName:@"login_fail"];
+            [delegate trackMixpanelEvents:dimensions eventName:@"login_fail"];
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];
         }
@@ -460,7 +460,7 @@
                                          };
             [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
             [delegate eventAnalyticsDataBrowser:dimensions];
-//            [delegate trackMixpanelEvents:dimensions eventName:@"skip_btn"];
+            [delegate trackMixpanelEvents:dimensions eventName:@"skip_btn"];
             /*ID = _udid;
             
             NSDictionary *dimensions = @{

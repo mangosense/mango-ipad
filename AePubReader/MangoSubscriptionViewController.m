@@ -99,7 +99,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
 
 }
 
@@ -336,7 +336,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
     
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
@@ -489,7 +489,7 @@
     }
     [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];

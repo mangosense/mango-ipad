@@ -89,7 +89,7 @@
     }
     [delegate trackEventAnalytic:@"game_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"game_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"game_screen"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,7 +161,7 @@
     }
     [delegate trackEventAnalytic:@"playing" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -333,7 +333,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
     [delegate trackEventAnalytic:@"playing" dimensions:dimensionevent];
     [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
 }
 
 @end

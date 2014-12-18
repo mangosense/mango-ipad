@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>The Little Christmas Tree</string>
+	<string>Happy Birthday Jesus</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
@@ -22,7 +22,7 @@
 		<string>mangoreader-app-icon-29X29.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>mango.TheLittleChristmasTree</string>
+	<string>com.mangosense.happybirthdayjesus</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +30,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3.1</string>
+	<string>2.5.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -57,7 +57,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.3.1</string>
+	<string>2.3.2</string>
 	<key>FacebookAppID</key>
 	<string>199743376733034</string>
 	<key>FacebookDisplayName</key>

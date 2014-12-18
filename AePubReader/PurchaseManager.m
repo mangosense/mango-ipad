@@ -89,7 +89,7 @@
                     }
                     [delegate1 trackEventAnalytic:@"subscription_success" dimensions:dimensions];
                     [delegate1 eventAnalyticsDataBrowser:dimensions];
-//                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];
+                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                     
@@ -111,7 +111,7 @@
                     }
                     [delegate1 trackEventAnalytic:@"subscription_failed" dimensions:dimensions];
                     [delegate1 eventAnalyticsDataBrowser:dimensions];
-//                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_failed"];
+                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_failed"];
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 }

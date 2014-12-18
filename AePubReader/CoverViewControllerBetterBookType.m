@@ -224,7 +224,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"reader" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"reader"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"reader"];
 
 }
 
@@ -468,7 +468,7 @@ NSString *newIdentityValue;
         }
         [delegate trackEventAnalytic:@"read_by_myself_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-//        [delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"read_by_myself_click"];
         
     }
     else{
@@ -484,7 +484,7 @@ NSString *newIdentityValue;
         }
         [delegate trackEventAnalytic:@"read_to_me_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-//        [delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
+        [delegate trackMixpanelEvents:dimensions eventName:@"read_to_me_click"];
     }
     
     [self.navigationController pushViewController:controller animated:YES];
@@ -581,7 +581,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"play_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"play_btn_click"];
     
     if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
         UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -704,7 +704,7 @@ NSString *newIdentityValue;
     }
     [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
    // UIButton *button=(UIButton *)sender;
     NSString *ver=[UIDevice currentDevice].systemVersion;
