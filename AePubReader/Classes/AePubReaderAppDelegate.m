@@ -49,7 +49,7 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //mangoreader mixpanel account
     //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
@@ -67,12 +67,12 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
     //MangoReader_Test app for testing
-    [Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
-                       clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
+    //[Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
+    //                   clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
     
  
     //Flurry
@@ -213,7 +213,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Book notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"book_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"book_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"book_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"update"]){
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
@@ -223,7 +223,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Update notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"update_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"update_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"update_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"create"]){
                 pushCreateStory = [dictionary objectForKey:@"action"];
@@ -232,7 +232,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Create notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"create_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"create_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"create_notification"];
             }
             else if([[dictionary objectForKey:@"action"] isEqualToString:@"subscribe"]){
                 pushSubscribe = [dictionary objectForKey:@"action"];
@@ -241,7 +241,7 @@ static UIAlertView *alertViewLoading;
                 [dimensions setObject:@"Subscribe notification click" forKey:PARAMETER_EVENT_DESCRIPTION];
                 [self trackEventAnalytic:@"subscribe_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
-                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
+//                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
             }
         }
     }
@@ -339,13 +339,13 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
     //mixpanel.showNotificationOnActive = NO;
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
                                             PLATFORM : IOS,
                                             PARAMETER_UUID : _uuidValue,
-                                            PARAMETER_DEVICE_UDID : _uuidValue}];
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];*/
 
     
     if (!path){
@@ -529,7 +529,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
-- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+/*- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
     
     Mixpanel *mixpanelTrack = [Mixpanel sharedInstance];
      [mixpanelTrack track:event properties:properties];
@@ -538,7 +538,7 @@ void uncaughtExceptionHandler(NSException *exception) {
             [mixpanelTrack identify:userIdValue];
             [mixpanelTrack.people set:properties];
         }
-}
+}*/
 
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
@@ -1112,8 +1112,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     _deviceTokenValue = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     //NSLog(@"content---%@", token);
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel.people addPushDeviceToken:newDeviceToken];
+//    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+//    [mixpanel.people addPushDeviceToken:newDeviceToken];
     
 }
 
@@ -1126,7 +1126,7 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
     //[PFPush handlePush:userInfo];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    if ( application.applicationState == UIApplicationStateActive ){
+    if (application.applicationState == UIApplicationStateActive ){
         
         if (userInfo != nil)
         {

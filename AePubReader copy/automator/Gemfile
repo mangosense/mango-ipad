@@ -1,5 +1,0 @@
-source 'http://rubygems.org'
-gem 'mini_magick'
-gem 'rubyzip'
-gem 'clockwork'
-gem 'xcoder'

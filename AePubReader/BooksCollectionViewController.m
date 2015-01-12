@@ -155,7 +155,7 @@
     }
     [delegate trackEventAnalytic:@"my_books_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"my_books_screen"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"my_books_screen"];
 }
 
 
@@ -383,7 +383,7 @@
                 }
                 [delegate trackEventAnalytic:@"get_more_book_click" dimensions:dimensions];
                 [delegate eventAnalyticsDataBrowser:dimensions];
-                [delegate trackMixpanelEvents:dimensions eventName:@"get_more_book_click"];
+//                [delegate trackMixpanelEvents:dimensions eventName:@"get_more_book_click"];
                 
                 if([[_categorySelected valueForKey:@"name"] isEqualToString:@"All Books"]) {
                     [controller setCategoryFlagValue:0];
@@ -914,7 +914,7 @@
             }
             [appDelegate trackEventAnalytic:@"delete_click" dimensions:dimensions];
             [appDelegate eventAnalyticsDataBrowser:dimensions];
-            [appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
+//            [appDelegate trackMixpanelEvents:dimensions eventName:@"delete_click"];
 
         }
         /*[userObject setObject:[EVENT valueForKey:@"value"] forKey:@"eventName"];
@@ -1088,7 +1088,7 @@
         }
         [delegate trackEventAnalytic:@"show_book" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
+//        [delegate trackMixpanelEvents:dimensions eventName:@"show_book"];
         
         if([storyOfDayId isEqualToString:[bookDict objectForKey:@"id"]]){
             [bookDetailsViewController.buyButton setTitle: @"Read Now" forState: UIControlStateNormal];

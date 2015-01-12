@@ -36,6 +36,7 @@
     NSArray *subscriptionProductId;
     NSArray *subscriptionPlanName;
     NSMutableArray *subscriptionPlanPrice;
+    UIAlertView *alertAgeError;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *monthlySubscriptionView;

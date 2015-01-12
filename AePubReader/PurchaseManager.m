@@ -62,7 +62,7 @@
         {
             NSLog(@"Payment State: %d", transaction.transactionState);
             switch (transaction.transactionState) {
-                
+                [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
                 case SKPaymentTransactionStatePurchased:
                 {
                     NSLog(@"Product Purchased!");
@@ -89,7 +89,7 @@
                     }
                     [delegate1 trackEventAnalytic:@"subscription_success" dimensions:dimensions];
                     [delegate1 eventAnalyticsDataBrowser:dimensions];
-                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];
+//                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                     
@@ -111,7 +111,7 @@
                     }
                     [delegate1 trackEventAnalytic:@"subscription_failed" dimensions:dimensions];
                     [delegate1 eventAnalyticsDataBrowser:dimensions];
-                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_failed"];
+//                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_failed"];
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 }
@@ -140,7 +140,7 @@
     [MBProgressHUD showHUDAddedTo:loadingView animated:YES];
     [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {
         if (products.count) {
-            [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
+            //[MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
 
             NSLog(@"Products: %@", products);
             //Initialise payment queue

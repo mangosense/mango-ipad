@@ -142,7 +142,7 @@
     }
     [delegate trackEventAnalytic:@"home_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"home_screen"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"home_screen"];
 }
 
 
@@ -188,7 +188,7 @@
     }
     [delegate trackEventAnalytic:@"create_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"create_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"create_click"];
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
@@ -232,7 +232,7 @@
     }
     [delegate trackEventAnalytic:@"store_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"store_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"store_click"];
     
     MangoStoreViewController *storeViewController;
     
@@ -261,7 +261,7 @@
     }
     [delegate trackEventAnalytic:@"my_stories_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"my_stories_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"my_stories_click"];
     
     CategoriesFlexibleViewController *categoryFlexible;
     
@@ -301,7 +301,7 @@
         }
         [delegate trackEventAnalytic:@"settings_click" dimensions:dimensions];
         [delegate eventAnalyticsDataBrowser:dimensions];
-        [delegate trackMixpanelEvents:dimensions eventName:@"settings_click"];
+//        [delegate trackMixpanelEvents:dimensions eventName:@"settings_click"];
         [self qusetionForSettings];
     }
 }
@@ -414,7 +414,7 @@
     }
     [delegate trackEventAnalytic:@"story_of_the_day" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"story_of_the_day"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"story_of_the_day"];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         

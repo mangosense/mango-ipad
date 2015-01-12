@@ -99,7 +99,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_screen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_screen"];
 
 }
 
@@ -248,13 +248,19 @@
     }
     else{
         //close subscription plan
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Please enter correct birth year!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-        [alert show];
-        [self performSelector:@selector(hideAlertView:) withObject:alert afterDelay:1.5];
+        alertAgeError = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Please enter correct birth year!!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alertAgeError show];
+        [self performSelector:@selector(hideAlertViewHere) withObject:alertAgeError afterDelay:1.5];
         
-        
-        [self backButtonTapped:0];
+        //[self backButtonTapped:0];
     }
+}
+
+- (void) hideAlertViewHere {
+    
+    [alertAgeError dismissWithClickedButtonIndex:0 animated:YES];
+    [self backButtonTapped:0];
+    
 }
 
 #pragma mark - Action Methods
@@ -336,7 +342,7 @@
     }
     [delegate trackEventAnalytic:@"subscription_click" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"subscription_click"];
     
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
@@ -489,7 +495,7 @@
     }
     [delegate trackEventAnalytic:@"restore_purchase" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
+//    [delegate trackMixpanelEvents:dimensions eventName:@"restore_purchase"];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
