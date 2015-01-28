@@ -75,20 +75,29 @@
     }
     [_gamesCarousel scrollToItemAtIndex:scrollToIndex animated:YES];
     self.timeCalculate = [NSDate date];
+    
+    if(_gameNames.count >0){
+        
+        [self loadGameView:0];
+    }
+    
+    //Direct load the game here and go on
+    //Test
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated{
     
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"game_screen" forKey:PARAMETER_ACTION];
-    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:@"Game screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [delegate trackEventAnalytic:@"game_screen" dimensions:dimensions];
-    [delegate eventAnalyticsDataBrowser:dimensions];
+//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+//    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+//    [dimensions setObject:@"game_screen" forKey:PARAMETER_ACTION];
+//    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+//    [dimensions setObject:@"Game screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
+//    if(userEmail){
+//        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+//    }
+//    [delegate trackEventAnalytic:@"game_screen" dimensions:dimensions];
+//    [delegate eventAnalyticsDataBrowser:dimensions];
 //    [delegate trackMixpanelEvents:dimensions eventName:@"game_screen"];
 }
 
@@ -122,45 +131,22 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    NSString *gameName = [_gameNames objectAtIndex:index];
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
-    NSData *jsonData1 = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict1 = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData1 options:NSJSONReadingAllowFragments error:nil]];
     
-    NSMutableArray *readerPagesArray1 = [[NSMutableArray alloc] initWithArray:[jsonDict1 objectForKey:PAGES]];
-    NSMutableArray *gamesDataArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *readerPageDict in readerPagesArray1){
-        if(([[readerPageDict objectForKey:PAGE_NAME] length] >3) && !([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"])){
-            NSLog(@"not match - %@", [readerPageDict objectForKey:PAGE_NAME]);
-            [gamesDataArray addObject:readerPageDict];
-        }
-    }
     
-    NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePagePro:gameName ForStory:gamesDataArray WithFolderLocation:_folderLocation AndOption:index];
     
-    _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
-    [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
-    
-    NSData *jsonData = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    
-    _currentBookId = [jsonDict objectForKey:@"id"];
-    _currentBookTitle = [jsonDict objectForKey:@"title"];
-    NSString * currentBookGradeLevel = [[[jsonDict objectForKey:@"info"] objectForKey:@"grades"] componentsJoinedByString:@", "];
-    
-    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
-    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:gameName forKey:PARAMETER_GAME_NAME];
-    [dimensions setObject:_currentBookId forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:_currentBookTitle forKey:PARAMETER_BOOK_TITLE];
-    [dimensions setObject:@"Play game" forKey:PARAMETER_EVENT_DESCRIPTION];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [delegate trackEventAnalytic:@"playing" dimensions:dimensions];
-    [delegate eventAnalyticsDataBrowser:dimensions];
+//    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+//    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
+//    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+//    [dimensions setObject:gameName forKey:PARAMETER_GAME_NAME];
+//    [dimensions setObject:_currentBookId forKey:PARAMETER_BOOK_ID];
+//    [dimensions setObject:_currentBookTitle forKey:PARAMETER_BOOK_TITLE];
+//    [dimensions setObject:@"Play game" forKey:PARAMETER_EVENT_DESCRIPTION];
+//    if(userEmail){
+//        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+//    }
+//    [delegate trackEventAnalytic:@"playing" dimensions:dimensions];
+//    [delegate eventAnalyticsDataBrowser:dimensions];
 //    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
@@ -230,14 +216,53 @@
         }
     }];*/
     
-    UIWebView *webview = [gameViewDict objectForKey:@"gameView"];
-    webview.delegate = self;
-    webview.scalesPageToFit = YES;
-    webview.frame = self.view.frame;
-    [webview setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
-    [[webview scrollView] setBounces:NO];
+/* ////    _webView = [gameViewDict objectForKey:@"gameView"];
+    _webView.delegate = self;
+    _webView.scalesPageToFit = YES;
+    _webView.frame = self.view.frame;
+    [_webView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
+    [[_webView scrollView] setBounces:NO];
     
-    [self.view addSubview:webview];
+    [self.view addSubview:_webView];
+    
+    [self.view bringSubviewToFront:_closeButton]; // */
+}
+
+- (void) loadGameView : (NSInteger) index{
+    countGames ++;
+    NSString *gameName = [_gameNames objectAtIndex:index];
+    
+    NSData *jsonData1 = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict1 = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData1 options:NSJSONReadingAllowFragments error:nil]];
+    
+    NSMutableArray *readerPagesArray1 = [[NSMutableArray alloc] initWithArray:[jsonDict1 objectForKey:PAGES]];
+    NSMutableArray *gamesDataArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *readerPageDict in readerPagesArray1){
+        if(([[readerPageDict objectForKey:PAGE_NAME] length] >3) && !([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"])){
+            NSLog(@"not match - %@", [readerPageDict objectForKey:PAGE_NAME]);
+            [gamesDataArray addObject:readerPageDict];
+        }
+    }
+    
+    NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePagePro:gameName ForStory:gamesDataArray WithFolderLocation:_folderLocation AndOption:index];
+    
+    _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
+    [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
+    
+    NSData *jsonData = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    _currentBookId = [jsonDict objectForKey:@"id"];
+    _currentBookTitle = [jsonDict objectForKey:@"title"];
+    
+    _webView = [gameViewDict objectForKey:@"gameView"];
+    _webView.delegate = self;
+    _webView.scalesPageToFit = YES;
+    _webView.frame = self.view.frame;
+    [_webView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
+    [[_webView scrollView] setBounces:NO];
+    
+    [self.view addSubview:_webView];
     
     [self.view bringSubviewToFront:_closeButton];
 }
@@ -276,7 +301,7 @@
 #pragma mark - Action Methods
 
 - (void)closeGames:(id)sender {
-    BOOL hasWeView = NO;
+    /*BOOL hasWeView = NO;
     for (UIView *subview in [self.view subviews]) {
         if ([subview isKindOfClass:[UIWebView class]]) {
             [subview removeFromSuperview];
@@ -288,7 +313,28 @@
         [self dismissViewControllerAnimated:YES completion:^{
             
         }];
+    }*/
+    
+    if(countGames == _gameNames.count){
+        
+        //over games list
+        [self dismissViewControllerAnimated:NO completion:^{
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReadNewBook" object:self];
+            return;
+        }];
     }
+    else{
+        // move to next game
+        [self loadGameView:countGames];
+    }
+    
+}
+
+- (void) testRestartGame{
+    
+    NSString *methodName = @"restart()";
+    [_webView stringByEvaluatingJavaScriptFromString:methodName];
 }
 
 #pragma mark - UIWebView Delegate
@@ -302,7 +348,12 @@
    
     NSString *resultString = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
     NSLog(@"%@", resultString);
+    
+    //test to execute javascript menthod to execute method after delay
+    //[self performSelector:@selector(hideAlert:) withObject:alert afterDelay:1.5];
+    //[self performSelector:@selector(testRestartGame) withObject:nil afterDelay:35.0];
 }
+
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
@@ -315,24 +366,24 @@
 
 - (void) viewWillDisappear:(BOOL)animated{
     
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
-    int time = (int)(timeEndValue*1000);
-    NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
-    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
-    NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
-    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:@"Total playing time" forKey:PARAMETER_EVENT_DESCRIPTION];
-    [dimensions setObject:_currentBookId forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:_currentBookTitle forKey:PARAMETER_BOOK_TITLE];
-    [dimensionevent setDictionary:dimensions];
-    [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
-    [dimensionshist setDictionary:dimensions];
-    [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
-    [delegate trackEventAnalytic:@"playing" dimensions:dimensionevent];
-    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
+//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+//    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+//    int time = (int)(timeEndValue*1000);
+//    NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
+//    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+//    NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
+//    NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
+//    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
+//    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+//    [dimensions setObject:@"Total playing time" forKey:PARAMETER_EVENT_DESCRIPTION];
+//    [dimensions setObject:_currentBookId forKey:PARAMETER_BOOK_ID];
+//    [dimensions setObject:_currentBookTitle forKey:PARAMETER_BOOK_TITLE];
+//    [dimensionevent setDictionary:dimensions];
+//    [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
+//    [dimensionshist setDictionary:dimensions];
+//    [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
+//    [delegate trackEventAnalytic:@"playing" dimensions:dimensionevent];
+//    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
 //    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
 }
 

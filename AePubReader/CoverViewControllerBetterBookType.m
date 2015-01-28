@@ -410,27 +410,6 @@ NSString *newIdentityValue;
     //add full image url
     controller.bookImageURL = currentBookImageURL;
     
-    /*NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 PARAMETER_BOOK_ID : _identity
-                                 
-                                 };
-    [delegate trackEvent:[BOOKCOVER_SELECTION valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[BOOKCOVER_SELECTION valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [BOOKCOVER_SELECTION valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:_identity forKey:@"bookID"];
-    if(userEmail){
-        [userObject setObject:ID forKey:@"emailID"];
-    }
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];*/
-    
     [self.navigationController pushViewController:controller animated:YES];
 }
 

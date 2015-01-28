@@ -67,12 +67,12 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse MangoReader Original App -
-    [Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-                  clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
+    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
     
     //MangoReader_Test app for testing
-    //[Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
-    //                   clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
+    [Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
+                       clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
     
  
     //Flurry
@@ -350,7 +350,7 @@ static UIAlertView *alertViewLoading;
     
     if (!path){
         if(!isFreeBooksApiCall){
-            [self getAllFreeBooks];
+            //[self getAllFreeBooks];
         }
     }
     if(path && !validSubscription){
@@ -683,6 +683,41 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     return jsonLocation;
 }
+
+//Merge two images for book
++ (UIImage*)mergeImage:(UIImage*)first withImage:(UIImage*)second
+{
+    // get size of the first image
+    CGImageRef firstImageRef = first.CGImage;
+    CGFloat firstWidth = CGImageGetWidth(firstImageRef);
+    CGFloat firstHeight = CGImageGetHeight(firstImageRef);
+    
+    // get size of the second image
+    CGImageRef secondImageRef = second.CGImage;
+   // CGFloat secondWidth = CGImageGetWidth(secondImageRef);
+   // CGFloat secondHeight = CGImageGetHeight(secondImageRef);
+    CGFloat secondWidth = 120.f;
+    CGFloat secondHeight = 120.f;
+    
+    // build merged size
+    CGSize mergedSize = CGSizeMake(MAX(firstWidth, secondWidth), MAX(firstHeight, secondHeight));
+    
+    // capture image context ref
+    UIGraphicsBeginImageContext(mergedSize);
+    
+    //Draw images onto the context
+    [first drawInRect:CGRectMake(0, 0, firstWidth, firstHeight)];
+    [second drawInRect:CGRectMake(0, 0, secondWidth, secondHeight)];
+    
+    // assign context to new UIImage
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // end context
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 
 //save with folder name
 -(void)unzipAndSaveFile:(NSString *)location withString:(NSString *)folderName{

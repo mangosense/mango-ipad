@@ -41,4 +41,7 @@
 - (IBAction)skipHelpPageView:(id)sender;
 - (IBAction)showHelpPageView:(id)sender;
 
+///////New App
+- (IBAction) moveToAgeGrouoSelection:(id)sender;
+
 @end

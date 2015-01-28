@@ -1,0 +1,173 @@
+body {
+	margin-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1024px;
+}
+.roundabout-holder {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	height: 255px;
+	width: 500px;
+}
+.roundabout-moveable-item {
+	width:375px;
+	height:315px;
+	cursor: pointer;
+}
+.roundabout-in-focus {
+	cursor: auto;
+}
+#title
+{
+	background:url(../img/mango-title.png) no-repeat top center;
+	position:absolute;
+	top:0;
+	left:262px;
+	width: 500px;
+	height:80px;	
+	z-index:999999;
+}
+
+
+#gc-container {
+	display: block;
+	height: 768px;
+	width: 1024px;
+	background: url(../img/background.png) no-repeat;
+	position:absolute;
+	margin:0px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.slide
+{
+	list-style-type:none;
+	border-radius: 20px ;
+	border:10px solid;
+	border-color:white;
+	box-shadow: 2px 2px 8px #000;
+}
+
+
+.slide1 {
+	position: absolute;
+	top: 23%;
+	left: 25.5%;
+}
+
+
+
+.next
+{
+	background:url(../img/next.png) no-repeat;
+	display:block;
+	height:65px;
+	width:65px;
+	position:absolute;
+	top: 37%;
+	right: 0%;
+}
+.previous
+{
+	background:url(../img/previous.png) no-repeat;
+	display:block;
+	height:65px;
+	width:65px;
+	position:absolute;
+	top: 37%;
+	left: 0%;
+}
+
+.slide
+{
+	cursor:pointer;
+}
+
+#slide2
+{
+	position:absolute;
+	top: 75%;
+	left: 34.5%;
+}
+
+
+
+#jigsaw
+{
+	display:block;
+	background:url(../img/titles/jigsaw-puzzle.jpg) no-repeat;
+}
+
+#draw
+{
+	display:block;
+	background:url(../img/titles/draw-game.jpg) no-repeat;
+}
+
+#dragNdrop
+{
+	display:block;
+	background:url(../img/titles/dragNdrop.jpg) no-repeat;
+}
+
+#memorypuzzle
+{
+	display:block;
+	background:url(../img/titles/memory-puzzle.jpg) no-repeat;
+}
+
+#wordsearch
+{
+	display:block;
+	background:url(../img/titles/word-search-game.jpg) no-repeat;
+}
+
+#arrange-the-letters
+{
+	display:block;
+	background:url(../img/titles/arrange-the-word.jpg) no-repeat;
+}
+#identify-the-animal
+{
+	display:block;
+	background:url(../img/titles/identify-the.animal.jpg) no-repeat;
+}
+
+#select-the-object
+{
+	display:block;
+	background:url(../img/titles/select-the-object.jpg) no-repeat;
+}
+.back
+{
+	display:block;
+	background:url(../img/back-button-white.png) no-repeat;
+	height:50px;
+	width:50px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.disc
+{
+	display:none;
+	text-align:center;
+	position: absolute;
+	top: 68%;
+	left: 17%;
+	color:white;
+	font-weight: bold;
+	font-size: 20px;
+	text-shadow: 1px 1px 4px  #666;
+	width:700px;
+	font-family:"Comic Sans MS";
+}
+
+
+#text1	
+{
+	display:block;
+}

@@ -15,7 +15,7 @@
     NSString *ID;
     NSString *viewName;
     NSString *currentPage;
-    
+    int countGames;
 }
 
 @property (nonatomic, strong) NSString *folderLocation;
@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSDate *timeCalculate;
 @property (nonatomic, strong) NSString *currentBookId;
 @property (nonatomic, strong) NSString *currentBookTitle;
+@property (nonatomic, strong) UIWebView *webView;
 
 - (IBAction)closeGames:(id)sender;
 

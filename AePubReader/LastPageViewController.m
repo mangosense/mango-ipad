@@ -8,7 +8,7 @@
 
 #import "LastPageViewController.h"
 
-#import "AePubReaderAppDelegate.h"b
+#import "AePubReaderAppDelegate.h"
 #import "DataModelControl.h"
 #import "MBProgressHUD.h"
 #import "MangoEditorViewController.h"

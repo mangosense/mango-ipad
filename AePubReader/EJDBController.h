@@ -38,6 +38,8 @@
 - (id)getLayerForLayerId:(NSString *)layerId;
 - (void)saveBook:(MangoBook *)book AtLocation:(NSString *)filePath WithEJDBId:(NSString *)ejdbId;
 
+- (NSArray *)getAllUserAgeValue;
+
 - (BOOL)deleteObject:(id)object;
 - (BOOL)deleteSubscriptionObject:(SubscriptionInfo *)subInfo;
 - (BOOL) deleteAudioLayer:(MangoAudioLayer *)audiolayer;

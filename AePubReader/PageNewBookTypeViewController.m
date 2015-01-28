@@ -12,8 +12,10 @@
 #import "LanguageChoiceViewController.h"
 #import "CustomMappingView.h"
 #import "MangoGamesListViewController.h"
+#import "FinishReadingViewController.h"
 #import <Parse/Parse.h>
 #import "CargoBay.h"
+#import "HomePageViewController.h"
 
 //#import "GADInterstitial.h"
 //#import "GADInterstitialDelegate.h"
@@ -345,6 +347,9 @@
     _backButton.hidden = hide;
     _previousPageButton.hidden = hide;
     _nextPageButton.hidden = hide;
+    _switchAudioControl.hidden = hide;
+    _playOrPauseButton.hidden = hide;
+    _audioRateBg.hidden = hide;
     
     [self.popoverControlleriPhone dismissPopoverAnimated:YES];
     self.popoverControlleriPhone = nil;
@@ -430,8 +435,17 @@
 - (IBAction)BackButton:(id)sender {
     //AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     checkCorrectDismiss = 1.0;
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
     //[self.navigationController popToViewController:delegate.pageViewController animated:YES];
+    
+        for(UIViewController *controller in self.navigationController.viewControllers){
+    
+            if([controller isKindOfClass:[HomePageViewController class]]){
+    
+                [self.navigationController popToViewController:controller animated:YES];
+                break;
+            }
+        }
     
 }
 //-(void)viewWillDisappear:(BOOL)animated{
@@ -929,7 +943,7 @@
         checkCorrectDismiss = 1;
         _pageNumber = _pageNo - 1;
         
-        LastPageViewController *lastPage;
+        FinishReadingViewController *readingFinishPage;
         MangoStoreViewController *storeView;
         
         if(storyAsAppFilePath && !validUserSubscription){
@@ -945,15 +959,16 @@
         }
         
         else{
+            float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController_iPhone" bundle:nil WithId:[_book valueForKey:@"id"]];
+                readingFinishPage = [[FinishReadingViewController alloc] initWithNibName:@"FinishReadingViewController_iPhone" bundle:nil withId:[_book valueForKey:@"id"]];
             }
             else{
-            lastPage = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:nil WithId:[_book valueForKey:@"id"]];
+                readingFinishPage = [[FinishReadingViewController alloc] initWithNibName:@"FinishReadingViewController" bundle:nil withId:[_book valueForKey:@"id"]];
             }
-        
-            [self.navigationController pushViewController:lastPage animated:YES];
+            readingFinishPage.totalTime = [NSString stringWithFormat:@"%f",timeEndValue];
+            [self.navigationController pushViewController:readingFinishPage animated:YES];
         }
     }
 }
@@ -1659,7 +1674,7 @@
 
 - (void) viewDidDisappear:(BOOL)animated{
     
-    if(checkCorrectDismiss){
+/* ///    if(checkCorrectDismiss){
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     _audioMappingViewController.timer = nil;
     _audioMappingViewController.player = nil;
@@ -1719,7 +1734,7 @@
     [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
     [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
     [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
-    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
+    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];   /// */
 //    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
@@ -1729,7 +1744,7 @@
                                  PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                  };
     [delegate trackEvent:[READBOOK_CLOSE valueForKey:@"description"] dimensions:dimensions];*/
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+/* ///   PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
     [userObject setObject:[READBOOK_CLOSE valueForKey:@"value"] forKey:@"eventName"];
     [userObject setObject: [READBOOK_CLOSE valueForKey:@"description"] forKey:@"eventDescription"];
     [userObject setObject:viewName forKey:@"viewName"];
@@ -1772,7 +1787,7 @@
             if(_pageNumber+1 >= _pageNo){
                 NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
                 if([[object valueForKey:@"bookCompleted"] integerValue]){
-                    [object setObject:[NSNumber numberWithInt:([[object valueForKey:@"timesNumberBookCompleted"] integerValue]+1)] forKey:@"timesNumberBookCompleted"];
+                    [object setObject:[NSNumber numberWithInt:([[object valueForKey:@"timesNumberBookCompleted"] integerValue]+1)] forKey:@"timesNumberBookCompleted"];///*/
                     /*NSDictionary *dimensions = @{
                                                  PARAMETER_USER_EMAIL_ID : ID,
                                                  PARAMETER_DEVICE: IOS,
@@ -1780,7 +1795,7 @@
                                                  PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                                  };
                     [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];*/
-                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+/* ///                    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
                     [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
                     [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
                     [userObject setObject:viewName forKey:@"viewName"];
@@ -1829,7 +1844,7 @@
             if(_pageNumber+1 >= _pageNo){
                 NSLog(@"Book Completed here, update total pageno, completebookcount, totaltime and totalactivities");
                 [userObject setObject:[NSNumber numberWithInteger:1] forKey:@"bookCompleted"];
-                [userObject setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];
+                [userObject setObject:[NSNumber numberWithInt:1] forKey:@"timesNumberBookCompleted"];/// */
                 
                 /*NSDictionary *dimensions = @{
                                              PARAMETER_USER_EMAIL_ID : ID,
@@ -1838,7 +1853,7 @@
                                              PARAMETER_BOOK_TIME_SPEND : [NSString stringWithFormat:@"%f",timeEndValue]
                                              };
                 [delegate trackEvent:[READBOOK_BOOK_COMPLETE valueForKey:@"description"] dimensions:dimensions];*/
-                PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
+/* ///                PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
                 [userObject setObject:[READBOOK_BOOK_COMPLETE valueForKey:@"value"] forKey:@"eventName"];
                 [userObject setObject: [READBOOK_BOOK_COMPLETE valueForKey:@"description"] forKey:@"eventDescription"];
                 [userObject setObject:viewName forKey:@"viewName"];
@@ -1866,7 +1881,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadCoverView" object:self];
         }
     }];
-    }
+    } /// */
 }
 
 - (IBAction)backgroundTap:(id)sender {

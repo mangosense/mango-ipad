@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=1024, height=768"/>
+		<!--word search start-->
+		<link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+		<!--word search end-->
+	</head>
+	<body>
+		<!-- mango word search container -->
+		<div style ="width:1024px; position: relative;">
+			<div id="mb_container" style="background-image: url('wordsearch-assets.png');height:768px;width:1024px;">
+				<ul id="game-options">
+					<!--<li>-->
+					<!--<a href="../../game.html" id="close" class="close-class" ></a>-->
+					<!--</li>-->
+					<li style="display:none">
+						<b id="clock" class="button1">00:00:00</b>
+					</li>
+					<li style="display:none">
+						<b id="points" class="button1">10000 Points</b>
+					</li>
+					<li>
+						<a href="#" id="restart" class="button1" >Replay</a>
+					</li>
+					<li style="display:none">
+						<a href="#" id="font-size-up" class="button1 left" title="Solo piezas del borde">+A</a>
+					</li>
+					<li style="display:none">
+						<a href="#" id="font-size-down" class="button1 right" title="Solo piezas del centro"><small>-A</small></a>
+					</li>
+					<li style="display:none">
+						<div class="styled-select words">
+							<select id="set-words">
+								<option value="2">Hard</option>
+							</select>
+						</div>
+					</li>
+					<li style="display:none">
+						<div class="styled-select size">
+							<select id="set-size">
+								<option value="10">10x10 grid</option>
+							</select>
+						</div>
+					</li>
+				</ul>
+				<!-- JIGSAW CANVAS -->
+				<div id="canvas-wrap">
+					<div id="word-search">
+						<canvas id="grid"></canvas>
+						<canvas id="lines"></canvas>
+						<canvas id="layer"></canvas>
+						<div id="word-description"></div>
+					<ul id="word-list"></ul>
+				</div>
+			</div>
+			<div class="hide" id="help">
+				<a href="#" class="close"  onclick="closeModal(this);">X</a>
+				<h1>How to play!</h1>
+				<ul>
+					<li>
+						Find and mark all the words inside the box before your points fall to zero.
+					</li>
+					<li>
+						The words may be horizontally, vertically, diagonally and even backwards.
+					</li>
+					<li>
+						If you give up searching for a word use the button next to the word.
+					</li>
+				</ul>
+			</div>
+			<!-- OVERLAY -->
+			<div class="hide" id="overlay"></div>
+			<iframe class="hide" src="about:blank" id="save-score" name="save-score"></iframe>
+			<!-- CONGRATULATION -->
+			<div id="congrat" class="hide"></div>
+		</div>
+	</div>
+	<script id="congrat-tmpl" type="text/template">
+		<div>&nbsp;</div>
+		<h1 style="font-size:22px">Congratulations!</h1>
+		<h3>Your score is {score}</h3>
+		<a href="https://www.facebook.com/dialog/feed?app_id=344525655596295&link=http://www.mangoreader.com/store&picture=http://www.mangoreader.com/assets/Game-score-share2.jpg&name=Hurray..!!&caption=Hurray!%20%20I%20have%20scored%20{score}%20on%20Mango%20words%20game%20on%20Ruby%20Red,%20Rosy%20Red%20Mango%20Book&redirect_uri=http://www.mangoreader.com" id="fshare1" class="fshare" target="_blank"></a>
+	<!--<input type="hidden" name="time" value="{time}"/>-->
+	<!--<input type="hidden" name="score" value="{score}"/>-->
+	</script>
+	<!-- mango word search container end-->
+</div>
+<script type="text/javascript" src="../core/js/jquery.min.js"></script>
+<script type="text/javascript" src="../core/js/buzz.js"></script>
+<script src="js/soup.min.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+</body>
+</html>

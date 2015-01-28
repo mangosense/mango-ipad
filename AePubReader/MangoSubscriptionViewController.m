@@ -158,8 +158,7 @@
      
 //- (void) subscriptionSetup :(NSArray *)planArray{
 - (void) subscriptionSetup{
-    //  NSLog(@"response values are %@", planArray);
-    //   _arraySubscriptionPlan = planArray;
+    
     subscriptionPlanPrice = [[NSMutableArray alloc] init];
     NSSet * productSet = [NSSet setWithArray:subscriptionProductId];
     [[CargoBay sharedManager] productsWithIdentifiers:productSet success:^(NSArray *products, NSArray *invalidIdentifiers) {

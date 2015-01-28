@@ -94,7 +94,8 @@ static int booksDownloadingCount;
         }
         else{
             
-            [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+          //  [_buyButton setTitle: @"Subscribe Now" forState: UIControlStateNormal];
+            [_buyButton setTitle: @"Read Now" forState: UIControlStateNormal];
             _buyButton.userInteractionEnabled = YES;
         }
     }

@@ -39,6 +39,13 @@
     return userInfoObjects;
 }
 
+- (NSArray *)getAllUserAgeValue{
+    
+    NSArray *userAgeObjects = [_db findObjectsWithQuery:@{@"userAgeValue":@{@"$exists":@YES}} inCollection:_collection error:nil];
+    return userAgeObjects;
+}
+
+
 - (NSArray *)getAllSubscriptionObjects {
     NSArray *userSubscriptionObjects = [_db findObjectsWithQuery:@{@"subscriptionProductId":@{@"$exists":@YES}} inCollection:_collection error:nil];
     return userSubscriptionObjects;

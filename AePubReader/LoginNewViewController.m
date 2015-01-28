@@ -20,6 +20,9 @@
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoEditorViewController.h"
 
+//NewApp
+#import "AgeDetailsViewController.h"
+
 
 @interface LoginNewViewController ()
 
@@ -53,6 +56,13 @@
     if ([userInfoObjects count] > 0) {
         appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
         [self goToNext];
+    }
+    
+    NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
+    
+    if ([userAgeObjects count] > 0) {
+        appDelegate.userInfoAge = [userAgeObjects lastObject];
+        [self moveToAgeGrouoSelection:nil];
     }
     
     [super viewDidLoad];
@@ -580,6 +590,21 @@
 
 - (IBAction)showHelpPageView:(id)sender{
     _imageHelpView.hidden = NO;
+}
+
+- (IBAction) moveToAgeGrouoSelection:(id)sender{
+    
+    AgeDetailsViewController *ageGroupSelectionView;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        ageGroupSelectionView = [[AgeDetailsViewController alloc]initWithNibName:@"AgeDetailsViewController_iPhone" bundle:nil];
+    }
+    else{
+        ageGroupSelectionView = [[AgeDetailsViewController alloc]initWithNibName:@"AgeDetailsViewController" bundle:nil];
+    }
+    
+    [self.navigationController pushViewController:ageGroupSelectionView animated:NO];
 }
 
 @end

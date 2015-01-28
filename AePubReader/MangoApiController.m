@@ -379,7 +379,11 @@
         
         NSURL *URL;
         if (appDelegate.loggedInUserInfo) {
-            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken, IOS, ISMOBILEVALUE]];
+            
+            NSString *userEmail = @"jagdish@mangosense.com";
+            NSString *authToken = @"Mxje8kL6DxmNxxSzTzR9";
+            //URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [appDelegate.loggedInUserInfo.email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], appDelegate.loggedInUserInfo.authToken, IOS, ISMOBILEVALUE]];
+            URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userEmail stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authToken, IOS, ISMOBILEVALUE]];
         } else {
             NSString *subscriptionMode = @"subscription";
             NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -394,7 +398,12 @@
                 
             }
             else if(!transactionId){
-                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_STORYOFTHEDAY, bookId,subscriptionMode, IOS, ISMOBILEVALUE]];
+               // URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_STORYOFTHEDAY, bookId,subscriptionMode, IOS, ISMOBILEVALUE]];
+                
+                NSString *userEmail = @"jagdish@mangosense.com";
+                NSString *authToken = @"Mxje8kL6DxmNxxSzTzR9";
+                
+                URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_IN, bookId, [userEmail stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], authToken, IOS, ISMOBILEVALUE]];
             }
             else{
                 URL = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:DOWNLOAD_STORY_LOGGED_OUT, bookId, transactionId,subscriptionMode, IOS, ISMOBILEVALUE]];

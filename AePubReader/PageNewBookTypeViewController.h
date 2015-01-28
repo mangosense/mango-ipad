@@ -15,7 +15,7 @@
 #import "MangoEditorViewController.h"
 #import "DismissPopOver.h"
 #import "MangoBook.h"
-#import "LastPageViewController.h"
+//#import "LastPageViewController.h"
 //#import "GADInterstitial.h"
 //#import "GADBannerView.h"
 
@@ -80,8 +80,9 @@
 @property (nonatomic, strong) IBOutlet UIButton *previousPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *nextPageButton;
 @property (nonatomic, strong) IBOutlet UIButton *languageAvailButton;
-@property (nonatomic, strong) IBOutlet UIButton *editButton;
-@property(nonatomic, strong) IBOutlet UIButton *shareButton;
+@property (nonatomic, strong) IBOutlet UIButton *editButton;       
+@property (nonatomic, strong) IBOutlet UIButton *shareButton;
+@property (nonatomic, strong) IBOutlet UIImageView *audioRateBg;
 
 @property (nonatomic, strong) NSDate *timeCalculate;
 @property (nonatomic, strong) NSString *bookGradeLevel;

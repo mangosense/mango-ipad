@@ -15,6 +15,7 @@
 #import "LoginNewViewController.h"
 #import "EJDBController.h"
 #import "UserInfo.h"
+#import "UserAgeInfo.h"
 #import "BookDetailsViewController.h"
 #import "CoverViewControllerBetterBookType.h"
 #import "LandPageChoiceViewController.h"
@@ -58,6 +59,9 @@
 @property (strong,nonatomic) LandPageChoiceViewController *landpageController;
 
 @property (nonatomic, strong) UserInfo *loggedInUserInfo;
+
+@property (nonatomic, strong) UserAgeInfo *userInfoAge;
+
 @property (nonatomic, strong) SubscriptionInfo *subscriptionInfo;
 @property (nonatomic, assign) BOOL arePurchasesDownloading;
 
@@ -83,6 +87,8 @@
 - (void)eventAnalyticsDataBrowser :(NSDictionary *)dimensions;
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions;
 - (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event;
+
++ (UIImage*)mergeImage:(UIImage*)first withImage:(UIImage*)second;
 
 @property(assign,nonatomic) LandPageChoiceViewController *controller;
 @property(retain,nonatomic) UIViewController *pageViewController;

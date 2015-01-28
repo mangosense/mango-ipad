@@ -13,6 +13,8 @@
     #import <UIKit/UIKit.h>
     #import "Reachability.h"
     #import <Parse/Parse.h>
+    #import <AudioToolbox/AudioToolbox.h>
+    #import <AVFoundation/AVFoundation.h>
    // #import "Mixpanel.h"
     #import "UINavigationController+KeyboardDismiss.h"
 #endif
