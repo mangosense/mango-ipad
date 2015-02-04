@@ -68,12 +68,12 @@
     }
     // Do any additional setup after loading the view from its nib.
     _gamesArray = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"word-search-game.jpg"], [UIImage imageNamed:@"memory-puzzle.jpg"], [UIImage imageNamed:@"jigsaw-puzzle.jpg"], nil];
-    [_gamesCarousel setType:iCarouselTypeCoverFlow];
-    int scrollToIndex = 0;
-    if ([_gameNames count] > 2) {
-        scrollToIndex = 1;
-    }
-    [_gamesCarousel scrollToItemAtIndex:scrollToIndex animated:YES];
+//    [_gamesCarousel setType:iCarouselTypeCoverFlow];
+//    int scrollToIndex = 0;
+//    if ([_gameNames count] > 2) {
+//        scrollToIndex = 1;
+//    }
+    //[_gamesCarousel scrollToItemAtIndex:scrollToIndex animated:YES];
     self.timeCalculate = [NSDate date];
     
     if(_gameNames.count >0){
@@ -320,8 +320,8 @@
         //over games list
         [self dismissViewControllerAnimated:NO completion:^{
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReadNewBook" object:self];
-            return;
+            
+            
         }];
     }
     else{
@@ -330,6 +330,12 @@
     }
     
 }
+
+- (void) viewWillDisappear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoToFinishBook" object:self];
+}
+
 
 - (void) testRestartGame{
     
@@ -364,27 +370,5 @@
     return YES;
 }
 
-- (void) viewWillDisappear:(BOOL)animated{
-    
-//    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-//    float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
-//    int time = (int)(timeEndValue*1000);
-//    NSString *time1 = [NSString stringWithFormat:@"%d",(int)(timeEndValue *1000)];
-//    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-//    NSMutableDictionary *dimensionevent = [[NSMutableDictionary alloc]init];
-//    NSMutableDictionary *dimensionshist = [[NSMutableDictionary alloc]init];
-//    [dimensions setObject:@"playing" forKey:PARAMETER_ACTION];
-//    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-//    [dimensions setObject:@"Total playing time" forKey:PARAMETER_EVENT_DESCRIPTION];
-//    [dimensions setObject:_currentBookId forKey:PARAMETER_BOOK_ID];
-//    [dimensions setObject:_currentBookTitle forKey:PARAMETER_BOOK_TITLE];
-//    [dimensionevent setDictionary:dimensions];
-//    [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
-//    [dimensionshist setDictionary:dimensions];
-//    [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
-//    [delegate trackEventAnalytic:@"playing" dimensions:dimensionevent];
-//    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"playing"];
-}
 
 @end

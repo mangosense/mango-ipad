@@ -33,8 +33,21 @@
 
 - (void) downloadBook :(NSString *)bookId{
     
-    MangoApiController *apiController = [MangoApiController sharedApiController];
-    [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
+    //check if books are already available .....
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    Book *bk=[appDelegate.dataModel getBookOfEJDBId:bookId];
+    
+    //int isDownloaded = [bk.downloaded integerValue];
+    
+    if(bk.localPathFile){
+        [_delegate finishBookDownlaod];
+    }
+    
+    else{
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
+    }
     
 }
 

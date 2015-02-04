@@ -20,7 +20,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *timeTakenValue;
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withId :(NSString*)identity;
-- (IBAction)gameButtonTapped:(id)sender;
-- (IBAction)dismissToHomePage:(id)sender;
+
+- (IBAction) dismissToHomePage:(id)sender;
+
+- (IBAction) startReadingNewbook:(id)sender;
 
 @end

@@ -255,20 +255,25 @@ static UIAlertView *alertViewLoading;
 
             if ((path)&& (!validSubscription)) {
                 
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    
+                /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
-                    
                 }
                 else {
                     _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-                    
                 }
+                nav=[[UINavigationController alloc]initWithRootViewController:_coverController];*/
                 
-                //nav = [[CustomNavViewController alloc]initWithRootViewController:_coverController];
-                nav=[[UINavigationController alloc]initWithRootViewController:_coverController];
-               // MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.nav.view animated:YES];
-               // hud.labelText = @"Loading Please Wait";
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
+                }
+                else{
+                    _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController" bundle:nil];
+                }
+                _loginController.pushSubscribe = pushSubscribe;
+                _loginController.pushCreateStory = pushCreateStory;
+                _loginController.pushNoteBookId = bookId;
+                //nav=[[CustomNavViewController alloc]initWithRootViewController:_loginController];
+                nav=[[UINavigationController alloc]initWithRootViewController:_loginController];
                 
             }
             else if((path)&& (validSubscription)){
@@ -448,18 +453,23 @@ void uncaughtExceptionHandler(NSException *exception) {
     int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
+    NSMutableArray *epubFles = [[NSMutableArray alloc] init];
 
     NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self applicationDocumentsDirectory] error:nil];
-    NSArray *epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]];
-    if (path && !validUserSubscription )  {
-        epubFles = [NSArray arrayWithObject:@"MangoStory"];
+    if([dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]].count){
+    [epubFles addObjectsFromArray:[dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.zip'"]]];
+    }
+        if (path && !validUserSubscription )  {
+        //epubFles = [NSArray arrayWithObject:@"MangoStory"];
+        [epubFles addObject:@"MangoStory"];
     }
     
     
+    [epubFles removeObject:@" "];
     for (NSString *string in epubFles) {
         //location
         NSString *epubLocation=[[self applicationDocumentsDirectory] stringByAppendingPathComponent:string];
-        if (path && !validUserSubscription) {
+        if ([string isEqualToString:@"MangoStory"]) {
             epubLocation = path;
         }
         NSString *value=[string stringByDeletingPathExtension];
@@ -600,6 +610,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 -(void)SendToEJDB:(NSString *)locationDirectory WithId:(NSNumber *)numberId {
     
+    NSString *value = [[locationDirectory componentsSeparatedByString:@"/"] lastObject];
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int validUserSubscription = [[prefs valueForKey:@"ISSUBSCRIPTIONVALID"] integerValue];
     
@@ -610,7 +622,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:actualJsonLocation];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"MangoStory" ofType:@"zip"];
-    if (path && !validUserSubscription) {
+    if ([value isEqualToString:@"MangoStory"]) {
         dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] error:nil];
         epubFles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"]];
         NSString *actualJsonLocation = [[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]] stringByAppendingPathComponent:[epubFles firstObject]];

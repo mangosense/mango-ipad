@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openHomePage:) name:@"CloseGamesWhileDownload" object:nil];
+    
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
@@ -32,6 +32,11 @@
     }
     
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openHomePage:) name:@"CloseGamesWhileDownload" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +74,7 @@
         _ageLabelValue.text = @"";
         return;
     }
+    
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     UserAgeInfo *userAgeInfo = [[UserAgeInfo alloc] init];
     userAgeInfo.userAgeValue = _ageLabelValue.text;
@@ -85,7 +91,7 @@
         gamesView = [[GameWhileDownloadViewController alloc]initWithNibName:@"GameWhileDownloadViewController" bundle:nil];
     }
     gamesView.ageVal = _ageLabelValue.text;
-    [self presentViewController:gamesView animated:YES completion:nil];
+    [self presentViewController:gamesView animated:NO completion:nil];
     
 }
 
@@ -107,6 +113,11 @@
     
 }
 
+
+- (IBAction) backSpaceAgeField:(id)sender{
+    
+    self.ageLabelValue.text = @"";
+}
 
 ///Just for testing purpose
 

@@ -28,5 +28,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *yearlySubscriptionBtn;
 
 - (IBAction) backToHomePage:(id)sender;
+- (IBAction)subscribeButtonTapped:(id)sender;
 
 @end

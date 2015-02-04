@@ -74,9 +74,9 @@
                     } else {
                         transactionId = transaction.transactionIdentifier;
                     }
-                    [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] Amount:currentProductPrice andExpireDate:@"00/00/00"];
+                    [delegate itemReadyToUse:productId ForTransaction:transactionId withReciptData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] Amount:currentProductPrice andExpireDate:@"06/06/2020"];
                     
-                    [self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
+                    /*[self validateReceipt:productId ForTransactionId:transactionId amount:currentProductPrice storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:delegate];
                     
                     AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
                     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
@@ -89,7 +89,7 @@
                     }
                     [delegate1 trackEventAnalytic:@"subscription_success" dimensions:dimensions];
                     [delegate1 eventAnalyticsDataBrowser:dimensions];
-//                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];
+//                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];*/
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                     
@@ -100,7 +100,7 @@
                 {
                     NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
                     NSString *error = [NSString stringWithFormat:@"%@", transaction.error];
-                    AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+                    /*AePubReaderAppDelegate *delegate1=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
                     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
                     [dimensions setObject:@"subscription_failed" forKey:PARAMETER_ACTION];
                     [dimensions setObject:productIdentifier forKey:PARAMETER_SUBSCRIPTION_PLAN_ID];
@@ -110,7 +110,7 @@
                         [dimensions setObject:delegate1.loggedInUserInfo.email forKey:PARAMETER_USER_EMAIL_ID];
                     }
                     [delegate1 trackEventAnalytic:@"subscription_failed" dimensions:dimensions];
-                    [delegate1 eventAnalyticsDataBrowser:dimensions];
+                    [delegate1 eventAnalyticsDataBrowser:dimensions];*/
 //                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_failed"];
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];

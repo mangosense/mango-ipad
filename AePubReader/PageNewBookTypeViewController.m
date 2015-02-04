@@ -16,6 +16,7 @@
 #import <Parse/Parse.h>
 #import "CargoBay.h"
 #import "HomePageViewController.h"
+#import "FinishReadingViewController.h"
 
 //#import "GADInterstitial.h"
 //#import "GADInterstitialDelegate.h"
@@ -156,6 +157,28 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigateToLandPage) name:@"DismissBook" object:nil];
     
 }
+
+- (void) viewWillAppear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openFinishBookPage) name:@"GoToFinishBook" object:nil];
+}
+
+- (void) openFinishBookPage {
+    
+     FinishReadingViewController *finishReadingView;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        finishReadingView = [[FinishReadingViewController alloc]initWithNibName:@"FinishReadingViewController_iPhone" bundle:nil];
+    }
+    else{
+        finishReadingView = [[FinishReadingViewController alloc]initWithNibName:@"FinishReadingViewController" bundle:nil];
+    }
+    finishReadingView.timeTakenValue.text = @"to be catch";
+    
+    [self.navigationController pushViewController:finishReadingView animated:NO];
+}
+
 
 - (void) viewDidAppear:(BOOL)animated{
     
@@ -946,32 +969,86 @@
         FinishReadingViewController *readingFinishPage;
         MangoStoreViewController *storeView;
         
-        if(storyAsAppFilePath && !validUserSubscription){
+//        float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+//        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+//            
+//                readingFinishPage = [[FinishReadingViewController alloc] initWithNibName:@"FinishReadingViewController_iPhone" bundle:nil withId:[_book valueForKey:@"id"]];
+//        }
+//        else{
+//                readingFinishPage = [[FinishReadingViewController alloc] initWithNibName:@"FinishReadingViewController" bundle:nil withId:[_book valueForKey:@"id"]];
+//            }
+//            readingFinishPage.totalTime = [NSString stringWithFormat:@"%f",timeEndValue];
+//            [self.navigationController pushViewController:readingFinishPage animated:YES];
+        
+        
+        
+        
+        NSDictionary *jsonDict = [self getJsonDictForBook];
+        if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
+            UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [noGamesAlert show];
+        } else {
             
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                
-                storeView = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController_iPhone" bundle:nil];
+            MangoGamesListViewController *gamesListViewController;
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController_iPhone" bundle:nil];
             }
             else{
-                storeView = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
+                gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
             }
-            [self.navigationController pushViewController:storeView animated:YES];
+            gamesListViewController.currentBookId = _book.id;
+            gamesListViewController.currentBookTitle = _book.title;
+            gamesListViewController.jsonString = [self getJsonContentForBook];
+            
+            NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+            
+            
+            gamesListViewController.folderLocation = jsonLocation;
+            NSMutableArray *gameNames = [[NSMutableArray alloc] init];
+            for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
+                if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
+                    [gameNames addObject:[pageDict objectForKey:NAME]];
+                }
+            }
+            gamesListViewController.gameNames = gameNames;
+            
+            
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
+            [navController.navigationBar setHidden:YES];
+            
+            [self.navigationController presentViewController:navController animated:YES completion:^{
+                
+            }];
         }
         
-        else{
-            float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-                readingFinishPage = [[FinishReadingViewController alloc] initWithNibName:@"FinishReadingViewController_iPhone" bundle:nil withId:[_book valueForKey:@"id"]];
-            }
-            else{
-                readingFinishPage = [[FinishReadingViewController alloc] initWithNibName:@"FinishReadingViewController" bundle:nil withId:[_book valueForKey:@"id"]];
-            }
-            readingFinishPage.totalTime = [NSString stringWithFormat:@"%f",timeEndValue];
-            [self.navigationController pushViewController:readingFinishPage animated:YES];
-        }
+        
+    
     }
 }
+
+- (NSDictionary *)getJsonDictForBook {
+    NSString *jsonContent = [self getJsonContentForBook];
+    NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    return jsonDict;
+}
+
+- (NSString *)getJsonContentForBook {
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+    NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    return jsonContent;
+}
+
+
+
 
 
 - (IBAction)playOrPauseButton:(id)sender {

@@ -32,8 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openNewBook) name:@"ReadNewBook" object:nil];
-    if([_totalTime integerValue] > 60){
+    
+    /*if([_totalTime integerValue] > 60){
         int minutes = floor([_totalTime integerValue]/60);
         int seconds = round([_totalTime integerValue] - minutes * 60);
         _timeTakenValue.text = [NSString stringWithFormat:@"Welldone! you have completed the book in %d min and %d sec",minutes, seconds];
@@ -41,12 +41,13 @@
     else{
         int seconds = [_totalTime integerValue];
         _timeTakenValue.text = [NSString stringWithFormat:@"Welldone! you have completed the book in %d sec", seconds];
-    }
+    }*/
+    _timeTakenValue.text = @"to be obtained";
     
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void) openNewBook{
+- (IBAction) startReadingNewbook:(id)sender{
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"levelInfoMod" ofType:@"json"];
     NSString *myJSON = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
@@ -119,96 +120,6 @@
         }
 }
 
-- (void) viewDidAppear:(BOOL)animated{
 
-//    HomePageViewController *moveToHomePageView;
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        
-//        moveToHomePageView = [[HomePageViewController alloc] initWithNibName:@"HomePageViewController_iPhone" bundle:nil];
-//    }
-//    else{
-//        moveToHomePageView = [[HomePageViewController alloc] initWithNibName:@"HomePageViewController" bundle:nil];
-//    }
-//    [self.navigationController popToViewController:moveToHomePageView animated:NO];
-    
-    
-    
-    
-//    for(UIViewController *controller in self.navigationController.viewControllers){
-//        
-//        if([controller isKindOfClass:[HomePageViewController class]]){
-//            
-//            [self.navigationController popToViewController:controller animated:YES];
-//            break;
-//        }
-//    }
-
-}
-
-
-- (IBAction)gameButtonTapped:(id)sender {
-    
-   
-    
-    NSDictionary *jsonDict = [self getJsonDictForBook];
-    if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
-        UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [noGamesAlert show];
-    } else {
-        
-        MangoGamesListViewController *gamesListViewController;
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController_iPhone" bundle:nil];
-        }
-        else{
-            gamesListViewController = [[MangoGamesListViewController alloc] initWithNibName:@"MangoGamesListViewController" bundle:nil];
-        }
-        gamesListViewController.currentBookId = _book.id;
-        gamesListViewController.currentBookTitle = _book.title;
-        gamesListViewController.jsonString = [self getJsonContentForBook];
-        
-        NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
-        
-        
-        gamesListViewController.folderLocation = jsonLocation;
-        NSMutableArray *gameNames = [[NSMutableArray alloc] init];
-        for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
-            if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
-                [gameNames addObject:[pageDict objectForKey:NAME]];
-            }
-        }
-        gamesListViewController.gameNames = gameNames;
-        
-        
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gamesListViewController];
-        [navController.navigationBar setHidden:YES];
-        
-        [self.navigationController presentViewController:navController animated:YES completion:^{
-            
-        }];
-    }
-    
-}
-
-- (NSDictionary *)getJsonDictForBook {
-    NSString *jsonContent = [self getJsonContentForBook];
-    NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
-    
-    return jsonDict;
-}
-
-- (NSString *)getJsonContentForBook {
-    
-    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
-    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
-    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
-    NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
-    return jsonContent;
-}
 
 @end

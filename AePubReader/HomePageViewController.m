@@ -26,14 +26,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _storiesCarousel.type = iCarouselTypeRotary;
-    
     UserBookDownloadViewController *bookDownloadClass = [[UserBookDownloadViewController alloc] init];
+    
+    bookDownload = [[UserBookDownloadViewController alloc] init];
+    bookDownload.delegate = self;
+    
     bookDownloadClass.delegate = self;
     [bookDownloadClass returnArrayElementa];
+    
+    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    singleTapGestureRecognizer.delegate = self;
+    singleTapGestureRecognizer.numberOfTapsRequired = 1;
+    _textViewLevel.editable = NO;
+    _textViewLevel.selectable = NO;
+    //displayTextFiel.addGestureRecognizer(singleTapGestureRecognizer)
+    [_textViewLevel addGestureRecognizer:singleTapGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DismissOtherViewAndLoadAgepage) name:@"EditAgeValue" object:nil];
     
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) handleTap :(UITapGestureRecognizer *)getureRecog{
+    
+    CGPoint point = [getureRecog locationInView:_textViewLevel];    
+    point.x -= _textViewLevel.textContainerInset.left;
+    point.y -= _textViewLevel.textContainerInset.top;
+    
+    NSUInteger characterIndex = [_textViewLevel.layoutManager characterIndexForPoint:point
+                                                      inTextContainer:_textViewLevel.textContainer
+                             fractionOfDistanceBetweenInsertionPoints:nil];
+    
+    NSLog(@"%d--%c", characterIndex, [_textViewLevel.text  characterAtIndex:characterIndex-1]);
+    NSString *levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex-1]];
+    if([levelVal isEqualToString:@" "]){
+        levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
+    }
+    if([levelVal isEqualToString:@""]){
+        levelVal = @"A";
+    }
+    //identify level index value and then load that index
+    for(int i = 0; i < _allDisplayBooks.count; ++i){
+            
+        if([[[_allDisplayBooks objectAtIndex:i] valueForKey:@"level"] isEqualToString:levelVal]){
+                
+            _storiesCarousel.currentItemIndex = i-1;
+        }
+    }
+    
 }
 
 - (IBAction)getJsonIntoArray:(NSArray *) bookArray{
@@ -72,6 +112,13 @@
 }
 */
 
+- (void) viewDidAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    positionIndex = [[prefs valueForKey:@"USERBOOKINDEX"] integerValue];
+    _storiesCarousel.currentItemIndex = positionIndex;
+}
+
 -(void) viewDidDisappear:(BOOL)animated{
     
     _player = nil;
@@ -98,6 +145,8 @@
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     Book *bk=[appDelegate.dataModel getBookOfEJDBId:selectedBookId];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    
     
     //int isDownloaded = [bk.downloaded integerValue];
     
@@ -105,12 +154,18 @@
         [self openBook:bk];
     }
     else{
+        //either start downloading for subscribed user or display settings view
+        int validUserSubscription = [[prefs valueForKey:@"USERSUBSCRIBED"] integerValue];
         
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Book not available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//        [alert show];
-        [self displaySettingsView];
+        if(1){
+            //allow user to download the book
+            [bookDownload downloadBook:bookId];
+        }
+        else{
+            [self displaySettingsView];
+        }
     }
-    //}
+    
 }
 
 
@@ -158,7 +213,6 @@
     
     if (!storyImageView) {
         
-        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
             storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 173, 134)];
@@ -168,14 +222,7 @@
         }
         
         storyImageView.delegate = self;
-        
-        
-        
     }
-    
-    
-        //lockImg = nil;
-        
         [storyImageView setImageWithURL:[NSURL URLWithString:ImageURL]
                        placeholderImage:[UIImage imageNamed:@"page.png"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
@@ -185,7 +232,7 @@
         NSLog(@"is avil %d", isAvailable);
         if(!isAvailable){
             lockImg =[[UIImageView alloc] initWithFrame:CGRectMake(40,120,150,120)];
-            lockImg.image=[UIImage imageNamed:@"lockBook.png"];
+            lockImg.image= nil;
             
         }
         else{
@@ -248,10 +295,7 @@
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
 {
-    //NSNumber *item = (self.items)[index];
-    //get selected book id value
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    //[prefs setBool:YES forKey:@"FIRSTTIMEDISPLAY"];
     [prefs setValue:[NSString stringWithFormat:@"%d",index] forKey:@"BOOKINDEX"];
     selectedBookId = [[_allDisplayBooks objectAtIndex:index] valueForKey:@"id"];
     [self readyBookToOpen:selectedBookId];
@@ -264,13 +308,17 @@
         NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"level"]);
     NSString *levelValue = [[_allDisplayBooks objectAtIndex:(self.storiesCarousel.currentItemIndex)] valueForKey:@"level"];
     //NSString *levelString = _levelsLabel.text;
-    NSMutableAttributedString *levelString = [[NSMutableAttributedString alloc] initWithString:_levelsLabel.text];
-    NSRange levelRangeValue = [_levelsLabel.text rangeOfString:levelValue];
-    [levelString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:levelRangeValue];
-    [levelString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:25.0f] range:levelRangeValue];
+    NSMutableAttributedString *levelString = [[NSMutableAttributedString alloc] initWithString:_textViewLevel.text];
+    UIFont *textFont = _textViewLevel.font;
+    textFont = [UIFont fontWithName:@"Chalkboard SE" size:33];
     
-    //[levelString addAttribute:NSBackgroundColorAttributeName value:[UIColor lightGrayColor] range:levelRangeValue];
-    [_levelsLabel setAttributedText:levelString];
+    [levelString addAttribute:NSFontAttributeName value:textFont range:NSMakeRange(0, [levelString length])];
+    
+    NSRange levelRangeValue = [_textViewLevel.text rangeOfString:levelValue];
+    [levelString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:levelRangeValue];
+    [levelString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Chalkboard SE" size:33] range:levelRangeValue];
+    
+    [_textViewLevel setAttributedText:levelString];
 }
 
 - (void)iCarouselSaveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
@@ -316,10 +364,8 @@
 
 - (IBAction)SelectLevelValue:(id)sender{
     
-    //check sender value
-    //match json value with sender value and highlight sender background
-    //only selectable sender rem. with clear
     [sender setBackgroundColor:[UIColor lightGrayColor]];
+    
 }
 
 - (IBAction) displayUserSettings:(id)sender{

@@ -22,8 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *extendedValue =  @"_";
-    subscriptionProductId = [[NSArray alloc] initWithObjects:[SUBSCRIPTION_MONTHLY stringByAppendingString:extendedValue], [SUBSCRIPTION_QUATERLY stringByAppendingString:extendedValue], [SUBSCRIPTION_YEARLY stringByAppendingString:extendedValue], nil];
+    //NSString *extendedValue =  @"_";
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading Products";
+    subscriptionProductId = [[NSArray alloc] initWithObjects:@"Week_EndlessStories", @"Month_EndlessStories", @"Year_EndlessStories", nil];
     subscriptionPlanName = [[NSArray alloc] initWithObjects:@"Monthly", @"Quarterly", @"Yearly", nil];
     
     [self subscriptionSetup];
@@ -50,20 +52,20 @@
                 [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
                 [numberFormatter setLocale:product.priceLocale];
                 NSString *formattedString = [numberFormatter stringFromNumber:product.price];
-                if(i==0){
-                    _weeklyPrice.text = [NSString stringWithFormat:@"%@ /month", formattedString];
+                if(i==1){
+                    _weeklyPrice.text = [NSString stringWithFormat:@"%@ /week", formattedString];
                 }
-                else if(i==1){
+                else if(i==0){
                     _monthlyPrice.text = formattedString;
                     float perMonthPrice = [product.price floatValue]/4;
                     NSString *formattedStringPerMonth = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:perMonthPrice]];
-                    _monthlyPerPrice.text = [NSString stringWithFormat:@"%@ /month", formattedStringPerMonth];
+                    _monthlyPerPrice.text = [NSString stringWithFormat:@"%@ /week", formattedStringPerMonth];
                 }
                 else if(i==2){
                     _yearlyPrice.text = formattedString;
-                    float perMonthPrice = [product.price floatValue]/12;
+                    float perMonthPrice = [product.price floatValue]/52;
                     NSString *formattedStringPerMonth = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:perMonthPrice]];
-                    _yearlyPerPrice.text = [NSString stringWithFormat:@"%@ /month", formattedStringPerMonth];
+                    _yearlyPerPrice.text = [NSString stringWithFormat:@"%@ /week", formattedStringPerMonth];
                 }
                 
             }
@@ -100,7 +102,7 @@
 
 - (IBAction)subscribeButtonTapped:(id)sender {
     // UIButton *button = (UIButton *)sender;
-    NSString *productId;
+    
     NSString *planName;
     NSString *planPrice;
     
@@ -155,8 +157,14 @@
     [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData];
     if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData]) {
         appDelegate.subscriptionInfo = subscriptionInfoData;
-        [self dismissViewControllerAnimated:YES completion:nil];
+        
+//        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//        [prefs setBool:YES forKey:@"USERSUBSCRIBED"];
+//        [self.navigationController popViewControllerAnimated:YES];
     }
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setBool:YES forKey:@"USERSUBSCRIBED"];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)updateBookProgress:(int)progress{

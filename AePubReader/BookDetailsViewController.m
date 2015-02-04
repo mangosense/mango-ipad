@@ -119,8 +119,6 @@ static int booksDownloadingCount;
 
 - (void)eventListenerDidReceiveNotification:(NSNotification *)notif
 {
-    
-    //NSLog(@"Successfully received the notification!");
         
     NSDictionary *userInfo = notif.userInfo;
     

@@ -23,7 +23,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AgeTextbox.png" translatesAutoresizingMaskIntoConstraints="NO" id="Tiq-eE-SYg">
-                    <rect key="frame" x="392" y="102" width="240" height="72"/>
+                    <rect key="frame" x="383" y="102" width="240" height="72"/>
                 </imageView>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vzO-t3-BbC">
                     <rect key="frame" x="367" y="197" width="70" height="70"/>
@@ -134,7 +134,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKq-mX-cJE">
-                    <rect key="frame" x="441" y="108" width="143" height="49"/>
+                    <rect key="frame" x="435" y="113" width="143" height="49"/>
                     <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="48"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -150,6 +150,15 @@
                         <action selector="moveToGameScreen:" destination="-1" eventType="touchUpInside" id="hfZ-Ln-CEz"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lnv-tr-0s6">
+                    <rect key="frame" x="643" y="115" width="50" height="45"/>
+                    <state key="normal" image="backSpace.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backSpaceAgeField:" destination="-1" eventType="touchUpInside" id="eeA-qB-xRd"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -162,5 +171,6 @@
         <image name="AgeBtn3.png" width="120" height="120"/>
         <image name="AgeSubmit.png" width="414" height="130"/>
         <image name="AgeTextbox.png" width="414" height="130"/>
+        <image name="backSpace.png" width="128" height="103"/>
     </resources>
 </document>

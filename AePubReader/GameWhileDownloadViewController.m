@@ -8,8 +8,10 @@
 
 #import "GameWhileDownloadViewController.h"
 #import "AgeDetailsViewController.h"
+#import "AePubReaderAppDelegate.h"
 #import "LevelViewController.h"
 #import "Constants.h"
+#import "MangoEditorViewController.h"
 
 @interface GameWhileDownloadViewController ()
 @property (nonatomic, strong) NSMutableDictionary *dataDict;
@@ -24,16 +26,17 @@
     bookDownload.delegate = self;
     [bookDownload returnArrayElementa];
     
-    //NSMutableArray *booksArray = [[NSMutableArray alloc] init];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"mango" ofType:@"json"];
-    NSString *myJSON = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
-    //NSError *error =  nil;
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.labelText = @"Please wait!!";
     
-    NSData *jsonData = [myJSON dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    [self.webView bringSubviewToFront:_hud];
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    _book= [delegate.dataModel getBookOfId:@"5405663a69702d047a020000"];
     
-    //booksArray = [NSJSONSerialization JSONObjectWithData:[myJSON dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    
+    NSDictionary *jsonDict = [self getJsonDictForBook];
     
     NSMutableArray *gameNames = [[NSMutableArray alloc] init];
     for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
@@ -41,9 +44,15 @@
             [gameNames addObject:[pageDict objectForKey:NAME]];
         }
     }
-    NSLog(@"Games names %@", gameNames);
+        
+    NSString *gameName = [gameNames objectAtIndex:1];
     
-    NSMutableArray *readerPagesArray1 = [[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:PAGES]];
+    NSString *jsonString = [self getJsonContentForBook];
+    
+    NSData *jsonData1 = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict1 = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData1 options:NSJSONReadingAllowFragments error:nil]];
+    
+    NSMutableArray *readerPagesArray1 = [[NSMutableArray alloc] initWithArray:[jsonDict1 objectForKey:PAGES]];
     NSMutableArray *gamesDataArray = [[NSMutableArray alloc] init];
     for (NSDictionary *readerPageDict in readerPagesArray1){
         if(([[readerPageDict objectForKey:PAGE_NAME] length] >3) && !([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"Cover"])){
@@ -53,46 +62,48 @@
     }
     
     
-    NSArray *readerPagesArray = gamesDataArray;
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    //for (NSDictionary *readerPageDict in readerPagesArray) {
-    NSDictionary *readerPageDict = readerPagesArray[1];
-    if ([[readerPageDict objectForKey:PAGE_NAME] isEqualToString:@"wordsearch"]) {
-        //NSLog(@"game name - %@", gameName);
-        UIWebView *gameWebView;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 568, 320)];
-        }
-        else{
-            gameWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-        }
-        
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"];
-        //NSLog(@"%@", filePath);
-        [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
-        
-        [dict setObject:gameWebView forKey:@"gameView"];
-        [dict setObject:[[readerPageDict objectForKey:LAYERS] lastObject] forKey:@"data"];
-        
-    }
+    NSString *folderLocation = jsonLocation;
     
-    _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[dict objectForKey:@"data"]];
+    NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePagePro:gameName ForStory:gamesDataArray WithFolderLocation:folderLocation AndOption:99];
+    
+    _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
     [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
     
-    _webView = [dict objectForKey:@"gameView"];
+//    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    _webView = [gameViewDict objectForKey:@"gameView"];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
     _webView.frame = self.view.frame;
     [_webView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
     [[_webView scrollView] setBounces:NO];
-    
     [self.view addSubview:_webView];
-    
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListenerDidReceiveNotification:) name:@"BookProgressValue" object:nil];
     // Do any additional setup after loading the view from its nib.
+}
+
+
+- (NSDictionary *)getJsonDictForBook {
+    NSString *jsonContent = [self getJsonContentForBook];
+    NSData *jsonData = [jsonContent dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
+    
+    return jsonDict;
+}
+
+- (NSString *)getJsonContentForBook {
+    
+    NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:jsonLocation error:nil];
+    NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
+    NSArray *onlyJson = [dirContents filteredArrayUsingPredicate:fltr];
+    jsonLocation=     [jsonLocation stringByAppendingPathComponent:[onlyJson firstObject]];
+    NSString *jsonContent=[[NSString alloc]initWithContentsOfFile:jsonLocation encoding:NSUTF8StringEncoding error:nil];
+    return jsonContent;
 }
 
 
@@ -107,6 +118,8 @@
     
     NSString *resultString = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
     NSLog(@"%@", resultString);
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
     //test to execute javascript menthod to execute method after delay
     //[self performSelector:@selector(hideAlert:) withObject:alert afterDelay:1.5];
@@ -134,12 +147,16 @@
     NSString *newIDValue = [userInfo valueForKey:@"bookIdVal"];
     int newProgress = [[userInfo valueForKey:@"progressVal"] integerValue];
     if([firstBookId isEqualToString:newIDValue]){
-        [self updateBookProgress:newProgress];
+        [self updateBookProgress:newProgress withBookId:newIDValue];
     }
 }
 
-- (void)updateBookProgress:(int)bookProgress {
+- (void)updateBookProgress:(int)bookProgress withBookId:(NSString *)bookid {
     
+    if(bookProgress == 99){
+        
+        //get index of bookid and set that in index value
+    }
     
 }
 
@@ -157,6 +174,10 @@
             
             //call to download two books of level L
             index = [bookArray indexOfObject:bookdata];
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            
+            [prefs setInteger:index forKey:@"USERBOOKINDEX"];
+
             firstBookId = [bookdata valueForKey:@"id"];
             finalIndex = index+5;
             break;
@@ -182,9 +203,13 @@
 - (IBAction)closeGameView:(id)sender{
     
     [self dismissViewControllerAnimated:NO completion:^(void) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseGamesWhileDownload" object:self];
-        return;
+        
     }];
+}
+
+- (void) viewWillDisappear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseGamesWhileDownload" object:self];
 }
 
 - (void)didReceiveMemoryWarning {

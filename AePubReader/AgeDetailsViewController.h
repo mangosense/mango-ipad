@@ -20,6 +20,7 @@
 
 - (IBAction) moveToGameScreen:(id)sender;
 
+- (IBAction) backSpaceAgeField:(id)sender;
 
 - (IBAction)storeView:(id)sender;
 

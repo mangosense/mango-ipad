@@ -13,15 +13,20 @@
 #import "UserBookDownloadViewController.h"
 
 
-@interface HomePageViewController : UIViewController<iCarouselDataSource,iCarouselDelegate,iCarouselImageCachingProtocol,UITabBarControllerDelegate,BooksJsonAndDownload>{
+@interface HomePageViewController : UIViewController<iCarouselDataSource,iCarouselDelegate,iCarouselImageCachingProtocol,UITabBarControllerDelegate,BooksJsonAndDownload, UIGestureRecognizerDelegate>{
     
     NSString *selectedBookId;
+    int positionIndex;
+    
+    UserBookDownloadViewController *bookDownload;
 }
 
 @property (nonatomic, strong) IBOutlet iCarousel *storiesCarousel;
 @property (nonatomic, strong) NSMutableArray *allDisplayBooks;
 @property (nonatomic, strong) IBOutlet UILabel *levelsLabel;
 @property (nonatomic, strong) AVAudioPlayer *player;
+
+@property (nonatomic, strong) IBOutlet UITextView *textViewLevel;
 
 - (IBAction) readyBookToOpen:(id)sender;
 - (IBAction) SelectLevelValue:(id)sender;
