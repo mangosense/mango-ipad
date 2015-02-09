@@ -20,6 +20,27 @@
     // Do any additional setup after loading the view.
 }
 
++ (NSArray *) returnAllAvailableLevels{
+    
+    NSMutableArray *booksArray = [[NSMutableArray alloc] init];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"levelInfoMod" ofType:@"json"];
+    NSString *myJSON = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
+    NSError *error =  nil;
+    booksArray = [NSJSONSerialization JSONObjectWithData:[myJSON dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+    NSMutableArray *levelsArray=[[NSMutableArray alloc]init];
+    for(NSDictionary *element in booksArray){
+        if(![levelsArray count]){
+            [levelsArray addObject:[element objectForKey:@"level"]];
+        }
+        else{
+            if(![levelsArray containsObject:[element objectForKey:@"level"]]){
+                [levelsArray addObject:[element objectForKey:@"level"]];
+            }
+        }
+    }
+    return levelsArray;
+}
+
 - (void) returnArrayElementa{
     
     NSMutableArray *booksArray = [[NSMutableArray alloc] init];
@@ -58,11 +79,15 @@
     NSLog(@"progress %d",progress);
 }
 
-- (void)bookDownloaded {
+- (void)bookDownloaded:(NSString *)bookId {
     
     //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Complete" message:@"Your book is downloaded, go to my stories view" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     //[alert show];
     [_delegate finishBookDownlaod];
+}
+
+- (void) bookDownloadAborted:(NSString *)bookId{
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -11,6 +11,7 @@
 #import "GameWhileDownloadViewController.h"
 #import "MangoStoreViewController.h"
 #import "UserAgeInfo.h"
+#import "UserBookDownloadViewController.h"
 
 @interface AgeDetailsViewController ()
 
@@ -20,8 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
@@ -67,13 +66,15 @@
 - (IBAction) moveToGameScreen:(id)sender{
     
     int ageVal = [_ageLabelValue.text integerValue];
-    if(!(ageVal > 0 && ageVal < 13)){
+    if(!(ageVal > 0 && ageVal < 60)){
         
         UIAlertView *alertWrongAge = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter correct age value" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alertWrongAge show];
         _ageLabelValue.text = @"";
         return;
     }
+    
+    //check if books are already available
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     UserAgeInfo *userAgeInfo = [[UserAgeInfo alloc] init];
@@ -101,6 +102,8 @@
     //get age value from label text
     HomePageViewController *homePageView;
     
+    NSArray *testArray = [UserBookDownloadViewController returnAllAvailableLevels];
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
         homePageView = [[HomePageViewController alloc]initWithNibName:@"HomePageViewController_iPhone" bundle:nil];
@@ -108,6 +111,8 @@
     else{
         homePageView = [[HomePageViewController alloc]initWithNibName:@"HomePageViewController" bundle:nil];
     }
+    
+    homePageView.textLevels= [testArray componentsJoinedByString:@" "];
     
     [self.navigationController pushViewController:homePageView animated:NO];
     

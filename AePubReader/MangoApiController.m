@@ -13,6 +13,7 @@
 #import "AFURLSessionManager.h"
 #import "AePubReaderAppDelegate.h"
 #import "MBProgressHUD.h"
+#import "UserBookDownloadViewController.h"
 
 @interface MangoApiController ()
 
@@ -427,21 +428,22 @@
         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             if (isDataPresent) {
                 NSLog(@"File downloaded to: %@", filePath);
-                
+                NSString *downloadURL = [[response valueForKey:@"URL"] absoluteString];
+                NSString *bookIDValue = [[downloadURL componentsSeparatedByString:@"/"] mutableCopy][6];
                 AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
                 [appDelegate unzipExistingJsonBooks];
                 
                 if(filePath){
                     
-                    if ([delegate respondsToSelector:@selector(bookDownloaded)]) {
-                        [delegate bookDownloaded];
+                    if ([delegate respondsToSelector:@selector(bookDownloaded:)]) {
+                        [delegate bookDownloaded:bookIDValue];
                     }
                 }
                 
                 else{
                     
-                    if ([delegate respondsToSelector:@selector(bookDownloadAborted)]) {
-                        [delegate bookDownloadAborted];
+                    if ([delegate respondsToSelector:@selector(bookDownloadAborted:)]) {
+                        [delegate bookDownloadAborted:bookIDValue];
                     }
                 }
             }
@@ -461,7 +463,13 @@
                         NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:value], @"progressVal", bookId, @"bookIdVal", nil];
                         //[dict setObject:[NSNumber numberWithFloat:value] forKey:bookId];
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"BookProgress" object:nil userInfo:dict];
+                        if([delegate isKindOfClass:[UserBookDownloadViewController class]]){
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"BookProgress" object:nil userInfo:dict];
+                        }
+                        else{
+                            
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"HomeBookProgress" object:nil userInfo:dict];
+                        }
                     }
                 }
             }];

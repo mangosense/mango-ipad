@@ -155,6 +155,9 @@
 		682FCB93192A3835007FCCAB /* subscribe_mangoreader.png in Resources */ = {isa = PBXBuildFile; fileRef = 682FCB92192A3835007FCCAB /* subscribe_mangoreader.png */; };
 		6831E1E518CA05EA000E0D26 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6831E1E318CA05EA000E0D26 /* LastPageViewController.m */; };
 		6831E1E618CA05EA000E0D26 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */; };
+		683821941A84F3FE007D8145 /* UserAllBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 683821921A84F3FE007D8145 /* UserAllBooksViewController.m */; };
+		683821951A84F3FE007D8145 /* UserAllBooksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 683821931A84F3FE007D8145 /* UserAllBooksViewController.xib */; };
+		683821991A84F5BA007D8145 /* UserAllBooksViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 683821981A84F5BA007D8145 /* UserAllBooksViewController_iPhone.xib */; };
 		683E305C19F414EC00123968 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 683E304A19F414EC00123968 /* AFHTTPRequestOperation.m */; };
 		683E305D19F414EC00123968 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 683E304C19F414EC00123968 /* AFHTTPRequestOperationManager.m */; };
 		683E305E19F414EC00123968 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 683E304E19F414EC00123968 /* AFHTTPSessionManager.m */; };
@@ -1273,6 +1276,10 @@
 		6831E1E218CA05EA000E0D26 /* LastPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastPageViewController.h; sourceTree = "<group>"; };
 		6831E1E318CA05EA000E0D26 /* LastPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastPageViewController.m; sourceTree = "<group>"; };
 		6831E1E418CA05EA000E0D26 /* LastPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController.xib; sourceTree = "<group>"; };
+		683821911A84F3FE007D8145 /* UserAllBooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAllBooksViewController.h; sourceTree = "<group>"; };
+		683821921A84F3FE007D8145 /* UserAllBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAllBooksViewController.m; sourceTree = "<group>"; };
+		683821931A84F3FE007D8145 /* UserAllBooksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserAllBooksViewController.xib; sourceTree = "<group>"; };
+		683821981A84F5BA007D8145 /* UserAllBooksViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserAllBooksViewController_iPhone.xib; sourceTree = "<group>"; };
 		683E304919F414EC00123968 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		683E304A19F414EC00123968 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		683E304B19F414EC00123968 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -3803,6 +3810,10 @@
 				68067F5F1A76382D00AD7232 /* UserAgeLevelViewController.m */,
 				68067F601A76382D00AD7232 /* UserAgeLevelViewController.xib */,
 				68067F651A76386700AD7232 /* UserAgeLevelViewController_iPhone.xib */,
+				683821911A84F3FE007D8145 /* UserAllBooksViewController.h */,
+				683821921A84F3FE007D8145 /* UserAllBooksViewController.m */,
+				683821931A84F3FE007D8145 /* UserAllBooksViewController.xib */,
+				683821981A84F5BA007D8145 /* UserAllBooksViewController_iPhone.xib */,
 				68FD6D4D1A71086C00CAB460 /* AppInfoViewController.h */,
 				68FD6D4E1A71086D00CAB460 /* AppInfoViewController.m */,
 				68FD6D4F1A71086D00CAB460 /* AppInfoViewController.xib */,
@@ -4612,6 +4623,7 @@
 				AE9D4C73162C198C00352FF8 /* arrow previous.png in Resources */,
 				8353B33A1851ABE1009B3BD8 /* shape3.png in Resources */,
 				680280EF1A78C57700C3985C /* arrange-the-word.jpg in Resources */,
+				683821951A84F3FE007D8145 /* UserAllBooksViewController.xib in Resources */,
 				AE0C936C183DEB59008E4D54 /* rectangle_books.png in Resources */,
 				280DBE3F191E33E30082BFBA /* loading1.png in Resources */,
 				682B7CFC1A61C9EE0051E8F6 /* mangoreader-app-icon-76X76.png in Resources */,
@@ -4639,6 +4651,7 @@
 				83EE2CBA18C5B2F600F4360A /* school-time.png in Resources */,
 				83E2D0FA184364EC00F8CDB6 /* editor_13.png in Resources */,
 				68FEA6BE1A6530B900B6081B /* AgeDetailsViewController.xib in Resources */,
+				683821991A84F5BA007D8145 /* UserAllBooksViewController_iPhone.xib in Resources */,
 				834FCE39182D11F70000181B /* menubutton_selected.png in Resources */,
 				68DB41B918F528DF003AA1E6 /* MangoGamesListViewController_iPhone.xib in Resources */,
 				68CAD97518CDD05800804496 /* icons_shareActual.png in Resources */,
@@ -5336,6 +5349,7 @@
 				83D5A1BA18C852A4000C12E9 /* BooksCollectionViewController.m in Sources */,
 				AE73704A183C686B00054115 /* LoginNewViewController.m in Sources */,
 				AE37CD6E1752792100EA8653 /* LandscapePageViewController.m in Sources */,
+				683821941A84F3FE007D8145 /* UserAllBooksViewController.m in Sources */,
 				AE396BB3181F7E3D009C68E7 /* PSTCollectionViewController.m in Sources */,
 				6882AC9419914D3500ADA093 /* UIImageView+WebCache.m in Sources */,
 				AECC0ACC1754D2FA00CA5EEC /* StatsViewController.m in Sources */,

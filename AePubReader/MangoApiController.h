@@ -19,8 +19,8 @@
 - (void)getBookAtPath:(NSURL *)filePath;
 - (void)saveStoryId:(NSNumber *)storyId;
 - (void)updateBookProgress:(int)progress;
-- (void)bookDownloaded;
-- (void)bookDownloadAborted;
+- (void)bookDownloaded :(NSString *) bookId;
+- (void)bookDownloadAborted :(NSString *) bookId;
 - (void)saveFacebookDetails:(NSDictionary *)facebookDetailsDictionary;
 - (void)subscriptionSetup:(NSArray *)planArray;
 - (void)freeBooksSetup : (NSArray *)booksInfo;

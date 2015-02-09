@@ -26,6 +26,8 @@
 
 - (void) returnArrayElementa;
 
++ (NSArray *) returnAllAvailableLevels;
+
 - (void) downloadBook :(NSString *)bookId;
 
 @end

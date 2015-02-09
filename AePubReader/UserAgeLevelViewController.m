@@ -39,7 +39,7 @@
 - (void) viewDidDisappear:(BOOL)animated{
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"EditAgeValue" object:self];
-    return;
+    
 }
 
 - (IBAction) editAgeValue:(id)sender{
