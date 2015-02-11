@@ -170,25 +170,35 @@ static int booksDownloadingCount;
 
 
 
-- (IBAction)readyBookToOpen:(NSString *)bookId{
+- (IBAction)readyBookToOpen:(NSString *)bookId withTag:(int) value{
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     Book *bk=[appDelegate.dataModel getBookOfEJDBId:selectedBookId];
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     
-    
     //int isDownloaded = [bk.downloaded integerValue];
     
-    if(bk.localPathFile){
-        [self openBook:bk];
-    }
-    else{
+//    if(bk.localPathFile){
+//        [self openBook:bk];
+//    }
+//    else{
         //either start downloading for subscribed user or display settings view
-        int validUserSubscription = [[prefs valueForKey:@"USERSUBSCRIBED"] integerValue];
+    int validUserSubscription = [[prefs valueForKey:@"USERSUBSCRIBED"] integerValue];
         
-        if(validUserSubscription){
-            //allow user to download the book
+    if(validUserSubscription){
+        //check for valid user
+        
+        if(!bk.localPathFile){//check if book is not available
             
+            //check if book is already downloading
+            
+            if([self checkIfBookIdIsAvailable:selectedBookId]){
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            }
+        
             if(booksDownloadingCount >= 3){
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"You can download only 3 books at a time" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -202,12 +212,45 @@ static int booksDownloadingCount;
                 [self addBookIdIntoArray:bookId];
             }
         }
+        else{//check if book available
+            
+            [self openBook:bk];
+        }
+    }
+    else{
+        
+        if(value){
+            
+            if(!bk.localPathFile){
+                
+                //check if book is downloading
+                if([self checkIfBookIdIsAvailable:selectedBookId]){
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
+                    return;
+                }
+                else{
+                    //if by mistake book isn't availabe to download, then start download
+                    MangoApiController *apiController = [MangoApiController sharedApiController];
+                    [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
+                    [self addBookIdIntoArray:bookId];
+                }
+            }
+            else{
+               //book is available then open
+                [self openBook:bk];
+            }
+            
+        }
         else{
-            [self displaySettingsView];
+            _settingsProbSupportView.hidden = NO;
+            _settingsProbView.hidden= NO;
         }
     }
     
 }
+
 
 - (void) getBookProgress:(NSNotification *)notif
 {
@@ -323,17 +366,13 @@ static int booksDownloadingCount;
     
     NSString *image = [NSString stringWithFormat:@"https://mangoassets.s3.amazonaws.com/uploads/stories/%@/%@",[bookInfo valueForKey:@"id"],[bookInfo valueForKey:@"images"]];
     
-    
     NSString *ImageURL = [image stringByReplacingOccurrencesOfString:@"thumb" withString:@"cover"];
     
-    //BOOL isAvailable = [self checkIfBookAvailable:[bookInfo valueForKey:@"id"]];
     BOOL isAvailable = [self checkIfBookAcessible:index];
     
     [storyImageView setContentMode:UIViewContentModeScaleAspectFill];
     [storyImageView setClipsToBounds:YES];
     UIImageView *lockImg;
-    
-   // if (!storyImageView) {
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
@@ -349,25 +388,20 @@ static int booksDownloadingCount;
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                               }];
         
-        
         NSLog(@"is avil %d", isAvailable);
         if(!isAvailable){
             lockImg =[[UIImageView alloc] initWithFrame:CGRectMake(40,180,40,40)];
             lockImg.image= [UIImage imageNamed:@"loginLock.png"];
-            
+            storyImageView.tag = 0;
         }
         else{
-            
-            //lockImg.image=[UIImage imageNamed:@"tmangot.png"];
+            storyImageView.tag = 1;
             lockImg.image = nil;
         }
-        
     
     [storyImageView addSubview:lockImg];
     
     return storyImageView;
-    
-    
 
 }
 
@@ -377,15 +411,16 @@ static int booksDownloadingCount;
     [prefs setValue:[NSString stringWithFormat:@"%d",index] forKey:@"BOOKINDEX"];
     selectedBookId = [[_allDisplayBooks objectAtIndex:index] valueForKey:@"id"];
     
-    if([self checkIfBookIdIsAvailable:selectedBookId]){
+//    if([self checkIfBookIdIsAvailable:selectedBookId]){
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//        [alert show];
+//        return;
+//    }
+//    else{
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    else{
-        [self readyBookToOpen:selectedBookId];
-    }
+        [self readyBookToOpen:selectedBookId withTag:carousel.currentItemView.tag];
+//    }
     
 }
 
@@ -394,8 +429,8 @@ static int booksDownloadingCount;
     
    [self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
     
-        NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:carousel.tag] valueForKey:@"level"]);
-    NSString *levelValue = [[_allDisplayBooks objectAtIndex:(carousel.tag)] valueForKey:@"level"];
+        NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"level"]);
+    NSString *levelValue = [[_allDisplayBooks objectAtIndex:(self.storiesCarousel.currentItemIndex)] valueForKey:@"level"];
     //NSString *levelString = _levelsLabel.text;
     _frontBookId = [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"];
     NSLog(@"Book id %@ - %@", [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"], [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"title"]);
@@ -484,10 +519,10 @@ static int booksDownloadingCount;
         _settingsProbView.hidden= YES;
         
         if(isInfo1Settings2Click == 2){
-            [self displaySettingsView];
+            [self appInfo];
         }
         else{
-            [self appInfo];
+            [self displaySettingsView];
         }
     }
     else{
@@ -512,9 +547,8 @@ static int booksDownloadingCount;
 - (void)displaySettingsView {
     int settingSol =1;
     if(settingSol){
-        // [self displaySettings];
+    
         settingSol = NO;
-        
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         tabBarController.delegate = self;
         
@@ -566,7 +600,6 @@ static int booksDownloadingCount;
         [self.navigationController pushViewController:tabBarController animated:YES];
     }
 }
-
 
 
 
@@ -663,8 +696,6 @@ static int booksDownloadingCount;
     else{
         storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
     }
-    
-   
     
     [self.navigationController pushViewController:storeViewController animated:YES];
 }

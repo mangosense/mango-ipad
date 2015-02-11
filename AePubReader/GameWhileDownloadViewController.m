@@ -80,6 +80,8 @@
     [[_webView scrollView] setBounces:NO];
     [self.view addSubview:_webView];
     
+     [self.view bringSubviewToFront:_waitViewLabel];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListenerDidReceiveNotification:) name:@"BookProgressValue" object:nil];
     // Do any additional setup after loading the view from its nib.
 }
@@ -164,8 +166,10 @@
 - (IBAction)getJsonIntoArray:(NSArray *) bookArray{
     
     //find level say level "L"
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int index;
     int finalIndex;
+    
     _booksArray = bookArray;
     for(NSDictionary *bookdata in bookArray){
         
@@ -174,9 +178,16 @@
             
             //call to download two books of level L
             index = [bookArray indexOfObject:bookdata];
-            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            
             
             [prefs setInteger:index forKey:@"USERBOOKINDEX"];
+            
+            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date]];
+            NSDateComponents *monComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:[NSDate date]];
+            int currentDay = [components day];
+            int currentMonth = [monComponents month];
+            NSString *dateWithIndex = [NSString stringWithFormat:@"%d_%d_%d",currentDay, currentMonth, index+5];
+            [prefs setInteger:dateWithIndex forKey:@"DATEDDMM_INDEX"];
 
             firstBookId = [bookdata valueForKey:@"id"];
             finalIndex = index+5;
@@ -188,6 +199,7 @@
     
     for (int i = index; i < finalIndex; ++i) {
         NSLog(@"inddex %d", i);
+        
         [bookDownload downloadBook:[[bookArray objectAtIndex:i] valueForKey:@"id"]];
     }
     

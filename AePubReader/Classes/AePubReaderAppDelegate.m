@@ -848,6 +848,13 @@ void uncaughtExceptionHandler(NSException *exception) {
      */
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+
+    //check for date value "dd-mm-yyyy" and then call and downlaod book download book and set counter
+    //value and call method if active internet connection
+    //"DATEDDMM_INDEX"
+    NSString *userDateAndIndex = [prefs valueForKey:@"DATEDDMM_INDEX"];
+    
+    
     
     NSArray *userSubscriptionObjects = [delegate.ejdbController getAllSubscriptionObjects];
     if ([userSubscriptionObjects count] > 0) {
@@ -892,7 +899,6 @@ void uncaughtExceptionHandler(NSException *exception) {
                     //[prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
                 }
             }];
-            
         }
         [prefs synchronize];
     }

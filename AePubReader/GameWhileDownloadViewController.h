@@ -24,6 +24,7 @@
 @property(strong,nonatomic) Book *book;
 
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
+@property (nonatomic, strong) IBOutlet UIView *waitViewLabel;
 
 - (IBAction)closeGameView:(id)sender;
 
