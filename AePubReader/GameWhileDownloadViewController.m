@@ -176,24 +176,16 @@
         NSString *level =[LevelViewController getLevelFromAge:_ageVal];
         if([[bookdata valueForKey:@"level"] isEqualToString:level]){
             
-            //call to download two books of level L
+            //call to download two books of level
             index = [bookArray indexOfObject:bookdata];
-            
             
             [prefs setInteger:index forKey:@"USERBOOKINDEX"];
             
-            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date]];
-            NSDateComponents *monComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:[NSDate date]];
-            int currentDay = [components day];
-            int currentMonth = [monComponents month];
-            NSString *dateWithIndex = [NSString stringWithFormat:@"%d_%d_%d",currentDay, currentMonth, index+5];
-            [prefs setInteger:dateWithIndex forKey:@"DATEDDMM_INDEX"];
+            [prefs setInteger:[NSNumber numberWithInt:index+5] forKey:@"DAILYFREEBOOK_INDEX"];
 
             firstBookId = [bookdata valueForKey:@"id"];
             finalIndex = index+5;
             break;
-            //for (int i = [bookArray indexOfObject:bookdata]; i < = i)
-            //[bookDownload downloadBook:[bookdata valueForKey:@"id"]];
         }
     }
     

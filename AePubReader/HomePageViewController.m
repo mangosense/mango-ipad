@@ -68,6 +68,53 @@ static int booksDownloadingCount;
     [_viewDownloadCounter.layer setBorderWidth:0.5f];
     [_viewDownloadCounter.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     // Do any additional setup after loading the view from its nib.
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSDate *userDate = [prefs valueForKey:@"DATEOFFREEBOOK"];
+    //if current date is greater than available date
+    
+    NSDate *today = [NSDate date]; // it will give you current date
+    // your date NSDate *newDate = [NSDate dateWithString:@"xxxxxx"];
+    NSComparisonResult result;
+    //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
+    
+    //result = [today compare:userDateAndIndex]; // comparing two dates
+    
+    NSInteger interval = [[[NSCalendar currentCalendar] components: NSDayCalendarUnit
+                                                          fromDate: userDate
+                                                            toDate: today
+                                                           options: 0] day];
+    if(interval<0){
+        //date1<date2
+        int freeBookIndex = [prefs valueForKey:@"DAILYFREEBOOK_INDEX"];
+        NSString *bookId = [[_allDisplayBooks objectAtIndex:freeBookIndex] valueForKey:@"id"];
+        MangoApiController *apiController = [MangoApiController sharedApiController];
+        [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
+        freeBookIndex = freeBookIndex+1;
+        [prefs setValue:[NSNumber numberWithInt:freeBookIndex] forKeyPath:@"DAILYFREEBOOK_INDEX"];
+    }else if (interval>0){
+        //date2<date1
+        
+    }else{
+        //date1=date2
+    }
+    
+    
+//    if(result==NSOrderedAscending)
+//        NSLog(@"today is less");
+//    else if(result==NSOrderedDescending){
+//        NSLog(@"newDate is less");
+//        //call method to download new book, all display books
+//        int freeBookIndex = [prefs valueForKey:@"DAILYFREEBOOK_INDEX"];
+//        NSString *bookId = [[_allDisplayBooks objectAtIndex:freeBookIndex] valueForKey:@"id"];
+//        MangoApiController *apiController = [MangoApiController sharedApiController];
+//        [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
+//        freeBookIndex = freeBookIndex+1;
+//        [prefs setValue:[NSNumber numberWithInt:freeBookIndex] forKeyPath:@"DAILYFREEBOOK_INDEX"];
+//    }
+//    else
+//        NSLog(@"Both dates are same");
+    
 }
 
 - (void) handleTap :(UITapGestureRecognizer *)getureRecog{
@@ -411,16 +458,11 @@ static int booksDownloadingCount;
     [prefs setValue:[NSString stringWithFormat:@"%d",index] forKey:@"BOOKINDEX"];
     selectedBookId = [[_allDisplayBooks objectAtIndex:index] valueForKey:@"id"];
     
-//    if([self checkIfBookIdIsAvailable:selectedBookId]){
-//        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Book is already in downloading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//        [alert show];
-//        return;
-//    }
-//    else{
-        
-        [self readyBookToOpen:selectedBookId withTag:carousel.currentItemView.tag];
-//    }
+    //check current index lie in i+5 value else send tag value to one
+    
+    int bookTagValue = [self checkIfBookAcessible:index];
+    
+    [self readyBookToOpen:selectedBookId withTag:bookTagValue];
     
 }
 
@@ -635,7 +677,7 @@ static int booksDownloadingCount;
 {
     int noOfBooks = booksDownloadingCount;
     // NSLog(@"Calling... %d", noOfBooks);
-    if(noOfBooks == 0){
+    if(noOfBooks <= 0){
         _viewDownloadCounter.hidden = YES;
     }
     else{

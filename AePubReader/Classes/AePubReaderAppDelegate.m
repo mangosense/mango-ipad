@@ -852,8 +852,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     //check for date value "dd-mm-yyyy" and then call and downlaod book download book and set counter
     //value and call method if active internet connection
     //"DATEDDMM_INDEX"
-    NSString *userDateAndIndex = [prefs valueForKey:@"DATEDDMM_INDEX"];
-    
+    NSDate *userDateAndIndex = [prefs valueForKey:@"DATEOFFREEBOOK"];
+    if(!userDateAndIndex){
+        
+        NSDate *today = [NSDate date];
+        [prefs setObject:today forKey:@"DATEOFFREEBOOK"];
+    }
     
     
     NSArray *userSubscriptionObjects = [delegate.ejdbController getAllSubscriptionObjects];
@@ -1053,6 +1057,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     
 }
+
 +(void)showAlertView{
    alertViewLoading= [[UIAlertView alloc]init];
     UIActivityIndicatorView *indicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(139.0f-18.0f, 40.0f, 37.0f, 37.0f)];
@@ -1061,11 +1066,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     // [indicator release];
     [alertViewLoading setTitle:@"Loading...."];
     
-    
-    
     [alertViewLoading show];
 
 }
+
 +(void)showAlertViewiPad{
     alertViewLoading =[[UIAlertView alloc]init];
     

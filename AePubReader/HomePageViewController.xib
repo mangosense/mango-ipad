@@ -27,8 +27,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                 </imageView>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hE-VJ-A7B">
-                    <rect key="frame" x="906" y="45" width="89" height="48"/>
-                    <state key="normal" title="Settings">
+                    <rect key="frame" x="940" y="16" width="72" height="73"/>
+                    <state key="normal" backgroundImage="icons_settings.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -36,8 +36,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CGB-me-Gfu">
-                    <rect key="frame" x="19" y="19" width="46" height="30"/>
-                    <state key="normal" title="Info">
+                    <rect key="frame" x="19" y="19" width="72" height="72"/>
+                    <fontDescription key="fontDescription" name="TamilSangamMN-Bold" family="Tamil Sangam MN" pointSize="45"/>
+                    <state key="normal" title="i" backgroundImage="icons_info.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -259,6 +261,8 @@
         <image name="backSpace.png" width="128" height="103"/>
         <image name="bg_catching fly.png" width="1232" height="800"/>
         <image name="closebutton.png" width="48" height="48"/>
+        <image name="icons_info.png" width="78" height="77"/>
+        <image name="icons_settings.png" width="78" height="77"/>
         <image name="quesBgPic.png" width="302" height="202"/>
         <image name="quesTextBg.png" width="242" height="54"/>
     </resources>
