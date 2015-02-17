@@ -15,6 +15,7 @@
     
     UserBookDownloadViewController *bookDownload;
     NSString *firstBookId;
+    float width, height;
 }
 
 @property (nonatomic, assign) NSString *ageVal;
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong) IBOutlet UIButton *closeButton;
 @property (nonatomic, strong) IBOutlet UIView *waitViewLabel;
+@property (nonatomic, retain) IBOutlet UIButton *animationButton;
 
 - (IBAction)closeGameView:(id)sender;
 

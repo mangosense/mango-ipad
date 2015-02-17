@@ -42,6 +42,8 @@
     UIFont *textFontValue;
     int checkCorrectDismiss;
     //CAEmitterLayer *emitter;
+    float totalBookTime;
+    float totalTimeTaken;
     
 }
 - (IBAction)ShowOptions:(id)sender;

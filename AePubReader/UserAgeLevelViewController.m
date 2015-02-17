@@ -36,17 +36,17 @@
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void) viewDidDisappear:(BOOL)animated{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"EditAgeValue" object:self];
-    
-}
+
 
 - (IBAction) editAgeValue:(id)sender{
     
-    [self.navigationController popViewControllerAnimated:YES];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setBool:YES forKey:@"SHOWAGEDETAILVIEW"];
+    
+    [self.navigationController popViewControllerAnimated:NO];
     
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

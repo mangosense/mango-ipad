@@ -78,12 +78,23 @@
     _webView.frame = self.view.frame;
     [_webView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
     [[_webView scrollView] setBounces:NO];
-    [self.view addSubview:_webView];
+   // [self.view addSubview:_webView];
     
      [self.view bringSubviewToFront:_waitViewLabel];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListenerDidReceiveNotification:) name:@"BookProgressValue" object:nil];
     // Do any additional setup after loading the view from its nib.
+    
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        width = 80.0;
+        height = 60.0;
+    }
+    else{
+        width = 217.0;
+        height = 295.0;
+    }
+    [self addAnimationToView];
 }
 
 
@@ -189,13 +200,74 @@
         }
     }
     
-    for (int i = index; i < finalIndex; ++i) {
-        NSLog(@"inddex %d", i);
+   // for (int i = index; i < finalIndex; ++i) {
+    //    NSLog(@"inddex %d", i);
         
-        [bookDownload downloadBook:[[bookArray objectAtIndex:i] valueForKey:@"id"]];
-    }
+        [bookDownload downloadBook:[[bookArray objectAtIndex:index] valueForKey:@"id"]];
+  //  }
     
 }
+
+- (void) addAnimationToView{
+    
+    UIImageView *animationView1 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView2 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView3 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView4 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView5 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    
+    NSMutableArray* imageArray = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    [imageArray addObject:[UIImage imageNamed: @"load1.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load2.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load3.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load4.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load5.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load6.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load7.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load10.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load8.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load9.png"]];
+    
+    
+    animationView1.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView1 setAnimationDuration:1.9];
+    animationView1.animationRepeatCount = 0;
+    
+    animationView2.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView2 setAnimationDuration:0.6];
+    animationView2.animationRepeatCount = 0;
+    
+    animationView3.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView3 setAnimationDuration:0.55];
+    animationView3.animationRepeatCount = 0;
+    
+    animationView4.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView4 setAnimationDuration:0.4];
+    animationView4.animationRepeatCount = 0;
+    
+    animationView5.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView5 setAnimationDuration:0.63];
+    animationView5.animationRepeatCount = 0;
+    
+    [_animationButton addSubview: animationView1];
+    
+//    [btnType2 addSubview: animationView2];
+//    
+//    [btnType3 addSubview: animationView3];
+//    
+//    [btnType4 addSubview: animationView4];
+//    
+//    [btnType5 addSubview: animationView5];
+    
+    [animationView1 startAnimating];
+    [animationView2 startAnimating];
+    [animationView3 startAnimating];
+    [animationView4 startAnimating];
+    [animationView5 startAnimating];
+    //[self addButterfly2];
+}
+
 
 - (IBAction) finishBookDownlaod{
     

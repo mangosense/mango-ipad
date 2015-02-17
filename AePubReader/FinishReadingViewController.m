@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /*if([_totalTime integerValue] > 60){
+    if([_totalTime integerValue] > 60){
         int minutes = floor([_totalTime integerValue]/60);
         int seconds = round([_totalTime integerValue] - minutes * 60);
         _timeTakenValue.text = [NSString stringWithFormat:@"Welldone! you have completed the book in %d min and %d sec",minutes, seconds];
@@ -41,7 +41,7 @@
     else{
         int seconds = [_totalTime integerValue];
         _timeTakenValue.text = [NSString stringWithFormat:@"Welldone! you have completed the book in %d sec", seconds];
-    }*/
+    }
     
     self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
     self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/9752375688";
@@ -50,7 +50,13 @@
     [self.bookDownloadView addSubview:self.bannerView_];
     [self.bannerView_ loadRequest:[self request]];
     
-    _timeTakenValue.text = @"to be obtained";
+    //_timeTakenValue.text = @"to be obtained";
+    
+    //Rating value
+    DYRateView *rateView = [[DYRateView alloc] initWithFrame:CGRectMake(170, 135, 490, 285)];
+    rateView.rate = [_rateValue floatValue];
+    rateView.alignment = RateViewAlignmentRight;
+    [self.view addSubview:rateView];
     
     // Do any additional setup after loading the view from its nib.
 }

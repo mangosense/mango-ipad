@@ -73,6 +73,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    totalBookTime = 0;
     newAudioRate = 1.0f;
     currentPage = @"reading";
     popoverClass = [WEPopoverController class];
@@ -165,7 +166,15 @@
 
 - (void) openFinishBookPage {
     
-     FinishReadingViewController *finishReadingView;
+    FinishReadingViewController *finishReadingView;
+    float rateValue;
+    if(totalTimeTaken >= totalBookTime){
+        rateValue = 5.0f;
+    }
+    else{
+        float partValue = totalBookTime/5;
+        rateValue = totalTimeTaken/partValue;
+    }
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -174,7 +183,9 @@
     else{
         finishReadingView = [[FinishReadingViewController alloc]initWithNibName:@"FinishReadingViewController" bundle:nil];
     }
-    finishReadingView.timeTakenValue.text = @"to be catch";
+    //finishReadingView.timeTakenValue.text = [NSString stringWithFormat:@"%f", totalTimeTaken];
+    finishReadingView.totalTime = [NSString stringWithFormat:@"%f", totalTimeTaken];
+    finishReadingView.rateValue = [NSString stringWithFormat:@"%f", rateValue];
     
     [self.navigationController pushViewController:finishReadingView animated:NO];
 }
@@ -982,11 +993,18 @@
         
         
         
-        
+        totalTimeTaken = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+        totalTimeTaken = totalTimeTaken - (.7*_pageNo);
         NSDictionary *jsonDict = [self getJsonDictForBook];
         if ([[jsonDict objectForKey:NUMBER_OF_GAMES] intValue] == 0) {
-            UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            [noGamesAlert show];
+            
+            //load final finish reading screen here
+            
+            
+            //UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            //[noGamesAlert show];
+            [self openFinishBookPage];
+            
         } else {
             
             MangoGamesListViewController *gamesListViewController;
@@ -1020,11 +1038,9 @@
                 
             }];
         }
-        
-        
-    
     }
 }
+
 
 - (NSDictionary *)getJsonDictForBook {
     NSString *jsonContent = [self getJsonContentForBook];
@@ -1672,10 +1688,12 @@
             }
         }
     }
+    totalBookTime = totalBookTime + _audioMappingViewController.player.duration;
     
     if ([[pageView subviews] count] > 0) {
         return pageView;
     }
+    
     return nil;
 }
 
@@ -1747,9 +1765,14 @@
     }
 }
 
+- (void) viewWillDisappear:(BOOL)animated{
+    
+    //totalTimeTaken = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
+}
 
 
 - (void) viewDidDisappear:(BOOL)animated{
+    
     
 /* ///    if(checkCorrectDismiss){
     [UIApplication sharedApplication].idleTimerDisabled = NO;

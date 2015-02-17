@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2D91DE31-D96F-48F6-92D7-96511FB95636" id="Tx5-fp-H6n">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="40184153-72C9-4F98-B102-4E15FE3A7451" id="Tx5-fp-H6n">
                     <rect key="frame" x="0.0" y="-10" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -79,7 +79,7 @@
         </view>
     </objects>
     <resources>
-        <image name="2D91DE31-D96F-48F6-92D7-96511FB95636" width="1024" height="768">
+        <image name="40184153-72C9-4F98-B102-4E15FE3A7451" width="1024" height="768">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

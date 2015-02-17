@@ -43,6 +43,7 @@ static int booksDownloadingCount;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _storiesCarousel.type = iCarouselTypeRotary;
     UserBookDownloadViewController *bookDownloadClass = [[UserBookDownloadViewController alloc] init];
     _textViewLevel.text = _textLevels;
@@ -99,21 +100,18 @@ static int booksDownloadingCount;
         //date1=date2
     }
     
-    
-//    if(result==NSOrderedAscending)
-//        NSLog(@"today is less");
-//    else if(result==NSOrderedDescending){
-//        NSLog(@"newDate is less");
-//        //call method to download new book, all display books
-//        int freeBookIndex = [prefs valueForKey:@"DAILYFREEBOOK_INDEX"];
-//        NSString *bookId = [[_allDisplayBooks objectAtIndex:freeBookIndex] valueForKey:@"id"];
-//        MangoApiController *apiController = [MangoApiController sharedApiController];
-//        [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
-//        freeBookIndex = freeBookIndex+1;
-//        [prefs setValue:[NSNumber numberWithInt:freeBookIndex] forKeyPath:@"DAILYFREEBOOK_INDEX"];
-//    }
-//    else
-//        NSLog(@"Both dates are same");
+    //first time download remaining free books first time only
+    //get user "USERBOOKINDEX" +1 to +4
+    BOOL firstTimeDownload = [prefs valueForKey:@"FREEFIRSTTIMEDOWNLOAD"];
+    if(!firstTimeDownload){
+        int downloadIndexVal = [[prefs valueForKey:@"USERBOOKINDEX"] integerValue];
+        for (int i = downloadIndexVal+1; i < (downloadIndexVal+5); ++i) {
+            
+            [prefs setBool:YES forKey:@"FREEFIRSTTIMEDOWNLOAD"];
+            MangoApiController *apiController = [MangoApiController sharedApiController];
+            [apiController downloadBookWithId:[[_allDisplayBooks objectAtIndex:i] valueForKey:@"id"] withDelegate:self ForTransaction:nil];
+        }
+    }
     
 }
 
@@ -155,6 +153,13 @@ static int booksDownloadingCount;
 
 
 - (void) viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    BOOL value = [prefs valueForKey: @"SHOWAGEDETAILVIEW"];
+    if(value){
+        [prefs setBool:NO forKey:@"SHOWAGEDETAILVIEW"];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
     
     NSString *soundFilePath = [NSString stringWithFormat:@"%@/bgPlayHomePage.mp3",
                                [[NSBundle mainBundle] resourcePath]];
@@ -293,6 +298,7 @@ static int booksDownloadingCount;
         else{
             _settingsProbSupportView.hidden = NO;
             _settingsProbView.hidden= NO;
+            isInfo1Settings2Click = 1;
         }
     }
     
@@ -343,11 +349,12 @@ static int booksDownloadingCount;
         //_bookProgress = progress;
         
         if (progress < 100) {
-        
+            _displayView.hidden = NO;
             [self performSelectorOnMainThread:@selector(showHudOnButton) withObject:nil waitUntilDone:YES];
         
         //[_closeButton setEnabled:NO];
         } else {
+            _displayView.hidden = YES;
             [self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
         //[_closeButton setEnabled:YES];
         }
@@ -426,7 +433,7 @@ static int booksDownloadingCount;
             storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 173, 134)];
         }
         else{
-            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 302, 246)];
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 310, 260)];
         }
         
         storyImageView.delegate = self;
@@ -463,7 +470,6 @@ static int booksDownloadingCount;
     int bookTagValue = [self checkIfBookAcessible:index];
     
     [self readyBookToOpen:selectedBookId withTag:bookTagValue];
-    
 }
 
 
@@ -545,7 +551,7 @@ static int booksDownloadingCount;
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
     _ageLabelValue.text = @"";
-    isInfo1Settings2Click = 2;
+    isInfo1Settings2Click = [sender tag];
     //[self displaySettingsView];
 }
 
@@ -594,7 +600,7 @@ static int booksDownloadingCount;
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         tabBarController.delegate = self;
         
-        UserAllBooksViewController *viewCtr3;
+        //UserAllBooksViewController *viewCtr3;
         UserAgeLevelViewController *viewCtr0;
         UserSubscriptionViewController *viewCtr1;
         UserProgressViewController *viewCtr2;
@@ -607,7 +613,7 @@ static int booksDownloadingCount;
             
             viewCtr2 = [[UserProgressViewController alloc] initWithNibName:@"UserProgressViewController_iPhone" bundle:nil];
             
-            viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController_iPhone" bundle:nil];
+            //viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController_iPhone" bundle:nil];
         }
         
         else{
@@ -618,7 +624,7 @@ static int booksDownloadingCount;
             
             viewCtr2 = [[UserProgressViewController alloc] initWithNibName:@"UserProgressViewController" bundle:nil];
             
-            viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController" bundle:nil];
+            //viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController" bundle:nil];
         }
         
         viewCtr0.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
@@ -627,7 +633,7 @@ static int booksDownloadingCount;
         
         viewCtr2.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
         
-        viewCtr3.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+        //viewCtr3.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
         
         viewCtr0.navigationController.navigationBarHidden = YES;
         
@@ -635,9 +641,9 @@ static int booksDownloadingCount;
         
         viewCtr2.navigationController.navigationBarHidden=YES;
         
-        viewCtr3.navigationController.navigationBarHidden=YES;
+        //viewCtr3.navigationController.navigationBarHidden=YES;
         
-        tabBarController.viewControllers= [NSArray arrayWithObjects: viewCtr3, viewCtr1, viewCtr0, viewCtr2,  nil];
+        tabBarController.viewControllers= [NSArray arrayWithObjects: viewCtr1, viewCtr0, viewCtr2,  nil];
         
         [self.navigationController pushViewController:tabBarController animated:YES];
     }
@@ -650,7 +656,7 @@ static int booksDownloadingCount;
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
     _ageLabelValue.text = @"";
-    isInfo1Settings2Click = 1;
+    isInfo1Settings2Click = [sender tag];
 }
 
 - (void) appInfo{
