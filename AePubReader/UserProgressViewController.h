@@ -11,17 +11,21 @@
 
 @interface UserProgressViewController : UIViewController<CPTPlotDataSource>{
     
-    CPTXYGraph *barChart;
+    //CPTXYGraph *barChart;
 }
 
 //@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
-@property (nonatomic, retain) NSArray *dataArray;
-@property (nonatomic, retain) NSMutableArray *arrayComponent;
-@property (nonatomic, retain) NSMutableArray *arrayLevel;
+//@property (nonatomic, retain) NSArray *dataArray;
+//@property (nonatomic, retain) NSMutableArray *arrayComponent;
+//@property (nonatomic, retain) NSMutableArray *arrayLevel;
 
+@property (nonatomic, retain) IBOutlet UILabel *baseLevellabel;
+@property (nonatomic, retain) IBOutlet UILabel *currentLevellabel;
+@property (nonatomic, retain) IBOutlet UILabel *totalPoints;
+@property (nonatomic, retain) IBOutlet UILabel *totalRatevalue;
 
--(void)plotGaph;
+//-(void)plotGaph;
 
 - (IBAction) backToHomePage:(id)sender;
 

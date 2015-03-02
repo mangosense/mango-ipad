@@ -14,13 +14,18 @@
 #import "GADBannerView.h"
 #import "GADRequest.h"
 
-@interface FinishReadingViewController : UIViewController<MangoPostApiProtocol,GADBannerViewDelegate>
+@interface FinishReadingViewController : UIViewController<MangoPostApiProtocol,GADBannerViewDelegate>{
+    
+    float rate;
+    NSString *currentScreen;
+}
 
 @property(strong,nonatomic) NSString *identity;
 @property(strong,nonatomic) Book *book;
 
 @property (strong, nonatomic) NSString *totalTime;
 @property (strong, nonatomic) NSString *rateValue;
+@property (strong, nonatomic) IBOutlet UILabel *scoreValue;
 @property (strong, nonatomic) IBOutlet UILabel *timeTakenValue;
 
 @property (strong , nonatomic) IBOutlet UIView *bookDownloadView;
@@ -28,6 +33,12 @@
 @property (nonatomic, strong) GADBannerView *bannerView_;
 
 @property (nonatomic, retain) IBOutlet DYRateView *myPicsRate;
+
+@property (nonatomic, strong) AVAudioPlayer *player;
+
+@property (nonatomic, strong) NSArray *allDisplayBooks;
+
+@property (nonatomic, strong) NSString *currentLevel;
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withId :(NSString*)identity;
 

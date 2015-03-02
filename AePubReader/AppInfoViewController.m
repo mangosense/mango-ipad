@@ -7,8 +7,10 @@
 //
 
 #import "AppInfoViewController.h"
+#import "AePubReaderAppDelegate.h"
+#import "Constants.h"
 
-@interface AppInfoViewController ()
+@interface AppInfoViewController ()<MFMailComposeViewControllerDelegate>
 
 @end
 
@@ -16,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    currentScreen = @"appInfoScreen";
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -26,6 +29,65 @@
 
 - (IBAction) backToHomePage:(id)sender{
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"homeButtonClick",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_EVENT_DESCRIPTION : @"back to home click",
+                                 };
+    [delegate trackEventAnalytic:@"homeButtonClick" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"homeButtonClick"];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"appInfoScreen",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_EVENT_DESCRIPTION : @"back to home click",
+                                 };
+    [delegate trackEventAnalytic:@"appInfoScreen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"appInfoScreen"];
+}
+
+
+
+- (IBAction)emailSupport:(id)sender
+{
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"sentEmail",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_EVENT_DESCRIPTION : @"sent Support Email",
+                                 };
+    [delegate trackEventAnalytic:@"sentEmail" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"sentEmail"];
+    
+    UIButton *button = (UIButton *)sender;
+    NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
+    NSString *model = [[UIDevice currentDevice] model];
+    NSString *version = @"1.0";
+    MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+    mailComposer.mailComposeDelegate = self;
+    [mailComposer setToRecipients:[NSArray arrayWithObjects: button.titleLabel.text,nil]];
+    [mailComposer setSubject:[NSString stringWithFormat: @"Endless Stories Support v%@",version]];
+    NSString *supportText = [NSString stringWithFormat:@"Device: %@\niOS Version:%@\n\n",model,iOSVersion];
+    supportText = [supportText stringByAppendingString: @""];
+    [mailComposer setMessageBody:supportText isHTML:NO];
+    [self presentViewController:mailComposer animated:YES completion:nil];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

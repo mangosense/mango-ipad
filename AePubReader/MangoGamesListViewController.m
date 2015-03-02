@@ -333,7 +333,8 @@
 
 - (void) viewWillDisappear:(BOOL)animated{
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoToFinishBook" object:self];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys: _currentBookId, @"bookId", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoToFinishBook" object:nil userInfo:dict];
 }
 
 

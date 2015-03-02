@@ -28,6 +28,9 @@
 @property (nonatomic, strong) IBOutlet UIView *waitViewLabel;
 @property (nonatomic, retain) IBOutlet UIButton *animationButton;
 
+@property (nonatomic, strong) AVAudioPlayer *player;
+
 - (IBAction)closeGameView:(id)sender;
+
 
 @end

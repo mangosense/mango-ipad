@@ -19,6 +19,7 @@
 #import "AePubReaderAppDelegate.h"
 #import "CoverViewControllerBetterBookType.h"
 #import "MangoEditorViewController.h"
+#import "HomePageViewController.h"
 
 //NewApp
 #import "AgeDetailsViewController.h"
@@ -50,20 +51,13 @@
 
 - (void)viewDidLoad
 {
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
     
-    if ([userInfoObjects count] > 0) {
-        appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
-        [self goToNext];
-    }
+//    NSArray *userInfoObjects = [appDelegate.ejdbController getAllUserInfoObjects];
     
-    NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
-    
-    if ([userAgeObjects count] > 0) {
-        appDelegate.userInfoAge = [userAgeObjects lastObject];
-        [self moveToAgeGrouoSelection:nil];
-    }
+//    if ([userInfoObjects count] > 0) {
+//        appDelegate.loggedInUserInfo = [userInfoObjects lastObject];
+//        [self goToNext];
+//    }
     
     [super viewDidLoad];
     currentPage = @"login_screen";
@@ -78,50 +72,6 @@
     // Set this loginUIViewController to be the loginView button's delegate
     loginView.delegate = self;
     
-    
-    // Align the button in the center horizontally
-    
-  /*  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 175, loginView.frame.size.width, loginView.frame.size.height);
-        for (id obj in loginView.subviews)
-        {
-            if ([obj isKindOfClass:[UIButton class]])
-            {
-                UIButton * loginButton =  obj;
-                UIImage *loginImage = [UIImage imageNamed:@"facebook_login.png"];
-                [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
-                [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
-                [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-                [loginButton setFrame:CGRectMake(34,20,150,28)];
-                
-            }
-            if ([obj isKindOfClass:[UILabel class]])
-            {
-                UILabel * loginLabel =  obj;
-                loginLabel.text = @"";
-                //loginLabel.textAlignment = UITextAlignmentCenter;
-                loginLabel.frame = CGRectMake(0,0,0,0);
-            }
-            
-            
-        }
-    }
-    else{
-        loginView.frame = CGRectMake(_passwordTextField.frame.origin.x + _passwordTextField.frame.size.width/2 - loginView.frame.size.width/2, 385, loginView.frame.size.width, loginView.frame.size.height);
-    }*/
-    
-    // Align the button in the center vertically
-    //loginView.center = self.view.center;
-    
-    // Add the button to the view
-    //[self.view addSubview:loginView];
-    
-    
-    
-    
-    
-    
-    
     if(_pushNoteBookId || _pushSubscribe){
         
         [self goToNext];
@@ -129,18 +79,21 @@
     
     
     _isLoginWithFb = NO;
-
-    
-    //if(!notFirstTimeHelpDisplay){
-        
-      //  [prefs setBool:YES forKey:@"FIRSTTIMEHELPDISPLAY"];
-      //  [self loadHelpImagesScroll];
-    //}
     
     if(_pushCreateStory){
         
         [self goToNext];
     }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        width = 88.0;
+        height = 107.0;
+    }
+    else{
+        width = 217.0;
+        height = 295.0;
+    }
+    [self addAnimationToView];
     
 }
 
@@ -156,7 +109,7 @@
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
-- (void)navigationController:(UINavigationController *)navigationController
+/*- (void)navigationController:(UINavigationController *)navigationController
       willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [viewController viewWillAppear:animated];
@@ -166,7 +119,7 @@
        didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [viewController viewDidAppear:animated];
-}
+}*/
 
 - (void)didReceiveMemoryWarning
 {
@@ -176,16 +129,19 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     
+    [super viewDidAppear:YES];
+    
+    [self performSelector:@selector(moveToAgeGrouoSelection:) withObject:self afterDelay:4.0];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *dimensions = @{
                                  
-                                 PARAMETER_ACTION : @"login_screen",
-                                 PARAMETER_CURRENT_PAGE : currentPage,
-                                 PARAMETER_EVENT_DESCRIPTION : @"login_screen",
+                                 PARAMETER_ACTION : @"initialScreen",
+                                 PARAMETER_CURRENT_PAGE : @"initialScreen",
+                                 PARAMETER_EVENT_DESCRIPTION : @"initial Screen open",
                                  };
-    [delegate trackEventAnalytic:@"login_screen" dimensions:dimensions];
+    [delegate trackEventAnalytic:@"initialScreen" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"login_screen"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"initialScreen"];
 }
 
 #pragma mark - Facebook Login API
@@ -287,16 +243,6 @@
     else{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        NSDictionary *dimensions = @{
-                                     PARAMETER_USER_EMAIL_ID : _emailTextField.text,
-                                     PARAMETER_ACTION : @"login",
-                                     PARAMETER_CURRENT_PAGE : currentPage,
-                                     PARAMETER_EVENT_DESCRIPTION : @"Login button click",
-                                     };
-        [delegate trackEventAnalytic:@"login" dimensions:dimensions];
-        [delegate eventAnalyticsDataBrowser:dimensions];
-//        [delegate trackMixpanelEvents:dimensions eventName:@"login"];
-        
         MangoApiController *apiController = [MangoApiController sharedApiController];
         apiController.delegate = self;
         [apiController loginWithEmail:_emailTextField.text AndPassword:_passwordTextField.text IsNew:NO Name:nil];
@@ -332,30 +278,6 @@
 - (IBAction)signUp:(id)sender {
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     //ID = _udid;
-   /* NSDictionary *dimensions = @{
-                                 PARAMETER_USER_EMAIL_ID : ID,
-                                 PARAMETER_DEVICE: IOS,
-                                 
-                                 };
-    [delegate trackEvent:[SIGN_UP_VIEW valueForKey:@"description"] dimensions:dimensions];
-    PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-    [userObject setObject:[SIGN_UP_VIEW valueForKey:@"value"] forKey:@"eventName"];
-    [userObject setObject: [SIGN_UP_VIEW valueForKey:@"description"] forKey:@"eventDescription"];
-    [userObject setObject:viewName forKey:@"viewName"];
-    [userObject setObject:ID forKey:@"deviceIDValue"];
-    [userObject setObject:delegate.country forKey:@"deviceCountry"];
-    [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-    [userObject setObject:IOS forKey:@"device"];
-    [userObject saveInBackground];*/
-    
-    NSDictionary *dimensions = @{
-                                 PARAMETER_ACTION : @"signup_btn",
-                                 PARAMETER_CURRENT_PAGE : currentPage,
-                                 PARAMETER_EVENT_DESCRIPTION : @"Signup button click",
-                                 };
-    [delegate trackEventAnalytic:@"signup_btn" dimensions:dimensions];
-    [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"signup_btn"];
     
     SignUpViewController *signupViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -427,15 +349,7 @@
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [self goToNext];
         } else {
-            NSDictionary *dimensions = @{
-                                         PARAMETER_USER_EMAIL_ID : _emailTextField.text,
-                                         PARAMETER_ACTION : @"login_fail",
-                                         PARAMETER_CURRENT_PAGE : currentPage,
-                                         PARAMETER_EVENT_DESCRIPTION : @"Failed login attempt",
-                                         };
-            [delegate trackEventAnalytic:@"login_fail" dimensions:dimensions];
-            [delegate eventAnalyticsDataBrowser:dimensions];
-//            [delegate trackMixpanelEvents:dimensions eventName:@"login_fail"];
+            
             UIAlertView *loginFailureAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:[userDetailsDictionary objectForKey:@"message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [loginFailureAlert show];
         }
@@ -461,16 +375,7 @@
             
             AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
             
-            NSDictionary *dimensions = @{
-                                         
-                                         PARAMETER_ACTION : @"skip_btn",
-                                         PARAMETER_CURRENT_PAGE : currentPage,
-                                         PARAMETER_EVENT_DESCRIPTION : @"Skip button click",
-                                         PARAMETER_PASS : @"TRUE"
-                                         };
-            [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
-            [delegate eventAnalyticsDataBrowser:dimensions];
-//            [delegate trackMixpanelEvents:dimensions eventName:@"skip_btn"];
+            
             /*ID = _udid;
             
             NSDictionary *dimensions = @{
@@ -504,50 +409,12 @@
         }
         else{
             
-            NSDictionary *dimensions = @{
-                                         
-                                         PARAMETER_ACTION : @"skip_btn",
-                                         PARAMETER_CURRENT_PAGE : currentPage,
-                                         PARAMETER_EVENT_DESCRIPTION : @"Skip button click",
-                                         PARAMETER_PASS : @"FALSE"
-                                         };
-            [delegate trackEventAnalytic:@"skip_btn" dimensions:dimensions];
-            [delegate eventAnalyticsDataBrowser:dimensions];
+            
         }
     }
 }
 
 //images for scroll view
-
-- (void)loadHelpImagesScroll{
-    
-    pageControlBeingUsed = NO;
-    
-    
-	
-	/*NSArray *colors = [NSArray arrayWithObjects:[UIImage imageNamed:@"dashboard.jpg"], [UIImage imageNamed:@"createstory.jpg"], [UIImage imageNamed:@"readbar.jpg"],  [UIImage imageNamed:@"readpage.jpg"],  [UIImage imageNamed:@"store.jpg"],  [UIImage imageNamed:@"subscribe.jpg"], nil];
-	for (int i = 0; i < colors.count; i++) {
-		CGRect frame;
-		frame.origin.x = self.scrollView.frame.size.width * i;
-		frame.origin.y = 0;
-		frame.size = self.scrollView.frame.size;
-		
-		UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
-		//subview.backgroundColor = [colors objectAtIndex:i];
-        subview.image = [colors objectAtIndex:i];
-		[self.scrollView addSubview:subview];
-		
-	}
-	
-	self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * colors.count, self.scrollView.frame.size.height);
-	
-	self.pageControl.currentPage = 0;
-	self.pageControl.numberOfPages = colors.count;
-    
-    [self.view bringSubviewToFront:[_imageHelpView superview]];
-    [[_imageHelpView superview] bringSubviewToFront:_imageHelpView];*/
-    
-}
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
@@ -588,23 +455,136 @@
     
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:YES];
+    NSString *soundFilePath = [NSString stringWithFormat:@"%@/animationaudio.mp3",
+                               [[NSBundle mainBundle] resourcePath]];
+    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+    
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL
+                                                     error:nil];
+    _player.numberOfLoops = -1; //Infinite
+    
+    [_player play];
+}
+
+
+
 - (IBAction)showHelpPageView:(id)sender{
     _imageHelpView.hidden = NO;
 }
 
 - (IBAction) moveToAgeGrouoSelection:(id)sender{
     
-    AgeDetailsViewController *ageGroupSelectionView;
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"startButtonClick",
+                                 PARAMETER_CURRENT_PAGE : @"initialScreen",
+                                 PARAMETER_EVENT_DESCRIPTION : @"click on start",
+                                 };
+    [appDelegate trackEventAnalytic:@"startButtonClick" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"startButtonClick"];
+    
+    NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
+    
+    if ([userAgeObjects count] > 0) {
+        appDelegate.userInfoAge = [userAgeObjects lastObject];
+        HomePageViewController *homePageView;
         
-        ageGroupSelectionView = [[AgeDetailsViewController alloc]initWithNibName:@"AgeDetailsViewController_iPhone" bundle:nil];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            homePageView = [[HomePageViewController alloc]initWithNibName:@"HomePageViewController_iPhone" bundle:nil];
+        }
+        else{
+            homePageView = [[HomePageViewController alloc]initWithNibName:@"HomePageViewController" bundle:nil];
+        }
+        
+        [self.navigationController pushViewController:homePageView animated:NO];
+        
     }
     else{
-        ageGroupSelectionView = [[AgeDetailsViewController alloc]initWithNibName:@"AgeDetailsViewController" bundle:nil];
-    }
+        AgeDetailsViewController *ageGroupSelectionView;
     
-    [self.navigationController pushViewController:ageGroupSelectionView animated:NO];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+            ageGroupSelectionView = [[AgeDetailsViewController alloc]initWithNibName:@"AgeDetailsViewController_iPhone" bundle:nil];
+        }
+        else{
+            ageGroupSelectionView = [[AgeDetailsViewController alloc]initWithNibName:@"AgeDetailsViewController" bundle:nil];
+        }
+    
+        [self.navigationController pushViewController:ageGroupSelectionView animated:NO];
+    }
 }
+
+//add animation here
+- (void) addAnimationToView{
+    
+    UIImageView *animationView1 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView2 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView3 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView4 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    UIImageView *animationView5 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,width,height)];
+    
+    NSMutableArray* imageArray = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    [imageArray addObject:[UIImage imageNamed: @"load1.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load2.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load3.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load6.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load5.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load4.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load7.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load10.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load8.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load9.png"]];
+    
+    
+    animationView1.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView1 setAnimationDuration:1.9];
+    animationView1.animationRepeatCount = 0;
+    
+    animationView2.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView2 setAnimationDuration:0.6];
+    animationView2.animationRepeatCount = 0;
+    
+    animationView3.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView3 setAnimationDuration:0.55];
+    animationView3.animationRepeatCount = 0;
+    
+    animationView4.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView4 setAnimationDuration:0.4];
+    animationView4.animationRepeatCount = 0;
+    
+    animationView5.animationImages = [NSArray arrayWithArray:imageArray];
+    [animationView5 setAnimationDuration:0.63];
+    animationView5.animationRepeatCount = 0;
+    
+    [_animationButton addSubview: animationView1];
+    
+    //    [btnType2 addSubview: animationView2];
+    //
+    //    [btnType3 addSubview: animationView3];
+    //
+    //    [btnType4 addSubview: animationView4];
+    //
+    //    [btnType5 addSubview: animationView5];
+    
+    [animationView1 startAnimating];
+    [animationView2 startAnimating];
+    [animationView3 startAnimating];
+    [animationView4 startAnimating];
+    [animationView5 startAnimating];
+    //[self addButterfly2];
+}
+
+-(void) viewDidDisappear:(BOOL)animated{
+    
+    _player = nil;
+}
+
 
 @end

@@ -65,6 +65,12 @@
     return userInfo;
 }
 
+- (UserAgeInfo *) getUserAgeInfoForId: (NSString *) userId{
+    
+    UserAgeInfo *userAgeInfo = [_collection fetchObjectWithOID:userId];
+    return userAgeInfo;
+}
+
 - (MangoBook *)getBookForBookId:(NSString *)bookId {
     @autoreleasepool {
     MangoBook *book = [_collection fetchObjectWithOID:bookId];

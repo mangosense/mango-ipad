@@ -75,7 +75,7 @@
     [super viewDidLoad];
     totalBookTime = 0;
     newAudioRate = 1.0f;
-    currentPage = @"reading";
+    currentPage = @"readingPage";
     popoverClass = [WEPopoverController class];
     audioMappingViewControllers = [[NSMutableArray alloc] init];
     pageVisited = [[NSMutableString alloc]init];
@@ -157,14 +157,20 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigateToLandPage) name:@"DismissBook" object:nil];
     
-}
-
-- (void) viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGamesNotification:) name:@"GoToFinishBook" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openFinishBookPage) name:@"GoToFinishBook" object:nil];
 }
 
-- (void) openFinishBookPage {
+- (void) getGamesNotification :(NSNotification *)notif{
+    
+    NSDictionary *userInfo = notif.userInfo;
+    NSString *bookId = [userInfo objectForKey:@"bookId"];
+    [self openFinishBookPage:bookId];
+    
+}
+
+
+- (void) openFinishBookPage : (NSString *) forBook {
     
     FinishReadingViewController *finishReadingView;
     float rateValue;
@@ -186,12 +192,14 @@
     //finishReadingView.timeTakenValue.text = [NSString stringWithFormat:@"%f", totalTimeTaken];
     finishReadingView.totalTime = [NSString stringWithFormat:@"%f", totalTimeTaken];
     finishReadingView.rateValue = [NSString stringWithFormat:@"%f", rateValue];
+    finishReadingView.identity = forBook;
     
     [self.navigationController pushViewController:finishReadingView animated:NO];
 }
 
 
 - (void) viewDidAppear:(BOOL)animated{
+    
     
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -242,18 +250,13 @@
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"reading" forKey:PARAMETER_ACTION];
+    [dimensions setObject:@"readingPage" forKey:PARAMETER_ACTION];
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
     [dimensions setObject:@"reading screen open" forKey:PARAMETER_EVENT_DESCRIPTION];
     [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
-    [dimensions setObject:bookReadMode forKey:PARAMETER_BOOK_READ_MODE];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [delegate trackEventAnalytic:@"reading" dimensions:dimensions];
+    [delegate trackEventAnalytic:@"readingPage" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"reading"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"readingPage"];
 }
 
 /*- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
@@ -472,6 +475,17 @@
     //[self.navigationController popViewControllerAnimated:YES];
     //[self.navigationController popToViewController:delegate.pageViewController animated:YES];
     
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"homeButtonClick",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"back to home click",
+                                 };
+    [delegate trackEventAnalytic:@"homeButtonClick" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"homeButtonClick"];
+    
         for(UIViewController *controller in self.navigationController.viewControllers){
     
             if([controller isKindOfClass:[HomePageViewController class]]){
@@ -560,16 +574,16 @@
    // [PFAnalytics trackEvent:EVENT_BOOK_SHARED dimensions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [_book.id intValue]], [NSString stringWithFormat:@"%d", _pageNumber], nil] forKeys:[NSArray arrayWithObjects:@"bookId", @"pageNumber", nil]]];
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     
-    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"share_btn_click" forKey:PARAMETER_ACTION];
-    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:[_book valueForKey:@"bookId"] forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:@"Share button click" forKey:PARAMETER_EVENT_DESCRIPTION];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
-    [delegate eventAnalyticsDataBrowser:dimensions];
+//    NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
+//    [dimensions setObject:@"share_btn_click" forKey:PARAMETER_ACTION];
+//    [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
+//    [dimensions setObject:[_book valueForKey:@"bookId"] forKey:PARAMETER_BOOK_ID];
+//    [dimensions setObject:@"Share button click" forKey:PARAMETER_EVENT_DESCRIPTION];
+//    if(userEmail){
+//        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
+//    }
+//    [delegate trackEventAnalytic:@"share_btn_click" dimensions:dimensions];
+//    [delegate eventAnalyticsDataBrowser:dimensions];
 //    [delegate trackMixpanelEvents:dimensions eventName:@"share_btn_click"];
     
     //UIButton *button=(UIButton *)sender;
@@ -1003,7 +1017,7 @@
             
             //UIAlertView *noGamesAlert = [[UIAlertView alloc] initWithTitle:@"No Games" message:@"Sorry, this story does not have any games in it." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             //[noGamesAlert show];
-            [self openFinishBookPage];
+            [self openFinishBookPage:_book.id];
             
         } else {
             
@@ -1073,17 +1087,13 @@
     //float timeEndValue = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
     
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"playpause_button_click" forKey:PARAMETER_ACTION];
+    [dimensions setObject:@"playPause" forKey:PARAMETER_ACTION];
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
     [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:@"Play or pause button click" forKey:PARAMETER_EVENT_DESCRIPTION];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [delegate trackEventAnalytic:@"playpause_button_click" dimensions:dimensions];
+    [dimensions setObject:@"Play Pause click" forKey:PARAMETER_EVENT_DESCRIPTION];
+    [delegate trackEventAnalytic:@"playPause" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"playpause_button_click"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"playPause"];
     
     if (_audioMappingViewController.player) {
         if ([_audioMappingViewController.player isPlaying]) {
@@ -1535,7 +1545,14 @@
         if(!fontFamily){
             
             if(fontSize){
-                font = [UIFont fontWithName:@"Verdana" size:[fontSize floatValue]];
+                
+                if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    
+                    font = [UIFont fontWithName:@"Verdana" size:10.1f];
+                }
+                else{
+                    font = [UIFont fontWithName:@"Verdana" size:[fontSize floatValue]];
+                }
             }
         }
         
@@ -1767,6 +1784,7 @@
 
 - (void) viewWillDisappear:(BOOL)animated{
     
+    _audioMappingViewController.player = nil;
     //totalTimeTaken = [[NSDate date] timeIntervalSinceDate:self.timeCalculate];
 }
 
@@ -1774,7 +1792,7 @@
 - (void) viewDidDisappear:(BOOL)animated{
     
     
-/* ///    if(checkCorrectDismiss){
+ ///    if(checkCorrectDismiss){
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     _audioMappingViewController.timer = nil;
     _audioMappingViewController.player = nil;
@@ -1818,15 +1836,11 @@
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
     [dimensions setObject:@"Total reading time" forKey:PARAMETER_EVENT_DESCRIPTION];
     [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
     [dimensions setObject:bookStatus forKey:PARAMETER_BOOK_STATUS];
     //[dimensions setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
-    [dimensions setObject:bookReadMode forKey:PARAMETER_BOOK_READ_MODE];
-    [dimensions setObject:pageVisited forKey:PARAMETER_PAGES_VISITED];
+    //[dimensions setObject:pageVisited forKey:PARAMETER_PAGES_VISITED];
     //[dimensions setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
+    
     [dimensionevent setDictionary:dimensions];
     [dimensionevent setObject:time1 forKey:PARAMETER_TIME_TAKEN];
     [dimensionevent setObject:[NSString stringWithFormat:@"%d",times] forKey:PARAMETER_PAGE_COUNT];
@@ -1834,8 +1848,8 @@
     [dimensionshist setObject:[NSNumber numberWithInt:time] forKey:PARAMETER_TIME_TAKEN];
     [dimensionshist setObject:[NSNumber numberWithInt:times] forKey:PARAMETER_PAGE_COUNT];
     [delegate trackEventAnalytic:@"reading_time" dimensions:dimensionevent];
-    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];   /// */
-//    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
+    [delegate userHistoryAnalyticsDataBrowser:dimensionshist];  
+    [delegate trackMixpanelEvents:dimensions eventName:@"reading_time"];
     /*NSDictionary *dimensions = @{
                                  PARAMETER_USER_EMAIL_ID : ID,
                                  PARAMETER_DEVICE: IOS,
@@ -1995,17 +2009,13 @@
     
     AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dimensions = [[NSMutableDictionary alloc]init];
-    [dimensions setObject:@"audio_rate_change" forKey:PARAMETER_ACTION];
+    [dimensions setObject:@"audioRateChange" forKey:PARAMETER_ACTION];
     [dimensions setObject:currentPage forKey:PARAMETER_CURRENT_PAGE];
-    [dimensions setObject:@"Audio playback rate change" forKey:PARAMETER_EVENT_DESCRIPTION];
+    [dimensions setObject:@"Change Audio Rate click" forKey:PARAMETER_EVENT_DESCRIPTION];
     [dimensions setObject:_book.id forKey:PARAMETER_BOOK_ID];
-    [dimensions setObject:_book.title forKey:PARAMETER_BOOK_TITLE];
-    if(userEmail){
-        [dimensions setObject:userEmail forKey:PARAMETER_USER_EMAIL_ID];
-    }
-    [delegate trackEventAnalytic:@"audio_rate_change" dimensions:dimensions];
+    [delegate trackEventAnalytic:@"audioRateChange" dimensions:dimensions];
     [delegate eventAnalyticsDataBrowser:dimensions];
-//    [delegate trackMixpanelEvents:dimensions eventName:@"audio_rate_change"];
+    [delegate trackMixpanelEvents:dimensions eventName:@"audioRateChange"];
     
     UISwitch *onoff = (UISwitch *) sender;
     if(onoff.on){

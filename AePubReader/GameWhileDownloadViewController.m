@@ -21,7 +21,9 @@
 
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
     bookDownload = [[UserBookDownloadViewController alloc] init];
     bookDownload.delegate = self;
     [bookDownload returnArrayElementa];
@@ -87,8 +89,8 @@
     
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        width = 80.0;
-        height = 60.0;
+        width = 88.0;
+        height = 107.0;
     }
     else{
         width = 217.0;
@@ -182,12 +184,14 @@
     int finalIndex;
     
     _booksArray = bookArray;
+    NSString *level =[LevelViewController getLevelFromAge:_ageVal];
+    
     for(NSDictionary *bookdata in bookArray){
         
-        NSString *level =[LevelViewController getLevelFromAge:_ageVal];
+        
         if([[bookdata valueForKey:@"level"] isEqualToString:level]){
             
-            //call to download two books of level
+            //call to download books of level
             index = [bookArray indexOfObject:bookdata];
             
             [prefs setInteger:index forKey:@"USERBOOKINDEX"];
@@ -200,12 +204,42 @@
         }
     }
     
-   // for (int i = index; i < finalIndex; ++i) {
-    //    NSLog(@"inddex %d", i);
+   
+    //if book already downloaded
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    Book *bk=[appDelegate.dataModel getBookOfEJDBId:[[bookArray objectAtIndex:index] valueForKey:@"id"]];
+    if(bk.localPathFile){
         
+        [self performSelector:@selector(finishBookDownlaod) withObject:self afterDelay:5.0];
+        
+        //[self finishBookDownlaod];
+    }
+    else{//else not available
         [bookDownload downloadBook:[[bookArray objectAtIndex:index] valueForKey:@"id"]];
-  //  }
+        [prefs setBool:TRUE forKey:@"FREEFIRSTTIMEDOWNLOAD"];
+    }
+  
     
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:YES];
+    
+    NSString *soundFilePath = [NSString stringWithFormat:@"%@/animationaudio.mp3",
+                               [[NSBundle mainBundle] resourcePath]];
+    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+    
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL
+                                                     error:nil];
+    _player.numberOfLoops = -1; //Infinite
+    
+    [_player play];
+}
+
+-(void) viewDidDisappear:(BOOL)animated{
+    
+    _player = nil;
 }
 
 - (void) addAnimationToView{
@@ -221,9 +255,9 @@
     [imageArray addObject:[UIImage imageNamed: @"load1.png"]];
     [imageArray addObject:[UIImage imageNamed: @"load2.png"]];
     [imageArray addObject:[UIImage imageNamed: @"load3.png"]];
-    [imageArray addObject:[UIImage imageNamed: @"load4.png"]];
-    [imageArray addObject:[UIImage imageNamed: @"load5.png"]];
     [imageArray addObject:[UIImage imageNamed: @"load6.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load5.png"]];
+    [imageArray addObject:[UIImage imageNamed: @"load4.png"]];
     [imageArray addObject:[UIImage imageNamed: @"load7.png"]];
     [imageArray addObject:[UIImage imageNamed: @"load10.png"]];
     [imageArray addObject:[UIImage imageNamed: @"load8.png"]];
@@ -285,7 +319,9 @@
 
 - (void) viewWillDisappear:(BOOL)animated{
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseGamesWhileDownload" object:self];
+    //[super viewWillDisappear:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseGamesWhileDownload" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -138,6 +138,7 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     
+    [super viewDidAppear:YES];
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int subscriptionSuccess = [[prefs valueForKey:@"SubscriptionSuccess"]integerValue];
     if(subscriptionSuccess && !userEmail){

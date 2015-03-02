@@ -21,7 +21,7 @@
 	UIPageControl* pageControl;
 	UINavigationController *navController;
 	BOOL pageControlBeingUsed;
-    
+    float width, height;
 }
 - (IBAction)signIn:(id)sender;
 - (IBAction)goToNext:(id)sender;
@@ -36,6 +36,10 @@
 @property (nonatomic, assign) NSString *pushNoteBookId;
 @property (nonatomic, assign) NSString *pushCreateStory;
 @property (nonatomic, assign) NSString *pushSubscribe;
+
+@property (nonatomic, strong) AVAudioPlayer *player;
+
+@property (nonatomic, retain) IBOutlet UIButton *animationButton;
 
 - (IBAction)changePage;
 - (IBAction)skipHelpPageView:(id)sender;

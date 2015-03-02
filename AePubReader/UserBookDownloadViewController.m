@@ -8,6 +8,7 @@
 
 #import "UserBookDownloadViewController.h"
 #import "AePubReaderAppDelegate.h"
+#import "GameWhileDownloadViewController.h"
 
 @interface UserBookDownloadViewController ()
 
@@ -41,6 +42,19 @@
     return levelsArray;
 }
 
++ (NSArray *) returnSpecificLevelBooks : (NSArray *) allBooks getLevel :(NSString *)levelValue{
+    
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for(NSDictionary *element in allBooks){
+        
+        if([[element objectForKey:@"level"] isEqualToString:levelValue]){
+            [array addObject:element];
+        }
+    }
+    return array;
+}
+
+
 - (void) returnArrayElementa{
     
     NSMutableArray *booksArray = [[NSMutableArray alloc] init];
@@ -62,7 +76,9 @@
     //int isDownloaded = [bk.downloaded integerValue];
     
     if(bk.localPathFile){
-        [_delegate finishBookDownlaod];
+        //[_delegate finishBookDownlaod];
+        
+        
     }
     
     else{

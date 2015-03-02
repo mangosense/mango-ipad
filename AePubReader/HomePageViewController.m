@@ -17,8 +17,8 @@
 #import "UIImageView+WebCache.h"
 #import "HKCircularProgressLayer.h"
 #import "HKCircularProgressView.h"
-//store link
-#import "MangoStoreViewController.h"
+
+#import "LevelViewController.h"
 
 @interface HomePageViewController ()
 
@@ -44,24 +44,40 @@ static int booksDownloadingCount;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    currentScreen = @"homeScreen";
+    _specificLevelBooks = [[NSMutableArray alloc] init];
+    
     _storiesCarousel.type = iCarouselTypeRotary;
+
     UserBookDownloadViewController *bookDownloadClass = [[UserBookDownloadViewController alloc] init];
     _textViewLevel.text = _textLevels;
+    //_textViewLevel.text = @"  ";
     bookDownloadClass.delegate = self;
     [bookDownloadClass returnArrayElementa];
+    
+    CGRect frame;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        frame = CGRectMake(83, 276.0f, 398, 21.0f);
+    }
+    else{
+        frame = CGRectMake(176, 665.0f, 669, 47.0f);
+    }
+    
+    progressView = [[GradientProgressView alloc] initWithFrame:frame];
+    [self.view addSubview:progressView];
+    [self.view bringSubviewToFront:_settingsProbSupportView];
+    [self.view bringSubviewToFront:_settingsProbView];
     
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     singleTapGestureRecognizer.delegate = self;
     singleTapGestureRecognizer.numberOfTapsRequired = 1;
     _textViewLevel.editable = NO;
     _textViewLevel.selectable = NO;
-    //displayTextFiel.addGestureRecognizer(singleTapGestureRecognizer)
     [_textViewLevel addGestureRecognizer:singleTapGestureRecognizer];
     
     [self setDownloadCounter:0];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(setDownloadCounter:) userInfo:nil repeats:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DismissOtherViewAndLoadAgepage) name:@"EditAgeValue" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBookProgress:) name:@"HomeBookProgress" object:nil];
     
@@ -71,48 +87,97 @@ static int booksDownloadingCount;
     // Do any additional setup after loading the view from its nib.
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSDate *userDate = [prefs valueForKey:@"DATEOFFREEBOOK"];
+    NSDate *expireDate = [prefs valueForKey:@"EXPIRETRIALDATE"];
     //if current date is greater than available date
     
     NSDate *today = [NSDate date]; // it will give you current date
     // your date NSDate *newDate = [NSDate dateWithString:@"xxxxxx"];
-    NSComparisonResult result;
-    //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
-    
-    //result = [today compare:userDateAndIndex]; // comparing two dates
     
     NSInteger interval = [[[NSCalendar currentCalendar] components: NSDayCalendarUnit
-                                                          fromDate: userDate
+                                                          fromDate: expireDate
                                                             toDate: today
                                                            options: 0] day];
     if(interval<0){
         //date1<date2
-        int freeBookIndex = [prefs valueForKey:@"DAILYFREEBOOK_INDEX"];
-        NSString *bookId = [[_allDisplayBooks objectAtIndex:freeBookIndex] valueForKey:@"id"];
-        MangoApiController *apiController = [MangoApiController sharedApiController];
-        [apiController downloadBookWithId:bookId withDelegate:self ForTransaction:nil];
-        freeBookIndex = freeBookIndex+1;
-        [prefs setValue:[NSNumber numberWithInt:freeBookIndex] forKeyPath:@"DAILYFREEBOOK_INDEX"];
+        [prefs setBool:YES forKey:@"HASFREETRIALACCESS"];
     }else if (interval>0){
         //date2<date1
-        
+        [prefs setBool:NO forKey:@"HASFREETRIALACCESS"];
     }else{
         //date1=date2
     }
     
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
+    appDelegate.userInfoAge = [userAgeObjects lastObject];
+    //_ageLabel.text = appDelegate.userInfoAge.userAgeValue;
+    
+    _currentLevel = [prefs valueForKey:@"CURRENTUSERLEVEL"];
+    [_currentLevelButton setTitle:_currentLevel forState:UIControlStateNormal];
+    NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
+    int indexValue = [allLevelValue indexOfObject:_currentLevel];
+    [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal]; //[allLevelValue objectAtIndex:indexValue+1];
+    
+    for(NSDictionary *element in _allDisplayBooks){
+        
+        if([[element objectForKey:@"level"] isEqualToString:_currentLevel]){
+            [_specificLevelBooks addObject:element];
+        }
+    }
+    [_storiesCarousel reloadData];
+    
+    
     //first time download remaining free books first time only
-    //get user "USERBOOKINDEX" +1 to +4
-    BOOL firstTimeDownload = [prefs valueForKey:@"FREEFIRSTTIMEDOWNLOAD"];
-    if(!firstTimeDownload){
-        int downloadIndexVal = [[prefs valueForKey:@"USERBOOKINDEX"] integerValue];
-        for (int i = downloadIndexVal+1; i < (downloadIndexVal+5); ++i) {
-            
-            [prefs setBool:YES forKey:@"FREEFIRSTTIMEDOWNLOAD"];
+    //get all books count in that level if less than 5 then download all else +1 to +5
+    int countLevelBooks = [_specificLevelBooks count];
+    BOOL firstTimeDownload = [prefs boolForKey:@"FREEFIRSTTIMEDOWNLOAD"];
+    if(firstTimeDownload){
+        if(countLevelBooks >5){// download from 1 to 5
+            countLevelBooks = 5;
+        }
+        [prefs setBool:FALSE forKey:@"FREEFIRSTTIMEDOWNLOAD"];
+        //[[NSUserDefaults standardUserDefaults] synchronize];
+        for (int i = 1; i < countLevelBooks; ++i) {
             MangoApiController *apiController = [MangoApiController sharedApiController];
-            [apiController downloadBookWithId:[[_allDisplayBooks objectAtIndex:i] valueForKey:@"id"] withDelegate:self ForTransaction:nil];
+            [apiController downloadBookWithId:[[_specificLevelBooks objectAtIndex:i] valueForKey:@"id"] withDelegate:self ForTransaction:nil];
         }
     }
     
+    bool newAppVersion = [self appHasNewVersion];
+    if(newAppVersion){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Version is available" message:@"Update your app a new version is available" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if([alertView.title isEqualToString:@"New Version is available"]){
+        
+        if(buttonIndex == 0){
+            
+            [self updateAppStoreLink];
+        }
+    }
+}
+
+- (void)updateAppStoreLink{
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                @"itms-apps://itunes.apple.com/us/app/endless-stories-level-reading/id962343105?ls=1&mt=8"]];
+}
+
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
+
+
+- (void)simulateProgress :(float) value {
+    
+    [progressView setProgress:value];
 }
 
 - (void) handleTap :(UITapGestureRecognizer *)getureRecog{
@@ -133,15 +198,22 @@ static int booksDownloadingCount;
     if([levelVal isEqualToString:@""]){
         levelVal = @"A";
     }
-    //identify level index value and then load that index
-    for(int i = 0; i < _allDisplayBooks.count; ++i){
-            
-        if([[[_allDisplayBooks objectAtIndex:i] valueForKey:@"level"] isEqualToString:levelVal]){
-                
-            _storiesCarousel.currentItemIndex = i-1;
+//      identify level index value and then load that index
+//    for(int i = 0; i < _allDisplayBooks.count; ++i){
+//            
+//        if([[[_allDisplayBooks objectAtIndex:i] valueForKey:@"level"] isEqualToString:levelVal]){
+//                
+//            _storiesCarousel.currentItemIndex = i-1;
+//        }
+//    }
+    
+    for(NSDictionary *element in _allDisplayBooks){
+        
+        if([[element objectForKey:@"level"] isEqualToString:levelVal]){
+            [_specificLevelBooks addObject:element];
         }
     }
-    
+    [_storiesCarousel reloadData];
 }
 
 - (IBAction)getJsonIntoArray:(NSArray *) bookArray{
@@ -154,11 +226,52 @@ static int booksDownloadingCount;
 
 - (void) viewWillAppear:(BOOL)animated{
     
+    [super viewWillAppear:YES];
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    BOOL value = [prefs valueForKey: @"SHOWAGEDETAILVIEW"];
+    BOOL value = [prefs boolForKey: @"SHOWAGEDETAILVIEW"];
+    
+    NSString *currentLevel = [prefs valueForKey:@"CURRENTUSERLEVEL"];
+    
     if(value){
-        [prefs setBool:NO forKey:@"SHOWAGEDETAILVIEW"];
+        [prefs setValue:[NSNumber numberWithBool:NO] forKey:@"SHOWAGEDETAILVIEW"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [self.navigationController popViewControllerAnimated:NO];
+    }
+    
+    if(![_currentLevel isEqualToString:currentLevel]){
+        _specificLevelBooks = nil;
+        _specificLevelBooks = [[NSMutableArray alloc] init];
+        [_currentLevelButton setTitle:currentLevel forState:UIControlStateNormal];
+        NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
+        int indexValue = [allLevelValue indexOfObject:currentLevel];
+        [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal];
+        
+        for(NSDictionary *element in _allDisplayBooks){
+            
+            if([[element objectForKey:@"level"] isEqualToString:currentLevel]){
+                [_specificLevelBooks addObject:element];
+            }
+        }
+        [_storiesCarousel reloadData];
+    }
+    
+    else if(isNextTapped){
+        isNextTapped = FALSE;
+        _specificLevelBooks = nil;
+        _specificLevelBooks = [[NSMutableArray alloc] init];
+        [_currentLevelButton setTitle:_currentLevel forState:UIControlStateNormal];
+        NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
+        int indexValue = [allLevelValue indexOfObject:_currentLevel];
+        [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal];
+        
+        for(NSDictionary *element in _allDisplayBooks){
+            
+            if([[element objectForKey:@"level"] isEqualToString:_currentLevel]){
+                [_specificLevelBooks addObject:element];
+            }
+        }
+        [_storiesCarousel reloadData];
     }
     
     NSString *soundFilePath = [NSString stringWithFormat:@"%@/bgPlayHomePage.mp3",
@@ -180,9 +293,59 @@ static int booksDownloadingCount;
 
 - (void) viewDidAppear:(BOOL)animated{
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [super viewDidAppear:YES];
+/*    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     positionIndex = [[prefs valueForKey:@"USERBOOKINDEX"] integerValue];
-    _storiesCarousel.currentItemIndex = positionIndex;
+    _storiesCarousel.currentItemIndex = positionIndex;*/
+    [super viewDidAppear:animated];
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *currentLevel = _currentLevelButton.titleLabel.text;    
+    
+    int validUserSubscription = [prefs boolForKey:@"USERSUBSCRIBED"];
+    int hasfreeTrial= [prefs boolForKey:@"HASFREETRIALACCESS"];
+    
+    NSArray *result =[appDelegate.dataModel getAllUserReadBooks:currentLevel];
+    
+    // Starts the moving gradient effect
+    float val1 = result.count;
+    float val2 = _specificLevelBooks.count;
+    float val = val1/val2;
+    // Continuously updates the progress value using random values
+    
+    if((val == 1.0) && (validUserSubscription || hasfreeTrial)){
+        
+        _specificLevelBooks = nil;
+        _specificLevelBooks = [[NSMutableArray alloc] init];
+        [prefs setObject:_nextLevelButton.titleLabel.text forKey:@"CURRENTUSERLEVEL"];
+        NSString *currentLevel = _nextLevelButton.titleLabel.text;
+        
+        [_currentLevelButton setTitle:currentLevel forState:UIControlStateNormal];
+        NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
+        int indexValue = [allLevelValue indexOfObject:currentLevel];
+        [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal];
+        
+        for(NSDictionary *element in _allDisplayBooks){
+            
+            if([[element objectForKey:@"level"] isEqualToString:currentLevel]){
+                [_specificLevelBooks addObject:element];
+            }
+        }
+        [_storiesCarousel reloadData];
+    }
+    else{
+        [self simulateProgress:val];
+    }
+    
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"homeScreen",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_EVENT_DESCRIPTION : @"Home Screen open",
+                                 };
+    [appDelegate trackEventAnalytic:@"homeScreen" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"homeScreen"];
 }
 
 -(void) viewDidDisappear:(BOOL)animated{
@@ -195,8 +358,6 @@ static int booksDownloadingCount;
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     Book *bk=[appDelegate.dataModel getBookOfEJDBId:bookId];
     
-    //int isDownloaded = [bk.downloaded integerValue];
-    
     if(bk){
         return TRUE;
     }
@@ -207,16 +368,16 @@ static int booksDownloadingCount;
 
 - (BOOL) checkIfBookAcessible :(int) value{
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    positionIndex = [[prefs valueForKey:@"USERBOOKINDEX"] integerValue];
+//    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//    positionIndex = [[prefs valueForKey:@"USERBOOKINDEX"] integerValue];
     
-    if((value >= positionIndex) && (value < (positionIndex+5))){
+    if(isNextTapped || value > 4){
         
-        return TRUE;
+        return FALSE;
     }
     else{
         
-        return FALSE;
+        return TRUE;
     }
 }
 
@@ -227,17 +388,11 @@ static int booksDownloadingCount;
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     Book *bk=[appDelegate.dataModel getBookOfEJDBId:selectedBookId];
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    int validUserSubscription = [prefs boolForKey:@"USERSUBSCRIBED"];
+    int hasfreeTrial= [prefs boolForKey:@"HASFREETRIALACCESS"];
     
-    //int isDownloaded = [bk.downloaded integerValue];
-    
-//    if(bk.localPathFile){
-//        [self openBook:bk];
-//    }
-//    else{
-        //either start downloading for subscribed user or display settings view
-    int validUserSubscription = [[prefs valueForKey:@"USERSUBSCRIBED"] integerValue];
-        
-    if(validUserSubscription){
+    if(validUserSubscription || hasfreeTrial){
         //check for valid user
         
         if(!bk.localPathFile){//check if book is not available
@@ -301,7 +456,6 @@ static int booksDownloadingCount;
             isInfo1Settings2Click = 1;
         }
     }
-    
 }
 
 
@@ -346,17 +500,13 @@ static int booksDownloadingCount;
     //[_buyButton setHidden:YES];
     if([_frontBookId isEqualToString: newIDValue]){
         
-        //_bookProgress = progress;
-        
         if (progress < 100) {
             _displayView.hidden = NO;
             [self performSelectorOnMainThread:@selector(showHudOnButton) withObject:nil waitUntilDone:YES];
         
-        //[_closeButton setEnabled:NO];
-        } else {
+                } else {
             _displayView.hidden = YES;
             [self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
-        //[_closeButton setEnabled:YES];
         }
     }
 }
@@ -410,13 +560,18 @@ static int booksDownloadingCount;
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
 
-    return _allDisplayBooks.count;
+    return _specificLevelBooks.count;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view {
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [prefs boolForKey:@"USERSUBSCRIBED"];
+    int hasfreeTrial= [prefs boolForKey:@"HASFREETRIALACCESS"];
+    
     iCarouselImageView *storyImageView = (iCarouselImageView *)[view viewWithTag:iCarousel_VIEW_TAG];
     
-    NSDictionary *bookInfo = [_allDisplayBooks objectAtIndex:index];
+    NSDictionary *bookInfo = [_specificLevelBooks objectAtIndex:index];
     
     NSString *image = [NSString stringWithFormat:@"https://mangoassets.s3.amazonaws.com/uploads/stories/%@/%@",[bookInfo valueForKey:@"id"],[bookInfo valueForKey:@"images"]];
     
@@ -428,30 +583,42 @@ static int booksDownloadingCount;
     [storyImageView setClipsToBounds:YES];
     UIImageView *lockImg;
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
-            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 173, 134)];
-        }
-        else{
+            storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 143, 124)];
+    }
+    else{
             storyImageView = [[iCarouselImageView alloc] initWithFrame:CGRectMake(0, 0, 310, 260)];
-        }
+    }
         
-        storyImageView.delegate = self;
-        [storyImageView setImageWithURL:[NSURL URLWithString:ImageURL]
-                       placeholderImage:[UIImage imageNamed:@"page.png"]
+    storyImageView.delegate = self;
+    [storyImageView setImageWithURL:[NSURL URLWithString:ImageURL]
+                       placeholderImage:[UIImage imageNamed:@"newPage.png"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                               }];
         
-        NSLog(@"is avil %d", isAvailable);
-        if(!isAvailable){
-            lockImg =[[UIImageView alloc] initWithFrame:CGRectMake(40,180,40,40)];
-            lockImg.image= [UIImage imageNamed:@"loginLock.png"];
-            storyImageView.tag = 0;
+    NSLog(@"is avil %d", isAvailable);
+    if(!isAvailable){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            lockImg =[[UIImageView alloc] initWithFrame:CGRectMake(10,95,22,22)];
         }
         else{
-            storyImageView.tag = 1;
-            lockImg.image = nil;
+            lockImg =[[UIImageView alloc] initWithFrame:CGRectMake(40,180,40,40)];
         }
+        if(validUserSubscription || hasfreeTrial){
+            lockImg.image= nil;
+        }
+        else if(isNextTapped || (index > 4)){
+            lockImg.image= [UIImage imageNamed:@"loginLock.png"];
+        }
+
+        storyImageView.tag = 0;
+    }
+    else{
+        storyImageView.tag = 1;
+        lockImg.image = nil;
+    }
     
     [storyImageView addSubview:lockImg];
     
@@ -461,27 +628,61 @@ static int booksDownloadingCount;
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
 {
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setValue:[NSString stringWithFormat:@"%d",index] forKey:@"BOOKINDEX"];
-    selectedBookId = [[_allDisplayBooks objectAtIndex:index] valueForKey:@"id"];
+    selectedBookId = [[_specificLevelBooks objectAtIndex:index] valueForKey:@"id"];
     
     //check current index lie in i+5 value else send tag value to one
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    int bookTagValue = [self checkIfBookAcessible:index];
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"selectBook",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_BOOK_ID : selectedBookId,
+                                 PARAMETER_EVENT_DESCRIPTION : @"select book",
+                                 };
+    [appDelegate trackEventAnalytic:@"selectBook" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"selectBook"];
     
-    [self readyBookToOpen:selectedBookId withTag:bookTagValue];
+    int accessValue = [self checkIfBookAcessible:index];
+//    if(isNextTapped || index > 4){
+//        
+//        _settingsProbSupportView.hidden = NO;
+//        _settingsProbView.hidden= NO;
+//        isInfo1Settings2Click = 1;
+//    }
+//    else{
+        [self readyBookToOpen:selectedBookId withTag:accessValue];
+//    }
 }
 
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
     
    [self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
-    
-        NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"level"]);
+    _frontBookId = [[_specificLevelBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"];
+   /* NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"level"]);
     NSString *levelValue = [[_allDisplayBooks objectAtIndex:(self.storiesCarousel.currentItemIndex)] valueForKey:@"level"];
+    _specificLevelBooks = [[NSMutableArray alloc] init];
+    // Get all books of that level
+    for(NSDictionary *element in _allDisplayBooks){
+        
+        if([[element objectForKey:@"level"] isEqualToString:levelValue]){
+            [_specificLevelBooks addObject:element];
+        }
+    }
+    
     //NSString *levelString = _levelsLabel.text;
     _frontBookId = [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"];
-    NSLog(@"Book id %@ - %@", [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"], [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"title"]);
+    //NSLog(@"Book id %@ - %@", [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"], [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"title"]);
     
     NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
     paragraphStyle.alignment                = NSTextAlignmentCenter;
@@ -496,7 +697,7 @@ static int booksDownloadingCount;
     [levelString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:levelRangeValue];
     [levelString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Chalkboard SE" size:33] range:levelRangeValue];
     
-    [_textViewLevel setAttributedText:levelString];
+    [_textViewLevel setAttributedText:levelString];*/
 }
 
 - (void)iCarouselSaveImage:(UIImage *)image ForUrl:(NSString *)imageUrl {
@@ -515,7 +716,7 @@ static int booksDownloadingCount;
         case iCarouselOptionSpacing: {
             //add a bit of spacing between the item views
             if([[UIDevice currentDevice] userInterfaceIdiom]== UIUserInterfaceIdiomPhone){
-                return value *1.7f;
+                return value *1.1f;
             }
             else{
                 return value * 1.0f;
@@ -540,22 +741,85 @@ static int booksDownloadingCount;
     }
 }
 
-- (IBAction)SelectLevelValue:(id)sender{
+- (IBAction) selectNextLevel:(id)sender{
     
-    [sender setBackgroundColor:[UIColor lightGrayColor]];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
+    UIButton *btn = (UIButton *)sender;
+    if([sender tag] == 2){
+        isNextTapped = TRUE;
+        //hide progressview from there
+        [self hideHudOnButton];
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_ACTION : @"clickNextLevel",
+                                     PARAMETER_CURRENT_PAGE : currentScreen,
+                                     PARAMETER_LEVEL_VALUE :btn.titleLabel.text,
+                                     PARAMETER_EVENT_DESCRIPTION : @"select next level books",
+                                     };
+        [appDelegate trackEventAnalytic:@"clickNextLevel" dimensions:dimensions];
+        [appDelegate eventAnalyticsDataBrowser:dimensions];
+        [appDelegate trackMixpanelEvents:dimensions eventName:@"clickNextLevel"];
+    }
+    else{
+        isNextTapped = FALSE;
+        
+        NSDictionary *dimensions = @{
+                                     PARAMETER_ACTION : @"clickCurrentLevel",
+                                     PARAMETER_CURRENT_PAGE : currentScreen,
+                                     PARAMETER_LEVEL_VALUE : btn.titleLabel.text,
+                                     PARAMETER_EVENT_DESCRIPTION : @"select current level books",
+                                     };
+        [appDelegate trackEventAnalytic:@"clickCurrentLevel" dimensions:dimensions];
+        [appDelegate eventAnalyticsDataBrowser:dimensions];
+        [appDelegate trackMixpanelEvents:dimensions eventName:@"clickCurrentLevel"];
+    }
+    
+    _specificLevelBooks = nil;
+    _specificLevelBooks = [[NSMutableArray alloc] init];
+    NSString *levelValue = btn.titleLabel.text;
+    for(NSDictionary *element in _allDisplayBooks){
+        
+        if([[element objectForKey:@"level"] isEqualToString:levelValue]){
+            [_specificLevelBooks addObject:element];
+        }
+    }
+    [_storiesCarousel reloadData];
 }
+
 
 - (IBAction) displayUserSettings:(id)sender{
     
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"selectSettings",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_EVENT_DESCRIPTION : @"selectSettings",
+                                 };
+    [appDelegate trackEventAnalytic:@"selectSettings" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"selectSettings"];
+    
+    _ageLabelValue.text = @"";
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
-    _ageLabelValue.text = @"";
     isInfo1Settings2Click = [sender tag];
     //[self displaySettingsView];
 }
 
 - (IBAction)displyParentalControlOrNot:(id)sender{
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"parentalControl",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_KID_AGE : _ageLabelValue.text,
+                                 PARAMETER_EVENT_DESCRIPTION : @"parental Control Appear",
+                                 };
+    [appDelegate trackEventAnalytic:@"parentalControl" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"parentalControl"];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy"];
@@ -600,7 +864,7 @@ static int booksDownloadingCount;
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         tabBarController.delegate = self;
         
-        //UserAllBooksViewController *viewCtr3;
+        UserAllBooksViewController *viewCtr3;
         UserAgeLevelViewController *viewCtr0;
         UserSubscriptionViewController *viewCtr1;
         UserProgressViewController *viewCtr2;
@@ -611,9 +875,9 @@ static int booksDownloadingCount;
             
             viewCtr1 = [[UserSubscriptionViewController alloc] initWithNibName:@"UserSubscriptionViewController_iPhone" bundle:nil];
             
-            viewCtr2 = [[UserProgressViewController alloc] initWithNibName:@"UserProgressViewController_iPhone" bundle:nil];
+            //viewCtr2 = [[UserProgressViewController alloc] initWithNibName:@"UserProgressViewController_iPhone" bundle:nil];
             
-            //viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController_iPhone" bundle:nil];
+            viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController_iPhone" bundle:nil];
         }
         
         else{
@@ -622,18 +886,18 @@ static int booksDownloadingCount;
             
             viewCtr1 = [[UserSubscriptionViewController alloc] initWithNibName:@"UserSubscriptionViewController" bundle:nil];
             
-            viewCtr2 = [[UserProgressViewController alloc] initWithNibName:@"UserProgressViewController" bundle:nil];
+            //viewCtr2 = [[UserProgressViewController alloc] initWithNibName:@"UserProgressViewController" bundle:nil];
             
-            //viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController" bundle:nil];
+            viewCtr3 = [[UserAllBooksViewController alloc] initWithNibName:@"UserAllBooksViewController" bundle:nil];
         }
         
-        viewCtr0.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        viewCtr0.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
         
-        viewCtr1.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+        viewCtr1.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
         
-        viewCtr2.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
+        //viewCtr2.tabBarItem.image = [UIImage imageNamed:@"analytics.png"];
         
-        //viewCtr3.tabBarItem.image = [UIImage imageNamed:@"feedback.png"];
+        viewCtr3.tabBarItem.image = [UIImage imageNamed:@"ParentIcon.png"];
         
         viewCtr0.navigationController.navigationBarHidden = YES;
         
@@ -641,17 +905,27 @@ static int booksDownloadingCount;
         
         viewCtr2.navigationController.navigationBarHidden=YES;
         
-        //viewCtr3.navigationController.navigationBarHidden=YES;
+        viewCtr3.navigationController.navigationBarHidden=YES;
         
-        tabBarController.viewControllers= [NSArray arrayWithObjects: viewCtr1, viewCtr0, viewCtr2,  nil];
+        tabBarController.viewControllers= [NSArray arrayWithObjects: viewCtr1, viewCtr3, viewCtr0,  nil];
+        tabBarController.tabBar.barTintColor = [UIColor brownColor];
         
         [self.navigationController pushViewController:tabBarController animated:YES];
     }
 }
 
 
-
 - (IBAction) presentAppInfoPage:(id)sender{
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"selectInfo",
+                                 PARAMETER_CURRENT_PAGE : currentScreen,
+                                 PARAMETER_EVENT_DESCRIPTION : @"click info icon",
+                                 };
+    [appDelegate trackEventAnalytic:@"selectInfo" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"selectInfo"];
     
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
@@ -731,21 +1005,25 @@ static int booksDownloadingCount;
 }
 
 
-
-///Just for testing purpose
-
-- (IBAction)storeView:(id)sender{
+//get latest version of app available of app on app store
+- (BOOL)appHasNewVersion
+{
+    NSDictionary *bundleInfo = [[NSBundle mainBundle] infoDictionary];
+    NSString *bundleIdentifier = [bundleInfo valueForKey:@"CFBundleIdentifier"];
     
-    MangoStoreViewController *storeViewController;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController_iPhone" bundle:nil];
-    }
-    else{
-        storeViewController = [[MangoStoreViewController alloc] initWithNibName:@"MangoStoreViewController" bundle:nil];
-    }
+    NSURL *lookupURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?bundleId=%@", bundleIdentifier]];
+    NSData *lookupResults = [NSData dataWithContentsOfURL:lookupURL];
+    NSDictionary *jsonResults = [NSJSONSerialization JSONObjectWithData:lookupResults options:0 error:nil];
     
-    [self.navigationController pushViewController:storeViewController animated:YES];
+    NSUInteger resultCount = [[jsonResults objectForKey:@"resultCount"] integerValue];
+    if (resultCount){
+        NSDictionary *appDetails = [[jsonResults objectForKey:@"results"] firstObject];
+        NSString *latestVersion = [appDetails objectForKey:@"version"];
+        NSString *currentVersion = [bundleInfo objectForKey:@"CFBundleShortVersionString"];
+        if (![latestVersion isEqualToString:currentVersion]) return YES;
+    }
+    return NO;
 }
+
 
 @end

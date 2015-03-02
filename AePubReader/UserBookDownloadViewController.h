@@ -28,6 +28,8 @@
 
 + (NSArray *) returnAllAvailableLevels;
 
++ (NSArray *) returnSpecificLevelBooks : (NSArray *) allBooks getLevel :(NSString *)levelValue;
+
 - (void) downloadBook :(NSString *)bookId;
 
 @end

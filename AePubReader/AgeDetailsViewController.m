@@ -12,6 +12,7 @@
 #import "MangoStoreViewController.h"
 #import "UserAgeInfo.h"
 #import "UserBookDownloadViewController.h"
+#import "LevelViewController.h"
 
 @interface AgeDetailsViewController ()
 
@@ -22,20 +23,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
+//    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
+//    
+//    if ([userAgeObjects count] > 0) {
+//        appDelegate.userInfoAge = [userAgeObjects lastObject];
+//        [self openHomePage:nil];
+//    }
     
-    if ([userAgeObjects count] > 0) {
-        appDelegate.userInfoAge = [userAgeObjects lastObject];
-        [self openHomePage:nil];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openPage) name:@"CloseGamesWhileDownload" object:nil];
     
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void) viewWillAppear:(BOOL)animated{
+- (void) openPage{
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openHomePage:) name:@"CloseGamesWhileDownload" object:nil];
+    [self performSelector:@selector(openHomePage:) withObject:self afterDelay:2.0];
+}
+
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:NO];
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"ageGroupScreen",
+                                 PARAMETER_CURRENT_PAGE : @"ageGroupScreen",
+                                 PARAMETER_EVENT_DESCRIPTION : @"Age Group Screen open",
+                                 };
+    [delegate trackEventAnalytic:@"ageGroupScreen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"ageGroupScreen"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,7 +82,23 @@
     }
 }
 
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
+
 - (IBAction) moveToGameScreen:(id)sender{
+    
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     int ageVal = [_ageLabelValue.text integerValue];
     if(!(ageVal > 0 && ageVal < 60)){
@@ -76,12 +111,24 @@
     
     //check if books are already available
     
-    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"submitAge",
+                                 PARAMETER_CURRENT_PAGE : @"ageGroupScreen",
+                                 PARAMETER_KID_AGE : _ageLabelValue.text,
+                                 PARAMETER_EVENT_DESCRIPTION : @"submit age value",
+                                 };
+    [appDelegate trackEventAnalytic:@"submitAge" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"submitAge"];
+    
     UserAgeInfo *userAgeInfo = [[UserAgeInfo alloc] init];
     userAgeInfo.userAgeValue = _ageLabelValue.text;
-    
+    userAgeInfo.id = @"123456789012345678901234";
     [appDelegate.ejdbController insertOrUpdateObject:userAgeInfo];
     appDelegate.userInfoAge = userAgeInfo;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSString *level =[LevelViewController getLevelFromAge:_ageLabelValue.text];
+    [prefs setValue:level forKey:@"CURRENTUSERLEVEL"];
     
     GameWhileDownloadViewController *gamesView;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

@@ -8,7 +8,7 @@
 
 #import "MangoFeedbackViewController.h"
 #import "AePubReaderAppDelegate.h"
-#import "ATSurveys.h"
+//#import "ATSurveys.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ATConnect.h"
 #import "Constants.h"
@@ -56,8 +56,8 @@
         _loginButton.hidden = YES;
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ATMessageCenterUnreadCountChangedNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ATMessageCenterUnreadCountChangedNotification object:nil];
 	
 	//[[ATConnect sharedConnection] engage:@"init" fromViewController:self];
 }
@@ -95,18 +95,18 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (IBAction)surveyView:(id)sender{
-    
-    if ([ATSurveys hasSurveyAvailableWithNoTags]) {
-        [ATSurveys presentSurveyControllerWithNoTagsFromViewController:self];
-    }
-    
-}
+//- (IBAction)surveyView:(id)sender{
+//    
+//    if ([ATSurveys hasSurveyAvailableWithNoTags]) {
+//        [ATSurveys presentSurveyControllerWithNoTagsFromViewController:self];
+//    }
+//    
+//}
 
-- (IBAction)chatDisscussView:(id)sender{
-    
-    [[ATConnect sharedConnection] presentMessageCenterFromViewController:self];
-}
+//- (IBAction)chatDisscussView:(id)sender{
+//    
+//    [[ATConnect sharedConnection] presentMessageCenterFromViewController:self];
+//}
 
 
 

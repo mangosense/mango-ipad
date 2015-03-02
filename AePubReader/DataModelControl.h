@@ -10,6 +10,8 @@
 #import "Book.h"
 #import "StoreBooks.h"
 #import "NoteHighlight.h"
+#import "ReadBook.h"
+
 @interface DataModelControl : NSObject
 @property (nonatomic, retain)NSManagedObjectContext* dataModelContext;
 -(id)initWithContext:(NSManagedObjectContext *)context;
@@ -26,9 +28,11 @@
 -(void)displayAllData;
 -(StoreBooks *)getBookById:(NSNumber *)identity;
 -(BOOL)checkIfIdExists:(NSString *)iden;
+-(BOOL)checkIfReadIdExists:(NSString *)iden;
 -(StoreBooks *)getStoreBookById:(NSString *)productId;
 -(void)insertNoteOFHighLight:(BOOL)highLight book:(NSInteger )bookid page:(NSInteger)pageNo string:(NSString *)text;
 -(Book*)getBookInstance;
+-(ReadBook *)getReadBookInstance;
 -(void)insertBookWithNo:(StoreBooks *)storeBooks;
 -(void)insertBookWithYes:(StoreBooks *)storeBooks;
 -(NSArray *)getHighlight:(NSInteger )bookid withPageNo:(NSInteger)pageNumber;
@@ -45,4 +49,6 @@
 -(void)showNotesAndHighlight;
 -(NSArray *)getAllUserBooks;
 -(NSArray *)getEditedBooks;
+-(NSArray *) getAllUserReadBooks :(NSString *)forLevel;
+
 @end

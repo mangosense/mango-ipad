@@ -22,16 +22,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    currentPage = @"settingSubscriptionScreen";
     //NSString *extendedValue =  @"_";
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading Products";
-    subscriptionProductId = [[NSArray alloc] initWithObjects:@"Week_EndlessStories", @"Month_EndlessStories", @"Year_EndlessStories", nil];
-    subscriptionPlanName = [[NSArray alloc] initWithObjects:@"Monthly", @"Quarterly", @"Yearly", nil];
+    subscriptionProductId = [[NSArray alloc] initWithObjects:@"536904b169702d6159090001_weekly", @"536904b169702d6159090002_monthly", @"536904b169702d6159090003_yearly", nil];
+    subscriptionPlanName = [[NSArray alloc] initWithObjects:@"Weekly", @"Monthly", @"Yearly", nil];
     
     [self subscriptionSetup];
     
     // Do any additional setup after loading the view from its nib.
 }
+
+- (void) viewDidAppear:(BOOL)animated{
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 
+                                 PARAMETER_ACTION : @"settingSubscriptionScreen",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"Setting Subscription Screen open",
+                                 };
+    [delegate trackEventAnalytic:@"settingSubscriptionScreen" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"settingSubscriptionScreen"];
+}
+
 
 - (void) subscriptionSetup{
     
@@ -52,10 +68,10 @@
                 [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
                 [numberFormatter setLocale:product.priceLocale];
                 NSString *formattedString = [numberFormatter stringFromNumber:product.price];
-                if(i==1){
+                if(i==0){
                     _weeklyPrice.text = [NSString stringWithFormat:@"%@ /week", formattedString];
                 }
-                else if(i==0){
+                else if(i==1){
                     _monthlyPrice.text = formattedString;
                     float perMonthPrice = [product.price floatValue]/4;
                     NSString *formattedStringPerMonth = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:perMonthPrice]];
@@ -103,8 +119,20 @@
 - (IBAction)subscribeButtonTapped:(id)sender {
     // UIButton *button = (UIButton *)sender;
     
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [prefs boolForKey:@"USERSUBSCRIBED"];
+    
+    if(validUserSubscription){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscription Error" message:@"You are already subscribed" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     NSString *planName;
     NSString *planPrice;
+    
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(![self connected])
     {
@@ -124,6 +152,16 @@
     planPrice = [subscriptionPlanPrice objectAtIndex:[sender tag] -1];
     planName = [subscriptionPlanName objectAtIndex:[sender tag] -1];
     
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"subscribeClick",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_SUBSCRIPTION_PLAN_NAME : planName,
+                                 PARAMETER_EVENT_DESCRIPTION : @"click on subscribe now",
+                                 };
+    [appDelegate trackEventAnalytic:@"subscribeClick" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"subscribeClick"];
+    
     // take current payment queue
     SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
     // finish ALL transactions in queue
@@ -138,16 +176,53 @@
 
 - (void)itemReadyToUse:(NSString *)productID ForTransaction:(NSString *)transactionId withReciptData:(NSData*)recipt Amount:(NSString *)amount  andExpireDate:(NSString *)exp_Date{
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    if(!recipt){
+        return;
+    }
+    
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSDate *expireDate;
+    NSDate *today = [NSDate date];
+    
+    if([productID isEqualToString:@"536904b169702d6159090001_weekly"]){
+        
+        expireDate = [today dateByAddingTimeInterval:60*60*24*7];
+    }
+    else if([productID isEqualToString:@"536904b169702d6159090002_monthly"]){
+        
+        expireDate = [today dateByAddingTimeInterval:60*60*24*30];
+    }
+    else{
+        
+        expireDate = [today dateByAddingTimeInterval:60*60*24*365];
+    }
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"subscription_success",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_SUBSCRIPTION_PLAN_NAME : productID,
+                                 PARAMETER_SUBSCRIPTION_TRANSACTION_ID : transactionId,
+                                 PARAMETER_EVENT_DESCRIPTION : @"user successfully subscribe",
+                                 };
+    [appDelegate trackEventAnalytic:@"subscription_success" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"subscription_success"];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    NSString *myCurrentDateExpireString = [dateFormatter stringFromDate:expireDate];
+    
     SubscriptionInfo *subscriptionInfoData = [[SubscriptionInfo alloc] init];
     
+    //subscriptionInfoData.id = productID; //cause error in saving at ejdb need to be proper id like book
     subscriptionInfoData.id = productID;
     
     subscriptionInfoData.subscriptionProductId = productID;
     subscriptionInfoData.subscriptionTransctionId = transactionId;
     subscriptionInfoData.subscriptionReceiptData = recipt;
     subscriptionInfoData.subscriptionAmount = amount;
-    subscriptionInfoData.subscriptionExpireDate = exp_Date;
+    subscriptionInfoData.subscriptionExpireDate = myCurrentDateExpireString;
     
     if (appDelegate.subscriptionInfo) {
         [appDelegate.ejdbController deleteSubscriptionObject:appDelegate.subscriptionInfo];
@@ -157,10 +232,6 @@
     [appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData];
     if ([appDelegate.ejdbController insertOrUpdateObject:subscriptionInfoData]) {
         appDelegate.subscriptionInfo = subscriptionInfoData;
-        
-//        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-//        [prefs setBool:YES forKey:@"USERSUBSCRIBED"];
-//        [self.navigationController popViewControllerAnimated:YES];
     }
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setBool:YES forKey:@"USERSUBSCRIBED"];
@@ -181,7 +252,112 @@
 - (IBAction) backToHomePage:(id)sender{
     
     //[self.tabBarController dismissViewControllerAnimated:YES completion:nil];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"homeButtonClick",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"back to home click",
+                                 };
+    [appDelegate trackEventAnalytic:@"homeButtonClick" dimensions:dimensions];
+    [appDelegate eventAnalyticsDataBrowser:dimensions];
+    [appDelegate trackMixpanelEvents:dimensions eventName:@"homeButtonClick"];
+
+    
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)restorePurchase:(id)sender{
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validUserSubscription = [prefs boolForKey:@"USERSUBSCRIBED"];
+    
+    if(validUserSubscription){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscription Error" message:@"You are already subscribed" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSDictionary *dimensions = @{
+                                 PARAMETER_ACTION : @"restorePurchaseClick",
+                                 PARAMETER_CURRENT_PAGE : currentPage,
+                                 PARAMETER_EVENT_DESCRIPTION : @"restore purchase click",
+                                 };
+    [delegate trackEventAnalytic:@"restorePurchaseClick" dimensions:dimensions];
+    [delegate eventAnalyticsDataBrowser:dimensions];
+    [delegate trackMixpanelEvents:dimensions eventName:@"restorePurchaseClick"];
+    
+    //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    int validSubscription = [[prefs valueForKey:@"USERSUBSCRIBED"] integerValue];
+    
+    if(!validSubscription){
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+        [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+            NSLog(@"Updated Transactions: %@", transactions);
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            for (SKPaymentTransaction *transaction in transactions)
+            {
+                NSLog(@"Payment State: %d", transaction.transactionState);
+                switch (transaction.transactionState) {
+                    case SKPaymentTransactionStateFailed:
+                    {
+                        NSLog(@"Transaction Failed! Details:\n %@", transaction.error);
+                        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    }
+                        break;
+                        
+                    case SKPaymentTransactionStateRestored:
+                    {
+                        NSLog(@"Product Restored!");
+                        
+                        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                        if(!transaction.originalTransaction.transactionIdentifier){
+                            //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"Product could not be restored, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                            //[alert show];
+                            return;
+                        }
+                        
+                        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+                        //[self validateReceipt:transaction.originalTransaction.payment.productIdentifier ForTransactionId:transaction.originalTransaction.transactionIdentifier amount:@"0" storeIdentifier:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] withDelegate:self];
+                        [self itemReadyToUse:transaction.originalTransaction.payment.productIdentifier
+                              ForTransaction:transaction.originalTransaction.transactionIdentifier withReciptData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] Amount:@"" andExpireDate:@"6/6/2020"];
+                        //[prefs setBool:YES forKey:@"USERSUBSCRIBED"];
+                        
+                        
+                        [self updateBookProgress:0];
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
+            if(transactions.count){
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Product Restores" message:@"Your product has been restored successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            //[self backButtonTapped:0];
+        }];
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+        
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restore Error" message:@"You are already subscribed, there no need to restore!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    
 }
 
 /*

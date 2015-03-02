@@ -1531,8 +1531,9 @@
                 [gameWebView loadRequest:[[NSURLRequest alloc ] initWithURL:[NSURL URLWithString:filePath]]];
                 NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
                 [dict setObject:gameWebView forKey:@"gameView"];
-                [dict setObject:[[readerPageDict objectForKey:LAYERS] lastObject] forKey:@"data"];
-                
+                if([[readerPageDict objectForKey:@"layers"] lastObject]){
+                    [dict setObject:[[readerPageDict objectForKey:LAYERS] lastObject] forKey:@"data"];
+                }
                 return dict;
             }
         }

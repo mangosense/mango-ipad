@@ -44,7 +44,6 @@
     [userInfoAge setId:id];
     [userInfoAge setUserAgeValue:userAgeValue];
     
-    
     return userInfoAge;
 }
 

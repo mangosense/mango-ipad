@@ -145,7 +145,7 @@
 }
 
 
--(void) checkRecipt : (NSData *)reciptdata passItunes :(NSString *) passstr{
+-(void) checkRecipt : (NSData *)reciptdata passItunes :(NSString *) passstr block:(void (^)(id response, NSInteger type, NSString * error))block {
     
     NSData *receipt; // Sent to the server by the device
     
@@ -180,6 +180,10 @@
                                    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                    if (!jsonResponse) { /* ... Handle error ...*/ }
                                    /* ... Send a response back to the device ... */
+                                   //add a call back method
+                                   else{
+                                       { block(jsonResponse, 1, nil);}
+                                   }
                                }
                            }];
     

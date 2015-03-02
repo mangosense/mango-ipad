@@ -21,6 +21,7 @@
 #import "Constants.h"
 #import "MBProgressHUD.h"
 #import "MangoSubscriptionViewController.h"
+#import "UserSubscriptionViewController.h"
 #import "BooksFromCategoryViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "ATConnect.h"
@@ -51,11 +52,11 @@ static UIAlertView *alertViewLoading;
     //test account mixpanel
     //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
-    //mangoreader mixpanel account
-    //[Mixpanel sharedInstanceWithToken:@"f495cf1d100d16783838dae54d84f3d0"];
+    //Endless Stories mixpanel account
+    [Mixpanel sharedInstanceWithToken:@"e7d5897e9c2fba5e25843289886db881"];
     
-    [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+//    [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     //Cache
     NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:4*1024*1024 diskCapacity:20*1024*1024 diskPath:nil];
@@ -66,13 +67,13 @@ static UIAlertView *alertViewLoading;
     
     _prek=NO;
     
-    //Parse MangoReader Original App -
-    //[Parse setApplicationId:@"ZDhxNVZSUCqv4oEVzNgGPplnlSiqe23yxY6G954b"
-    //              clientKey:@"y3QnS0AIVnzabRKv6mQreR8yK6oqDUeYOlamoIR1"];
+    //Parse Endless Stories Original App -
+    [Parse setApplicationId:@"l4LHVnIcefNsZbnwhgY4WFygeNUBmNxVk9s4mQNj"
+                  clientKey:@"gEwfyKlPWSj8go5TIYiJ3A70m1kknFneMKxBZE56"];
     
-    //MangoReader_Test app for testing
-    [Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
-                       clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
+    //Test app for testing
+    //[Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
+    //                   clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
     
  
     //Flurry
@@ -94,6 +95,8 @@ static UIAlertView *alertViewLoading;
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
          (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
     }
+    
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
     
 //    [application registerForRemoteNotificationTypes:
 //     UIRemoteNotificationTypeBadge |
@@ -122,9 +125,9 @@ static UIAlertView *alertViewLoading;
     
     NSLocale *locale = [NSLocale currentLocale];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
-    _country = [locale displayNameForKey: NSLocaleCountryCode value: countryCode];
+    _country = @"US";//[locale displayNameForKey: NSLocaleCountryCode value: countryCode];
     NSString *countrylang = [locale objectForKey: NSLocaleLanguageCode];
-    _language = [locale displayNameForKey:NSLocaleLanguageCode value:countrylang];
+    _language = @"US";//[locale displayNameForKey:NSLocaleLanguageCode value:countrylang];
     _uuidValue = [[NSUUID UUID] UUIDString];
     _udidValue = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     _deviceId = _udidValue;
@@ -203,7 +206,7 @@ static UIAlertView *alertViewLoading;
     {
         NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (dictionary != nil)
-        {
+        {/*
             NSLog(@"receive the notifucation");
             if([dictionary objectForKey:@"bookid"]){
                 bookId = [dictionary objectForKey:@"bookid"];
@@ -242,7 +245,7 @@ static UIAlertView *alertViewLoading;
                 [self trackEventAnalytic:@"subscribe_notification" dimensions:dimensions];
                 [self eventAnalyticsDataBrowser:dimensions];
 //                [self trackMixpanelEvents:dimensions eventName:@"subscribe_notification"];
-            }
+            }*/
         }
     }
     
@@ -254,14 +257,6 @@ static UIAlertView *alertViewLoading;
         if (uiNew) {
 
             if ((path)&& (!validSubscription)) {
-                
-                /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
-                }
-                else {
-                    _coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-                }
-                nav=[[UINavigationController alloc]initWithRootViewController:_coverController];*/
                 
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
@@ -276,26 +271,8 @@ static UIAlertView *alertViewLoading;
                 nav=[[UINavigationController alloc]initWithRootViewController:_loginController];
                 
             }
-            else if((path)&& (validSubscription)){
-                
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    
-                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType_iPhone" bundle:nil WithId:nil];
-                    _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController_iPhone" bundle:nil];
-                }
-                else {
-                    //_coverController = [[CoverViewControllerBetterBookType alloc] initWithNibName:@"CoverViewControllerBetterBookType" bundle:nil WithId:nil];
-                    _landpageController=[[LandPageChoiceViewController alloc]initWithNibName:@"LandPageChoiceViewController" bundle:nil];
-                }
-                _landpageController.pushSubscribe = pushSubscribe;
-                _landpageController.pushCreateStory = pushCreateStory;
-                _landpageController.pushNoteBookId = bookId;
-                //nav=[[CustomNavViewController alloc]initWithRootViewController:_landpageController];
-                nav=[[UINavigationController alloc]initWithRootViewController:_landpageController];
-            }
             
             else {
-                
                 
                  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                      _loginController=[[LoginNewViewController alloc]initWithNibName:@"LoginNewViewController_iPhone" bundle:nil];
@@ -342,24 +319,24 @@ static UIAlertView *alertViewLoading;
     
     [Appirater appLaunched:YES];
     
-    int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
+    //int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    //mixpanel.showNotificationOnActive = NO;
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    mixpanel.showNotificationOnActive = NO;
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
                                             PLATFORM : IOS,
                                             PARAMETER_UUID : _uuidValue,
-                                            PARAMETER_DEVICE_UDID : _uuidValue}];*/
+                                            PARAMETER_DEVICE_UDID : _uuidValue}];
 
     
-    if (!path){
-        if(!isFreeBooksApiCall){
-            //[self getAllFreeBooks];
-        }
-    }
+//    if (!path){
+//        if(!isFreeBooksApiCall){
+//            //[self getAllFreeBooks];
+//        }
+//    }
     if(path && !validSubscription){
-        sleep(8.0);
+        //sleep(8.0);
     }
     return YES;
 }
@@ -539,7 +516,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userObject saveInBackground];
 }
 
-/*- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
+- (void) trackMixpanelEvents : (NSDictionary *)properties eventName : (NSString *)event{
     
     Mixpanel *mixpanelTrack = [Mixpanel sharedInstance];
      [mixpanelTrack track:event properties:properties];
@@ -548,7 +525,7 @@ void uncaughtExceptionHandler(NSException *exception) {
             [mixpanelTrack identify:userIdValue];
             [mixpanelTrack.people set:properties];
         }
-}*/
+}
 
 - (void)userHistoryAnalyticsDataBrowser :(NSDictionary *)dimensions{
     
@@ -852,11 +829,14 @@ void uncaughtExceptionHandler(NSException *exception) {
     //check for date value "dd-mm-yyyy" and then call and downlaod book download book and set counter
     //value and call method if active internet connection
     //"DATEDDMM_INDEX"
-    NSDate *userDateAndIndex = [prefs valueForKey:@"DATEOFFREEBOOK"];
+    NSDate *userDateAndIndex = [prefs valueForKey:@"EXPIRETRIALDATE"];
     if(!userDateAndIndex){
         
         NSDate *today = [NSDate date];
-        [prefs setObject:today forKey:@"DATEOFFREEBOOK"];
+        NSDate *expireDate = [today dateByAddingTimeInterval:60*60*24*7];
+        [prefs setObject:expireDate forKey:@"EXPIRETRIALDATE"];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congrats" message:@"You have got a 7 days free unlimited access of Endless Stories!!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
     }
     
     
@@ -881,7 +861,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         
         if(result==NSOrderedAscending)
             NSLog(@"Product has validity");
-        else{
+        /*else*/if(1){
             NSLog(@"Product is expired then send the request to the server");
             
             NSString *productId = delegate.subscriptionInfo.subscriptionProductId;
@@ -889,7 +869,7 @@ void uncaughtExceptionHandler(NSException *exception) {
             NSString *amount = delegate.subscriptionInfo.subscriptionAmount;
             NSData *recieptData = delegate.subscriptionInfo.subscriptionReceiptData;
             
-            [[MangoApiController sharedApiController] validateReceiptWithData:recieptData ForTransaction:transctionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
+            /*[[MangoApiController sharedApiController] validateReceiptWithData:recieptData ForTransaction:transctionId amount:amount storyId:productId block:^(id response, NSInteger type, NSString *error) {
                 // [delegate itemReadyToUse:productId ForTransaction:transactionId];
                 if ([[response objectForKey:@"status"] integerValue] == 1) {
                     NSLog(@"SuccessResponse:%@" , response);
@@ -902,7 +882,27 @@ void uncaughtExceptionHandler(NSException *exception) {
                     NSLog(@"ReceiptError:%@", error);
                     //[prefs setBool:NO forKey:@"ISSUBSCRIPTIONVALID"];
                 }
+            }];*/
+            NSString *sharedSecret = @"3c4367bb610d4e52af02de9cb63b2233";
+            
+            //[[MangoApiController sharedApiController] checkRecipt:recieptData passItunes:sharedSecret];
+            [[MangoApiController sharedApiController] checkRecipt:recieptData passItunes:sharedSecret block:^(id response, NSInteger type, NSString *error) {
+                
+                NSLog(@"response object is %@", response);
+                if([response objectForKey:@"ststus"] == 0){
+                    
+                    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[response objectForKey:@"latest_receipt"] options:0];
+                    //NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+                    UserSubscriptionViewController *userSunscription = [[UserSubscriptionViewController alloc] init];
+                    [userSunscription itemReadyToUse:productId ForTransaction:transctionId withReciptData:decodedData Amount:amount andExpireDate:@"6/6/2020"];
+                    
+                    
+                }
+                else{
+                    
+                }
             }];
+            
         }
         [prefs synchronize];
     }
@@ -1252,152 +1252,7 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
     else{
         passDictionaryData = nil;
     }
-    [self showBookDetailsForBook:passDictionaryData];
-}
-
-- (void)showBookDetailsForBook:(NSDictionary *)bookDict {
-    
-    BookDetailsViewController *bookDetailsViewController;
-    
-    if(bookDict == nil){
-        return;
-    }
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController_iPhone" bundle:nil];
-        
-    }
-    else{
-        bookDetailsViewController = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-    }
-    
-    bookDetailsViewController.delegate = self;
-    AePubReaderAppDelegate *delegate=(AePubReaderAppDelegate *)[UIApplication sharedApplication].delegate;
-    //  NSMutableArray *tempDropDownArray = [[NSMutableArray alloc] init];
-    bookDetailsViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    bookDetailsViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self.window.rootViewController presentViewController:bookDetailsViewController animated:YES completion:^(void) {
-        bookDetailsViewController.bookTitleLabel.text = [bookDict objectForKey:@"title"];
-        
-        if(![[bookDict objectForKey:@"authors"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"authors"] valueForKey:@"name"] count])){
-            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@"by %@", [[[bookDict objectForKey:@"authors"] valueForKey:@"name"] componentsJoinedByString:@", "]];
-        }
-        else{
-            bookDetailsViewController.bookWrittenBy.text = [NSString stringWithFormat:@""];
-        }
-        
-        
-        if(![[[bookDict objectForKey:@"info"] objectForKey:@"tags"]isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: %@", [[[bookDict objectForKey:@"info"] objectForKey:@"tags"] componentsJoinedByString:@", "]];
-        }
-        else{
-            bookDetailsViewController.bookTags.text = [NSString stringWithFormat:@"Tags: -"];
-        }
-        
-        if(![[bookDict objectForKey:@"narrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] count])){
-            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@"Narrated by: %@", [[[bookDict objectForKey:@"narrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
-        }
-        else{
-            bookDetailsViewController.bookNarrateBy.text = [NSString stringWithFormat:@""];
-        }
-        
-        if(![[bookDict objectForKey:@"illustrators"] isKindOfClass:[NSNull class]] && ([[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] count])){
-            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@"Illustrated by: %@", [[[bookDict objectForKey:@"illustrators"] valueForKey:@"name"] componentsJoinedByString:@", "]];
-        }
-        else{
-            bookDetailsViewController.bookIllustratedBy.text = [NSString stringWithFormat:@""];
-        }
-        
-        [bookDetailsViewController.dropDownButton setTitle:[[bookDict objectForKey:@"info"] objectForKey:@"language"] forState:UIControlStateNormal];
-        //  [tempDropDownArray addObject:[[bookDict objectForKey:@"info"] objectForKey:@"language"]];
-        //  [tempDropDownArray addObjectsFromArray:[[bookDict objectForKey:@"available_languages"] valueForKey:@"language"]];
-        // [bookDetailsViewController.dropDownArrayData addObjectsFromArray:[[NSSet setWithArray:tempDropDownArray] allObjects]];
-        // [bookDetailsViewController.dropDownArrayData addObject:@"Record new language"];
-        
-        //[bookDetailsViewController.dropDownView.uiTableView reloadData];
-        bookDetailsViewController.bookAvailGamesNo.text = [NSString stringWithFormat:@"Games # %@",[bookDict objectForKey:@"widget_count"]];
-        
-        bookDetailsViewController.ageLabel.text = [NSString stringWithFormat:@"Age %@", [bookDict objectForKey:@"combined_age_group"]];
-        
-        bookDetailsViewController.gradeLevel.text = [NSString stringWithFormat:@"Grade %@", [bookDict objectForKey:@"combined_grades"]];
-        
-        if(![[[bookDict objectForKey:@"info"] objectForKey:@"learning_levels"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Level : %@", [bookDict objectForKey:@"combined_reading_level"]];
-        }
-        else {
-            bookDetailsViewController.readingLevelLabel.text = [NSString stringWithFormat:@"Reading Level : -"];
-        }
-        
-        bookDetailsViewController.numberOfPagesLabel.text = [NSString stringWithFormat:@"Pages # %d", [[bookDict objectForKey:@"page_count"] intValue]];
-        if([[bookDict objectForKey:@"price"] floatValue] == 0.00){
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"FREE"];
-            //     [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"Read-now.png"] forState:UIControlStateNormal];
-        }
-        else{
-            bookDetailsViewController.priceLabel.text = [NSString stringWithFormat:@"$ %.2f", [[bookDict objectForKey:@"price"] floatValue]];
-            //    [bookDetailsViewController.buyButton setImage:[UIImage imageNamed:@"buynow.png"] forState:UIControlStateNormal];
-        }
-        
-        if(![[[bookDict objectForKey:@"info"] objectForKey:@"categories"] isKindOfClass:[NSNull class]]){
-            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
-            // bookDetailsViewController.singleCategoryLabel.text = [NSString stringWithFormat:@"Category %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] objectAtIndex:0]];
-            bookDetailsViewController.singleCategoryLabel.text = [NSString stringWithFormat:@"Category : %@",[[[bookDict objectForKey:@"info"] objectForKey:@"categories"] componentsJoinedByString:@", "]];
-        }
-        else{
-            bookDetailsViewController.categoriesLabel.text = [NSString stringWithFormat:@"Category : -"];
-        }
-        
-        int availableLanguagesCount = [[bookDict valueForKey:@"available_languages"] count];
-        if(availableLanguagesCount){
-            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d languages :", availableLanguagesCount+1];
-        }
-        else{
-            bookDetailsViewController.labelAvaillanguageCount.text = [NSString stringWithFormat:@"Available in %d language :", availableLanguagesCount+1];
-            bookDetailsViewController.dropDownButton.userInteractionEnabled = NO;
-        }
-        
-        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
-        bookDetailsViewController.descriptionLabel.text = [bookDict objectForKey:@"synopsis"];
-        
-        /*NSDictionary *dimensions = @{
-         PARAMETER_USER_EMAIL_ID : ID,
-         PARAMETER_DEVICE: IOS,
-         PARAMETER_BOOK_ID: _book.id,
-         PARAMETER_RECOMMEND_BOOKID : [bookDict objectForKey:@"id"]
-         
-         };
-         [delegate trackEvent:[LASTPAGE_RECOMMENDED_BOOK valueForKey:@"description"] dimensions:dimensions];
-         PFObject *userObject = [PFObject objectWithClassName:@"Event_Analytics"];
-         [userObject setObject:[LASTPAGE_RECOMMENDED_BOOK valueForKey:@"value"] forKey:@"eventName"];
-         [userObject setObject: [LASTPAGE_RECOMMENDED_BOOK valueForKey:@"description"] forKey:@"eventDescription"];
-         [userObject setObject:viewName forKey:@"viewName"];
-         [userObject setObject:delegate.deviceId forKey:@"deviceIDValue"];
-         [userObject setObject:delegate.country forKey:@"deviceCountry"];
-         [userObject setObject:delegate.language forKey:@"deviceLanguage"];
-         [userObject setObject:_book.id forKey:@"bookID"];
-         [userObject setObject:[bookDict objectForKey:@"id"] forKey:@"recommendBookID"];
-         if(userEmail){
-         [userObject setObject:ID forKey:@"emailID"];
-         }
-         [userObject setObject:IOS forKey:@"device"];
-         [userObject saveInBackground];*/
-        bookDetailsViewController.imgStoryOfDay.hidden = NO;
-        bookDetailsViewController.selectedProductId = [bookDict objectForKey:@"id"];
-        [bookDetailsViewController setIdOfDisplayBook:[bookDict objectForKey:@"id"]];
-        bookDetailsViewController.baseNavView = @"Push Notification";
-        bookDetailsViewController.imageUrlString = [[bookDict objectForKey:@"thumb"] stringByReplacingOccurrencesOfString:@"thumb_new" withString:@"ipad_banner"];
-    }];
-    bookDetailsViewController.view.superview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    bookDetailsViewController.view.layer.cornerRadius = 2.5;
-    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-    if ([[vComp objectAtIndex:0] intValue] >= 8) {
-        bookDetailsViewController.preferredContentSize = CGSizeMake(779, 529);
-    }
-    else{
-        bookDetailsViewController.view.superview.bounds = CGRectMake(0, 0, 779, 529);
-    }
-   // [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    //[self showBookDetailsForBook:passDictionaryData];
 }
 
 @end

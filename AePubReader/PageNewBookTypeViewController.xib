@@ -175,7 +175,7 @@
         <image name="icons_play.png" width="94" height="90"/>
         <image name="icons_playRate.png" width="94" height="90"/>
         <image name="play-control.png" width="66" height="66"/>
-        <image name="quesBgPic.png" width="302" height="202"/>
+        <image name="quesBgPic.png" width="422" height="662"/>
         <image name="quesTextBg.png" width="242" height="54"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

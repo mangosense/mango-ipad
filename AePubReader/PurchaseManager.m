@@ -62,9 +62,10 @@
         {
             NSLog(@"Payment State: %d", transaction.transactionState);
             switch (transaction.transactionState) {
-                [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
+                
                 case SKPaymentTransactionStatePurchased:
                 {
+                    
                     NSLog(@"Product Purchased!");
                     
                     NSString *transactionId;
@@ -92,6 +93,7 @@
 //                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_success"];*/
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                  [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
                     
                 }
                     break;
@@ -114,6 +116,7 @@
 //                    [delegate1 trackMixpanelEvents:dimensions eventName:@"subscription_failed"];
                     
                     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
                 }
                     break;
                     
@@ -131,6 +134,7 @@
             }
             if (transaction.transactionState != SKPaymentTransactionStatePurchasing) {
                 [MBProgressHUD hideAllHUDsForView:loadingView animated:YES];
+                
             }
         }
     }];

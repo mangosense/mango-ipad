@@ -170,6 +170,9 @@
 #define PARAMETER_BOOL_ISNEW_VERSION @"Bool new version"
 #define PARAMETER_RECOMMEND_BOOKID @"Recommend bookid"
 #define PARAMETER_GAME_NAME @"gameId"////
+#define PARAMETER_KID_AGE @"kidAgeVale"////
+#define PARAMETER_LEVEL_VALUE @"levelValue"////
+#define PARAMETER_PARENT_EMAIL @"parentEmailID"////
 
 
 #pragma mark - Views

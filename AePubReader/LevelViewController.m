@@ -33,8 +33,14 @@
             level = [val objectForKey:@"Level"];
     }
     
+    if(!level){
+        level = @"K";
+    }
+    
     return level;
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

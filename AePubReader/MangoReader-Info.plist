@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>EndlessStories</string>
+	<string>Endless Stories Reader – Leveled English reading for preschoolers with read-along illustrated books and personalized learning and interactive game based assessments</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>

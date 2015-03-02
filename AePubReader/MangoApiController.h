@@ -51,7 +51,11 @@
 - (void)validateReceiptWithData:(NSData *)rData ForTransaction:(NSString *)transactionId amount:(NSString *)amount storyId:(NSString *)storyId block:(void (^)(id response, NSInteger type, NSString * error))block;
 - (void) validateSubscription :(NSString *)userIdOrTransctionId andDeviceId:(NSString *)deviceId block:(void (^)(id response, NSInteger type, NSString * error))block;
 
+
 - (void) getSubscriptionProductsInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate;
 - (void) getFreeBookInformation :(NSString *)methodName withDelegate:(id <MangoPostApiProtocol>)delegate;
+
+//internal validate recipt
+-(void) checkRecipt : (NSData *)reciptdata passItunes :(NSString *) passstr block:(void (^)(id response, NSInteger type, NSString * error))block;
 
 @end

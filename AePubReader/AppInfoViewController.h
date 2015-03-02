@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface AppInfoViewController : UIViewController
+@interface AppInfoViewController : UIViewController{
+    
+    NSString *currentScreen;
+}
 
 - (IBAction) backToHomePage:(id)sender;
+
+
+- (IBAction)emailSupport:(id)sender;
 
 @end

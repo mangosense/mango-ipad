@@ -15,6 +15,7 @@
 #import "MangoTextLayer.h"
 #import "MangoAudioLayer.h"
 #import "UserInfo.h"
+#import "UserAgeInfo.h"
 #import "SubscriptionInfo.h"
 
 @interface EJDBController : NSObject{
@@ -33,6 +34,7 @@
 - (NSArray *)getAllSubscriptionInfoObjects;
 - (NSArray *)getAllSubscriptionObjects;
 - (UserInfo *)getUserInfoForId:(NSString *)userId;
+- (UserAgeInfo *) getUserAgeInfoForId: (NSString *) userId;
 - (MangoBook *)getBookForBookId:(NSString *)bookId;
 - (MangoPage *)getPageForPageId:(NSString *)pageId;
 - (id)getLayerForLayerId:(NSString *)layerId;

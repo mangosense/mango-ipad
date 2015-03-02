@@ -23,5 +23,6 @@
 - (IBAction) backSpaceAgeField:(id)sender;
 
 - (IBAction)storeView:(id)sender;
+- (IBAction)openHomePage:(id)sender;
 
 @end

@@ -15,6 +15,6 @@
     #import <Parse/Parse.h>
     #import <AudioToolbox/AudioToolbox.h>
     #import <AVFoundation/AVFoundation.h>
-   // #import "Mixpanel.h"
+    #import "Mixpanel.h"
     #import "UINavigationController+KeyboardDismiss.h"
 #endif

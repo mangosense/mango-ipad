@@ -15,6 +15,7 @@
     NSArray *subscriptionProductId;
     NSArray *subscriptionPlanName;
     NSMutableArray *subscriptionPlanPrice;
+    NSString *currentPage;
 }
 
 @property (nonatomic, strong) IBOutlet UILabel *weeklyPrice;
@@ -28,6 +29,9 @@
 @property (nonatomic, strong) IBOutlet UIButton *yearlySubscriptionBtn;
 
 - (IBAction) backToHomePage:(id)sender;
+
 - (IBAction)subscribeButtonTapped:(id)sender;
+
+- (IBAction)restorePurchase:(id)sender;
 
 @end

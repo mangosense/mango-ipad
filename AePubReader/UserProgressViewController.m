@@ -7,6 +7,10 @@
 //
 
 #import "UserProgressViewController.h"
+#import "AePubReaderAppDelegate.h"
+#import "UserBookDownloadViewController.h"
+#import "LevelViewController.h"
+#import "ReadBook.h"
 
 @interface UserProgressViewController ()
 
@@ -22,10 +26,51 @@
 - (void)viewWillAppear:(BOOL)animated
 {
    //[self plotGaph];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
+    //NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
+    //NSArray *userAgeObjects = [appDelegate.ejdbController getAllUserAgeValue];
+//    NSString *baseLevel = [LevelViewController getLevelFromAge:appDelegate.userInfoAge.userAgeValue];
+//    NSString *currentLevel = [prefs valueForKey:@"CURRENTUSERLEVEL"];
+//    int startLevelIndex = [allLevelValue indexOfObject:baseLevel];
+//    int toLevelIndex = [allLevelValue indexOfObject:currentLevel];
+//    if(!(startLevelIndex == toLevelIndex)){
+//        
+//        for (int i = startLevelIndex; i <= toLevelIndex; ++i){
+//            
+//            
+//        }
+//        
+//    }
+    //get current level B and base A, find all elements in that gap ...
+   // NSArray *result =[appDelegate.dataModel getAllUserReadBooks:currentLevel];
+    
+    _baseLevellabel.text =  [LevelViewController getLevelFromAge:appDelegate.userInfoAge.userAgeValue];
+    _currentLevellabel.text = [prefs valueForKey:@"CURRENTUSERLEVEL"];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ReadBook" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    NSError *error;
+    NSArray *array = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    ReadBook *readBook;
+    int totalPoints = 0;
+    for(ReadBook *info in array){
+        readBook = info;
+        totalPoints = totalPoints + [readBook.bookPoints intValue];
+    }
+    float ratingValue = totalPoints/100;
+    _totalRatevalue.text = [NSString stringWithFormat:@"%d", totalPoints/100];
+    _totalPoints.text = [NSString stringWithFormat:@"%d",totalPoints];
+    
+    //ReadBook *readBook = [array objectAtIndex:0];
+    
+    NSLog(@"Array: %@ ", array);
 }
 
 
--(void)plotGaph
+/*-(void)plotGaph
 {
     
     // Create barChart from theme
@@ -161,7 +206,7 @@
     
     return num;
 }
-
+*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

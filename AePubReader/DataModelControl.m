@@ -103,6 +103,30 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
     
     return array;
 }
+
+- (NSArray *) getAllUserReadBooks :(NSString *)forLevel {
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ReadBook" inManagedObjectContext:_dataModelContext];
+    
+    NSString *currentLevel = forLevel;
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"levelValue == %@",currentLevel];
+    fetchRequest.predicate=predicate;
+    [fetchRequest setEntity:entity];
+    NSError *error = nil;
+    NSArray *result = [_dataModelContext executeFetchRequest:fetchRequest error:&error];
+    
+    if (error) {
+        NSLog(@"Unable to execute fetch request.");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+        
+    } else {
+        NSLog(@"%@", result);
+    }
+    return result;
+}
+
+
 -(void)insertNoteOFHighLight:(BOOL)highLight book:(NSInteger )bookid page:(NSInteger)pageNo string:(NSString *)text{
   //  [text retain];
     NoteHighlight *noteHighLight=[NSEntityDescription insertNewObjectForEntityForName:@"NoteHighlight" inManagedObjectContext:_dataModelContext];
@@ -328,10 +352,37 @@ NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:nil];
     }
     
 }
+
+-(BOOL)checkIfReadIdExists:(NSString *)iden{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"ReadBook" inManagedObjectContext:_dataModelContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id==%@",iden];
+    NSError *error;
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setEntity:entity];
+    NSArray *array= [_dataModelContext executeFetchRequest:fetchRequest error:&error];
+    
+    if (array.count==0) {
+        return NO;
+    }
+    else{
+        return YES;
+    }
+    
+}
+
+
 -(Book*)getBookInstance{
     Book *book=[NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_dataModelContext];
     return book;
 }
+
+-(ReadBook*)getReadBookInstance{
+    ReadBook *readBook=[NSEntityDescription insertNewObjectForEntityForName:@"ReadBook" inManagedObjectContext:_dataModelContext];
+    return readBook;
+}
+
 -(void)saveData:(Book *)book{
     if ([book hasChanges]) {
         book.date=[NSDate date];
