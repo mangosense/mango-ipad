@@ -60,7 +60,7 @@
                                                                      inTextContainer:_textViewLevel.textContainer
                                             fractionOfDistanceBetweenInsertionPoints:nil];
     
-    NSLog(@"%d--%c", characterIndex, [_textViewLevel.text  characterAtIndex:characterIndex]);
+    NSLog(@"%d--%c", (int)characterIndex, [_textViewLevel.text  characterAtIndex:characterIndex]);
     NSString *levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
     if([levelVal isEqualToString:@" "]){
         levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
@@ -408,9 +408,14 @@
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
     
     //[self performSelectorOnMainThread:@selector(hideHudOnButton) withObject:nil waitUntilDone:YES];
+    NSInteger indexVal = self.storiesCarousel.currentItemIndex+1;
+    if(indexVal >= _allDisplayBooks.count){
+        
+        indexVal = 0;
+    }
     
-    NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"level"]);
-    NSString *levelVal = [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"level"];
+    NSLog(@"heyyyy current element level is %@",[[_allDisplayBooks objectAtIndex:indexVal] valueForKey:@"level"]);
+    NSString *levelVal = [[_allDisplayBooks objectAtIndex:indexVal] valueForKey:@"level"];
    // _specificLevelBooks = [[NSMutableArray alloc] init];
     // Get all books of that level
     /*for(NSDictionary *element in _allDisplayBooks){
@@ -421,10 +426,10 @@
     }*/
     ///
     
-    NSString *levelValue = [[_allDisplayBooks objectAtIndex:(self.storiesCarousel.currentItemIndex)] valueForKey:@"level"];
+    NSString *levelValue = [[_allDisplayBooks objectAtIndex:indexVal] valueForKey:@"level"];
     //NSString *levelString = _levelsLabel.text;
-    _frontBookId = [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"];
-    NSLog(@"Book id %@ - %@", [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"id"], [[_allDisplayBooks objectAtIndex:self.storiesCarousel.currentItemIndex] valueForKey:@"title"]);
+    _frontBookId = [[_allDisplayBooks objectAtIndex:indexVal] valueForKey:@"id"];
+    NSLog(@"Book id %@ - %@", [[_allDisplayBooks objectAtIndex:indexVal] valueForKey:@"id"], [[_allDisplayBooks objectAtIndex:indexVal] valueForKey:@"title"]);
     
     NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
     paragraphStyle.alignment                = NSTextAlignmentCenter;
