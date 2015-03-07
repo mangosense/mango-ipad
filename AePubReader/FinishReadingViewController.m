@@ -167,13 +167,6 @@
 
 - (IBAction) startReadingNewbook:(id)sender{
     
-    if(![self connected])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    
     //Admob start
     self.bannerView_ = [[GADBannerView alloc] initWithFrame:CGRectMake(0.0, 0.0, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
     self.bannerView_.adUnitID = @"ca-app-pub-2797581562576419/4174354482";
@@ -293,6 +286,14 @@
     }
     else{
         //download the book
+        
+        if(![self connected])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
+        
         _bookDownloadView.hidden = NO;
         [_bookDownloadingActivity startAnimating];
         MangoApiController *apiController = [MangoApiController sharedApiController];

@@ -119,8 +119,8 @@
     
     AePubReaderAppDelegate *appDelegate = (AePubReaderAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setBool:YES forKey: @"SHOWAGEDETAILVIEW"];
+    //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    //[prefs setBool:YES forKey: @"SHOWAGEDETAILVIEW"];
     if(appDelegate.userInfoAge){
         //UserAgeInfo *userInfoAge = [appDelegate.ejdbController getUserAgeInfoForId:appDelegate.userInfoAge.id];
         UserAgeInfo *UserAgeInfo = [appDelegate.ejdbController getUserAgeInfoForId:appDelegate.userInfoAge.id];

@@ -60,8 +60,8 @@
                                                                      inTextContainer:_textViewLevel.textContainer
                                             fractionOfDistanceBetweenInsertionPoints:nil];
     
-    NSLog(@"%d--%c", characterIndex, [_textViewLevel.text  characterAtIndex:characterIndex-1]);
-    NSString *levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex-1]];
+    NSLog(@"%d--%c", characterIndex, [_textViewLevel.text  characterAtIndex:characterIndex]);
+    NSString *levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
     if([levelVal isEqualToString:@" "]){
         levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
     }

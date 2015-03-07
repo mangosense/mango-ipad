@@ -191,7 +191,7 @@ static int booksDownloadingCount;
                              fractionOfDistanceBetweenInsertionPoints:nil];
     
     NSLog(@"%d--%c", characterIndex, [_textViewLevel.text  characterAtIndex:characterIndex-1]);
-    NSString *levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex-1]];
+    NSString *levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
     if([levelVal isEqualToString:@" "]){
         levelVal =[NSString stringWithFormat:@"%c",[_textViewLevel.text  characterAtIndex:characterIndex]];
     }
@@ -229,15 +229,15 @@ static int booksDownloadingCount;
     [super viewWillAppear:YES];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    BOOL value = [prefs boolForKey: @"SHOWAGEDETAILVIEW"];
+    //BOOL value = [prefs boolForKey: @"SHOWAGEDETAILVIEW"];
     
     NSString *currentLevel = [prefs valueForKey:@"CURRENTUSERLEVEL"];
     
-    if(value){
-        [prefs setValue:[NSNumber numberWithBool:NO] forKey:@"SHOWAGEDETAILVIEW"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.navigationController popViewControllerAnimated:NO];
-    }
+//    if(value){
+//        
+//        [self.navigationController popViewControllerAnimated:NO];
+//    }
+//    [prefs setBool:NO forKey:@"SHOWAGEDETAILVIEW"];
     
     if(![_currentLevel isEqualToString:currentLevel]){
         _specificLevelBooks = nil;
@@ -396,6 +396,13 @@ static int booksDownloadingCount;
         //check for valid user
         
         if(!bk.localPathFile){//check if book is not available
+            
+            if(![self connected])
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            }
             
             //check if book is already downloading
             
@@ -628,12 +635,7 @@ static int booksDownloadingCount;
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
 {
-    if(![self connected])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please internet connection appears offline, please try later" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
+    
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setValue:[NSString stringWithFormat:@"%d",index] forKey:@"BOOKINDEX"];
@@ -1013,6 +1015,9 @@ static int booksDownloadingCount;
     
     NSURL *lookupURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?bundleId=%@", bundleIdentifier]];
     NSData *lookupResults = [NSData dataWithContentsOfURL:lookupURL];
+    if(!lookupResults){
+        return NO;
+    }
     NSDictionary *jsonResults = [NSJSONSerialization JSONObjectWithData:lookupResults options:0 error:nil];
     
     NSUInteger resultCount = [[jsonResults objectForKey:@"resultCount"] integerValue];

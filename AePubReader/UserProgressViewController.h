@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CorePlot-CocoaTouch.h"
+//#import "CorePlot-CocoaTouch.h"
 
-@interface UserProgressViewController : UIViewController<CPTPlotDataSource>{
+@interface UserProgressViewController : UIViewController/*<CPTPlotDataSource>*/{
     
     //CPTXYGraph *barChart;
 }

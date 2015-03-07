@@ -28,8 +28,8 @@
     bookDownload.delegate = self;
     [bookDownload returnArrayElementa];
     
-    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    _hud.labelText = @"Please wait!!";
+//    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    _hud.labelText = @"Please wait!!";
     
     [self.webView bringSubviewToFront:_hud];
     
@@ -134,7 +134,7 @@
     NSString *resultString = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"MangoGame.init(%@)", paramString]];
     NSLog(@"%@", resultString);
     
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
     //test to execute javascript menthod to execute method after delay
     //[self performSelector:@selector(hideAlert:) withObject:alert afterDelay:1.5];

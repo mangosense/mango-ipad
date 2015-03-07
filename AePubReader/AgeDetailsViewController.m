@@ -38,7 +38,8 @@
 
 - (void) openPage{
     
-    [self performSelector:@selector(openHomePage:) withObject:self afterDelay:2.0];
+    //[self performSelector:@selector(openHomePage:) withObject:self afterDelay:2.0];
+    [self openHomePage:nil];
 }
 
 
