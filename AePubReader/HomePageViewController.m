@@ -244,7 +244,7 @@ static int booksDownloadingCount;
         _specificLevelBooks = [[NSMutableArray alloc] init];
         [_currentLevelButton setTitle:currentLevel forState:UIControlStateNormal];
         NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
-        int indexValue = [allLevelValue indexOfObject:currentLevel];
+        int indexValue = (int)[allLevelValue indexOfObject:currentLevel];
         [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal];
         
         for(NSDictionary *element in _allDisplayBooks){
@@ -262,7 +262,7 @@ static int booksDownloadingCount;
         _specificLevelBooks = [[NSMutableArray alloc] init];
         [_currentLevelButton setTitle:_currentLevel forState:UIControlStateNormal];
         NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
-        int indexValue = [allLevelValue indexOfObject:_currentLevel];
+        int indexValue = (int)[allLevelValue indexOfObject:_currentLevel];
         [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal];
         
         for(NSDictionary *element in _allDisplayBooks){
@@ -322,7 +322,7 @@ static int booksDownloadingCount;
         
         [_currentLevelButton setTitle:currentLevel forState:UIControlStateNormal];
         NSArray *allLevelValue = [UserBookDownloadViewController returnAllAvailableLevels];
-        int indexValue = [allLevelValue indexOfObject:currentLevel];
+        int indexValue = (int)[allLevelValue indexOfObject:currentLevel];
         [_nextLevelButton setTitle:[allLevelValue objectAtIndex:indexValue+1] forState:UIControlStateNormal];
         
         for(NSDictionary *element in _allDisplayBooks){
@@ -471,7 +471,7 @@ static int booksDownloadingCount;
     NSDictionary *userInfo = notif.userInfo;
     
     newIDValue = [userInfo valueForKey:@"bookIdVal"];
-    int newProgress = [[userInfo valueForKey:@"progressVal"] integerValue];
+    int newProgress = [[userInfo valueForKey:@"progressVal"] intValue];
     if([_frontBookId isEqualToString:newIDValue]){
         _bookProgress = newProgress;
         //if bookid matches with current center carousl item
@@ -805,7 +805,7 @@ static int booksDownloadingCount;
     _ageLabelValue.text = @"";
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
-    isInfo1Settings2Click = [sender tag];
+    isInfo1Settings2Click = (int)[sender tag];
     //[self displaySettingsView];
 }
 
@@ -826,7 +826,7 @@ static int booksDownloadingCount;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy"];
     NSString *yearString = [formatter stringFromDate:[NSDate date]];
-    int parentalControlAge = ([yearString integerValue] - [_ageLabelValue.text integerValue]);
+    int parentalControlAge = (int)([yearString integerValue] - [_ageLabelValue.text integerValue]);
     if((parentalControlAge >= 13) && (parentalControlAge <=100)){
         
         _settingsProbSupportView.hidden = YES;
@@ -932,7 +932,7 @@ static int booksDownloadingCount;
     _settingsProbSupportView.hidden = NO;
     _settingsProbView.hidden = NO;
     _ageLabelValue.text = @"";
-    isInfo1Settings2Click = [sender tag];
+    isInfo1Settings2Click = (int)[sender tag];
 }
 
 - (void) appInfo{
@@ -996,7 +996,7 @@ static int booksDownloadingCount;
     
     if([sender isKindOfClass:[UIButton class]]){
         
-        NSString *ageVal = [NSString stringWithFormat:@"%d",[sender tag]];
+        NSString *ageVal = [NSString stringWithFormat:@"%d",(int)[sender tag]];
         _ageLabelValue.text = [_ageLabelValue.text stringByAppendingString:ageVal];
     }
 }

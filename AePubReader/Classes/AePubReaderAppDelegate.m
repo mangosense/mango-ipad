@@ -50,10 +50,10 @@ static UIAlertView *alertViewLoading;
 
     
     //test account mixpanel
-    [Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
+    //[Mixpanel sharedInstanceWithToken:@"01943dcf98ca5fabd4ba382256e6c270"];
     
     //Endless Stories mixpanel account
-    //[Mixpanel sharedInstanceWithToken:@"e7d5897e9c2fba5e25843289886db881"];
+    [Mixpanel sharedInstanceWithToken:@"e7d5897e9c2fba5e25843289886db881"];
     
 //    [ATConnect sharedConnection].apiKey = @"fba67dd1698aff8d958e0c80b48cee111099d81268aeddde83f0f0c10b55b006";
 //    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -68,18 +68,19 @@ static UIAlertView *alertViewLoading;
     _prek=NO;
     
     //Parse Endless Stories Original App -
-    //[Parse setApplicationId:@"l4LHVnIcefNsZbnwhgY4WFygeNUBmNxVk9s4mQNj"
-     //             clientKey:@"gEwfyKlPWSj8go5TIYiJ3A70m1kknFneMKxBZE56"];
+    [Parse setApplicationId:@"l4LHVnIcefNsZbnwhgY4WFygeNUBmNxVk9s4mQNj"
+                  clientKey:@"gEwfyKlPWSj8go5TIYiJ3A70m1kknFneMKxBZE56"];
     
     //Test app for testing
-    [Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
-                       clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
+    //[Parse setApplicationId:@"HDYSM40wgGxveHLKrGlyc2AMjbiR3E6ORoMkX5uF"
+    //                   clientKey:@"mfbRYQ4lejSlrJz3Jn7U0MRiAlkdGIXcwDsIZM3t"];
     
  
     //Flurry
     
     [Flurry setCrashReportingEnabled:YES];
-    [Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];
+    //[Flurry startSession:@"ZVNA994FI9SI51FN68Q9"];//mangoreader
+    [Flurry startSession:@"XNDP89F6WKB8B7Y9BQHS"]; // endless stories
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
     {

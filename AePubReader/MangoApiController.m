@@ -164,7 +164,10 @@
     if (!requestData) { /* ... Handle error ... */ }
     
     // Create a POST request with the receipt data.
-    NSURL *storeURL = [NSURL URLWithString:@"https://sandbox.itunes.apple.com/verifyReceipt"];
+    //NSURL *storeURL = [NSURL URLWithString:@"https://sandbox.itunes.apple.com/verifyReceipt"];//for sandbox envt.
+    
+    NSURL *storeURL = [NSURL URLWithString:@"https://buy.itunes.apple.com/verifyReceipt"];
+    
     NSMutableURLRequest *storeRequest = [NSMutableURLRequest requestWithURL:storeURL];
     [storeRequest setHTTPMethod:@"POST"];
     [storeRequest setHTTPBody:requestData];
