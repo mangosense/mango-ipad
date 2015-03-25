@@ -339,7 +339,7 @@ static UIAlertView *alertViewLoading;
     
     int isFreeBooksApiCall = [[prefs valueForKey:@"ISFREEBOOKAPICALL"] integerValue];
     
-    /*Mixpanel *mixpanel = [Mixpanel sharedInstance];
+   /* Mixpanel *mixpanel = [Mixpanel sharedInstance];
     //mixpanel.showNotificationOnActive = NO;
     [mixpanel registerSuperPropertiesOnce:@{PARAMETER_DEVICE_COUNTRY : _country,
                                             PARAMETER_DEVICE_LANGUAGE :_language,
@@ -619,7 +619,6 @@ void uncaughtExceptionHandler(NSException *exception) {
         _mangoStoryId = [jsonDict objectForKey:@"id"];
         
         //int isStoryAsApp = [[prefs valueForKey:@"STORYASAPPCALL"] integerValue];
-        
         
         //if(!isStoryAsApp){
         //    [_ejdbController parseBookJson:jsonData WithId:numberId AtLocation:[NSString stringWithFormat:@"%@/MangoStory",[self applicationDocumentsDirectory]]];

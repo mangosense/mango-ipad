@@ -182,7 +182,7 @@
                 }
                 else if(i==1){
                     _label2PlanTotalPrice.text = formattedString;
-                    float perMonthPrice = [product.price floatValue]/4;
+                    float perMonthPrice = [product.price floatValue]/3;
                     NSString *formattedStringPerMonth = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:perMonthPrice]];
                     _label2PlanPrice.text = [NSString stringWithFormat:@"%@ /month", formattedStringPerMonth];
                 }
