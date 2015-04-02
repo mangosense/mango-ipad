@@ -38,18 +38,18 @@
     
     NSString *jsonLocation = [AePubReaderAppDelegate returnBookJsonPath:_book];
     
-    NSDictionary *jsonDict = [self getJsonDictForBook];
+    //NSDictionary *jsonDict = [self getJsonDictForBook];
     
-    NSMutableArray *gameNames = [[NSMutableArray alloc] init];
+   /* NSMutableArray *gameNames = [[NSMutableArray alloc] init];
     for (NSDictionary *pageDict in [jsonDict objectForKey:PAGES]) {
         if ([[pageDict objectForKey:TYPE] isEqualToString:GAME]) {
             [gameNames addObject:[pageDict objectForKey:NAME]];
         }
-    }
+    }*/
         
-    NSString *gameName = [gameNames objectAtIndex:1];
+    //NSString *gameName = [gameNames objectAtIndex:1];
     
-    NSString *jsonString = [self getJsonContentForBook];
+/*    NSString *jsonString = [self getJsonContentForBook];
     
     NSData *jsonData1 = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDict1 = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData1 options:NSJSONReadingAllowFragments error:nil]];
@@ -61,20 +61,20 @@
             NSLog(@"not match - %@", [readerPageDict objectForKey:PAGE_NAME]);
             [gamesDataArray addObject:readerPageDict];
         }
-    }
+    }*/
     
     
     NSString *folderLocation = jsonLocation;
     
-    NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePagePro:gameName ForStory:gamesDataArray WithFolderLocation:folderLocation AndOption:99];
+    //NSMutableDictionary *gameViewDict = [MangoEditorViewController readerGamePagePro:gameName ForStory:gamesDataArray WithFolderLocation:folderLocation AndOption:99];
     
-    _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
-    [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
+   // _dataDict = [[NSMutableDictionary alloc] initWithDictionary:[gameViewDict objectForKey:@"data"]];
+   // [_dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"from_mobile"];
     
 //    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 //    NSDictionary *jsonDict = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil]];
     
-    _webView = [gameViewDict objectForKey:@"gameView"];
+    //_webView = [gameViewDict objectForKey:@"gameView"];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
     _webView.frame = self.view.frame;

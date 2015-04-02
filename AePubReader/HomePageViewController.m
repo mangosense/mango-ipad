@@ -1024,7 +1024,7 @@ static int booksDownloadingCount;
     if (resultCount){
         NSDictionary *appDetails = [[jsonResults objectForKey:@"results"] firstObject];
         NSString *latestVersion = [appDetails objectForKey:@"version"];
-        NSString *currentVersion = [bundleInfo objectForKey:@"CFBundleShortVersionString"];
+        NSString *currentVersion = [bundleInfo objectForKey:@"CFBundleVersion"];
         if (![latestVersion isEqualToString:currentVersion]) return YES;
     }
     return NO;
