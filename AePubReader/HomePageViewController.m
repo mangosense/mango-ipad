@@ -143,11 +143,11 @@ static int booksDownloadingCount;
         }
     }
     
-    bool newAppVersion = [self appHasNewVersion];
-    if(newAppVersion){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Version is available" message:@"Update your app a new version is available" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-    }
+    //bool newAppVersion = [self appHasNewVersion];
+//    if(newAppVersion){
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Version is available" message:@"Update your app a new version is available" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//        [alert show];
+//    }
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
